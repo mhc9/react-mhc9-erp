@@ -3,21 +3,22 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="container lg:mx-10 mx-auto border">
+      <header className="">
+        <nav>
+          ระบบแจ้งซ่อมออนไลน์ (IT Helpdesk)
+        </nav>
       </header>
+
+      <main style={{ height: '100vh' }}>
+        <section>
+          Welcome to IT Helpdesk System
+        </section>
+      </main>
+
+      <footer>
+        <p>ศูนย์สุขภาพจิตที่ 9</p>
+      </footer>
     </div>
   );
 }
