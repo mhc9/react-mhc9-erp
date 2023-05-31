@@ -1,24 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
-import Footer from './components/Footer';
-import Navbar from './components/Navbar';
+import { Route, Routes } from 'react-router-dom';
+import DefaultLayout from "./components/DefaultLayout"
 
 function App() {
-  return (
-    <div className="w-full">
-      <header className="">
-        <Navbar />
-      </header>
-
-      <main className="h-[100vh]">
-        <section>
-          Welcome to IT Helpdesk System
-        </section>
-      </main>
-
-      <Footer />
-    </div>
-  );
+    return (
+        <Routes>
+            <Route path="" element={<DefaultLayout />} />
+        </Routes>
+    );
 }
 
 export default App;

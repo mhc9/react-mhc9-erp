@@ -8,13 +8,16 @@ const Navbar = () => {
                     <h1>ระบบแจ้งซ่อมออนไลน์ (IT Helpdesk)</h1>
                 </div>
                 <ul className="flex flex-row gap-4">
-                    <li>หน้าหลัก</li>
-                    <li>สถานะการซ่อม</li>
-                    <li>แจ้งปัญหา/แจ้งซ่อม</li>
+                    <li><a href="#" className="hover:text-gray-400">หน้าหลัก</a></li>
+                    <li><a href="#" className="hover:text-gray-400">สถานะการซ่อม</a></li>
+                    <li><a href="#" className="hover:text-gray-400">แจ้งปัญหา/แจ้งซ่อม</a></li>
                 </ul>
             </div>
-            <div>
-                <a href="#">Admin</a>
+            <div className="flex">
+                <a href="#" className="hover:text-gray-400 flex items-center gap-1">
+                    Admin
+                    <i class="fas fa-caret-down"></i>
+                </a>
                 <ul className="hidden">
                     <li>Profile</li>
                     <li>Logout</li>

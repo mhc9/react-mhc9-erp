@@ -2,11 +2,16 @@ import React from 'react'
 
 const Footer = () => {
     return (
-        <footer>
-            <div>
-                ศูนย์สุขภาพจิตที่ 9
+        <footer style={{ background: '#0a0b0c' }}>
+            <div className="p-4 text-white">
+                <h3>
+                    ©2020 ศูนย์สุขภาพจิตที่ 9 All Rights Reserved | DESIGNED BY 
+                    <a href="https://www.query-studio.com" target="_blank" rel="noreferrer" className="ml-1">
+                        Query Studio Inc.
+                    </a>
+                </h3>
             </div>
-        </footer>
+        </footer> 
     )
 }
 
