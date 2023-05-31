@@ -1,17 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,800&family=Prompt:wght@200;400;500&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
+* {
+  box-sizing: border-box;
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+  font-family: 'Prompt', sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Scrollbar */
+body::-webkit-scrollbar {
+  width: 12px;               /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: #dadada;        /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #525252;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid #dadada;  /* creates padding around scroll thumb */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }

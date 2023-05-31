@@ -1,24 +1,22 @@
 import logo from './logo.svg';
 import './App.css';
+import Footer from './components/Footer';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
-    <div className="container lg:mx-10 mx-auto border">
+    <div className="w-full">
       <header className="">
-        <nav>
-          ระบบแจ้งซ่อมออนไลน์ (IT Helpdesk)
-        </nav>
+        <Navbar />
       </header>
 
-      <main style={{ height: '100vh' }}>
+      <main className="h-[100vh]">
         <section>
           Welcome to IT Helpdesk System
         </section>
       </main>
 
-      <footer>
-        <p>ศูนย์สุขภาพจิตที่ 9</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
