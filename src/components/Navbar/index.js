@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
     return (
@@ -8,9 +9,9 @@ const Navbar = () => {
                     <h1>ระบบแจ้งซ่อมออนไลน์ (IT Helpdesk)</h1>
                 </div>
                 <ul className="flex flex-row gap-4">
-                    <li><a href="#" className="hover:text-gray-400">หน้าหลัก</a></li>
-                    <li><a href="#" className="hover:text-gray-400">สถานะการซ่อม</a></li>
-                    <li><a href="#" className="hover:text-gray-400">แจ้งปัญหา/แจ้งซ่อม</a></li>
+                    <li><Link to="/" className="hover:text-gray-400">หน้าหลัก</Link></li>
+                    <li><Link to="/list" className="hover:text-gray-400">สถานะการซ่อม</Link></li>
+                    <li><Link to="/add" className="hover:text-gray-400">แจ้งปัญหา/แจ้งซ่อม</Link></li>
                 </ul>
             </div>
             <div className="flex">

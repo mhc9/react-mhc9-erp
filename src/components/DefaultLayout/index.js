@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../Navbar';
 import Footer from '../Footer';
+import { Outlet } from 'react-router-dom';
 
 const DefaultLayout = () => {
     return (
@@ -11,7 +12,7 @@ const DefaultLayout = () => {
 
             <main className="mx-20 bg-white min-h-[87vh]">
                 <section className="p-4">
-                    Welcome to IT Helpdesk System
+                    <Outlet />
                 </section>
             </main>
 
