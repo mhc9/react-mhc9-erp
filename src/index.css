@@ -43,3 +43,43 @@ a {
 .login-box {
   box-shadow: 10px 10px 5px 0px rgba(140,136,136,0.75);
 }
+
+.dropdown-menu {
+  display: none;
+  width: 180px;
+  position: absolute;
+  /* background: white; */
+  border: 1px solid #301B46;
+  /* padding: 20px; */
+  top: 40px;
+  right: 0px;
+}
+.menu-item:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu:before {
+  content: "";
+  position: absolute;
+  border: rgba(194, 225, 245, 0);
+  border: solid transparent;
+  border-bottom-color: white;
+  border-width: 11px;
+  margin-left: -10px;
+  top: -21px;
+  right: 4px;
+  z-index: 1;
+}
+
+.dropdown-menu:after {
+  content: "";
+  position: absolute;
+  right: 5px;
+  top: -21px;
+  width: 0;
+  height: 0;
+  border: solid transparent;
+  border-width: 10px;
+  border-bottom-color: #2B1A41;
+  z-index: 0;
+}

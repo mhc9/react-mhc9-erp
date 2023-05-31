@@ -14,14 +14,18 @@ const Navbar = () => {
                     <li><Link to="/add" className="hover:text-gray-400">แจ้งปัญหา/แจ้งซ่อม</Link></li>
                 </ul>
             </div>
-            <div className="flex">
+            <div className="menu-item flex relative">
                 <a href="#" className="hover:text-gray-400 flex items-center gap-1">
                     Admin
                     <i class="fas fa-caret-down"></i>
                 </a>
-                <ul className="hidden">
-                    <li>Profile</li>
-                    <li>Logout</li>
+                <ul className="dropdown-menu rounded-md bg-white text-blue-950">
+                    <li className="hover:bg-gray-300 p-2 rounded-t-md">
+                        <a href="/profile"><p className="w-full">Profile</p></a>
+                    </li>
+                    <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                        <a href="/login"><p className="w-full">Logout</p></a>
+                    </li>
                 </ul>
             </div>
         </nav>
