@@ -9,9 +9,10 @@ function App() {
     return (
         <Routes>
             <Route path="/" element={<DefaultLayout />}>
-                <Route path="" element={<Home />} />
+                <Route index element={<Home />} />
                 <Route path="list" element={<RepairList />} />
                 <Route path="add" element={<AddRepair />} />
+                <Route path="*" element={<div>404 Not Found</div>} />
             </Route>
             <Route path="/login" element={<Login />} />
         </Routes>
