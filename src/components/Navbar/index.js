@@ -15,10 +15,10 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="menu-item flex relative">
-                <a href="#" className="hover:text-gray-400 flex items-center gap-1">
+                <button className="hover:text-gray-400 flex items-center gap-1">
                     Admin
                     <i class="fas fa-caret-down"></i>
-                </a>
+                </button>
                 <ul className="dropdown-menu rounded-md bg-white text-blue-950">
                     <li className="hover:bg-gray-300 p-2 rounded-t-md">
                         <a href="/profile"><p className="w-full">Profile</p></a>
