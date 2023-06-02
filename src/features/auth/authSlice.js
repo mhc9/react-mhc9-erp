@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import jwt from "jwt-decode";
 import api from "../../api";
 
 const initialState = {
@@ -22,17 +23,33 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-
+        resetSuccess: (state) => {
+            state.success = false;
+        }
     },
     extraReducers: {
         [login.pending]: (state) => {
-            
+            state.loggedInUser = null;
+            state.isLoggedIn = false;
+            state.success = false;
+            state.error = null;
         },
         [login.fulfilled]: (state, { payload }) => {
-            state.success = true;
-            state.isLoggedIn = true;
+            if (payload) {
+                const { access_token } = payload;
+
+                const decode = jwt(access_token);
+    
+                localStorage.setItem("access_token", access_token);
+    
+                state.loggedInUser = decode.sub;
+                state.success = true;
+                state.isLoggedIn = true;
+            }
         },
         [login.rejected]: (state, { payload }) => {
+            state.loggedInUser = null;
+            state.isLoggedIn = false;
             state.success = false;
             state.error = payload;
         }
@@ -40,3 +57,5 @@ export const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+
+export const { resetSuccess } = authSlice.actions;

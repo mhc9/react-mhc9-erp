@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import { useDispatch } from 'react-redux'
-import { login } from '../../features/auth/authSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { login, resetSuccess } from '../../features/auth/authSlice'
 
 const loginSchema = Yup.object().shape({
     UsUser: Yup.string().required(),
@@ -14,10 +14,18 @@ const loginSchema = Yup.object().shape({
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { success } = useSelector(state => state.auth);
+
+    useEffect(() => {
+        if (success) {
+            console.log('On success changed...');
+            dispatch(resetSuccess());
+
+            navigate('/');
+        }
+    }, [success])
 
     const handleSubmit = (values, props) => {
-        console.log(values)
-
         dispatch(login({ ...values }))
     }
 
