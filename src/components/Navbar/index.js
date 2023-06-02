@@ -12,6 +12,8 @@ const Navbar = () => {
                     <li><Link to="/" className="hover:text-gray-400">หน้าหลัก</Link></li>
                     <li><Link to="/list" className="hover:text-gray-400">สถานะการซ่อม</Link></li>
                     <li><Link to="/add" className="hover:text-gray-400">แจ้งปัญหา/แจ้งซ่อม</Link></li>
+                    <li><Link to="/stat" className="hover:text-gray-400">สถิติการแจ้งซ่อม</Link></li>
+                    <li><Link to="/advice" className="hover:text-gray-400">แนะนำการใช้งาน</Link></li>
                 </ul>
             </div>
             <div className="menu-item flex relative">
