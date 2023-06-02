@@ -5,6 +5,7 @@ import api from "../../api";
 const initialState = {
     loggedInUser: null,
     isLoggedIn: false,
+    loading: false,
     success: false,
     error: null
 };
@@ -31,6 +32,7 @@ export const authSlice = createSlice({
         [login.pending]: (state) => {
             state.loggedInUser = null;
             state.isLoggedIn = false;
+            state.loading = true;
             state.success = false;
             state.error = null;
         },
@@ -45,13 +47,15 @@ export const authSlice = createSlice({
                 state.loggedInUser = decode.sub;
                 state.isLoggedIn = true;
                 state.success = true;
+                state.loading = false;
             }
         },
         [login.rejected]: (state, { payload }) => {
+            state.error = payload;
             state.loggedInUser = null;
             state.isLoggedIn = false;
             state.success = false;
-            state.error = payload;
+            state.loading = false;
         }
     }
 });

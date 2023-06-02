@@ -4,17 +4,18 @@ import { useNavigate } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux'
+import Spinner from 'react-bootstrap/Spinner';
 import { login, resetSuccess } from '../../features/auth/authSlice'
 
 const loginSchema = Yup.object().shape({
-    UsUser: Yup.string().required(),
+    email: Yup.string().required(),
     password: Yup.string().required(),
 });
 
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { success } = useSelector(state => state.auth);
+    const { success, loading } = useSelector(state => state.auth);
 
     useEffect(() => {
         if (success) {
@@ -35,8 +36,8 @@ const Login = () => {
                 <h2 className="text-xl">ระบบ <b>IT</b> Helpdesk</h2>
                 <Formik
                     initialValues={{
-                        username: '',
-                        password: ''
+                        email: 'sanyath007@gmail.com',
+                        password: '4621008811'
                     }}
                     validationSchema={loginSchema}
                     onSubmit={handleSubmit}
@@ -50,10 +51,10 @@ const Login = () => {
                                         <div className="border px-4 py-2 rounded-full w-3/4">
                                             <input
                                                 type="text"
-                                                name="username"
-                                                value={formik.values.username}
+                                                name="email"
+                                                value={formik.values.email}
                                                 onChange={formik.handleChange}
-                                                placeholder="Username"
+                                                placeholder="Email"
                                                 className="outline-none"
                                             />
                                         </div>
@@ -79,9 +80,14 @@ const Login = () => {
                                             <button
                                                 type="submit"
                                                 className="bg-green-600 rounded-full px-4 py-2 text-white hover:bg-green-900"
+                                                disabled={formik.isSubmitting}
                                             >
-                                                ล็อกอิน
-                                                <i className="fas fa-sign-in-alt ml-1"></i>
+                                                {loading && (
+                                                    <Spinner animation="border" role="status" size="sm" style={{ marginRight: '2px' }}>
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </Spinner>
+                                                )}
+                                                ล็อกอิน <i className="fas fa-sign-in-alt"></i>
                                             </button>
                                             <Link to="/register" className="hover:text-blue-500 mr-1">
                                                 <i className="fas fa-user-plus"></i> ลงทะเบียน
