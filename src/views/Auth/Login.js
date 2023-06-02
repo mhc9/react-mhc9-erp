@@ -35,7 +35,7 @@ const Login = () => {
                 <h2 className="text-xl">ระบบ <b>IT</b> Helpdesk</h2>
                 <Formik
                     initialValues={{
-                        UsUser: '',
+                        username: '',
                         password: ''
                     }}
                     validationSchema={loginSchema}
@@ -50,8 +50,8 @@ const Login = () => {
                                         <div className="border px-4 py-2 rounded-full w-3/4">
                                             <input
                                                 type="text"
-                                                name="UsUser"
-                                                value={formik.values.UsUser}
+                                                name="username"
+                                                value={formik.values.username}
                                                 onChange={formik.handleChange}
                                                 placeholder="Username"
                                                 className="outline-none"
