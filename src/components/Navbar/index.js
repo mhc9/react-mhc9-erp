@@ -1,7 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+    const navigate = useNavigate();
+
+    const logout = () => {
+        localStorage.removeItem("access_token");
+
+        navigate("/login");
+    }
+
     return (
         <nav className="h-[50px] border bg-slate-700 flex justify-between items-center px-5 text-white">
             <div className="flex w-3/4">
@@ -26,7 +35,9 @@ const Navbar = () => {
                         <a href="/profile"><p className="w-full">Profile</p></a>
                     </li>
                     <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                        <a href="/login"><p className="w-full">Logout</p></a>
+                        <button type="button" onClick={logout}>
+                            <p className="w-full">Logout</p>
+                        </button>
                     </li>
                 </ul>
             </div>
