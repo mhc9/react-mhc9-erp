@@ -43,8 +43,8 @@ export const authSlice = createSlice({
                 localStorage.setItem("access_token", access_token);
     
                 state.loggedInUser = decode.sub;
-                state.success = true;
                 state.isLoggedIn = true;
+                state.success = true;
             }
         },
         [login.rejected]: (state, { payload }) => {

@@ -7,11 +7,12 @@ import Stat from './views/Stat';
 import Advice from './views/Advice';
 import Login from './views/Auth/Login';
 import Register from './views/Auth/Register';
+import GuardRoute from './components/GuardRoute';
 
 function App() {
     return (
         <Routes>
-            <Route path="/" element={<DefaultLayout />}>
+            <Route path="/" element={<GuardRoute><DefaultLayout /></GuardRoute>}>
                 <Route index element={<Home />} />
                 <Route path="list" element={<RepairList />} />
                 <Route path="add" element={<AddRepair />} />

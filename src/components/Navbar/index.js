@@ -19,7 +19,7 @@ const Navbar = () => {
             <div className="menu-item flex relative">
                 <button className="hover:text-gray-400 flex items-center gap-1">
                     Admin
-                    <i class="fas fa-caret-down"></i>
+                    <i className="fas fa-caret-down"></i>
                 </button>
                 <ul className="dropdown-menu rounded-md bg-white text-blue-950">
                     <li className="hover:bg-gray-300 p-2 rounded-t-md">
