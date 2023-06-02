@@ -6,7 +6,6 @@ const GuardRoute = ({ children }) => {
     const { isLoggedIn } = useSelector(state => state.auth);
 
     const token = localStorage.getItem("access_token");
-    console.log(token);
 
     if (!isLoggedIn && !token) {
         return <Navigate to="/login" replace />
