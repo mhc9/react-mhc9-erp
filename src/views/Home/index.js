@@ -1,26 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { FaInfoCircle } from 'react-icons/fa'
 import { Breadcrumb } from 'react-bootstrap'
-import api from '../../api'
+import { useGetUserDetailsQuery } from '../../services/auth/authService'
 
 const Home = () => {
-    const [loggedInUser, setLoggedInUser] = useState(null);
-
-    const fetchEquipments = async () => {
-        try {
-            const res = await api.get('/api/auth/me');
-            
-            setLoggedInUser(res.data)
-        } catch (error) {
-            
-        }
-    }
-
-    // useEffect(() => {
-    //     fetchEquipments();
-
-    //     return () => fetchEquipments();
-    // }, []);
+    const { data } = useGetUserDetailsQuery('userDetails', {
+        pollingInterval: 900000,
+    });
 
     return (
         <div className="content-wrapper">
@@ -35,7 +21,7 @@ const Home = () => {
                 <div className="flex flex-col">
                     <h1 className="font-bold text-2xl">Welcome to IT Helpdesk System</h1>
                     <p className="">
-                        {loggedInUser && loggedInUser.name}
+                        {data && data.name}
                     </p>
                 </div>
             </div>
