@@ -13,7 +13,7 @@ const Navbar = () => {
         pollingInterval: 900000,
     });
 
-    const logout = () => {
+    const handleLogout = () => {
         localStorage.removeItem("access_token");
         dispatch(logout());
 
@@ -49,7 +49,7 @@ const Navbar = () => {
                         <a href="/profile"><p className="w-full">Profile</p></a>
                     </li>
                     <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                        <button type="button" onClick={logout}>
+                        <button type="button" onClick={handleLogout}>
                             <p className="w-full">Logout</p>
                         </button>
                     </li>
