@@ -1,12 +1,21 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import Spinner from 'react-bootstrap/Spinner'
+import { useGetUserDetailsQuery } from '../../services/auth/authService'
+import { logout } from '../../features/auth/authSlice'
 
 const Navbar = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const { data, isFetching } = useGetUserDetailsQuery('userDetails', {
+        pollingInterval: 900000,
+    });
 
     const logout = () => {
         localStorage.removeItem("access_token");
+        dispatch(logout());
 
         navigate("/login");
     }
@@ -27,7 +36,12 @@ const Navbar = () => {
             </div>
             <div className="menu-item flex relative">
                 <button className="hover:text-gray-400 flex items-center gap-1">
-                    Admin
+                    {isFetching && (
+                        <Spinner animation="border" role="status" size="sm" style={{ marginRight: '2px' }}>
+                            <span className="visually-hidden">Loading...</span>
+                        </Spinner>
+                    )}
+                    {(!isFetching && data) && data.name}
                     <i className="fas fa-caret-down"></i>
                 </button>
                 <ul className="dropdown-menu rounded-md bg-white text-blue-950">

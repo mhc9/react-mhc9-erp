@@ -15,11 +15,11 @@ const Home = () => {
         }
     }
 
-    useEffect(() => {
-        fetchEquipments();
+    // useEffect(() => {
+    //     fetchEquipments();
 
-        return () => fetchEquipments();
-    }, []);
+    //     return () => fetchEquipments();
+    // }, []);
 
     return (
         <div>
