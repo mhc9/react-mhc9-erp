@@ -40,9 +40,6 @@ const Navbar = () => {
                             <li className="hover:bg-gray-300 p-2">
                                 <Link to="/add"><p className="w-full">แจ้งปัญหา/แจ้งซ่อม</p></Link>
                             </li>
-                            <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                                <Link to="/stat"><p className="w-full">สถิติการแจ้งซ่อม</p></Link>
-                            </li>
                         </ul>
                     </li>
                     <li className="menu-item flex relative">
