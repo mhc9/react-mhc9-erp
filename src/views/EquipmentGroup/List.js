@@ -1,37 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Breadcrumb } from 'react-bootstrap'
-import api from '../../api'
 
-const EquipmentList = () => {
-    const [equipments, setEquipments] = useState(null);
-
-    const fetchEquipments = async () => {
-        try {
-            const res = await api.get('/api/equipments');
-            
-            setEquipments(res.data)
-        } catch (error) {
-            
-        }
-    }
-
-    useEffect(() => {
-        fetchEquipments();
-
-        return () => fetchEquipments();
-    }, []);
-
+const EuipmentGroupList = () => {
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item href="/">ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item active>อุปกรณ์</Breadcrumb.Item>
+                <Breadcrumb.Item active>กลุ่มอุปกรณ์</Breadcrumb.Item>
             </Breadcrumb>
         
             <div className="content">
-                <h2 className="text-xl">อุปกรณ์</h2>
+                <h2 className="text-xl">กลุ่มอุปกรณ์</h2>
 
                 <div>
                     <table className="table table-bordered">
@@ -42,11 +23,11 @@ const EquipmentList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {equipments && equipments.map((eq, index) => (
+                            {/* {equipments && equipments.map((eq, index) => (
                                 <tr>
                                     <td></td>
                                 </tr>
-                            ))}
+                            ))} */}
                         </tbody>
                     </table>
                 </div>
@@ -55,4 +36,4 @@ const EquipmentList = () => {
     )
 }
 
-export default EquipmentList
+export default EuipmentGroupList

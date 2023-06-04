@@ -49,13 +49,13 @@ const Navbar = () => {
                         </button>
                         <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
                             <li className="hover:bg-gray-300 p-2 rounded-t-md">
-                                <Link href="/equipment"><p className="w-full">อุปกรณ์</p></Link>
+                                <Link to="/equipment"><p className="w-full">อุปกรณ์</p></Link>
                             </li>
                             <li className="hover:bg-gray-300 p-2">
-                                <Link href="/equipment-type"><p className="w-full">ประเภทอุปกรณ์</p></Link>
+                                <Link to="/equipment-type"><p className="w-full">ประเภทอุปกรณ์</p></Link>
                             </li>
                             <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                                <Link href="/equipment-group"><p className="w-full">กลุ่มอุปกรณ์</p></Link>
+                                <Link to="/equipment-group"><p className="w-full">กลุ่มอุปกรณ์</p></Link>
                             </li>
                         </ul>
                     </li>
