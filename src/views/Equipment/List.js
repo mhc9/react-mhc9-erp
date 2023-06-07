@@ -32,14 +32,15 @@ const EquipmentList = () => {
                     <table className="table table-bordered">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th className="text-center w-[5%]">#</th>
                                 <th>รายละเอียด</th>
+                                <th className="text-center w-[10%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {loading && (
                                 <tr>
-                                    <td colSpan={2} className="text-center">
+                                    <td colSpan={3} className="text-center">
                                         <Spinner animation="border" role="status" size="sm" style={{ marginRight: '2px' }}>
                                             <span className="visually-hidden">Loading...</span>
                                         </Spinner>
@@ -50,8 +51,8 @@ const EquipmentList = () => {
                                 <tr key={eq.id}>
                                     <td>{index+pager.from}</td>
                                     <td>{eq.description}</td>
-                                    <td>
-                                        <Link to={`/equipments/${eq.id}/edit`} className="btn btn-sm btn-warning">
+                                    <td className="text-center">
+                                        <Link to={`/equipments/${eq.id}/edit`} className="btn btn-sm btn-warning mr-1">
                                             <FaPencilAlt />
                                         </Link>
                                         <button className="btn btn-sm btn-danger">
@@ -62,7 +63,7 @@ const EquipmentList = () => {
                             ))}
                             {!loading && equipments.length <= 0 && (
                                 <tr>
-                                    <td colSpan={2} className="text-center">
+                                    <td colSpan={3} className="text-center">
                                         -- ไม่มีข้อมูล --
                                     </td>
                                 </tr>
