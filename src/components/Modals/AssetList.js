@@ -1,7 +1,17 @@
-import React from 'react'
-import { Modal } from 'react-bootstrap'
+import React, { useEffect } from 'react'
+import { Modal, Spinner } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux';
+import { getAssets } from '../../features/asset/assetSlice';
+import Loading from '../Loading';
 
 const ModalAssetList = ({ isShow, handleHide }) => {
+    const dispatch = useDispatch();
+    const { assets, pager, loading } = useSelector(state => state.asset);
+
+    useEffect(() => {
+        dispatch(getAssets());
+    }, []);
+
     return (
         <Modal
             show={isShow}
@@ -23,14 +33,26 @@ const ModalAssetList = ({ isShow, handleHide }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td className="text-center">
-                                    <button className="btn btn-primary btn-sm" onClick={handleHide}>เลือก</button>
-                                </td>
-                            </tr>
+                            {loading && (
+                                <tr>
+                                    <td colSpan={4} className="text-center">
+                                        <Loading />
+                                    </td>
+                                </tr>
+                            )}
+                            {assets && assets.map((asset, index) => (
+                                <tr>
+                                    <td className="text-center">{asset.id}</td>
+                                    <td>{asset.asset_no}</td>
+                                    <td>
+                                        <p className="text-gray-400 text-sm">{asset.category.name}</p>
+                                        <p>{asset.name}</p>
+                                    </td>
+                                    <td className="text-center">
+                                        <button className="btn btn-primary btn-sm" onClick={handleHide}>เลือก</button>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

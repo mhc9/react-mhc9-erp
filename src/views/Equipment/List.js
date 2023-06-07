@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
-import Spinner from 'react-bootstrap/Spinner'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getEquipments } from '../../features/equipment/equipmentSlice';
+import Loading from '../../components/Loading';
 
 const EquipmentList = () => {
     const dispatch = useDispatch();
@@ -44,9 +44,7 @@ const EquipmentList = () => {
                             {loading && (
                                 <tr>
                                     <td colSpan={3} className="text-center">
-                                        <Spinner animation="border" role="status" size="sm" style={{ marginRight: '2px' }}>
-                                            <span className="visually-hidden">Loading...</span>
-                                        </Spinner>
+                                        <Loading />
                                     </td>
                                 </tr>
                             )}
