@@ -26,7 +26,10 @@ const EquipmentList = () => {
             </Breadcrumb>
         
             <div className="content">
-                <h2 className="text-xl">อุปกรณ์</h2>
+                <div className="flex items-center justify-between mb-2">
+                    <h2 className="text-xl">อุปกรณ์</h2>
+                    <Link to="add" className="btn btn-primary">เพิ่มอุปกรณ์ใหม่</Link>
+                </div>
 
                 <div>
                     <table className="table table-bordered">

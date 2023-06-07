@@ -8,6 +8,7 @@ import Login from './views/Auth/Login';
 import Register from './views/Auth/Register';
 import GuardRoute from './components/GuardRoute';
 import EquipmentList from './views/Equipment/List';
+import AddEquipment from './views/Equipment/Add';
 import EquipmentTypeList from './views/EquipmentType/List';
 import EquipmentGroupList from './views/EquipmentGroup/List';
 
@@ -19,6 +20,7 @@ function App() {
                 <Route path="list" element={<GuardRoute><RepairList /></GuardRoute>} />
                 <Route path="add" element={<GuardRoute><AddRepair /></GuardRoute>} />
                 <Route path="equipment" element={<GuardRoute><EquipmentList /></GuardRoute>} />
+                <Route path="equipment/add" element={<GuardRoute><AddEquipment /></GuardRoute>} />
                 <Route path="equipment-type" element={<GuardRoute><EquipmentTypeList /></GuardRoute>} />
                 <Route path="equipment-group" element={<GuardRoute><EquipmentGroupList /></GuardRoute>} />
                 <Route path="advice" element={<GuardRoute><Advice /></GuardRoute>} />
