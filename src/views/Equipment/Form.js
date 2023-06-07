@@ -11,6 +11,14 @@ const equipmentSchema = Yup.object().shape({
 
 const EquipmentForm = () => {
     const [showAssetList, setShowAssetList] = useState(false);
+    const [asset, setAsset] = useState(null);
+
+    const onAssetSelected = (formik, asset) => {
+        console.log(asset);
+        setAsset(asset);
+        formik.setFieldValue('asset_id', asset.id);
+    };
+
     return (
         <Formik
             initialValues={{
@@ -25,7 +33,11 @@ const EquipmentForm = () => {
             {(formik) => {
                 return (
                     <Form>
-                        <ModalAssetList isShow={showAssetList} handleHide={() => setShowAssetList(false)} />
+                        <ModalAssetList
+                            isShow={showAssetList}
+                            handleHide={() => setShowAssetList(false)}
+                            handleSelect={(asset) => onAssetSelected(formik, asset)}
+                        />
 
                         <Row className="mb-2">
                             <Col>
@@ -63,7 +75,9 @@ const EquipmentForm = () => {
                                 <FormGroup>
                                     <label>เลขที่พัสดุ</label>
                                     <div className="input-group">
-                                        <input type="text" name="asset" className="form-control" />
+                                        <div type="text" name="asset" className="form-control">
+                                            {asset?.asset_no} {asset?.name}
+                                        </div>
                                         <input type="hidden" name="asset_id" className="form-control" />
                                         <button className="btn btn-secondary" onClick={() => setShowAssetList(true)}>ค้นหา</button>
                                     </div>

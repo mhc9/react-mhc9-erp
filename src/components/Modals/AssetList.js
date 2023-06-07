@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react'
-import { Modal, Spinner } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAssets } from '../../features/asset/assetSlice';
 import Loading from '../Loading';
 
-const ModalAssetList = ({ isShow, handleHide }) => {
+const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
     const dispatch = useDispatch();
     const { assets, pager, loading } = useSelector(state => state.asset);
 
     useEffect(() => {
         dispatch(getAssets());
-    }, []);
+    }, [dispatch]);
 
     return (
         <Modal
@@ -41,15 +41,23 @@ const ModalAssetList = ({ isShow, handleHide }) => {
                                 </tr>
                             )}
                             {assets && assets.map((asset, index) => (
-                                <tr>
-                                    <td className="text-center">{asset.id}</td>
-                                    <td>{asset.asset_no}</td>
+                                <tr key={asset.id}>
+                                    <td className="text-center">{index+pager.from}</td>
+                                    <td className="text-center">{asset.asset_no}</td>
                                     <td>
                                         <p className="text-gray-400 text-sm">{asset.category.name}</p>
                                         <p>{asset.name}</p>
                                     </td>
                                     <td className="text-center">
-                                        <button className="btn btn-primary btn-sm" onClick={handleHide}>เลือก</button>
+                                        <button
+                                            className="btn btn-primary btn-sm"
+                                            onClick={() => {
+                                                handleHide();
+                                                handleSelect(asset);
+                                            }}
+                                        >
+                                            เลือก
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
