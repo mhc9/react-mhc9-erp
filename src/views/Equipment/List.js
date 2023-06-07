@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
-import api from '../../api'
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom'
+import Spinner from 'react-bootstrap/Spinner'
+import { FaPencilAlt, FaTrash } from 'react-icons/fa'
+import { getEquipments } from '../../features/equipment/equipmentSlice';
 
 const EquipmentList = () => {
-    const [equipments, setEquipments] = useState(null);
-
-    const fetchEquipments = async () => {
-        try {
-            const res = await api.get('/api/equipments');
-            
-            setEquipments(res.data)
-        } catch (error) {
-            
-        }
-    }
+    const dispatch = useDispatch();
+    const { equipments, pager, loading, success } = useSelector(state => state.equipment)
 
     useEffect(() => {
-        fetchEquipments();
-
-        return () => fetchEquipments();
+        dispatch(getEquipments());
     }, []);
+
+    console.log(equipments);
 
     return (
         <div className="content-wrapper">
@@ -42,11 +37,36 @@ const EquipmentList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {equipments && equipments.map((eq, index) => (
+                            {loading && (
                                 <tr>
-                                    <td></td>
+                                    <td colSpan={2} className="text-center">
+                                        <Spinner animation="border" role="status" size="sm" style={{ marginRight: '2px' }}>
+                                            <span className="visually-hidden">Loading...</span>
+                                        </Spinner>
+                                    </td>
+                                </tr>
+                            )}
+                            {equipments && equipments.map((eq, index) => (
+                                <tr key={eq.id}>
+                                    <td>{index+pager.from}</td>
+                                    <td>{eq.description}</td>
+                                    <td>
+                                        <Link to={`/equipments/${eq.id}/edit`} className="btn btn-sm btn-warning">
+                                            <FaPencilAlt />
+                                        </Link>
+                                        <button className="btn btn-sm btn-danger">
+                                            <FaTrash />
+                                        </button>
+                                    </td>
                                 </tr>
                             ))}
+                            {!loading && equipments.length <= 0 && (
+                                <tr>
+                                    <td colSpan={2} className="text-center">
+                                        -- ไม่มีข้อมูล --
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
