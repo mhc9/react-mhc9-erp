@@ -14,14 +14,14 @@ import EquipmentGroupList from './views/EquipmentGroup/List';
 function App() {
     return (
         <Routes>
-            <Route path="/" element={<GuardRoute><DefaultLayout /></GuardRoute>}>
-                <Route index element={<Home />} />
-                <Route path="list" element={<RepairList />} />
-                <Route path="add" element={<AddRepair />} />
-                <Route path="equipment" element={<EquipmentList />} />
-                <Route path="equipment-type" element={<EquipmentTypeList />} />
-                <Route path="equipment-group" element={<EquipmentGroupList />} />
-                <Route path="advice" element={<Advice />} />
+            <Route path="/" element={<DefaultLayout />} >
+                <Route index element={<GuardRoute><Home /></GuardRoute>} />
+                <Route path="list" element={<GuardRoute><RepairList /></GuardRoute>} />
+                <Route path="add" element={<GuardRoute><AddRepair /></GuardRoute>} />
+                <Route path="equipment" element={<GuardRoute><EquipmentList /></GuardRoute>} />
+                <Route path="equipment-type" element={<GuardRoute><EquipmentTypeList /></GuardRoute>} />
+                <Route path="equipment-group" element={<GuardRoute><EquipmentGroupList /></GuardRoute>} />
+                <Route path="advice" element={<GuardRoute><Advice /></GuardRoute>} />
                 <Route path="*" element={<div>404 Not Found</div>} />
             </Route>
             <Route path="/login" element={<Login />} />

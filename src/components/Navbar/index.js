@@ -72,13 +72,13 @@ const Navbar = () => {
                     {(!isFetching && data) && data.name}
                     <i className="fas fa-caret-down"></i>
                 </button>
-                <ul className="dropdown-menu rounded-md bg-white text-blue-950">
+                <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
                     <li className="hover:bg-gray-300 p-2 rounded-t-md">
-                        <a href="/profile"><p className="w-full">Profile</p></a>
+                        <a href="/profile"><p className="w-full text-center">Profile</p></a>
                     </li>
                     <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                        <button type="button" onClick={handleLogout}>
-                            <p className="w-full">Logout</p>
+                        <button type="button" className="w-full" onClick={handleLogout}>
+                            Logout
                         </button>
                     </li>
                 </ul>
