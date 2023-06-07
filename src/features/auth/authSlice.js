@@ -52,8 +52,9 @@ export const authSlice = createSlice({
                 // state.loggedInUser = decode.sub;
                 state.isLoggedIn = true;
                 state.success = true;
-                state.loading = false;
             }
+
+            state.loading = false;
         },
         [login.rejected]: (state, { payload }) => {
             state.error = payload;
