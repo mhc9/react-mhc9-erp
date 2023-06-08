@@ -13,6 +13,8 @@ import EquipmentTypeList from './views/EquipmentType/List';
 import EquipmentGroupList from './views/EquipmentGroup/List';
 import AddAsset from './views/Asset/Add';
 import AssetList from './views/Asset/List';
+import EmployeeList from './views/Employee/List';
+import AddEmployee from './views/Employee/Add';
 
 function App() {
     return (
@@ -21,13 +23,15 @@ function App() {
                 <Route index element={<GuardRoute><Home /></GuardRoute>} />
                 <Route path="list" element={<GuardRoute><RepairList /></GuardRoute>} />
                 <Route path="add" element={<GuardRoute><AddRepair /></GuardRoute>} />
+                <Route path="advice" element={<GuardRoute><Advice /></GuardRoute>} />
                 <Route path="equipment" element={<GuardRoute><EquipmentList /></GuardRoute>} />
                 <Route path="equipment/add" element={<GuardRoute><AddEquipment /></GuardRoute>} />
                 <Route path="equipment-type" element={<GuardRoute><EquipmentTypeList /></GuardRoute>} />
                 <Route path="equipment-group" element={<GuardRoute><EquipmentGroupList /></GuardRoute>} />
                 <Route path="asset" element={<GuardRoute><AssetList /></GuardRoute>} />
                 <Route path="asset/add" element={<GuardRoute><AddAsset /></GuardRoute>} />
-                <Route path="advice" element={<GuardRoute><Advice /></GuardRoute>} />
+                <Route path="employee" element={<GuardRoute><EmployeeList /></GuardRoute>} />
+                <Route path="employee/add" element={<GuardRoute><AddEmployee /></GuardRoute>} />
                 <Route path="*" element={<div>404 Not Found</div>} />
             </Route>
             <Route path="/login" element={<Login />} />
