@@ -68,16 +68,20 @@ const Navbar = () => {
                     <li><Link to="/advice" className="hover:text-gray-400">แนะนำการใช้งาน</Link></li>
                 </ul>
                 <div className="menu-item max-md:hidden flex relative">
-                    <button className="hover:text-gray-400 flex items-center gap-1">
+                    <button className="hover:text-gray-400">
                         {isFetching && (
                             <Spinner animation="border" role="status" size="sm" style={{ marginRight: '2px' }}>
                                 <span className="visually-hidden">Loading...</span>
                             </Spinner>
                         )}
-                        <div className="w-8 h-8 border rounded-full flex items-center justify-center">
-                            ST
-                        </div>
-                        <i className="fas fa-caret-down"></i>
+                        {(!isFetching && data) && (
+                            <div className="flex items-center gap-1">
+                                <div className="w-8 h-8 border rounded-full flex items-center justify-center">
+                                    ST
+                                </div>
+                                <i className="fas fa-caret-down"></i>
+                            </div>
+                        )}
                     </button>
                     <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
                         <li className="hover:bg-gray-300 p-2 rounded-t-md">

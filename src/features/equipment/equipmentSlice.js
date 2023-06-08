@@ -20,6 +20,17 @@ export const getEquipments = createAsyncThunk("equipment/getEquipments", async (
     }
 });
 
+export const store = createAsyncThunk("equipment/store", async (data, { rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/equipments`);
+
+        return res.data;
+    } catch (error) {
+        console.log(error);
+        rejectWithValue(error);
+    }
+});
+
 export const equipmentSlice = createSlice({
     name: 'equipment',
     initialState,
@@ -43,6 +54,21 @@ export const equipmentSlice = createSlice({
         [getEquipments.rejected]: (state, { payload }) => {
             console.log(payload);
 
+            state.loading = false;
+            state.error = payload;
+        },
+        [store.pending]: (state) => {
+            state.loading = true;
+            state.success = false;
+            state.error = null;
+        },
+        [store.fulfilled]: (state, { payload }) => {
+            console.log(payload);
+            state.loading = false;
+            state.success = true;
+        },
+        [store.rejected]: (state, { payload }) => {
+            console.log(payload);
             state.loading = false;
             state.error = payload;
         },
