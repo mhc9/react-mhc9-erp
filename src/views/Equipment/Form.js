@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import ModalAssetList from '../../components/Modals/AssetList';
 import api from '../../api';
 import { store } from '../../features/equipment/equipmentSlice';
+import Loading from '../../components/Loading'
 
 const equipmentSchema = Yup.object().shape({
     asset_id: Yup.string().required(),
@@ -93,7 +94,7 @@ const EquipmentForm = () => {
                                             onChange={formik.handleChange}
                                             className="form-control"
                                         />
-                                        <button className="btn btn-secondary" onClick={() => setShowAssetList(true)}>ค้นหา</button>
+                                        <button type="button" className="btn btn-outline-secondary" onClick={() => setShowAssetList(true)}>ค้นหา</button>
                                     </div>
                                     {(formik.errors.asset_id && formik.touched.asset_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.asset_id}</span>
@@ -177,7 +178,12 @@ const EquipmentForm = () => {
                         </Row>
                         <Row>
                             <Col>
-                                <button type="submit" className="btn btn-outline-primary mt-2 float-right">
+                                <button
+                                    type="submit"
+                                    className="btn btn-outline-primary mt-2 float-right"
+                                    disabled={formik.isSubmitting}
+                                >
+                                    {loading && <Loading />}
                                     บันทึก
                                 </button>
                             </Col>
