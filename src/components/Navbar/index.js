@@ -60,8 +60,12 @@ const Navbar = () => {
                             <li className="hover:bg-gray-300 p-2">
                                 <Link to="/equipment-type"><p className="w-full">ประเภทอุปกรณ์</p></Link>
                             </li>
-                            <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                            <li className="hover:bg-gray-300 p-2">
                                 <Link to="/equipment-group"><p className="w-full">กลุ่มอุปกรณ์</p></Link>
+                            </li>
+                            <li><hr className="dropdown-divider" /></li>
+                            <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                                <Link to="/asset"><p className="w-full">พัสดุ</p></Link>
                             </li>
                         </ul>
                     </li>

@@ -11,6 +11,8 @@ import EquipmentList from './views/Equipment/List';
 import AddEquipment from './views/Equipment/Add';
 import EquipmentTypeList from './views/EquipmentType/List';
 import EquipmentGroupList from './views/EquipmentGroup/List';
+import AddAsset from './views/Asset/Add';
+import AssetList from './views/Asset/List';
 
 function App() {
     return (
@@ -23,6 +25,8 @@ function App() {
                 <Route path="equipment/add" element={<GuardRoute><AddEquipment /></GuardRoute>} />
                 <Route path="equipment-type" element={<GuardRoute><EquipmentTypeList /></GuardRoute>} />
                 <Route path="equipment-group" element={<GuardRoute><EquipmentGroupList /></GuardRoute>} />
+                <Route path="asset" element={<GuardRoute><AssetList /></GuardRoute>} />
+                <Route path="asset" element={<GuardRoute><AddAsset /></GuardRoute>} />
                 <Route path="advice" element={<GuardRoute><Advice /></GuardRoute>} />
                 <Route path="*" element={<div>404 Not Found</div>} />
             </Route>
