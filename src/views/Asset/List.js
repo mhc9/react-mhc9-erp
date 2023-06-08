@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb } from 'react-bootstrap'
+import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
@@ -29,6 +29,25 @@ const AssetList = () => {
                     <Link to="add" className="btn btn-primary">เพิ่มพัสดุใหม่</Link>
                 </div>
 
+                <div className="flex flex-col gap-2 my-2">
+                    <Row>
+                        <Col md={4}>
+                            <select className="form-control">
+                                <option>-- ชนิดพัสดุ --</option>
+                            </select>
+                        </Col>
+                        <Col md={4}>
+                            <input type="text" className="form-control" placeholder="ชื่อพัสดุ" />
+                        </Col>
+                        <Col md={4}>
+                            <select className="form-control">
+                                <option>-- ผู้รับผิดชอบ --</option>
+                            </select>
+                        </Col>
+                        <Col></Col>
+                    </Row>
+                </div>
+
                 <div>
                     <table className="table table-bordered">
                         <thead>
@@ -36,13 +55,14 @@ const AssetList = () => {
                                 <th className="text-center w-[5%]">#</th>
                                 <th className="text-center w-[20%]">เลขที่พัสดุ</th>
                                 <th>รายละเอียด</th>
+                                <th className="text-center w-[20%]">ผู้รับผิดชอบ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {loading && (
                                 <tr>
-                                    <td colSpan={4} className="text-center">
+                                    <td colSpan={5} className="text-center">
                                         <Loading />
                                     </td>
                                 </tr>
@@ -55,6 +75,7 @@ const AssetList = () => {
                                         <p className="text-gray-500 text-sm">{asset.category.name}</p>
                                         {asset.description}
                                     </td>
+                                    <td className="text-sm">{asset.remark}</td>
                                     <td className="text-center">
                                         <Link to={`/assets/${asset.id}/edit`} className="btn btn-sm btn-warning mr-1">
                                             <FaPencilAlt />
@@ -67,7 +88,7 @@ const AssetList = () => {
                             ))}
                             {!loading && assets.length <= 0 && (
                                 <tr>
-                                    <td colSpan={4} className="text-center">
+                                    <td colSpan={5} className="text-center">
                                         -- ไม่มีข้อมูล --
                                     </td>
                                 </tr>
