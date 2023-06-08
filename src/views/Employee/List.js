@@ -34,23 +34,24 @@ const EmployeeList = () => {
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
-                                <th>รายละเอียด</th>
+                                <th>ชื่อ-สกุล</th>
+                                <th className="text-center w-[30%]">ตำแหน่ง</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {loading && (
                                 <tr>
-                                    <td colSpan={3} className="text-center">
+                                    <td colSpan={4} className="text-center">
                                         <Loading />
                                     </td>
                                 </tr>
                             )}
                             {employees && employees.map((employee, index) => (
                                 <tr key={employee.id}>
-                                    <td>{index+pager.from}</td>
+                                    <td className="text-center">{index+pager.from}</td>
                                     <td>{employee.prefix.name}{employee.firstname} {employee.lastname}</td>
-                                    <td>{employee.position.name} {employee.level.name}</td>
+                                    <td>{employee.position.name}{employee.level.name}</td>
                                     <td className="text-center">
                                         <Link to={`/employees/${employee.id}/edit`} className="btn btn-sm btn-warning mr-1">
                                             <FaPencilAlt />
@@ -63,7 +64,7 @@ const EmployeeList = () => {
                             ))}
                             {!loading && employees.length <= 0 && (
                                 <tr>
-                                    <td colSpan={3} className="text-center">
+                                    <td colSpan={4} className="text-center">
                                         -- ไม่มีข้อมูล --
                                     </td>
                                 </tr>
