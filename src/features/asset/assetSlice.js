@@ -19,6 +19,16 @@ export const getAssets = createAsyncThunk("asset/getAssets", async (data, { reje
     }
 });
 
+export const store = createAsyncThunk("asset/store", async (data, { rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/assets`, data);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const assetSlice = createSlice({
     name: 'asset',
     initialState,
@@ -40,6 +50,21 @@ export const assetSlice = createSlice({
             state.success = true;
         },
         [getAssets.rejected]: (state, { payload }) => {
+            state.loading = false;
+            state.error = payload;
+        },
+        [store.pending]: (state) => {
+            state.loading = true;
+            state.success = false;
+            state.error = null;
+        },
+        [store.fulfilled]: (state, { payload }) => {
+            console.log(payload);
+            state.loading = false
+            state.success = true;
+        },
+        [store.rejected]: (state, { payload }) => {
+            console.log(payload);
             state.loading = false;
             state.error = payload;
         },

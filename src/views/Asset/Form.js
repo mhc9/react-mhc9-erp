@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import { Col, FormGroup, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import api from '../../api';
-import { store } from '../../features/equipment/equipmentSlice';
+import { store } from '../../features/asset/assetSlice';
 import Loading from '../../components/Loading'
 
 const assetSchema = Yup.object().shape({
@@ -17,7 +17,7 @@ const assetSchema = Yup.object().shape({
 
 const AssetForm = () => {
     const dispatch = useDispatch();
-    const { loading, success } = useSelector(state => state.equipment);
+    const { loading, success } = useSelector(state => state.asset);
     const [types, setTypes] = useState([]);
     const [categories, setCategories] = useState([]);
     const [filteredCategories, setFilteredCategories] = useState([]);
