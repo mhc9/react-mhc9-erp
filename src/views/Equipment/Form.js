@@ -47,6 +47,10 @@ const EquipmentForm = () => {
         formik.setFieldValue('asset_id', asset.id);
     };
 
+    const handleSubmit = (values, props) => {
+        console.log(values, props);
+    };
+
     return (
         <Formik
             initialValues={{
@@ -56,7 +60,7 @@ const EquipmentForm = () => {
                 asset_id: '',
             }}
             validationSchema={equipmentSchema}
-            onSubmit={() => console.log('on submitting...')}
+            onSubmit={handleSubmit}
         >
             {(formik) => {
                 return (
@@ -129,7 +133,9 @@ const EquipmentForm = () => {
                         </Row>
                         <Row>
                             <Col>
-                                <button className="btn btn-primary mt-2 float-right">บันทึก</button>
+                                <button className="btn btn-primary mt-2 float-right">
+                                    บันทึก
+                                </button>
                             </Col>
                         </Row>
                     </Form>
