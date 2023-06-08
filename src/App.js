@@ -26,7 +26,7 @@ function App() {
                 <Route path="equipment-type" element={<GuardRoute><EquipmentTypeList /></GuardRoute>} />
                 <Route path="equipment-group" element={<GuardRoute><EquipmentGroupList /></GuardRoute>} />
                 <Route path="asset" element={<GuardRoute><AssetList /></GuardRoute>} />
-                <Route path="asset" element={<GuardRoute><AddAsset /></GuardRoute>} />
+                <Route path="asset/add" element={<GuardRoute><AddAsset /></GuardRoute>} />
                 <Route path="advice" element={<GuardRoute><Advice /></GuardRoute>} />
                 <Route path="*" element={<div>404 Not Found</div>} />
             </Route>

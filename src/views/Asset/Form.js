@@ -3,25 +3,24 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, FormGroup, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import ModalAssetList from '../../components/Modals/AssetList';
 import api from '../../api';
 import { store } from '../../features/equipment/equipmentSlice';
 import Loading from '../../components/Loading'
 
-const equipmentSchema = Yup.object().shape({
-    asset_id: Yup.string().required(),
+const assetSchema = Yup.object().shape({
+    asset_no: Yup.string().required(),
+    name: Yup.string().required(),
     description: Yup.string().required(),
-    equipment_group_id: Yup.string().required(),
+    asset_category_id: Yup.string().required(),
+    budget_id: Yup.string().required(),
 });
 
 const AssetForm = () => {
     const dispatch = useDispatch();
     const { loading, success } = useSelector(state => state.equipment);
-    const [showAssetList, setShowAssetList] = useState(false);
-    const [asset, setAsset] = useState(null);
     const [types, setTypes] = useState([]);
-    const [groups, setGroups] = useState([]);
-    const [filteredGroupss, setFilteredGroups] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [filteredCategories, setFilteredCategories] = useState([]);
 
     useEffect(() => {
         getFormInitialData();
@@ -31,25 +30,19 @@ const AssetForm = () => {
 
     const getFormInitialData = async () => {
         try {
-            const res = await api.get('/api/equipments/form/init');
+            const res = await api.get('/api/assets/form/init');
             
             setTypes(res.data.types);
-            setGroups(res.data.groups);
+            setCategories(res.data.categories);
         } catch (error) {
             
         }
     };
 
     const handleTypeSelected = (type) => {
-        console.log(typeof type);
-        const newGroups = groups.filter(group => group.equipment_type_id === parseInt(type, 10));
+        const newCategories = categories.filter(category => category.asset_type_id === parseInt(type, 10));
 
-        setFilteredGroups(newGroups);
-    };
-
-    const onAssetSelected = (formik, asset) => {
-        setAsset(asset);
-        formik.setFieldValue('asset_id', asset.id);
+        setFilteredCategories(newCategories);
     };
 
     const handleSubmit = (values, props) => {
@@ -61,43 +54,47 @@ const AssetForm = () => {
         <Formik
             initialValues={{
                 id: '',
+                asset_no: '',
+                name: '',
                 description: '',
-                equipment_type_id: '',
-                equipment_group_id: '',
-                asset_id: '',
+                asset_type_id: '',
+                asset_category_id: '',
                 remark: ''
             }}
-            validationSchema={equipmentSchema}
+            validationSchema={assetSchema}
             onSubmit={handleSubmit}
         >
             {(formik) => {
                 return (
                     <Form>
-                        <ModalAssetList
-                            isShow={showAssetList}
-                            handleHide={() => setShowAssetList(false)}
-                            handleSelect={(asset) => onAssetSelected(formik, asset)}
-                        />
-
                         <Row className="mb-2">
-                            <Col>
+                            <Col sm={6} md={4}>
                                 <FormGroup>
                                     <label>เลขที่พัสดุ</label>
-                                    <div className="input-group has-validation">
-                                        <div type="text" name="asset" className="form-control">
-                                            {asset?.asset_no} {asset?.name}
-                                        </div>
-                                        <input
-                                            type="hidden"
-                                            name="asset_id"
-                                            value={formik.values.asset_id}
-                                            onChange={formik.handleChange}
-                                            className="form-control"
-                                        />
-                                        <button type="button" className="btn btn-outline-secondary" onClick={() => setShowAssetList(true)}>ค้นหา</button>
-                                    </div>
-                                    {(formik.errors.asset_id && formik.touched.asset_id) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.asset_id}</span>
+                                    <input
+                                        type="text"
+                                        name="asset_no"
+                                        value={formik.values.asset_no}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.asset_no && formik.touched.asset_no) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.asset_no}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col sm={6} md={8}>
+                                <FormGroup>
+                                    <label>ชื่อพัสดุ</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={formik.values.name}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.name && formik.touched.name) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.name}</span>
                                     )}
                                 </FormGroup>
                             </Col>
@@ -123,8 +120,8 @@ const AssetForm = () => {
                         <Row className="mb-2">
                             <Col>
                                 <FormGroup>
-                                    <label>ประเภทอุปกรณ์</label>
-                                    <select name="equipment_type_id" value={formik.values.equipment_type_id} className="form-control"
+                                    <label>ประเภทพัสดุ</label>
+                                    <select name="asset_type_id" value={formik.values.asset_type_id} className="form-control"
                                         onChange={(e) => {
                                             formik.handleChange(e);
                                             handleTypeSelected(e.target.value);
@@ -141,22 +138,22 @@ const AssetForm = () => {
                             </Col>
                             <Col>
                                 <FormGroup>
-                                    <label>กลุ่มอุปกรณ์</label>
+                                    <label>กลุ่มพัสดุ</label>
                                     <select
-                                        name="equipment_group_id"
-                                        value={formik.values.equipment_group_id} 
+                                        name="asset_category_id"
+                                        value={formik.values.asset_category_id} 
                                         onChange={formik.handleChange}
                                         className="form-control"
                                     >
                                         <option value="">-- เลือกกลุ่ม --</option>
-                                        {filteredGroupss && filteredGroupss.map(group => (
-                                            <option value={group.id} key={group.id}>
-                                                {group.name}
+                                        {filteredCategories && filteredCategories.map(category => (
+                                            <option value={category.id} key={category.id}>
+                                                {category.name}
                                             </option>
                                         ))}
                                     </select>
-                                    {(formik.errors.equipment_group_id && formik.touched.equipment_group_id) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.equipment_group_id}</span>
+                                    {(formik.errors.asset_category_id && formik.touched.asset_category_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.asset_category_id}</span>
                                     )}
                                 </FormGroup>
                             </Col>
