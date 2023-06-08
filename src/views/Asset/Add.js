@@ -1,8 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import AssetForm from './Form'
 
 const AddAsset = () => {
+    const navigate = useNavigate();
+    const { success } = useSelector(state => state.asset);
+
+    useEffect(() => {
+        if (success) {
+            navigate('/asset');
+        }
+    }, [success]);
+
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}

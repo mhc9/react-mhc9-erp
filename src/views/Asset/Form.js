@@ -17,7 +17,7 @@ const assetSchema = Yup.object().shape({
 
 const AssetForm = () => {
     const dispatch = useDispatch();
-    const { loading, success } = useSelector(state => state.asset);
+    const { loading } = useSelector(state => state.asset);
     const [types, setTypes] = useState([]);
     const [categories, setCategories] = useState([]);
     const [filteredCategories, setFilteredCategories] = useState([]);
