@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import { Col, FormGroup, Row } from 'react-bootstrap'
+import { Form as BsForm, FormGroup, Col, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import ModalAssetList from '../../components/Modals/AssetList';
 import api from '../../api';
 import { store } from '../../features/employee/employeeSlice';
 import Loading from '../../components/Loading'
@@ -21,11 +20,11 @@ const employeeSchema = Yup.object().shape({
 
 const EmployeeForm = () => {
     const dispatch = useDispatch();
-    const { loading, success } = useSelector(state => state.employee);
+    const { loading } = useSelector(state => state.employee);
     const [prefixes, setPrefixes] = useState([]);
     const [positions, setPositions] = useState([]);
-    const [classes, setClasses] = useState([]);
-    const [filteredClasses, setFilteredClasses] = useState([]);
+    const [levels, setLevels] = useState([]);
+    const [filteredLevels, setFilteredLevels] = useState([]);
 
     useEffect(() => {
         getFormInitialData();
@@ -38,17 +37,18 @@ const EmployeeForm = () => {
             const res = await api.get('/api/employees/form/init');
             
             setPrefixes(res.data.prefixes);
-            setPositions(res.data.postions);
-            setClasses(res.data.classes);
+            setPositions(res.data.positions);
+            setLevels(res.data.levels);
         } catch (error) {
             
         }
     };
 
-    const handlePositionSelected = (position) => {
-        const newClasses = classes.filter(classes => classes.position_id === parseInt(position, 10));
+    const handlePositionSelected = (id) => {
+        const position = positions.find(pos => pos.id === parseInt(id, 10));
+        const newLevels = levels.filter(level => level.position_type_id === position.position_type_id);
 
-        setFilteredClasses(newClasses);
+        setFilteredLevels(newLevels);
     };
 
     const handleSubmit = (values, props) => {
@@ -65,13 +65,13 @@ const EmployeeForm = () => {
                 firstname: '',
                 lastname: '',
                 cid: '',
-                sex: '',
+                sex: '1',
                 birthdate: '',
                 tel: '',
                 email: '',
                 line_id: '',
                 position_id: '',
-                class_id: '',
+                level_id: '',
                 started_at: '',
                 remark: '',
             }}
@@ -97,21 +97,71 @@ const EmployeeForm = () => {
                                     )}
                                 </FormGroup>
                             </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>เลขบัตรประชาชน</label>
+                                    <input
+                                        type="text"
+                                        name="cid"
+                                        value={formik.values.cid}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.cid && formik.touched.cid) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.cid}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
                         </Row>
                         <Row className="mb-2">
                             <Col>
                                 <FormGroup>
-                                    <label>รายละเอียด</label>
-                                    <textarea
-                                        rows={3}
-                                        name="description"
-                                        value={formik.values.description}
+                                    <label>คำนำหน้า</label>
+                                    <select
+                                        name="prefix_id"
+                                        value={formik.values.prefix_id} 
                                         onChange={formik.handleChange}
                                         className="form-control"
                                     >
-                                    </textarea>
-                                    {(formik.errors.description && formik.touched.description) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.description}</span>
+                                        <option value="">-- เลือกคำนำหน้า --</option>
+                                        {prefixes && prefixes.map(prefix => (
+                                            <option value={prefix.id} key={prefix.id}>
+                                                {prefix.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {(formik.errors.prefix_id && formik.touched.prefix_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.prefix_id}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>ชื่อ</label>
+                                    <input
+                                        type="text"
+                                        name="firstname"
+                                        value={formik.values.firstname}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.firstname && formik.touched.firstname) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.firstname}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>สกุล</label>
+                                    <input
+                                        type="text"
+                                        name="lastname"
+                                        value={formik.values.lastname}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.lastname && formik.touched.lastname) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.lastname}</span>
                                     )}
                                 </FormGroup>
                             </Col>
@@ -126,7 +176,7 @@ const EmployeeForm = () => {
                                             handlePositionSelected(e.target.value);
                                         }}
                                     >
-                                        <option value="">-- เลือกประเภท --</option>
+                                        <option value="">-- เลือกตำแหน่ง --</option>
                                         {positions && positions.map(type => (
                                             <option value={type.id} key={type.id}>
                                                 {type.name}
@@ -142,20 +192,102 @@ const EmployeeForm = () => {
                                 <FormGroup>
                                     <label>ระดับ</label>
                                     <select
-                                        name="class_id"
-                                        value={formik.values.class_id} 
+                                        name="level_id"
+                                        value={formik.values.level_id} 
                                         onChange={formik.handleChange}
                                         className="form-control"
                                     >
-                                        <option value="">-- เลือกกลุ่ม --</option>
-                                        {filteredClasses && filteredClasses.map(group => (
-                                            <option value={group.id} key={group.id}>
-                                                {group.name}
+                                        <option value="">-- เลือกระดับ --</option>
+                                        {filteredLevels && filteredLevels.map(level => (
+                                            <option value={level.id} key={level.id}>
+                                                {level.name}
                                             </option>
                                         ))}
                                     </select>
-                                    {(formik.errors.class_id && formik.touched.class_id) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.class_id}</span>
+                                    {(formik.errors.level_id && formik.touched.level_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.level_id}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <FormGroup>
+                                    <label>วันเกิด</label>
+                                    <BsForm.Control
+                                        type="date"
+                                        name="birthdate"
+                                        value={formik.values.birthdate}
+                                        onChange={formik.handleChange}
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>เพศ</label>
+                                    <div className="form-control">
+                                        <input type="radio" /> ชาย
+                                        <input type="radio" className="ml-4" /> หญิง
+                                    </div>
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <FormGroup>
+                                    <label>วันที่เริ่มงาน</label>
+                                    <BsForm.Control
+                                        type="date"
+                                        name="started_at"
+                                        value={formik.values.started_at}
+                                        onChange={formik.handleChange}
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>โทรศัพท์</label>
+                                    <input
+                                        type="text"
+                                        name="tel"
+                                        value={formik.values.tel}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.tel && formik.touched.tel) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.tel}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <FormGroup>
+                                    <label>อีเมล</label>
+                                    <input
+                                        type="text"
+                                        name="email"
+                                        value={formik.values.email}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.email && formik.touched.email) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.email}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>LINE ID</label>
+                                    <input
+                                        type="text"
+                                        name="line_id"
+                                        value={formik.values.line_id}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.line_id && formik.touched.line_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.line_id}</span>
                                     )}
                                 </FormGroup>
                             </Col>
