@@ -12,7 +12,7 @@ const assetSchema = Yup.object().shape({
     name: Yup.string().required(),
     description: Yup.string().required(),
     asset_category_id: Yup.string().required(),
-    budget_id: Yup.string().required(),
+    // budget_id: Yup.string().required(),
 });
 
 const AssetForm = () => {
@@ -21,6 +21,7 @@ const AssetForm = () => {
     const [types, setTypes] = useState([]);
     const [categories, setCategories] = useState([]);
     const [filteredCategories, setFilteredCategories] = useState([]);
+    const [units, setUnits] = useState([]);
 
     useEffect(() => {
         getFormInitialData();
@@ -34,8 +35,9 @@ const AssetForm = () => {
             
             setTypes(res.data.types);
             setCategories(res.data.categories);
+            setUnits(res.data.units)
         } catch (error) {
-            
+            console.log(error);
         }
     };
 
@@ -59,6 +61,13 @@ const AssetForm = () => {
                 description: '',
                 asset_type_id: '',
                 asset_category_id: '',
+                price_per_unit: '',
+                unit_id: '',
+                date_in: '',
+                purchased_at: '',
+                obtain_type_id: '',
+                budget_id: '',
+                owner_id: '',
                 remark: ''
             }}
             validationSchema={assetSchema}
@@ -154,6 +163,76 @@ const AssetForm = () => {
                                     </select>
                                     {(formik.errors.asset_category_id && formik.touched.asset_category_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.asset_category_id}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <FormGroup>
+                                    <label>ราคาต่อหน่วย</label>
+                                    <input
+                                        type="text"
+                                        name="price_per_unit"
+                                        value={formik.values.price_per_unit}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.price_per_unit && formik.touched.price_per_unit) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.price_per_unit}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>หน่วยนับ</label>
+                                    <select
+                                        name="unit_id"
+                                        value={formik.values.unit_id}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    >
+                                        <option value="">-- เลือกหน่วยนับ --</option>
+                                        {units && units.map(unit => (
+                                            <option value={unit.id} key={unit.id}>{unit.name}</option>
+                                        ))}
+                                    </select>
+                                    {(formik.errors.unit_id && formik.touched.unit_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.unit_id}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <FormGroup>
+                                    <label>ประเภทการได้มา</label>
+                                    <select
+                                        name="obtain_type_id"
+                                        value={formik.values.obtain_type_id}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    >
+                                        <option value=""></option>
+                                    </select>
+                                    {(formik.errors.obtain_type_id && formik.touched.obtain_type_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.obtain_type_id}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>แหล่งงบประมาณ</label>
+                                    <select
+                                        name="budget_id"
+                                        value={formik.values.budget_id}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    >
+                                        <option value=""></option>
+                                    </select>
+                                    {(formik.errors.budget_id && formik.touched.budget_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.budget_id}</span>
                                     )}
                                 </FormGroup>
                             </Col>
