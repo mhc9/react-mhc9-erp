@@ -32,13 +32,17 @@ export const store = createAsyncThunk("asset/store", async (data, { rejectWithVa
 export const assetSlice = createSlice({
     name: 'asset',
     initialState,
-    reducers: {},
+    reducers: {
+        resetSuccess: (state) => {
+            state.success = false;
+        }
+    },
     extraReducers: {
         [getAssets.pending]: (state) => {
             state.assets = [];
             state.pager = null;
             state.loading = true;
-            state.success = false;
+            // state.success = false;
             state.error = null;
         },
         [getAssets.fulfilled]: (state, { payload }) => {
@@ -47,7 +51,7 @@ export const assetSlice = createSlice({
             state.assets = data;
             state.pager = pager;
             state.loading = false
-            state.success = true;
+            // state.success = true;
         },
         [getAssets.rejected]: (state, { payload }) => {
             state.loading = false;
@@ -72,3 +76,5 @@ export const assetSlice = createSlice({
 });
 
 export default assetSlice.reducer;
+
+export const { resetSuccess } = assetSlice.actions;

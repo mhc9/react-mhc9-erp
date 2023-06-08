@@ -1,15 +1,19 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import AssetForm from './Form'
+import { resetSuccess } from '../../features/asset/assetSlice'
 
 const AddAsset = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { success } = useSelector(state => state.asset);
 
     useEffect(() => {
         if (success) {
+            dispatch(resetSuccess());
+
             navigate('/asset');
         }
     }, [success]);

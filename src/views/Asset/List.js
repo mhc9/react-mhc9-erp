@@ -3,18 +3,16 @@ import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { getEquipments } from '../../features/equipment/equipmentSlice';
+import { getAssets } from '../../features/asset/assetSlice';
 import Loading from '../../components/Loading';
 
 const AssetList = () => {
     const dispatch = useDispatch();
-    const { equipments, pager, loading, success } = useSelector(state => state.equipment)
+    const { assets, pager, loading, success } = useSelector(state => state.asset)
 
     useEffect(() => {
-        dispatch(getEquipments());
+        dispatch(getAssets());
     }, []);
-
-    console.log(equipments);
 
     return (
         <div className="content-wrapper">
@@ -36,6 +34,7 @@ const AssetList = () => {
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
+                                <th className="text-center w-[20%]">เลขที่พัสดุ</th>
                                 <th>รายละเอียด</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
@@ -43,17 +42,21 @@ const AssetList = () => {
                         <tbody>
                             {loading && (
                                 <tr>
-                                    <td colSpan={3} className="text-center">
+                                    <td colSpan={4} className="text-center">
                                         <Loading />
                                     </td>
                                 </tr>
                             )}
-                            {equipments && equipments.map((eq, index) => (
-                                <tr key={eq.id}>
-                                    <td>{index+pager.from}</td>
-                                    <td>{eq.description}</td>
+                            {assets && assets.map((asset, index) => (
+                                <tr key={asset.id}>
+                                    <td className="text-center">{index+pager.from}</td>
+                                    <td className="text-center text-sm">{asset.asset_no}</td>
+                                    <td>
+                                        <p className="text-gray-500 text-sm">{asset.category.name}</p>
+                                        {asset.description}
+                                    </td>
                                     <td className="text-center">
-                                        <Link to={`/equipments/${eq.id}/edit`} className="btn btn-sm btn-warning mr-1">
+                                        <Link to={`/assets/${asset.id}/edit`} className="btn btn-sm btn-warning mr-1">
                                             <FaPencilAlt />
                                         </Link>
                                         <button className="btn btn-sm btn-danger">
@@ -62,9 +65,9 @@ const AssetList = () => {
                                     </td>
                                 </tr>
                             ))}
-                            {!loading && equipments.length <= 0 && (
+                            {!loading && assets.length <= 0 && (
                                 <tr>
-                                    <td colSpan={3} className="text-center">
+                                    <td colSpan={4} className="text-center">
                                         -- ไม่มีข้อมูล --
                                     </td>
                                 </tr>
