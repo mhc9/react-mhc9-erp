@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, FormGroup, Row } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
 import ModalAssetList from '../../components/Modals/AssetList';
 import api from '../../api';
+import { store } from '../../features/equipment/equipmentSlice';
 
 const equipmentSchema = Yup.object().shape({
     asset_id: Yup.string().required(),
@@ -12,6 +14,8 @@ const equipmentSchema = Yup.object().shape({
 });
 
 const EquipmentForm = () => {
+    const dispatch = useDispatch();
+    const { loading, success } = useSelector(state => state.equipment);
     const [showAssetList, setShowAssetList] = useState(false);
     const [asset, setAsset] = useState(null);
     const [types, setTypes] = useState([]);
@@ -49,6 +53,7 @@ const EquipmentForm = () => {
 
     const handleSubmit = (values, props) => {
         console.log(values, props);
+        dispatch(store(values))
     };
 
     return (
@@ -59,6 +64,7 @@ const EquipmentForm = () => {
                 equipment_type_id: '',
                 equipment_group_id: '',
                 asset_id: '',
+                remark: ''
             }}
             validationSchema={equipmentSchema}
             onSubmit={handleSubmit}
@@ -151,6 +157,21 @@ const EquipmentForm = () => {
                                     {(formik.errors.equipment_group_id && formik.touched.equipment_group_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.equipment_group_id}</span>
                                     )}
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <FormGroup>
+                                    <label>หมายเหตุ</label>
+                                    <textarea
+                                        rows={3}
+                                        name="remark"
+                                        value={formik.values.remark}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    >
+                                    </textarea>
                                 </FormGroup>
                             </Col>
                         </Row>

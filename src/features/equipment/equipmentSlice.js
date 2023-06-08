@@ -22,7 +22,8 @@ export const getEquipments = createAsyncThunk("equipment/getEquipments", async (
 
 export const store = createAsyncThunk("equipment/store", async (data, { rejectWithValue }) => {
     try {
-        const res = await api.post(`/api/equipments`);
+        console.log(data);
+        const res = await api.post(`/api/equipments`, data);
 
         return res.data;
     } catch (error) {
