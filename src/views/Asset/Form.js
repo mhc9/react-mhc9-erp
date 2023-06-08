@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import { Col, FormGroup, Row } from 'react-bootstrap'
+import { FormGroup, Col, Row, Form as BsForm } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import api from '../../api';
 import { store } from '../../features/asset/assetSlice';
@@ -233,6 +233,38 @@ const AssetForm = () => {
                                     </select>
                                     {(formik.errors.budget_id && formik.touched.budget_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.budget_id}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <FormGroup>
+                                    <label>วันที่ซื้อ</label>
+                                    <BsForm.Control
+                                        type="date"
+                                        name="purchased_at"
+                                        value={formik.values.purchased_at}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.purchased_at && formik.touched.purchased_at) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.purchased_at}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>วันที่นำเข้าระบบ</label>
+                                    <BsForm.Control
+                                        type="date"
+                                        name="date_in"
+                                        value={formik.values.date_in}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.date_in && formik.touched.date_in) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.date_in}</span>
                                     )}
                                 </FormGroup>
                             </Col>
