@@ -20,13 +20,13 @@ const EmployeeList = () => {
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item href="/">ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item active>อุปกรณ์</Breadcrumb.Item>
+                <Breadcrumb.Item active>บุคลากร</Breadcrumb.Item>
             </Breadcrumb>
         
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-xl">อุปกรณ์</h2>
-                    <Link to="add" className="btn btn-primary">เพิ่มอุปกรณ์ใหม่</Link>
+                    <h2 className="text-xl">บุคลากร</h2>
+                    <Link to="add" className="btn btn-primary">เพิ่มบุคลากรใหม่</Link>
                 </div>
 
                 <div>
@@ -50,7 +50,7 @@ const EmployeeList = () => {
                                 <tr key={employee.id}>
                                     <td>{index+pager.from}</td>
                                     <td>{employee.prefix.name}{employee.firstname} {employee.lastname}</td>
-                                    <td>{employee.position.name} {employee.class.name}</td>
+                                    <td>{employee.position.name} {employee.level.name}</td>
                                     <td className="text-center">
                                         <Link to={`/employees/${employee.id}/edit`} className="btn btn-sm btn-warning mr-1">
                                             <FaPencilAlt />
