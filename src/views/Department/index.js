@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { getDepartments } from '../../features/department/departmentSlice'
 import DepartmentList from './List'
 import AddDepartment from './Add'
 
 const Department = () => {
+    const dispatch = useDispatch();
+    const { departments } = useSelector(state => state.department);
+
+    useEffect(() => {
+        dispatch(getDepartments());
+    }, []);
+
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}
@@ -20,7 +29,7 @@ const Department = () => {
 
                 <AddDepartment />
 
-                <DepartmentList />
+                <DepartmentList departments={departments} />
             </div>
         </div>
     )
