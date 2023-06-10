@@ -15,6 +15,7 @@ import AddAsset from './views/Asset/Add';
 import AssetList from './views/Asset/List';
 import EmployeeList from './views/Employee/List';
 import AddEmployee from './views/Employee/Add';
+import Department from './views/Department';
 
 function App() {
     return (
@@ -32,6 +33,7 @@ function App() {
                 <Route path="asset/add" element={<GuardRoute><AddAsset /></GuardRoute>} />
                 <Route path="employee" element={<GuardRoute><EmployeeList /></GuardRoute>} />
                 <Route path="employee/add" element={<GuardRoute><AddEmployee /></GuardRoute>} />
+                <Route path="department" element={<GuardRoute><Department /></GuardRoute>} />
                 <Route path="*" element={<div>404 Not Found</div>} />
             </Route>
             <Route path="/login" element={<Login />} />
