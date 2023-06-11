@@ -9,20 +9,23 @@ const departmentSchema = Yup.object().shape({
     name: Yup.string().required()
 });
 
-const DepartmentForm = () => {
+const DepartmentForm = ({ department }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.department);
 
     const handleSubmit = (values, props) => {
         dispatch(store(values));
+
+        props.resetForm();
     };
 
     return (
         <div className="my-2">
             <Formik
+                enableReinitialize
                 initialValues={{
-                    name: '',
-                    status: false,
+                    name: department ? department.name : '',
+                    status: department ? (department.status === 1 ? true : false) : false,
                 }}
                 validationSchema={departmentSchema}
                 onSubmit={handleSubmit}
@@ -45,9 +48,9 @@ const DepartmentForm = () => {
                                         name="status"
                                     /> ใช้งานอยู่
                                 </div>
-                                <button type="submit" className="btn btn-outline-primary">
+                                <button type="submit" className={`btn ${department ? 'btn-outline-warning' : 'btn-outline-primary'}`}>
                                     {loading && <Loading />}
-                                    เพิ่มกลุ่มงาน
+                                    {department ? 'แก้ไขกลุ่มงาน' : 'เพิ่มกลุ่มงาน'}
                                 </button>
                             </div>
                         </Form>
