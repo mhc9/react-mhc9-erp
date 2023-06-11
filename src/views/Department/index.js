@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDepartments } from '../../features/department/departmentSlice'
@@ -8,6 +8,7 @@ import DepartmentForm from './Form'
 const Department = () => {
     const dispatch = useDispatch();
     const { departments, pager } = useSelector(state => state.department);
+    const [department, setDepartment] = useState(null);
 
     useEffect(() => {
         dispatch(getDepartments());
@@ -27,9 +28,13 @@ const Department = () => {
                     <h2 className="text-xl">กลุ่มงาน</h2>
                 </div>
 
-                <DepartmentForm />
+                <DepartmentForm department={department} />
 
-                <DepartmentList departments={departments} pager={pager} />
+                <DepartmentList
+                    departments={departments}
+                    pager={pager}
+                    handleEditting={(dep) => setDepartment(dep)}
+                />
             </div>
         </div>
     )

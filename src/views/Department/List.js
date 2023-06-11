@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { AiFillBulb } from 'react-icons/ai'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 
-const DepartmentList = ({ departments, pager }) => {
+const DepartmentList = ({ departments, pager, handleEditting }) => {
     return (
         <div className="mt-2">
             <table className="table table-bordered">
@@ -26,9 +26,9 @@ const DepartmentList = ({ departments, pager }) => {
                                 </button>
                             </td>
                             <td className="text-center">
-                                <Link to={`/assets/${dep.id}/edit`} className="btn btn-sm btn-warning mr-1">
+                                <button onClick={() => handleEditting(dep)} className="btn btn-sm btn-warning mr-1">
                                     <FaPencilAlt />
-                                </Link>
+                                </button>
                                 <button className="btn btn-sm btn-danger">
                                     <FaTrash />
                                 </button>
