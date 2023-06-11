@@ -31,14 +31,48 @@ export const store = createAsyncThunk("department/store", async (data, { dispatc
     }
 });
 
+export const update = createAsyncThunk("department/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
+    try {
+        const res = await api.put(`/api/departments/${id}`, data);
+
+        dispatch(updateDepartment(res.data.department))
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const destroy = createAsyncThunk("department/destroy", async ({ id, data }, { dispatch, rejectWithValue }) => {
+    try {
+        const res = await api.put(`/api/departments/${id}`, data);
+
+        dispatch(deleteDepartment(res.data.department))
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const departmentSlice = createSlice({
     name: 'department',
     initialState,
     reducers: {
         addDepartment: (state, { payload }) => {
-            const newDepartments = [...state.departments, payload];
+            const updatedDepartments = [...state.departments, payload];
 
-            state.departments = newDepartments;
+            state.departments = updatedDepartments;
+        },
+        updateDepartment: (state, { payload }) => {
+            const updatedDepartments = [...state.departments, payload];
+
+            state.departments = updatedDepartments;
+        },
+        deleteDepartment: (state, { payload }) => {
+            const updatedDepartments = [...state.departments, payload];
+
+            state.departments = updatedDepartments;
         }
     },
     extraReducers: {
@@ -67,9 +101,35 @@ export const departmentSlice = createSlice({
             state.loading = false;
             state.error = payload;
         },
+        [update.pending]: (state) => {
+            state.loading = true;
+        },
+        [update.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.success = true;
+        },
+        [update.rejected]: (state, { payload }) => {
+            state.loading = false;
+            state.error = payload;
+        },
+        [destroy.pending]: (state) => {
+            state.loading = true;
+        },
+        [destroy.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.success = true;
+        },
+        [destroy.rejected]: (state, { payload }) => {
+            state.loading = false;
+            state.error = payload;
+        },
     }
 });
 
 export default departmentSlice.reducer;
 
-export const { addDepartment } = departmentSlice.actions;
+export const {
+    addDepartment,
+    updateDepartment,
+    deleteDepartment
+} = departmentSlice.actions;
