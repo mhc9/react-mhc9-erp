@@ -9,7 +9,7 @@ const departmentSchema = Yup.object().shape({
     name: Yup.string().required()
 });
 
-const DepartmentForm = ({ department }) => {
+const DepartmentForm = ({ department, handleCancel }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.department);
 
@@ -48,10 +48,17 @@ const DepartmentForm = ({ department }) => {
                                         name="status"
                                     /> ใช้งานอยู่
                                 </div>
-                                <button type="submit" className={`btn ${department ? 'btn-outline-warning' : 'btn-outline-primary'}`}>
-                                    {loading && <Loading />}
-                                    {department ? 'แก้ไขกลุ่มงาน' : 'เพิ่มกลุ่มงาน'}
-                                </button>
+                                <div className="flex gap-1">
+                                    <button type="submit" className={`btn ${department ? 'btn-outline-warning' : 'btn-outline-primary'}`}>
+                                        {loading && <Loading />}
+                                        {department ? 'แก้ไขกลุ่มงาน' : 'เพิ่มกลุ่มงาน'}
+                                    </button>
+                                    {department && (
+                                        <button type="button" className="btn btn-outline-danger" onClick={handleCancel}>
+                                            ยกเลิก
+                                        </button>
+                                    )}
+                                </div>
                             </div>
                         </Form>
                     )
