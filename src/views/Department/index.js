@@ -28,7 +28,10 @@ const Department = () => {
                     <h2 className="text-xl">กลุ่มงาน</h2>
                 </div>
 
-                <DepartmentForm department={department} />
+                <DepartmentForm
+                    department={department}
+                    handleCancel={() => setDepartment(null)}
+                />
 
                 <DepartmentList
                     departments={departments}
