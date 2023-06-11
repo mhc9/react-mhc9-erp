@@ -7,11 +7,11 @@ import AddDepartment from './Add'
 
 const Department = () => {
     const dispatch = useDispatch();
-    const { departments } = useSelector(state => state.department);
+    const { departments, pager } = useSelector(state => state.department);
 
     useEffect(() => {
         dispatch(getDepartments());
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="content-wrapper">
@@ -29,7 +29,7 @@ const Department = () => {
 
                 <AddDepartment />
 
-                <DepartmentList departments={departments} />
+                <DepartmentList departments={departments} pager={pager} />
             </div>
         </div>
     )

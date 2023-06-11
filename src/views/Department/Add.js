@@ -1,12 +1,22 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
+import Loading from '../../components/Loading'
+import { store } from '../../features/department/departmentSlice'
 
 const departmentSchema = Yup.object().shape({
     name: Yup.string().required()
 });
 
 const AddDepartment = () => {
+    const dispatch = useDispatch();
+    const { loading } = useSelector(state => state.department);
+
+    const handleSubmit = (values, props) => {
+        dispatch(store(values));
+    };
+
     return (
         <div className="my-2">
             <Formik
@@ -15,7 +25,7 @@ const AddDepartment = () => {
                     status: false,
                 }}
                 validationSchema={departmentSchema}
-                onSubmit={(values) => console.log(values)}
+                onSubmit={handleSubmit}
             >
                 {(formik) => {
                     return (
@@ -35,11 +45,8 @@ const AddDepartment = () => {
                                         name="status"
                                     /> ใช้งานอยู่
                                 </div>
-                                <button
-                                    type="submit"
-                                    className="btn btn-outline-primary"
-                                    onClick={() => console.log()}
-                                >
+                                <button type="submit" className="btn btn-outline-primary">
+                                    {loading && <Loading />}
                                     เพิ่มกลุ่มงาน
                                 </button>
                             </div>

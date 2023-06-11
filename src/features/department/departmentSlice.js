@@ -19,9 +19,11 @@ export const getDepartments = createAsyncThunk("department/getDepartments", asyn
     }
 });
 
-export const store = createAsyncThunk("department/store", async (data, { rejectWithValue }) => {
+export const store = createAsyncThunk("department/store", async (data, { dispatch, rejectWithValue }) => {
     try {
         const res = await api.post(`/api/departments`, data);
+
+        dispatch(addDepartment(res.data.department))
 
         return res.data;
     } catch (error) {
@@ -32,7 +34,13 @@ export const store = createAsyncThunk("department/store", async (data, { rejectW
 export const departmentSlice = createSlice({
     name: 'department',
     initialState,
-    reducers: {},
+    reducers: {
+        addDepartment: (state, { payload }) => {
+            const newDepartments = [...state.departments, payload];
+
+            state.departments = newDepartments;
+        }
+    },
     extraReducers: {
         [getDepartments.pending]: (state) => {
             state.loading = true;
@@ -63,3 +71,5 @@ export const departmentSlice = createSlice({
 });
 
 export default departmentSlice.reducer;
+
+export const { addDepartment } = departmentSlice.actions;
