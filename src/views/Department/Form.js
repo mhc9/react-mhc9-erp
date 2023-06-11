@@ -9,7 +9,7 @@ const departmentSchema = Yup.object().shape({
     name: Yup.string().required()
 });
 
-const AddDepartment = () => {
+const DepartmentForm = () => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.department);
 
@@ -58,4 +58,4 @@ const AddDepartment = () => {
     )
 }
 
-export default AddDepartment
+export default DepartmentForm

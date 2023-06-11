@@ -3,7 +3,7 @@ import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDepartments } from '../../features/department/departmentSlice'
 import DepartmentList from './List'
-import AddDepartment from './Add'
+import DepartmentForm from './Form'
 
 const Department = () => {
     const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const Department = () => {
                     <h2 className="text-xl">กลุ่มงาน</h2>
                 </div>
 
-                <AddDepartment />
+                <DepartmentForm />
 
                 <DepartmentList departments={departments} pager={pager} />
             </div>
