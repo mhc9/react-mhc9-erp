@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
-import Loading from '../../components/Loading'
 import { store, update } from '../../features/division/divisionSlice'
 import api from '../../api';
 
@@ -13,7 +12,6 @@ const divisionSchema = Yup.object().shape({
 
 const DivisionForm = ({ division, handleCancel }) => {
     const dispatch = useDispatch();
-    const { loading } = useSelector(state => state.division);
     const [departments, setDepartments] = useState([]);
 
     useEffect(() => {
@@ -98,8 +96,11 @@ const DivisionForm = ({ division, handleCancel }) => {
                                     /> ใช้งานอยู่
                                 </div>
                                 <div className="flex gap-1">
-                                    <button type="submit" className={`btn ${division ? 'btn-outline-warning' : 'btn-outline-primary'}`}>
-                                        {loading && <Loading />}
+                                    <button
+                                        type="submit"
+                                        className={`btn ${division ? 'btn-outline-warning' : 'btn-outline-primary'}`}
+                                        disabled={formik.isSubmitting}
+                                    >
                                         {division ? 'แก้ไขงาน' : 'เพิ่มงาน'}
                                     </button>
                                     {division && (

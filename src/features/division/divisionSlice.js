@@ -23,7 +23,7 @@ export const store = createAsyncThunk("division/store", async (data, { dispatch,
     try {
         const res = await api.post(`/api/divisions`, data);
 
-        dispatch(addDivision(res.data.division))
+        dispatch(getDivisions());
 
         return res.data;
     } catch (error) {
@@ -35,7 +35,7 @@ export const update = createAsyncThunk("division/update", async ({ id, data }, {
     try {
         const res = await api.put(`/api/divisions/${id}`, data);
 
-        dispatch(updateDivision(res.data.division))
+        dispatch(getDivisions());
 
         return res.data;
     } catch (error) {
@@ -47,7 +47,7 @@ export const destroy = createAsyncThunk("division/destroy", async ({ id, data },
     try {
         const res = await api.put(`/api/divisions/${id}`, data);
 
-        dispatch(deleteDivision(res.data.division))
+        dispatch(getDivisions());
 
         return res.data;
     } catch (error) {
@@ -58,29 +58,11 @@ export const destroy = createAsyncThunk("division/destroy", async ({ id, data },
 export const divisionSlice = createSlice({
     name: 'division',
     initialState,
-    reducers: {
-        addDivision: (state, { payload }) => {
-            const updateddivisions = [...state.divisions, payload];
-
-            state.divisions = updateddivisions;
-        },
-        updateDivision: (state, { payload }) => {
-            const updateddivisions = state.divisions.map(dep => {
-                if (dep.id === payload.id) return payload;
-
-                return dep;
-            });
-
-            state.divisions = updateddivisions;
-        },
-        deleteDivision: (state, { payload }) => {
-            const updateddivisions = [...state.divisions, payload];
-
-            state.divisions = updateddivisions;
-        }
-    },
+    reducers: {},
     extraReducers: {
         [getDivisions.pending]: (state) => {
+            state.divisions = [];
+            state.pager = null;
             state.loading = true;
         },
         [getDivisions.fulfilled]: (state, { payload }) => {
@@ -95,6 +77,8 @@ export const divisionSlice = createSlice({
             state.error = payload;
         },
         [store.pending]: (state) => {
+            state.divisions = [];
+            state.pager = null;
             state.loading = true;
         },
         [store.fulfilled]: (state, { payload }) => {
@@ -106,6 +90,8 @@ export const divisionSlice = createSlice({
             state.error = payload;
         },
         [update.pending]: (state) => {
+            state.divisions = [];
+            state.pager = null;
             state.loading = true;
         },
         [update.fulfilled]: (state, { payload }) => {
@@ -132,8 +118,4 @@ export const divisionSlice = createSlice({
 
 export default divisionSlice.reducer;
 
-export const {
-    addDivision,
-    updateDivision,
-    deleteDivision
-} = divisionSlice.actions;
+// export const {} = divisionSlice.actions;

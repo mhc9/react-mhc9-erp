@@ -2,8 +2,12 @@ import React from 'react'
 import { AiFillBulb } from 'react-icons/ai'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
+import { useSelector } from 'react-redux';
+import Loading from '../../components/Loading'
 
 const DivisionList = ({ divisions, pager, handleEditting }) => {
+    const { loading } = useSelector(state => state.division);
+
     return (
         <div className="mt-2">
             <table className="table table-bordered">
@@ -17,7 +21,12 @@ const DivisionList = ({ divisions, pager, handleEditting }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {divisions && divisions.map((division, index) => (
+                    {loading && (
+                        <tr>
+                            <td colSpan={5} className="text-center"><Loading /></td>
+                        </tr>
+                    )}
+                    {(divisions && divisions.length > 0) && divisions.map((division, index) => (
                         <tr key={division.id}>
                             <td className="text-center">{index+pager.from}</td>
                             <td>{division.name}</td>
