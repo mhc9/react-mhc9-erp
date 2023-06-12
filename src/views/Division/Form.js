@@ -60,27 +60,37 @@ const DivisionForm = ({ division, handleCancel }) => {
                     return (
                         <Form className="form-inline">
                             <div className="flex flex-row items-center gap-4">
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formik.values.name}
-                                    onChange={formik.handleChange}
-                                    className="form-control w-4/12"
-                                    placeholder="ชื่องาน"
-                                />
-                                <select
-                                    name="department_id"
-                                    className="form-control w-4/12"
-                                    value={formik.values.department_id}
-                                    onChange={formik.handleChange}
-                                >
-                                    <option>-- เลือกกลุ่มงาน --</option>
-                                    {departments && departments.map(dep => (
-                                        <option key={dep.id} value={dep.id}>
-                                            {dep.name}
-                                        </option>
-                                    ))}
-                                </select>
+                                <div className="w-4/12">
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={formik.values.name}
+                                        onChange={formik.handleChange}
+                                        className="form-control w-full"
+                                        placeholder="ชื่องาน"
+                                    />
+                                    {(formik.errors.name && formik.touched.name) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.name}</span>
+                                    )}
+                                </div>
+                                <div className="w-4/12">
+                                    <select
+                                        name="department_id"
+                                        className="form-control w-full"
+                                        value={formik.values.department_id}
+                                        onChange={formik.handleChange}
+                                    >
+                                        <option>-- เลือกกลุ่มงาน --</option>
+                                        {departments && departments.map(dep => (
+                                            <option key={dep.id} value={dep.id}>
+                                                {dep.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {(formik.errors.department_id && formik.touched.department_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.department_id}</span>
+                                    )}
+                                </div>
                                 <div className="flex items-center justify-center gap-2">
                                     <Field
                                         type="checkbox"
