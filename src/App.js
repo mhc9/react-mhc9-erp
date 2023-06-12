@@ -13,6 +13,8 @@ import EquipmentTypeList from './views/EquipmentType/List';
 import EquipmentGroupList from './views/EquipmentGroup/List';
 import AddAsset from './views/Asset/Add';
 import AssetList from './views/Asset/List';
+import AssetType from './views/AssetType';
+import AssetCategory from './views/AssetCategory';
 import EmployeeList from './views/Employee/List';
 import AddEmployee from './views/Employee/Add';
 import Department from './views/Department';
@@ -34,6 +36,8 @@ function App() {
                 <Route path="asset/add" element={<GuardRoute><AddAsset /></GuardRoute>} />
                 <Route path="employee" element={<GuardRoute><EmployeeList /></GuardRoute>} />
                 <Route path="employee/add" element={<GuardRoute><AddEmployee /></GuardRoute>} />
+                <Route path="asset-type" element={<GuardRoute><AssetType /></GuardRoute>} />
+                <Route path="asset-category" element={<GuardRoute><AssetCategory /></GuardRoute>} />
                 <Route path="department" element={<GuardRoute><Department /></GuardRoute>} />
                 <Route path="division" element={<GuardRoute><Division /></GuardRoute>} />
                 <Route path="*" element={<div>404 Not Found</div>} />
