@@ -16,6 +16,8 @@ const DepartmentForm = ({ department, handleCancel }) => {
     const handleSubmit = (values, props) => {
         if (department) {
             dispatch(update({ id: department.id, data: values }));
+
+            handleCancel()
         } else {
             dispatch(store(values));
         }
