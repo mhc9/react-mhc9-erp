@@ -68,7 +68,12 @@ const DivisionForm = ({ division, handleCancel }) => {
                                     className="form-control w-4/12"
                                     placeholder="ชื่องาน"
                                 />
-                                <select name="department_id" className="form-control w-4/12">
+                                <select
+                                    name="department_id"
+                                    className="form-control w-4/12"
+                                    value={formik.values.department_id}
+                                    onChange={formik.handleChange}
+                                >
                                     <option>-- เลือกกลุ่มงาน --</option>
                                     {departments && departments.map(dep => (
                                         <option key={dep.id} value={dep.id}>
