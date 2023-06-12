@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import Loading from '../../components/Loading'
-import { store } from '../../features/department/departmentSlice'
+import { store, update } from '../../features/department/departmentSlice'
 
 const departmentSchema = Yup.object().shape({
     name: Yup.string().required()
@@ -14,7 +14,11 @@ const DepartmentForm = ({ department, handleCancel }) => {
     const { loading } = useSelector(state => state.department);
 
     const handleSubmit = (values, props) => {
-        dispatch(store(values));
+        if (department) {
+            dispatch(update({ id: department.id, data: values }));
+        } else {
+            dispatch(store(values));
+        }
 
         props.resetForm();
     };
