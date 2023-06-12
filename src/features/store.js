@@ -5,6 +5,8 @@ import asssetReducer from "./asset/assetSlice";
 import employeeReducer from "./employee/employeeSlice";
 import departmentReducer from "./department/departmentSlice";
 import divisionReducer from "./division/divisionSlice";
+import assetTypeReducer from "./asset-type copy/assetTypeSlice";
+import assetCategoryReducer from "./asset-category/assetCategorySlice";
 import { authApi } from "../services/auth/authService";
 
 export default configureStore({
@@ -16,6 +18,8 @@ export default configureStore({
         employee: employeeReducer,
         department: departmentReducer,
         division: divisionReducer,
+        assetType: assetTypeReducer,
+        assetCategory: assetCategoryReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware),
 });
