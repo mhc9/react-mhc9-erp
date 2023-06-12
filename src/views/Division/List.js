@@ -11,17 +11,19 @@ const DivisionList = ({ divisions, pager, handleEditting }) => {
                     <tr>
                         <th className="w-[5%] text-center">#</th>
                         <th>ชื่องาน</th>
+                        <th className="w-[20%] text-center">กลุ่มงาน</th>
                         <th className="w-[10%] text-center">สถานะ</th>
                         <th className="w-[10%] text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {divisions && divisions.map((dep, index) => (
-                        <tr key={dep.id}>
+                    {divisions && divisions.map((division, index) => (
+                        <tr key={division.id}>
                             <td className="text-center">{index+pager.from}</td>
-                            <td>{dep.name}</td>
+                            <td>{division.name}</td>
+                            <td className="text-center">{division.department?.name}</td>
                             <td className="text-center">
-                                {dep.status === 1 ? (
+                                {division.status === 1 ? (
                                     <>
                                         <button type="button" className="text-success" data-tooltip-id="active">
                                             <AiFillBulb size={'1.5rem'} />
@@ -38,7 +40,7 @@ const DivisionList = ({ divisions, pager, handleEditting }) => {
                                 )}
                             </td>
                             <td className="text-center">
-                                <button onClick={() => handleEditting(dep)} className="btn btn-sm btn-warning mr-1">
+                                <button onClick={() => handleEditting(division)} className="btn btn-sm btn-warning mr-1">
                                     <FaPencilAlt />
                                 </button>
                                 <button className="btn btn-sm btn-danger">
