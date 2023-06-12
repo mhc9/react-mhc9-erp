@@ -98,11 +98,11 @@ const AssetCategoryForm = ({ assetCategory, handleCancel }) => {
                                     /> ใช้งานอยู่
                                 </div>
                                 <div className="flex gap-1">
-                                    <button type="submit" className={`btn ${division ? 'btn-outline-warning' : 'btn-outline-primary'}`}>
+                                    <button type="submit" className={`btn ${assetCategory ? 'btn-outline-warning' : 'btn-outline-primary'}`}>
                                         {loading && <Loading />}
-                                        {division ? 'แก้ไขชนิดพัสดุ' : 'เพิ่มชนิดพัสดุ'}
+                                        {assetCategory ? 'แก้ไขชนิดพัสดุ' : 'เพิ่มชนิดพัสดุ'}
                                     </button>
-                                    {division && (
+                                    {assetCategory && (
                                         <button type="button" className="btn btn-outline-danger" onClick={handleCancel}>
                                             ยกเลิก
                                         </button>

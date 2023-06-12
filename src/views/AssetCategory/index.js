@@ -34,7 +34,7 @@ const AssetCategory = () => {
                 />
 
                 <AssetCategoryList
-                    assetCategorys={assetCategorys}
+                    assetCategorys={assetCategories}
                     pager={pager}
                     handleEditting={(dep) => setAssetCategory(dep)}
                 />

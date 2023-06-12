@@ -5,7 +5,7 @@ import asssetReducer from "./asset/assetSlice";
 import employeeReducer from "./employee/employeeSlice";
 import departmentReducer from "./department/departmentSlice";
 import divisionReducer from "./division/divisionSlice";
-import assetTypeReducer from "./asset-type copy/assetTypeSlice";
+import assetTypeReducer from "./asset-type/assetTypeSlice";
 import assetCategoryReducer from "./asset-category/assetCategorySlice";
 import { authApi } from "../services/auth/authService";
 

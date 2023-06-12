@@ -11,7 +11,7 @@ const assetTypeSchema = Yup.object().shape({
     department_id: Yup.string().required(),
 });
 
-const AssetTypeForm = ({ assettype, handleCancel }) => {
+const AssetTypeForm = ({ assetType, handleCancel }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.assetType);
 
@@ -56,24 +56,6 @@ const AssetTypeForm = ({ assettype, handleCancel }) => {
                                         <span className="text-red-500 text-sm">{formik.errors.name}</span>
                                     )}
                                 </div>
-                                <div className="w-4/12">
-                                    <select
-                                        name="department_id"
-                                        className="form-control w-full"
-                                        value={formik.values.department_id}
-                                        onChange={formik.handleChange}
-                                    >
-                                        <option>-- เลือกกลุ่มงาน --</option>
-                                        {departments && departments.map(dep => (
-                                            <option key={dep.id} value={dep.id}>
-                                                {dep.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    {(formik.errors.department_id && formik.touched.department_id) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.department_id}</span>
-                                    )}
-                                </div>
                                 <div className="flex items-center justify-center gap-2">
                                     <Field
                                         type="checkbox"
@@ -81,11 +63,11 @@ const AssetTypeForm = ({ assettype, handleCancel }) => {
                                     /> ใช้งานอยู่
                                 </div>
                                 <div className="flex gap-1">
-                                    <button type="submit" className={`btn ${assettype ? 'btn-outline-warning' : 'btn-outline-primary'}`}>
+                                    <button type="submit" className={`btn ${assetType ? 'btn-outline-warning' : 'btn-outline-primary'}`}>
                                         {loading && <Loading />}
-                                        {assettype ? 'แก้ไขประเภทพัสดุ' : 'เพิ่มประเภทพัสดุ'}
+                                        {assetType ? 'แก้ไขประเภทพัสดุ' : 'เพิ่มประเภทพัสดุ'}
                                     </button>
-                                    {assettype && (
+                                    {assetType && (
                                         <button type="button" className="btn btn-outline-danger" onClick={handleCancel}>
                                             ยกเลิก
                                         </button>

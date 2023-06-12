@@ -9,7 +9,7 @@ const initialState = {
     error: null
 };
 
-export const getCateories = createAsyncThunk("asset-category/getCateories", async (data, { rejectWithValue }) => {
+export const getAssetCategories = createAsyncThunk("asset-category/getAssetCategories", async (data, { rejectWithValue }) => {
     try {
         const res = await api.get(`/api/asset-categories`);
 
@@ -80,17 +80,17 @@ export const assetCategorySlice = createSlice({
         }
     },
     extraReducers: {
-        [getCateories.pending]: (state) => {
+        [getAssetCategories.pending]: (state) => {
             state.loading = true;
         },
-        [getCateories.fulfilled]: (state, { payload }) => {
+        [getAssetCategories.fulfilled]: (state, { payload }) => {
             const { data, ...pager } = payload;
 
             state.categories = data;
             state.pager = pager;
             state.loading = false;
         },
-        [getCateories.rejected]: (state, { payload }) => {
+        [getAssetCategories.rejected]: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
         },
