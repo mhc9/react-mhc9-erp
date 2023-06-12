@@ -9,7 +9,7 @@ const initialState = {
     error: null
 };
 
-export const getdivisions = createAsyncThunk("division/getdivisions", async (data, { rejectWithValue }) => {
+export const getDivisions = createAsyncThunk("division/getdivisions", async (data, { rejectWithValue }) => {
     try {
         const res = await api.get(`/api/divisions`);
 
@@ -23,7 +23,7 @@ export const store = createAsyncThunk("division/store", async (data, { dispatch,
     try {
         const res = await api.post(`/api/divisions`, data);
 
-        dispatch(adddivision(res.data.division))
+        dispatch(addDivision(res.data.division))
 
         return res.data;
     } catch (error) {
@@ -35,7 +35,7 @@ export const update = createAsyncThunk("division/update", async ({ id, data }, {
     try {
         const res = await api.put(`/api/divisions/${id}`, data);
 
-        dispatch(updatedivision(res.data.division))
+        dispatch(updateDivision(res.data.division))
 
         return res.data;
     } catch (error) {
@@ -47,7 +47,7 @@ export const destroy = createAsyncThunk("division/destroy", async ({ id, data },
     try {
         const res = await api.put(`/api/divisions/${id}`, data);
 
-        dispatch(deletedivision(res.data.division))
+        dispatch(deleteDivision(res.data.division))
 
         return res.data;
     } catch (error) {
@@ -59,12 +59,12 @@ export const divisionSlice = createSlice({
     name: 'division',
     initialState,
     reducers: {
-        adddivision: (state, { payload }) => {
+        addDivision: (state, { payload }) => {
             const updateddivisions = [...state.divisions, payload];
 
             state.divisions = updateddivisions;
         },
-        updatedivision: (state, { payload }) => {
+        updateDivision: (state, { payload }) => {
             const updateddivisions = state.divisions.map(dep => {
                 if (dep.id === payload.id) return payload;
 
@@ -73,24 +73,24 @@ export const divisionSlice = createSlice({
 
             state.divisions = updateddivisions;
         },
-        deletedivision: (state, { payload }) => {
+        deleteDivision: (state, { payload }) => {
             const updateddivisions = [...state.divisions, payload];
 
             state.divisions = updateddivisions;
         }
     },
     extraReducers: {
-        [getdivisions.pending]: (state) => {
+        [getDivisions.pending]: (state) => {
             state.loading = true;
         },
-        [getdivisions.fulfilled]: (state, { payload }) => {
+        [getDivisions.fulfilled]: (state, { payload }) => {
             const { data, ...pager } = payload;
 
             state.divisions = data;
             state.pager = pager;
             state.loading = false;
         },
-        [getdivisions.rejected]: (state, { payload }) => {
+        [getDivisions.rejected]: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
         },

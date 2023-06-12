@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getDepartments } from '../../features/department/departmentSlice'
-import DepartmentList from './List'
-import DepartmentForm from './Form'
+import { getDivisions } from '../../features/division/divisionSlice'
+import DivisionList from './List'
+import DivisionForm from './Form'
 
 const Division = () => {
     const dispatch = useDispatch();
-    const { departments, pager } = useSelector(state => state.department);
-    const [department, setDepartment] = useState(null);
+    const { divisions, pager } = useSelector(state => state.division);
+    const [division, setDivision] = useState(null);
 
     useEffect(() => {
-        dispatch(getDepartments());
+        dispatch(getDivisions());
     }, [dispatch]);
 
     return (
@@ -28,15 +28,15 @@ const Division = () => {
                     <h2 className="text-xl">งาน</h2>
                 </div>
 
-                <DepartmentForm
-                    department={department}
-                    handleCancel={() => setDepartment(null)}
+                <DivisionForm
+                    division={division}
+                    handleCancel={() => setDivision(null)}
                 />
 
-                <DepartmentList
-                    departments={departments}
+                <DivisionList
+                    divisions={divisions}
                     pager={pager}
-                    handleEditting={(dep) => setDepartment(dep)}
+                    handleEditting={(dep) => setDivision(dep)}
                 />
             </div>
         </div>

@@ -3,7 +3,7 @@ import { AiFillBulb } from 'react-icons/ai'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 
-const DivisionList = ({ departments, pager, handleEditting }) => {
+const DivisionList = ({ divisions, pager, handleEditting }) => {
     return (
         <div className="mt-2">
             <table className="table table-bordered">
@@ -16,7 +16,7 @@ const DivisionList = ({ departments, pager, handleEditting }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {departments && departments.map((dep, index) => (
+                    {divisions && divisions.map((dep, index) => (
                         <tr key={dep.id}>
                             <td className="text-center">{index+pager.from}</td>
                             <td>{dep.name}</td>

@@ -45,8 +45,8 @@ const DivisionForm = ({ division, handleCancel }) => {
                                     name="name"
                                     value={formik.values.name}
                                     onChange={formik.handleChange}
-                                    className="form-control w-1/2"
-                                    placeholder="ชื่อกลุ่มงาน"
+                                    className="form-control w-4/12"
+                                    placeholder="ชื่องาน"
                                 />
                                 <div className="flex items-center justify-center gap-2">
                                     <Field
@@ -57,7 +57,7 @@ const DivisionForm = ({ division, handleCancel }) => {
                                 <div className="flex gap-1">
                                     <button type="submit" className={`btn ${division ? 'btn-outline-warning' : 'btn-outline-primary'}`}>
                                         {loading && <Loading />}
-                                        {division ? 'แก้ไขกลุ่มงาน' : 'เพิ่มกลุ่มงาน'}
+                                        {division ? 'แก้ไขงาน' : 'เพิ่มงาน'}
                                     </button>
                                     {division && (
                                         <button type="button" className="btn btn-outline-danger" onClick={handleCancel}>
