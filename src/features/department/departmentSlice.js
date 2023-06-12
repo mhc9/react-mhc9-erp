@@ -65,7 +65,11 @@ export const departmentSlice = createSlice({
             state.departments = updatedDepartments;
         },
         updateDepartment: (state, { payload }) => {
-            const updatedDepartments = [...state.departments, payload];
+            const updatedDepartments = state.departments.map(dep => {
+                if (dep.id === payload.id) return payload;
+
+                return dep;
+            });
 
             state.departments = updatedDepartments;
         },
