@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Col, Row } from 'react-bootstrap'
+import { Breadcrumb, Col, Pagination, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
@@ -9,10 +9,21 @@ import Loading from '../../components/Loading';
 const AssetList = () => {
     const dispatch = useDispatch();
     const { assets, pager, loading, success } = useSelector(state => state.asset)
+    const [apiEndpoint, setApiEndpoint] = useState('');
 
     useEffect(() => {
-        dispatch(getAssets());
+        if (apiEndpoint === '') {
+            dispatch(getAssets({ url: `/api/assets` }));
+        } else {
+            dispatch(getAssets({ url: apiEndpoint }));
+        }
     }, []);
+
+    const handlePageClick = (url) => {
+        setApiEndpoint(url);
+
+        dispatch(getAssets({ url }));
+    };
 
     return (
         <div className="content-wrapper">
@@ -96,6 +107,26 @@ const AssetList = () => {
                         </tbody>
                     </table>
                 </div>
+
+                {pager && (
+                    <Pagination>
+                        <Pagination.First onClick={() => handlePageClick(pager.first_page_url)} />
+                        <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
+                        {/* <Pagination.Item>{1}</Pagination.Item>
+                        <Pagination.Ellipsis />
+
+                        <Pagination.Item>{10}</Pagination.Item>
+                        <Pagination.Item>{11}</Pagination.Item>
+                        <Pagination.Item active>{12}</Pagination.Item>
+                        <Pagination.Item>{13}</Pagination.Item>
+                        <Pagination.Item disabled>{14}</Pagination.Item>
+
+                        <Pagination.Ellipsis />
+                        <Pagination.Item>{20}</Pagination.Item> */}
+                        <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
+                        <Pagination.Last onClick={() => handlePageClick(pager.last_page_url)} />
+                    </Pagination>
+                )}
             </div>
         </div>
     )

@@ -9,9 +9,9 @@ const initialState = {
     error: null
 };
 
-export const getAssets = createAsyncThunk("asset/getAssets", async (data, { rejectWithValue }) => {
+export const getAssets = createAsyncThunk("asset/getAssets", async ({ url }, { rejectWithValue }) => {
     try {
-        const res = await api.get(`/api/assets`);
+        const res = await api.get(url);
 
         return res.data;
     } catch (error) {
