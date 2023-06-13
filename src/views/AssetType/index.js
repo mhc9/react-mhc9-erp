@@ -7,7 +7,7 @@ import AssetTypeForm from './Form'
 
 const AssetType = () => {
     const dispatch = useDispatch();
-    const { assetTypes, pager } = useSelector(state => state.assetType);
+    const { types, pager } = useSelector(state => state.assetType);
     const [assetType, setAssetType] = useState(null);
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const AssetType = () => {
                 />
 
                 <AssetTypeList
-                    assetTypes={assetTypes}
+                    assetTypes={types}
                     pager={pager}
                     handleEditting={(assetType) => setAssetType(assetType)}
                 />

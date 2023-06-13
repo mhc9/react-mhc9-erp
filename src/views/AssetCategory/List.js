@@ -3,7 +3,7 @@ import { AiFillBulb } from 'react-icons/ai'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 
-const AssetCategoryList = ({ assetCategories, pager, handleEditting }) => {
+const AssetCategoryList = ({ categories, pager, handleEditting }) => {
     return (
         <div className="mt-2">
             <table className="table table-bordered">
@@ -17,7 +17,7 @@ const AssetCategoryList = ({ assetCategories, pager, handleEditting }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {assetCategories && assetCategories.map((category, index) => (
+                    {categories && categories.map((category, index) => (
                         <tr key={category.id}>
                             <td className="text-center">{index+pager.from}</td>
                             <td>{category.name}</td>

@@ -7,7 +7,7 @@ import AssetCategoryForm from './Form'
 
 const AssetCategory = () => {
     const dispatch = useDispatch();
-    const { assetCategories, pager } = useSelector(state => state.assetCategory);
+    const { categories, pager } = useSelector(state => state.assetCategory);
     const [assetCategory, setAssetCategory] = useState(null);
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const AssetCategory = () => {
                 />
 
                 <AssetCategoryList
-                    assetCategorys={assetCategories}
+                    categories={categories}
                     pager={pager}
                     handleEditting={(dep) => setAssetCategory(dep)}
                 />
