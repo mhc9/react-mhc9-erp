@@ -2,8 +2,12 @@ import React from 'react'
 import { AiFillBulb } from 'react-icons/ai'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
+import { useSelector } from 'react-redux';
+import Loading from '../../components/Loading'
 
 const RoomList = ({ rooms, pager, handleEditting }) => {
+    const { loading } = useSelector(state => state.room);
+
     return (
         <div className="mt-2">
             <table className="table table-bordered">
@@ -16,6 +20,11 @@ const RoomList = ({ rooms, pager, handleEditting }) => {
                     </tr>
                 </thead>
                 <tbody>
+                    {loading && (
+                        <tr>
+                            <td colSpan={4} className="text-center"><Loading /></td>
+                        </tr>
+                    )}
                     {rooms && rooms.map((room, index) => (
                         <tr key={room.id}>
                             <td className="text-center">{index+pager.from}</td>
