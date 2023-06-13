@@ -23,7 +23,7 @@ export const store = createAsyncThunk("room/store", async (data, { dispatch, rej
     try {
         const res = await api.post(`/api/rooms`, data);
 
-        dispatch(addRoom(res.data.types))
+        dispatch(getRooms());
 
         return res.data;
     } catch (error) {
@@ -35,7 +35,7 @@ export const update = createAsyncThunk("room/update", async ({ id, data }, { dis
     try {
         const res = await api.put(`/api/rooms/${id}`, data);
 
-        dispatch(updateRoom(res.data.types))
+        dispatch(getRooms());
 
         return res.data;
     } catch (error) {
@@ -47,7 +47,7 @@ export const destroy = createAsyncThunk("room/destroy", async ({ id, data }, { d
     try {
         const res = await api.put(`/api/rooms/${id}`, data);
 
-        dispatch(deleteRoom(res.data.types))
+        dispatch(getRooms());
 
         return res.data;
     } catch (error) {
