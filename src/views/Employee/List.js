@@ -51,7 +51,7 @@ const EmployeeList = () => {
                                 <tr key={employee.id}>
                                     <td className="text-center">{index+pager.from}</td>
                                     <td>{employee.prefix.name}{employee.firstname} {employee.lastname}</td>
-                                    <td>{employee.position.name}{employee.level.name}</td>
+                                    <td>{employee.position.name}{employee.level?.name}</td>
                                     <td className="text-center">
                                         <Link to={`/employees/${employee.id}/edit`} className="btn btn-sm btn-warning mr-1">
                                             <FaPencilAlt />
