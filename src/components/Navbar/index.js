@@ -80,8 +80,12 @@ const Navbar = () => {
                             <li className="hover:bg-gray-300 p-2">
                                 <Link to="/department"><p className="w-full">กลุ่มงาน</p></Link>
                             </li>
-                            <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                            <li className="hover:bg-gray-300 p-2">
                                 <Link to="/division"><p className="w-full">งาน</p></Link>
+                            </li>
+                            <li><hr className="dropdown-divider m-0" /></li>
+                            <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                                <Link to="/room"><p className="w-full">ห้อง</p></Link>
                             </li>
                         </ul>
                     </li>
