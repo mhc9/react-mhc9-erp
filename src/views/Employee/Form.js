@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Formik, Form } from 'formik'
+import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { Form as BsForm, FormGroup, Col, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,12 +13,12 @@ const employeeSchema = Yup.object().shape({
     lastname: Yup.string().required(),
     cid: Yup.string().required(),
     sex: Yup.string().required(),
-    birthdate: Yup.string().required(),
+    // birthdate: Yup.string().required(),
     position_id: Yup.string().required(),
-    started_at: Yup.string().required(),
+    // started_at: Yup.string().required(),
 });
 
-const EmployeeForm = () => {
+const EmployeeForm = ({ employee }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.employee);
     const [prefixes, setPrefixes] = useState([]);
@@ -52,12 +52,18 @@ const EmployeeForm = () => {
     };
 
     const handleSubmit = (values, props) => {
-        console.log(values, props);
-        dispatch(store(values))
+        if (employee) {
+
+        } else {
+            dispatch(store(values));
+        }
+
+        props.resetForm();
     };
 
     return (
         <Formik
+            enableReinitialize
             initialValues={{
                 id: '',
                 employee_no: '',
@@ -220,15 +226,36 @@ const EmployeeForm = () => {
                                         value={formik.values.birthdate}
                                         onChange={formik.handleChange}
                                     />
+                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                    )}
                                 </FormGroup>
                             </Col>
                             <Col>
                                 <FormGroup>
-                                    <label>เพศ</label>
-                                    <div className="form-control">
-                                        <input type="radio" /> ชาย
-                                        <input type="radio" className="ml-4" /> หญิง
-                                    </div>
+                                    <label>เพศ</label>                                    
+                                    <Field component="div" name="sex" className="form-control">
+                                        <input
+                                            type="radio"
+                                            id="radioOne"
+                                            defaultChecked={formik.values.sex === "one"}
+                                            name="sex"
+                                            value="1"
+                                        />
+                                        <label htmlFor="male" className="ml-1 mr-4">ชาย</label>
+
+                                        <input
+                                            type="radio"
+                                            id="radioTwo"
+                                            defaultChecked={formik.values.sex === "two"}
+                                            name="sex"
+                                            value="2"
+                                        />
+                                        <label htmlFor="famale" className="ml-1">หญิง</label>
+                                    </Field>
+                                    {(formik.errors.sex && formik.touched.sex) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.sex}</span>
+                                    )}
                                 </FormGroup>
                             </Col>
                         </Row>
@@ -242,6 +269,9 @@ const EmployeeForm = () => {
                                         value={formik.values.started_at}
                                         onChange={formik.handleChange}
                                     />
+                                    {(formik.errors.started_at && formik.touched.started_at) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.started_at}</span>
+                                    )}
                                 </FormGroup>
                             </Col>
                             <Col>
