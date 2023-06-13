@@ -6,8 +6,7 @@ import Loading from '../../components/Loading'
 import { store, update } from '../../features/room/roomSlice'
 
 const roomSchema = Yup.object().shape({
-    name: Yup.string().required(),
-    department_id: Yup.string().required(),
+    name: Yup.string().required()
 });
 
 const RoomForm = ({ room, handleCancel }) => {
@@ -63,7 +62,7 @@ const RoomForm = ({ room, handleCancel }) => {
                                 <div className="flex gap-1">
                                     <button type="submit" className={`btn ${room ? 'btn-outline-warning' : 'btn-outline-primary'}`}>
                                         {loading && <Loading />}
-                                        {room ? 'แก้ไขประเภทพัสดุ' : 'เพิ่มประเภทพัสดุ'}
+                                        {room ? 'แก้ไขห้อง' : 'เพิ่มห้อง'}
                                     </button>
                                     {room && (
                                         <button type="button" className="btn btn-outline-danger" onClick={handleCancel}>
