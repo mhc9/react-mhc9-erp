@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Col, Pagination, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
-import { FaPencilAlt, FaTrash } from 'react-icons/fa'
+import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getAssets } from '../../features/asset/assetSlice';
 import Loading from '../../components/Loading';
 
@@ -88,7 +88,10 @@ const AssetList = () => {
                                     </td>
                                     <td className="text-sm">{asset.remark}</td>
                                     <td className="text-center">
-                                        <Link to={`/assets/${asset.id}/edit`} className="btn btn-sm btn-warning mr-1">
+                                        <Link to={`/asset/${asset.id}/detail`} className="btn btn-sm btn-info mr-1">
+                                            <FaSearch />
+                                        </Link>
+                                        <Link to={`/asset/${asset.id}/edit`} className="btn btn-sm btn-warning mr-1">
                                             <FaPencilAlt />
                                         </Link>
                                         <button className="btn btn-sm btn-danger">
