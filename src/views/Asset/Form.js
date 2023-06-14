@@ -23,6 +23,8 @@ const AssetForm = () => {
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [units, setUnits] = useState([]);
     const [brands, setBrands] = useState([]);
+    const [budgets, setBudgets] = useState([]);
+    const [obtainingTypes, setObtainingTypes] = useState([]);
 
     useEffect(() => {
         getFormInitialData();
@@ -38,6 +40,8 @@ const AssetForm = () => {
             setCategories(res.data.categories);
             setUnits(res.data.units);
             setBrands(res.data.brands);
+            setBudgets(res.data.budgets);
+            setObtainingTypes(res.data.obtainingTypes);
         } catch (error) {
             console.log(error);
         }
@@ -65,6 +69,7 @@ const AssetForm = () => {
                 price_per_unit: '',
                 unit_id: '',
                 brand_id: '',
+                model: '',
                 purchased_at: '',
                 date_in: '',
                 first_year: '',
@@ -228,7 +233,22 @@ const AssetForm = () => {
                                 </FormGroup>
                             </Col>
                         </Row>
-                        <Row className="mb-2"> 
+                        <Row className="mb-2">
+                            <Col>
+                                <FormGroup>
+                                    <label>รุ่น</label>
+                                    <input
+                                        type="text"
+                                        name="model"
+                                        value={formik.values.model}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.model && formik.touched.model) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.model}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
                             <Col>
                                 <FormGroup>
                                     <label>ประเภทการได้มา</label>
@@ -238,7 +258,12 @@ const AssetForm = () => {
                                         onChange={formik.handleChange}
                                         className="form-control"
                                     >
-                                        <option value=""></option>
+                                        <option value="">-- เลือกประเภทการได้มา --</option>
+                                        {obtainingTypes && obtainingTypes.map(ob => (
+                                            <option key={ob.id} value={ob.id}>
+                                                {ob.name}
+                                            </option>
+                                        ))}
                                     </select>
                                     {(formik.errors.obtain_type_id && formik.touched.obtain_type_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.obtain_type_id}</span>
@@ -254,7 +279,12 @@ const AssetForm = () => {
                                         onChange={formik.handleChange}
                                         className="form-control"
                                     >
-                                        <option value=""></option>
+                                        <option value="">-- เลือกแหล่งงบประมาณ --</option>
+                                        {budgets && budgets.map(budget => (
+                                            <option key={budget.id} value={budget.id}>
+                                                {budget.name}
+                                            </option>
+                                        ))}
                                     </select>
                                     {(formik.errors.budget_id && formik.touched.budget_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.budget_id}</span>
