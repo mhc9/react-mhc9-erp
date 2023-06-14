@@ -20,6 +20,7 @@ import AddEmployee from './views/Employee/Add';
 import Department from './views/Department';
 import Division from './views/Division';
 import Room from './views/Room';
+import AssetDetail from './views/Asset/Detail';
 
 function App() {
     return (
@@ -35,6 +36,8 @@ function App() {
                 <Route path="equipment-group" element={<GuardRoute><EquipmentGroupList /></GuardRoute>} />
                 <Route path="asset" element={<GuardRoute><AssetList /></GuardRoute>} />
                 <Route path="asset/add" element={<GuardRoute><AddAsset /></GuardRoute>} />
+                <Route path="asset/:id/edit" element={<GuardRoute><AddAsset /></GuardRoute>} />
+                <Route path="asset/:id/detail" element={<GuardRoute><AssetDetail /></GuardRoute>} />
                 <Route path="asset-type" element={<GuardRoute><AssetType /></GuardRoute>} />
                 <Route path="asset-category" element={<GuardRoute><AssetCategory /></GuardRoute>} />
                 <Route path="employee" element={<GuardRoute><EmployeeList /></GuardRoute>} />
