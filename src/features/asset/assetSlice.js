@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from '../../api';
 
 const initialState = {
+    asset: null,
     assets: [],
     pager: null,
     loading: false,
@@ -10,6 +11,16 @@ const initialState = {
 };
 
 export const getAssets = createAsyncThunk("asset/getAssets", async ({ url }, { rejectWithValue }) => {
+    try {
+        const res = await api.get(url);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const getAsset = createAsyncThunk("asset/getAsset", async ({ url }, { rejectWithValue }) => {
     try {
         const res = await api.get(url);
 
@@ -54,6 +65,21 @@ export const assetSlice = createSlice({
             // state.success = true;
         },
         [getAssets.rejected]: (state, { payload }) => {
+            state.loading = false;
+            state.error = payload;
+        },
+        [getAsset.pending]: (state) => {
+            state.asset = null;
+            state.loading = true;
+            // state.success = false;
+            state.error = null;
+        },
+        [getAsset.fulfilled]: (state, { payload }) => {
+            state.asset = payload;
+            state.loading = false
+            // state.success = true;
+        },
+        [getAsset.rejected]: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
         },
