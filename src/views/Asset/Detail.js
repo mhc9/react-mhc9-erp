@@ -12,9 +12,7 @@ const AssetDetail = () => {
     const { asset, loading } = useSelector(state => state.asset);
 
     useEffect(() => {
-        if (id) {
-            dispatch(getAsset({ id }));
-        }
+        if (id) dispatch(getAsset({ id }));
     }, [id])
 
     return (
@@ -45,7 +43,7 @@ const AssetDetail = () => {
 
                             <div>
                                 <h3>ผู้รับผิดชอบ</h3>
-                                <OwnershipList />
+                                <OwnershipList assetId={id} />
                             </div>
                         </>
                     )}

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 
-const OwnershipList = () => {
+const OwnershipList = ({ assetId }) => {
     return (
         <div>
             <table className="table table-bordered">
