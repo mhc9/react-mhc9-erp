@@ -31,12 +31,12 @@ const AssetList = () => {
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item href="/">ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item active>พัสดุ</Breadcrumb.Item>
+                <Breadcrumb.Item active>รายการพัสดุ</Breadcrumb.Item>
             </Breadcrumb>
         
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-xl">พัสดุ</h2>
+                    <h2 className="text-xl">รายการพัสดุ</h2>
                     <Link to="add" className="btn btn-primary">เพิ่มพัสดุใหม่</Link>
                 </div>
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { Breadcrumb } from 'react-bootstrap'
+import { Breadcrumb, Col, Row } from 'react-bootstrap'
+import OwnershipList from './Ownership/List';
 
 const AssetDetail = () => {
     const { id } = useParams();
@@ -18,8 +19,17 @@ const AssetDetail = () => {
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายละเอียดพัสดุ : {id}</h2>
-
                 </div>
+                <div className="border mt-2 mb-4">
+                    Asset Detail
+                    <Row>
+                        <Col>
+                            
+                        </Col>
+                    </Row>
+                </div>
+
+                <OwnershipList />
             </div>
         </div>
     )
