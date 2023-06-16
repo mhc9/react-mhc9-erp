@@ -15,7 +15,7 @@ const assetSchema = Yup.object().shape({
     // budget_id: Yup.string().required(),
 });
 
-const AssetForm = () => {
+const AssetForm = ({ id, asset }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.asset);
     const [types, setTypes] = useState([]);
@@ -59,24 +59,24 @@ const AssetForm = () => {
 
     return (
         <Formik
+            enableReinitialize
             initialValues={{
-                id: '',
-                asset_no: '',
-                name: '',
-                description: '',
-                asset_type_id: '',
-                asset_category_id: '',
-                price_per_unit: '',
-                unit_id: '',
-                brand_id: '',
-                model: '',
-                purchased_at: '',
-                date_in: '',
-                first_year: '',
-                obtain_type_id: '',
-                budget_id: '',
-                owner_id: '',
-                remark: ''
+                id: asset ? id : '',
+                asset_no: asset ? asset.asset_no : '',
+                name: asset ? asset.name : '',
+                description: asset ? asset.description : '',
+                asset_type_id: asset ? asset.asset_type_id : '',
+                asset_category_id: asset ? asset.asset_category_id : '',
+                price_per_unit: asset ? asset.price_per_unit : '',
+                unit_id: asset ? asset.unit_id : '',
+                brand_id: asset ? asset.brand_id : '',
+                model: asset ? asset.model : '',
+                purchased_at: asset ? asset.purchased_at : '',
+                date_in: asset ? asset.date_in : '',
+                first_year: asset ? asset.first_year : '',
+                obtain_type_id: asset ? asset.obtain_type_id : '',
+                budget_id: asset ? asset.budget_id : '',
+                remark: asset ? asset.remark : ''
             }}
             validationSchema={assetSchema}
             onSubmit={handleSubmit}

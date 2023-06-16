@@ -13,6 +13,8 @@ import EquipmentTypeList from './views/EquipmentType/List';
 import EquipmentGroupList from './views/EquipmentGroup/List';
 import AddAsset from './views/Asset/Add';
 import AssetList from './views/Asset/List';
+import AssetDetail from './views/Asset/Detail';
+import EditAsset from './views/Asset/Edit';
 import AssetType from './views/AssetType';
 import AssetCategory from './views/AssetCategory';
 import EmployeeList from './views/Employee/List';
@@ -20,7 +22,6 @@ import AddEmployee from './views/Employee/Add';
 import Department from './views/Department';
 import Division from './views/Division';
 import Room from './views/Room';
-import AssetDetail from './views/Asset/Detail';
 
 function App() {
     return (
@@ -36,7 +37,7 @@ function App() {
                 <Route path="equipment-group" element={<GuardRoute><EquipmentGroupList /></GuardRoute>} />
                 <Route path="asset" element={<GuardRoute><AssetList /></GuardRoute>} />
                 <Route path="asset/add" element={<GuardRoute><AddAsset /></GuardRoute>} />
-                <Route path="asset/:id/edit" element={<GuardRoute><AddAsset /></GuardRoute>} />
+                <Route path="asset/:id/edit" element={<GuardRoute><EditAsset /></GuardRoute>} />
                 <Route path="asset/:id/detail" element={<GuardRoute><AssetDetail /></GuardRoute>} />
                 <Route path="asset-type" element={<GuardRoute><AssetType /></GuardRoute>} />
                 <Route path="asset-category" element={<GuardRoute><AssetCategory /></GuardRoute>} />
