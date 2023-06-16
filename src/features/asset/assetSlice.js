@@ -40,6 +40,30 @@ export const store = createAsyncThunk("asset/store", async (data, { rejectWithVa
     }
 });
 
+export const update = createAsyncThunk("asset/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
+    try {
+        const res = await api.put(`/api/assets/${id}`, data);
+
+        dispatch(getAssets({ url: '/api/assets' }));
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const destroy = createAsyncThunk("asset/destroy", async ({ id }, { dispatch, rejectWithValue }) => {
+    try {
+        const res = await api.delete(`/api/assets/${id}`);
+
+        dispatch(getAssets({ url: '/api/assets' }));
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const assetSlice = createSlice({
     name: 'asset',
     initialState,
@@ -94,6 +118,36 @@ export const assetSlice = createSlice({
             state.success = true;
         },
         [store.rejected]: (state, { payload }) => {
+            console.log(payload);
+            state.loading = false;
+            state.error = payload;
+        },
+        [update.pending]: (state) => {
+            state.loading = true;
+            state.success = false;
+            state.error = null;
+        },
+        [update.fulfilled]: (state, { payload }) => {
+            console.log(payload);
+            state.loading = false
+            state.success = true;
+        },
+        [update.rejected]: (state, { payload }) => {
+            console.log(payload);
+            state.loading = false;
+            state.error = payload;
+        },
+        [destroy.pending]: (state) => {
+            state.loading = true;
+            state.success = false;
+            state.error = null;
+        },
+        [destroy.fulfilled]: (state, { payload }) => {
+            console.log(payload);
+            state.loading = false
+            state.success = true;
+        },
+        [destroy.rejected]: (state, { payload }) => {
             console.log(payload);
             state.loading = false;
             state.error = payload;
