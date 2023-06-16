@@ -103,7 +103,7 @@ const AssetDetail = () => {
                                     <Col md={12}>
                                         <FormGroup>
                                             <label>รายละเอียด</label>
-                                            <div className="form-control">
+                                            <div className="form-control h-20">
                                                 {asset.description}
                                             </div>
                                         </FormGroup>
