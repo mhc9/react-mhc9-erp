@@ -43,7 +43,7 @@ const AssetDetail = () => {
 
                             <div>
                                 <h3>ผู้รับผิดชอบ</h3>
-                                <OwnershipList assetId={id} />
+                                <OwnershipList assetId={id ? id : ''} />
                             </div>
                         </>
                     )}

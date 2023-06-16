@@ -4,6 +4,7 @@ import equipmentReducer from "./equipment/equipmentSlice";
 import asssetReducer from "./asset/assetSlice";
 import assetTypeReducer from "./asset-type/assetTypeSlice";
 import assetCategoryReducer from "./asset-category/assetCategorySlice";
+import assetOwnershipReducer from "./asset-ownership/assetOwnershipSlice";
 import employeeReducer from "./employee/employeeSlice";
 import departmentReducer from "./department/departmentSlice";
 import divisionReducer from "./division/divisionSlice";
@@ -18,6 +19,7 @@ export default configureStore({
         asset: asssetReducer,
         assetType: assetTypeReducer,
         assetCategory: assetCategoryReducer,
+        ownership: assetOwnershipReducer,
         employee: employeeReducer,
         department: departmentReducer,
         division: divisionReducer,
