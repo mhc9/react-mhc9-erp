@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import { FormGroup, Col, Row, Form as BsForm } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import api from '../../api';
-import { store } from '../../features/asset/assetSlice';
+import { store, update } from '../../features/asset/assetSlice';
 import Loading from '../../components/Loading'
 
 const assetSchema = Yup.object().shape({
@@ -42,6 +42,9 @@ const AssetForm = ({ id, asset }) => {
             setBrands(res.data.brands);
             setBudgets(res.data.budgets);
             setObtainingTypes(res.data.obtainingTypes);
+
+            /** In editting mode */
+            if (asset) handleTypeSelected(asset.asset_type_id);
         } catch (error) {
             console.log(error);
         }
@@ -54,7 +57,13 @@ const AssetForm = ({ id, asset }) => {
     };
 
     const handleSubmit = (values, props) => {
-        dispatch(store(values))
+        if (asset) {
+            dispatch(update({ id, data: values }))
+        } else {
+            dispatch(store(values))
+        }
+
+        props.resetForm();
     };
 
     return (
@@ -359,11 +368,11 @@ const AssetForm = ({ id, asset }) => {
                             <Col>
                                 <button
                                     type="submit"
-                                    className="btn btn-outline-primary mt-2 float-right"
+                                    className={`btn ${asset ? 'btn-outline-warning' : 'btn-outline-primary'} mt-2 float-right`}
                                     disabled={formik.isSubmitting}
                                 >
                                     {loading && <Loading />}
-                                    บันทึก
+                                    {asset ? 'บันทึกการแกไข' : 'บันทึก'}
                                 </button>
                             </Col>
                         </Row>

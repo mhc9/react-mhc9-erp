@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
+import { FaEdit } from 'react-icons/fa';
 import AssetForm from './Form'
 import { getAsset } from '../../features/asset/assetSlice'
 
@@ -27,7 +28,10 @@ const EditAsset = () => {
             </Breadcrumb>
         
             <div className="content">
-                <h2 className="text-xl">แก้ไขพัสดุ : {id}</h2>
+                <h2 className="text-xl font-bold flex flex-row items-center">
+                    <FaEdit className='text-warning' />
+                    <span>แก้ไขพัสดุ : {id}</span>
+                </h2>
 
                 <div className="my-2 border p-4 rounded-md">
                     <AssetForm id={id} asset={asset} />
