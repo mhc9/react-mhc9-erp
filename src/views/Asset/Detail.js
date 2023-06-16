@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { Breadcrumb, Col, FormGroup, Row } from 'react-bootstrap'
 import OwnershipList from './Ownership/List';
 import Loading from '../../components/Loading';
 import { getAsset } from '../../features/asset/assetSlice';
+import OwnershipForm from './Ownership/Form';
 
 const AssetDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { asset, loading } = useSelector(state => state.asset);
+    const [openOwnershipForm, setOpenOwnershipForm] = useState(false);
 
     useEffect(() => {
         if (id) dispatch(getAsset({ id }));
@@ -114,7 +116,7 @@ const AssetDetail = () => {
                                         <div className="">
                                             <h3 className="mb-2 font-bold">รูปพัสดุ</h3>
                                             <div className="flex flex-row gap-4">
-                                                {[1,2,3,4].map((image, index) => (<div className="border rounded-md w-4/12 h-32">image 1</div>))}
+                                                {[1,2,3,4].map((image, index) => (<div key={index} className="border rounded-md w-4/12 h-32">image 1</div>))}
                                             </div>
                                         </div>
                                     </Col>
@@ -122,8 +124,19 @@ const AssetDetail = () => {
                             </div>
 
                             <div>
-                                <h3 className="mb-2 font-bold">ผู้รับผิดชอบ</h3>
+                                <div className="flex flex-row items-center justify-between mb-2">
+                                    <h3 className="mb-2 font-bold">ผู้รับผิดชอบ</h3>
+
+                                    <button type="button" className="btn btn-outline-primary" onClick={() => setOpenOwnershipForm(true)}>
+                                        เพิ่มผู้รับผิดชอบ
+                                    </button> 
+                                </div>
                                 <OwnershipList assetId={id ? id : ''} />
+
+                                <OwnershipForm
+                                    isOpen={openOwnershipForm}
+                                    handleHide={() => setOpenOwnershipForm(false)}
+                                />
                             </div>
                         </>
                     )}
