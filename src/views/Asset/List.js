@@ -13,7 +13,7 @@ const AssetList = () => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getAssets({ url: `/api/assets` }));
+            dispatch(getAssets({ url: `/api/assets/search` }));
         } else {
             dispatch(getAssets({ url: apiEndpoint }));
         }
