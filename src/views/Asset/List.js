@@ -85,8 +85,13 @@ const AssetList = () => {
                                     <td>
                                         <p className="text-gray-500 text-sm">{asset.category.name}</p>
                                         {asset.description}
+                                        <p className="text-sm font-thin text-red-400">
+                                            <span className="font-bold">หมายเหตุ :</span> {asset.remark}
+                                        </p>
                                     </td>
-                                    <td className="text-sm">{asset.remark}</td>
+                                    <td className="text-sm">
+                                        {asset.current_owner.length > 0 && `${asset.current_owner[0].owner.prefix.name}${asset.current_owner[0].owner.firstname}${asset.current_owner[0].owner.lastname}`}
+                                    </td>
                                     <td className="text-center">
                                         <Link to={`/asset/${asset.id}/detail`} className="btn btn-sm btn-info mr-1">
                                             <FaSearch />
