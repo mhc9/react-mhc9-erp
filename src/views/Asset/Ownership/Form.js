@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { Col, FormGroup, Modal, Row, Form as BsForm } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
+import { Col, FormGroup, Modal, Row, Form as BsForm } from 'react-bootstrap'
 import Autocomplete from '../../../components/FormControls/Autocomplete';
 import api from '../../../api'
+import { store, update } from '../../../features/asset-ownership/assetOwnershipSlice';
 
 const ownershipSchema = Yup.object().shape({
     owned_at: Yup.string().required(),
     owner_id: Yup.string().required(),
 });
 
-const OwnershipForm = ({ isOpen, handleHide, assetId }) => {
+const OwnershipForm = ({ isOpen, handleHide, assetId, ownership }) => {
+    const dispatch = useDispatch();
     const [employees, setEmployees] = useState([]);
 
     useEffect(() => {
@@ -27,6 +30,16 @@ const OwnershipForm = ({ isOpen, handleHide, assetId }) => {
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const handleSubmit = (values, props) => {
+        if (ownership) {
+            dispatch(update({ id: ownership.id, data: values }));
+        } else {
+            dispatch(store(values));
+        }
+
+        handleHide();
     };
 
     return (
@@ -46,7 +59,7 @@ const OwnershipForm = ({ isOpen, handleHide, assetId }) => {
                         remark: '',
                     }}
                     validationSchema={ownershipSchema}
-                    onSubmit={(values, props) => console.log(values, props)}
+                    onSubmit={handleSubmit}
                 >
                     {(formik) => {
                         return (
