@@ -9,9 +9,9 @@ const initialState = {
     error: null
 };
 
-export const getEmployees = createAsyncThunk("employee/getEmployees", async (data, { rejectWithValue }) => {
+export const getEmployees = createAsyncThunk("employee/getEmployees", async ({ url }, { rejectWithValue }) => {
     try {
-        const res = await api.get(`/api/employees/search`);
+        const res = await api.get(url);
 
         return res.data;
     } catch (error) {
