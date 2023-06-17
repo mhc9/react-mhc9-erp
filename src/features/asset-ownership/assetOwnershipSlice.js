@@ -62,7 +62,11 @@ export const destroy = createAsyncThunk("ownership/store", async ({ id }, { disp
 export const assetOwnershipSlice = createSlice({
     name: 'ownership',
     initialState,
-    reducers: {},
+    reducers: {
+        resetSuccess: (state) => {
+            state.success = false;
+        }
+    },
     extraReducers: {
         [getOwnerships.pending]: (state) => {
             state.ownerships = [];
@@ -130,3 +134,5 @@ export const assetOwnershipSlice = createSlice({
 });
 
 export default assetOwnershipSlice.reducer;
+
+export const { resetSuccess } = assetOwnershipSlice.actions;
