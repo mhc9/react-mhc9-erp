@@ -84,7 +84,7 @@ const EmployeeList = () => {
 
                 {pager && (
                     <Pagination>
-                        <Pagination.First onClick={() => handlePageClick(pager.first_page_url)} />
+                        <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
                         <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
                         {/* <Pagination.Item>{1}</Pagination.Item>
                         <Pagination.Ellipsis />
@@ -98,7 +98,7 @@ const EmployeeList = () => {
                         <Pagination.Ellipsis />
                         <Pagination.Item>{20}</Pagination.Item> */}
                         <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
-                        <Pagination.Last onClick={() => handlePageClick(pager.last_page_url)} />
+                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
                     </Pagination>
                 )}
             </div>

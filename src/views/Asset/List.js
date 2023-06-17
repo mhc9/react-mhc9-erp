@@ -82,11 +82,14 @@ const AssetList = () => {
                                 <tr key={asset.id}>
                                     <td className="text-center">{index+pager.from}</td>
                                     <td className="text-center text-sm">{asset.asset_no}</td>
-                                    <td>
+                                    <td className="font-thin">
                                         <p className="text-gray-500 text-sm">{asset.category.name}</p>
-                                        {asset.description}
+                                        <span>{asset.name}</span>
+                                        <span className="font-bold ml-1">ยี่ห้อ: </span>{asset.brand.name} 
+                                        <span className="font-bold ml-1">รุ่น: </span>{asset.model ? asset.model : '-'}
+                                        <p className="text-sm font-thin text-gray-500 ml-1">{asset.description}</p>
                                         <p className="text-sm font-thin text-red-400">
-                                            <span className="font-bold">หมายเหตุ :</span> {asset.remark}
+                                            <span className="font-bold">หมายเหตุ: </span>{asset.remark ? asset.remark : '-'}
                                         </p>
                                     </td>
                                     <td className="text-sm">
@@ -118,7 +121,7 @@ const AssetList = () => {
 
                 {pager && (
                     <Pagination>
-                        <Pagination.First onClick={() => handlePageClick(pager.first_page_url)} />
+                        <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
                         <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
                         {/* <Pagination.Item>{1}</Pagination.Item>
                         <Pagination.Ellipsis />
@@ -132,7 +135,7 @@ const AssetList = () => {
                         <Pagination.Ellipsis />
                         <Pagination.Item>{20}</Pagination.Item> */}
                         <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
-                        <Pagination.Last onClick={() => handlePageClick(pager.last_page_url)} />
+                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
                     </Pagination>
                 )}
             </div>
