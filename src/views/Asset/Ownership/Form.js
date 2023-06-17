@@ -52,6 +52,29 @@ const OwnershipForm = ({ isOpen, handleHide, assetId }) => {
                         return (
                             <Form>
                                 <Row className="mb-2">
+                                    <Col md={12}>
+                                        <FormGroup>
+                                            <label>ผู้รับผิดชอบ</label>
+                                            <Autocomplete
+                                                inputName="owner_id"
+                                                items={employees}
+                                                onSelect={(item) => {
+                                                    formik.setFieldTouched('owner_id', true);
+
+                                                    if (item) {
+                                                        formik.setFieldValue('owner_id', item.id);
+                                                    } else {
+                                                        formik.setFieldValue('owner_id', '');
+                                                    }
+                                                }} 
+                                            />
+                                            {(formik.errors.owner_id && formik.touched.owner_id) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.owner_id}</span>
+                                            )}
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row className="mb-2">
                                     <Col md={6}>
                                         <FormGroup>
                                             <label>วันที่รับ</label>
@@ -68,20 +91,35 @@ const OwnershipForm = ({ isOpen, handleHide, assetId }) => {
                                     </Col>
                                     <Col md={6}>
                                         <FormGroup>
-                                            <label>ผู้รับผิดชอบ</label>
-                                            <Autocomplete
-                                                inputName="owner_id"
-                                                items={employees}
-                                                onSelect={(item) => {
-                                                    formik.setFieldTouched('owner_id', true);
-
-                                                    if (item) {
-                                                        formik.setFieldValue('owner_id', item.id);
-                                                    } else {
-                                                        formik.setFieldValue('owner_id', '');
-                                                    }
-                                                }} 
-                                            />
+                                            <label>สภาพพัสดุ</label>
+                                            <select
+                                                name="condition"
+                                                value={formik.values.condition}
+                                                onChange={formik.handleChange}
+                                                className="form-control"
+                                            >
+                                                <option value="">-- เลือกสภาพพัสดุ --</option>
+                                                <option value="1">สมบูรณ์</option>
+                                                <option value="2">เสียหายบางส่วน</option>
+                                                <option value="3">เสียหายใช้งานไม่ได้</option>
+                                            </select>
+                                            {(formik.errors.owner_id && formik.touched.owner_id) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.owner_id}</span>
+                                            )}
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row className="mb-4">
+                                    <Col md={12}>
+                                        <FormGroup>
+                                            <label>หมายเหตุ</label>
+                                            <textarea
+                                                rows={3}
+                                                name="remark"
+                                                value={formik.values.remark}
+                                                onChange={formik.handleChange}
+                                                className="form-control"
+                                            ></textarea>
                                             {(formik.errors.owner_id && formik.touched.owner_id) && (
                                                 <span className="text-red-500 text-sm">{formik.errors.owner_id}</span>
                                             )}
