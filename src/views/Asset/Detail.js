@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { Breadcrumb, Col, FormGroup, Row } from 'react-bootstrap'
+import { FaInfoCircle } from 'react-icons/fa';
 import OwnershipList from './Ownership/List';
 import Loading from '../../components/Loading';
 import { getAsset } from '../../features/asset/assetSlice';
@@ -29,8 +30,11 @@ const AssetDetail = () => {
             </Breadcrumb>
         
             <div className="content">
-                <div className="content-heading flex items-center justify-between mb-2">
-                    <h2 className="text-xl">รายละเอียดพัสดุ : {id}</h2>
+                <div className="content-heading mb-2">
+                    <h2 className="flex flex-row items-center gap-1 text-xl">
+                        <FaInfoCircle className="text-info" />
+                        <span>รายละเอียดพัสดุ : {id}</span>
+                    </h2>
                 </div>
                 
                 <div className="content-body mt-2 mb-4">
@@ -103,11 +107,19 @@ const AssetDetail = () => {
                                     </Col>
                                 </Row>
                                 <Row className="mb-4">
-                                    <Col md={12}>
+                                    <Col md={6}>
                                         <FormGroup>
                                             <label>รายละเอียด</label>
                                             <div className="form-control h-20">
                                                 {asset.description}
+                                            </div>
+                                        </FormGroup>
+                                    </Col>
+                                    <Col md={6}>
+                                        <FormGroup>
+                                            <label>หมายเหตุ</label>
+                                            <div className="form-control h-20">
+                                                {asset.remark}
                                             </div>
                                         </FormGroup>
                                     </Col>
