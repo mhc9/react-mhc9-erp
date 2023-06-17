@@ -93,7 +93,7 @@ const AssetList = () => {
                                         </p>
                                     </td>
                                     <td className="text-sm">
-                                        {asset.current_owner.length > 0 && `${asset.current_owner[0].owner.prefix.name}${asset.current_owner[0].owner.firstname}${asset.current_owner[0].owner.lastname}`}
+                                        {asset.current_owner.length > 0 && `${asset.current_owner[0].owner.prefix.name}${asset.current_owner[0].owner.firstname} ${asset.current_owner[0].owner.lastname}`}
                                     </td>
                                     <td className="text-center">
                                         <Link to={`/asset/${asset.id}/detail`} className="btn btn-sm btn-info mr-1">
