@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, FormGroup, Modal, Row, Form as BsForm } from 'react-bootstrap'
@@ -14,7 +14,6 @@ const ownershipSchema = Yup.object().shape({
 
 const OwnershipForm = ({ isOpen, handleHide, assetId, ownership }) => {
     const dispatch = useDispatch();
-    const { success } = useSelector(state => state.ownership);
     const [employees, setEmployees] = useState([]);
 
     useEffect(() => {
@@ -40,7 +39,7 @@ const OwnershipForm = ({ isOpen, handleHide, assetId, ownership }) => {
             dispatch(store(values));
         }
 
-        if (success) handleHide();
+        handleHide();
     };
 
     return (
@@ -142,7 +141,11 @@ const OwnershipForm = ({ isOpen, handleHide, assetId, ownership }) => {
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <button type="submit" className="btn btn-outline-primary float-right">
+                                        <button
+                                            type="submit"
+                                            className="btn btn-outline-primary float-right"
+                                            disabled={formik.isSubmitting}
+                                        >
                                             บันทึก
                                         </button>
                                     </Col>

@@ -11,6 +11,7 @@ const AssetDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { asset, loading } = useSelector(state => state.asset);
+    const { success } = useSelector(state => state.ownership);
     const [openOwnershipForm, setOpenOwnershipForm] = useState(false);
 
     useEffect(() => {
@@ -127,11 +128,19 @@ const AssetDetail = () => {
                                 <div className="flex flex-row items-center justify-between mb-2">
                                     <h3 className="mb-2 font-bold">ผู้รับผิดชอบ</h3>
 
-                                    <button type="button" className="btn btn-outline-primary" onClick={() => setOpenOwnershipForm(true)}>
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-primary"
+                                        onClick={() => setOpenOwnershipForm(true)}
+                                        disabled={success}
+                                    >
                                         เพิ่มผู้รับผิดชอบ
                                     </button> 
                                 </div>
-                                <OwnershipList assetId={id ? id : ''} />
+                                <OwnershipList
+                                    assetId={id ? id : ''}
+                                    isUpdated={success}
+                                />
 
                                 <OwnershipForm
                                     isOpen={openOwnershipForm}

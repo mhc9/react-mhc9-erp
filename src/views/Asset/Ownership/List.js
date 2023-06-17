@@ -2,17 +2,21 @@ import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { getOwnershipsByAsset } from '../../../features/asset-ownership/assetOwnershipSlice'
 import moment from 'moment'
+import { getOwnershipsByAsset, resetSuccess } from '../../../features/asset-ownership/assetOwnershipSlice'
+import Loading from '../../../components/Loading'
 
-const OwnershipList = ({ assetId }) => {
+const OwnershipList = ({ assetId, isUpdated }) => {
     const dispatch = useDispatch();
     const { ownerships, pager, loading } = useSelector(state => state.ownership);
 
     useEffect(() => {
         if (assetId) dispatch(getOwnershipsByAsset({ assetId }));
-    },[assetId]);
+    },[assetId, isUpdated]);
 
+    useEffect(() => {
+        if (isUpdated) dispatch(resetSuccess());
+    }, [isUpdated])
 
     return (
         <div>
@@ -27,6 +31,11 @@ const OwnershipList = ({ assetId }) => {
                     </tr>
                 </thead>
                 <tbody>
+                    {loading && (
+                        <tr>
+                            <td colSpan={5} className="text-center"><Loading /></td>
+                        </tr>
+                    )}
                     {ownerships && ownerships.map((owns, index) => (
                         <tr key={owns.id}>
                             <td className="text-center">{index+pager.from}</td>
