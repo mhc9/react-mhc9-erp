@@ -21,7 +21,7 @@ const OwnershipForm = ({ isOpen, handleHide, assetId }) => {
 
     const getEmployees = async () => {
         try {
-            const res = await api.get('/api/employees/search');
+            const res = await api.get('/api/employees');
 
             setEmployees(res.data.map(emp => ({ id: emp.id, name: `${emp.prefix.name}${emp.firstname} ${emp.lastname}`})));
         } catch (error) {

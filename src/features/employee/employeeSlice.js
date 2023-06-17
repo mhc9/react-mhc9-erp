@@ -11,7 +11,7 @@ const initialState = {
 
 export const getEmployees = createAsyncThunk("employee/getEmployees", async (data, { rejectWithValue }) => {
     try {
-        const res = await api.get(`/api/employees`);
+        const res = await api.get(`/api/employees/search`);
 
         return res.data;
     } catch (error) {
