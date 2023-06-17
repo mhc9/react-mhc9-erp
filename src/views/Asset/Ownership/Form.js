@@ -10,6 +10,8 @@ import { store, update } from '../../../features/asset-ownership/assetOwnershipS
 const ownershipSchema = Yup.object().shape({
     owned_at: Yup.string().required(),
     owner_id: Yup.string().required(),
+    condition: Yup.string().required(),
+    status: Yup.string().required(),
 });
 
 const OwnershipForm = ({ isOpen, handleHide, assetId, ownership }) => {
@@ -56,6 +58,7 @@ const OwnershipForm = ({ isOpen, handleHide, assetId, ownership }) => {
                         owned_at: '',
                         owner_id: '',
                         condition: '',
+                        status: '',
                         remark: '',
                     }}
                     validationSchema={ownershipSchema}
@@ -65,7 +68,7 @@ const OwnershipForm = ({ isOpen, handleHide, assetId, ownership }) => {
                         return (
                             <Form>
                                 <Row className="mb-2">
-                                    <Col md={12}>
+                                    <Col md={6}>
                                         <FormGroup>
                                             <label>ผู้รับผิดชอบ</label>
                                             <Autocomplete
@@ -86,8 +89,6 @@ const OwnershipForm = ({ isOpen, handleHide, assetId, ownership }) => {
                                             )}
                                         </FormGroup>
                                     </Col>
-                                </Row>
-                                <Row className="mb-2">
                                     <Col md={6}>
                                         <FormGroup>
                                             <label>วันที่รับ</label>
@@ -102,6 +103,8 @@ const OwnershipForm = ({ isOpen, handleHide, assetId, ownership }) => {
                                             )}
                                         </FormGroup>
                                     </Col>
+                                </Row>
+                                <Row className="mb-2">
                                     <Col md={6}>
                                         <FormGroup>
                                             <label>สภาพพัสดุ</label>
@@ -116,8 +119,28 @@ const OwnershipForm = ({ isOpen, handleHide, assetId, ownership }) => {
                                                 <option value="2">เสียหายบางส่วน</option>
                                                 <option value="3">เสียหายใช้งานไม่ได้</option>
                                             </select>
-                                            {(formik.errors.owner_id && formik.touched.owner_id) && (
-                                                <span className="text-red-500 text-sm">{formik.errors.owner_id}</span>
+                                            {(formik.errors.condition && formik.touched.condition) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.condition}</span>
+                                            )}
+                                        </FormGroup>
+                                    </Col>
+                                    <Col md={6}>
+                                        <FormGroup>
+                                            <label>สถานะ</label>
+                                            <select
+                                                name="status"
+                                                value={formik.values.status}
+                                                onChange={formik.handleChange}
+                                                className="form-control"
+                                            >
+                                                <option value="">-- เลือกสถานะ --</option>
+                                                <option value="1">ครอบครองอยู่</option>
+                                                <option value="2">คืนความเป็นเจ้าของแล้ว</option>
+                                                <option value="3">สูญหายระหว่างการดูแล</option>
+                                                <option value="4">เสียหายระหว่างการดูแล</option>
+                                            </select>
+                                            {(formik.errors.status && formik.touched.status) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.status}</span>
                                             )}
                                         </FormGroup>
                                     </Col>
