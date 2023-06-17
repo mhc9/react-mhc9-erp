@@ -1,23 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, FormGroup, Modal, Row, Form as BsForm } from 'react-bootstrap'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import Autocomplete from '../../../components/FormControls/Autocomplete';
+import api from '../../../api'
 
 const ownershipSchema = Yup.object().shape({
     owned_at: Yup.string().required(),
-    owned_id: Yup.string().required(),
+    owner_id: Yup.string().required(),
 });
 
-const items = [
-    { id: 1, name: 'test1' },
-    { id: 2, name: 'test2' },
-    { id: 3, name: 'test3' },
-    { id: 4, name: 'test4' },
-    { id: 5, name: 'test5' },
-];
+const OwnershipForm = ({ isOpen, handleHide, assetId }) => {
+    const [employees, setEmployees] = useState([]);
 
-const OwnershipForm = ({ isOpen, handleHide }) => {
+    useEffect(() => {
+        getEmployees();
+
+        return () => getEmployees();
+    }, []);
+
+    const getEmployees = async () => {
+        try {
+            const res = await api.get('/api/employees/search');
+
+            setEmployees(res.data.map(emp => ({ id: emp.id, name: `${emp.prefix.name}${emp.firstname} ${emp.lastname}`})));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <Modal show={isOpen} onHide={handleHide} size='lg'>
             <Modal.Header closeButton>
@@ -28,14 +39,14 @@ const OwnershipForm = ({ isOpen, handleHide }) => {
             <Modal.Body>
                 <Formik
                     initialValues={{
-                        asset_id: '',
+                        asset_id: assetId,
                         owned_at: '',
                         owner_id: '',
                         condition: '',
                         remark: '',
                     }}
                     validationSchema={ownershipSchema}
-                    onSubmit={() => console.log()}
+                    onSubmit={(values, props) => console.log(values, props)}
                 >
                     {(formik) => {
                         return (
@@ -47,6 +58,7 @@ const OwnershipForm = ({ isOpen, handleHide }) => {
                                             <BsForm.Control
                                                 type="date"
                                                 name="owned_at"
+                                                onChange={formik.handleChange}
                                                 className="form-control"
                                             />
                                             {(formik.errors.owned_at && formik.touched.owned_at) && (
@@ -57,27 +69,17 @@ const OwnershipForm = ({ isOpen, handleHide }) => {
                                     <Col md={6}>
                                         <FormGroup>
                                             <label>ผู้รับผิดชอบ</label>
-                                            {/* <div className="input-group has-validation">
-                                                <div type="text" name="owner" className="form-control">
-                                                    
-                                                </div>
-                                                <input
-                                                    type="hidden"
-                                                    name="owner_id"
-                                                    value={formik.values.owner_id}
-                                                    onChange={formik.handleChange}
-                                                    className="form-control"
-                                                />
-                                                <button type="button" className="btn btn-outline-secondary" onClick={() => console.log()}>
-                                                    ค้นหา
-                                                </button>
-                                            </div> */}
                                             <Autocomplete
-                                                inputName="owned_id"
-                                                items={items}
+                                                inputName="owner_id"
+                                                items={employees}
                                                 onSelect={(item) => {
-                                                    console.log(item);
-                                                    formik.setFieldValue(item.id);
+                                                    formik.setFieldTouched('owner_id', true);
+
+                                                    if (item) {
+                                                        formik.setFieldValue('owner_id', item.id);
+                                                    } else {
+                                                        formik.setFieldValue('owner_id', '');
+                                                    }
                                                 }} 
                                             />
                                             {(formik.errors.owner_id && formik.touched.owner_id) && (

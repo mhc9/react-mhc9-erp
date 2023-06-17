@@ -136,6 +136,7 @@ const AssetDetail = () => {
                                 <OwnershipForm
                                     isOpen={openOwnershipForm}
                                     handleHide={() => setOpenOwnershipForm(false)}
+                                    assetId={id}
                                 />
                             </div>
                         </>
