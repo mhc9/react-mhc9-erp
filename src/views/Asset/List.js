@@ -34,7 +34,7 @@ const AssetList = () => {
         setApiEndpoint(`/api/assets/search?page=${filterStr}`);
     }, [filters]);
 
-    const handlePageClick = (url) => {
+    const handleClickPage = (url) => {
         const filterStr = `&name=${filters.name}&category=${filters.category}&owner=${filters.owner}`
 
         setApiEndpoint(`${url}${filterStr}`);
@@ -119,8 +119,8 @@ const AssetList = () => {
 
                 {pager && (
                     <Pagination>
-                        <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
-                        <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
+                        <Pagination.First disabled={pager.current_page === 1} onClick={() => handleClickPage(pager.first_page_url)} />
+                        <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handleClickPage(pager.prev_page_url)} />
                         {/* <Pagination.Item>{1}</Pagination.Item>
                         <Pagination.Ellipsis />
 
@@ -132,8 +132,8 @@ const AssetList = () => {
 
                         <Pagination.Ellipsis />
                         <Pagination.Item>{20}</Pagination.Item> */}
-                        <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
-                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
+                        <Pagination.Next disabled={!pager.next_page_url} onClick={() => handleClickPage(pager.next_page_url)} />
+                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handleClickPage(pager.last_page_url)} />
                     </Pagination>
                 )}
             </div>
