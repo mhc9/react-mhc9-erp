@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getAssets } from '../../features/asset/assetSlice';
 import Loading from '../../components/Loading';
+import FilteringInput from './FilteringInput';
 
 const AssetList = () => {
     const dispatch = useDispatch();
@@ -40,24 +41,7 @@ const AssetList = () => {
                     <Link to="add" className="btn btn-primary">เพิ่มพัสดุใหม่</Link>
                 </div>
 
-                <div className="flex flex-col gap-2 my-2">
-                    <Row>
-                        <Col md={4}>
-                            <select className="form-control">
-                                <option>-- ชนิดพัสดุ --</option>
-                            </select>
-                        </Col>
-                        <Col md={4}>
-                            <input type="text" className="form-control" placeholder="ชื่อพัสดุ" />
-                        </Col>
-                        <Col md={4}>
-                            <select className="form-control">
-                                <option>-- ผู้รับผิดชอบ --</option>
-                            </select>
-                        </Col>
-                        <Col></Col>
-                    </Row>
-                </div>
+                <FilteringInput />
 
                 <div>
                     <table className="table table-bordered">
