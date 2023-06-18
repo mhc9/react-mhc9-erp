@@ -6,6 +6,7 @@ import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getAssets } from '../../features/asset/assetSlice';
 import Loading from '../../components/Loading';
 import FilteringInput from './FilteringInput';
+import moment from 'moment';
 
 const initialFilters = {
     assetNo: '',
@@ -40,6 +41,10 @@ const AssetList = () => {
         setApiEndpoint(`${url}${filterStr}`);
     };
 
+    const calcUsedAge = (firstYear) => {
+        return moment().year() - (firstYear-543);
+    };
+
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}
@@ -64,6 +69,7 @@ const AssetList = () => {
                                 <th className="text-center w-[5%]">#</th>
                                 <th className="text-center w-[20%]">เลขที่พัสดุ</th>
                                 <th>รายละเอียด</th>
+                                <th className="text-center w-[10%]">อายุใช้งาน</th>
                                 <th className="text-center w-[20%]">ผู้รับผิดชอบ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
@@ -71,7 +77,7 @@ const AssetList = () => {
                         <tbody>
                             {loading && (
                                 <tr>
-                                    <td colSpan={5} className="text-center">
+                                    <td colSpan={6} className="text-center">
                                         <Loading />
                                     </td>
                                 </tr>
@@ -81,14 +87,18 @@ const AssetList = () => {
                                     <td className="text-center">{index+pager.from}</td>
                                     <td className="text-center text-sm">{asset.asset_no}</td>
                                     <td className="font-thin">
-                                        <p className="text-gray-500 text-sm">{asset.category.name}</p>
+                                        <p className="text-gray-500 text-sm">{asset.group?.category?.name}</p>
                                         <span>{asset.name}</span>
                                         <span className="font-bold ml-1">ยี่ห้อ: </span>{asset.brand.name} 
                                         <span className="font-bold ml-1">รุ่น: </span>{asset.model ? asset.model : '-'}
-                                        <p className="text-sm font-thin text-gray-500 ml-1">{asset.description}</p>
+                                        <span className="font-bold ml-1">ซื้อเมื่อปี: </span>{asset.first_year ? asset.first_year : '-'}
+                                        {/* <p className="text-sm font-thin text-gray-500 ml-1">{asset.description}</p> */}
                                         <p className="text-sm font-thin text-red-400">
                                             <span className="font-bold">หมายเหตุ: </span>{asset.remark ? asset.remark : '-'}
                                         </p>
+                                    </td>
+                                    <td className="text-sm text-center">
+                                        {`${calcUsedAge(asset.first_year)}ปี`}
                                     </td>
                                     <td className="text-sm">
                                         {asset.current_owner.length > 0 && `${asset.current_owner[0].owner.prefix.name}${asset.current_owner[0].owner.firstname} ${asset.current_owner[0].owner.lastname}`}
@@ -108,7 +118,7 @@ const AssetList = () => {
                             ))}
                             {!loading && assets.length <= 0 && (
                                 <tr>
-                                    <td colSpan={5} className="text-center">
+                                    <td colSpan={6} className="text-center">
                                         -- ไม่มีข้อมูล --
                                     </td>
                                 </tr>

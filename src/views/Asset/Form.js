@@ -18,9 +18,11 @@ const assetSchema = Yup.object().shape({
 const AssetForm = ({ id, asset }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.asset);
-    const [types, setTypes] = useState([]);
+    // const [types, setTypes] = useState([]);
+    const [groups, setGroups] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [filteredCategories, setFilteredCategories] = useState([]);
+    // const [filteredCategories, setFilteredCategories] = useState([]);
+    const [filteredGroups, setFilteredGroups] = useState([]);
     const [units, setUnits] = useState([]);
     const [brands, setBrands] = useState([]);
     const [budgets, setBudgets] = useState([]);
@@ -36,7 +38,8 @@ const AssetForm = ({ id, asset }) => {
         try {
             const res = await api.get('/api/assets/form/init');
             
-            setTypes(res.data.types);
+            // setTypes(res.data.types);
+            setCategories(res.data.categories);
             setCategories(res.data.categories);
             setUnits(res.data.units);
             setBrands(res.data.brands);
@@ -44,16 +47,22 @@ const AssetForm = ({ id, asset }) => {
             setObtainingTypes(res.data.obtainingTypes);
 
             /** In editting mode */
-            if (asset) handleTypeSelected(asset?.asset_type_id);
+            if (asset) handleCategorySelected(asset?.asset_type_id);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const handleTypeSelected = (type) => {
+    // const handleTypeSelected = (type) => {
+    //     const newCategories = categories.filter(category => category.asset_type_id === parseInt(type, 10));
+
+    //     setFilteredCategories(newCategories);
+    // };
+
+    const handleCategorySelected = (type) => {
         const newCategories = categories.filter(category => category.asset_type_id === parseInt(type, 10));
 
-        setFilteredCategories(newCategories);
+        setFilteredGroups(newCategories);
     };
 
     const handleSubmit = (values, props) => {
@@ -76,6 +85,7 @@ const AssetForm = ({ id, asset }) => {
                 description: (asset && asset.description) ? asset.description : '',
                 asset_type_id: asset ? asset.asset_type_id : '',
                 asset_category_id: asset ? asset.asset_category_id : '',
+                asset_group_id: asset ? asset.asset_group_id : '',
                 price_per_unit: (asset && asset.price_per_unit) ? asset.price_per_unit : '',
                 unit_id: asset ? asset.unit_id : '',
                 brand_id: asset ? asset.brand_id : '',
@@ -149,33 +159,18 @@ const AssetForm = ({ id, asset }) => {
                         <Row className="mb-2">
                             <Col>
                                 <FormGroup>
-                                    <label>ประเภทพัสดุ</label>
-                                    <select name="asset_type_id" value={formik.values.asset_type_id} className="form-control"
-                                        onChange={(e) => {
-                                            formik.handleChange(e);
-                                            handleTypeSelected(e.target.value);
-                                        }}
-                                    >
-                                        <option value="">-- เลือกประเภท --</option>
-                                        {types && types.map(type => (
-                                            <option value={type.id} key={type.id}>
-                                                {type.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </FormGroup>
-                            </Col>
-                            <Col>
-                                <FormGroup>
-                                    <label>กลุ่มพัสดุ</label>
+                                    <label>ชนิดพัสดุ</label>
                                     <select
                                         name="asset_category_id"
                                         value={formik.values.asset_category_id} 
-                                        onChange={formik.handleChange}
+                                        onChange={(e) => {
+                                            formik.handleChange(e);
+                                            handleCategorySelected(e.target.value);
+                                        }}
                                         className="form-control"
                                     >
                                         <option value="">-- เลือกกลุ่ม --</option>
-                                        {filteredCategories && filteredCategories.map(category => (
+                                        {categories && categories.map(category => (
                                             <option value={category.id} key={category.id}>
                                                 {category.name}
                                             </option>
@@ -184,6 +179,24 @@ const AssetForm = ({ id, asset }) => {
                                     {(formik.errors.asset_category_id && formik.touched.asset_category_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.asset_category_id}</span>
                                     )}
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>กลุ่มพัสดุ</label>
+                                    <select
+                                        name="asset_group_id"
+                                        value={formik.values.asset_group_id}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    >
+                                        <option value="">-- เลือกประเภท --</option>
+                                        {filteredGroups && filteredGroups.map(group => (
+                                            <option value={group.id} key={group.id}>
+                                                {group.name}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </FormGroup>
                             </Col>
                         </Row>
