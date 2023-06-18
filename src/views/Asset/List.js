@@ -88,7 +88,7 @@ const AssetList = () => {
                                     <td className="text-center text-sm">{asset.asset_no}</td>
                                     <td className="font-thin">
                                         <p className="text-gray-500 text-sm">{asset.group?.category?.name}</p>
-                                        <span>{asset.name}</span>
+                                        <p>{asset.name}</p>
                                         <span className="font-bold ml-1">ยี่ห้อ: </span>{asset.brand.name} 
                                         <span className="font-bold ml-1">รุ่น: </span>{asset.model ? asset.model : '-'}
                                         <span className="font-bold ml-1">ซื้อเมื่อปี: </span>{asset.first_year ? asset.first_year : '-'}
