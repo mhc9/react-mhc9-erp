@@ -19,9 +19,9 @@ const AssetForm = ({ id, asset }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.asset);
     // const [types, setTypes] = useState([]);
-    const [groups, setGroups] = useState([]);
     const [categories, setCategories] = useState([]);
     // const [filteredCategories, setFilteredCategories] = useState([]);
+    const [groups, setGroups] = useState([]);
     const [filteredGroups, setFilteredGroups] = useState([]);
     const [units, setUnits] = useState([]);
     const [brands, setBrands] = useState([]);
@@ -40,14 +40,14 @@ const AssetForm = ({ id, asset }) => {
             
             // setTypes(res.data.types);
             setCategories(res.data.categories);
-            setCategories(res.data.categories);
+            setGroups(res.data.groups);
             setUnits(res.data.units);
             setBrands(res.data.brands);
             setBudgets(res.data.budgets);
             setObtainingTypes(res.data.obtainingTypes);
 
             /** In editting mode */
-            if (asset) handleCategorySelected(asset?.asset_type_id);
+            if (asset) handleCategorySelected(asset?.asset_category_id);
         } catch (error) {
             console.log(error);
         }
@@ -59,10 +59,10 @@ const AssetForm = ({ id, asset }) => {
     //     setFilteredCategories(newCategories);
     // };
 
-    const handleCategorySelected = (type) => {
-        const newCategories = categories.filter(category => category.asset_type_id === parseInt(type, 10));
+    const handleCategorySelected = (category) => {
+        const newGroups = groups.filter(group => group.category_id === parseInt(category, 10));
 
-        setFilteredGroups(newCategories);
+        setFilteredGroups(newGroups);
     };
 
     const handleSubmit = (values, props) => {
@@ -83,9 +83,9 @@ const AssetForm = ({ id, asset }) => {
                 asset_no: asset ? asset.asset_no : '',
                 name: asset ? asset.name : '',
                 description: (asset && asset.description) ? asset.description : '',
-                asset_type_id: asset ? asset.asset_type_id : '',
-                asset_category_id: asset ? asset.asset_category_id : '',
-                asset_group_id: asset ? asset.asset_group_id : '',
+                asset_type_id: (asset && asset.asset_type_id) ? asset.asset_type_id : '',
+                asset_category_id: (asset && asset.asset_category_id) ? asset.asset_category_id : '',
+                asset_group_id: (asset && asset.asset_group_id) ? asset.asset_group_id : '',
                 price_per_unit: (asset && asset.price_per_unit) ? asset.price_per_unit : '',
                 unit_id: asset ? asset.unit_id : '',
                 brand_id: asset ? asset.brand_id : '',
@@ -169,7 +169,7 @@ const AssetForm = ({ id, asset }) => {
                                         }}
                                         className="form-control"
                                     >
-                                        <option value="">-- เลือกกลุ่ม --</option>
+                                        <option value="">-- เลือกชนิดพัสดุ --</option>
                                         {categories && categories.map(category => (
                                             <option value={category.id} key={category.id}>
                                                 {category.name}
@@ -190,7 +190,7 @@ const AssetForm = ({ id, asset }) => {
                                         onChange={formik.handleChange}
                                         className="form-control"
                                     >
-                                        <option value="">-- เลือกประเภท --</option>
+                                        <option value="">-- เลือกกลุ่มพัสดุ --</option>
                                         {filteredGroups && filteredGroups.map(group => (
                                             <option value={group.id} key={group.id}>
                                                 {group.name}
