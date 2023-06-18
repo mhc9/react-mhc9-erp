@@ -7,10 +7,18 @@ import { getAssets } from '../../features/asset/assetSlice';
 import Loading from '../../components/Loading';
 import FilteringInput from './FilteringInput';
 
+const initialFilters = {
+    assetNo: '',
+    name: '',
+    category: '',
+    owner: '',
+};
+
 const AssetList = () => {
     const dispatch = useDispatch();
     const { assets, pager, loading, success } = useSelector(state => state.asset)
     const [apiEndpoint, setApiEndpoint] = useState('');
+    const [filters, setFilters] = useState(initialFilters);
 
     useEffect(() => {
         if (apiEndpoint === '') {
@@ -18,12 +26,18 @@ const AssetList = () => {
         } else {
             dispatch(getAssets({ url: apiEndpoint }));
         }
-    }, []);
+    }, [apiEndpoint]);
+
+    useEffect(() => {
+        const filterStr = `&name=${filters.name}&category=${filters.category}&owner=${filters.owner}`
+
+        setApiEndpoint(`/api/assets/search?page=${filterStr}`);
+    }, [filters]);
 
     const handlePageClick = (url) => {
-        setApiEndpoint(url);
+        const filterStr = `&name=${filters.name}&category=${filters.category}&owner=${filters.owner}`
 
-        dispatch(getAssets({ url }));
+        setApiEndpoint(`${url}${filterStr}`);
     };
 
     return (
@@ -41,7 +55,7 @@ const AssetList = () => {
                     <Link to="add" className="btn btn-primary">เพิ่มพัสดุใหม่</Link>
                 </div>
 
-                <FilteringInput />
+                <FilteringInput filters={filters} onFilter={setFilters} />
 
                 <div>
                     <table className="table table-bordered">

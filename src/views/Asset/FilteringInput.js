@@ -2,17 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import api from '../../api'
 
-const initialFilters = {
-    assetNo: '',
-    name: '',
-    category: '',
-    owner: '',
-};
-
-const FilteringInput = () => {
+const FilteringInput = ({ filters, onFilter }) => {
     const [categories, setCategories] = useState([]);
     const [employees, setEmployees] = useState([]);
-    const [filters, setFilters] = useState(initialFilters);
 
     useEffect(() => {
         getFormInitialData();
@@ -33,9 +25,8 @@ const FilteringInput = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        console.log(name, value);
 
-        setFilters(prevState => ({ ...prevState, [name]: value }));
+        onFilter(prevState => ({ ...prevState, [name]: value }));
     };
 
     return (
@@ -58,7 +49,7 @@ const FilteringInput = () => {
                         onChange={handleInputChange}
                         className="form-control"
                     >
-                        <option>-- ชนิดพัสดุ --</option>
+                        <option value="">-- ชนิดพัสดุ --</option>
                         {categories && categories.map(category => (
                             <option key={category.id} value={category.id}>
                                 {category.name}
@@ -68,12 +59,12 @@ const FilteringInput = () => {
                 </Col>
                 <Col md={4}>
                     <select
-                        name="employee"
-                        value={filters.employee}
+                        name="owner"
+                        value={filters.owner}
                         onChange={handleInputChange}
                         className="form-control"
                     >
-                        <option>-- ผู้รับผิดชอบ --</option>
+                        <option value="">-- ผู้รับผิดชอบ --</option>
                         {employees && employees.map(employee => (
                             <option key={employee.id} value={employee.id}>
                                 {`${employee.firstname} ${employee.lastname}`}
