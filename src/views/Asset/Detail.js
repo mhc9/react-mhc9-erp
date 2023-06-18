@@ -59,14 +59,14 @@ const AssetDetail = () => {
                                 <Row className="mb-2">
                                     <Col md={6}>
                                         <FormGroup>
-                                            <label>ประเภทพัสดุ</label>
-                                            <div className="form-control">{asset.type.name}</div>
+                                            <label>ชนิดพัสดุ</label>
+                                            <div className="form-control">{asset.group?.category?.name}</div>
                                         </FormGroup>
                                     </Col>
                                     <Col md={6}>
                                         <FormGroup>
-                                            <label>ชนิดพัสดุ</label>
-                                            <div className="form-control">{asset.category.name}</div>
+                                            <label>กลุ่มพัสดุ</label>
+                                            <div className="form-control">{asset.group?.name}</div>
                                         </FormGroup>
                                     </Col>
                                 </Row>
