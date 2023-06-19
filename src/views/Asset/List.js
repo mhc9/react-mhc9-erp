@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getAssets } from '../../features/asset/assetSlice';
 import Loading from '../../components/Loading';
-import FilteringInput from './FilteringInput';
+import AssetFilteringInput from './FilteringInput';
 import moment from 'moment';
 
 const initialFilters = {
@@ -61,7 +61,7 @@ const AssetList = () => {
                     <Link to="add" className="btn btn-primary">เพิ่มพัสดุใหม่</Link>
                 </div>
 
-                <FilteringInput filters={filters} onFilter={setFilters} />
+                <AssetFilteringInput filters={filters} onFilter={setFilters} />
 
                 <div>
                     <table className="table table-bordered">

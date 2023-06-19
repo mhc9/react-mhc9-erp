@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import api from '../../api'
 
-const FilteringInput = ({ filters, onFilter }) => {
+const AssetFilteringInput = ({ filters, onFilter }) => {
     // const [categories, setCategories] = useState([]);
     const [groups, setGroups] = useState([]);
     const [employees, setEmployees] = useState([]);
@@ -95,4 +95,4 @@ const FilteringInput = ({ filters, onFilter }) => {
     )
 }
 
-export default FilteringInput
+export default AssetFilteringInput
