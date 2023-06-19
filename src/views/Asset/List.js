@@ -12,6 +12,7 @@ const initialFilters = {
     assetNo: '',
     name: '',
     category: '',
+    group: '',
     owner: '',
 };
 
@@ -30,13 +31,13 @@ const AssetList = () => {
     }, [apiEndpoint]);
 
     useEffect(() => {
-        const filterStr = `&name=${filters.name}&category=${filters.category}&owner=${filters.owner}`
+        const filterStr = `&name=${filters.name}&category=${filters.category}&group=${filters.group}&owner=${filters.owner}`
 
         setApiEndpoint(`/api/assets/search?page=${filterStr}`);
     }, [filters]);
 
     const handleClickPage = (url) => {
-        const filterStr = `&name=${filters.name}&category=${filters.category}&owner=${filters.owner}`
+        const filterStr = `&name=${filters.name}&category=${filters.category}&group=${filters.group}&owner=${filters.owner}`
 
         setApiEndpoint(`${url}${filterStr}`);
     };

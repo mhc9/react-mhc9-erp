@@ -3,7 +3,8 @@ import { Col, Row } from 'react-bootstrap'
 import api from '../../api'
 
 const FilteringInput = ({ filters, onFilter }) => {
-    const [categories, setCategories] = useState([]);
+    // const [categories, setCategories] = useState([]);
+    const [groups, setGroups] = useState([]);
     const [employees, setEmployees] = useState([]);
 
     useEffect(() => {
@@ -16,7 +17,8 @@ const FilteringInput = ({ filters, onFilter }) => {
         try {
             const res = await api.get('/api/assets/form/init');
 
-            setCategories(res.data.categories);
+            // setCategories(res.data.categories);
+            setGroups(res.data.groups);
             setEmployees(res.data.employees);
         } catch (error) {
             console.log(error);
@@ -42,7 +44,7 @@ const FilteringInput = ({ filters, onFilter }) => {
                         placeholder="ชื่อพัสดุ"
                     />
                 </Col>
-                <Col md={4}>
+                {/* <Col md={4}>
                     <select
                         name="category"
                         value={filters.category}
@@ -53,6 +55,21 @@ const FilteringInput = ({ filters, onFilter }) => {
                         {categories && categories.map(category => (
                             <option key={category.id} value={category.id}>
                                 {category.name}
+                            </option>
+                        ))}
+                    </select>
+                </Col> */}
+                <Col md={4}>
+                    <select
+                        name="group"
+                        value={filters.group}
+                        onChange={handleInputChange}
+                        className="form-control"
+                    >
+                        <option value="">-- กลุ่มพัสดุ --</option>
+                        {groups && groups.map(group => (
+                            <option key={group.id} value={group.id}>
+                                {group.name}
                             </option>
                         ))}
                     </select>
