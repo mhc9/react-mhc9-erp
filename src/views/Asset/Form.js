@@ -46,8 +46,9 @@ const AssetForm = ({ id, asset }) => {
             setBudgets(res.data.budgets);
             setObtainingTypes(res.data.obtainingTypes);
 
-            /** In editting mode */
-            if (asset) handleCategorySelected(asset?.asset_category_id);
+            /** If in editting mode. Set filteredGroups data for display in input */
+            // if (asset) handleCategorySelected(asset?.asset_category_id);
+            if (asset) setFilteredGroups(res.data.groups);
         } catch (error) {
             console.log(error);
         }
