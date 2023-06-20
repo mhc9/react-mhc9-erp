@@ -54,16 +54,6 @@ const Navbar = () => {
                             <i className="fas fa-caret-down"></i>
                         </button>
                         <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
-                            <li className="hover:bg-gray-300 p-2 rounded-t-md">
-                                <Link to="/equipment"><p className="w-full">อุปกรณ์</p></Link>
-                            </li>
-                            <li className="hover:bg-gray-300 p-2">
-                                <Link to="/equipment-type"><p className="w-full">ประเภทอุปกรณ์</p></Link>
-                            </li>
-                            <li className="hover:bg-gray-300 p-2">
-                                <Link to="/equipment-group"><p className="w-full">กลุ่มอุปกรณ์</p></Link>
-                            </li>
-                            <li><hr className="dropdown-divider m-0" /></li>
                             <li className="hover:bg-gray-300 p-2">
                                 <Link to="/asset"><p className="w-full">พัสดุ</p></Link>
                             </li>
@@ -72,6 +62,16 @@ const Navbar = () => {
                             </li>
                             <li className="hover:bg-gray-300 p-2">
                                 <Link to="/asset-category"><p className="w-full">ชนิดพัสดุ</p></Link>
+                            </li>
+                            <li><hr className="dropdown-divider m-0" /></li>
+                            <li className="hover:bg-gray-300 p-2 rounded-t-md">
+                                <Link to="/equipment"><p className="w-full">อุปกรณ์</p></Link>
+                            </li>
+                            <li className="hover:bg-gray-300 p-2">
+                                <Link to="/equipment-type"><p className="w-full">ประเภทอุปกรณ์</p></Link>
+                            </li>
+                            <li className="hover:bg-gray-300 p-2">
+                                <Link to="/equipment-group"><p className="w-full">กลุ่มอุปกรณ์</p></Link>
                             </li>
                             <li><hr className="dropdown-divider m-0" /></li>
                             <li className="hover:bg-gray-300 p-2">
