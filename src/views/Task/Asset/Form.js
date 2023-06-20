@@ -1,9 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { FaPlus } from 'react-icons/fa'
 
-const TaskAssetForm = () => {
+const TaskAssetForm = ({ onAdd }) => {
+    const [selected, setSelected] = useState(null);
+
+    const handleAdd = () => {
+        onAdd(selected);
+
+        setSelected(null);
+    };
+
     return (
-        <div>
-        
+        <div className="flex flex-row items-center gap-1 mb-1">
+            <div className="input-group w-4/12">
+                <div className="form-control h-10 bg-gray-100">
+                    {selected?.asset_no}
+                </div>
+                <button type="button" className="btn btn-outline-secondary" onClick={() => setSelected({ id: 1, asset_no: '65-0001/1', name: 'Computer' })}>
+                    ...
+                </button>
+            </div>
+            <div className="form-control h-10 bg-gray-100">
+                {selected?.name}
+            </div>
+            <button
+                type="button"
+                className="btn btn-outline-primary flex flex-row items-center"
+                onClick={handleAdd}
+            >
+                <FaPlus /> เพิ่ม
+            </button>
         </div>
     )
 }
