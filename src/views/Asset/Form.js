@@ -12,6 +12,8 @@ const assetSchema = Yup.object().shape({
     name: Yup.string().required(),
     // description: Yup.string().required(),
     asset_category_id: Yup.string().required(),
+    unit_id: Yup.string().required(),
+    brand_id: Yup.string().required(),
     // budget_id: Yup.string().required(),
 });
 
