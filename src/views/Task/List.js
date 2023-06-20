@@ -1,7 +1,7 @@
 import React from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 
-const RepairList = () => {
+const TaskList = () => {
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}
@@ -36,4 +36,4 @@ const RepairList = () => {
     )
 }
 
-export default RepairList
+export default TaskList

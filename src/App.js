@@ -1,22 +1,22 @@
 import { Route, Routes } from 'react-router-dom';
 import DefaultLayout from "./components/DefaultLayout"
 import Home from './views/Home';
-import RepairList from './views/Repair/List';
-import AddRepair from './views/Repair/Add';
+import TaskList from './views/Task/List';
+import AddTask from './views/Task/Add';
 import Advice from './views/Advice';
 import Login from './views/Auth/Login';
 import Register from './views/Auth/Register';
 import GuardRoute from './components/GuardRoute';
-import EquipmentList from './views/Equipment/List';
-import AddEquipment from './views/Equipment/Add';
-import EquipmentTypeList from './views/EquipmentType/List';
-import EquipmentGroupList from './views/EquipmentGroup/List';
 import AddAsset from './views/Asset/Add';
 import AssetList from './views/Asset/List';
 import AssetDetail from './views/Asset/Detail';
 import EditAsset from './views/Asset/Edit';
 import AssetType from './views/AssetType';
 import AssetCategory from './views/AssetCategory';
+import EquipmentList from './views/Equipment/List';
+import AddEquipment from './views/Equipment/Add';
+import EquipmentTypeList from './views/EquipmentType/List';
+import EquipmentGroupList from './views/EquipmentGroup/List';
 import EmployeeList from './views/Employee/List';
 import AddEmployee from './views/Employee/Add';
 import Department from './views/Department';
@@ -28,8 +28,8 @@ function App() {
         <Routes>
             <Route path="/" element={<DefaultLayout />} >
                 <Route index element={<GuardRoute><Home /></GuardRoute>} />
-                <Route path="list" element={<GuardRoute><RepairList /></GuardRoute>} />
-                <Route path="add" element={<GuardRoute><AddRepair /></GuardRoute>} />
+                <Route path="list" element={<GuardRoute><TaskList /></GuardRoute>} />
+                <Route path="add" element={<GuardRoute><AddTask /></GuardRoute>} />
                 <Route path="advice" element={<GuardRoute><Advice /></GuardRoute>} />
                 <Route path="equipment" element={<GuardRoute><EquipmentList /></GuardRoute>} />
                 <Route path="equipment/add" element={<GuardRoute><AddEquipment /></GuardRoute>} />
