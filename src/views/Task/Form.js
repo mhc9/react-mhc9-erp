@@ -164,7 +164,7 @@ const TaskForm = ({ task }) => {
                                 <Col>
                                     <div>
                                         <h3 className="mb-1">รายการพัสดุ</h3>
-                                        <TaskAssetForm onSelected={(asset) => setAssets([...assets, asset])} />
+                                        <TaskAssetForm onAdd={(asset) => setAssets([...assets, asset])} />
                                         <TaskAssetList assets={assets} />
                                     </div>
                                 </Col>

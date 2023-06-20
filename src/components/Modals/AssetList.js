@@ -9,7 +9,7 @@ const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
     const { assets, pager, loading } = useSelector(state => state.asset);
 
     useEffect(() => {
-        dispatch(getAssets());
+        dispatch(getAssets({ url: '/api/assets/search' }));
     }, [dispatch]);
 
     return (
@@ -45,8 +45,11 @@ const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
                                     <td className="text-center">{index+pager.from}</td>
                                     <td className="text-center">{asset.asset_no}</td>
                                     <td>
-                                        <p className="text-gray-400 text-sm">{asset.category.name}</p>
+                                        <p className="text-gray-400 text-sm">{asset.group?.category?.name}</p>
                                         <p>{asset.name}</p>
+                                        <span className="font-bold ml-1">ยี่ห้อ: </span>{asset.brand.name} 
+                                        <span className="font-bold ml-1">รุ่น: </span>{asset.model ? asset.model : '-'}
+                                        <span className="font-bold ml-1">ซื้อเมื่อปี: </span>{asset.first_year ? asset.first_year : '-'}
                                     </td>
                                     <td className="text-center">
                                         <button
