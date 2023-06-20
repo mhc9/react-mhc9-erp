@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Formik, Form } from 'formik'
+import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { Row, Col, FormGroup, Form as BsForm } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -131,6 +131,42 @@ const TaskForm = ({ task }) => {
                                         )}
                                     </FormGroup>
                                 </Col>
+                                <Col>
+                                <FormGroup>
+                                    <label>ความเร่งด่วน</label>                                    
+                                    <Field component="div" name="priority_id" className="form-control">
+                                        <input
+                                            type="radio"
+                                            id="radioOne"
+                                            defaultChecked={formik.values.priority_id === "1"}
+                                            name="priority_id"
+                                            value="1"
+                                        />
+                                        <label htmlFor="male" className="ml-1 mr-4">ด่วน</label>
+
+                                        <input
+                                            type="radio"
+                                            id="radioTwo"
+                                            defaultChecked={formik.values.priority_id === "2"}
+                                            name="priority_id"
+                                            value="2"
+                                        />
+                                        <label htmlFor="famale" className="ml-1 mr-4">ด่วนมาก</label>
+
+                                        <input
+                                            type="radio"
+                                            id="radioTwo"
+                                            defaultChecked={formik.values.priority_id === "3"}
+                                            name="priority_id"
+                                            value="2"
+                                        />
+                                        <label htmlFor="famale" className="ml-1">ด่วนที่สุด</label>
+                                    </Field>
+                                    {(formik.errors.priority_id && formik.touched.priority_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.priority_id}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
                             </Row>
                             <Row className="mb-4">
                                 <Col>
@@ -163,7 +199,7 @@ const TaskForm = ({ task }) => {
                             <Row className="mb-2">
                                 <Col>
                                     <div>
-                                        <h3 className="mb-1">รายการพัสดุ</h3>
+                                        <h3 className="mb-1">รายการพัสดุ (ถ้ามี)</h3>
                                         <TaskAssetForm onAdd={(asset) => setAssets([...assets, asset])} />
                                         <TaskAssetList assets={assets} />
                                     </div>
