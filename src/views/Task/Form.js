@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loading from '../../components/Loading'
 import TaskAssetList from './Asset/List'
 import TaskAssetForm from './Asset/Form'
+import ModalEmployeeList from '../../components/Modals/EmployeeList'
 
 const taskSchema = Yup.object().shape({
     task_date: Yup.string().required(),
@@ -13,12 +14,15 @@ const taskSchema = Yup.object().shape({
     task_group_id: Yup.string().required(),
     description: Yup.string().required(),
     priority_id: Yup.string().required(),
+    reporter_id: Yup.string().required(),
 });
 
 const TaskForm = ({ task }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.task);
     const [assets, setAssets] = useState([]);
+    const [openModal, setOpenModal] = useState(false);
+    const [reporter, setReporter] = useState(null);
 
     const handleSubmit = (values, props) => {
         console.log(values, props);
@@ -36,6 +40,7 @@ const TaskForm = ({ task }) => {
                     description: '',
                     asset_id: '',
                     priority_id: '',
+                    reporter_id: '',
                     remark: '',
                 }}
                 validationSchema={taskSchema}
@@ -44,6 +49,14 @@ const TaskForm = ({ task }) => {
                 {(formik) => {
                     return (
                         <Form>
+                            <ModalEmployeeList
+                                isShow={openModal}
+                                handleHide={() => setOpenModal(false)}
+                                handleSelect={(employee) => {
+                                    formik.setFieldValue("reporter_id", employee.id);
+                                    setReporter(employee);
+                                }}
+                            />
                             <Row className="mb-2">
                                 <Col>
                                     <FormGroup>
@@ -115,14 +128,21 @@ const TaskForm = ({ task }) => {
                                     <FormGroup>
                                         <label>ผู้แจ้ง</label>
                                         <div className="input-group">
+                                            <div className="form-control">
+                                                {reporter && `${reporter?.firstname} ${reporter?.lastname}`}
+                                            </div>
                                             <input
-                                                type="text"
+                                                type="hidden"
                                                 name="reporter_id"
                                                 value={formik.values.reporter_id}
                                                 onChange={formik.handleChange}
                                                 className="form-control"
                                             />
-                                            <button type="button" className="btn btn-outline-primary">
+                                            <button
+                                                type="button"
+                                                className="btn btn-outline-primary"
+                                                onClick={() => setOpenModal(true)}
+                                            >
                                                 ค้นหา
                                             </button>
                                         </div>
@@ -142,23 +162,32 @@ const TaskForm = ({ task }) => {
                                             name="priority_id"
                                             value="1"
                                         />
-                                        <label htmlFor="male" className="ml-1 mr-4">ด่วน</label>
+                                        <label htmlFor="male" className="ml-1 mr-4">ปกติ</label>
 
                                         <input
                                             type="radio"
-                                            id="radioTwo"
+                                            id="radioOne"
                                             defaultChecked={formik.values.priority_id === "2"}
                                             name="priority_id"
                                             value="2"
                                         />
-                                        <label htmlFor="famale" className="ml-1 mr-4">ด่วนมาก</label>
+                                        <label htmlFor="male" className="ml-1 mr-4">ด่วน</label>
 
                                         <input
                                             type="radio"
                                             id="radioTwo"
                                             defaultChecked={formik.values.priority_id === "3"}
                                             name="priority_id"
-                                            value="2"
+                                            value="3"
+                                        />
+                                        <label htmlFor="famale" className="ml-1 mr-4">ด่วนมาก</label>
+
+                                        <input
+                                            type="radio"
+                                            id="radioTwo"
+                                            defaultChecked={formik.values.priority_id === "4"}
+                                            name="priority_id"
+                                            value="4"
                                         />
                                         <label htmlFor="famale" className="ml-1">ด่วนที่สุด</label>
                                     </Field>
