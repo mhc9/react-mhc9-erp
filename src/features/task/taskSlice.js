@@ -73,7 +73,6 @@ export const taskSlice = createSlice({
         },
         [getTasks.fulfilled]: (state, { payload }) => {
             const { data, ...pager } = payload;
-            console.log(data);
 
             state.tasks = data;
             state.pager = pager;

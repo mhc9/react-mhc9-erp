@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { Row, Col, FormGroup, Form as BsForm } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import Loading from '../../components/Loading'
 import TaskAssetList from './Asset/List'
@@ -30,6 +30,16 @@ const TaskForm = ({ task }) => {
     const [reporter, setReporter] = useState(null);
     const [openModal, setOpenModal] = useState(false);
 
+    /** On mount component set initital value of asset local state by task prop */
+    useEffect(() => {
+        if (task) {
+            const taskAssets = task?.assets.map(item => item.asset);
+
+            setAssets(taskAssets);
+        }
+    }, [task]);
+
+    /** Initial data for form's dropdown input */
     useEffect(() => {
         getInitialFormData();
 
