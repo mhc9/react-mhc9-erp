@@ -41,10 +41,10 @@ const Navbar = () => {
                         </button>
                         <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
                             <li className="hover:bg-gray-300 p-2 rounded-t-md">
-                                <Link to="/list"><p className="w-full">สถานะการซ่อม</p></Link>
+                                <Link to="/task"><p className="w-full">สถานะการซ่อม</p></Link>
                             </li>
                             <li className="hover:bg-gray-300 p-2">
-                                <Link to="/add"><p className="w-full">แจ้งปัญหา/แจ้งซ่อม</p></Link>
+                                <Link to="/task/add"><p className="w-full">แจ้งปัญหา/แจ้งซ่อม</p></Link>
                             </li>
                         </ul>
                     </li>
