@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react'
 import { Breadcrumb, Pagination } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
+import moment from 'moment'
 import { getTasks } from '../../features/task/taskSlice'
 import Loading from '../../components/Loading'
 
@@ -33,22 +36,42 @@ const TaskList = () => {
                         <thead>
                             <tr>
                                 <th className="w-[5%] text-center">#</th>
-                                <th>รายละเอียด</th>
+                                <th className="w-[12%] text-center">วันที่แจ้ง</th>
+                                <th>รายละเอียดปัญหา</th>
+                                <th className="w-[8%] text-center">ความเร่งด่วน</th>
+                                <th className="w-[20%] text-center">ผู้แจ้ง</th>
                                 <th className="w-[10%] text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {loading && (
                                 <tr>
-                                    <td colSpan={3} className="text-center"><Loading /></td>
+                                    <td colSpan={6} className="text-center"><Loading /></td>
                                 </tr>
                             )}
                             {tasks && tasks.map((task, index) => (
                                 <tr key={task.id}>
                                     <td className="text-center">{ pager && pager.from + index}</td>
-                                    <td>{task.description}</td>
                                     <td className="text-center">
-
+                                        <p className="text-sm">{moment(task.task_date).format('DD/MM/YYYY')}</p>
+                                        <p className="text-sm font-thin">เวลา {task.task_time}</p>
+                                    </td>
+                                    <td>
+                                        <p>{`${task.group?.type?.name} (${task.group?.name})`}</p>
+                                        <p className="text-sm text-red-500 font-thin">{task.description}</p>
+                                    </td>
+                                    <td className="text-center">{task.priority_id}</td>
+                                    <td className="text-center">{`${task.reporter.firstname} ${task.reporter.lastname}`}</td>
+                                    <td className="text-center">
+                                        <Link to={`/task/${task.id}/detail`} className="btn btn-sm btn-info mr-1">
+                                            <FaSearch size={'12px'} />
+                                        </Link>
+                                        <Link to={`/task/${task.id}/edit`} className="btn btn-sm btn-warning mr-1">
+                                            <FaPencilAlt size={'12px'} />
+                                        </Link>
+                                        <button className="btn btn-sm btn-danger">
+                                            <FaTrash size={'12px'} />
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
