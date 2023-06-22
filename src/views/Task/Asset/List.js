@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 
-const TaskAssetList = ({ assets }) => {
+const TaskAssetList = ({ assets, onEdit, onRemove }) => {
     return (
         <div>
             <table className="table table-bordered">
@@ -21,10 +21,18 @@ const TaskAssetList = ({ assets }) => {
                             <td className="text-center">{asset.asset_no}</td>
                             <td>{asset.name}</td>
                             <td className="text-center">
-                                <Link to={`/asset/${asset.id}/edit`} className="btn btn-sm btn-warning mr-1">
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-warning mr-1"
+                                    onClick={() => onEdit(asset.id)}
+                                >
                                     <FaPencilAlt />
-                                </Link>
-                                <button className="btn btn-sm btn-danger">
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-danger"
+                                    onClick={() => onRemove(asset.id)}
+                                >
                                     <FaTrash />
                                 </button>
                             </td>
