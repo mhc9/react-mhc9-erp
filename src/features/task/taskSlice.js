@@ -12,7 +12,7 @@ const initialState = {
 
 export const getTasks = createAsyncThunk("task/getTasks", async (data, { rejectWithValue }) => {
     try {
-        const res = await api.get('/api/tasks');
+        const res = await api.get('/api/tasks/search');
 
         return res.data;
     } catch (error) {
@@ -73,6 +73,7 @@ export const taskSlice = createSlice({
         },
         [getTasks.fulfilled]: (state, { payload }) => {
             const { data, ...pager } = payload;
+            console.log(data);
 
             state.tasks = data;
             state.pager = pager;
