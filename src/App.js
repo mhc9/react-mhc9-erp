@@ -3,6 +3,7 @@ import DefaultLayout from "./components/DefaultLayout"
 import Home from './views/Home';
 import TaskList from './views/Task/List';
 import AddTask from './views/Task/Add';
+import EditTask from './views/Task/Edit';
 import Advice from './views/Advice';
 import Login from './views/Auth/Login';
 import Register from './views/Auth/Register';
@@ -28,8 +29,10 @@ function App() {
         <Routes>
             <Route path="/" element={<DefaultLayout />} >
                 <Route index element={<GuardRoute><Home /></GuardRoute>} />
-                <Route path="list" element={<GuardRoute><TaskList /></GuardRoute>} />
-                <Route path="add" element={<GuardRoute><AddTask /></GuardRoute>} />
+                <Route path="task" element={<GuardRoute><TaskList /></GuardRoute>} />
+                <Route path="task/add" element={<GuardRoute><AddTask /></GuardRoute>} />
+                <Route path="task/:id/edit" element={<GuardRoute><EditTask /></GuardRoute>} />
+                <Route path="task/:id/detail" element={<GuardRoute><AddTask /></GuardRoute>} />
                 <Route path="advice" element={<GuardRoute><Advice /></GuardRoute>} />
                 <Route path="equipment" element={<GuardRoute><EquipmentList /></GuardRoute>} />
                 <Route path="equipment/add" element={<GuardRoute><AddEquipment /></GuardRoute>} />
