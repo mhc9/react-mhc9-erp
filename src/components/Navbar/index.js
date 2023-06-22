@@ -34,7 +34,7 @@ const Navbar = () => {
                 </button>
                 <ul className="max-md:hidden md:flex flex-row items-center gap-4 w-full">
                     <li><Link to="/" className="hover:text-gray-400">หน้าหลัก</Link></li>
-                    <li className="menu-item flex relative">
+                    <li className="menu-item flex relative h-full">
                         <button className="hover:text-gray-400 flex items-center gap-1">
                             บริการ
                             <i className="fas fa-caret-down"></i>
@@ -48,7 +48,7 @@ const Navbar = () => {
                             </li>
                         </ul>
                     </li>
-                    <li className="menu-item flex relative">
+                    <li className="menu-item flex relative h-full">
                         <button className="hover:text-gray-400 flex items-center gap-1">
                             ข้อมูลพื้ฐาน
                             <i className="fas fa-caret-down"></i>
