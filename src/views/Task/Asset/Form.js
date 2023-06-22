@@ -35,6 +35,7 @@ const TaskAssetForm = ({ onAdd }) => {
                 type="button"
                 className="btn btn-outline-primary flex flex-row items-center"
                 onClick={handleAdd}
+                disabled={!selected}
             >
                 <FaPlus /> เพิ่ม
             </button>
