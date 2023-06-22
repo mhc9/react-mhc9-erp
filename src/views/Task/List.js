@@ -6,6 +6,7 @@ import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import moment from 'moment'
 import { getTasks } from '../../features/task/taskSlice'
 import Loading from '../../components/Loading'
+import { getPriority } from '../../utils'
 
 const TaskList = () => {
     const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const TaskList = () => {
             {/* breadcrumb */}
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
-                <Breadcrumb.Item href="/">บริการ</Breadcrumb.Item>
+                <Breadcrumb.Item active>บริการ</Breadcrumb.Item>
                 <Breadcrumb.Item active>สถานะการซ่อม</Breadcrumb.Item>
             </Breadcrumb>
         
@@ -57,10 +58,14 @@ const TaskList = () => {
                                         <p className="text-sm font-thin">เวลา {task.task_time}</p>
                                     </td>
                                     <td>
-                                        <p>{`${task.group?.type?.name} (${task.group?.name})`}</p>
-                                        <p className="text-sm text-red-500 font-thin">{task.description}</p>
+                                        <p>{task.group?.type?.name} <span className="font-thin">({task.group?.name})</span></p>
+                                        <p className="text-xs text-red-500 font-thin">{task.description}</p>
                                     </td>
-                                    <td className="text-center">{task.priority_id}</td>
+                                    <td className="text-center">
+                                        <span className="py-1 px-2 bg-green-600 rounded-full text-xs text-white">
+                                            {getPriority(task.priority_id)?.name}
+                                        </span>
+                                    </td>
                                     <td className="text-center">{`${task.reporter.firstname} ${task.reporter.lastname}`}</td>
                                     <td className="text-center">
                                         <Link to={`/task/${task.id}/detail`} className="btn btn-sm btn-info mr-1">
