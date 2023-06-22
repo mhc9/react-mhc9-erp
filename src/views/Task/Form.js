@@ -45,7 +45,6 @@ const TaskForm = ({ task }) => {
     };
 
     const handleTypeChange = (type) => {
-        console.log(type, typeof type);
         const newGroups = taskGroups.filter(group => group.task_type_id === parseInt(type, 10));
 
         setFilteredGroups(newGroups);
@@ -56,8 +55,17 @@ const TaskForm = ({ task }) => {
         setAssets([...assets, asset]);
     }
 
+    const handleRemoveAsset = (formik, id) => {
+        const newAssets = assets.filter(asset => parseInt(asset.id, 10) !== id);
+
+        formik.setFieldValue('assets', newAssets.length > 0 ? [...newAssets] : [])
+        setAssets(newAssets);
+    };
+
     const handleSubmit = (values, props) => {
         console.log(values, props);
+
+        props.resetForm();
     };
 
     return (
@@ -279,7 +287,7 @@ const TaskForm = ({ task }) => {
                                     <div>
                                         <h3 className="mb-1">รายการพัสดุ (ถ้ามี)</h3>
                                         <TaskAssetForm onAdd={(asset) => handleAddAsset(formik, asset)} />
-                                        <TaskAssetList assets={assets} />
+                                        <TaskAssetList assets={assets} onRemove={(id) => handleRemoveAsset(formik, id)} />
                                     </div>
                                 </Col>
                             </Row>

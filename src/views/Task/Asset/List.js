@@ -1,8 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { FaPencilAlt, FaTrash } from 'react-icons/fa'
+import { FaTrash } from 'react-icons/fa'
 
-const TaskAssetList = ({ assets, onEdit, onRemove }) => {
+const TaskAssetList = ({ assets, onRemove }) => {
     return (
         <div>
             <table className="table table-bordered">
@@ -23,14 +22,7 @@ const TaskAssetList = ({ assets, onEdit, onRemove }) => {
                             <td className="text-center">
                                 <button
                                     type="button"
-                                    className="btn btn-sm btn-warning mr-1"
-                                    onClick={() => onEdit(asset.id)}
-                                >
-                                    <FaPencilAlt />
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-sm btn-danger"
+                                    className="btn btn-sm btn-outline-danger"
                                     onClick={() => onRemove(asset.id)}
                                 >
                                     <FaTrash />
