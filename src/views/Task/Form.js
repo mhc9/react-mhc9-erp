@@ -51,6 +51,11 @@ const TaskForm = ({ task }) => {
         setFilteredGroups(newGroups);
     };
 
+    const handleAddAsset = (formik, asset) => {
+        formik.setFieldValue('assets', [...formik.values.assets, asset.id])
+        setAssets([...assets, asset]);
+    }
+
     const handleSubmit = (values, props) => {
         console.log(values, props);
     };
@@ -65,10 +70,10 @@ const TaskForm = ({ task }) => {
                     task_type_id: '',
                     task_group_id: '',
                     description: '',
-                    asset_id: '',
                     priority_id: '1',
                     reporter_id: '',
                     remark: '',
+                    assets: [],
                 }}
                 validationSchema={taskSchema}
                 onSubmit={handleSubmit}
@@ -244,6 +249,8 @@ const TaskForm = ({ task }) => {
                                         <textarea
                                             rows={3}
                                             name="description"
+                                            value={formik.values.description}
+                                            onChange={formik.handleChange}
                                             className="form-control"
                                         ></textarea>
                                         {(formik.errors.description && formik.touched.description) && (
@@ -257,6 +264,8 @@ const TaskForm = ({ task }) => {
                                         <textarea
                                             rows={3}
                                             name="remark"
+                                            value={formik.values.remark}
+                                            onChange={formik.handleChange}
                                             className="form-control"
                                         ></textarea>
                                         {(formik.errors.remark && formik.touched.remark) && (
@@ -269,7 +278,7 @@ const TaskForm = ({ task }) => {
                                 <Col>
                                     <div>
                                         <h3 className="mb-1">รายการพัสดุ (ถ้ามี)</h3>
-                                        <TaskAssetForm onAdd={(asset) => setAssets([...assets, asset])} />
+                                        <TaskAssetForm onAdd={(asset) => handleAddAsset(formik, asset)} />
                                         <TaskAssetList assets={assets} />
                                     </div>
                                 </Col>
