@@ -9,6 +9,7 @@ import TaskAssetList from './Asset/List'
 import TaskAssetForm from './Asset/Form'
 import ModalEmployeeList from '../../components/Modals/EmployeeList'
 import api from '../../api'
+import { store, update } from '../../features/task/taskSlice'
 
 const taskSchema = Yup.object().shape({
     task_date: Yup.string().required(),
@@ -63,7 +64,11 @@ const TaskForm = ({ task }) => {
     };
 
     const handleSubmit = (values, props) => {
-        console.log(values, props);
+        if (task) {
+            dispatch(update({ id: '', data: values }));
+        } else {
+            dispatch(store(values));
+        }
 
         props.resetForm();
     };
