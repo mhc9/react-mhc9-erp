@@ -36,6 +36,7 @@ const TaskForm = ({ task }) => {
             const taskAssets = task?.assets.map(item => item.asset);
 
             setAssets(taskAssets);
+            setReporter(task.reporter);
         }
     }, [task]);
 
@@ -86,16 +87,17 @@ const TaskForm = ({ task }) => {
     return (
         <div>
             <Formik
+                enableReinitialize
                 initialValues={{
-                    id: '',
-                    task_date: moment().format('YYYY-MM-DD'),
-                    task_time: moment().format('HH:mm'),
-                    task_type_id: '',
-                    task_group_id: '',
-                    description: '',
-                    priority_id: '1',
-                    reporter_id: '',
-                    remark: '',
+                    id: task ? task.id : '',
+                    task_date: task ? moment(task.task_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+                    task_time: task ? moment(`${task.task_date} ${task.task_time}`).format('HH:mm') : moment().format('HH:mm'),
+                    task_type_id: task ? task.group.task_type_id : '',
+                    task_group_id: task ? task.task_group_id : '',
+                    description: task ? task.description : '',
+                    priority_id: task ? task.priority_id : '1',
+                    reporter_id: task ? task.reporter_id : '',
+                    remark: task ? task.remark : '',
                     assets: [],
                 }}
                 validationSchema={taskSchema}
