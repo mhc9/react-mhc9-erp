@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { Row, Col, FormGroup, Form as BsForm } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import moment from 'moment'
 import Loading from '../../components/Loading'
 import TaskAssetList from './Asset/List'
 import TaskAssetForm from './Asset/Form'
 import ModalEmployeeList from '../../components/Modals/EmployeeList'
+import api from '../../api'
 
 const taskSchema = Yup.object().shape({
     task_date: Yup.string().required(),
@@ -21,8 +23,33 @@ const TaskForm = ({ task }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.task);
     const [assets, setAssets] = useState([]);
-    const [openModal, setOpenModal] = useState(false);
+    const [taskTypes, setTaskTypes] = useState([]);
+    const [taskGroups, setTaskGroups] = useState([]);
+    const [filteredGroups, setFilteredGroups] = useState([]);
     const [reporter, setReporter] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
+
+    useEffect(() => {
+        getInitialFormData();
+
+        return () => getInitialFormData();
+    }, []);
+
+    const getInitialFormData = async () => {
+        const res = await api.get('/api/tasks/form/init');
+
+        setTaskTypes(res.data.types);
+        setTaskGroups(res.data.groups);
+
+        if (task) setFilteredGroups(res.data.groups);
+    };
+
+    const handleTypeChange = (type) => {
+        console.log(type, typeof type);
+        const newGroups = taskGroups.filter(group => group.task_type_id === parseInt(type, 10));
+
+        setFilteredGroups(newGroups);
+    };
 
     const handleSubmit = (values, props) => {
         console.log(values, props);
@@ -33,13 +60,13 @@ const TaskForm = ({ task }) => {
             <Formik
                 initialValues={{
                     id: '',
-                    task_date: '',
-                    task_time: '',
+                    task_date: moment().format('YYYY-MM-DD'),
+                    task_time: moment().format('HH:mm'),
                     task_type_id: '',
                     task_group_id: '',
                     description: '',
                     asset_id: '',
-                    priority_id: '',
+                    priority_id: '1',
                     reporter_id: '',
                     remark: '',
                 }}
@@ -96,10 +123,18 @@ const TaskForm = ({ task }) => {
                                         <select
                                             name="task_type_id"
                                             value={formik.values.task_type_id}
-                                            onChange={formik.handleChange}
+                                            onChange={(e) => {
+                                                formik.handleChange(e);
+                                                handleTypeChange(e.target.value);
+                                            }}
                                             className="form-control"
                                         >
                                             <option value="">-- เลือกประเภทปัญหา --</option>
+                                            {taskTypes && taskTypes.map((type, index) => (
+                                                <option key={type.id} value={type.id}>
+                                                    {type.name}
+                                                </option>
+                                            ))}
                                         </select>
                                         {(formik.errors.task_type_id && formik.touched.task_type_id) && (
                                             <span className="text-red-500 text-sm">{formik.errors.task_type_id}</span>
@@ -116,6 +151,11 @@ const TaskForm = ({ task }) => {
                                             className="form-control"
                                         >
                                             <option value="">-- เลือกกลุ่มอาการ --</option>
+                                            {filteredGroups && filteredGroups.map((group, index) => (
+                                                <option key={group.id} value={group.id}>
+                                                    {group.name}
+                                                </option>
+                                            ))}
                                         </select>
                                         {(formik.errors.task_group_id && formik.touched.task_group_id) && (
                                             <span className="text-red-500 text-sm">{formik.errors.task_group_id}</span>
@@ -158,7 +198,7 @@ const TaskForm = ({ task }) => {
                                         <input
                                             type="radio"
                                             id="radioOne"
-                                            defaultChecked={formik.values.priority_id === "1"}
+                                            defaultChecked={formik.values.priority_id === '1'}
                                             name="priority_id"
                                             value="1"
                                         />
