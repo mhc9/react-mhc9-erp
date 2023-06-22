@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Modal } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+import { Modal, Pagination } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAssets } from '../../features/asset/assetSlice';
 import Loading from '../Loading';
@@ -7,10 +7,24 @@ import Loading from '../Loading';
 const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
     const dispatch = useDispatch();
     const { assets, pager, loading } = useSelector(state => state.asset);
+    const [apiEndpoint, setApiEndpoint] = useState('');
 
     useEffect(() => {
-        dispatch(getAssets({ url: '/api/assets/search' }));
-    }, [dispatch]);
+        if (apiEndpoint === '') {
+            dispatch(getAssets({ url: '/api/assets/search' }));
+        } else {
+            dispatch(getAssets({ url: apiEndpoint }));
+        }
+    }, [apiEndpoint]);
+
+    const handlePageClick = (url) => {
+        /** ============== Generate query string param list ============== */
+        // query string param list here
+        const queryStr = '';
+        /** ============================ */
+
+        setApiEndpoint(`${url}${queryStr}`);
+    };
 
     return (
         <Modal
@@ -67,6 +81,25 @@ const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
                         </tbody>
                     </table>
                 </div>
+                {pager && (
+                    <Pagination>
+                        <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
+                        <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
+                        {/* <Pagination.Item>{1}</Pagination.Item>
+                        <Pagination.Ellipsis />
+
+                        <Pagination.Item>{10}</Pagination.Item>
+                        <Pagination.Item>{11}</Pagination.Item>
+                        <Pagination.Item active>{12}</Pagination.Item>
+                        <Pagination.Item>{13}</Pagination.Item>
+                        <Pagination.Item disabled>{14}</Pagination.Item>
+
+                        <Pagination.Ellipsis />
+                        <Pagination.Item>{20}</Pagination.Item> */}
+                        <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
+                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
+                    </Pagination>
+                )}
             </Modal.Body>
         </Modal>
     )
