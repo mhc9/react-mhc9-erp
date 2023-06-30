@@ -24,6 +24,8 @@ import AddEmployee from './views/Employee/Add';
 import Department from './views/Department';
 import Division from './views/Division';
 import Room from './views/Room';
+import RequisitionList from './views/Requisition/List';
+import AddRequisition from './views/Requisition/Add';
 
 function App() {
     return (
@@ -50,6 +52,8 @@ function App() {
                 <Route path="department" element={<GuardRoute><Department /></GuardRoute>} />
                 <Route path="division" element={<GuardRoute><Division /></GuardRoute>} />
                 <Route path="room" element={<GuardRoute><Room /></GuardRoute>} />
+                <Route path="requisition" element={<GuardRoute><RequisitionList /></GuardRoute>} />
+                <Route path="requisition/add" element={<GuardRoute><AddRequisition /></GuardRoute>} />
                 <Route path="*" element={<div>404 Not Found</div>} />
             </Route>
             <Route path="/login" element={<Login />} />
