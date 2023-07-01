@@ -14,3 +14,5 @@ export const calculateNetTotal = (items = []) => {
     console.log(items);
     return items.reduce((sum, item) => sum + item.total, 0);
 };
+
+export const currency = Intl.NumberFormat('th-TH');

@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
+import { currency } from '../../../utils'
 
 const ItemList = ({ items }) => {
+
     return (
         <table className="table table-bordered table-striped mb-2">
             <thead>
@@ -17,14 +19,17 @@ const ItemList = ({ items }) => {
                 </tr>
             </thead>
             <tbody>
-                {items && items.map((item, index) => (
-                    <tr key={item}>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                {items && items.map((data, index) => (
+                    <tr key={data.item?.id}>
+                        <td className="text-center">{index+1}</td>
+                        <td>
+                            <p className="text-sm text-gray-500 font-thin">{data.item.category.name}</p>
+                            {data.item?.name}
+                        </td>
+                        <td className="text-center">{currency.format(data.price_per_unit)}</td>
+                        <td className="text-center">{data.item.unit?.name}</td>
+                        <td className="text-center">{currency.format(data.amount)}</td>
+                        <td className="text-center">{currency.format(data.total)}</td>
                         <td className="text-center">
                             <Link to={`/employees/${''}/edit`} className="btn btn-sm btn-warning mr-1">
                                 <FaPencilAlt />
