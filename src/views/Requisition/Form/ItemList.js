@@ -1,7 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Formik, Form } from 'formik'
-import { Col, Row } from 'react-bootstrap'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 
 const ItemList = ({ items }) => {
