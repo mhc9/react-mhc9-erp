@@ -8,8 +8,9 @@ import assetOwnershipReducer from "./asset-ownership/assetOwnershipSlice";
 import employeeReducer from "./employee/employeeSlice";
 import departmentReducer from "./department/departmentSlice";
 import divisionReducer from "./division/divisionSlice";
-import roomReducer from './room/roomSlice';
-import taskRecuer from './task/taskSlice';
+import roomReducer from "./room/roomSlice";
+import taskRecuer from "./task/taskSlice";
+import itemReducer from "./item/itemSlice";
 import { authApi } from "../services/auth/authService";
 
 export default configureStore({
@@ -26,6 +27,7 @@ export default configureStore({
         division: divisionReducer,
         room: roomReducer,
         task: taskRecuer,
+        item: itemReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware),
 });
