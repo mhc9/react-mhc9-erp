@@ -5,6 +5,7 @@ import { Col, Row } from 'react-bootstrap'
 import AddItem from './AddItem'
 import ItemList from './ItemList'
 import { FaSearch } from 'react-icons/fa'
+import { calculateNetTotal } from '../../../utils'
 
 const requisitionSchema = Yup.object().shape({
     pr_no: Yup.string().required(),
@@ -20,10 +21,11 @@ const RequisitionForm = () => {
     const [requester, setRequester] = useState(null);
 
     const handleAddItem = (formik, item) => {
-        setItems([...items, item]);
+        const newItem = [...items, item];
+        setItems(newItem);
 
         formik.setFieldValue('item_count', items.length);
-        formik.setFieldValue('net_total', items.length);
+        formik.setFieldValue('net_total', calculateNetTotal(newItem));
     };
 
     const handleSubmit = (values, formik) => {
