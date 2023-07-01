@@ -1,6 +1,6 @@
 import React from 'react'
 import { Breadcrumb } from 'react-bootstrap'
-import RequisitionForm from './Form'
+import RequisitionForm from './Form/Form'
 
 const AddRequisition = () => {
 return (
