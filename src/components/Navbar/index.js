@@ -50,6 +50,20 @@ const Navbar = () => {
                     </li>
                     <li className="menu-item flex relative h-full">
                         <button className="hover:text-gray-400 flex items-center gap-1">
+                            จัดซื้อจัดจ้าง
+                            <i className="fas fa-caret-down"></i>
+                        </button>
+                        <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
+                            <li className="hover:bg-gray-300 p-2 rounded-t-md">
+                                <Link to="/requisition"><p className="w-full">คำขอซื้อ/จ้าง</p></Link>
+                            </li>
+                            <li className="hover:bg-gray-300 p-2">
+                                <Link to="/order"><p className="w-full">ใบสั่งซื้อ/จ้าง</p></Link>
+                            </li>
+                        </ul>
+                    </li>
+                    <li className="menu-item flex relative h-full">
+                        <button className="hover:text-gray-400 flex items-center gap-1">
                             ข้อมูลพื้ฐาน
                             <i className="fas fa-caret-down"></i>
                         </button>
