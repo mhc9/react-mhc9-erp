@@ -5,3 +5,7 @@ export const getPriority = (id) => {
 
     return priorities.find(priority => priority.id === id);
 };
+
+export const calculateTotal = (price, amount) => {
+    return price * amount;
+};

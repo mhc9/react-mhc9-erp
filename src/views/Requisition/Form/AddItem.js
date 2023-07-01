@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
 import { FaSearch, FaPlus, FaTimes } from 'react-icons/fa'
 import ModalItemList from '../../../components/Modals/ItemList'
+import { calculateTotal } from '../../../utils'
 
 const itemSchema = Yup.object().shape({
     item_id: Yup.string().required(),
@@ -26,6 +27,21 @@ const AddItem = ({ onAddItem }) => {
         formik.resetForm();
     };
 
+    const handleSelect = (formik, item) => {
+        setItem(item);
+
+        formik.setFieldValue('item_id', item?.id);
+        // formik.setFieldTouched('item_id', true);
+        formik.setFieldValue('price_per_unit', item?.price_per_unit);
+        // formik.setFieldTouched('price_per_unit', true);
+        formik.setFieldValue('unit_id', item?.unit_id);
+        // formik.setFieldTouched('unit_id', true);
+        formik.setFieldValue('amount', 1);
+        // formik.setFieldTouched('amount', true);
+        formik.setFieldValue('total', calculateTotal(item?.price_per_unit, 1));
+        formik.setFieldTouched('total', true);
+    };
+
     return (
         <Formik
             initialValues={{
@@ -43,20 +59,20 @@ const AddItem = ({ onAddItem }) => {
                     <ModalItemList
                         isShow={showModalItems}
                         onHide={() => setShowModalItems(false)}
-                        onSelect={(item) => console.log(item)}
+                        onSelect={(item) => handleSelect(formik, item)}
                     />
 
                     <div className="flex flex-row gap-2 mb-2">
                         <FormGroup className="w-[45%]">
                             <div className="input-group">
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="รายการ"
-                                />
+                                <div className="form-control h-[38px]">
+                                    {item?.name}
+                                </div>
                                 <input
                                     type="hidden"
                                     name="item_id"
+                                    value={formik.values.item_id}
+                                    onChange={formik.handleChange}
                                     className="form-control"
                                     placeholder="รายการ"
                                 />
@@ -76,6 +92,8 @@ const AddItem = ({ onAddItem }) => {
                             <input
                                 type="text"
                                 name="price_per_unit"
+                                value={formik.values.price_per_unit}
+                                onChange={formik.handleChange}
                                 className="form-control"
                                 placeholder="ราคาต่อหน่วย"
                             />
@@ -86,8 +104,9 @@ const AddItem = ({ onAddItem }) => {
                         <FormGroup className="w-[10%]">
                             <select
                                 name="unit_id"
+                                value={formik.values.unit_id}
+                                onChange={formik.handleChange}
                                 className="form-control"
-                                placeholder="หน่วยนับ"
                             >
                                 <option value="">-- เลือกหน่วยนับ --</option>
                                 <option value="1">เครื่อง</option>
@@ -100,6 +119,8 @@ const AddItem = ({ onAddItem }) => {
                             <input
                                 type="text"
                                 name="amount"
+                                value={formik.values.amount}
+                                onChange={formik.handleChange}
                                 className="form-control"
                                 placeholder="จำนวน"
                             />
@@ -111,6 +132,8 @@ const AddItem = ({ onAddItem }) => {
                             <input
                                 type="text"
                                 name="total"
+                                value={formik.values.total}
+                                onChange={formik.handleChange}
                                 className="form-control"
                                 placeholder="รวมเป็นเงิน"
                             />
