@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
 import { FaSearch, FaPlus, FaTimes } from 'react-icons/fa'
+import ModalItemList from '../../../components/Modals/ItemList'
 
 const itemSchema = Yup.object().shape({
     item_id: Yup.string().required(),
@@ -12,10 +13,17 @@ const itemSchema = Yup.object().shape({
     total: Yup.string().required(),
 });
 
-const AddItem = () => {
+const AddItem = ({ onAddItem }) => {
+    const [item, setItem] = useState(null);
+    const [showModalItems, setShowModalItems] = useState(false);
 
     const handleSubmit = (values, props) => {
         console.log(values, props);
+        onAddItem({ ...values, item });
+    };
+
+    const handleClear = (formik) => {
+        formik.resetForm();
     };
 
     return (
@@ -32,6 +40,12 @@ const AddItem = () => {
         >
             {(formik) => (
                 <>
+                    <ModalItemList
+                        isShow={showModalItems}
+                        onHide={() => setShowModalItems(false)}
+                        onSelect={(item) => console.log(item)}
+                    />
+
                     <div className="flex flex-row gap-2 mb-2">
                         <FormGroup className="w-[45%]">
                             <div className="input-group">
@@ -46,7 +60,11 @@ const AddItem = () => {
                                     className="form-control"
                                     placeholder="รายการ"
                                 />
-                                <button type="button" className="btn btn-outline-secondary">
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-secondary"
+                                    onClick={() => setShowModalItems(true)}
+                                >
                                     <FaSearch />
                                 </button>
                             </div>
@@ -111,7 +129,11 @@ const AddItem = () => {
                             </button>
                         </FormGroup>
                         <FormGroup className="w-[7%]">
-                            <button type="button" className="btn btn-outline-danger">
+                            <button
+                                type="button"
+                                className="btn btn-outline-danger"
+                                onClick={() => handleClear(formik)}
+                            >
                                 {/* <FaTimes /> */}
                                 เคลียร์
                             </button>

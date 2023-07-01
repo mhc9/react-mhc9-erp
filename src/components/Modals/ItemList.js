@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getItems } from '../../features/item/itemSlice';
 import Loading from '../Loading';
 
-const ModalItemList = ({ isShow, handleHide, handleSelect }) => {
+const ModalItemList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
     const { items, pager, loading } = useSelector(state => state.item);
     const [apiEndpoint, setApiEndpoint] = useState('');
@@ -29,7 +29,7 @@ const ModalItemList = ({ isShow, handleHide, handleSelect }) => {
     return (
         <Modal
             show={isShow}
-            onHide={handleHide}
+            onHide={onHide}
             size='xl'
         >
             <Modal.Header closeButton>
@@ -66,8 +66,8 @@ const ModalItemList = ({ isShow, handleHide, handleSelect }) => {
                                         <button
                                             className="btn btn-primary btn-sm"
                                             onClick={() => {
-                                                handleHide();
-                                                handleSelect(item);
+                                                onHide();
+                                                onSelect(item);
                                             }}
                                         >
                                             เลือก
