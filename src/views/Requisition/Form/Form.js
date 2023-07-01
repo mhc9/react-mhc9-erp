@@ -16,8 +16,15 @@ const requisitionSchema = Yup.object().shape({
 });
 
 const RequisitionForm = () => {
-    const [items, setItems] = useState([1,2,3,4]);
+    const [items, setItems] = useState([]);
     const [requester, setRequester] = useState(null);
+
+    const handleAddItem = (formik, item) => {
+        setItems([...items, item]);
+
+        formik.setFieldValue('item_count', items.length);
+        formik.setFieldValue('net_total', items.length);
+    };
 
     const handleSubmit = (values, formik) => {
         console.log(values, formik);
@@ -124,19 +131,21 @@ const RequisitionForm = () => {
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
                                     <h1 className="font-bold text-lg mb-1">รายการสินค้า</h1>
-                                    <AddItem />
+                                    <AddItem onAddItem={(item) => handleAddItem(formik, item)} />
                                     <ItemList items={items}/>
 
                                     <div className="flex flex-row justify-end">
                                         <div className="w-[15%]">
                                             <input
                                                 type="text"
-                                                name="total"
+                                                name="net_total"
+                                                value={formik.values.net_total}
+                                                onChange={formik.handleChange}
                                                 placeholder="รวมเป็นเงินทั้งสิ้น"
                                                 className="form-control float-right"
                                             />
-                                            {(formik.errors.total && formik.touched.total) && (
-                                                <span className="text-red-500 text-sm">{formik.errors.total}</span>
+                                            {(formik.errors.net_total && formik.touched.net_total) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.net_total}</span>
                                             )}
                                         </div>
                                         <div className="w-[10%]"></div>
