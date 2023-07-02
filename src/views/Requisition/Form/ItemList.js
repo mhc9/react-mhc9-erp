@@ -29,7 +29,7 @@ const ItemList = ({ items }) => {
                         <td className="text-center">{currency.format(data.price_per_unit)}</td>
                         <td className="text-center">{data.item.unit?.name}</td>
                         <td className="text-center">{currency.format(data.amount)}</td>
-                        <td className="text-center">{currency.format(data.total)}</td>
+                        <td className="text-right">{currency.format(data.total)}</td>
                         <td className="text-center">
                             <Link to={`/employees/${''}/edit`} className="btn btn-sm btn-warning mr-1">
                                 <FaPencilAlt />
