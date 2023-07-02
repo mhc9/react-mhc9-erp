@@ -18,11 +18,6 @@ const AddItem = ({ onAddItem }) => {
     const [item, setItem] = useState(null);
     const [showModalItems, setShowModalItems] = useState(false);
 
-    const handleSubmit = (values, props) => {
-        console.log(values, props);
-        onAddItem({ ...values, item });
-    };
-
     const handleClear = (formik) => {
         formik.resetForm();
     };
@@ -40,6 +35,13 @@ const AddItem = ({ onAddItem }) => {
         // formik.setFieldTouched('amount', true);
         formik.setFieldValue('total', calculateTotal(item?.price_per_unit, 1));
         formik.setFieldTouched('total', true);
+    };
+
+    const handleSubmit = (values, formik) => {
+        onAddItem({ ...values, item });
+
+        formik.resetForm();
+        setItem(null);
     };
 
     return (
