@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Col, Row, FormGroup, Modal, Pagination } from 'react-bootstrap'
+import { Modal, Pagination } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { getItems } from '../../../features/item/itemSlice';
 import Loading from '../../Loading';
