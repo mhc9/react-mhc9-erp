@@ -68,7 +68,7 @@ const AddItem = ({ onAddItem }) => {
                     <div className="flex flex-row gap-2 mb-2">
                         <FormGroup className="w-[45%]">
                             <div className="input-group">
-                                <div className="form-control h-[38px] overflow-hidden text-sm">
+                                <div className="form-control text-sm h-[38px] overflow-hidden whitespace-nowrap text-ellipsis">
                                     {item ? item?.name : <span className="text-gray-400">รายการสินค้า</span>}
                                 </div>
                                 <input
@@ -95,7 +95,7 @@ const AddItem = ({ onAddItem }) => {
                                 name="price"
                                 value={formik.values.price}
                                 onChange={formik.handleChange}
-                                className="form-control"
+                                className="form-control text-sm h-[38px]"
                                 placeholder="ราคาต่อหน่วย"
                             />
                             {(formik.errors.price && formik.touched.price) && (
@@ -107,9 +107,9 @@ const AddItem = ({ onAddItem }) => {
                                 name="unit_id"
                                 value={formik.values.unit_id}
                                 onChange={formik.handleChange}
-                                className="form-control"
+                                className="form-control text-sm h-[38px]"
                             >
-                                <option value="">-- เลือกหน่วยนับ --</option>
+                                <option value="">-- หน่วยนับ --</option>
                                 <option value="1">เครื่อง</option>
                             </select>
                             {(formik.errors.unit_id && formik.touched.unit_id) && (
@@ -122,7 +122,7 @@ const AddItem = ({ onAddItem }) => {
                                 name="amount"
                                 value={formik.values.amount}
                                 onChange={formik.handleChange}
-                                className="form-control"
+                                className="form-control text-sm h-[38px]"
                                 placeholder="จำนวน"
                             />
                             {(formik.errors.amount && formik.touched.amount) && (
@@ -135,7 +135,7 @@ const AddItem = ({ onAddItem }) => {
                                 name="total"
                                 value={formik.values.total}
                                 onChange={formik.handleChange}
-                                className="form-control"
+                                className="form-control text-sm h-[38px]"
                                 placeholder="รวมเป็นเงิน"
                             />
                             {(formik.errors.total && formik.touched.total) && (
