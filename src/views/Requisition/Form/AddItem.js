@@ -20,6 +20,7 @@ const AddItem = ({ onAddItem }) => {
 
     const handleClear = (formik) => {
         formik.resetForm();
+        setItem(null);
     };
 
     const handleSelect = (formik, item) => {
@@ -68,15 +69,13 @@ const AddItem = ({ onAddItem }) => {
                         <FormGroup className="w-[45%]">
                             <div className="input-group">
                                 <div className="form-control h-[38px] overflow-hidden text-sm">
-                                    {item?.name}
+                                    {item ? item?.name : <span className="text-gray-400">รายการสินค้า</span>}
                                 </div>
                                 <input
                                     type="hidden"
                                     name="item_id"
                                     value={formik.values.item_id}
                                     onChange={formik.handleChange}
-                                    className="form-control"
-                                    placeholder="รายการ"
                                 />
                                 <button
                                     type="button"
