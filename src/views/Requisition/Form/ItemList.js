@@ -26,7 +26,7 @@ const ItemList = ({ items }) => {
                             <p className="text-sm text-gray-500 font-thin">{data.item.category.name}</p>
                             {data.item?.name}
                         </td>
-                        <td className="text-center">{currency.format(data.price_per_unit)}</td>
+                        <td className="text-center">{currency.format(data.price)}</td>
                         <td className="text-center">{data.item.unit?.name}</td>
                         <td className="text-center">{currency.format(data.amount)}</td>
                         <td className="text-right">{currency.format(data.total)}</td>

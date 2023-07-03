@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
-import { FaSearch, FaPlus, FaTimes } from 'react-icons/fa'
+import { FaSearch } from 'react-icons/fa'
 import ModalItemList from '../../../components/Modals/ItemList'
 import { calculateTotal } from '../../../utils'
 
 const itemSchema = Yup.object().shape({
     item_id: Yup.string().required(),
-    price_per_unit: Yup.string().required(),
+    price: Yup.string().required(),
     unit_id: Yup.string().required(),
     amount: Yup.string().required(),
     total: Yup.string().required(),
@@ -27,13 +27,13 @@ const AddItem = ({ onAddItem }) => {
 
         formik.setFieldValue('item_id', item?.id);
         // formik.setFieldTouched('item_id', true);
-        formik.setFieldValue('price_per_unit', item?.price_per_unit);
-        // formik.setFieldTouched('price_per_unit', true);
+        formik.setFieldValue('price', item?.price);
+        // formik.setFieldTouched('price', true);
         formik.setFieldValue('unit_id', item?.unit_id);
         // formik.setFieldTouched('unit_id', true);
         formik.setFieldValue('amount', 1);
         // formik.setFieldTouched('amount', true);
-        formik.setFieldValue('total', calculateTotal(item?.price_per_unit, 1));
+        formik.setFieldValue('total', calculateTotal(item?.price, 1));
         formik.setFieldTouched('total', true);
     };
 
@@ -48,7 +48,7 @@ const AddItem = ({ onAddItem }) => {
         <Formik
             initialValues={{
                 item_id: '',
-                price_per_unit: '',
+                price: '',
                 unit_id: '',
                 amount: '',
                 total: '',
@@ -67,7 +67,7 @@ const AddItem = ({ onAddItem }) => {
                     <div className="flex flex-row gap-2 mb-2">
                         <FormGroup className="w-[45%]">
                             <div className="input-group">
-                                <div className="form-control h-[38px]">
+                                <div className="form-control h-[38px] overflow-hidden text-sm">
                                     {item?.name}
                                 </div>
                                 <input
@@ -93,14 +93,14 @@ const AddItem = ({ onAddItem }) => {
                         <FormGroup className="w-[10%]">
                             <input
                                 type="text"
-                                name="price_per_unit"
-                                value={formik.values.price_per_unit}
+                                name="price"
+                                value={formik.values.price}
                                 onChange={formik.handleChange}
                                 className="form-control"
                                 placeholder="ราคาต่อหน่วย"
                             />
-                            {(formik.errors.price_per_unit && formik.touched.price_per_unit) && (
-                                <span className="text-red-500 text-sm">{formik.errors.price_per_unit}</span>
+                            {(formik.errors.price && formik.touched.price) && (
+                                <span className="text-red-500 text-sm">{formik.errors.price}</span>
                             )}
                         </FormGroup>
                         <FormGroup className="w-[10%]">
