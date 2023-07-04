@@ -3,8 +3,8 @@ import { Modal, Pagination } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { getEmployees } from '../../features/employee/employeeSlice';
-import Loading from '../Loading';
+import { getEmployees } from '../../../features/employee/employeeSlice';
+import Loading from '../../Loading';
 
 const ModalEmployeeList = ({ isShow, handleHide, handleSelect }) => {
     const dispatch = useDispatch();

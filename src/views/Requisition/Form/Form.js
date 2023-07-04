@@ -228,7 +228,7 @@ const RequisitionForm = () => {
                             <Col>
                                 <label htmlFor="">เหตุผลที่ขอ</label>
                                 <textarea
-                                    rows={3}
+                                    rows={2}
                                     name="reason"
                                     value={formik.values.reason}
                                     onChange={formik.handleChange}
@@ -262,7 +262,7 @@ const RequisitionForm = () => {
                                                 value={formik.values.net_total}
                                                 onChange={formik.handleChange}
                                                 placeholder="รวมเป็นเงินทั้งสิ้น"
-                                                className="form-control text-sm float-right text-right text-sm"
+                                                className="form-control text-sm float-right text-right"
                                             />
                                             {(formik.errors.net_total && formik.touched.net_total) && (
                                                 <span className="text-red-500 text-sm">{formik.errors.net_total}</span>
