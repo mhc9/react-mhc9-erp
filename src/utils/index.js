@@ -11,7 +11,6 @@ export const calculateTotal = (price, amount) => {
 };
 
 export const calculateNetTotal = (items = []) => {
-    console.log(items);
     return items.reduce((sum, item) => sum + item.total, 0);
 };
 

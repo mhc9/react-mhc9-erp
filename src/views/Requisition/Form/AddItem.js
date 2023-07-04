@@ -53,6 +53,7 @@ const AddItem = ({ data, onAddItem }) => {
 
     return (
         <Formik
+            enableReinitialize
             initialValues={{
                 item_id: data ? data.item_id : '',
                 price: data ? data.price : '',

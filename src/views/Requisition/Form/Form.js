@@ -19,13 +19,26 @@ const requisitionSchema = Yup.object().shape({
 const RequisitionForm = () => {
     const [items, setItems] = useState([]);
     const [requester, setRequester] = useState(null);
+    const [edittedItem, setEdittedItem] = useState(null);
 
     const handleAddItem = (formik, item) => {
-        const newItem = [...items, item];
-        setItems(newItem);
+        const newItems = [...items, item];
 
-        formik.setFieldValue('item_count', items.length);
-        formik.setFieldValue('net_total', calculateNetTotal(newItem));
+        setItems(newItems);
+        formik.setFieldValue('item_count', newItems.length);
+        formik.setFieldValue('net_total', calculateNetTotal(newItems));
+    };
+
+    const handleEdit = (data) => {
+        setEdittedItem(data);
+    };
+
+    const handleRemove = (formik, id) => {
+        const newItems = items.filter(item => item.item_id !== id);
+
+        setItems(newItems);
+        formik.setFieldValue('item_count', newItems.length);
+        formik.setFieldValue('net_total', calculateNetTotal(newItems));
     };
 
     const handleSubmit = (values, formik) => {
@@ -133,8 +146,15 @@ const RequisitionForm = () => {
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
                                     <h1 className="font-bold text-lg mb-1">รายการสินค้า</h1>
-                                    <AddItem onAddItem={(item) => handleAddItem(formik, item)} />
-                                    <ItemList items={items}/>
+                                    <AddItem
+                                        data={edittedItem}
+                                        onAddItem={(item) => handleAddItem(formik, item)}
+                                    />
+                                    <ItemList
+                                        items={items}
+                                        onEdit={(data) => handleEdit(data)}
+                                        onRemove={(id) => handleRemove(formik, id)}
+                                    />
 
                                     <div className="flex flex-row justify-end">
                                         <div className="w-[15%]">
