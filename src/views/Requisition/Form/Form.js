@@ -6,6 +6,7 @@ import AddItem from './AddItem'
 import ItemList from './ItemList'
 import { FaSearch } from 'react-icons/fa'
 import { calculateNetTotal } from '../../../utils'
+import Committee from './Committee'
 
 const requisitionSchema = Yup.object().shape({
     pr_no: Yup.string().required(),
@@ -270,6 +271,11 @@ const RequisitionForm = () => {
                                         <div className="w-[10%]"></div>
                                     </div>
                                 </div>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <Committee />
                             </Col>
                         </Row>
                         <Row>
