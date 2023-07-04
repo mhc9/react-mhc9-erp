@@ -6,7 +6,7 @@ import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getEmployees } from '../../../features/employee/employeeSlice';
 import Loading from '../../Loading';
 
-const ModalEmployeeList = ({ isShow, handleHide, handleSelect }) => {
+const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
     const { employees, pager, loading, success } = useSelector(state => state.employee)
     const [apiEndpoint, setApiEndpoint] = useState('');
@@ -26,7 +26,7 @@ const ModalEmployeeList = ({ isShow, handleHide, handleSelect }) => {
     return (
         <Modal
             show={isShow}
-            onHide={handleHide}
+            onHide={onHide}
             size='xl'
         >
             <Modal.Header closeButton>
@@ -61,8 +61,8 @@ const ModalEmployeeList = ({ isShow, handleHide, handleSelect }) => {
                                             type="button"
                                             className="btn btn-sm btn-outline-primary"
                                             onClick={() => {
-                                                handleSelect(employee);
-                                                handleHide();
+                                                onSelect(employee);
+                                                onHide();
                                             }}
                                         >
                                             เลือก

@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, Row } from 'react-bootstrap'
+import { FaSearch } from 'react-icons/fa'
 import AddItem from './AddItem'
 import ItemList from './ItemList'
-import { FaSearch } from 'react-icons/fa'
-import { calculateNetTotal } from '../../../utils'
 import Committee from './Committee'
+import ModalEmployeeList from '../../../components/Modals/EmployeeList'
+import { calculateNetTotal } from '../../../utils'
 
 const requisitionSchema = Yup.object().shape({
     pr_no: Yup.string().required(),
@@ -21,6 +22,7 @@ const RequisitionForm = () => {
     const [items, setItems] = useState([]);
     const [requester, setRequester] = useState(null);
     const [edittedItem, setEdittedItem] = useState(null);
+    const [showEmployeeModal, setShowEmployeeModal] = useState(false);
 
     const handleAddItem = (formik, item) => {
         const newItems = [...items, item];
@@ -83,6 +85,12 @@ const RequisitionForm = () => {
             {(formik) => {
                 return (
                     <Form>
+                        <ModalEmployeeList
+                            isShow={showEmployeeModal}
+                            onHide={setShowEmployeeModal(false)}
+                            onSelect={(employee) => setRequester(employee)}
+                        />
+
                         <Row className="mb-2">
                             <Col md={3}>
                                 <label htmlFor="">เลขที่เอกสาร</label>
