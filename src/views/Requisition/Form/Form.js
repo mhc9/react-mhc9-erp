@@ -63,13 +63,18 @@ const RequisitionForm = () => {
             initialValues={{
                 pr_no: '',
                 pr_date: '',
-                requester_id: '',
-                division_id: '',
+                order_type_id: '',
+                category_id: '',
+                topic: '',
                 budget_id: '',
+                project_id: '',
+                division_id: '',
+                requester_id: '',
                 reason: '',
                 item_count: 0,
                 net_total: '',
-                items: []
+                items: [],
+                committees: []
             }}
             validationSchema={requisitionSchema}
             onSubmit={handleSubmit}
@@ -77,50 +82,137 @@ const RequisitionForm = () => {
             {(formik) => {
                 return (
                     <Form>
-                        <Row className="mb-3">
-                            <Col>
+                        <Row className="mb-2">
+                            <Col md={3}>
                                 <label htmlFor="">เลขที่เอกสาร</label>
                                 <input
                                     type="text"
                                     name="pr_no"
-                                    className="form-control"
+                                    value={formik.values.pr_no}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm"
                                 />
                                 {(formik.errors.pr_no && formik.touched.pr_no) && (
                                     <span className="text-red-500 text-sm">{formik.errors.pr_no}</span>
                                 )}
                             </Col>
-                            <Col>
+                            <Col md={3}>
                                 <label htmlFor="">วันที่เอกสาร</label>
                                 <input
                                     type="text"
                                     name="pr_date"
-                                    className="form-control"
+                                    value={formik.values.pr_date}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm"
                                 />
                                 {(formik.errors.pr_date && formik.touched.pr_date) && (
                                     <span className="text-red-500 text-sm">{formik.errors.pr_date}</span>
                                 )}
                             </Col>
+                            <Col md={2}>
+                                <label>ประเภทการจัดซื้อ</label>
+                                <select
+                                    name="order_type_id"
+                                    value={formik.values.order_type_id}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm"
+                                >
+                                    <option value="">-- ประเภท --</option>
+                                    <option value="1">ซื้อ</option>
+                                    <option value="2">จ้าง</option>
+                                </select>
+                                {(formik.errors.order_type_id && formik.touched.order_type_id) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.order_type_id}</span>
+                                )}  
+                            </Col>
+                            <Col md={4}>
+                                <label htmlFor="">ประเภทสินค้า</label>
+                                <select
+                                    name="category_id"
+                                    value={formik.values.category_id}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm"
+                                >
+                                    <option value="">-- ประเภทสินค้า --</option>
+                                </select>
+                                {(formik.errors.category_id && formik.touched.category_id) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.category_id}</span>
+                                )}
+                            </Col>
                         </Row>
-                        <Row className="mb-3">
+                        <Row className="mb-2">
+                            <Col>
+                                <label htmlFor="">เรื่อง</label>
+                                    <input
+                                        type="text"
+                                        name="topic"
+                                        value={formik.values.topic}
+                                        onChange={formik.handleChange}
+                                        className="form-control text-sm"
+                                    />
+                                {(formik.errors.topic && formik.touched.topic) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.topic}</span>
+                                )}
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col md={6}>
+                                <label htmlFor="">งบประมาณ</label>
+                                <div className="input-group">
+                                    <input
+                                        type="text"
+                                        name="budget_id"
+                                        value={formik.values.budget_id}
+                                        onChange={formik.handleChange}
+                                        className="form-control text-sm"
+                                    />
+                                    <button type="button" className="btn btn-outline-secondary">
+                                        <FaSearch />
+                                    </button>
+                                </div>
+                                {(formik.errors.budget_id && formik.touched.budget_id) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.budget_id}</span>
+                                )}
+                            </Col>
+                            <Col md={6}>
+                                <label htmlFor="">โครงการ</label>
+                                <select
+                                    name="project_id"
+                                    value={formik.values.project_id}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm"
+                                >
+                                    <option value="">-- โครงการ --</option>
+                                </select>
+                                {(formik.errors.project_id && formik.touched.project_id) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.project_id}</span>
+                                )}
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
                             <Col md={4}>
                                 <label htmlFor="">หน่วยงาน</label>
                                 <select
                                     name="division_id"
-                                    className="form-control"
+                                    value={formik.values.division_id}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm"
                                 >
-                                    <option value="">-- เลือกหน่วยงาน --</option>
+                                    <option value="">-- หน่วยงาน --</option>
                                 </select>
                                 {(formik.errors.division_id && formik.touched.division_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.division_id}</span>
                                 )}
                             </Col>
-                            <Col md={4}>
-                                <label htmlFor="">ผู้ขอ</label>
+                            <Col md={8}>
+                                <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
                                 <div className="input-group">
                                     <input
                                         type="text"
                                         name="requester_id"
-                                        className="form-control"
+                                        value={formik.values.requester_id}
+                                        onChange={formik.handleChange}
+                                        className="form-control text-sm"
                                     />
                                     <button type="button" className="btn btn-outline-secondary">
                                         <FaSearch />
@@ -130,32 +222,23 @@ const RequisitionForm = () => {
                                     <span className="text-red-500 text-sm">{formik.errors.requester_id}</span>
                                 )}
                             </Col>
-                            <Col md={4}>
-                                <label htmlFor="">งบประมาณ</label>
-                                <input
-                                    type="text"
-                                    name="budget_id"
-                                    className="form-control"
-                                />
-                                {(formik.errors.budget_id && formik.touched.budget_id) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.budget_id}</span>
-                                )}
-                            </Col>
                         </Row>
-                        <Row className="mb-3">
+                        <Row className="mb-2">
                             <Col>
                                 <label htmlFor="">เหตุผลที่ขอ</label>
                                 <textarea
                                     rows={3}
                                     name="reason"
-                                    className="form-control"
+                                    value={formik.values.reason}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm"
                                 ></textarea>
                                 {(formik.errors.reason && formik.touched.reason) && (
                                     <span className="text-red-500 text-sm">{formik.errors.reason}</span>
                                 )}
                             </Col>
                         </Row>
-                        <Row className="mb-3">
+                        <Row className="mb-2">
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
                                     <h1 className="font-bold text-lg mb-1">รายการสินค้า</h1>
@@ -178,7 +261,7 @@ const RequisitionForm = () => {
                                                 value={formik.values.net_total}
                                                 onChange={formik.handleChange}
                                                 placeholder="รวมเป็นเงินทั้งสิ้น"
-                                                className="form-control float-right text-right"
+                                                className="form-control text-sm float-right text-right text-sm"
                                             />
                                             {(formik.errors.net_total && formik.touched.net_total) && (
                                                 <span className="text-red-500 text-sm">{formik.errors.net_total}</span>
