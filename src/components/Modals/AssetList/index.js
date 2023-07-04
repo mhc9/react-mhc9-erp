@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Pagination } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
-import { getAssets } from '../../features/asset/assetSlice';
-import Loading from '../Loading';
+import { getAssets } from '../../../features/asset/assetSlice';
+import Loading from '../../Loading';
 
 const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
     const dispatch = useDispatch();
