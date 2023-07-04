@@ -45,7 +45,11 @@ const AddItem = ({ data, onAddItem, onUpdateItem }) => {
     };
 
     const handleSubmit = (values, formik) => {
-        onAddItem({ ...values, item });
+        if (data) {
+            onUpdateItem(values.item_id, values)
+        } else {
+            onAddItem({ ...values, item });
+        }
 
         formik.resetForm();
         setItem(null);
@@ -152,11 +156,11 @@ const AddItem = ({ data, onAddItem, onUpdateItem }) => {
                         <FormGroup className="w-[5%]">
                             <button
                                 type="button"
-                                className="btn btn-outline-primary w-full text-sm"
+                                className={`btn ${data ? 'btn-outline-warning' : 'btn-outline-primary'} w-full text-sm`}
                                 onClick={formik.submitForm}
                             >
                                 {/* <FaPlus /> */}
-                                เพิ่ม
+                                {data ? 'อัพเดต' : 'เพิ่ม'}
                             </button>
                         </FormGroup>
                         <FormGroup className="w-[7%]">

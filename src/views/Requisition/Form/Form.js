@@ -34,8 +34,16 @@ const RequisitionForm = () => {
     };
 
     const handleUpdateItem = (formik, id, data) => {
-        const updatedItems = items.map(item => item.item_id === data.item_id);
-        console.log(updatedItems);
+        console.log(id, data);
+        const updatedItems = items.map(item => {
+            if (item.item_id === id) return { ...data };
+
+            return item;
+        });
+
+        // setItems(updatedItems);
+        // formik.setFieldValue('item_count', updatedItems.length);
+        // formik.setFieldValue('net_total', calculateNetTotal(updatedItems));
     };
 
     const handleRemoveItem = (formik, id) => {
