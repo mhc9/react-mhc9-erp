@@ -46,7 +46,7 @@ const AddItem = ({ data, onAddItem, onUpdateItem }) => {
 
     const handleSubmit = (values, formik) => {
         if (data) {
-            onUpdateItem(values.item_id, values)
+            onUpdateItem(values.item_id, { ...values, item })
         } else {
             onAddItem({ ...values, item });
         }
@@ -119,6 +119,7 @@ const AddItem = ({ data, onAddItem, onUpdateItem }) => {
                                 value={formik.values.unit_id}
                                 onChange={formik.handleChange}
                                 className="form-control text-sm"
+                                disabled={data}
                             >
                                 <option value="">-- หน่วยนับ --</option>
                                 <option value="1">เครื่อง</option>
