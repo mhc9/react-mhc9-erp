@@ -30,7 +30,7 @@ const ItemList = ({ items, onEdit, onRemove }) => {
                         <td className="text-center">{data.item.unit?.name}</td>
                         <td className="text-right">{currency.format(data.total)}</td>
                         <td className="text-center">
-                            <button type="button" className="btn btn-sm btn-outline-warning mr-1" onClick={() => onEdit(data.item.id)}>
+                            <button type="button" className="btn btn-sm btn-outline-warning mr-1" onClick={() => onEdit(data)}>
                                 <FaPencilAlt />
                             </button>
                             <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => onRemove(data.item.id)}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
@@ -14,9 +14,15 @@ const itemSchema = Yup.object().shape({
     total: Yup.string().required(),
 });
 
-const AddItem = ({ onAddItem }) => {
+const AddItem = ({ data, onAddItem }) => {
     const [item, setItem] = useState(null);
     const [showModalItems, setShowModalItems] = useState(false);
+
+    useEffect(() => {
+        if (data) {
+            setItem(data.item);
+        }
+    }, [data]);
 
     const handleClear = (formik) => {
         formik.resetForm();
@@ -48,11 +54,11 @@ const AddItem = ({ onAddItem }) => {
     return (
         <Formik
             initialValues={{
-                item_id: '',
-                price: '',
-                unit_id: '',
-                amount: '',
-                total: '',
+                item_id: data ? data.item_id : '',
+                price: data ? data.price : '',
+                unit_id: data ? data.unit_id : '',
+                amount: data ? data.amount : '',
+                total: data ? data.total : '',
             }}
             validationSchema={itemSchema}
             onSubmit={handleSubmit}
