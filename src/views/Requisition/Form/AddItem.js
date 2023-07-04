@@ -14,7 +14,7 @@ const itemSchema = Yup.object().shape({
     total: Yup.string().required(),
 });
 
-const AddItem = ({ data, onAddItem }) => {
+const AddItem = ({ data, onAddItem, onUpdateItem }) => {
     const [item, setItem] = useState(null);
     const [showModalItems, setShowModalItems] = useState(false);
 

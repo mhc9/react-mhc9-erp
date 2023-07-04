@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency } from '../../../utils'
 
-const ItemList = ({ items, onEdit, onRemove }) => {
+const ItemList = ({ items, onEditItem, onRemoveItem }) => {
     return (
         <table className="table table-bordered table-striped text-sm mb-2">
             <thead>
@@ -30,10 +30,10 @@ const ItemList = ({ items, onEdit, onRemove }) => {
                         <td className="text-center">{data.item.unit?.name}</td>
                         <td className="text-right">{currency.format(data.total)}</td>
                         <td className="text-center">
-                            <button type="button" className="btn btn-sm btn-outline-warning mr-1" onClick={() => onEdit(data)}>
+                            <button type="button" className="btn btn-sm btn-outline-warning mr-1" onClick={() => onEditItem(data)}>
                                 <FaPencilAlt />
                             </button>
-                            <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => onRemove(data.item.id)}>
+                            <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => onRemoveItem(data.item.id)}>
                                 <FaTrash />
                             </button>
                         </td>

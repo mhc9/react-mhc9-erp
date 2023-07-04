@@ -29,11 +29,16 @@ const RequisitionForm = () => {
         formik.setFieldValue('net_total', calculateNetTotal(newItems));
     };
 
-    const handleEdit = (data) => {
+    const handleEditItem = (data) => {
         setEdittedItem(data);
     };
 
-    const handleRemove = (formik, id) => {
+    const handleUpdateItem = (formik, id, data) => {
+        const updatedItems = items.map(item => item.item_id === data.item_id);
+        console.log(updatedItems);
+    };
+
+    const handleRemoveItem = (formik, id) => {
         const newItems = items.filter(item => item.item_id !== id);
 
         setItems(newItems);
@@ -149,11 +154,12 @@ const RequisitionForm = () => {
                                     <AddItem
                                         data={edittedItem}
                                         onAddItem={(item) => handleAddItem(formik, item)}
+                                        onUpdateItem={(id, item) => handleUpdateItem(formik, id, item)}
                                     />
                                     <ItemList
                                         items={items}
-                                        onEdit={(data) => handleEdit(data)}
-                                        onRemove={(id) => handleRemove(formik, id)}
+                                        onEditItem={(data) => handleEditItem(data)}
+                                        onRemoveItem={(id) => handleRemoveItem(formik, id)}
                                     />
 
                                     <div className="flex flex-row justify-end">
