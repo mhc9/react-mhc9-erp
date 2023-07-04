@@ -40,7 +40,12 @@ const AddItem = ({ data, onAddItem, onUpdateItem }) => {
         // formik.setFieldTouched('unit_id', true);
         formik.setFieldValue('amount', 1);
         // formik.setFieldTouched('amount', true);
-        formik.setFieldValue('total', calculateTotal(item?.price, 1));
+
+        handleCalculateTotal(formik, item?.price, 1);
+    };
+
+    const handleCalculateTotal = (formik, price, amount) => {
+        formik.setFieldValue('total', calculateTotal(price, amount));
         formik.setFieldTouched('total', true);
     };
 
@@ -105,8 +110,11 @@ const AddItem = ({ data, onAddItem, onUpdateItem }) => {
                                 type="text"
                                 name="price"
                                 value={formik.values.price}
-                                onChange={formik.handleChange}
-                                className="form-control text-sm"
+                                onChange={(e) => {
+                                    formik.handleChange(e);
+                                    handleCalculateTotal(formik, e.target.value, formik.values.amount);
+                                }}
+                                className="form-control text-sm text-right"
                                 placeholder="ราคาต่อหน่วย"
                             />
                             {(formik.errors.price && formik.touched.price) && (
@@ -133,8 +141,11 @@ const AddItem = ({ data, onAddItem, onUpdateItem }) => {
                                 type="text"
                                 name="amount"
                                 value={formik.values.amount}
-                                onChange={formik.handleChange}
-                                className="form-control text-sm"
+                                onChange={(e) => {
+                                    formik.handleChange(e);
+                                    handleCalculateTotal(formik, formik.values.price, e.target.value);
+                                }}
+                                className="form-control text-sm text-center"
                                 placeholder="จำนวน"
                             />
                             {(formik.errors.amount && formik.touched.amount) && (
@@ -147,7 +158,7 @@ const AddItem = ({ data, onAddItem, onUpdateItem }) => {
                                 name="total"
                                 value={formik.values.total}
                                 onChange={formik.handleChange}
-                                className="form-control text-sm"
+                                className="form-control text-sm text-right"
                                 placeholder="รวมเป็นเงิน"
                             />
                             {(formik.errors.total && formik.touched.total) && (
