@@ -7,6 +7,7 @@ import AddItem from './AddItem'
 import ItemList from './ItemList'
 import Committee from './Committee'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
+import ModalActivityList from '../../../components/Modals/ActivityList'
 import { calculateNetTotal } from '../../../utils'
 
 const requisitionSchema = Yup.object().shape({
@@ -21,8 +22,10 @@ const requisitionSchema = Yup.object().shape({
 const RequisitionForm = () => {
     const [items, setItems] = useState([]);
     const [requester, setRequester] = useState(null);
+    const [budget, setBudget] = useState(null);
     const [edittedItem, setEdittedItem] = useState(null);
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
+    const [showActivityModal, setShowActivityModal] = useState(false);
 
     const handleAddItem = (formik, item) => {
         const newItems = [...items, item];
@@ -63,6 +66,7 @@ const RequisitionForm = () => {
 
     return (
         <Formik
+            enableReinitialize
             initialValues={{
                 pr_no: '',
                 pr_date: '',
@@ -89,6 +93,12 @@ const RequisitionForm = () => {
                             isShow={showEmployeeModal}
                             onHide={setShowEmployeeModal(false)}
                             onSelect={(employee) => setRequester(employee)}
+                        />
+
+                        <ModalActivityList
+                            isShow={showActivityModal}
+                            onHide={() => setShowActivityModal(false)}
+                            onSelect={(activity) => setBudget(activity)}
                         />
 
                         <Row className="mb-2">
@@ -168,14 +178,17 @@ const RequisitionForm = () => {
                             <Col md={6}>
                                 <label htmlFor="">งบประมาณ</label>
                                 <div className="input-group">
+                                    <div className="form-control h-[34px] text-sm">
+                                        {budget?.name}
+                                    </div>
                                     <input
-                                        type="text"
+                                        type="hidden"
                                         name="budget_id"
                                         value={formik.values.budget_id}
                                         onChange={formik.handleChange}
                                         className="form-control text-sm"
                                     />
-                                    <button type="button" className="btn btn-outline-secondary">
+                                    <button type="button" className="btn btn-outline-secondary" onClick={() => setShowActivityModal(true)}>
                                         <FaSearch />
                                     </button>
                                 </div>
