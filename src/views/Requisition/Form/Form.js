@@ -91,7 +91,7 @@ const RequisitionForm = () => {
                     <Form>
                         <ModalEmployeeList
                             isShow={showEmployeeModal}
-                            onHide={setShowEmployeeModal(false)}
+                            onHide={() => setShowEmployeeModal(false)}
                             onSelect={(employee) => setRequester(employee)}
                         />
 
@@ -229,14 +229,17 @@ const RequisitionForm = () => {
                             <Col md={8}>
                                 <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
                                 <div className="input-group">
+                                    <div className="form-control h-[34px] text-sm">
+                                        {requester?.firstname} {requester?.lastname}
+                                    </div>
                                     <input
-                                        type="text"
+                                        type="hidden"
                                         name="requester_id"
                                         value={formik.values.requester_id}
                                         onChange={formik.handleChange}
                                         className="form-control text-sm"
                                     />
-                                    <button type="button" className="btn btn-outline-secondary">
+                                    <button type="button" className="btn btn-outline-secondary" onClick={() => setShowEmployeeModal(true)}>
                                         <FaSearch />
                                     </button>
                                 </div>
