@@ -173,6 +173,11 @@ const RequisitionForm = () => {
                                     className="form-control text-sm"
                                 >
                                     <option value="">-- ประเภทสินค้า --</option>
+                                    {formData?.categories && formData.categories.map(category => (
+                                        <option value={category.id} key={category.id}>
+                                            {category.name}
+                                        </option>
+                                    ))}
                                 </select>
                                 {(formik.errors.category_id && formik.touched.category_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.category_id}</span>
@@ -232,20 +237,6 @@ const RequisitionForm = () => {
                             </Col>
                         </Row>
                         <Row className="mb-2">
-                            <Col md={4}>
-                                <label htmlFor="">หน่วยงาน</label>
-                                <select
-                                    name="division_id"
-                                    value={formik.values.division_id}
-                                    onChange={formik.handleChange}
-                                    className="form-control text-sm"
-                                >
-                                    <option value="">-- หน่วยงาน --</option>
-                                </select>
-                                {(formik.errors.division_id && formik.touched.division_id) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.division_id}</span>
-                                )}
-                            </Col>
                             <Col md={8}>
                                 <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
                                 <div className="input-group">
@@ -265,6 +256,25 @@ const RequisitionForm = () => {
                                 </div>
                                 {(formik.errors.requester_id && formik.touched.requester_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.requester_id}</span>
+                                )}
+                            </Col>
+                            <Col md={4}>
+                                <label htmlFor="">หน่วยงาน</label>
+                                <select
+                                    name="division_id"
+                                    value={formik.values.division_id}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm"
+                                >
+                                    <option value="">-- หน่วยงาน --</option>
+                                    {formData?.divisions && formData.divisions.map(division => (
+                                        <option value={division.id} key={division.id}>
+                                            {division.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                {(formik.errors.division_id && formik.touched.division_id) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.division_id}</span>
                                 )}
                             </Col>
                         </Row>
