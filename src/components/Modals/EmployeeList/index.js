@@ -5,11 +5,18 @@ import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getEmployees } from '../../../features/employee/employeeSlice';
 import Loading from '../../Loading';
+import FilteringInputs from './FilteringInputs';
+
+const initialFilters = {
+    name: '',
+    division: ''
+};
 
 const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
     const { employees, pager, loading, success } = useSelector(state => state.employee)
     const [apiEndpoint, setApiEndpoint] = useState('');
+    const [filters, setFilters] = useState(initialFilters);
 
     useEffect(() => {
         if (apiEndpoint === '') {
@@ -18,6 +25,20 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
             dispatch(getEmployees({ url: apiEndpoint }));
         }
     }, [apiEndpoint]);
+
+    const handleFilterInputChange = (inputs) => {
+        setFilters(inputs);
+    };
+
+    const handleFilter = () => {
+        const queryStr = `&name=${filters.name}`;
+
+        if (apiEndpoint === '') {
+            setApiEndpoint(`/api/employees/search?page=` + queryStr);
+        } else {
+            setApiEndpoint(apiEndpoint + queryStr);
+        }
+    };
 
     const handlePageClick = (url) => {
         setApiEndpoint(url);
@@ -33,6 +54,12 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
                 <Modal.Title>รายการบุคลากร</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                <FilteringInputs
+                    filters={filters}
+                    onFilter={handleFilter}
+                    onInputChange={handleFilterInputChange}
+                />
+
                 <div>
                     <table className="table table-bordered">
                         <thead>
