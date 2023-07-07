@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, Row } from 'react-bootstrap'
@@ -9,6 +9,7 @@ import Committee from './Committee'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import ModalActivityList from '../../../components/Modals/ActivityList'
 import { calculateNetTotal } from '../../../utils'
+import api from '../../../api'
 
 const requisitionSchema = Yup.object().shape({
     pr_no: Yup.string().required(),
@@ -19,6 +20,12 @@ const requisitionSchema = Yup.object().shape({
     reason: Yup.string().required(),
 });
 
+const initialFormData = {
+    categories: [],
+    departments: [],
+    divisions: [],
+};
+
 const RequisitionForm = () => {
     const [items, setItems] = useState([]);
     const [requester, setRequester] = useState(null);
@@ -26,6 +33,19 @@ const RequisitionForm = () => {
     const [edittedItem, setEdittedItem] = useState(null);
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [showActivityModal, setShowActivityModal] = useState(false);
+    const [formData, setFormData] = useState(initialFormData);
+
+    useEffect(() => {
+        getInitialFormData();
+
+        return () => getInitialFormData();
+    }, []);
+
+    const getInitialFormData = async () => {
+        const res = await api.get(`/api/requisitions/init/form`);
+
+        setFormData(res.data);
+    };
 
     const handleAddItem = (formik, item) => {
         const newItems = [...items, item];
