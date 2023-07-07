@@ -3,6 +3,13 @@ import { Modal, Pagination } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { getBudgets } from '../../../features/budget/budgetSlice';
 import Loading from '../../Loading';
+import FilteringInputs from './FilteringInputs';
+
+const initialFilters = {
+    name: '',
+    type: '',
+    project: '',
+};
 
 const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
@@ -26,6 +33,10 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
         setApiEndpoint(`${url}${queryStr}`);
     };
 
+    const handleFilter = (queryStr) => {
+        console.log(queryStr);
+    };
+
     return (
         <Modal
             show={isShow}
@@ -36,6 +47,12 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
                 <Modal.Title>รายการงบประมาณ</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                <FilteringInputs
+                    initialFilters={initialFilters}
+                    onFilter={handleFilter}
+                    formData={{ types: [{ id: 1, name: 'งบบุคลากร' }, { id: 2, name: 'งบดำเนินงาน' }] }}
+                />
+
                 <div>
                     <table className="table table-bordered">
                         <thead>
