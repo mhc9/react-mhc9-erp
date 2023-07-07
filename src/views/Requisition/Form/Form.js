@@ -7,7 +7,7 @@ import AddItem from './AddItem'
 import ItemList from './ItemList'
 import Committee from './Committee'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
-import ModalActivityList from '../../../components/Modals/ActivityList'
+import ModalBudgetList from '../../../components/Modals/BudgetList'
 import { calculateNetTotal } from '../../../utils'
 import api from '../../../api'
 
@@ -32,7 +32,7 @@ const RequisitionForm = () => {
     const [budget, setBudget] = useState(null);
     const [edittedItem, setEdittedItem] = useState(null);
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
-    const [showActivityModal, setShowActivityModal] = useState(false);
+    const [showBudgetModal, setShowBudgetModal] = useState(false);
     const [formData, setFormData] = useState(initialFormData);
 
     useEffect(() => {
@@ -115,9 +115,9 @@ const RequisitionForm = () => {
                             onSelect={(employee) => setRequester(employee)}
                         />
 
-                        <ModalActivityList
-                            isShow={showActivityModal}
-                            onHide={() => setShowActivityModal(false)}
+                        <ModalBudgetList
+                            isShow={showBudgetModal}
+                            onHide={() => setShowBudgetModal(false)}
                             onSelect={(activity) => setBudget(activity)}
                         />
 
@@ -213,7 +213,7 @@ const RequisitionForm = () => {
                                         onChange={formik.handleChange}
                                         className="form-control text-sm"
                                     />
-                                    <button type="button" className="btn btn-outline-secondary" onClick={() => setShowActivityModal(true)}>
+                                    <button type="button" className="btn btn-outline-secondary" onClick={() => setShowBudgetModal(true)}>
                                         <FaSearch />
                                     </button>
                                 </div>
