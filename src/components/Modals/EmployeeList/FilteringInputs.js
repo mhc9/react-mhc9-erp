@@ -1,12 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Col, FormGroup, Row } from 'react-bootstrap'
 
-const FilteringInputs = ({ filters, onFilter, onInputChange }) => {
+const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
+    const [filters, setFilters] = useState(initialFilters);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
-        onInputChange({ ...filters, [name]: value })
+        setFilters({ ...filters, [name]: value })
     };
+
+    const handleFilter = () => {
+        let queryStr = '';
+        for (const [key, val] of Object.entries(filters)) {
+            queryStr += `&${key}=${val}`;
+        }
+
+        onFilter(queryStr);
+    }
 
     return (
         <Row className="mb-3">
@@ -18,12 +29,27 @@ const FilteringInputs = ({ filters, onFilter, onInputChange }) => {
                             name="name"
                             value={filters.name}
                             onChange={handleInputChange}
-                            placeholder=""
+                            placeholder="ระบุชื่อ"
                             className="form-control"
                         />
                     </FormGroup>
                     <FormGroup>
-                        <button type="button" className="btn btn-outline-secondary" onClick={() => onFilter()}>
+                        <select
+                            name="division"
+                            value={filters.division}
+                            onChange={handleInputChange}
+                            className="form-control"
+                        >
+                            <option value="">-- หน่วยงาน --</option>
+                            {formData.divisions && formData.divisions.map(division => (
+                                <option value={division.id} key={division.id}>
+                                    {division.name}
+                                </option>
+                            ))}
+                        </select>
+                    </FormGroup>
+                    <FormGroup>
+                        <button type="button" className="btn btn-outline-secondary" onClick={handleFilter}>
                             ตกลง
                         </button>
                     </FormGroup>

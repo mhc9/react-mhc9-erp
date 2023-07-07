@@ -16,7 +16,6 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
     const { employees, pager, loading, success } = useSelector(state => state.employee)
     const [apiEndpoint, setApiEndpoint] = useState('');
-    const [filters, setFilters] = useState(initialFilters);
 
     useEffect(() => {
         if (apiEndpoint === '') {
@@ -26,13 +25,7 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
         }
     }, [apiEndpoint]);
 
-    const handleFilterInputChange = (inputs) => {
-        setFilters(inputs);
-    };
-
-    const handleFilter = () => {
-        const queryStr = `&name=${filters.name}`;
-
+    const handleFilter = (queryStr) => {
         if (apiEndpoint === '') {
             setApiEndpoint(`/api/employees/search?page=` + queryStr);
         } else {
@@ -55,9 +48,9 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
             </Modal.Header>
             <Modal.Body>
                 <FilteringInputs
-                    filters={filters}
+                    initialFilters={initialFilters}
                     onFilter={handleFilter}
-                    onInputChange={handleFilterInputChange}
+                    formData={{ divisions: [] }}
                 />
 
                 <div>
