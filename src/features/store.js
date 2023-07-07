@@ -11,7 +11,7 @@ import divisionReducer from "./division/divisionSlice";
 import roomReducer from "./room/roomSlice";
 import taskRecuer from "./task/taskSlice";
 import itemReducer from "./item/itemSlice";
-import activityReducer from "./activity/activitySlice";
+import budgetReducer from "./budget/budgetSlice";
 import { authApi } from "../services/auth/authService";
 
 export default configureStore({
@@ -29,7 +29,7 @@ export default configureStore({
         room: roomReducer,
         task: taskRecuer,
         item: itemReducer,
-        activity: activityReducer,
+        budget: budgetReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware),
 });

@@ -2,15 +2,15 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from '../../api';
 
 const initialState = {
-    activity: null,
-    activities: [],
+    budget: null,
+    budgets: [],
     pager: null,
     isLoading: false,
     isSuccess: false,
     error: null
 };
 
-export const getActivities = createAsyncThunk("asset/getActivities", async ({ url }, { rejectWithValue }) => {
+export const getBudgets = createAsyncThunk("asset/getBudgets", async ({ url }, { rejectWithValue }) => {
     try {
         const res = await api.get(url);
 
@@ -20,9 +20,9 @@ export const getActivities = createAsyncThunk("asset/getActivities", async ({ ur
     }
 });
 
-export const getActivity = createAsyncThunk("asset/getActivity", async ({ id }, { rejectWithValue }) => {
+export const getBudget = createAsyncThunk("asset/getBudget", async ({ id }, { rejectWithValue }) => {
     try {
-        const res = await api.get(`/api/activities/${id}`);
+        const res = await api.get(`/api/budgets/${id}`);
 
         return res.data;
     } catch (error) {
@@ -32,7 +32,7 @@ export const getActivity = createAsyncThunk("asset/getActivity", async ({ id }, 
 
 export const store = createAsyncThunk("asset/store", async (data, { rejectWithValue }) => {
     try {
-        const res = await api.post(`/api/activities`, data);
+        const res = await api.post(`/api/budgets`, data);
 
         return res.data;
     } catch (error) {
@@ -42,9 +42,9 @@ export const store = createAsyncThunk("asset/store", async (data, { rejectWithVa
 
 export const update = createAsyncThunk("asset/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/activities/${id}`, data);
+        const res = await api.put(`/api/budgets/${id}`, data);
 
-        dispatch(getActivities({ url: '/api/activities' }));
+        dispatch(getBudgets({ url: '/api/budgets' }));
 
         return res.data;
     } catch (error) {
@@ -54,9 +54,9 @@ export const update = createAsyncThunk("asset/update", async ({ id, data }, { di
 
 export const destroy = createAsyncThunk("asset/destroy", async ({ id }, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.delete(`/api/activities/${id}`);
+        const res = await api.delete(`/api/budgets/${id}`);
 
-        dispatch(getActivities({ url: '/api/activities' }));
+        dispatch(getBudgets({ url: '/api/budgets' }));
 
         return res.data;
     } catch (error) {
@@ -64,7 +64,7 @@ export const destroy = createAsyncThunk("asset/destroy", async ({ id }, { dispat
     }
 });
 
-export const activitySlice = createSlice({
+export const budgetSlice = createSlice({
     name: 'asset',
     initialState,
     reducers: {
@@ -73,37 +73,37 @@ export const activitySlice = createSlice({
         }
     },
     extraReducers: {
-        [getActivities.pending]: (state) => {
-            state.activities = [];
+        [getBudgets.pending]: (state) => {
+            state.budgets = [];
             state.pager = null;
             state.isLoading = true;
             // state.isSuccess = false;
             state.error = null;
         },
-        [getActivities.fulfilled]: (state, { payload }) => {
+        [getBudgets.fulfilled]: (state, { payload }) => {
             const { data, ...pager } = payload;
 
-            state.activities = data;
+            state.budgets = data;
             state.pager = pager;
             state.isLoading = false
             // state.isSuccess = true;
         },
-        [getActivities.rejected]: (state, { payload }) => {
+        [getBudgets.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },
-        [getActivity.pending]: (state) => {
-            state.activity = null;
+        [getBudget.pending]: (state) => {
+            state.budget = null;
             state.isLoading = true;
             // state.isSuccess = false;
             state.error = null;
         },
-        [getActivity.fulfilled]: (state, { payload }) => {
-            state.activity = payload;
+        [getBudget.fulfilled]: (state, { payload }) => {
+            state.budget = payload;
             state.isLoading = false
             // state.isSuccess = true;
         },
-        [getActivity.rejected]: (state, { payload }) => {
+        [getBudget.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },
@@ -149,6 +149,6 @@ export const activitySlice = createSlice({
     }
 });
 
-export default activitySlice.reducer;
+export default budgetSlice.reducer;
 
-export const { resetSuccess } = activitySlice.actions;
+export const { resetSuccess } = budgetSlice.actions;
