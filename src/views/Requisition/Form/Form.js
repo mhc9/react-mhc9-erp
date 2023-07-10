@@ -104,13 +104,26 @@ const RequisitionForm = () => {
                                 <ModalEmployeeList
                                     isShow={showEmployeeModal}
                                     onHide={() => setShowEmployeeModal(false)}
-                                    onSelect={(employee) => setRequester(employee)}
+                                    onSelect={(employee) => {
+                                        setRequester(employee);
+                                        formik.setFieldValue('requester_id', employee.id);
+
+                                        /** Set default division_id of employee is member */
+                                        if (employee.member_of.length > 0) {
+                                            formik.setFieldValue('division_id', employee.member_of[0]?.division_id);
+                                        } else {
+                                            formik.setFieldValue('division_id', '');
+                                        }
+                                    }}
                                 />
 
                                 <ModalBudgetList
                                     isShow={showBudgetModal}
                                     onHide={() => setShowBudgetModal(false)}
-                                    onSelect={(activity) => setBudget(activity)}
+                                    onSelect={(budget) => {
+                                        setBudget(budget);
+                                        formik.setFieldValue('budget_id', budget.id);
+                                    }}
                                 />
 
                                 <Row className="mb-2">
