@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Pagination } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getEmployees } from '../../../features/employee/employeeSlice';
 import Loading from '../../Loading';
@@ -14,7 +13,7 @@ const initialFilters = {
 
 const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
-    const { employees, pager, loading, success } = useSelector(state => state.employee)
+    const { employees, pager, isLoading, isSuccess } = useSelector(state => state.employee)
     const [apiEndpoint, setApiEndpoint] = useState('');
 
     useEffect(() => {
@@ -64,7 +63,7 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {loading && (
+                            {isLoading && (
                                 <tr>
                                     <td colSpan={4} className="text-center">
                                         <Loading />
@@ -90,7 +89,7 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
                                     </td>
                                 </tr>
                             ))}
-                            {!loading && employees.length <= 0 && (
+                            {!isLoading && employees.length <= 0 && (
                                 <tr>
                                     <td colSpan={4} className="text-center">
                                         -- ไม่มีข้อมูล --
