@@ -19,6 +19,7 @@ const requisitionSchema = Yup.object().shape({
     division_id: Yup.string().required(),
     budget_id: Yup.string().required(),
     reason: Yup.string().required(),
+    committees: Yup.mixed().test('Count', 'ไม่พบการระบุผู้ตรวจรับ', val => val.length > 0),
 });
 
 const initialFormData = {
@@ -67,6 +68,10 @@ const RequisitionForm = () => {
         setItems(newItems);
         formik.setFieldValue('item_count', newItems.length);
         formik.setFieldValue('net_total', calculateNetTotal(newItems));
+    };
+
+    const handleUpdateCommittees = (formik, committees) => {
+        formik.setFieldValue('committees', committees);
     };
 
     const handleSubmit = (values, formik) => {
@@ -334,7 +339,13 @@ const RequisitionForm = () => {
                                 </Row>
                                 <Row className="mb-2">
                                     <Col>
-                                        <Committee />
+                                        <Committee
+                                            defaultValue={formik.values.committees}
+                                            onUpdate={(committees) => handleUpdateCommittees(formik, committees)}
+                                        />
+                                        {(formik.errors.committees && formik.touched.committees) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.committees}</span>
+                                        )}
                                     </Col>
                                 </Row>
                                 <Row>
