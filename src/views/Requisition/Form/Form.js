@@ -103,7 +103,7 @@ const RequisitionForm = () => {
             {(formik) => {
                 return (
                     <Form>
-                        {isLoading && <Loading />}
+                        {isLoading && <div className="text-center"><Loading /></div>}
                         {!isLoading && (
                             <>
                                 <ModalEmployeeList
