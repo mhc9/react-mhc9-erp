@@ -13,11 +13,13 @@ import taskRecuer from "./task/taskSlice";
 import itemReducer from "./item/itemSlice";
 import budgetReducer from "./budget/budgetSlice";
 import { authApi } from "../services/auth/authService";
+import { requisitionApi } from "../services/requisition/requisitionService";
 
 export default configureStore({
     reducer: {
         auth: authReducer,
         [authApi.reducerPath]: authApi.reducer,
+        [requisitionApi.reducerPath]: requisitionApi.reducer,
         equipment: equipmentReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
@@ -31,5 +33,6 @@ export default configureStore({
         item: itemReducer,
         budget: budgetReducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware),
+    middleware: (getDefaultMiddleware) => 
+        getDefaultMiddleware().concat(authApi.middleware, requisitionApi.middleware),
 });
