@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import { Col, Row } from 'react-bootstrap'
 import { FaSearch } from 'react-icons/fa'
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import moment from 'moment'
 import AddItem from './AddItem'
 import ItemList from './ItemList'
 import Committee from './Committee'
@@ -13,7 +14,6 @@ import Loading from '../../../components/Loading'
 import { calculateNetTotal } from '../../../utils'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
 import { useGetInitialFormDataQuery } from '../../../services/requisition/requisitionService'
-import moment from 'moment'
 
 const requisitionSchema = Yup.object().shape({
     pr_no: Yup.string().required(),
@@ -195,10 +195,14 @@ const RequisitionForm = () => {
                                             className="form-control text-sm"
                                         >
                                             <option value="">-- ประเภทสินค้า --</option>
-                                            {formData?.categories && formData.categories.map(category => (
-                                                <option value={category.id} key={category.id}>
-                                                    {category.name}
-                                                </option>
+                                            {formData?.types && formData.types.map(type => (
+                                                <optgroup key={type.id} label={type.name}>
+                                                    {type.categories.map(category => (
+                                                        <option value={category.id} key={category.id}>
+                                                            {category.name}
+                                                        </option>
+                                                    ))}
+                                                </optgroup>
                                             ))}
                                         </select>
                                         {(formik.errors.category_id && formik.touched.category_id) && (
