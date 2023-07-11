@@ -5,16 +5,22 @@ import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getEmployees } from '../../../features/employee/employeeSlice';
 import Loading from '../../Loading';
 import FilteringInputs from './FilteringInputs';
+import { useGetInitialFormDataQuery } from '../../../services/employee/employeeService';
 
 const initialFilters = {
     name: '',
     division: ''
 };
 
+const initialFormData = {
+    divisions: []
+};
+
 const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
-    const { employees, pager, isLoading, isSuccess } = useSelector(state => state.employee)
+    const { employees, pager, isLoading } = useSelector(state => state.employee)
     const [apiEndpoint, setApiEndpoint] = useState('');
+    const { data: formData = initialFormData } = useGetInitialFormDataQuery();
 
     useEffect(() => {
         if (apiEndpoint === '') {
@@ -49,7 +55,7 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
                 <FilteringInputs
                     initialFilters={initialFilters}
                     onFilter={handleFilter}
-                    formData={{ divisions: [] }}
+                    formData={formData}
                 />
 
                 <div>

@@ -17,7 +17,9 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
         }
 
         onFilter(queryStr);
-    }
+    };
+
+    console.log(formData);
 
     return (
         <Row className="mb-3">
