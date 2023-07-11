@@ -14,12 +14,14 @@ import itemReducer from "./item/itemSlice";
 import budgetReducer from "./budget/budgetSlice";
 import { authApi } from "../services/auth/authService";
 import { requisitionApi } from "../services/requisition/requisitionService";
+import { employeeApi } from "../services/employee/employeeService";
 
 export default configureStore({
     reducer: {
         auth: authReducer,
         [authApi.reducerPath]: authApi.reducer,
         [requisitionApi.reducerPath]: requisitionApi.reducer,
+        [employeeApi.reducerPath]: employeeApi.reducer,
         equipment: equipmentReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
@@ -34,5 +36,9 @@ export default configureStore({
         budget: budgetReducer,
     },
     middleware: (getDefaultMiddleware) => 
-        getDefaultMiddleware().concat(authApi.middleware, requisitionApi.middleware),
+        getDefaultMiddleware().concat(
+            authApi.middleware,
+            requisitionApi.middleware,
+            employeeApi.middleware,
+        ),
 });
