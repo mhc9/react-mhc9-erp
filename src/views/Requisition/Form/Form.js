@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, Row } from 'react-bootstrap'
 import { FaSearch } from 'react-icons/fa'
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import AddItem from './AddItem'
 import ItemList from './ItemList'
 import Committee from './Committee'
@@ -10,7 +11,9 @@ import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import ModalBudgetList from '../../../components/Modals/BudgetList'
 import Loading from '../../../components/Loading'
 import { calculateNetTotal } from '../../../utils'
+import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
 import { useGetInitialFormDataQuery } from '../../../services/requisition/requisitionService'
+import moment from 'moment'
 
 const requisitionSchema = Yup.object().shape({
     pr_no: Yup.string().required(),
@@ -33,6 +36,7 @@ const RequisitionForm = () => {
     const [requester, setRequester] = useState(null);
     const [budget, setBudget] = useState(null);
     const [edittedItem, setEdittedItem] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(moment().add(0, "years"));
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [showBudgetModal, setShowBudgetModal] = useState(false);
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
@@ -83,8 +87,8 @@ const RequisitionForm = () => {
             enableReinitialize
             initialValues={{
                 pr_no: '',
-                pr_date: '',
-                order_type_id: '',
+                pr_date: moment().format('YYYY-MM-DD'),
+                order_type_id: 1,
                 category_id: '',
                 topic: '',
                 budget_id: '',
@@ -116,8 +120,6 @@ const RequisitionForm = () => {
                                         /** Set default division_id of employee is member */
                                         if (employee.member_of.length > 0) {
                                             formik.setFieldValue('division_id', employee.member_of[0]?.division_id);
-                                        } else {
-                                            formik.setFieldValue('division_id', '');
                                         }
                                     }}
                                 />
@@ -147,13 +149,23 @@ const RequisitionForm = () => {
                                     </Col>
                                     <Col md={3}>
                                         <label htmlFor="">วันที่เอกสาร</label>
-                                        <input
+                                        <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedDate}
+                                                onChange={(date) => {
+                                                    setSelectedDate(date);
+                                                    formik.setFieldValue('pr_date', date.format('YYYY-MM-DD'));
+                                                }}
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                        {/* <input
                                             type="text"
                                             name="pr_date"
                                             value={formik.values.pr_date}
                                             onChange={formik.handleChange}
                                             className="form-control text-sm"
-                                        />
+                                        /> */}
                                         {(formik.errors.pr_date && formik.touched.pr_date) && (
                                             <span className="text-red-500 text-sm">{formik.errors.pr_date}</span>
                                         )}
