@@ -11,8 +11,12 @@ const Department = () => {
     const [department, setDepartment] = useState(null);
 
     useEffect(() => {
-        dispatch(getDepartments());
+        dispatch(getDepartments({ url: `/api/departments` }));
     }, [dispatch]);
+
+    const handlePageClick = (url) => {
+
+    };
 
     return (
         <div className="content-wrapper">
@@ -36,7 +40,8 @@ const Department = () => {
                 <DepartmentList
                     departments={departments}
                     pager={pager}
-                    handleEditting={(dep) => setDepartment(dep)}
+                    onEditting={(dep) => setDepartment(dep)}
+                    onPageClick={handlePageClick}
                 />
             </div>
         </div>
