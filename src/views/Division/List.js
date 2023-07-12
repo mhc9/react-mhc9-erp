@@ -1,11 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { AiFillBulb } from 'react-icons/ai'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
-import { useSelector } from 'react-redux';
+import { Pagination } from 'react-bootstrap';
 import Loading from '../../components/Loading'
 
-const DivisionList = ({ divisions, pager, handleEditting }) => {
+const DivisionList = ({ divisions, pager, onEditting, onPageClick }) => {
     const { loading } = useSelector(state => state.division);
 
     return (
@@ -49,7 +50,7 @@ const DivisionList = ({ divisions, pager, handleEditting }) => {
                                 )}
                             </td>
                             <td className="text-center">
-                                <button onClick={() => handleEditting(division)} className="btn btn-sm btn-warning mr-1">
+                                <button onClick={() => onEditting(division)} className="btn btn-sm btn-warning mr-1">
                                     <FaPencilAlt />
                                 </button>
                                 <button className="btn btn-sm btn-danger">
@@ -60,6 +61,26 @@ const DivisionList = ({ divisions, pager, handleEditting }) => {
                     ))}
                 </tbody>
             </table>
+
+            {pager && (
+                    <Pagination>
+                        <Pagination.First disabled={pager.current_page === 1} onClick={() => onPageClick(pager.first_page_url)} />
+                        <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => onPageClick(pager.prev_page_url)} />
+                        {/* <Pagination.Item>{1}</Pagination.Item>
+                        <Pagination.Ellipsis />
+
+                        <Pagination.Item>{10}</Pagination.Item>
+                        <Pagination.Item>{11}</Pagination.Item>
+                        <Pagination.Item active>{12}</Pagination.Item>
+                        <Pagination.Item>{13}</Pagination.Item>
+                        <Pagination.Item disabled>{14}</Pagination.Item>
+
+                        <Pagination.Ellipsis />
+                        <Pagination.Item>{20}</Pagination.Item> */}
+                        <Pagination.Next disabled={!pager.next_page_url} onClick={() => onPageClick(pager.next_page_url)} />
+                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => onPageClick(pager.last_page_url)} />
+                    </Pagination>
+                )}
         </div>
     )
 }

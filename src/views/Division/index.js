@@ -9,10 +9,19 @@ const Division = () => {
     const dispatch = useDispatch();
     const { divisions, pager } = useSelector(state => state.division);
     const [division, setDivision] = useState(null);
+    const [apiEndpoint, setApiEndpoint] = useState('');
 
     useEffect(() => {
-        dispatch(getDivisions());
-    }, [dispatch]);
+        if (apiEndpoint === '') {
+            dispatch(getDivisions());
+        } else {
+            dispatch(getDivisions());
+        }
+    }, [dispatch, apiEndpoint]);
+
+    const handlePageClick = (url) => {
+        setApiEndpoint(url);
+    };
 
     return (
         <div className="content-wrapper">
@@ -36,7 +45,8 @@ const Division = () => {
                 <DivisionList
                     divisions={divisions}
                     pager={pager}
-                    handleEditting={(dep) => setDivision(dep)}
+                    onEditting={(dep) => setDivision(dep)}
+                    onPageClick={handlePageClick}
                 />
             </div>
         </div>
