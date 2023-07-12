@@ -2,10 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from '../../api';
 
 const initialState = {
+    department: null,
     departments: [],
     pager: null,
-    loading: false,
-    success: false,
+    isLoading: false,
+    isSuccess: false,
     error: null
 };
 
@@ -81,50 +82,50 @@ export const departmentSlice = createSlice({
     },
     extraReducers: {
         [getDepartments.pending]: (state) => {
-            state.loading = true;
+            state.isLoading = true;
         },
         [getDepartments.fulfilled]: (state, { payload }) => {
             const { data, ...pager } = payload;
 
             state.departments = data;
             state.pager = pager;
-            state.loading = false;
+            state.isLoading = false;
         },
         [getDepartments.rejected]: (state, { payload }) => {
-            state.loading = false;
+            state.isLoading = false;
             state.error = payload;
         },
         [store.pending]: (state) => {
-            state.loading = true;
+            state.isLoading = true;
         },
         [store.fulfilled]: (state, { payload }) => {
-            state.loading = false;
-            state.success = true;
+            state.isLoading = false;
+            state.isSuccess = true;
         },
         [store.rejected]: (state, { payload }) => {
-            state.loading = false;
+            state.isLoading = false;
             state.error = payload;
         },
         [update.pending]: (state) => {
-            state.loading = true;
+            state.isLoading = true;
         },
         [update.fulfilled]: (state, { payload }) => {
-            state.loading = false;
-            state.success = true;
+            state.isLoading = false;
+            state.isSuccess = true;
         },
         [update.rejected]: (state, { payload }) => {
-            state.loading = false;
+            state.isLoading = false;
             state.error = payload;
         },
         [destroy.pending]: (state) => {
-            state.loading = true;
+            state.isLoading = true;
         },
         [destroy.fulfilled]: (state, { payload }) => {
-            state.loading = false;
-            state.success = true;
+            state.isLoading = false;
+            state.isSuccess = true;
         },
         [destroy.rejected]: (state, { payload }) => {
-            state.loading = false;
+            state.isLoading = false;
             state.error = payload;
         },
     }

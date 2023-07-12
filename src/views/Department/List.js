@@ -1,10 +1,19 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { AiFillBulb } from 'react-icons/ai'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { Pagination } from 'react-bootstrap'
+import Loading from '../../components/Loading'
 
 const DepartmentList = ({ departments, pager, onEditting, onPageClick }) => {
+    const dispatch = useDispatch();
+    const { isLoading } = useSelector(state => state.department);
+
+    const handleDelete = (id) => {
+
+    };
+
     return (
         <div className="mt-2">
             <table className="table table-bordered">
@@ -17,7 +26,12 @@ const DepartmentList = ({ departments, pager, onEditting, onPageClick }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {departments && departments.map((dep, index) => (
+                    {isLoading && (
+                        <tr>
+                            <td colSpan={4} className="text-center"><Loading /></td>
+                        </tr>
+                    )}
+                    {(!isLoading && departments) && departments.map((dep, index) => (
                         <tr key={dep.id}>
                             <td className="text-center">{index+pager.from}</td>
                             <td>{dep.name}</td>
@@ -42,7 +56,7 @@ const DepartmentList = ({ departments, pager, onEditting, onPageClick }) => {
                                 <button onClick={() => onEditting(dep)} className="btn btn-sm btn-warning mr-1">
                                     <FaPencilAlt />
                                 </button>
-                                <button className="btn btn-sm btn-danger">
+                                <button className="btn btn-sm btn-danger" onClick={() => handleDelete(dep.id)}>
                                     <FaTrash />
                                 </button>
                             </td>
