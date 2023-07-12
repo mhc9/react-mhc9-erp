@@ -9,13 +9,18 @@ const Department = () => {
     const dispatch = useDispatch();
     const { departments, pager } = useSelector(state => state.department);
     const [department, setDepartment] = useState(null);
+    const [apiEndpoint, setApiEndpoint] = useState('');
 
     useEffect(() => {
-        dispatch(getDepartments({ url: `/api/departments` }));
-    }, [dispatch]);
+        if (apiEndpoint === '') {
+            dispatch(getDepartments({ url: `/api/departments` }));
+        } else {
+            dispatch(getDepartments({ url: apiEndpoint }));
+        }
+    }, [dispatch, apiEndpoint]);
 
     const handlePageClick = (url) => {
-
+        setApiEndpoint(url)
     };
 
     return (

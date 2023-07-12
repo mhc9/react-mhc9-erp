@@ -51,7 +51,7 @@ const DepartmentList = ({ departments, pager, onEditting, onPageClick }) => {
                 </tbody>
             </table>
 
-            {pager && (
+            {(pager && pager.last_page > 1) && (
                 <Pagination>
                     <Pagination.First disabled={pager.current_page === 1} onClick={() => onPageClick(pager.first_page_url)} />
                     <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => onPageClick(pager.prev_page_url)} />
