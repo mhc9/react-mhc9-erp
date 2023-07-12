@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, Row } from 'react-bootstrap'
@@ -14,6 +15,7 @@ import Loading from '../../../components/Loading'
 import { calculateNetTotal } from '../../../utils'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
 import { useGetInitialFormDataQuery } from '../../../services/requisition/requisitionService'
+import { store } from '../../../features/requisition/requisitionSlice'
 
 const requisitionSchema = Yup.object().shape({
     pr_no: Yup.string().required(),
@@ -37,6 +39,7 @@ const initialFormData = {
 };
 
 const RequisitionForm = () => {
+    const dispatch = useDispatch();
     const [items, setItems] = useState([]);
     const [requester, setRequester] = useState(null);
     const [budget, setBudget] = useState(null);
@@ -88,7 +91,9 @@ const RequisitionForm = () => {
     };
 
     const handleSubmit = (values, formik) => {
-        console.log(values, formik);
+        dispatch(store(values));
+
+        formik.resetForm();
     };
 
     return (
