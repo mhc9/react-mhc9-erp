@@ -40,6 +40,7 @@ const Division = () => {
                 <DivisionForm
                     division={division}
                     onCancel={() => setDivision(null)}
+                    onSuccess={() => setApiEndpoint('')}
                 />
 
                 <DivisionList

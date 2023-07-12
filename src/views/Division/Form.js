@@ -10,7 +10,7 @@ const divisionSchema = Yup.object().shape({
     department_id: Yup.string().required(),
 });
 
-const DivisionForm = ({ division, onCancel }) => {
+const DivisionForm = ({ division, onCancel, onSuccess }) => {
     const dispatch = useDispatch();
     const [departments, setDepartments] = useState([]);
 
@@ -40,6 +40,7 @@ const DivisionForm = ({ division, onCancel }) => {
         }
 
         props.resetForm();
+        onSuccess();
     };
 
     return (
