@@ -13,9 +13,9 @@ const Division = () => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getDivisions());
+            dispatch(getDivisions({ url: `/api/divisions` }));
         } else {
-            dispatch(getDivisions());
+            dispatch(getDivisions({ url: apiEndpoint }));
         }
     }, [dispatch, apiEndpoint]);
 
