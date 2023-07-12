@@ -54,9 +54,9 @@ export const update = createAsyncThunk("division/update", async ({ id, data }, {
     }
 });
 
-export const destroy = createAsyncThunk("division/destroy", async ({ id, data }, { dispatch, rejectWithValue }) => {
+export const destroy = createAsyncThunk("division/destroy", async (id, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/divisions/${id}`, data);
+        const res = await api.delete(`/api/divisions/${id}`);
 
         dispatch(getDivisions({ url: `/api/divisions` }));
 

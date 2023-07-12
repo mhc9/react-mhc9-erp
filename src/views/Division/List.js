@@ -1,13 +1,21 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AiFillBulb } from 'react-icons/ai'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { Pagination } from 'react-bootstrap';
-import Loading from '../../components/Loading'
+import Loading from '../../components/Loading';
+import { destroy } from '../../features/division/divisionSlice';
 
 const DivisionList = ({ divisions, pager, onEditting, onPageClick }) => {
+    const dispatch = useDispatch();
     const { loading } = useSelector(state => state.division);
+
+    const handleDelete = (id) => {
+        if (window.confirm('คุณต้องการลบรายการหน่วยงานหรือไม่?')) {
+            dispatch(destroy(id));
+        }
+    };
 
     return (
         <div className="mt-2">
@@ -53,7 +61,7 @@ const DivisionList = ({ divisions, pager, onEditting, onPageClick }) => {
                                 <button onClick={() => onEditting(division)} className="btn btn-sm btn-warning mr-1">
                                     <FaPencilAlt />
                                 </button>
-                                <button className="btn btn-sm btn-danger">
+                                <button className="btn btn-sm btn-danger" onClick={() => handleDelete(division.id)}>
                                     <FaTrash />
                                 </button>
                             </td>
