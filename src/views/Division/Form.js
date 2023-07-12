@@ -22,7 +22,7 @@ const DivisionForm = ({ division, handleCancel }) => {
 
     const getDepartments = async () => {
         try {
-            const res = await api.get(`/api/divisions/form/init`);
+            const res = await api.get(`/api/divisions/init/form`);
 
             setDepartments(res.data.departments);
         } catch (error) {

@@ -34,7 +34,7 @@ export const store = createAsyncThunk("division/store", async (data, { dispatch,
     try {
         const res = await api.post(`/api/divisions`, data);
 
-        dispatch(getDivisions());
+        dispatch(getDivisions({ url: `/api/divisions` }));
 
         return res.data;
     } catch (error) {
@@ -46,7 +46,7 @@ export const update = createAsyncThunk("division/update", async ({ id, data }, {
     try {
         const res = await api.put(`/api/divisions/${id}`, data);
 
-        dispatch(getDivisions());
+        dispatch(getDivisions({ url: `/api/divisions` }));
 
         return res.data;
     } catch (error) {
@@ -58,7 +58,7 @@ export const destroy = createAsyncThunk("division/destroy", async ({ id, data },
     try {
         const res = await api.put(`/api/divisions/${id}`, data);
 
-        dispatch(getDivisions());
+        dispatch(getDivisions({ url: `/api/divisions` }));
 
         return res.data;
     } catch (error) {
