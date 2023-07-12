@@ -293,10 +293,14 @@ const RequisitionForm = () => {
                                             className="form-control text-sm"
                                         >
                                             <option value="">-- หน่วยงาน --</option>
-                                            {formData?.divisions && formData.divisions.map(division => (
-                                                <option value={division.id} key={division.id}>
-                                                    {division.name}
-                                                </option>
+                                            {formData?.departments && formData.departments.map(dep => (
+                                                <optgroup key={dep.id} label={dep.name}>
+                                                    {dep.divisions.map(division => (
+                                                        <option value={division.id} key={division.id}>
+                                                            {division.name}
+                                                        </option>
+                                                    ))}
+                                                </optgroup>
                                             ))}
                                         </select>
                                         {(formik.errors.division_id && formik.touched.division_id) && (
