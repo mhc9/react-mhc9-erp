@@ -18,11 +18,16 @@ import { useGetInitialFormDataQuery } from '../../../services/requisition/requis
 const requisitionSchema = Yup.object().shape({
     pr_no: Yup.string().required(),
     pr_date: Yup.string().required(),
+    order_type_id: Yup.string().required(),
+    category_id: Yup.string().required(),
+    topic: Yup.string().required(),
+    year: Yup.string().required(),
+    budget_id: Yup.string().required(),
     requester_id: Yup.string().required(),
     division_id: Yup.string().required(),
-    budget_id: Yup.string().required(),
     reason: Yup.string().required(),
-    committees: Yup.mixed().test('Count', 'ไม่พบการระบุผู้ตรวจรับ', val => val.length > 0),
+    items: Yup.mixed().test('Items Count', 'ไม่พบการระบุรายการสินค้า', val => val.length > 0),
+    committees: Yup.mixed().test('Committees Count', 'ไม่พบการระบุผู้ตรวจรับ', val => val.length > 0),
 });
 
 const initialFormData = {
@@ -37,6 +42,7 @@ const RequisitionForm = () => {
     const [budget, setBudget] = useState(null);
     const [edittedItem, setEdittedItem] = useState(null);
     const [selectedDate, setSelectedDate] = useState(moment().add(0, "years"));
+    const [selectedYear, setSelectedYear] = useState(moment().add(0, "years"));
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [showBudgetModal, setShowBudgetModal] = useState(false);
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
@@ -45,6 +51,7 @@ const RequisitionForm = () => {
         const newItems = [...items, item];
 
         setItems(newItems);
+        formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_count', newItems.length);
         formik.setFieldValue('net_total', calculateNetTotal(newItems));
     };
@@ -62,6 +69,7 @@ const RequisitionForm = () => {
 
         setEdittedItem(null);
         setItems(updatedItems);
+        formik.setFieldValue('items', updatedItems);
         formik.setFieldValue('item_count', updatedItems.length);
         formik.setFieldValue('net_total', calculateNetTotal(updatedItems));
     };
@@ -70,6 +78,7 @@ const RequisitionForm = () => {
         const newItems = items.filter(item => item.item_id !== id);
 
         setItems(newItems);
+        formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_count', newItems.length);
         formik.setFieldValue('net_total', calculateNetTotal(newItems));
     };
@@ -91,6 +100,7 @@ const RequisitionForm = () => {
                 order_type_id: 1,
                 category_id: '',
                 topic: '',
+                year: moment().year() + 543,
                 budget_id: '',
                 project_id: '',
                 division_id: '',
@@ -263,7 +273,24 @@ const RequisitionForm = () => {
                                     </Col>
                                 </Row>
                                 <Row className="mb-2">
-                                    <Col md={8}>
+                                    <Col md={2}>
+                                        <label htmlFor="">ปีงบ</label>
+                                        <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                            <DatePicker
+                                                format="YYYY"
+                                                views={['year']}
+                                                value={selectedYear}
+                                                onChange={(date) => {
+                                                    setSelectedYear(date);
+                                                    formik.setFieldValue('year', date.year() + 543);
+                                                }}
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                        {(formik.errors.year && formik.touched.year) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.year}</span>
+                                        )}
+                                    </Col>
+                                    <Col md={6}>
                                         <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
                                         <div className="input-group">
                                             <div className="form-control h-[34px] text-sm">
@@ -355,6 +382,9 @@ const RequisitionForm = () => {
                                                 <div className="w-[10%]"></div>
                                             </div>
                                         </div>
+                                        {(formik.errors.items && formik.touched.items) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.items}</span>
+                                        )}
                                     </Col>
                                 </Row>
                                 <Row className="mb-2">

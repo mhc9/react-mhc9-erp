@@ -12,6 +12,7 @@ import roomReducer from "./room/roomSlice";
 import taskRecuer from "./task/taskSlice";
 import itemReducer from "./item/itemSlice";
 import budgetReducer from "./budget/budgetSlice";
+import requisitionReducer from "./requisition/requisitionSlice";
 import { authApi } from "../services/auth/authService";
 import { requisitionApi } from "../services/requisition/requisitionService";
 import { employeeApi } from "../services/employee/employeeService";
@@ -34,6 +35,7 @@ export default configureStore({
         task: taskRecuer,
         item: itemReducer,
         budget: budgetReducer,
+        requisition: requisitionReducer,
     },
     middleware: (getDefaultMiddleware) => 
         getDefaultMiddleware().concat(
