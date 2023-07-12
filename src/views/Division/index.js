@@ -48,6 +48,7 @@ const Division = () => {
                     pager={pager}
                     onEditting={(dep) => setDivision(dep)}
                     onPageClick={handlePageClick}
+                    onDeleted={() => setApiEndpoint('')}
                 />
             </div>
         </div>

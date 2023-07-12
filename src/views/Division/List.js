@@ -7,13 +7,15 @@ import { Pagination } from 'react-bootstrap';
 import Loading from '../../components/Loading';
 import { destroy } from '../../features/division/divisionSlice';
 
-const DivisionList = ({ divisions, pager, onEditting, onPageClick }) => {
+const DivisionList = ({ divisions, pager, onEditting, onPageClick, onDeleted }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.division);
 
     const handleDelete = (id) => {
         if (window.confirm('คุณต้องการลบรายการหน่วยงานหรือไม่?')) {
             dispatch(destroy(id));
+
+            onDeleted();
         }
     };
 
