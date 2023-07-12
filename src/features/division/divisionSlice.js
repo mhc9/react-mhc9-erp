@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from '../../api';
 
 const initialState = {
+    division: null,
     divisions: [],
     pager: null,
     loading: false,
@@ -9,9 +10,19 @@ const initialState = {
     error: null
 };
 
-export const getDivisions = createAsyncThunk("division/getdivisions", async (data, { rejectWithValue }) => {
+export const getDivisions = createAsyncThunk("division/getdivisions", async ({ url }, { rejectWithValue }) => {
     try {
-        const res = await api.get(`/api/divisions`);
+        const res = await api.get(url);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const getDivision = createAsyncThunk("division/getdivision", async (id, { rejectWithValue }) => {
+    try {
+        const res = await api.get(`/api/divisions/${id}`);
 
         return res.data;
     } catch (error) {
@@ -73,6 +84,19 @@ export const divisionSlice = createSlice({
             state.loading = false;
         },
         [getDivisions.rejected]: (state, { payload }) => {
+            state.loading = false;
+            state.error = payload;
+        },
+        [getDivision.pending]: (state) => {
+            state.division = null;
+            state.loading = true;
+            state.error = null;
+        },
+        [getDivision.fulfilled]: (state, { payload }) => {
+            state.divisions = payload;
+            state.loading = false;
+        },
+        [getDivision.rejected]: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
         },
