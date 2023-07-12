@@ -5,13 +5,16 @@ import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { Pagination } from 'react-bootstrap'
 import Loading from '../../components/Loading'
+import { destroy } from '../../features/department/departmentSlice'
 
 const DepartmentList = ({ departments, pager, onEditting, onPageClick }) => {
     const dispatch = useDispatch();
     const { isLoading } = useSelector(state => state.department);
 
     const handleDelete = (id) => {
-
+        if (window.confirm('คุณต้องการลบรายการกลุ่มงานหรือไม่?')) {
+            dispatch(destroy(id));
+        }
     };
 
     return (
