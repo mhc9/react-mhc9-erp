@@ -39,7 +39,7 @@ const Division = () => {
 
                 <DivisionForm
                     division={division}
-                    handleCancel={() => setDivision(null)}
+                    onCancel={() => setDivision(null)}
                 />
 
                 <DivisionList

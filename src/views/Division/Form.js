@@ -10,7 +10,7 @@ const divisionSchema = Yup.object().shape({
     department_id: Yup.string().required(),
 });
 
-const DivisionForm = ({ division, handleCancel }) => {
+const DivisionForm = ({ division, onCancel }) => {
     const dispatch = useDispatch();
     const [departments, setDepartments] = useState([]);
 
@@ -34,7 +34,7 @@ const DivisionForm = ({ division, handleCancel }) => {
         if (division) {
             dispatch(update({ id: division.id, data: values }));
 
-            handleCancel()
+            onCancel();
         } else {
             dispatch(store(values));
         }
@@ -104,7 +104,7 @@ const DivisionForm = ({ division, handleCancel }) => {
                                         {division ? 'แก้ไขงาน' : 'เพิ่มงาน'}
                                     </button>
                                     {division && (
-                                        <button type="button" className="btn btn-outline-danger" onClick={handleCancel}>
+                                        <button type="button" className="btn btn-outline-danger" onClick={onCancel}>
                                             ยกเลิก
                                         </button>
                                     )}
