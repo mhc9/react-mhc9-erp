@@ -24,7 +24,7 @@ export const store = createAsyncThunk("department/store", async (data, { dispatc
     try {
         const res = await api.post(`/api/departments`, data);
 
-        dispatch(addDepartment(res.data.department))
+        dispatch(getDepartments({ url: `/api/departments` }))
 
         return res.data;
     } catch (error) {
@@ -36,7 +36,7 @@ export const update = createAsyncThunk("department/update", async ({ id, data },
     try {
         const res = await api.put(`/api/departments/${id}`, data);
 
-        dispatch(updateDepartment(res.data.department))
+        dispatch(getDepartments({ url: `/api/departments` }))
 
         return res.data;
     } catch (error) {
@@ -44,11 +44,11 @@ export const update = createAsyncThunk("department/update", async ({ id, data },
     }
 });
 
-export const destroy = createAsyncThunk("department/destroy", async ({ id, data }, { dispatch, rejectWithValue }) => {
+export const destroy = createAsyncThunk("department/destroy", async (id, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/departments/${id}`, data);
+        const res = await api.delete(`/api/departments/${id}`);
 
-        dispatch(deleteDepartment(res.data.department))
+        dispatch(getDepartments({ url: `/api/departments` }))
 
         return res.data;
     } catch (error) {
