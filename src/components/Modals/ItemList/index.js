@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Pagination } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
+import { Modal, Pagination } from 'react-bootstrap';
+import { FaTimes } from 'react-icons/fa';
 import { getItems } from '../../../features/item/itemSlice';
 import Loading from '../../Loading';
 import FilteringInputs from './FilteringInputs';
@@ -40,7 +41,10 @@ const ModalItemList = ({ isShow, onHide, onSelect }) => {
             <Modal.Header className="border py-1 px-2">
                 <div className="flex flex-row items-center justify-between w-full">
                     <Modal.Title>รายการสินค้า</Modal.Title>
-                    <ControlButtons isListMode={isListMode} onIsListModeClick={setIsListMode} />
+                    <div className="flex flex-row items-center gap-2">
+                        <ControlButtons isListMode={isListMode} onIsListModeClick={setIsListMode} />
+                        <FaTimes size={'20px'} className="cursor-pointer hover:text-gray-400 text-gray-600" onClick={onHide} />
+                    </div>
                 </div>
             </Modal.Header>
             <Modal.Body>
@@ -67,7 +71,7 @@ const ModalItemList = ({ isShow, onHide, onSelect }) => {
                     />
                 )}
 
-                {pager && (
+                {(pager && pager.last_page > 1) && (
                     <Pagination className="float-right">
                         <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
                         <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />

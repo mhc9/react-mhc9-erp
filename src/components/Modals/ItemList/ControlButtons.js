@@ -6,13 +6,13 @@ const ControlButtons = ({ isListMode, onIsListModeClick }) => {
         <div className="btn__actions-wrapper mr-2">
             {!isListMode ? (
                 <FaList
-                    size={'20px'}
+                    size={'18px'}
                     onClick={() => onIsListModeClick(true)}
                     className="hover:cursor-pointer hover:text-blue-700"
                 />
             ) : (
                 <FaThLarge
-                    size={'20px'}
+                    size={'18px'}
                     onClick={() => onIsListModeClick(false)}
                     className="hover:cursor-pointer hover:text-blue-700"
                 />
