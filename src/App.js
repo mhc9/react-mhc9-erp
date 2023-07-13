@@ -27,6 +27,7 @@ import Room from './views/Room';
 import RequisitionList from './views/Requisition/List';
 import AddRequisition from './views/Requisition/Add';
 import ItemList from './views/Item/List';
+import AddItem from './views/Item/Add';
 
 function App() {
     return (
@@ -56,6 +57,7 @@ function App() {
                 <Route path="requisition" element={<GuardRoute><RequisitionList /></GuardRoute>} />
                 <Route path="requisition/add" element={<GuardRoute><AddRequisition /></GuardRoute>} />
                 <Route path="item" element={<GuardRoute><ItemList /></GuardRoute>} />
+                <Route path="item/add" element={<GuardRoute><AddItem /></GuardRoute>} />
                 <Route path="*" element={<div>404 Not Found</div>} />
             </Route>
             <Route path="/login" element={<Login />} />
