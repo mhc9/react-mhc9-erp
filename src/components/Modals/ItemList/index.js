@@ -8,12 +8,24 @@ import FilteringInputs from './FilteringInputs';
 import CardList from './CardList';
 import TableList from './TableList';
 import ControlButtons from './ControlButtons';
+import { useGetInitialFormDataQuery } from '../../../services/item/itemApi';
+
+const initialFilters = {
+    name: '',
+    category: ''
+};
+
+const initialFormData = {
+    units: [],
+    categories: [],
+};
 
 const ModalItemList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
     const { items, pager, loading } = useSelector(state => state.item);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [isListMode, setIsListMode] = useState(false);
+    const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
 
     useEffect(() => {
         if (apiEndpoint === '') {
@@ -32,6 +44,10 @@ const ModalItemList = ({ isShow, onHide, onSelect }) => {
         setApiEndpoint(`${url}${queryStr}`);
     };
 
+    const handleFilter = (queryStr) => {
+        console.log(queryStr);
+    };
+
     return (
         <Modal
             show={isShow}
@@ -48,7 +64,11 @@ const ModalItemList = ({ isShow, onHide, onSelect }) => {
                 </div>
             </Modal.Header>
             <Modal.Body>
-                <FilteringInputs />
+                <FilteringInputs
+                    initialFilters={initialFilters}
+                    onFilter={handleFilter}
+                    formData={formData}
+                />
 
                 {loading && (
                     <div className="text-center">

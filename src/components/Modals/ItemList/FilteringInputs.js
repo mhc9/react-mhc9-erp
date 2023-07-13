@@ -26,7 +26,9 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                     <FormGroup>
                         <input
                             type="text"
-                            name=""
+                            name="name"
+                            value={filters.name}
+                            onChange={handleInputChange}
                             placeholder="ค้นหาด้วยชื่อ"
                             className="form-control"
                         />
@@ -34,13 +36,22 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                     <FormGroup>
                         <select
                             name="category"
+                            value={filters.category}
+                            onChange={handleInputChange}
                             className="form-control"
                         >
                             <option value="">-- ทั้งหมด --</option>
+                            {formData.categories && formData.categories.map(category => (
+                                <option key={category.id} value={category.id}>
+                                    {category.name}
+                                </option>
+                            ))}
                         </select>
                     </FormGroup>
                     <FormGroup>
-                        <button type="button" className="btn btn-outline-secondary">ตกลง</button>
+                        <button type="button" className="btn btn-outline-secondary" onClick={handleFilter}>
+                            ตกลง
+                        </button>
                     </FormGroup>
                 </div>
             </Col>
