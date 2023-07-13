@@ -5,7 +5,7 @@ import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getEmployees } from '../../../features/employee/employeeSlice';
 import Loading from '../../Loading';
 import FilteringInputs from './FilteringInputs';
-import { useGetInitialFormDataQuery } from '../../../services/employee/employeeService';
+import { useGetInitialFormDataQuery } from '../../../services/employee/employeeApi';
 
 const initialFilters = {
     name: '',

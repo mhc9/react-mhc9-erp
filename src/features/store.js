@@ -13,9 +13,10 @@ import taskRecuer from "./task/taskSlice";
 import itemReducer from "./item/itemSlice";
 import budgetReducer from "./budget/budgetSlice";
 import requisitionReducer from "./requisition/requisitionSlice";
-import { authApi } from "../services/auth/authService";
-import { requisitionApi } from "../services/requisition/requisitionService";
-import { employeeApi } from "../services/employee/employeeService";
+import { authApi } from "../services/auth/authApi";
+import { requisitionApi } from "../services/requisition/requisitionApi";
+import { employeeApi } from "../services/employee/employeeApi";
+import { itemApi } from "../services/item/itemApi";
 
 export default configureStore({
     reducer: {
@@ -23,6 +24,7 @@ export default configureStore({
         [authApi.reducerPath]: authApi.reducer,
         [requisitionApi.reducerPath]: requisitionApi.reducer,
         [employeeApi.reducerPath]: employeeApi.reducer,
+        [itemApi.reducerPath]: itemApi.reducer,
         equipment: equipmentReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
@@ -42,5 +44,6 @@ export default configureStore({
             authApi.middleware,
             requisitionApi.middleware,
             employeeApi.middleware,
+            itemApi.middleware,
         ),
 });

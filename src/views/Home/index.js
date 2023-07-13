@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaInfoCircle } from 'react-icons/fa'
 import { Breadcrumb } from 'react-bootstrap'
-import { useGetUserDetailsQuery } from '../../services/auth/authService'
+import { useGetUserDetailsQuery } from '../../services/auth/authApi'
 
 const Home = () => {
     const { data } = useGetUserDetailsQuery('userDetails', {

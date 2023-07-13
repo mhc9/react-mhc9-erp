@@ -14,7 +14,7 @@ import ModalBudgetList from '../../../components/Modals/BudgetList'
 import Loading from '../../../components/Loading'
 import { calculateNetTotal } from '../../../utils'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
-import { useGetInitialFormDataQuery } from '../../../services/requisition/requisitionService'
+import { useGetInitialFormDataQuery } from '../../../services/requisition/requisitionApi'
 import { store } from '../../../features/requisition/requisitionSlice'
 
 const requisitionSchema = Yup.object().shape({

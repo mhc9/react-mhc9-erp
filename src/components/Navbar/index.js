@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import Spinner from 'react-bootstrap/Spinner'
 import { FaBars } from 'react-icons/fa'
-import { useGetUserDetailsQuery } from '../../services/auth/authService'
+import { useGetUserDetailsQuery } from '../../services/auth/authApi'
 import { logout } from '../../features/auth/authSlice'
 
 const Navbar = () => {
