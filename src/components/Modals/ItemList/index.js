@@ -4,7 +4,7 @@ import { Modal, Pagination } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 import { getItems } from '../../../features/item/itemSlice';
 import Loading from '../../Loading';
-import FilteringInputs from './FilteringInputs';
+import FilteringInputs from '../../Item/FilteringInputs';
 import CardList from './CardList';
 import TableList from './TableList';
 import ControlButtons from './ControlButtons';

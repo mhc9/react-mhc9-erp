@@ -101,6 +101,10 @@ const Navbar = () => {
                             <li className="hover:bg-gray-300 p-2 rounded-b-md">
                                 <Link to="/room"><p className="w-full">ห้อง</p></Link>
                             </li>
+                            <li><hr className="dropdown-divider m-0" /></li>
+                            <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                                <Link to="/item"><p className="w-full">สินค้า/บริการ</p></Link>
+                            </li>
                         </ul>
                     </li>
                     <li><Link to="/advice" className="hover:text-gray-400">แนะนำการใช้งาน</Link></li>
