@@ -1,24 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { Col, FormGroup, Row } from 'react-bootstrap'
 import { useGetInitialFormDataQuery } from '../../../services/item/itemApi'
 
 const itemSchema = Yup.object().shape({
-
+    name: Yup.string().required(),
+    category_id: Yup.string().required(),
+    price: Yup.string().required(),
+    unit_id: Yup.string().required(),
 });
 
 const ItemForm = () => {
     const { data: formData } = useGetInitialFormDataQuery();
+    const [selectedImg, setSelectedImg] = useState(null);
 
-    const handleSubmit = () => {
-
+    const handleSubmit = (values, props) => {
+        console.log(values);
     };
 
     return (
         <Formik
             initialValues={{
-
+                name: '',
+                category_id: '',
+                cost: 0,
+                price: '',
+                unit_id: '',
+                description: '',
+                img_url: '',
             }}
             validationSchema={itemSchema}
             onSubmit={handleSubmit}
@@ -29,52 +39,83 @@ const ItemForm = () => {
                         <Row className="mb-2">
                             <Col md={8}>
                                 <FormGroup>
-                                    <lable>ชื่อสินค้า/บริการ</lable>
+                                    <label>ชื่อสินค้า/บริการ</label>
                                     <input
                                         type="text"
+                                        name="name"
+                                        value={formik.values.name}
+                                        onChange={formik.handleChange}
                                         className="form-control"
                                     />
+                                    {(formik.errors.name && formik.touched.name) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.name}</span>
+                                    )}
                                 </FormGroup>
                             </Col>
                             <Col md={4}>
                                 <FormGroup>
-                                    <lable>ประเทภสินค้า/บริการ</lable>
+                                    <label>ประเทภสินค้า/บริการ</label>
                                     <select
+                                        name="category_id"
+                                        value={formik.values.category_id}
+                                        onChange={formik.handleChange}
                                         className="form-control"
                                     >
                                         <option value="">-- ประเทภสินค้า/บริการ --</option>
-                                        {formData && formData.categories.map(category => (
-                                            <option value={category.id} key={category.id}>
-                                                {category.name}
-                                            </option>
+                                        {formData && formData.types.map(type => (
+                                            <optgroup key={type.id} label={type.name}>
+                                                {type.categories.map(category => (
+                                                    <option value={category.id} key={category.id}>
+                                                        {category.name}
+                                                    </option>
+                                                ))}
+                                            </optgroup>
                                         ))}
                                     </select>
+                                    {(formik.errors.category_id && formik.touched.category_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.category_id}</span>
+                                    )}
                                 </FormGroup>
                             </Col>
                         </Row>
                         <Row className="mb-2">
                             <Col>
                                 <FormGroup>
-                                    <lable>ราคาทุน</lable>
+                                    <label>ราคาทุน</label>
                                     <input
                                         type="text"
+                                        name="cost"
+                                        value={formik.values.cost}
+                                        onChange={formik.handleChange}
                                         className="form-control"
                                     />
+                                    {(formik.errors.cost && formik.touched.cost) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.cost}</span>
+                                    )}
                                 </FormGroup>
                             </Col>
                             <Col>
                                 <FormGroup>
-                                    <lable>ราคาขาย</lable>
+                                    <label>ราคาขาย</label>
                                     <input
                                         type="text"
+                                        name="price"
+                                        value={formik.values.price}
+                                        onChange={formik.handleChange}
                                         className="form-control"
                                     />
+                                    {(formik.errors.price && formik.touched.price) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.price}</span>
+                                    )}
                                 </FormGroup>
                             </Col>
                             <Col>
                                 <FormGroup>
-                                    <lable>หน่วยนับ</lable>
+                                    <label>หน่วยนับ</label>
                                     <select
+                                        name="unit_id"
+                                        value={formik.values.unit_id}
+                                        onChange={formik.handleChange}
                                         className="form-control"
                                     >
                                         <option value="">-- หน่วยนับ --</option>
@@ -84,25 +125,51 @@ const ItemForm = () => {
                                             </option>
                                         ))}
                                     </select>
+                                    {(formik.errors.unit_id && formik.touched.unit_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.unit_id}</span>
+                                    )}
                                 </FormGroup>
                             </Col>
                         </Row>
                         <Row className="mb-2">
                             <Col>
                                 <FormGroup>
-                                    <lable>รายละเอียด</lable>
+                                    <label>รายละเอียด</label>
                                     <textarea
                                         rows={3}
+                                        name="description"
+                                        value={formik.values.description}
+                                        onChange={formik.handleChange}
                                         className="form-control"
                                     ></textarea>
+                                    {(formik.errors.description && formik.touched.description) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.description}</span>
+                                    )}
                                 </FormGroup>
                             </Col>
                         </Row>
                         <Row className="mb-2">
                             <Col>
                                 <FormGroup>
-                                    <lable>รูปภาพ</lable>
-                                    <input type="file" className="ml-2" />
+                                    <label>รูปภาพ</label>
+                                    <input
+                                        type="file"
+                                        name="img_url"
+                                        value={formik.values.img_url}
+                                        onChange={(e) => {
+                                            const image = e.target.files[0];
+
+                                            setSelectedImg(URL.createObjectURL(image))
+                                            formik.handleChange(e);
+                                        }}
+                                        className="ml-2"
+                                    />
+                                    {(formik.errors.img_url && formik.touched.img_url) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.img_url}</span>
+                                    )}
+                                    <div className="border w-[200px] p-0 mt-2">
+                                        <img src={selectedImg} />
+                                    </div>
                                 </FormGroup>
                             </Col>
                         </Row>
