@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { Col, FormGroup, Row } from 'react-bootstrap'
 import { useGetInitialFormDataQuery } from '../../../services/item/itemApi'
+import { store } from '../../../features/item/itemSlice'
 
 const itemSchema = Yup.object().shape({
     name: Yup.string().required(),
@@ -12,11 +14,17 @@ const itemSchema = Yup.object().shape({
 });
 
 const ItemForm = () => {
+    const dispatch = useDispatch();
     const { data: formData } = useGetInitialFormDataQuery();
     const [selectedImg, setSelectedImg] = useState(null);
 
     const handleSubmit = (values, props) => {
-        console.log(values);
+        const { img_url, ...item } = values;
+
+        let data = new FormData();
+        data.append('img_url', img_url);
+
+        dispatch(store(data));
     };
 
     return (
