@@ -9,7 +9,7 @@ import { store } from '../../../features/item/itemSlice'
 const itemSchema = Yup.object().shape({
     name: Yup.string().required(),
     category_id: Yup.string().required(),
-    price: Yup.string().required(),
+    price: Yup.number().min(1, 'ราคาขายต้องมากกว่า 0').required(),
     unit_id: Yup.string().required(),
 });
 
@@ -19,12 +19,17 @@ const ItemForm = () => {
     const [selectedImg, setSelectedImg] = useState(null);
 
     const handleSubmit = (values, props) => {
-        const { img_url, ...item } = values;
-
         let data = new FormData();
-        data.append('img_url', img_url);
+
+        data.append('img_url', selectedImg);
+
+        for(const [key, val] of Object.entries(values)) {
+            data.append(key, val);
+        }
 
         dispatch(store(data));
+
+        props.resetForm();
     };
 
     return (
@@ -33,10 +38,9 @@ const ItemForm = () => {
                 name: '',
                 category_id: '',
                 cost: 0,
-                price: '',
+                price: 0,
                 unit_id: '',
                 description: '',
-                img_url: '',
             }}
             validationSchema={itemSchema}
             onSubmit={handleSubmit}
@@ -163,20 +167,14 @@ const ItemForm = () => {
                                     <input
                                         type="file"
                                         name="img_url"
-                                        value={formik.values.img_url}
-                                        onChange={(e) => {
-                                            const image = e.target.files[0];
-
-                                            setSelectedImg(URL.createObjectURL(image))
-                                            formik.handleChange(e);
-                                        }}
+                                        onChange={(e) => setSelectedImg(e.target.files[0])}
                                         className="ml-2"
                                     />
                                     {(formik.errors.img_url && formik.touched.img_url) && (
                                         <span className="text-red-500 text-sm">{formik.errors.img_url}</span>
                                     )}
                                     <div className="border w-[200px] p-0 mt-2">
-                                        <img src={selectedImg} />
+                                        {selectedImg && <img src={URL.createObjectURL(selectedImg)} alt='item-pic' /> }
                                     </div>
                                 </FormGroup>
                             </Col>

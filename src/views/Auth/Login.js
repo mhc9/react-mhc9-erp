@@ -27,7 +27,9 @@ const Login = () => {
     }, [success])
 
     const handleSubmit = (values, props) => {
-        dispatch(login({ ...values }))
+        dispatch(login({ ...values }));
+
+        props.resetForm();
     }
 
     return (
