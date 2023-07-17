@@ -86,7 +86,7 @@ const ItemList = () => {
                                         <Link to="" className="btn btn-outline-primary btn-sm px-1">
                                             <FaSearch />
                                         </Link>
-                                        <Link to="" className="btn btn-outline-warning btn-sm px-1 m-1">
+                                        <Link to={`/item/${item.id}/edit`} className="btn btn-outline-warning btn-sm px-1 m-1">
                                             <FaPencilAlt />
                                         </Link>
                                         <button type="button" className="btn btn-outline-danger btn-sm px-1">
