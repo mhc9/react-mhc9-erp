@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { Col, FormGroup, Row } from 'react-bootstrap'
 import { useGetInitialFormDataQuery } from '../../../services/item/itemApi'
-import { store } from '../../../features/item/itemSlice'
+import { store, update } from '../../../features/item/itemSlice'
 
 const itemSchema = Yup.object().shape({
     name: Yup.string().required(),
@@ -13,7 +13,7 @@ const itemSchema = Yup.object().shape({
     unit_id: Yup.string().required(),
 });
 
-const ItemForm = () => {
+const ItemForm = ({ item }) => {
     const dispatch = useDispatch();
     const { data: formData } = useGetInitialFormDataQuery();
     const [selectedImg, setSelectedImg] = useState(null);
@@ -27,20 +27,25 @@ const ItemForm = () => {
             data.append(key, val);
         }
 
-        dispatch(store(data));
+        if (item) {
+            dispatch(update({ id: item.id, data }))
+        } else {
+            dispatch(store(data));
+        }
 
         props.resetForm();
     };
 
     return (
         <Formik
+            enableReinitialize
             initialValues={{
-                name: '',
-                category_id: '',
-                cost: 0,
-                price: 0,
-                unit_id: '',
-                description: '',
+                name: item ? item.name : '',
+                category_id: (item && item.category_id) ? item.category_id : '',
+                cost: item ? item.cost : 0,
+                price: item ? item.price : 0,
+                unit_id: (item && item.unit_id) ? item.unit_id : '',
+                description: (item && item.description) ? item.description : '',
             }}
             validationSchema={itemSchema}
             onSubmit={handleSubmit}
@@ -184,9 +189,9 @@ const ItemForm = () => {
                                 <FormGroup>
                                     <button
                                         type="submit"
-                                        className="btn btn-outline-primary float-right"
+                                        className={`btn ${item ? 'btn-outline-warning' : 'btn-outline-primary'} float-right`}
                                     >
-                                        บันทึก
+                                        {item ? 'บันทึกการแก่ไข' : 'บันทึก'}
                                     </button>
                                 </FormGroup>
                             </Col>

@@ -42,7 +42,7 @@ export const store = createAsyncThunk("item/store", async (data, { rejectWithVal
 
 export const update = createAsyncThunk("item/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/items/${id}`, data);
+        const res = await api.post(`/api/items/${id}`, data);
 
         dispatch(getItems({ url: '/api/items' }));
 

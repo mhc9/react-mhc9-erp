@@ -5,9 +5,9 @@ const Item = ({ item }) => {
         <div className="flex flex-row">
             {![3,4].includes(item?.category?.asset_type_id) && (
                 <img
-                    src={item?.img_url}
+                    src={`${process.env.REACT_APP_API_URL}/uploads/products/thumbnails/${item?.img_url}`}
                     alt="item-img"
-                    className="w-[80px] h-auto"
+                    className="w-[80px] h-auto border rounded-sm mr-2"
                 />
             )}
             <div>
