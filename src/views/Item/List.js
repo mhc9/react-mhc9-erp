@@ -8,6 +8,7 @@ import Loading from '../../components/Loading';
 import FilteringInputs from '../../components/Item/FilteringInputs'
 import { currency } from '../../utils';
 import { useGetInitialFormDataQuery } from '../../services/item/itemApi'
+import Item from '../../components/Item/Item';
 
 const initialFilters = {
     name: '',
@@ -77,8 +78,7 @@ const ItemList = () => {
                                 <tr key={item.id} className="text-sm">
                                     <td className="text-center">{pager && pager.from+index}</td>
                                     <td>
-                                        <p>{item.category.name}</p>
-                                        <p className="font-thin">{item.name}</p>
+                                        <Item item={item} />
                                     </td>
                                     <td className="text-center">{currency.format(item.price)}</td>
                                     <td className="text-center"></td>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { currency } from '../../../utils'
+import Item from '../../Item/Item';
 
 const TableList = ({ items, pager, onHide, onSelect }) => {
     return (
@@ -18,18 +19,7 @@ const TableList = ({ items, pager, onHide, onSelect }) => {
                         <tr key={item.id}>
                             <td className="text-center">{index+pager.from}</td>
                             <td>
-                                <div className="flex flex-row">
-                                    <img
-                                        src={item.img_url}
-                                        alt="item-img"
-                                        className="w-[80px] h-auto"
-                                    />
-                                    <div>
-                                        <p className="text-sm text-gray-400">{item.category?.name}</p>
-                                        <p className="text-sm">{item.name}</p>
-                                        <p className="text-xs text-gray-400 font-thin">{item.description}</p>
-                                    </div>
-                                </div>
+                                <Item item={item} />
                             </td>
                             <td className="text-center">
                                 <span className="text-red-500">{currency.format(item.price)}</span> บาท
