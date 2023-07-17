@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Breadcrumb, Pagination } from 'react-bootstrap';
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa';
-import { getItems } from '../../features/item/itemSlice';
 import Loading from '../../components/Loading';
 import FilteringInputs from '../../components/Item/FilteringInputs'
 import Item from '../../components/Item/Item';
 import { currency } from '../../utils';
+import { getItems, destroy } from '../../features/item/itemSlice';
 import { useGetInitialFormDataQuery } from '../../services/item/itemApi'
 
 const initialFilters = {
@@ -43,6 +43,12 @@ const ItemList = () => {
             setApiEndpoint(`/api/items/search?page=${queryStr}`)
         } else {
             setApiEndpoint(`${apiEndpoint}${queryStr}`)
+        }
+    };
+
+    const handleDelete = (id) => {
+        if (window.confirm(`คุณต้องการลบรายการสินค้ารหัส ${id} หรือไม่?`)) {
+            dispatch(destroy({ id }));
         }
     };
 
@@ -98,7 +104,11 @@ const ItemList = () => {
                                         <Link to={`/item/${item.id}/edit`} className="btn btn-outline-warning btn-sm px-1 m-1">
                                             <FaPencilAlt />
                                         </Link>
-                                        <button type="button" className="btn btn-outline-danger btn-sm px-1">
+                                        <button
+                                            type="button"
+                                            className="btn btn-outline-danger btn-sm px-1"
+                                            onClick={() => handleDelete(item.id)}
+                                        >
                                             <FaTrash />
                                         </button>
                                     </td>
