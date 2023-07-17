@@ -34,6 +34,7 @@ const ItemForm = ({ item }) => {
         }
 
         props.resetForm();
+        setSelectedImg(null);
     };
 
     return (

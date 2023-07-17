@@ -9,15 +9,15 @@ const EditItem = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { item, success } = useSelector(state => state.item);
+    const { item, isSuccess } = useSelector(state => state.item);
 
     useEffect(() => {
-        if (success) {
+        if (isSuccess) {
             dispatch(resetSuccess());
 
-            navigate('/asset');
+            navigate('/item');
         }
-    }, [success]);
+    }, [isSuccess]);
 
     useEffect(() => {
         dispatch(getItem({ id }));

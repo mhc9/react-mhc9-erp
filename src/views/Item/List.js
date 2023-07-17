@@ -83,7 +83,7 @@ const ItemList = () => {
                                     <td className="text-center" colSpan={4}><Loading /></td>
                                 </tr>
                             )}
-                            {(!isLoading && items.length > 0) && items.map((item, index) => (
+                            {(!isLoading && items) && items.map((item, index) => (
                                 <tr key={item.id} className="text-sm">
                                     <td className="text-center">{pager && pager.from+index}</td>
                                     <td>
