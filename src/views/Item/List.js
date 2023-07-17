@@ -98,7 +98,7 @@ const ItemList = () => {
                                     <td className="text-center">{currency.format(item.price)}</td>
                                     <td className="text-center"></td>
                                     <td className="text-center">
-                                        <Link to="" className="btn btn-outline-primary btn-sm px-1">
+                                        <Link to={`/item/${item.id}/detail`} className="btn btn-outline-primary btn-sm px-1">
                                             <FaSearch />
                                         </Link>
                                         <Link to={`/item/${item.id}/edit`} className="btn btn-outline-warning btn-sm px-1 m-1">
