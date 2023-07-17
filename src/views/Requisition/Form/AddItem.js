@@ -5,6 +5,7 @@ import { FormGroup } from 'react-bootstrap'
 import { FaSearch } from 'react-icons/fa'
 import ModalItemList from '../../../components/Modals/ItemList'
 import { calculateTotal } from '../../../utils'
+import { useGetInitialFormDataQuery } from '../../../services/item/itemApi'
 
 const itemSchema = Yup.object().shape({
     item_id: Yup.string().required(),
@@ -14,9 +15,15 @@ const itemSchema = Yup.object().shape({
     total: Yup.string().required(),
 });
 
+const initialFormData = {
+    units: [],
+    categories: [],
+};
+
 const AddItem = ({ data, onAddItem, onUpdateItem }) => {
     const [item, setItem] = useState(null);
     const [showModalItems, setShowModalItems] = useState(false);
+    const { data: formData = initialFormData } = useGetInitialFormDataQuery();
 
     useEffect(() => {
         if (data) {
@@ -130,7 +137,11 @@ const AddItem = ({ data, onAddItem, onUpdateItem }) => {
                                 disabled={data}
                             >
                                 <option value="">-- หน่วยนับ --</option>
-                                <option value="1">เครื่อง</option>
+                                {formData.units && formData.units.map(unit => (
+                                    <option value={unit.id} key={unit.id}>
+                                        {unit.name}
+                                    </option>
+                                ))}
                             </select>
                             {(formik.errors.unit_id && formik.touched.unit_id) && (
                                 <span className="text-red-500 text-sm">{formik.errors.unit_id}</span>
