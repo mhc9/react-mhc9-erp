@@ -12,7 +12,10 @@ const Item = ({ item }) => {
             )}
             <div>
                 <p className="text-sm text-gray-400">{item?.category?.name}</p>
-                <p className="text-sm">{item?.name}</p>
+                <p className="text-sm">
+                    {item?.name} |
+                    หน่วยนับ : <span className="font-thin">{item.unit?.name}</span>
+                </p>
                 <p className="text-xs text-gray-400 font-thin">{item?.description}</p>
             </div>
         </div>
