@@ -24,8 +24,8 @@ const AddItem = () => {
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item href="/item">รายการสินค้า/บริการ</Breadcrumb.Item>
-                <Breadcrumb.Item active>เพิ่มสินค้า/บริการใหม่</Breadcrumb.Item>
+                <Breadcrumb.Item href="/item">รายการสินค้า-บริการ</Breadcrumb.Item>
+                <Breadcrumb.Item active>เพิ่มสินค้า-บริการใหม่</Breadcrumb.Item>
             </Breadcrumb>
         
             <div className="content">

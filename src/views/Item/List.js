@@ -6,9 +6,9 @@ import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa';
 import { getItems } from '../../features/item/itemSlice';
 import Loading from '../../components/Loading';
 import FilteringInputs from '../../components/Item/FilteringInputs'
+import Item from '../../components/Item/Item';
 import { currency } from '../../utils';
 import { useGetInitialFormDataQuery } from '../../services/item/itemApi'
-import Item from '../../components/Item/Item';
 
 const initialFilters = {
     name: '',
@@ -39,7 +39,11 @@ const ItemList = () => {
     };
 
     const handleFilter = (queryStr) => {
-
+        if (apiEndpoint === '') {
+            setApiEndpoint(`/api/items/search?page=${queryStr}`)
+        } else {
+            setApiEndpoint(`${apiEndpoint}${queryStr}`)
+        }
     };
 
     return (
