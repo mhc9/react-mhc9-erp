@@ -7,9 +7,12 @@ const CardList = ({ items, onHide, onSelect }) => {
     return (
         <Row className="mb-3">
             {items && items.map((item, index) => (
-                <Col md={3} key={item.id}>
+                <Col md={3} sm={2} className="mb-2" key={item.id}>
                     <Card>
-                        <Card.Img src={item.img_url} className="w-[120px] h-auto self-center" />
+                        <Card.Img
+                            src={`${process.env.REACT_APP_API_URL}/uploads/products/thumbnails/${item?.img_url}`}
+                            className="w-[120px] h-auto self-center"
+                        />
                         <Card.Body>
                             <p className="text-gray-500 text-xs">{item.category?.name}</p>
                             <p className="text-xs min-h-[50px]">{item.name}</p>
