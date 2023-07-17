@@ -29,23 +29,22 @@ const ModalItemList = ({ isShow, onHide, onSelect }) => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getItems({ url: '/api/items/search' }));
+            dispatch(getItems({ url: '/api/items/search?page=&limit=12' }));
         } else {
             dispatch(getItems({ url: apiEndpoint }));
         }
     }, [apiEndpoint]);
 
     const handlePageClick = (url) => {
-        /** ============== Generate query string param list ============== */
-        // query string param list here
-        const queryStr = '';
-        /** ============================ */
-
-        setApiEndpoint(`${url}${queryStr}`);
+        setApiEndpoint(`${url}&limit=12`);
     };
 
     const handleFilter = (queryStr) => {
-        console.log(queryStr);
+        if (apiEndpoint === '') {
+            dispatch(getItems({ url: `/api/items/search?page=&limit=12${queryStr}` }));
+        } else {
+            dispatch(getItems({ url: `${apiEndpoint}${queryStr}` }));
+        }
     };
 
     return (

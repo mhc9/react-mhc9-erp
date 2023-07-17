@@ -7,7 +7,7 @@ const CardList = ({ items, onHide, onSelect }) => {
     return (
         <Row className="mb-3">
             {items && items.map((item, index) => (
-                <Col md={3} sm={2} className="mb-2" key={item.id}>
+                <Col md={6} lg={4} xl={3} className="mb-2" key={item.id}>
                     <Card>
                         {![3,4].includes(item?.category?.asset_type_id) && (
                             <Card.Img
@@ -19,11 +19,11 @@ const CardList = ({ items, onHide, onSelect }) => {
                             <p className="text-gray-500 text-xs">{item.category?.name}</p>
                             <p className="text-xs min-h-[50px]">{item.name}</p>
                             <ItemDesc item={item} />
-                            <p className="font-bold text-lg">
+                            <p className="font-bold text-lg my-1">
                                 ราคา <span className="text-red-500">{currency.format(item.price)}</span> บาท
                             </p>
                             <button
-                                className="btn btn-primary btn-sm float-right"
+                                className="btn btn-primary btn-sm w-full float-right"
                                 onClick={() => {
                                     onHide();
                                     onSelect(item);
