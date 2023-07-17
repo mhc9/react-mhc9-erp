@@ -41,10 +41,14 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                             className="form-control"
                         >
                             <option value="">-- ทั้งหมด --</option>
-                            {formData.categories && formData.categories.map(category => (
-                                <option key={category.id} value={category.id}>
-                                    {category.name}
-                                </option>
+                            {formData.types && formData.types.map(type => (
+                                <optgroup key={type.id} label={type.name}>
+                                    {type.categories.map(category => (
+                                        <option key={category.id} value={category.id}>
+                                            {category.name}
+                                        </option>
+                                    ))}
+                                </optgroup>
                             ))}
                         </select>
                     </FormGroup>
