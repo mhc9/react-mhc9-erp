@@ -1,25 +1,11 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import Spinner from 'react-bootstrap/Spinner'
+import { Link } from 'react-router-dom'
 import { FaBars } from 'react-icons/fa'
 import { useGetUserDetailsQuery } from '../../services/auth/authApi'
-import { logout } from '../../features/auth/authSlice'
+import Loading from '../Loading'
 
-const Navbar = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    const { data, isFetching } = useGetUserDetailsQuery('userDetails', {
-        pollingInterval: 900000,
-    });
-
-    const handleLogout = () => {
-        localStorage.removeItem("access_token");
-        dispatch(logout());
-
-        navigate("/login");
-    }
+const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
+    const { data, isFetching } = useGetUserDetailsQuery('userDetails', { pollingInterval: 900000 });
 
     return (
         <nav className="h-[60px] border bg-slate-700 flex justify-between items-center px-5 text-white">
@@ -29,7 +15,7 @@ const Navbar = () => {
                     <h1 className="md:hidden text-lg">IT Helpdesk</h1>
                     <p className="max-md:hidden text-sm text-gray-300">IT Helpdesk</p>
                 </div>
-                <button className="md:hidden">
+                <button className="md:hidden" onClick={() => toggleSidebar(!showSidebar)}>
                     <FaBars size={'20px'} />
                 </button>
                 <ul className="max-md:hidden md:flex flex-row items-center gap-4 w-full">
@@ -111,11 +97,7 @@ const Navbar = () => {
                 </ul>
                 <div className="menu-item max-md:hidden flex relative">
                     <button className="hover:text-gray-400">
-                        {isFetching && (
-                            <Spinner animation="border" role="status" size="sm" style={{ marginRight: '2px' }}>
-                                <span className="visually-hidden">Loading...</span>
-                            </Spinner>
-                        )}
+                        {isFetching && <Loading />}
                         {(!isFetching && data) && (
                             <div className="flex items-center gap-1">
                                 <div className="w-8 h-8 border rounded-full flex items-center justify-center">
@@ -132,7 +114,7 @@ const Navbar = () => {
                             </a>
                         </li>
                         <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                            <button type="button" className="w-full" onClick={handleLogout}>
+                            <button type="button" className="w-full" onClick={onLogout}>
                                 Logout
                             </button>
                         </li>
