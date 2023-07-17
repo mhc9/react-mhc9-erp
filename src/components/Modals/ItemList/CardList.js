@@ -9,10 +9,12 @@ const CardList = ({ items, onHide, onSelect }) => {
             {items && items.map((item, index) => (
                 <Col md={3} sm={2} className="mb-2" key={item.id}>
                     <Card>
-                        <Card.Img
-                            src={`${process.env.REACT_APP_API_URL}/uploads/products/thumbnails/${item?.img_url}`}
-                            className="w-[120px] h-auto self-center"
-                        />
+                        {![3,4].includes(item?.category?.asset_type_id) && (
+                            <Card.Img
+                                src={`${process.env.REACT_APP_API_URL}/uploads/products/thumbnails/${item?.img_url}`}
+                                className="w-[120px] h-auto self-center"
+                            />
+                        )}
                         <Card.Body>
                             <p className="text-gray-500 text-xs">{item.category?.name}</p>
                             <p className="text-xs min-h-[50px]">{item.name}</p>
