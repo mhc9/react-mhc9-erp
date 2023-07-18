@@ -49,7 +49,7 @@ const RequisitionList = () => {
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
-                                <th className="text-center w-[15%]">เอกสาร</th>
+                                <th className="text-center w-[20%]">เอกสาร</th>
                                 <th>รายการ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
@@ -71,7 +71,7 @@ const RequisitionList = () => {
                                         <p>{requisition.category.name} จำนวน {requisition.item_count} รายการ</p>
                                         <p>เป็นเงินทั้งสิ้น {currency.format(requisition.net_total)} บาท</p>
                                     </td>
-                                    <td className="text-center">
+                                    <td className="text-center p-1">
                                         <Link to="/" className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
                                         </Link>
