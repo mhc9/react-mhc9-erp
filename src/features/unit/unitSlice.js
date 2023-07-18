@@ -10,9 +10,9 @@ const initialState = {
     error: null
 };
 
-export const getUnits = createAsyncThunk("room/getUnits", async (data, { rejectWithValue }) => {
+export const getUnits = createAsyncThunk("room/getUnits", async ({ url }, { rejectWithValue }) => {
     try {
-        const res = await api.get(`/api/units`);
+        const res = await api.get(url);
 
         return res.data;
     } catch (error) {

@@ -71,6 +71,12 @@ const UnitList = ({ units, pager, onEditting, onPageClick, onDeleted }) => {
             </table>
 
             {pager && (
+                <div className="flex flex-row items-center justify-between gap-4">
+                    <div className="text-sm font-thin flex flex-row items-center justify-between gap-4 w-3/5">
+                        <span>หน้าที่ {pager.current_page}/{pager.last_page}</span>
+                        <span>จำนวนทั้งสิ้น {pager.total} รายการ</span>
+                    </div>
+
                     <Pagination>
                         <Pagination.First disabled={pager.current_page === 1} onClick={() => onPageClick(pager.first_page_url)} />
                         <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => onPageClick(pager.prev_page_url)} />
@@ -88,7 +94,8 @@ const UnitList = ({ units, pager, onEditting, onPageClick, onDeleted }) => {
                         <Pagination.Next disabled={!pager.next_page_url} onClick={() => onPageClick(pager.next_page_url)} />
                         <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => onPageClick(pager.last_page_url)} />
                     </Pagination>
-                )}
+                </div>
+            )}
         </div>
     )
 }
