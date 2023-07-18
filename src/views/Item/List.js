@@ -25,25 +25,22 @@ const ItemList = () => {
     const { items, pager, isLoading } = useSelector(state => state.item);
     const { data: formData = initialFormData } = useGetInitialFormDataQuery();
     const [apiEndpoint, setApiEndpoint] = useState('');
+    const [params, setParams] = useState('');
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getItems({ url: `/api/items/search` }));
+            dispatch(getItems({ url: `/api/items/search?page=${params}` }));
         } else {
-            dispatch(getItems({ url: apiEndpoint }));
+            dispatch(getItems({ url: `${apiEndpoint}${params}` }));
         }
-    }, [dispatch, apiEndpoint]);
+    }, [dispatch, apiEndpoint, params]);
 
     const handlePageClick = (url) => {
         setApiEndpoint(url);
     };
 
     const handleFilter = (queryStr) => {
-        if (apiEndpoint === '') {
-            setApiEndpoint(`/api/items/search?page=${queryStr}`)
-        } else {
-            setApiEndpoint(`${apiEndpoint}${queryStr}`)
-        }
+        setParams(queryStr);
     };
 
     const handleDelete = (id) => {
