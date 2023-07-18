@@ -30,6 +30,7 @@ import ItemList from './views/Item/List';
 import AddItem from './views/Item/Add';
 import EditItem from './views/Item/Edit';
 import ItemDetail from './views/Item/Detail';
+import Unit from './views/Unit'
 
 function App() {
     return (
@@ -62,6 +63,7 @@ function App() {
                 <Route path="item/add" element={<GuardRoute><AddItem /></GuardRoute>} />
                 <Route path="item/:id/edit" element={<GuardRoute><EditItem /></GuardRoute>} />
                 <Route path="item/:id/detail" element={<GuardRoute><ItemDetail /></GuardRoute>} />
+                <Route path="unit" element={<GuardRoute><Unit /></GuardRoute>} />
                 <Route path="*" element={<div>404 Not Found</div>} />
             </Route>
             <Route path="/login" element={<Login />} />
