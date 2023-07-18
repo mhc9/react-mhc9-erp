@@ -6,7 +6,6 @@ import { store, update } from '../../features/unit/unitSlice'
 
 const unitSchema = Yup.object().shape({
     name: Yup.string().required(),
-    department_id: Yup.string().required(),
 });
 
 const UnitForm = ({ unit, onCancel, onSuccess }) => {
