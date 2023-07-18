@@ -59,27 +59,7 @@ export const destroy = createAsyncThunk("room/destroy", async ({ id, data }, { d
 export const unitSlice = createSlice({
     name: 'unit',
     initialState,
-    reducers: {
-        addRoom: (state, { payload }) => {
-            const updated = [...state.types, payload];
-
-            state.types = updated;
-        },
-        updateRoom: (state, { payload }) => {
-            const updated = state.types.map(dep => {
-                if (dep.id === payload.id) return payload;
-
-                return dep;
-            });
-
-            state.types = updated;
-        },
-        deleteRoom: (state, { payload }) => {
-            const updated = [...state.types, payload];
-
-            state.types = updated;
-        }
-    },
+    reducers: {},
     extraReducers: {
         [getUnits.pending]: (state) => {
             state.units = [];
@@ -138,9 +118,3 @@ export const unitSlice = createSlice({
 });
 
 export default unitSlice.reducer;
-
-export const {
-    addRoom,
-    updateRoom,
-    deleteRoom
-} = unitSlice.actions;
