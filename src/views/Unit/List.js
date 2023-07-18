@@ -25,8 +25,7 @@ const UnitList = ({ units, pager, onEditting, onPageClick, onDeleted }) => {
                 <thead>
                     <tr>
                         <th className="w-[5%] text-center">#</th>
-                        <th>ชื่องาน</th>
-                        <th className="w-[20%] text-center">กลุ่มงาน</th>
+                        <th>ชื่อหน่วยนับ</th>
                         <th className="w-[10%] text-center">สถานะ</th>
                         <th className="w-[10%] text-center">Action</th>
                     </tr>

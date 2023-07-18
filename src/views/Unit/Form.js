@@ -47,7 +47,7 @@ const UnitForm = ({ unit, onCancel, onSuccess }) => {
                                         value={formik.values.name}
                                         onChange={formik.handleChange}
                                         className="form-control w-full"
-                                        placeholder="ชื่องาน"
+                                        placeholder="ชื่อหน่วยนับ"
                                     />
                                     {(formik.errors.name && formik.touched.name) && (
                                         <span className="text-red-500 text-sm">{formik.errors.name}</span>
@@ -65,7 +65,7 @@ const UnitForm = ({ unit, onCancel, onSuccess }) => {
                                         className={`btn ${unit ? 'btn-outline-warning' : 'btn-outline-primary'}`}
                                         disabled={formik.isSubmitting}
                                     >
-                                        {unit ? 'แก้ไขงาน' : 'เพิ่มงาน'}
+                                        {unit ? 'แก้ไขหน่วยนับ' : 'เพิ่มหน่วยนับ'}
                                     </button>
                                     {unit && (
                                         <button type="button" className="btn btn-outline-danger" onClick={onCancel}>

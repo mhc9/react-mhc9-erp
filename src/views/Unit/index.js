@@ -28,13 +28,13 @@ const Unit = () => {
             {/* breadcrumb */}
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
-                <Breadcrumb.Item href="/">ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item active>งาน</Breadcrumb.Item>
+                <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
+                <Breadcrumb.Item active>หน่วยนับ</Breadcrumb.Item>
             </Breadcrumb>
         
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-xl">งาน</h2>
+                    <h2 className="text-xl">หน่วยนับ</h2>
                 </div>
 
                 <UnitForm
@@ -44,9 +44,9 @@ const Unit = () => {
                 />
 
                 <UnitList
-                    divisions={unit}
+                    units={units}
                     pager={pager}
-                    onEditting={(dep) => setUnit(dep)}
+                    onEditting={(unit) => setUnit(unit)}
                     onPageClick={handlePageClick}
                     onDeleted={() => setApiEndpoint('')}
                 />
