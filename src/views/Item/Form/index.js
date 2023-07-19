@@ -18,6 +18,12 @@ const ItemForm = ({ item }) => {
     const { data: formData } = useGetInitialFormDataQuery();
     const [selectedImg, setSelectedImg] = useState(null);
 
+    useEffect(() => {
+        if (item) {
+            setSelectedImg(`${process.env.REACT_APP_API_URL}/uploads/products/thumbnails/${item?.img_url}`)
+        }
+    }, [item]);
+
     const handleSubmit = (values, props) => {
         let data = new FormData();
 
@@ -180,7 +186,10 @@ const ItemForm = ({ item }) => {
                                         <span className="text-red-500 text-sm">{formik.errors.img_url}</span>
                                     )}
                                     <div className="border w-[200px] p-0 mt-2">
-                                        {selectedImg && <img src={URL.createObjectURL(selectedImg)} alt='item-pic' /> }
+                                        {item
+                                            ? <img src={selectedImg} alt='item-pic' />
+                                            : selectedImg && <img src={URL.createObjectURL(selectedImg)} alt='item-pic' />
+                                        }
                                     </div>
                                 </FormGroup>
                             </Col>
