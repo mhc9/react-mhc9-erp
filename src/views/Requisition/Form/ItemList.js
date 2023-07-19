@@ -24,6 +24,9 @@ const ItemList = ({ items, onEditItem, onRemoveItem }) => {
                         <td>
                             <p className="text-gray-500 font-thin">{data.item.category.name}</p>
                             <p className="text-xs">{data.item?.name}</p>
+                            {data.description && (
+                                <p className="text-sm text-gray-400 font-thin">{data.description}</p>
+                            )}
                         </td>
                         <td className="text-center">{currency.format(data.price)}</td>
                         <td className="text-center">{currency.format(data.amount)}</td>
