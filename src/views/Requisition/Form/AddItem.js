@@ -124,7 +124,11 @@ const AddItem = ({ data, onAddItem, onUpdateItem }) => {
                             )}
                         </FormGroup>
                         <FormGroup>
-                            <button type="button" className="btn btn-outline-info text-sm" onClick={() => setShowModalAddItemDesc(true)}>
+                            <button
+                                type="button"
+                                className="btn btn-outline-info text-sm"
+                                onClick={() => setShowModalAddItemDesc(true)}
+                            >
                                 Desc
                             </button>
                         </FormGroup>
