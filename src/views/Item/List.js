@@ -41,6 +41,7 @@ const ItemList = () => {
 
     const handleFilter = (queryStr) => {
         setParams(queryStr);
+        setApiEndpoint(`/api/items/search?page=`);
     };
 
     const handleDelete = (id) => {
