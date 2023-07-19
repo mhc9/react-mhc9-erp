@@ -72,6 +72,7 @@ const AddItem = ({ data, onAddItem, onUpdateItem }) => {
             enableReinitialize
             initialValues={{
                 item_id: data ? data.item_id : '',
+                description: data? data.description : '',
                 price: data ? data.price : '',
                 unit_id: data ? data.unit_id : '',
                 amount: data ? data.amount : '',
@@ -111,6 +112,11 @@ const AddItem = ({ data, onAddItem, onUpdateItem }) => {
                             {(formik.errors.item_id && formik.touched.item_id) && (
                                 <span className="text-red-500 text-sm">{formik.errors.item_id}</span>
                             )}
+                        </FormGroup>
+                        <FormGroup>
+                            <button type="button" className="btn btn-outline-info text-sm">
+                                Desc
+                            </button>
                         </FormGroup>
                         <FormGroup className="w-[10%]">
                             <input
