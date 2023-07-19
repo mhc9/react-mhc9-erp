@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal } from 'react-bootstrap'
 
-const ModalPreviewImage = ({ isShow, onHide, title, url }) => {
+const ModalPreviewImage = ({ isShow, onHide, title, url, alt }) => {
     return (
         <Modal
             show={isShow}
@@ -12,8 +12,8 @@ const ModalPreviewImage = ({ isShow, onHide, title, url }) => {
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <div className="border">
-                    <img src={url} alt={title} />
+                <div className="border flex justify-center">
+                    <img src={url} alt={alt || title} />
                 </div>
             </Modal.Body>
         </Modal>
