@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
 import { FaSearch } from 'react-icons/fa'
 import ModalItemList from '../../../components/Modals/ItemList'
+import ModalAddItemDesc from '../../../components/Modals/AddItemDesc'
 import { calculateTotal } from '../../../utils'
 import { useGetInitialFormDataQuery } from '../../../services/item/itemApi'
 
@@ -23,6 +24,7 @@ const initialFormData = {
 const AddItem = ({ data, onAddItem, onUpdateItem }) => {
     const [item, setItem] = useState(null);
     const [showModalItems, setShowModalItems] = useState(false);
+    const [showModalAddItemDesc, setShowModalAddItemDesc] = useState(false);
     const { data: formData = initialFormData } = useGetInitialFormDataQuery();
 
     useEffect(() => {
@@ -89,6 +91,14 @@ const AddItem = ({ data, onAddItem, onUpdateItem }) => {
                         onSelect={(item) => handleSelect(formik, item)}
                     />
 
+                    <ModalAddItemDesc
+                        isShow={showModalAddItemDesc}
+                        onHide={() => setShowModalAddItemDesc(false)}
+                        onConfirm={(desc) => {
+                            console.log(desc);
+                        }}
+                    />
+
                     <div className="flex flex-row gap-2 mb-2">
                         <FormGroup className="w-[45%]">
                             <div className="input-group">
@@ -114,7 +124,7 @@ const AddItem = ({ data, onAddItem, onUpdateItem }) => {
                             )}
                         </FormGroup>
                         <FormGroup>
-                            <button type="button" className="btn btn-outline-info text-sm">
+                            <button type="button" className="btn btn-outline-info text-sm" onClick={() => setShowModalAddItemDesc(true)}>
                                 Desc
                             </button>
                         </FormGroup>
