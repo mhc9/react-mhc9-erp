@@ -8,15 +8,15 @@ import { resetSuccess } from '../../features/asset/assetSlice'
 const AddItem = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { success } = useSelector(state => state.asset);
+    const { isSuccess } = useSelector(state => state.asset);
 
     useEffect(() => {
-        if (success) {
+        if (isSuccess) {
             dispatch(resetSuccess());
 
-            navigate('/asset');
+            navigate('/item');
         }
-    }, [success]);
+    }, [dispatch, isSuccess]);
 
     return (
         <div className="content-wrapper">
