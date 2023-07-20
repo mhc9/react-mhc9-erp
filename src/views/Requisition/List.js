@@ -48,15 +48,16 @@ const RequisitionList = () => {
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
-                                <th className="text-center w-[20%]">เอกสาร</th>
+                                <th className="text-center w-[18%]">เอกสาร</th>
                                 <th>รายการ</th>
+                                <th className="text-center w-[18%]">ผู้ขอ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {isLoading && (
                                 <tr>
-                                    <td className="text-center" colSpan={4}><Loading /></td>
+                                    <td className="text-center" colSpan={5}><Loading /></td>
                                 </tr>
                             )}
                             {(!isLoading && requisitions) && requisitions.map((requisition, index) => (
@@ -79,6 +80,10 @@ const RequisitionList = () => {
                                                 </li>
                                             ))}
                                         </ul>
+                                    </td>
+                                    <td className="text-sm">
+                                        {requisition.requester?.prefix?.name}{requisition.requester?.firstname} {requisition.requester?.lastname}
+                                        <p className="font-thin">{requisition.requester?.position?.name}{requisition.requester?.level && requisition.requester?.level?.name}</p>
                                     </td>
                                     <td className="text-center p-1">
                                         <Link to="/" className="btn btn-sm btn-info px-1 mr-1">
