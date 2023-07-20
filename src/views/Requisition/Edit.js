@@ -28,7 +28,7 @@ const EditRequisition = () => {
                 <h2 className="text-xl">แก้ไขรายการคำขอ</h2>
 
                 <div className="my-2 border p-4 rounded-md">
-                    <RequisitionForm />
+                    <RequisitionForm requisition={requisition} />
                 </div>
             </div>
         </div>
