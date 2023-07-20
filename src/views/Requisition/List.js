@@ -72,6 +72,11 @@ const RequisitionList = () => {
                                             <span className="mr-2">{requisition.category.name} จำนวน {requisition.item_count} รายการ</span>
                                             <span>เป็นเงินทั้งสิ้น {currency.format(requisition.net_total)} บาท</span>
                                         </p>
+                                        {requisition.project && (
+                                            <div className="text-xs font-thin">
+                                                *{requisition.project.name}
+                                            </div>
+                                        )}
                                         <ul className="text-sm font-thin">
                                             {requisition.details.map((detail, index) => (
                                                 <li key={detail.id}>
