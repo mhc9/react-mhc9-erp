@@ -36,6 +36,7 @@ const initialFormData = {
     categories: [],
     departments: [],
     divisions: [],
+    projects: [],
 };
 
 const RequisitionForm = ({ requisition }) => {
@@ -281,6 +282,11 @@ const RequisitionForm = ({ requisition }) => {
                                             className="form-control text-sm"
                                         >
                                             <option value="">-- โครงการ --</option>
+                                            {formData.projects && formData.projects.map(project => (
+                                                <option value={project.id} key={project.id}>
+                                                    {project.name}
+                                                </option>
+                                            ))}
                                         </select>
                                         {(formik.errors.project_id && formik.touched.project_id) && (
                                             <span className="text-red-500 text-sm">{formik.errors.project_id}</span>
