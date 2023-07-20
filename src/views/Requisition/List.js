@@ -84,9 +84,9 @@ const RequisitionList = () => {
                                         <Link to="/" className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
                                         </Link>
-                                        <button className="btn btn-sm btn-warning px-1 mr-1">
+                                        <Link to={`/requisition/${requisition.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />
-                                        </button>
+                                        </Link>
                                         <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(requisition.id)}>
                                             <FaTrash />
                                         </button>

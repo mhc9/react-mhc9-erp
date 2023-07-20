@@ -1,8 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import RequisitionForm from './Form'
+import { getRequisition } from '../../features/requisition/requisitionSlice'
 
 const EditRequisition = () => {
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const { requisition } = useSelector(state => state.requisition);
+
+    useEffect(() => {
+        if (id) dispatch(getRequisition({ id }));
+    }, [dispatch, id]);
 
     return (
         <div className="content-wrapper">
