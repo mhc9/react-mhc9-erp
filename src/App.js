@@ -31,6 +31,7 @@ import AddItem from './views/Item/Add';
 import EditItem from './views/Item/Edit';
 import ItemDetail from './views/Item/Detail';
 import Unit from './views/Unit'
+import EditRequisition from './views/Requisition/Edit';
 
 function App() {
     return (
@@ -59,6 +60,7 @@ function App() {
                 <Route path="room" element={<GuardRoute><Room /></GuardRoute>} />
                 <Route path="requisition" element={<GuardRoute><RequisitionList /></GuardRoute>} />
                 <Route path="requisition/add" element={<GuardRoute><AddRequisition /></GuardRoute>} />
+                <Route path="requisition/:id/edit" element={<GuardRoute><EditRequisition /></GuardRoute>} />
                 <Route path="item" element={<GuardRoute><ItemList /></GuardRoute>} />
                 <Route path="item/add" element={<GuardRoute><AddItem /></GuardRoute>} />
                 <Route path="item/:id/edit" element={<GuardRoute><EditItem /></GuardRoute>} />

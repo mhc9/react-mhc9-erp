@@ -2,7 +2,8 @@ import React from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 import RequisitionForm from './Form'
 
-const AddRequisition = () => {
+const EditRequisition = () => {
+
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}
@@ -10,11 +11,11 @@ const AddRequisition = () => {
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
                 <Breadcrumb.Item href="/requisition">รายการคำขอ</Breadcrumb.Item>
-                <Breadcrumb.Item active>เพิ่มรายการคำขอ</Breadcrumb.Item>
+                <Breadcrumb.Item active>แก้ไขรายการคำขอ</Breadcrumb.Item>
             </Breadcrumb>
         
             <div className="content">
-                <h2 className="text-xl">เพิ่มรายการคำขอ</h2>
+                <h2 className="text-xl">แก้ไขรายการคำขอ</h2>
 
                 <div className="my-2 border p-4 rounded-md">
                     <RequisitionForm />
@@ -24,4 +25,4 @@ const AddRequisition = () => {
     )
 }
 
-export default AddRequisition
+export default EditRequisition
