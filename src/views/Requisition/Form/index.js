@@ -40,18 +40,23 @@ const initialFormData = {
 
 const RequisitionForm = ({ requisition }) => {
     const dispatch = useDispatch();
-    const [requester, setRequester] = useState(null);
     const [budget, setBudget] = useState(null);
+    const [requester, setRequester] = useState(null);
     const [edittedItem, setEdittedItem] = useState(null);
-    const [selectedDate, setSelectedDate] = useState(moment().add(0, "years"));
-    const [selectedYear, setSelectedYear] = useState(moment().add(0, "years"));
+    const [selectedDate, setSelectedDate] = useState(moment());
+    const [selectedYear, setSelectedYear] = useState(moment());
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [showBudgetModal, setShowBudgetModal] = useState(false);
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
 
     /** On editting mode set default value to requester, budget, selectedDate and selectedYear local states */
     useEffect(() => {
-        console.log(requisition);
+        if (requisition) {
+            setBudget(requisition.budget);
+            setRequester(requisition.requester);
+            setSelectedDate(requisition.pr_date);
+            setSelectedYear(moment(`${requisition.year - 543}-09-01`));
+        }
     }, [requisition]);
 
     const handleAddItem = (formik, item) => {
@@ -174,6 +179,7 @@ const RequisitionForm = ({ requisition }) => {
                                                         setSelectedDate(date);
                                                         formik.setFieldValue('pr_date', date.format('YYYY-MM-DD'));
                                                     }}
+                                                    variant="outlined"
                                                 />
                                             </MuiPickersUtilsProvider>
                                             {/* <input
