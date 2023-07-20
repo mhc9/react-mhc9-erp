@@ -101,6 +101,12 @@ const RequisitionForm = ({ requisition }) => {
         dispatch(store(values));
 
         formik.resetForm();
+
+        /** Clear value of local states */
+        setBudget(null);
+        setRequester(null);
+        setSelectedDate(moment());
+        setSelectedYear(moment());
     };
 
     return (
