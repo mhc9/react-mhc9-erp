@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency } from '../../../utils'
 
@@ -22,7 +21,7 @@ const ItemList = ({ items, onEditItem, onRemoveItem }) => {
                     <tr key={data.item?.id}>
                         <td className="text-center">{index+1}</td>
                         <td>
-                            <p className="text-gray-500 font-thin">{data.item.category.name}</p>
+                            <p className="text-gray-500 font-thin">{data.item?.category?.name}</p>
                             <p className="text-xs">{data.item?.name}</p>
                             {data.description && (
                                 <p className="text-sm text-gray-400 font-thin">{data.description}</p>
@@ -36,7 +35,7 @@ const ItemList = ({ items, onEditItem, onRemoveItem }) => {
                             <button type="button" className="btn btn-sm btn-outline-warning mr-1" onClick={() => onEditItem(data)}>
                                 <FaPencilAlt />
                             </button>
-                            <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => onRemoveItem(data.item.id)}>
+                            <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => onRemoveItem(data.item?.id)}>
                                 <FaTrash />
                             </button>
                         </td>
