@@ -40,7 +40,6 @@ const initialFormData = {
 
 const RequisitionForm = () => {
     const dispatch = useDispatch();
-    const [items, setItems] = useState([]);
     const [requester, setRequester] = useState(null);
     const [budget, setBudget] = useState(null);
     const [edittedItem, setEdittedItem] = useState(null);
@@ -51,9 +50,8 @@ const RequisitionForm = () => {
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
 
     const handleAddItem = (formik, item) => {
-        const newItems = [...items, item];
+        const newItems = [...formik.values.items, item];
 
-        setItems(newItems);
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_count', newItems.length);
         formik.setFieldValue('net_total', calculateNetTotal(newItems));
@@ -64,23 +62,21 @@ const RequisitionForm = () => {
     };
 
     const handleUpdateItem = (formik, id, data) => {
-        const updatedItems = items.map(item => {
+        const updatedItems = formik.values.items.map(item => {
             if (item.item_id === id) return { ...data };
 
             return item;
         });
 
         setEdittedItem(null);
-        setItems(updatedItems);
         formik.setFieldValue('items', updatedItems);
         formik.setFieldValue('item_count', updatedItems.length);
         formik.setFieldValue('net_total', calculateNetTotal(updatedItems));
     };
 
     const handleRemoveItem = (formik, id) => {
-        const newItems = items.filter(item => item.item_id !== id);
+        const newItems = formik.valuesitems.filter(item => item.item_id !== id);
 
-        setItems(newItems);
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_count', newItems.length);
         formik.setFieldValue('net_total', calculateNetTotal(newItems));
@@ -149,7 +145,7 @@ const RequisitionForm = () => {
                                 />
 
                                 <Row className="mb-2">
-                                    <Col md={3}>
+                                    <Col md={4}>
                                         <label htmlFor="">เลขที่เอกสาร</label>
                                         <input
                                             type="text"
@@ -162,25 +158,28 @@ const RequisitionForm = () => {
                                             <span className="text-red-500 text-sm">{formik.errors.pr_no}</span>
                                         )}
                                     </Col>
-                                    <Col md={3}>
-                                        <label htmlFor="">วันที่เอกสาร</label>
-                                        <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
-                                            <DatePicker
-                                                format="DD/MM/YYYY"
-                                                value={selectedDate}
-                                                onChange={(date) => {
-                                                    setSelectedDate(date);
-                                                    formik.setFieldValue('pr_date', date.format('YYYY-MM-DD'));
-                                                }}
-                                            />
-                                        </MuiPickersUtilsProvider>
-                                        {/* <input
-                                            type="text"
-                                            name="pr_date"
-                                            value={formik.values.pr_date}
-                                            onChange={formik.handleChange}
-                                            className="form-control text-sm"
-                                        /> */}
+                                    <Col md={2}>
+                                        <div className="flex flex-col">
+                                            <label htmlFor="">วันที่เอกสาร</label>
+                                            <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                                <DatePicker
+                                                    format="DD/MM/YYYY"
+                                                    value={selectedDate}
+                                                    onChange={(date) => {
+                                                        setSelectedDate(date);
+                                                        formik.setFieldValue('pr_date', date.format('YYYY-MM-DD'));
+                                                    }}
+                                                />
+                                            </MuiPickersUtilsProvider>
+                                            {/* <input
+                                                type="text"
+                                                name="pr_date"
+                                                value={formik.values.pr_date}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-sm"
+                                            /> */}
+
+                                        </div>
                                         {(formik.errors.pr_date && formik.touched.pr_date) && (
                                             <span className="text-red-500 text-sm">{formik.errors.pr_date}</span>
                                         )}
@@ -365,7 +364,7 @@ const RequisitionForm = () => {
                                                 onUpdateItem={(id, item) => handleUpdateItem(formik, id, item)}
                                             />
                                             <ItemList
-                                                items={items}
+                                                items={formik.values.items}
                                                 onEditItem={(data) => handleEditItem(data)}
                                                 onRemoveItem={(id) => handleRemoveItem(formik, id)}
                                             />
