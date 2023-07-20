@@ -5,7 +5,7 @@ import { Breadcrumb, Pagination } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import Loading from '../../components/Loading'
 import { getRequisitions } from '../../features/requisition/requisitionSlice'
-import { currency } from '../../utils'
+import { currency, toShortTHDate } from '../../utils'
 
 const RequisitionList = () => {
     const dispatch = useDispatch();
@@ -65,7 +65,7 @@ const RequisitionList = () => {
                                     <td className="text-center">{pager && pager.from + index}</td>
                                     <td className="text-sm">
                                         <p>เลขที่ <span className="font-bold">{requisition.pr_no}</span></p>
-                                        <p>วันที่ <span className="font-bold">{requisition.pr_date}</span></p>
+                                        <p>วันที่ <span className="font-bold">{toShortTHDate(requisition.pr_date)}</span></p>
                                     </td>
                                     <td className="text-sm">
                                         <p>

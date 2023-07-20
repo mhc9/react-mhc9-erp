@@ -15,3 +15,9 @@ export const calculateNetTotal = (items = []) => {
 };
 
 export const currency = Intl.NumberFormat('th-TH');
+
+export const toShortTHDate = (dateStr) => {
+    const [year, month, day] = dateStr.split('-');
+
+    return `${day}/${month}/${parseInt(year, 10) + 543}`;
+};
