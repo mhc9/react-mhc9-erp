@@ -117,7 +117,7 @@ const RequisitionForm = ({ requisition }) => {
                 pr_date: requisition ? moment(requisition.pr_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 order_type_id: requisition ? requisition.order_type_id : 1,
                 category_id: requisition ? requisition.category_id : '',
-                topic: requisition ? requisition.topic : '',
+                topic: requisition ? requisition.topic : 'ขออนุมัติ',
                 year: requisition ? requisition.year : moment().year() + 543,
                 budget_id: requisition ? requisition.budget_id : '',
                 project_id: (requisition && requisition.project_id) ? requisition.project_id : '',

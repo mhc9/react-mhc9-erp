@@ -20,7 +20,7 @@ const ItemForm = ({ item }) => {
 
     useEffect(() => {
         if (item) {
-            setSelectedImg(`${process.env.REACT_APP_API_URL}/uploads/products/thumbnails/${item?.img_url}`)
+            setSelectedImg(item?.img_url ? `${process.env.REACT_APP_API_URL}/uploads/products/thumbnails/${item?.img_url}` : null);
         }
     }, [item]);
 
@@ -187,7 +187,7 @@ const ItemForm = ({ item }) => {
                                     )}
                                     <div className="border w-[200px] p-0 mt-2">
                                         {item
-                                            ? <img src={selectedImg} alt='item-pic' />
+                                            ? selectedImg && <img src={selectedImg} alt='item-pic' />
                                             : selectedImg && <img src={URL.createObjectURL(selectedImg)} alt='item-pic' />
                                         }
                                     </div>

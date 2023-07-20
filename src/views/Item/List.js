@@ -84,7 +84,7 @@ const ItemList = () => {
                         <tbody>
                             {isLoading && (
                                 <tr>
-                                    <td className="text-center" colSpan={4}><Loading /></td>
+                                    <td className="text-center" colSpan={5}><Loading /></td>
                                 </tr>
                             )}
                             {(!isLoading && items) && items.map((item, index) => (
