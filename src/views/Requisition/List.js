@@ -21,7 +21,6 @@ const RequisitionList = () => {
     }, [dispatch, apiEndpoint])
 
     const handlePageClick = (url) => {
-        console.log(url);
         setApiEndpoint(url);
     };
 
@@ -68,8 +67,18 @@ const RequisitionList = () => {
                                         <p>วันที่ <span className="font-bold">{requisition.pr_date}</span></p>
                                     </td>
                                     <td className="text-sm">
-                                        <p>{requisition.category.name} จำนวน {requisition.item_count} รายการ</p>
-                                        <p>เป็นเงินทั้งสิ้น {currency.format(requisition.net_total)} บาท</p>
+                                        <p>
+                                            <span className="mr-2">{requisition.category.name} จำนวน {requisition.item_count} รายการ</span>
+                                            <span>เป็นเงินทั้งสิ้น {currency.format(requisition.net_total)} บาท</span>
+                                        </p>
+                                        <ul className="text-sm font-thin">
+                                            {requisition.details.map((detail, index) => (
+                                                <li key={detail.id}>
+                                                    <span className="mr-1">{index+1}.{detail.item?.name}</span>
+                                                    {detail.description && <span className="text-red-500">({detail.description})</span>}
+                                                </li>
+                                            ))}
+                                        </ul>
                                     </td>
                                     <td className="text-center p-1">
                                         <Link to="/" className="btn btn-sm btn-info px-1 mr-1">
@@ -88,23 +97,30 @@ const RequisitionList = () => {
                     </table>
 
                     {(pager && pager.last_page > 1) && (
-                        <Pagination>
-                            <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
-                            <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
-                            {/* <Pagination.Item>{1}</Pagination.Item>
-                            <Pagination.Ellipsis />
+                        <div className="flex flex-row items-center justify-between gap-4">
+                            <div className="text-sm font-thin flex flex-row items-center justify-between gap-4 w-3/5">
+                                <span>หน้าที่ {pager.current_page}/{pager.last_page}</span>
+                                <span>จำนวนทั้งสิ้น {pager.total} รายการ</span>
+                            </div>
 
-                            <Pagination.Item>{10}</Pagination.Item>
-                            <Pagination.Item>{11}</Pagination.Item>
-                            <Pagination.Item active>{12}</Pagination.Item>
-                            <Pagination.Item>{13}</Pagination.Item>
-                            <Pagination.Item disabled>{14}</Pagination.Item>
+                            <Pagination>
+                                <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
+                                <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
+                                {/* <Pagination.Item>{1}</Pagination.Item>
+                                <Pagination.Ellipsis />
 
-                            <Pagination.Ellipsis />
-                            <Pagination.Item>{20}</Pagination.Item> */}
-                            <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
-                            <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
-                        </Pagination>
+                                <Pagination.Item>{10}</Pagination.Item>
+                                <Pagination.Item>{11}</Pagination.Item>
+                                <Pagination.Item active>{12}</Pagination.Item>
+                                <Pagination.Item>{13}</Pagination.Item>
+                                <Pagination.Item disabled>{14}</Pagination.Item>
+
+                                <Pagination.Ellipsis />
+                                <Pagination.Item>{20}</Pagination.Item> */}
+                                <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
+                                <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
+                            </Pagination>
+                        </div>
                     )}
                 </div>
             </div>
