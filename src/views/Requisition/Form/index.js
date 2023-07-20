@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
@@ -38,7 +38,7 @@ const initialFormData = {
     divisions: [],
 };
 
-const RequisitionForm = () => {
+const RequisitionForm = ({ requisition }) => {
     const dispatch = useDispatch();
     const [requester, setRequester] = useState(null);
     const [budget, setBudget] = useState(null);
@@ -48,6 +48,11 @@ const RequisitionForm = () => {
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [showBudgetModal, setShowBudgetModal] = useState(false);
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
+
+    /** On editting mode set default value to requester, budget, selectedDate and selectedYear local states */
+    useEffect(() => {
+        console.log(requisition);
+    }, [requisition]);
 
     const handleAddItem = (formik, item) => {
         const newItems = [...formik.values.items, item];
@@ -96,19 +101,19 @@ const RequisitionForm = () => {
         <Formik
             enableReinitialize
             initialValues={{
-                pr_no: '',
-                pr_date: moment().format('YYYY-MM-DD'),
-                order_type_id: 1,
-                category_id: '',
-                topic: '',
-                year: moment().year() + 543,
-                budget_id: '',
-                project_id: '',
-                division_id: '',
-                requester_id: '',
-                reason: '',
-                item_count: 0,
-                net_total: '',
+                pr_no: requisition ? requisition.pr_no : '',
+                pr_date: requisition ? moment(requisition.pr_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+                order_type_id: requisition ? requisition.order_type_id : 1,
+                category_id: requisition ? requisition.category_id : '',
+                topic: requisition ? requisition.topic : '',
+                year: requisition ? requisition.year : moment().year() + 543,
+                budget_id: requisition ? requisition.budget_id : '',
+                project_id: (requisition && requisition.project_id) ? requisition.project_id : '',
+                division_id: (requisition && requisition.division_id) ? requisition.division_id : '',
+                requester_id: requisition ? requisition.requester_id : '',
+                reason: requisition ? requisition.reason : '',
+                item_count: requisition ? requisition.item_count : 0,
+                net_total: requisition ? requisition.net_total : '',
                 items: [],
                 committees: []
             }}
