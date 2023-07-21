@@ -383,6 +383,7 @@ const RequisitionForm = ({ requisition }) => {
                                             <h1 className="font-bold text-lg mb-1">รายการสินค้า</h1>
                                             <AddItem
                                                 data={edittedItem}
+                                                filteredCategory={formik.values.category_id}
                                                 onAddItem={(item) => handleAddItem(formik, item)}
                                                 onUpdateItem={(id, item) => handleUpdateItem(formik, id, item)}
                                             />

@@ -21,7 +21,7 @@ const initialFormData = {
     categories: [],
 };
 
-const AddItem = ({ data, onAddItem, onUpdateItem }) => {
+const AddItem = ({ data, filteredCategory, onAddItem, onUpdateItem }) => {
     const [item, setItem] = useState(null);
     const [showModalItems, setShowModalItems] = useState(false);
     const [showModalAddItemDesc, setShowModalAddItemDesc] = useState(false);
@@ -89,6 +89,7 @@ const AddItem = ({ data, onAddItem, onUpdateItem }) => {
                         isShow={showModalItems}
                         onHide={() => setShowModalItems(false)}
                         onSelect={(item) => handleSelect(formik, item)}
+                        category={filteredCategory}
                     />
 
                     <ModalAddItemDesc
