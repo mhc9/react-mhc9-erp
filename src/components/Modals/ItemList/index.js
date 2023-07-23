@@ -23,28 +23,26 @@ const initialFormData = {
 const ModalItemList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
     const { items, pager, loading } = useSelector(state => state.item);
-    const [apiEndpoint, setApiEndpoint] = useState('');
     const [isListMode, setIsListMode] = useState(false);
+    const [params, setParams] = useState('');
+    const [apiEndpoint, setApiEndpoint] = useState('');
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getItems({ url: '/api/items/search?page=&limit=12' }));
+            dispatch(getItems({ url: `/api/items/search?page=&limit=12${params}` }));
         } else {
-            dispatch(getItems({ url: apiEndpoint }));
+            dispatch(getItems({ url: `${apiEndpoint}${params}` }));
         }
-    }, [apiEndpoint]);
+    }, [dispatch, apiEndpoint, params]);
 
     const handlePageClick = (url) => {
         setApiEndpoint(`${url}&limit=12`);
     };
 
     const handleFilter = (queryStr) => {
-        if (apiEndpoint === '') {
-            dispatch(getItems({ url: `/api/items/search?page=&limit=12${queryStr}` }));
-        } else {
-            dispatch(getItems({ url: `${apiEndpoint}${queryStr}` }));
-        }
+        setParams(queryStr);
+        setApiEndpoint(`/api/items/search?page=&limit=12`);
     };
 
     return (
