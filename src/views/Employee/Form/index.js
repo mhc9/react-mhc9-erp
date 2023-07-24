@@ -64,6 +64,12 @@ const EmployeeForm = ({ employee }) => {
         }
 
         props.resetForm();
+
+        /** Clear all values of local related form states */
+        setSelectedImage(null);
+        setSelectedBirthdate(moment());
+        setSelectedAssignedAt(moment());
+        setSelectedStartedAt(moment());
     };
 
     return (
