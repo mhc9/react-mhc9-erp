@@ -1,26 +1,44 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Pagination } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { getEmployees } from '../../features/employee/employeeSlice';
-import Loading from '../../components/Loading';
+import { getEmployees } from '../../features/employee/employeeSlice'
+import { useGetInitialFormDataQuery } from '../../services/employee/employeeApi'
+import Loading from '../../components/Loading'
+import FilteringInputs from '../../components/Employee/FilteringInputs'
+
+const initialFilters = {
+    name: '',
+    division: ''
+};
+
+const initialFormData = {
+    divisions: []
+};
 
 const EmployeeList = () => {
     const dispatch = useDispatch();
-    const { employees, pager, loading, success } = useSelector(state => state.employee)
+    const { employees, pager, isLoading } = useSelector(state => state.employee);
+    const { data: formData = initialFormData } = useGetInitialFormDataQuery();
     const [apiEndpoint, setApiEndpoint] = useState('');
+    const [params, setParams] = useState('');
 
     useEffect(() => {
         if (apiEndpoint === '') {
             dispatch(getEmployees({ url: `/api/employees/search` }));
         } else {
-            dispatch(getEmployees({ url: apiEndpoint }));
+            dispatch(getEmployees({ url: `${apiEndpoint}${params}` }));
         }
-    }, [apiEndpoint]);
+    }, [dispatch, apiEndpoint, params]);
 
     const handlePageClick = (url) => {
         setApiEndpoint(url);
+    };
+
+    const handleFilter = (queryStr) => {
+        setParams(queryStr);
+        setApiEndpoint(`/api/employees/search?page=`);
     };
 
     return (
@@ -39,6 +57,12 @@ const EmployeeList = () => {
                 </div>
 
                 <div>
+                    <FilteringInputs
+                        initialFilters={initialFilters}
+                        onFilter={handleFilter}
+                        formData={formData}
+                    />
+
                     <table className="table table-bordered">
                         <thead>
                             <tr>
@@ -49,7 +73,7 @@ const EmployeeList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {loading && (
+                            {isLoading && (
                                 <tr>
                                     <td colSpan={4} className="text-center">
                                         <Loading />
@@ -62,16 +86,16 @@ const EmployeeList = () => {
                                     <td>{employee.prefix.name}{employee.firstname} {employee.lastname}</td>
                                     <td>{employee.position.name}{employee.level?.name}</td>
                                     <td className="text-center">
-                                        <Link to={`/employees/${employee.id}/edit`} className="btn btn-sm btn-warning mr-1">
+                                        <Link to={`/employees/${employee.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />
                                         </Link>
-                                        <button className="btn btn-sm btn-danger">
+                                        <button className="btn btn-sm btn-danger px-1">
                                             <FaTrash />
                                         </button>
                                     </td>
                                 </tr>
                             ))}
-                            {!loading && employees.length <= 0 && (
+                            {!isLoading && employees.length <= 0 && (
                                 <tr>
                                     <td colSpan={4} className="text-center">
                                         -- ไม่มีข้อมูล --
