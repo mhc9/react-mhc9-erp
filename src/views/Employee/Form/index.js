@@ -70,6 +70,13 @@ const EmployeeForm = ({ employee }) => {
                 cid: '',
                 sex: '1',
                 birthdate: '',
+                address_no: '',
+                moo: '',
+                road: '',
+                changwat_id: '',
+                amphur_id: '',
+                tambon_id: '',
+                zipcode: '',
                 tel: '',
                 email: '',
                 line_id: '',
@@ -128,6 +135,33 @@ const EmployeeForm = ({ employee }) => {
                                     />
                                     {(formik.errors.cid && formik.touched.cid) && (
                                         <span className="text-red-500 text-sm">{formik.errors.cid}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>เพศ</label>                                    
+                                    <Field component="div" name="sex" className="form-control">
+                                        <input
+                                            type="radio"
+                                            id="radioOne"
+                                            defaultChecked={formik.values.sex === "one"}
+                                            name="sex"
+                                            value="1"
+                                        />
+                                        <label htmlFor="male" className="ml-1 mr-4">ชาย</label>
+
+                                        <input
+                                            type="radio"
+                                            id="radioTwo"
+                                            defaultChecked={formik.values.sex === "two"}
+                                            name="sex"
+                                            value="2"
+                                        />
+                                        <label htmlFor="famale" className="ml-1">หญิง</label>
+                                    </Field>
+                                    {(formik.errors.sex && formik.touched.sex) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.sex}</span>
                                     )}
                                 </FormGroup>
                             </Col>
@@ -209,28 +243,121 @@ const EmployeeForm = ({ employee }) => {
                             </Col>
                             <Col>
                                 <FormGroup>
-                                    <label>เพศ</label>                                    
-                                    <Field component="div" name="sex" className="form-control">
-                                        <input
-                                            type="radio"
-                                            id="radioOne"
-                                            defaultChecked={formik.values.sex === "one"}
-                                            name="sex"
-                                            value="1"
-                                        />
-                                        <label htmlFor="male" className="ml-1 mr-4">ชาย</label>
-
-                                        <input
-                                            type="radio"
-                                            id="radioTwo"
-                                            defaultChecked={formik.values.sex === "two"}
-                                            name="sex"
-                                            value="2"
-                                        />
-                                        <label htmlFor="famale" className="ml-1">หญิง</label>
-                                    </Field>
-                                    {(formik.errors.sex && formik.touched.sex) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.sex}</span>
+                                    <label>ที่อยู่ เลขที่</label>
+                                    <input type="text" className="form-control" />
+                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col md={2}>
+                                <FormGroup>
+                                    <label>หมู่ที่</label>
+                                    <input type="text" className="form-control" />
+                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <FormGroup>
+                                    <label>ถนน</label>
+                                    <input type="text" className="form-control" />
+                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>รหัสไปรษณีย์</label>
+                                    <input type="text" className="form-control" />
+                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <FormGroup>
+                                    <label>จังหวัด</label>
+                                    <select name="" className="form-control">
+                                        <option value=""></option>
+                                    </select>
+                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>อำเภอ</label>
+                                    <select name="" className="form-control">
+                                        <option value=""></option>
+                                    </select>
+                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>ตำบล</label>
+                                    <select name="" className="form-control">
+                                        <option value=""></option>
+                                    </select>
+                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <FormGroup>
+                                    <label>โทรศัพท์</label>
+                                    <input
+                                        type="text"
+                                        name="tel"
+                                        value={formik.values.tel}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.tel && formik.touched.tel) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.tel}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>อีเมล</label>
+                                    <input
+                                        type="text"
+                                        name="email"
+                                        value={formik.values.email}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.email && formik.touched.email) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.email}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>LINE ID</label>
+                                    <input
+                                        type="text"
+                                        name="line_id"
+                                        value={formik.values.line_id}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.line_id && formik.touched.line_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.line_id}</span>
                                     )}
                                 </FormGroup>
                             </Col>
@@ -320,53 +447,6 @@ const EmployeeForm = ({ employee }) => {
                                             <span className="text-red-500 text-sm">{formik.errors.started_at}</span>
                                         )}
                                     </div>
-                                </FormGroup>
-                            </Col>
-                        </Row>
-                        <Row className="mb-2">
-                            <Col>
-                                <FormGroup>
-                                    <label>โทรศัพท์</label>
-                                    <input
-                                        type="text"
-                                        name="tel"
-                                        value={formik.values.tel}
-                                        onChange={formik.handleChange}
-                                        className="form-control"
-                                    />
-                                    {(formik.errors.tel && formik.touched.tel) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.tel}</span>
-                                    )}
-                                </FormGroup>
-                            </Col>
-                            <Col>
-                                <FormGroup>
-                                    <label>อีเมล</label>
-                                    <input
-                                        type="text"
-                                        name="email"
-                                        value={formik.values.email}
-                                        onChange={formik.handleChange}
-                                        className="form-control"
-                                    />
-                                    {(formik.errors.email && formik.touched.email) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.email}</span>
-                                    )}
-                                </FormGroup>
-                            </Col>
-                            <Col>
-                                <FormGroup>
-                                    <label>LINE ID</label>
-                                    <input
-                                        type="text"
-                                        name="line_id"
-                                        value={formik.values.line_id}
-                                        onChange={formik.handleChange}
-                                        className="form-control"
-                                    />
-                                    {(formik.errors.line_id && formik.touched.line_id) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.line_id}</span>
-                                    )}
                                 </FormGroup>
                             </Col>
                         </Row>
