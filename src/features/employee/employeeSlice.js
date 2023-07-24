@@ -4,8 +4,8 @@ import api from '../../api';
 const initialState = {
     employees: [],
     pager: null,
-    loading: false,
-    success: false,
+    isLoading: false,
+    isSuccess: false,
     error: null
 };
 
@@ -29,6 +29,26 @@ export const store = createAsyncThunk("employee/store", async (data, { rejectWit
     }
 });
 
+export const update = createAsyncThunk("employee/update", async ({ id, data }, { rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/employees/${id}`, data);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const destroy = createAsyncThunk("employee/destroy", async (id, { rejectWithValue }) => {
+    try {
+        const res = await api.delete(`/api/employees/${id}`);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const employeeSlice = createSlice({
     name: "employee",
     initialState,
@@ -37,7 +57,7 @@ export const employeeSlice = createSlice({
         [getEmployees.pending]: (state) => {
             state.employees = [];
             state.pager = null;
-            state.loading = true;
+            state.isLoading = true;
             state.error = null;
         },
         [getEmployees.fulfilled]: (state, { payload }) => {
@@ -45,25 +65,55 @@ export const employeeSlice = createSlice({
 
             state.employees = data;
             state.pager = pager;
-            state.loading = false;
+            state.isLoading = false;
         },
         [getEmployees.rejected]: (state, { payload }) => {
-            state.loading = false;
+            state.isLoading = false;
             state.error = payload;
         },
         [store.pending]: (state) => {
-            state.loading = true;
-            state.success = false;
+            state.isLoading = true;
+            state.isSuccess = false;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
             console.log(payload);
-            state.loading = false;
-            state.success = true;
+            state.isLoading = false;
+            state.isSuccess = true;
         },
         [store.rejected]: (state, { payload }) => {
             console.log(payload);
-            state.loading = false;
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [update.pending]: (state) => {
+            state.isLoading = true;
+            state.isSuccess = false;
+            state.error = null;
+        },
+        [update.fulfilled]: (state, { payload }) => {
+            console.log(payload);
+            state.isLoading = false;
+            state.isSuccess = true;
+        },
+        [update.rejected]: (state, { payload }) => {
+            console.log(payload);
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [destroy.pending]: (state) => {
+            state.isLoading = true;
+            state.isSuccess = false;
+            state.error = null;
+        },
+        [destroy.fulfilled]: (state, { payload }) => {
+            console.log(payload);
+            state.isLoading = false;
+            state.isSuccess = true;
+        },
+        [destroy.rejected]: (state, { payload }) => {
+            console.log(payload);
+            state.isLoading = false;
             state.error = payload;
         },
     }
