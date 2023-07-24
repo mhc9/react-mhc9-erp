@@ -64,7 +64,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 <Link to="/asset-category"><p className="w-full">ชนิดพัสดุ</p></Link>
                             </li>
                             <li><hr className="dropdown-divider m-0" /></li>
-                            <li className="hover:bg-gray-300 p-2">
+                            {/* <li className="hover:bg-gray-300 p-2">
                                 <Link to="/equipment"><p className="w-full">อุปกรณ์</p></Link>
                             </li>
                             <li className="hover:bg-gray-300 p-2">
@@ -72,7 +72,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                             </li>
                             <li className="hover:bg-gray-300 p-2">
                                 <Link to="/equipment-group"><p className="w-full">กลุ่มอุปกรณ์</p></Link>
-                            </li>
+                            </li> */}
                             <li><hr className="dropdown-divider m-0" /></li>
                             <li className="hover:bg-gray-300 p-2">
                                 <Link to="/employee"><p className="w-full">บุคลากร</p></Link>
