@@ -9,6 +9,7 @@ import Loading from '../../../components/Loading'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
 import { store } from '../../../features/employee/employeeSlice'
 import { useGetInitialFormDataQuery } from '../../../services/employee/employeeApi'
+import './Form.css'
 
 const employeeSchema = Yup.object().shape({
     prefix_id: Yup.string().required(),
@@ -38,7 +39,7 @@ const EmployeeForm = ({ employee }) => {
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
 
     useEffect(() => {
-        setSelectedImage(`/img/avatar-heroes.png`)
+        // setSelectedImage()
     }, []);
 
     const handlePositionSelected = (id) => {
@@ -94,13 +95,23 @@ const EmployeeForm = ({ employee }) => {
                     <Form>
                         <Row className="mb-4">
                             <Col md={12} className="flex flex-col justify-center items-center">
-                                <div className="w-[120px] h-[120px] flex justify-center items-center rounded-full border overflow-hidden">
+                                <div className="avatar">
                                     <label className="hover:cursor-pointer">
-                                        <input type="file" className="mt-2 hidden" />
-                                        <figure className="relative">
-                                            <img src={selectedImage} alt="employee-pic" className="w-full h-auto" />
-                                            <figcaption className="absolute bottom-0 text-center opacity-5 hover:opacity-100 hover:bg-gray-300 text-white w-full h-full">
-                                                Test 555
+                                        <input
+                                            type="file"
+                                            className="mt-2"
+                                            onChange={(e) => setSelectedImage(e.target.files[0])}
+                                        />
+                                        <figure>
+                                            {selectedImage ? (
+                                                <img src={URL.createObjectURL(selectedImage)} alt="employee-pic" className="avatar-img" />
+                                            ) : (
+                                                <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />
+                                            )}
+
+                                            <figcaption className="avatar-caption">
+                                                <img src="https://raw.githubusercontent.com/ThiagoLuizNunes/angular-boilerplate/master/src/assets/imgs/camera-white.png" />
+                                                <span className="text-white">{selectedImage ? 'แก้ไขรูป' : 'เพิ่มรูป'}</span>
                                             </figcaption>
                                         </figure>
                                     </label>
@@ -116,7 +127,7 @@ const EmployeeForm = ({ employee }) => {
                                         name="employee_no"
                                         value={formik.values.employee_no}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     />
                                     {(formik.errors.employee_no && formik.touched.employee_no) && (
                                         <span className="text-red-500 text-sm">{formik.errors.employee_no}</span>
@@ -131,7 +142,7 @@ const EmployeeForm = ({ employee }) => {
                                         name="cid"
                                         value={formik.values.cid}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     />
                                     {(formik.errors.cid && formik.touched.cid) && (
                                         <span className="text-red-500 text-sm">{formik.errors.cid}</span>
@@ -141,7 +152,7 @@ const EmployeeForm = ({ employee }) => {
                             <Col>
                                 <FormGroup>
                                     <label>เพศ</label>                                    
-                                    <Field component="div" name="sex" className="form-control">
+                                    <Field component="div" name="sex" className="form-control text-sm">
                                         <input
                                             type="radio"
                                             id="radioOne"
@@ -167,16 +178,16 @@ const EmployeeForm = ({ employee }) => {
                             </Col>
                         </Row>
                         <Row className="mb-2">
-                            <Col>
+                            <Col md={2}>
                                 <FormGroup>
                                     <label>คำนำหน้า</label>
                                     <select
                                         name="prefix_id"
                                         value={formik.values.prefix_id} 
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     >
-                                        <option value="">-- เลือกคำนำหน้า --</option>
+                                        <option value="">-- คำนำหน้า --</option>
                                         {formData && formData.prefixes && formData.prefixes.map(prefix => (
                                             <option value={prefix.id} key={prefix.id}>
                                                 {prefix.name}
@@ -196,7 +207,7 @@ const EmployeeForm = ({ employee }) => {
                                         name="firstname"
                                         value={formik.values.firstname}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     />
                                     {(formik.errors.firstname && formik.touched.firstname) && (
                                         <span className="text-red-500 text-sm">{formik.errors.firstname}</span>
@@ -211,7 +222,7 @@ const EmployeeForm = ({ employee }) => {
                                         name="lastname"
                                         value={formik.values.lastname}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     />
                                     {(formik.errors.lastname && formik.touched.lastname) && (
                                         <span className="text-red-500 text-sm">{formik.errors.lastname}</span>
@@ -244,7 +255,10 @@ const EmployeeForm = ({ employee }) => {
                             <Col>
                                 <FormGroup>
                                     <label>ที่อยู่ เลขที่</label>
-                                    <input type="text" className="form-control" />
+                                    <input
+                                        type="text"
+                                        className="form-control text-sm"
+                                    />
                                     {(formik.errors.birthdate && formik.touched.birthdate) && (
                                         <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
                                     )}
@@ -253,7 +267,10 @@ const EmployeeForm = ({ employee }) => {
                             <Col md={2}>
                                 <FormGroup>
                                     <label>หมู่ที่</label>
-                                    <input type="text" className="form-control" />
+                                    <input
+                                        type="text"
+                                        className="form-control text-sm"
+                                    />
                                     {(formik.errors.birthdate && formik.touched.birthdate) && (
                                         <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
                                     )}
@@ -264,7 +281,7 @@ const EmployeeForm = ({ employee }) => {
                             <Col>
                                 <FormGroup>
                                     <label>ถนน</label>
-                                    <input type="text" className="form-control" />
+                                    <input type="text" className="form-control text-sm" />
                                     {(formik.errors.birthdate && formik.touched.birthdate) && (
                                         <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
                                     )}
@@ -273,7 +290,7 @@ const EmployeeForm = ({ employee }) => {
                             <Col>
                                 <FormGroup>
                                     <label>รหัสไปรษณีย์</label>
-                                    <input type="text" className="form-control" />
+                                    <input type="text" className="form-control text-sm" />
                                     {(formik.errors.birthdate && formik.touched.birthdate) && (
                                         <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
                                     )}
@@ -284,7 +301,7 @@ const EmployeeForm = ({ employee }) => {
                             <Col>
                                 <FormGroup>
                                     <label>จังหวัด</label>
-                                    <select name="" className="form-control">
+                                    <select name="" className="form-control text-sm">
                                         <option value=""></option>
                                     </select>
                                     {(formik.errors.birthdate && formik.touched.birthdate) && (
@@ -295,7 +312,7 @@ const EmployeeForm = ({ employee }) => {
                             <Col>
                                 <FormGroup>
                                     <label>อำเภอ</label>
-                                    <select name="" className="form-control">
+                                    <select name="" className="form-control text-sm">
                                         <option value=""></option>
                                     </select>
                                     {(formik.errors.birthdate && formik.touched.birthdate) && (
@@ -306,7 +323,7 @@ const EmployeeForm = ({ employee }) => {
                             <Col>
                                 <FormGroup>
                                     <label>ตำบล</label>
-                                    <select name="" className="form-control">
+                                    <select name="" className="form-control text-sm">
                                         <option value=""></option>
                                     </select>
                                     {(formik.errors.birthdate && formik.touched.birthdate) && (
@@ -324,7 +341,7 @@ const EmployeeForm = ({ employee }) => {
                                         name="tel"
                                         value={formik.values.tel}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     />
                                     {(formik.errors.tel && formik.touched.tel) && (
                                         <span className="text-red-500 text-sm">{formik.errors.tel}</span>
@@ -339,7 +356,7 @@ const EmployeeForm = ({ employee }) => {
                                         name="email"
                                         value={formik.values.email}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     />
                                     {(formik.errors.email && formik.touched.email) && (
                                         <span className="text-red-500 text-sm">{formik.errors.email}</span>
@@ -354,7 +371,7 @@ const EmployeeForm = ({ employee }) => {
                                         name="line_id"
                                         value={formik.values.line_id}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     />
                                     {(formik.errors.line_id && formik.touched.line_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.line_id}</span>
@@ -366,7 +383,7 @@ const EmployeeForm = ({ employee }) => {
                             <Col>
                                 <FormGroup>
                                     <label>ตำแหน่ง</label>
-                                    <select name="position_id" value={formik.values.position_id} className="form-control"
+                                    <select name="position_id" value={formik.values.position_id} className="form-control text-sm"
                                         onChange={(e) => {
                                             formik.handleChange(e);
                                             handlePositionSelected(e.target.value);
@@ -391,7 +408,7 @@ const EmployeeForm = ({ employee }) => {
                                         name="level_id"
                                         value={formik.values.level_id} 
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     >
                                         <option value="">-- เลือกระดับ --</option>
                                         {filteredLevels && filteredLevels.map(level => (
@@ -459,7 +476,7 @@ const EmployeeForm = ({ employee }) => {
                                         name="remark"
                                         value={formik.values.remark}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     >
                                     </textarea>
                                 </FormGroup>
