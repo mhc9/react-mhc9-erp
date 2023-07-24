@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { Form as BsForm, FormGroup, Col, Row } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
-import api from '../../api';
-import { store } from '../../features/employee/employeeSlice';
-import Loading from '../../components/Loading'
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import moment from 'moment'
+import Loading from '../../../components/Loading'
+import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
+import { store } from '../../../features/employee/employeeSlice'
+import { useGetInitialFormDataQuery } from '../../../services/employee/employeeApi'
 
 const employeeSchema = Yup.object().shape({
     prefix_id: Yup.string().required(),
@@ -18,35 +21,29 @@ const employeeSchema = Yup.object().shape({
     // started_at: Yup.string().required(),
 });
 
+const initialFormData = {
+    prefixes: [],
+    positions: [],
+    levels: []
+}
+
 const EmployeeForm = ({ employee }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.employee);
-    const [prefixes, setPrefixes] = useState([]);
-    const [positions, setPositions] = useState([]);
-    const [levels, setLevels] = useState([]);
     const [filteredLevels, setFilteredLevels] = useState([]);
+    const [selectedBirthdate, setSelectedBirthdate] = useState(moment());
+    const [selectedAssignedAt, setSelectedAssignedAt] = useState(moment());
+    const [selectedStartedAt, setSelectedStartedAt] = useState(moment());
+    const [selectedImage, setSelectedImage] = useState(null);
+    const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
 
     useEffect(() => {
-        getFormInitialData();
-
-        return () => getFormInitialData();
+        setSelectedImage(`/img/avatar-heroes.png`)
     }, []);
 
-    const getFormInitialData = async () => {
-        try {
-            const res = await api.get('/api/employees/form/init');
-            
-            setPrefixes(res.data.prefixes);
-            setPositions(res.data.positions);
-            setLevels(res.data.levels);
-        } catch (error) {
-            
-        }
-    };
-
     const handlePositionSelected = (id) => {
-        const position = positions.find(pos => pos.id === parseInt(id, 10));
-        const newLevels = levels.filter(level => level.position_type_id === position.position_type_id);
+        const position = formData && formData.positions.find(pos => pos.id === parseInt(id, 10));
+        const newLevels = formData && formData.levels.filter(level => level.position_type_id === position.position_type_id);
 
         setFilteredLevels(newLevels);
     };
@@ -78,6 +75,7 @@ const EmployeeForm = ({ employee }) => {
                 line_id: '',
                 position_id: '',
                 level_id: '',
+                assigned_at: '',
                 started_at: '',
                 remark: '',
             }}
@@ -87,6 +85,21 @@ const EmployeeForm = ({ employee }) => {
             {(formik) => {
                 return (
                     <Form>
+                        <Row className="mb-4">
+                            <Col md={12} className="flex flex-col justify-center items-center">
+                                <div className="w-[120px] h-[120px] flex justify-center items-center rounded-full border overflow-hidden">
+                                    <label className="hover:cursor-pointer">
+                                        <input type="file" className="mt-2 hidden" />
+                                        <figure className="relative">
+                                            <img src={selectedImage} alt="employee-pic" className="w-full h-auto" />
+                                            <figcaption className="absolute bottom-0 text-center opacity-5 hover:opacity-100 hover:bg-gray-300 text-white w-full h-full">
+                                                Test 555
+                                            </figcaption>
+                                        </figure>
+                                    </label>
+                                </div>
+                            </Col>
+                        </Row>
                         <Row className="mb-2">
                             <Col>
                                 <FormGroup>
@@ -130,7 +143,7 @@ const EmployeeForm = ({ employee }) => {
                                         className="form-control"
                                     >
                                         <option value="">-- เลือกคำนำหน้า --</option>
-                                        {prefixes && prefixes.map(prefix => (
+                                        {formData && formData.prefixes && formData.prefixes.map(prefix => (
                                             <option value={prefix.id} key={prefix.id}>
                                                 {prefix.name}
                                             </option>
@@ -175,6 +188,56 @@ const EmployeeForm = ({ employee }) => {
                         <Row className="mb-2">
                             <Col>
                                 <FormGroup>
+                                    <div className="flex flex-col">
+                                        <label>วันเกิด</label>
+                                        <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedBirthdate}
+                                                onChange={(date) => {
+                                                    setSelectedBirthdate(date);
+                                                    formik.setFieldValue('birthdate', date.format('YYYY-MM-DD'));
+                                                }}
+                                                variant="outlined"
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                        {(formik.errors.birthdate && formik.touched.birthdate) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                        )}
+                                    </div>
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>เพศ</label>                                    
+                                    <Field component="div" name="sex" className="form-control">
+                                        <input
+                                            type="radio"
+                                            id="radioOne"
+                                            defaultChecked={formik.values.sex === "one"}
+                                            name="sex"
+                                            value="1"
+                                        />
+                                        <label htmlFor="male" className="ml-1 mr-4">ชาย</label>
+
+                                        <input
+                                            type="radio"
+                                            id="radioTwo"
+                                            defaultChecked={formik.values.sex === "two"}
+                                            name="sex"
+                                            value="2"
+                                        />
+                                        <label htmlFor="famale" className="ml-1">หญิง</label>
+                                    </Field>
+                                    {(formik.errors.sex && formik.touched.sex) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.sex}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <FormGroup>
                                     <label>ตำแหน่ง</label>
                                     <select name="position_id" value={formik.values.position_id} className="form-control"
                                         onChange={(e) => {
@@ -183,7 +246,7 @@ const EmployeeForm = ({ employee }) => {
                                         }}
                                     >
                                         <option value="">-- เลือกตำแหน่ง --</option>
-                                        {positions && positions.map(type => (
+                                        {formData && formData.positions && formData.positions.map(type => (
                                             <option value={type.id} key={type.id}>
                                                 {type.name}
                                             </option>
@@ -219,61 +282,48 @@ const EmployeeForm = ({ employee }) => {
                         <Row className="mb-2">
                             <Col>
                                 <FormGroup>
-                                    <label>วันเกิด</label>
-                                    <BsForm.Control
-                                        type="date"
-                                        name="birthdate"
-                                        value={formik.values.birthdate}
-                                        onChange={formik.handleChange}
-                                    />
-                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
-                                    )}
+                                    <div className="flex flex-col">
+                                        <label>วันที่บรรจุ</label>
+                                        <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedAssignedAt}
+                                                onChange={(date) => {
+                                                    setSelectedAssignedAt(date);
+                                                    formik.setFieldValue('assigned_at', date.format('YYYY-MM-DD'));
+                                                }}
+                                                variant="outlined"
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                        {(formik.errors.assigned_at && formik.touched.assigned_at) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.assigned_at}</span>
+                                        )}
+                                    </div>
                                 </FormGroup>
                             </Col>
                             <Col>
                                 <FormGroup>
-                                    <label>เพศ</label>                                    
-                                    <Field component="div" name="sex" className="form-control">
-                                        <input
-                                            type="radio"
-                                            id="radioOne"
-                                            defaultChecked={formik.values.sex === "one"}
-                                            name="sex"
-                                            value="1"
-                                        />
-                                        <label htmlFor="male" className="ml-1 mr-4">ชาย</label>
-
-                                        <input
-                                            type="radio"
-                                            id="radioTwo"
-                                            defaultChecked={formik.values.sex === "two"}
-                                            name="sex"
-                                            value="2"
-                                        />
-                                        <label htmlFor="famale" className="ml-1">หญิง</label>
-                                    </Field>
-                                    {(formik.errors.sex && formik.touched.sex) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.sex}</span>
-                                    )}
+                                    <div className="flex flex-col">
+                                        <label>วันที่เริ่มงาน (ที่ศูนย์สุขภาพจิตที่ 9)</label>
+                                        <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedStartedAt}
+                                                onChange={(date) => {
+                                                    setSelectedStartedAt(date);
+                                                    formik.setFieldValue('started_at', date.format('YYYY-MM-DD'));
+                                                }}
+                                                variant="outlined"
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                        {(formik.errors.started_at && formik.touched.started_at) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.started_at}</span>
+                                        )}
+                                    </div>
                                 </FormGroup>
                             </Col>
                         </Row>
                         <Row className="mb-2">
-                            <Col>
-                                <FormGroup>
-                                    <label>วันที่เริ่มงาน</label>
-                                    <BsForm.Control
-                                        type="date"
-                                        name="started_at"
-                                        value={formik.values.started_at}
-                                        onChange={formik.handleChange}
-                                    />
-                                    {(formik.errors.started_at && formik.touched.started_at) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.started_at}</span>
-                                    )}
-                                </FormGroup>
-                            </Col>
                             <Col>
                                 <FormGroup>
                                     <label>โทรศัพท์</label>
@@ -289,8 +339,6 @@ const EmployeeForm = ({ employee }) => {
                                     )}
                                 </FormGroup>
                             </Col>
-                        </Row>
-                        <Row className="mb-2">
                             <Col>
                                 <FormGroup>
                                     <label>อีเมล</label>
