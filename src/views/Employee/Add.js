@@ -8,7 +8,8 @@ const AddEmployee = () => {
             {/* breadcrumb */}
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
-                <Breadcrumb.Item href="/">ข้อมูลพื้ฐาน</Breadcrumb.Item>
+                <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
+                <Breadcrumb.Item href="/employee">บุคลากร</Breadcrumb.Item>
                 <Breadcrumb.Item active>เพิ่มบุคลากรใหม่</Breadcrumb.Item>
             </Breadcrumb>
         
