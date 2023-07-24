@@ -21,3 +21,11 @@ export const toShortTHDate = (dateStr) => {
 
     return `${day}/${month}/${parseInt(year, 10) + 543}`;
 };
+
+export const filterAmphursByChangwat = (changwat, amphurs = []) => {
+    return amphurs.filter(amp => amp.chw_id === changwat);
+};
+
+export const filterTambonsByAmphur = (amphur, tambons = []) => {
+    return tambons.filter(tam => tam.amp_id === amphur);
+};

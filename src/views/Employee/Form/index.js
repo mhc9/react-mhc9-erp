@@ -7,6 +7,7 @@ import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import moment from 'moment'
 import Loading from '../../../components/Loading'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
+import { filterAmphursByChangwat, filterTambonsByAmphur } from '../../../utils'
 import { store, update } from '../../../features/employee/employeeSlice'
 import { useGetInitialFormDataQuery } from '../../../services/employee/employeeApi'
 import './Form.css'
@@ -25,13 +26,18 @@ const employeeSchema = Yup.object().shape({
 const initialFormData = {
     prefixes: [],
     positions: [],
-    levels: []
+    levels: [],
+    changewats: [],
+    amphurs: [],
+    tambons: [],
 }
 
 const EmployeeForm = ({ employee }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.employee);
     const [filteredLevels, setFilteredLevels] = useState([]);
+    const [filteredAmphurs, setFilteredAmphurs] = useState([]);
+    const [filteredTambons, setFilteredTambons] = useState([]);
     const [selectedBirthdate, setSelectedBirthdate] = useState(moment());
     const [selectedAssignedAt, setSelectedAssignedAt] = useState(moment());
     const [selectedStartedAt, setSelectedStartedAt] = useState(moment());
@@ -270,10 +276,13 @@ const EmployeeForm = ({ employee }) => {
                                     <label>ที่อยู่ เลขที่</label>
                                     <input
                                         type="text"
+                                        name="address_no"
+                                        value={formik.values.address_no}
+                                        onChange={formik.handleChange}
                                         className="form-control text-sm"
                                     />
-                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                    {(formik.errors.address_no && formik.touched.address_no) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.address_no}</span>
                                     )}
                                 </FormGroup>
                             </Col>
@@ -282,10 +291,13 @@ const EmployeeForm = ({ employee }) => {
                                     <label>หมู่ที่</label>
                                     <input
                                         type="text"
+                                        name="moo"
+                                        value={formik.values.moo}
+                                        onChange={formik.handleChange}
                                         className="form-control text-sm"
                                     />
-                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                    {(formik.errors.moo && formik.touched.moo) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.moo}</span>
                                     )}
                                 </FormGroup>
                             </Col>
@@ -294,18 +306,30 @@ const EmployeeForm = ({ employee }) => {
                             <Col>
                                 <FormGroup>
                                     <label>ถนน</label>
-                                    <input type="text" className="form-control text-sm" />
-                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                    <input
+                                        type="text"
+                                        name="road"
+                                        value={formik.values.road}
+                                        onChange={formik.handleChange}
+                                        className="form-control text-sm"
+                                    />
+                                    {(formik.errors.road && formik.touched.road) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.road}</span>
                                     )}
                                 </FormGroup>
                             </Col>
                             <Col>
                                 <FormGroup>
                                     <label>รหัสไปรษณีย์</label>
-                                    <input type="text" className="form-control text-sm" />
-                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                    <input
+                                        type="text"
+                                        name="zipcode"
+                                        value={formik.values.zipcode}
+                                        onChange={formik.handleChange}
+                                        className="form-control text-sm"
+                                    />
+                                    {(formik.errors.zipcode && formik.touched.zipcode) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.zipcode}</span>
                                     )}
                                 </FormGroup>
                             </Col>
@@ -314,33 +338,68 @@ const EmployeeForm = ({ employee }) => {
                             <Col>
                                 <FormGroup>
                                     <label>จังหวัด</label>
-                                    <select name="" className="form-control text-sm">
+                                    <select
+                                        name="changwat_id"
+                                        value={formik.values.changwat_id}
+                                        onChange={(e) => {
+                                            setFilteredAmphurs(filterAmphursByChangwat(e.target.value, formData.amphurs));
+                                            formik.setFieldValue('changwat_id', e.target.value)
+                                        }}
+                                        className="form-control text-sm"
+                                    >
                                         <option value=""></option>
+                                        {formData && formData.changewats.map(changewat => (
+                                            <option value={changewat.id} key={changewat.id}>
+                                                {changewat.name}
+                                            </option>
+                                        ))}
                                     </select>
-                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                    {(formik.errors.changwat_id && formik.touched.changwat_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.changwat_id}</span>
                                     )}
                                 </FormGroup>
                             </Col>
                             <Col>
                                 <FormGroup>
                                     <label>อำเภอ</label>
-                                    <select name="" className="form-control text-sm">
+                                    <select
+                                        name="amphur_id"
+                                        value={formik.values.amphur_id}
+                                        onChange={(e) => {
+                                            setFilteredTambons(filterTambonsByAmphur(e.target.value, formData.tambons));
+                                            formik.setFieldValue('amphur_id', e.target.value)
+                                        }}
+                                        className="form-control text-sm"
+                                    >
                                         <option value=""></option>
+                                        {filteredAmphurs.map(amphur => (
+                                            <option value={amphur.id} key={amphur.id}>
+                                                {amphur.name}
+                                            </option>
+                                        ))}
                                     </select>
-                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                    {(formik.errors.amphur_id && formik.touched.amphur_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.amphur_id}</span>
                                     )}
                                 </FormGroup>
                             </Col>
                             <Col>
                                 <FormGroup>
                                     <label>ตำบล</label>
-                                    <select name="" className="form-control text-sm">
-                                        <option value=""></option>
+                                    <select
+                                        name="tambon_id"
+                                        value={formik.values.tambon_id}
+                                        onChange={formik.handleChange}
+                                        className="form-control text-sm"
+                                    >
+                                        {filteredTambons.map(tambon => (
+                                            <option value={tambon.id} key={tambon.id}>
+                                                {tambon.name}
+                                            </option>
+                                        ))}
                                     </select>
-                                    {(formik.errors.birthdate && formik.touched.birthdate) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.birthdate}</span>
+                                    {(formik.errors.tambon_id && formik.touched.tambon_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.tambon_id}</span>
                                     )}
                                 </FormGroup>
                             </Col>
