@@ -7,7 +7,7 @@ import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import moment from 'moment'
 import Loading from '../../../components/Loading'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
-import { store } from '../../../features/employee/employeeSlice'
+import { store, update } from '../../../features/employee/employeeSlice'
 import { useGetInitialFormDataQuery } from '../../../services/employee/employeeApi'
 import './Form.css'
 
@@ -50,10 +50,17 @@ const EmployeeForm = ({ employee }) => {
     };
 
     const handleSubmit = (values, props) => {
-        if (employee) {
+        let data = new FormData();
+        data.append('avatar_url', selectedImage);
 
+        for(const [key, val] of Object.entries(values)) {
+            data.append(key, val);
+        }
+
+        if (employee) {
+            dispatch(update({ id: values.id, data }))
         } else {
-            dispatch(store(values));
+            dispatch(store(data));
         }
 
         props.resetForm();
