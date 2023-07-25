@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
-import { Breadcrumb } from 'react-bootstrap'
+import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
-import EmployeeForm from './Form'
+import EmployeeForm from '../Form'
 import { useDispatch, useSelector } from 'react-redux'
-import { getEmployee } from '../../features/employee/employeeSlice'
+import { getEmployee } from '../../../features/employee/employeeSlice'
+import MemberList from './MemberList'
 
 const EmployeeDetail = () => {
     const { id } = useParams();
@@ -29,7 +30,17 @@ const EmployeeDetail = () => {
                 <h2 className="text-xl">รายละเอียดบุคลากร ID: {id}</h2>
 
                 <div className="my-2 border p-4 rounded-md">
-                    <EmployeeForm />
+                    {employee && (
+                        <Row>
+                            <Col md={12}>
+                                {employee.prefix?.name}{employee.firstname} {employee.lastname}
+                            </Col>
+                            <Col md={12}>
+                                <MemberList members={employee.member_of || []} />
+                            </Col>
+                        </Row>
+                    )}
+
                 </div>
             </div>
         </div>
