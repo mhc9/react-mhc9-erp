@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Pagination } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { FaPencilAlt, FaTrash } from 'react-icons/fa'
+import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getEmployees } from '../../features/employee/employeeSlice'
 import { useGetInitialFormDataQuery } from '../../services/employee/employeeApi'
 import Loading from '../../components/Loading'
@@ -86,7 +86,10 @@ const EmployeeList = () => {
                                     <td>{employee.prefix.name}{employee.firstname} {employee.lastname}</td>
                                     <td>{employee.position.name}{employee.level?.name}</td>
                                     <td className="text-center">
-                                        <Link to={`/employees/${employee.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
+                                        <Link to={`/employee/${employee.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
+                                            <FaSearch />
+                                        </Link>
+                                        <Link to={`/employee/${employee.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />
                                         </Link>
                                         <button className="btn btn-sm btn-danger px-1">
