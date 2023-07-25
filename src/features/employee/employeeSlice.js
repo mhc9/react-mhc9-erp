@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from '../../api';
 
 const initialState = {
+    employee: null,
     employees: [],
     pager: null,
     isLoading: false,
@@ -12,6 +13,16 @@ const initialState = {
 export const getEmployees = createAsyncThunk("employee/getEmployees", async ({ url }, { rejectWithValue }) => {
     try {
         const res = await api.get(url);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const getEmployee = createAsyncThunk("employee/getEmployee", async (id, { rejectWithValue }) => {
+    try {
+        const res = await api.get(`/api/employees/${id}`);
 
         return res.data;
     } catch (error) {
@@ -68,6 +79,19 @@ export const employeeSlice = createSlice({
             state.isLoading = false;
         },
         [getEmployees.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [getEmployee.pending]: (state) => {
+            state.employee = null;
+            state.isLoading = true;
+            state.error = null;
+        },
+        [getEmployee.fulfilled]: (state, { payload }) => {
+            state.employee = payload;
+            state.isLoading = false;
+        },
+        [getEmployee.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },

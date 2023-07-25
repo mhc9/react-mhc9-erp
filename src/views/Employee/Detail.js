@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 import EmployeeForm from './Form'
+import { useDispatch, useSelector } from 'react-redux'
+import { getEmployee } from '../../features/employee/employeeSlice'
 
 const EmployeeDetail = () => {
     const { id } = useParams();
+    const dispatch = useDispatch();
+    const { employee, isLoading } = useSelector(state => state.employee);
+
+    useEffect(() => {
+        dispatch(getEmployee(id))
+    }, [id]);
 
     return (
         <div className="content-wrapper">
