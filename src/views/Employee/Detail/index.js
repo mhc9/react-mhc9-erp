@@ -42,7 +42,10 @@ const EmployeeDetail = () => {
                                     <p>ชื่อ-สกุล : {employee.prefix?.name}{employee.firstname} {employee.lastname} วันเดือนปีเกิด {toShortTHDate(employee.birthdate)} <span>อายุ {} ปี</span></p>
                                     <p>ที่อยู่ : {employee.address_no} หมู่ {employee.moo || '-'} ถนน{employee.road || '-'} {employee.zipcode}</p>
                                     <p>ตำแหน่ง : {employee.position?.name}{employee.level && employee.level.name}</p>
-                                    <p>วันที่บรรจุ {toShortTHDate(employee.assigned_at)} วันที่เริ่มปฏิบัติงาน {toShortTHDate(employee.started_at)}</p>
+                                    <p>
+                                        วันที่บรรจุ : {employee.assigned_at && toShortTHDate(employee.assigned_at)}
+                                        วันที่เริ่มปฏิบัติงาน {employee.started_at && toShortTHDate(employee.started_at)}
+                                    </p>
                                 </Col>
                             </Row>
                             <Row>
