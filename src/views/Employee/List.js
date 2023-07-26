@@ -81,7 +81,7 @@ const EmployeeList = () => {
                                 </tr>
                             )}
                             {employees && employees.map((employee, index) => (
-                                <tr key={employee.id}>
+                                <tr key={employee.id} className="font-thin">
                                     <td className="text-center">{index+pager.from}</td>
                                     <td>{employee.prefix.name}{employee.firstname} {employee.lastname}</td>
                                     <td>{employee.position.name}{employee.level?.name}</td>

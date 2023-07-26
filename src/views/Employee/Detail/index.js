@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
-import EmployeeForm from '../Form'
 import { useDispatch, useSelector } from 'react-redux'
 import { getEmployee } from '../../../features/employee/employeeSlice'
+import { toShortTHDate } from '../../../utils'
 import MemberList from './MemberList'
 
 const EmployeeDetail = () => {
@@ -31,14 +31,26 @@ const EmployeeDetail = () => {
 
                 <div className="my-2 border p-4 rounded-md">
                     {employee && (
-                        <Row>
-                            <Col md={12}>
-                                {employee.prefix?.name}{employee.firstname} {employee.lastname}
-                            </Col>
-                            <Col md={12}>
-                                <MemberList members={employee.member_of || []} />
-                            </Col>
-                        </Row>
+                        <>
+                            <Row>
+                                <Col md={3}>
+                                    <div className="w-[120px] h-[120px] rounded-full overflow-hidden">
+                                        <img src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee.avatar_url}`} />
+                                    </div>
+                                </Col>
+                                <Col md={9}>
+                                    <p>ชื่อ-สกุล : {employee.prefix?.name}{employee.firstname} {employee.lastname} วันเดือนปีเกิด {toShortTHDate(employee.birthdate)} <span>อายุ {} ปี</span></p>
+                                    <p>ที่อยู่ : {employee.address_no} หมู่ {employee.moo || '-'} ถนน{employee.road || '-'} {employee.zipcode}</p>
+                                    <p>ตำแหน่ง : {employee.position?.name}{employee.level && employee.level.name}</p>
+                                    <p>วันที่บรรจุ {toShortTHDate(employee.assigned_at)} วันที่เริ่มปฏิบัติงาน {toShortTHDate(employee.started_at)}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={12}>
+                                    <MemberList members={employee.member_of || []} />
+                                </Col>
+                            </Row>
+                        </>
                     )}
 
                 </div>

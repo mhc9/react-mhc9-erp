@@ -23,7 +23,7 @@ const MemberList = ({ members }) => {
                 </thead>
                 <tbody>
                     {members && members.map((member, index) => (
-                        <tr key={member.id}>
+                        <tr key={member.id} className="font-thin">
                             <td className="text-center">{index+1}</td>
                             <td>{member.division.name}</td>
                             <td className="text-center">ผู้ปฏิบัติงาน</td>
