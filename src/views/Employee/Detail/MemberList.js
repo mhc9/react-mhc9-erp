@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 
-const MemberList = ({ members }) => {
+const MemberList = ({ employee }) => {
+    const dispatch = useDispatch();
+    const { members } = useSelector(state => state.member);
+
     return (
         <table className="table table-bordered text-sm">
             <thead>

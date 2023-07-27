@@ -3,6 +3,7 @@ import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getEmployee } from '../../../features/employee/employeeSlice'
+import { resetSuccess } from '../../../features/member/memberSlice'
 import { toShortTHDate } from '../../../utils'
 import MemberList from './MemberList'
 import AddMember from './AddMember'
@@ -10,12 +11,17 @@ import AddMember from './AddMember'
 const EmployeeDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { employee, isLoading } = useSelector(state => state.employee);
+    const { isSuccess } = useSelector(state => state.member);
+    const { employee } = useSelector(state => state.employee);
     const [isShow, setIsShow] = useState(false);
 
     useEffect(() => {
         dispatch(getEmployee(id))
     }, [id]);
+
+    useEffect(() => {
+        if (isSuccess) dispatch(resetSuccess());
+    }, [isSuccess])
 
     return (
         <div className="content-wrapper">
@@ -39,7 +45,7 @@ const EmployeeDetail = () => {
                                     <div className="w-[120px] h-[120px] rounded-full overflow-hidden">
                                         <img src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee.avatar_url}`} />
                                     </div>
-                                    <a href="#" className="hover:text-blue-600 mt-3">เปลี่ยนรูป</a>
+                                    <a href="#" className="hover:text-blue-600 mt-3 sm:mb-3">เปลี่ยนรูป</a>
                                 </Col>
                                 <Col md={9}>
                                     <div className="flex flex-col space-y-2 font-thin">
@@ -49,7 +55,7 @@ const EmployeeDetail = () => {
                                         </p>
                                         <p>
                                             <b>ชื่อ-สกุล : </b>{employee.prefix?.name}{employee.firstname} {employee.lastname}
-                                            <b className="ml-2">วันเดือนปีเกิด : </b>{toShortTHDate(employee.birthdate)} <span>อายุ {} ปี</span></p>
+                                            <b className="ml-2">วันเดือนปีเกิด : </b>{employee.birthdate && toShortTHDate(employee.birthdate)} <span>อายุ {} ปี</span></p>
                                         <p>
                                             <b>ที่อยู่ : </b>{employee.address_no} หมู่ {employee.moo || '-'} ถนน{employee.road || '-'}
                                             ต.{employee.tambon?.name} อ.{employee.amphur?.name} จ.{employee.changwat?.name} {employee.zipcode}
@@ -82,7 +88,7 @@ const EmployeeDetail = () => {
                                             onCancel={() => setIsShow(false)}
                                             employeeId={employee.id}
                                         />
-                                        <MemberList members={employee.member_of || []} />
+                                        <MemberList employee={employee} />
                                     </div>
                                 </Col>
                             </Row>
