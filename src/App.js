@@ -21,6 +21,7 @@ import EquipmentTypeList from './views/EquipmentType/List';
 import EquipmentGroupList from './views/EquipmentGroup/List';
 import EmployeeList from './views/Employee/List';
 import AddEmployee from './views/Employee/Add';
+import EditEmployee from './views/Employee/Edit';
 import EmployeeDetail from './views/Employee/Detail';
 import Department from './views/Department';
 import Division from './views/Division';
@@ -56,6 +57,7 @@ function App() {
                 <Route path="asset-category" element={<GuardRoute><AssetCategory /></GuardRoute>} />
                 <Route path="employee" element={<GuardRoute><EmployeeList /></GuardRoute>} />
                 <Route path="employee/add" element={<GuardRoute><AddEmployee /></GuardRoute>} />
+                <Route path="employee/:id/edit" element={<GuardRoute><EditEmployee /></GuardRoute>} />
                 <Route path="employee/:id/detail" element={<GuardRoute><EmployeeDetail /></GuardRoute>} />
                 <Route path="department" element={<GuardRoute><Department /></GuardRoute>} />
                 <Route path="division" element={<GuardRoute><Division /></GuardRoute>} />

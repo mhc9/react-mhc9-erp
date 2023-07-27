@@ -85,7 +85,7 @@ const EmployeeList = () => {
                                     <td className="text-center">{index+pager.from}</td>
                                     <td>{employee.prefix.name}{employee.firstname} {employee.lastname}</td>
                                     <td>{employee.position.name}{employee.level?.name}</td>
-                                    <td className="text-center">
+                                    <td className="text-center p-1">
                                         <Link to={`/employee/${employee.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
                                         </Link>
