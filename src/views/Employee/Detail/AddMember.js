@@ -1,8 +1,10 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
+import { FormGroup } from 'react-bootstrap';
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { useGetInitialFormDataQuery } from '../../../services/employee/employeeApi'
-import { FormGroup } from 'react-bootstrap';
+import { store, update } from '../../../features/member/memberSlice'
 
 const memberSchema = Yup.object().shape({
     division_id: Yup.string().required(),
@@ -10,10 +12,18 @@ const memberSchema = Yup.object().shape({
 });
 
 const AddMember = ({ isShow, mode, onCancel, member, employeeId }) => {
+    const dispatch = useDispatch();
     const { data: formData } = useGetInitialFormDataQuery();
 
     const handleSubmit = (values, props) => {
-        console.log(values);
+        if (member) {
+            dispatch(update({ id: member.id, values }));
+        } else {
+            dispatch(store(values));
+        }
+
+        props.resetForm();
+        onCancel();
     };
 
     return (
