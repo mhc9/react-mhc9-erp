@@ -63,7 +63,11 @@ export const destroy = createAsyncThunk("member/destroy", async (id, { rejectWit
 export const memberSlice = createSlice({
     name: "member",
     initialState,
-    reducers: {},
+    reducers: {
+        resetSuccess: (state) => {
+            state.isSuccess = false;
+        }
+    },
     extraReducers: {
         [getEmployees.pending]: (state) => {
             state.members = [];
@@ -101,13 +105,14 @@ export const memberSlice = createSlice({
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
-            console.log(payload);
-            state.isLoading = false;
-            state.isSuccess = true;
+            const { status, message, member } = payload;
+
+            if (status === 1) {
+                state.member = member;
+                state.isSuccess = true;
+            }
         },
         [store.rejected]: (state, { payload }) => {
-            console.log(payload);
-            state.isLoading = false;
             state.error = payload;
         },
         [update.pending]: (state) => {
@@ -144,3 +149,5 @@ export const memberSlice = createSlice({
 });
 
 export default memberSlice.reducer;
+
+export const { resetSuccess } = memberSlice.actions;
