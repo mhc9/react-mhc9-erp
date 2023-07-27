@@ -14,6 +14,7 @@ import itemReducer from "./item/itemSlice";
 import budgetReducer from "./budget/budgetSlice";
 import requisitionReducer from "./requisition/requisitionSlice";
 import unitReducer from './unit/unitSlice';
+import memberReducer from "./member/memberSlice";
 import { authApi } from "../services/auth/authApi";
 import { requisitionApi } from "../services/requisition/requisitionApi";
 import { employeeApi } from "../services/employee/employeeApi";
@@ -40,6 +41,7 @@ export default configureStore({
         budget: budgetReducer,
         requisition: requisitionReducer,
         unit: unitReducer,
+        member: memberReducer,
     },
     middleware: (getDefaultMiddleware) => 
         getDefaultMiddleware().concat(
