@@ -58,7 +58,11 @@ const EmployeeDetail = () => {
                                         )}
                                     </div>
 
-                                    <ChangeAvatar selected={selectedImage} onSelect={(image) => setSelectedImage(image)} />
+                                    <ChangeAvatar
+                                        employee={employee}
+                                        selected={selectedImage}
+                                        onSelect={(image) => setSelectedImage(image)}
+                                    />
                                 </Col>
                                 <Col md={9}>
                                     <div className="flex flex-col space-y-2 font-thin">
