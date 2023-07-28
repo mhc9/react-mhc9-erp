@@ -7,6 +7,7 @@ import { resetSuccess } from '../../../features/member/memberSlice'
 import { toShortTHDate } from '../../../utils'
 import MemberList from './MemberList'
 import AddMember from './AddMember'
+import ChangeAvatar from './ChangeAvatar'
 
 const EmployeeDetail = () => {
     const { id } = useParams();
@@ -14,6 +15,7 @@ const EmployeeDetail = () => {
     const { isSuccess } = useSelector(state => state.member);
     const { employee } = useSelector(state => state.employee);
     const [isShow, setIsShow] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     useEffect(() => {
         dispatch(getEmployee(id))
@@ -21,7 +23,7 @@ const EmployeeDetail = () => {
 
     useEffect(() => {
         if (isSuccess) dispatch(resetSuccess());
-    }, [isSuccess])
+    }, [isSuccess]);
 
     return (
         <div className="content-wrapper">
@@ -42,10 +44,21 @@ const EmployeeDetail = () => {
                         <>
                             <Row>
                                 <Col md={3} className="flex flex-col justify-center items-center">
-                                    <div className="w-[120px] h-[120px] rounded-full overflow-hidden">
-                                        <img src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee.avatar_url}`} />
+                                    <div className="w-[120px] h-[120px] rounded-full overflow-hidden border">
+                                        {(employee && employee.avatar_url) ? (
+                                            <img
+                                                src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee.avatar_url}`}
+                                                alt="avatar"
+                                            />
+                                        ) : selectedImage && (
+                                            <img
+                                                src={URL.createObjectURL(selectedImage)}
+                                                alt="avatar"
+                                            />
+                                        )}
                                     </div>
-                                    <a href="#" className="hover:text-blue-600 mt-3 sm:mb-3">เปลี่ยนรูป</a>
+
+                                    <ChangeAvatar selected={selectedImage} onSelect={(image) => setSelectedImage(image)} />
                                 </Col>
                                 <Col md={9}>
                                     <div className="flex flex-col space-y-2 font-thin">
