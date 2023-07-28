@@ -60,10 +60,26 @@ export const destroy = createAsyncThunk("employee/destroy", async (id, { rejectW
     }
 });
 
+export const upload = createAsyncThunk("employee/upload", async ({ id, data }, { dispatch, rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/employees/${id}/upload`, data);
+
+        dispatch(updateAvatar(res.data?.avatar_url));
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const employeeSlice = createSlice({
     name: "employee",
     initialState,
-    reducers: {},
+    reducers: {
+        updateAvatar: (state, { payload }) => {
+            state.employee = { avatar_url: payload, ...state.employee };
+        }
+    },
     extraReducers: {
         [getEmployees.pending]: (state) => {
             state.employees = [];
@@ -140,7 +156,19 @@ export const employeeSlice = createSlice({
             state.isLoading = false;
             state.error = payload;
         },
+        [upload.pending]: (state) => {
+            state.isSuccess = false;
+            state.error = null;
+        },
+        [upload.fulfilled]: (state, { payload }) => {
+            state.isSuccess = true;
+        },
+        [upload.rejected]: (state, { payload }) => {
+            state.error = payload;
+        },
     }
 });
 
 export default employeeSlice.reducer;
+
+export const { updateAvatar } = employeeSlice.actions;
