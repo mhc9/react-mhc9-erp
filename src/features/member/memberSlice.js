@@ -30,6 +30,16 @@ export const getEmployee = createAsyncThunk("member/getEmployee", async (id, { r
     }
 });
 
+export const getMembersByEmployee = createAsyncThunk("member/getMembersByEmployee", async (employeeId, { rejectWithValue }) => {
+    try {
+        const res = await api.get(`/api/members/employee/${employeeId}`);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const store = createAsyncThunk("member/store", async (data, { rejectWithValue }) => {
     try {
         const res = await api.post(`/api/members`, data);
@@ -96,6 +106,19 @@ export const memberSlice = createSlice({
             state.isLoading = false;
         },
         [getEmployee.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [getMembersByEmployee.pending]: (state) => {
+            state.members = null;
+            state.isLoading = true;
+            state.error = null;
+        },
+        [getMembersByEmployee.fulfilled]: (state, { payload }) => {
+            state.members = payload;
+            state.isLoading = false;
+        },
+        [getMembersByEmployee.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },

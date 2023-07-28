@@ -7,7 +7,6 @@ import { useGetInitialFormDataQuery } from '../../../services/employee/employeeA
 import { store, update } from '../../../features/member/memberSlice'
 
 const memberSchema = Yup.object().shape({
-    division_id: Yup.string().required(),
     duty_id: Yup.string().required(),
 });
 
@@ -36,12 +35,32 @@ const AddMember = ({ isShow, mode, onCancel, member, employeeId }) => {
                         employee_id: member ? member.employee_id : employeeId,
                         duty_id: member ? member.duty_id : '',
                     }}
+                    validationSchema={memberSchema}
                     onSubmit={handleSubmit}
                 >
                     {(formik) => {
                         return (
                             <Form>
                                 <div className="flex flex-row gap-2 mb-2">
+                                    <FormGroup className="w-[40%]">
+                                        <select
+                                            name="duty_id"
+                                            value={formik.values.duty_id}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm"
+                                        >
+                                            <option value="">-- บทบาท/หน้าที่ --</option>
+                                            <option value={1}>ผู้อำนวยการ</option>
+                                            <option value={2}>หัวหน้ากลุ่มงาน</option>
+                                            <option value={3}>หัวหน้างาน</option>
+                                            <option value={4}>ผู้ปฏิบัติงาน</option>
+                                        </select>
+                                        {(formik.errors.duty_id && formik.touched.duty_id) && (
+                                            <div className="text-red-500 text-sm font-thin">
+                                                {formik.errors.duty_id}
+                                            </div>
+                                        )}
+                                    </FormGroup>
                                     <FormGroup className="w-[40%]">
                                         <select
                                             name="division_id"
@@ -59,20 +78,6 @@ const AddMember = ({ isShow, mode, onCancel, member, employeeId }) => {
                                                     ))}
                                                 </optgroup>
                                             ))}
-                                        </select>
-                                    </FormGroup>
-                                    <FormGroup className="w-[40%]">
-                                        <select
-                                            name="duty_id"
-                                            value={formik.values.duty_id}
-                                            onChange={formik.handleChange}
-                                            className="form-control text-sm"
-                                        >
-                                            <option value="">-- บทบาท/หน้าที่ --</option>
-                                            <option value={1}>ผู้อำนวยการ</option>
-                                            <option value={2}>หัวหน้ากลุ่มงาน</option>
-                                            <option value={3}>หัวหน้างาน</option>
-                                            <option value={4}>ผู้ปฏิบัติงาน</option>
                                         </select>
                                     </FormGroup>
                                     <button type="submit" className="btn btn-outline-primary text-sm">
