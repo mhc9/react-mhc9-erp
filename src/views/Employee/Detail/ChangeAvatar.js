@@ -18,7 +18,7 @@ const ChangeAvatar = ({ employee, selected, onSelect }) => {
         <div>
             {!selected ? (
                 <label>
-                    <input type="file" className="hidden" onChange={(e) => onSelect(e.target.files[0])} />
+                    <input type="file" accept="image/*" className="hidden" onChange={(e) => onSelect(e.target.files[0])} />
                     <p className="hover:text-blue-600 mt-3 sm:mb-3 cursor-pointer">
                         เปลี่ยนรูป
                     </p>
