@@ -8,12 +8,13 @@ import { toShortTHDate } from '../../../utils'
 import MemberList from './MemberList'
 import AddMember from './AddMember'
 import ChangeAvatar from './ChangeAvatar'
+import EmployeeAvatar from './EmployeeAvatar'
 
 const EmployeeDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { isSuccess } = useSelector(state => state.member);
-    const { employee } = useSelector(state => state.employee);
+    const { employee, isSuccess: isUploaded } = useSelector(state => state.employee);
     const [isShow, setIsShow] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
 
@@ -44,19 +45,10 @@ const EmployeeDetail = () => {
                         <>
                             <Row>
                                 <Col md={3} className="flex flex-col justify-center items-center">
-                                    <div className="w-[120px] h-[120px] rounded-full overflow-hidden border">
-                                        {(employee && employee.avatar_url) ? (
-                                            <img
-                                                src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee.avatar_url}`}
-                                                alt="avatar"
-                                            />
-                                        ) : selectedImage && (
-                                            <img
-                                                src={URL.createObjectURL(selectedImage)}
-                                                alt="avatar"
-                                            />
-                                        )}
-                                    </div>
+                                    <EmployeeAvatar
+                                        avatarUrl={selectedImage ? '' : employee.avatar_url || ''}
+                                        selectedImage={selectedImage}
+                                    />
 
                                     <ChangeAvatar
                                         employee={employee}

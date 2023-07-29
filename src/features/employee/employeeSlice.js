@@ -77,7 +77,7 @@ export const employeeSlice = createSlice({
     initialState,
     reducers: {
         updateAvatar: (state, { payload }) => {
-            state.employee = { avatar_url: payload, ...state.employee };
+            state.employee = { ...state.employee, avatar_url: payload };
         }
     },
     extraReducers: {
