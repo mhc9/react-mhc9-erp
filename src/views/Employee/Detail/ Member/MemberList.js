@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { getMembersByEmployee } from '../../../features/member/memberSlice'
+import { getMembersByEmployee } from '../../../../features/member/memberSlice'
 
 const MemberList = ({ employee }) => {
     const dispatch = useDispatch();
