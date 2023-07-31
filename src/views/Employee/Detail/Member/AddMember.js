@@ -3,11 +3,12 @@ import { useDispatch } from 'react-redux';
 import { FormGroup } from 'react-bootstrap';
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
-import { useGetInitialFormDataQuery } from '../../../services/employee/employeeApi'
-import { store, update } from '../../../features/member/memberSlice'
+import { useGetInitialFormDataQuery } from '../../../../services/employee/employeeApi'
+import { store, update } from '../../../../features/member/memberSlice'
 
 const memberSchema = Yup.object().shape({
     duty_id: Yup.string().required(),
+    department_id: Yup.string().required(),
 });
 
 const AddMember = ({ isShow, mode, onCancel, member, employeeId }) => {
@@ -31,9 +32,10 @@ const AddMember = ({ isShow, mode, onCancel, member, employeeId }) => {
                 <Formik
                     enableReinitialize
                     initialValues={{
-                        division_id: member ? member.division_id : '',
                         employee_id: member ? member.employee_id : employeeId,
                         duty_id: member ? member.duty_id : '',
+                        department_id: member ? member.department_id : '',
+                        division_id: member ? member.division_id : '',
                     }}
                     validationSchema={memberSchema}
                     onSubmit={handleSubmit}
@@ -63,12 +65,32 @@ const AddMember = ({ isShow, mode, onCancel, member, employeeId }) => {
                                     </FormGroup>
                                     <FormGroup className="w-[40%]">
                                         <select
+                                            name="department_id"
+                                            value={formik.values.department_id}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm"
+                                        >
+                                            <option value="">-- เลือกกลุ่มงาน --</option>
+                                            {formData && formData.departments.map(dep => (
+                                                <option value={dep.id} key={dep.id}>
+                                                    {dep.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        {(formik.errors.department_id && formik.touched.department_id) && (
+                                            <div className="text-red-500 text-sm font-thin">
+                                                {formik.errors.department_id}
+                                            </div>
+                                        )}
+                                    </FormGroup>
+                                    <FormGroup className="w-[40%]">
+                                        <select
                                             name="division_id"
                                             value={formik.values.division_id}
                                             onChange={formik.handleChange}
                                             className="form-control text-sm"
                                         >
-                                            <option value="">-- เลือกหน่วยงาน --</option>
+                                            <option value="">-- เลือกงาน --</option>
                                             {formData && formData.departments.map(dep => (
                                                 <optgroup key={dep.id} label={dep.name}>
                                                     {dep.divisions.map(division => (
