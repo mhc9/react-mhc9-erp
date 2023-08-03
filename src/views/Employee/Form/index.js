@@ -175,7 +175,7 @@ const EmployeeForm = ({ employee }) => {
                                         <input
                                             type="radio"
                                             id="radioOne"
-                                            defaultChecked={formik.values.sex === "one"}
+                                            defaultChecked={formik.values.sex === 1}
                                             name="sex"
                                             value="1"
                                         />
@@ -184,7 +184,7 @@ const EmployeeForm = ({ employee }) => {
                                         <input
                                             type="radio"
                                             id="radioTwo"
-                                            defaultChecked={formik.values.sex === "two"}
+                                            defaultChecked={formik.values.sex === 2}
                                             name="sex"
                                             value="2"
                                         />
