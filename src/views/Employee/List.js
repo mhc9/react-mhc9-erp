@@ -3,7 +3,7 @@ import { Breadcrumb, Pagination } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { getEmployees } from '../../features/employee/employeeSlice'
+import { destroy, getEmployees } from '../../features/employee/employeeSlice'
 import { useGetInitialFormDataQuery } from '../../services/employee/employeeApi'
 import Loading from '../../components/Loading'
 import FilteringInputs from '../../components/Employee/FilteringInputs'
@@ -41,6 +41,12 @@ const EmployeeList = () => {
         setApiEndpoint(`/api/employees/search?page=`);
     };
 
+    const handleDelete = (id) => {
+        if (window.confirm(`คุณต้องการลบรายการบุคลากรรหัส ${id} ใช่หรือไม่?`)) {
+            dispatch(destroy(id));
+        }
+    };
+
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}
@@ -67,6 +73,7 @@ const EmployeeList = () => {
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
+                                <th className="text-center w-[8%]">เลขที่</th>
                                 <th>ชื่อ-สกุล</th>
                                 <th className="text-center w-[30%]">ตำแหน่ง</th>
                                 <th className="text-center w-[10%]">Actions</th>
@@ -80,9 +87,10 @@ const EmployeeList = () => {
                                     </td>
                                 </tr>
                             )}
-                            {employees && employees.map((employee, index) => (
+                            {(!isLoading && employees) && employees.map((employee, index) => (
                                 <tr key={employee.id} className="font-thin">
                                     <td className="text-center">{index+pager.from}</td>
+                                    <td className="text-center">{employee.employee_no}</td>
                                     <td>{employee.prefix.name}{employee.firstname} {employee.lastname}</td>
                                     <td>{employee.position.name}{employee.level?.name}</td>
                                     <td className="text-center p-1">
@@ -92,7 +100,7 @@ const EmployeeList = () => {
                                         <Link to={`/employee/${employee.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />
                                         </Link>
-                                        <button className="btn btn-sm btn-danger px-1">
+                                        <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(employee.id)}>
                                             <FaTrash />
                                         </button>
                                     </td>
