@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getAssets, destroy } from '../../features/asset/assetSlice';
 import Loading from '../../components/Loading';
-import AssetFilteringInput from './FilteringInput';
+import AssetFilteringInput from '../../components/Asset/FilteringInput';
 import moment from 'moment';
 import Asset from '../../components/Asset/Asset';
 
