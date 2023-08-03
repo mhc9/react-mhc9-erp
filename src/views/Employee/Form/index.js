@@ -45,8 +45,16 @@ const EmployeeForm = ({ employee }) => {
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
 
     useEffect(() => {
-        // setSelectedImage()
-    }, []);
+        if (employee) {
+            employee.birthdate && setSelectedBirthdate(moment(employee.birthdate));
+            employee.assigned_at && setSelectedAssignedAt(moment(employee.assigned_at));
+            employee.started_at && setSelectedStartedAt(moment(employee.started_at));
+
+            formData && setFilteredLevels(formData.levels);
+            formData && setFilteredAmphurs(filterAmphursByChangwat(employee.changwat_id.toString(), formData.amphurs));
+            formData && setFilteredTambons(filterTambonsByAmphur(employee.amphur_id.toString(), formData.tambons));
+        }
+    }, [employee]);
 
     const handlePositionSelected = (id) => {
         const position = formData && formData.positions.find(pos => pos.id === parseInt(id, 10));
@@ -56,16 +64,16 @@ const EmployeeForm = ({ employee }) => {
     };
 
     const handleSubmit = (values, props) => {
-        let data = new FormData();
-        data.append('avatar_url', selectedImage);
-
-        for(const [key, val] of Object.entries(values)) {
-            data.append(key, val);
-        }
-
         if (employee) {
-            dispatch(update({ id: values.id, data }))
+            dispatch(update({ id: values.id, data: values }))
         } else {
+            let data = new FormData();
+            data.append('avatar_url', selectedImage);
+
+            for(const [key, val] of Object.entries(values)) {
+                data.append(key, val);
+            }
+
             dispatch(store(data));
         }
 
@@ -83,28 +91,28 @@ const EmployeeForm = ({ employee }) => {
             enableReinitialize
             initialValues={{
                 id: employee ? employee.id : '',
-                employee_no: employee ? employee.employee_no : '',
+                employee_no: (employee && employee.employee_no) ? employee.employee_no : '',
                 prefix_id: employee ? employee.prefix_id : '',
                 firstname: employee ? employee.firstname : '',
                 lastname: employee ? employee.lastname : '',
                 cid: employee ? employee.cid : '',
-                sex: employee ? employee.sex : '1',
+                sex: employee ? employee.sex : 1,
                 birthdate: employee ? employee.birthdate : '',
-                address_no: employee ? employee.address_no : '',
-                moo: employee ? employee.moo : '',
-                road: employee ? employee.road : '',
-                changwat_id: employee ? employee.changwat_id : '',
-                amphur_id: employee ? employee.amphur_id : '',
-                tambon_id: employee ? employee.tambon_id : '',
-                zipcode: employee ? employee.zipcode : '',
+                address_no: (employee && employee.address_no) ? employee.address_no : '',
+                moo: (employee && employee.moo) ? employee.moo : '',
+                road: (employee && employee.road) ? employee.road : '',
+                changwat_id: (employee && employee.changwat_id) ? employee.changwat_id : '',
+                amphur_id: (employee && employee.amphur_id) ? employee.amphur_id : '',
+                tambon_id: (employee && employee.tambon_id) ? employee.tambon_id : '',
+                zipcode: (employee && employee.zipcode) ? employee.zipcode : '',
                 tel: employee ? employee.tel : '',
-                email: employee ? employee.email : '',
-                line_id: employee ? employee.line_id : '',
+                email: (employee && employee.email) ? employee.email : '',
+                line_id: (employee && employee.line_id) ? employee.line_id : '',
                 position_id: employee ? employee.position_id : '',
-                level_id: employee ? employee.level_id : '',
-                assigned_at: employee ? employee.assigned_at : '',
-                started_at: employee ? employee.started_at : '',
-                remark: employee ? employee.remark : '',
+                level_id: (employee && employee.level_id) ? employee.level_id : '',
+                assigned_at: (employee && employee.assigned_at) ? employee.assigned_at : '',
+                started_at: (employee && employee.started_at) ? employee.started_at : '',
+                remark: (employee && employee.remark) ? employee.remark : '',
             }}
             validationSchema={employeeSchema}
             onSubmit={handleSubmit}
@@ -114,27 +122,33 @@ const EmployeeForm = ({ employee }) => {
                     <Form>
                         <Row className="mb-4">
                             <Col md={12} className="flex flex-col justify-center items-center">
-                                <div className="avatar">
-                                    <label className="hover:cursor-pointer">
-                                        <input
-                                            type="file"
-                                            className="mt-2"
-                                            onChange={(e) => setSelectedImage(e.target.files[0])}
-                                        />
-                                        <figure>
-                                            {selectedImage ? (
-                                                <img src={URL.createObjectURL(selectedImage)} alt="employee-pic" className="avatar-img" />
-                                            ) : (
-                                                <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />
-                                            )}
+                                {employee ? (
+                                    <div className="rounded-full w-[120px] h-[120px] overflow-hidden">
+                                        <img src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee?.avatar_url}`} alt="employee-pic" className="avatar-img" />
+                                    </div>
+                                ) : (
+                                    <div className="avatar">
+                                        <label className="hover:cursor-pointer">
+                                            <input
+                                                type="file"
+                                                className="mt-2"
+                                                onChange={(e) => setSelectedImage(e.target.files[0])}
+                                            />
+                                            <figure>
+                                                {selectedImage ? (
+                                                    <img src={URL.createObjectURL(selectedImage)} alt="employee-pic" className="avatar-img" />
+                                                ) : 
+                                                    <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />
+                                                }
 
-                                            <figcaption className="avatar-caption">
-                                                <img src="https://raw.githubusercontent.com/ThiagoLuizNunes/angular-boilerplate/master/src/assets/imgs/camera-white.png" />
-                                                <span className="text-white">{selectedImage ? 'แก้ไขรูป' : 'เพิ่มรูป'}</span>
-                                            </figcaption>
-                                        </figure>
-                                    </label>
-                                </div>
+                                                <figcaption className="avatar-caption">
+                                                    <img src="https://raw.githubusercontent.com/ThiagoLuizNunes/angular-boilerplate/master/src/assets/imgs/camera-white.png" />
+                                                    <span className="text-white">{selectedImage ? 'แก้ไขรูป' : 'เพิ่มรูป'}</span>
+                                                </figcaption>
+                                            </figure>
+                                        </label>
+                                    </div>
+                                )}
                             </Col>
                         </Row>
                         <Row className="mb-2">
@@ -174,19 +188,17 @@ const EmployeeForm = ({ employee }) => {
                                     <Field component="div" name="sex" className="form-control text-sm">
                                         <input
                                             type="radio"
-                                            id="radioOne"
-                                            defaultChecked={formik.values.sex === 1}
                                             name="sex"
                                             value="1"
+                                            defaultChecked={formik.values.sex === 1}
                                         />
                                         <label htmlFor="male" className="ml-1 mr-4">ชาย</label>
 
                                         <input
                                             type="radio"
-                                            id="radioTwo"
-                                            defaultChecked={formik.values.sex === 2}
                                             name="sex"
                                             value="2"
+                                            defaultChecked={formik.values.sex === 2}
                                         />
                                         <label htmlFor="famale" className="ml-1">หญิง</label>
                                     </Field>
@@ -455,7 +467,10 @@ const EmployeeForm = ({ employee }) => {
                             <Col>
                                 <FormGroup>
                                     <label>ตำแหน่ง</label>
-                                    <select name="position_id" value={formik.values.position_id} className="form-control text-sm"
+                                    <select
+                                        name="position_id"
+                                        value={formik.values.position_id}
+                                        className="form-control text-sm"
                                         onChange={(e) => {
                                             formik.handleChange(e);
                                             handlePositionSelected(e.target.value);
