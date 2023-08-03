@@ -573,11 +573,11 @@ const EmployeeForm = ({ employee }) => {
                             <Col>
                                 <button
                                     type="submit"
-                                    className="btn btn-outline-primary mt-2 float-right"
+                                    className={`btn ${employee ? 'btn-outline-warning' : 'btn-outline-primary'} mt-2 float-right`}
                                     disabled={formik.isSubmitting}
                                 >
                                     {loading && <Loading />}
-                                    บันทึก
+                                    {employee ? 'บันทึกการแก้ไข' : 'บันทึก'}
                                 </button>
                             </Col>
                         </Row>
