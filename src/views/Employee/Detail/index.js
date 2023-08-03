@@ -9,12 +9,13 @@ import MemberList from './Member/MemberList'
 import AddMember from './Member/AddMember'
 import ChangeAvatar from './ChangeAvatar'
 import EmployeeAvatar from './EmployeeAvatar'
+import Loading from '../../../components/Loading'
 
 const EmployeeDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { isSuccess } = useSelector(state => state.member);
-    const { employee, isSuccess: isUploaded } = useSelector(state => state.employee);
+    const { employee, isLoading, isSuccess: isUploaded } = useSelector(state => state.employee);
     const [isShow, setIsShow] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
 
@@ -41,7 +42,8 @@ const EmployeeDetail = () => {
                 <h2 className="text-xl">รายละเอียดบุคลากร ID: {id}</h2>
 
                 <div className="my-2 border p-4 rounded-md">
-                    {employee && (
+                    {isLoading && <div className="text-center"><Loading /></div>}
+                    {(!isLoading && employee) && (
                         <>
                             <Row>
                                 <Col md={3} className="flex flex-col justify-center items-center">

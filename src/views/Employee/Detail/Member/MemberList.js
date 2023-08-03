@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getMembersByEmployee } from '../../../../features/member/memberSlice'
+import { getDuty } from '../../../../utils'
 
 const MemberList = ({ employee }) => {
     const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const MemberList = ({ employee }) => {
                     <tr key={member.id} className="font-thin">
                         <td className="text-center">{index+1}</td>
                         <td>{member.division?.name}</td>
-                        <td className="text-center">ผู้ปฏิบัติงาน</td>
+                        <td className="text-center">{getDuty(member.duty_id)?.name}</td>
                         <td className="text-center">
                             <button className="btn btn-warning btn-sm px-1 mr-1">
                                 <FaPencilAlt />
