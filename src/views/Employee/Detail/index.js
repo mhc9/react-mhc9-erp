@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getEmployee } from '../../../features/employee/employeeSlice'
 import { resetSuccess } from '../../../features/member/memberSlice'
-import { toShortTHDate } from '../../../utils'
+import { toShortTHDate, calcAgeY } from '../../../utils'
 import MemberList from './Member/MemberList'
 import AddMember from './Member/AddMember'
 import ChangeAvatar from './ChangeAvatar'
@@ -66,7 +66,7 @@ const EmployeeDetail = () => {
                                         </p>
                                         <p>
                                             <b>ชื่อ-สกุล : </b>{employee.prefix?.name}{employee.firstname} {employee.lastname}
-                                            <b className="ml-2">วันเดือนปีเกิด : </b>{employee.birthdate && toShortTHDate(employee.birthdate)} <span>อายุ {} ปี</span></p>
+                                            <b className="ml-2">วันเดือนปีเกิด : </b>{employee.birthdate && toShortTHDate(employee.birthdate)} <span>อายุ {calcAgeY(employee.birthdate)} ปี</span></p>
                                         <p>
                                             <b>ที่อยู่ : </b>{employee.address_no} หมู่ {employee.moo || '-'} ถนน{employee.road || '-'}
                                             ต.{employee.tambon?.name} อ.{employee.amphur?.name} จ.{employee.changwat?.name} {employee.zipcode}

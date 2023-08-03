@@ -1,4 +1,5 @@
 import { priorities, duties } from "./constraints"
+import moment from "moment";
 
 export const getPriority = (id) => {
     if (!id || id === '') return null;
@@ -10,6 +11,12 @@ export const getDuty = (id) => {
     if (!id || id === '') return null;
 
     return duties.find(duty => duty.id === id);
+};
+
+export const calcAgeY = (birthdate) => {
+    if (!birthdate) return 0
+
+    return moment().diff(moment(birthdate), "years") 
 };
 
 export const calculateTotal = (price, amount) => {
