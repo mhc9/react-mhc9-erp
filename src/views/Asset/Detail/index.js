@@ -7,6 +7,7 @@ import OwnershipList from '../Ownership/List';
 import Loading from '../../../components/Loading';
 import { getAsset } from '../../../features/asset/assetSlice';
 import OwnershipForm from '../Ownership/Form';
+import Gallery from './Gallery';
 
 const AssetDetail = () => {
     const { id } = useParams();
@@ -41,125 +42,122 @@ const AssetDetail = () => {
                     {loading && <div className="text-center"><Loading /></div>}
                     {asset && (
                         <>
-                            <div className="mt-2 mb-4">
-                                <Row className="mb-2">
-                                    <Col md={4}>
-                                        <FormGroup>
-                                            <label>หมายเลขพัสดุ</label>
-                                            <div className="form-control">{asset.asset_no}</div>
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md={8}>
-                                        <FormGroup>
-                                            <label>ชื่อพัสดุ</label>
-                                            <div className="form-control">{asset.name}</div>
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                <Row className="mb-2">
-                                    <Col md={6}>
-                                        <FormGroup>
-                                            <label>ชนิดพัสดุ</label>
-                                            <div className="form-control">{asset.group?.category?.name}</div>
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md={6}>
-                                        <FormGroup>
-                                            <label>กลุ่มพัสดุ</label>
-                                            <div className="form-control">{asset.group?.name}</div>
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                <Row className="mb-2">
-                                    <Col md={6}>
-                                        <FormGroup>
-                                            <label>ยี่ห้อ</label>
-                                            <div className="form-control h-10">
-                                                {asset.brand?.name}
-                                            </div>
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md={6}>
-                                        <FormGroup>
-                                            <label>รุ่น</label>
-                                            <div className="form-control h-10">
-                                                {asset.model}
-                                            </div>
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                <Row className="mb-2">
-                                    <Col md={6}>
-                                        <FormGroup>
-                                            <label>ราคา</label>
-                                            <div className="form-control h-10">
-                                                {asset.price_per_unit}
-                                            </div>
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md={6}>
-                                        <FormGroup>
-                                            <label>หน่วยนับ</label>
-                                            <div className="form-control h-10">
-                                                {asset.unit?.name}
-                                            </div>
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                <Row className="mb-4">
-                                    <Col md={6}>
-                                        <FormGroup>
-                                            <label>รายละเอียด</label>
-                                            <div className="form-control h-20">
-                                                {asset.description}
-                                            </div>
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md={6}>
-                                        <FormGroup>
-                                            <label>หมายเหตุ</label>
-                                            <div className="form-control h-20">
-                                                {asset.remark}
-                                            </div>
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <div className="">
-                                            <h3 className="mb-2 font-bold">รูปพัสดุ</h3>
-                                            <div className="flex flex-row gap-4">
-                                                {[1,2,3,4].map((image, index) => (<div key={index} className="border rounded-md w-4/12 h-32">image 1</div>))}
-                                            </div>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </div>
+                            <Row>
+                                <Col md={4}>
+                                    <Gallery />
+                                </Col>
+                                <Col>
+                                    <Row className="mb-2">
+                                        <Col md={4}>
+                                            <FormGroup>
+                                                <label>หมายเลขพัสดุ</label>
+                                                <div className="form-control text-sm font-thin">
+                                                    {asset.asset_no}
+                                                </div>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md={8}>
+                                            <FormGroup>
+                                                <label>ชื่อพัสดุ</label>
+                                                <div className="form-control text-sm font-thin">
+                                                    {asset.name}
+                                                </div>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md={6}>
+                                            <FormGroup>
+                                                <label>ชนิดพัสดุ</label>
+                                                <div className="form-control text-sm font-thin">
+                                                    {asset.group?.category?.name}
+                                                </div>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md={6}>
+                                            <FormGroup>
+                                                <label>กลุ่มพัสดุ</label>
+                                                <div className="form-control text-sm font-thin">
+                                                    {asset.group?.name}
+                                                </div>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md={6}>
+                                            <FormGroup>
+                                                <label>ยี่ห้อ</label>
+                                                <div className="form-control text-sm font-thin">
+                                                    {asset.brand?.name}
+                                                </div>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md={6}>
+                                            <FormGroup>
+                                                <label>รุ่น</label>
+                                                <div className="form-control text-sm font-thin">
+                                                    {asset.model}
+                                                </div>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md={6}>
+                                            <FormGroup>
+                                                <label>ราคา</label>
+                                                <div className="form-control text-sm font-thin">
+                                                    {asset.price_per_unit}
+                                                </div>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md={6}>
+                                            <FormGroup>
+                                                <label>หน่วยนับ</label>
+                                                <div className="form-control text-sm font-thin">
+                                                    {asset.unit?.name}
+                                                </div>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md={6}>
+                                            <FormGroup>
+                                                <label>รายละเอียด</label>
+                                                <div className="form-control text-sm font-thin h-20">
+                                                    {asset.description}
+                                                </div>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md={6}>
+                                            <FormGroup>
+                                                <label>หมายเหตุ</label>
+                                                <div className="form-control text-sm font-thin h-20">
+                                                    {asset.remark}
+                                                </div>
+                                            </FormGroup>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
 
-                            <div>
-                                <div className="flex flex-row items-center justify-between mb-2">
-                                    <h3 className="mb-2 font-bold">ผู้รับผิดชอบ</h3>
+                            <Row>
+                                <Col>
+                                    <div className="flex flex-row items-center justify-between mb-2">
+                                        <h3 className="mb-2 font-bold">ผู้รับผิดชอบ</h3>
 
-                                    <button
-                                        type="button"
-                                        className="btn btn-outline-primary"
-                                        onClick={() => setOpenOwnershipForm(true)}
-                                        disabled={success}
-                                    >
-                                        เพิ่มผู้รับผิดชอบ
-                                    </button> 
-                                </div>
-                                <OwnershipList
-                                    assetId={id ? id : ''}
-                                    isUpdated={success}
-                                />
+                                        <button
+                                            type="button"
+                                            className="btn btn-outline-primary"
+                                            onClick={() => setOpenOwnershipForm(true)}
+                                            disabled={success}
+                                        >
+                                            เพิ่มผู้รับผิดชอบ
+                                        </button> 
+                                    </div>
+                                    <OwnershipList
+                                        assetId={id ? id : ''}
+                                        isUpdated={success}
+                                    />
 
-                                <OwnershipForm
-                                    isOpen={openOwnershipForm}
-                                    handleHide={() => setOpenOwnershipForm(false)}
-                                    assetId={id}
-                                />
-                            </div>
+                                    <OwnershipForm
+                                        isOpen={openOwnershipForm}
+                                        handleHide={() => setOpenOwnershipForm(false)}
+                                        assetId={id}
+                                    />
+                                </Col>
+                            </Row>
                         </>
                     )}
                 </div>
