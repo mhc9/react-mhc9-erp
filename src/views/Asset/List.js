@@ -7,6 +7,7 @@ import { getAssets, destroy } from '../../features/asset/assetSlice';
 import Loading from '../../components/Loading';
 import AssetFilteringInput from './FilteringInput';
 import moment from 'moment';
+import Asset from '../../components/Asset/Asset';
 
 const initialFilters = {
     assetNo: '',
@@ -90,20 +91,10 @@ const AssetList = () => {
                                 </tr>
                             )}
                             {assets && assets.map((asset, index) => (
-                                <tr key={asset.id}>
+                                <tr key={asset.id} className="font-thin">
                                     <td className="text-center">{index+pager.from}</td>
                                     <td className="text-center text-sm">{asset.asset_no}</td>
-                                    <td className="font-thin">
-                                        <p className="text-gray-500 text-sm">{asset.group?.category?.name}</p>
-                                        <p>{asset.name}</p>
-                                        <span className="font-bold ml-1">ยี่ห้อ: </span>{asset.brand.name} 
-                                        <span className="font-bold ml-1">รุ่น: </span>{asset.model ? asset.model : '-'}
-                                        <span className="font-bold ml-1">ซื้อเมื่อปี: </span>{asset.first_year ? asset.first_year : '-'}
-                                        {/* <p className="text-sm font-thin text-gray-500 ml-1">{asset.description}</p> */}
-                                        <p className="text-sm font-thin text-red-400">
-                                            <span className="font-bold">หมายเหตุ: </span>{asset.remark ? asset.remark : '-'}
-                                        </p>
-                                    </td>
+                                    <td><Asset asset={asset} /></td>
                                     <td className="text-sm text-center">
                                         {`${calcUsedAge(asset.first_year)}ปี`}
                                     </td>
