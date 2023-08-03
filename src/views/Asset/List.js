@@ -110,14 +110,14 @@ const AssetList = () => {
                                     <td className="text-sm">
                                         {asset.current_owner.length > 0 && `${asset.current_owner[0].owner.prefix.name}${asset.current_owner[0].owner.firstname} ${asset.current_owner[0].owner.lastname}`}
                                     </td>
-                                    <td className="text-center">
-                                        <Link to={`/asset/${asset.id}/detail`} className="btn btn-sm btn-info mr-1">
+                                    <td className="text-center p-1">
+                                        <Link to={`/asset/${asset.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
                                         </Link>
-                                        <Link to={`/asset/${asset.id}/edit`} className="btn btn-sm btn-warning mr-1">
+                                        <Link to={`/asset/${asset.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />
                                         </Link>
-                                        <button className="btn btn-sm btn-danger" onClick={() => handleDelete(asset.id)}>
+                                        <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(asset.id)}>
                                             <FaTrash />
                                         </button>
                                     </td>
