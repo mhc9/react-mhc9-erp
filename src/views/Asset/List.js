@@ -3,7 +3,7 @@ import { Breadcrumb, Col, Pagination, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { getAssets } from '../../features/asset/assetSlice';
+import { getAssets, destroy } from '../../features/asset/assetSlice';
 import Loading from '../../components/Loading';
 import AssetFilteringInput from './FilteringInput';
 import moment from 'moment';
@@ -40,6 +40,12 @@ const AssetList = () => {
         const filterStr = `&name=${filters.name}&category=${filters.category}&group=${filters.group}&owner=${filters.owner}`
 
         setApiEndpoint(`${url}${filterStr}`);
+    };
+
+    const handleDelete = (id) => {
+        if (window.confirm('คุณต้องการลบรายการครุภัณฑ์ใช่หรือไม่?')) {
+            dispatch(destroy({ id }));
+        }
     };
 
     const calcUsedAge = (firstYear) => {
@@ -111,7 +117,7 @@ const AssetList = () => {
                                         <Link to={`/asset/${asset.id}/edit`} className="btn btn-sm btn-warning mr-1">
                                             <FaPencilAlt />
                                         </Link>
-                                        <button className="btn btn-sm btn-danger">
+                                        <button className="btn btn-sm btn-danger" onClick={() => handleDelete(asset.id)}>
                                             <FaTrash />
                                         </button>
                                     </td>
