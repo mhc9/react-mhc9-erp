@@ -26,7 +26,7 @@ const MemberList = ({ employee }) => {
                 {members && members.map((member, index) => (
                     <tr key={member.id} className="font-thin">
                         <td className="text-center">{index+1}</td>
-                        <td>{member.division?.name}</td>
+                        <td>{member.duty_id === 1 ? 'ผู้อำนวยการศูนย์สุขภาพจิตที่ 9' : (member.duty_id === 2 ? member.department?.name : member.division?.name)}</td>
                         <td className="text-center">{getDuty(member.duty_id)?.name}</td>
                         <td className="text-center">
                             <button className="btn btn-warning btn-sm px-1 mr-1">
