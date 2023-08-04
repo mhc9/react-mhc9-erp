@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import moment from 'moment'
-import { getOwnershipsByAsset, resetSuccess } from '../../../features/asset-ownership/assetOwnershipSlice'
-import Loading from '../../../components/Loading'
+import { getOwnershipsByAsset, resetSuccess } from '../../../../features/asset-ownership/assetOwnershipSlice'
+import Loading from '../../../../components/Loading'
 
 const OwnershipList = ({ assetId, isUpdated }) => {
     const dispatch = useDispatch();

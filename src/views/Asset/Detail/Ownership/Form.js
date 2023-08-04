@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, FormGroup, Modal, Row, Form as BsForm } from 'react-bootstrap'
-import Autocomplete from '../../../components/FormControls/Autocomplete';
-import api from '../../../api'
-import { store, update } from '../../../features/asset-ownership/assetOwnershipSlice';
+import api from '../../../../api'
+import { store, update } from '../../../../features/asset-ownership/assetOwnershipSlice';
+import Autocomplete from '../../../../components/FormControls/Autocomplete';
 
 const ownershipSchema = Yup.object().shape({
     owned_at: Yup.string().required(),

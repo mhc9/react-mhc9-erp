@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { Breadcrumb, Col, FormGroup, Row } from 'react-bootstrap'
 import { FaInfoCircle } from 'react-icons/fa';
-import OwnershipList from '../Ownership/List';
-import Loading from '../../../components/Loading';
 import { getAsset } from '../../../features/asset/assetSlice';
-import OwnershipForm from '../Ownership/Form';
+import OwnershipList from './Ownership/List';
+import OwnershipForm from './Ownership/Form';
 import Gallery from './Gallery';
+import Loading from '../../../components/Loading';
 
 const AssetDetail = () => {
     const { id } = useParams();
