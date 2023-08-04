@@ -42,7 +42,7 @@ const AssetDetail = () => {
                     {loading && <div className="text-center"><Loading /></div>}
                     {asset && (
                         <>
-                            <Row>
+                            <Row className="mb-3">
                                 <Col md={4}>
                                     <Gallery />
                                 </Col>
@@ -139,7 +139,7 @@ const AssetDetail = () => {
 
                                         <button
                                             type="button"
-                                            className="btn btn-outline-primary"
+                                            className="btn btn-outline-primary text-sm"
                                             onClick={() => setOpenOwnershipForm(true)}
                                             disabled={success}
                                         >
