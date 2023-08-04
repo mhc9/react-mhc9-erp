@@ -20,7 +20,7 @@ const OwnershipList = ({ assetId, isUpdated }) => {
 
     return (
         <div>
-            <table className="table table-bordered">
+            <table className="table table-bordered text-sm">
                 <thead>
                     <tr>
                         <th className="w-[5%] text-center">#</th>
@@ -37,18 +37,18 @@ const OwnershipList = ({ assetId, isUpdated }) => {
                         </tr>
                     )}
                     {ownerships && ownerships.map((owns, index) => (
-                        <tr key={owns.id}>
+                        <tr key={owns.id} className="font-thin">
                             <td className="text-center">{index+pager.from}</td>
                             <td className="text-center">{moment(owns.owned_at).format('DD/MM/YYYY')}</td>
                             <td>{owns.owner.firstname} {owns.owner.lastname}</td>
                             <td className="text-center">
                                 {owns.status}
                             </td>
-                            <td className="text-center">
-                                <Link to={`/asset//edit`} className="btn btn-sm btn-warning mr-1">
+                            <td className="text-center p-1">
+                                <Link to={`/asset//edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                     <FaPencilAlt />
                                 </Link>
-                                <button className="btn btn-sm btn-danger">
+                                <button className="btn btn-sm btn-danger px-1">
                                     <FaTrash />
                                 </button>
                             </td>
