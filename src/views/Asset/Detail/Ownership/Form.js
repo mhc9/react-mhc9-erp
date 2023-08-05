@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import { Col, FormGroup, Modal, Row, Form as BsForm } from 'react-bootstrap'
+import moment from 'moment'
+import OverWriteMomentBE from '../../../../utils/OverwriteMomentBE'
 import api from '../../../../api'
 import { store, update } from '../../../../features/asset-ownership/assetOwnershipSlice';
 import Autocomplete from '../../../../components/FormControls/Autocomplete';
@@ -17,6 +20,7 @@ const ownershipSchema = Yup.object().shape({
 const OwnershipForm = ({ isOpen, handleHide, assetId, ownership }) => {
     const dispatch = useDispatch();
     const [employees, setEmployees] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(moment());
 
     useEffect(() => {
         getEmployees();
@@ -91,16 +95,28 @@ const OwnershipForm = ({ isOpen, handleHide, assetId, ownership }) => {
                                     </Col>
                                     <Col md={6}>
                                         <FormGroup>
-                                            <label>วันที่รับ</label>
-                                            <BsForm.Control
-                                                type="date"
-                                                name="owned_at"
-                                                onChange={formik.handleChange}
-                                                className="form-control"
-                                            />
-                                            {(formik.errors.owned_at && formik.touched.owned_at) && (
-                                                <span className="text-red-500 text-sm">{formik.errors.owned_at}</span>
-                                            )}
+                                            <div className="flex flex-col">
+                                                <label>วันที่รับ</label>
+                                                <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                                    <DatePicker
+                                                        format="DD/MM/YYYY"
+                                                        value={selectedDate}
+                                                        onChange={(date) => {
+                                                            setSelectedDate(date);
+                                                            formik.setFieldValue('owned_at', date.format('YYYY-MM-DD'));
+                                                        }}
+                                                    />
+                                                </MuiPickersUtilsProvider>
+                                                {/* <BsForm.Control
+                                                    type="date"
+                                                    name="owned_at"
+                                                    onChange={formik.handleChange}
+                                                    className="form-control"
+                                                /> */}
+                                                {(formik.errors.owned_at && formik.touched.owned_at) && (
+                                                    <span className="text-red-500 text-sm">{formik.errors.owned_at}</span>
+                                                )}
+                                            </div>
                                         </FormGroup>
                                     </Col>
                                 </Row>
