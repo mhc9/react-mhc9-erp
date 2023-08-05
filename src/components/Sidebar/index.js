@@ -60,7 +60,7 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                     <Link to="/asset-category"><p className="w-full">ชนิดพัสดุ</p></Link>
                                 </li>
-                                <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                {/* <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                     <Link to="/equipment"><p className="w-full">อุปกรณ์</p></Link>
                                 </li>
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
@@ -68,7 +68,7 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                                 </li>
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                     <Link to="/equipment-group"><p className="w-full">กลุ่มอุปกรณ์</p></Link>
-                                </li>
+                                </li> */}
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                     <Link to="/employee"><p className="w-full">บุคลากร</p></Link>
                                 </li>
