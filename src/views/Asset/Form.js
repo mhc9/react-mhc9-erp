@@ -3,7 +3,10 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup, Col, Row, Form as BsForm } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import moment from 'moment'
 import api from '../../api';
+import OverWriteMomentBE from '../../utils/OverwriteMomentBE'
 import { store, update } from '../../features/asset/assetSlice';
 import Loading from '../../components/Loading'
 
@@ -29,6 +32,9 @@ const AssetForm = ({ id, asset }) => {
     const [brands, setBrands] = useState([]);
     const [budgets, setBudgets] = useState([]);
     const [obtainingTypes, setObtainingTypes] = useState([]);
+    const [selectedPurchasedAt, setSelectedPurchasedAt] = useState(moment());
+    const [selectedDateIn, setSelectedDateIn] = useState(moment());
+    const [selectedFirstYear, setSelectedFirstYear] = useState(moment());
 
     useEffect(() => {
         getFormInitialData();
@@ -69,13 +75,14 @@ const AssetForm = ({ id, asset }) => {
     };
 
     const handleSubmit = (values, props) => {
-        if (asset) {
-            dispatch(update({ id, data: values }))
-        } else {
-            dispatch(store(values))
-        }
+        console.log(values);
+        // if (asset) {
+        //     dispatch(update({ id, data: values }))
+        // } else {
+        //     dispatch(store(values))
+        // }
 
-        props.resetForm();
+        // props.resetForm();
     };
 
     return (
@@ -93,9 +100,9 @@ const AssetForm = ({ id, asset }) => {
                 unit_id: asset ? asset.unit_id : '',
                 brand_id: asset ? asset.brand_id : '',
                 model: (asset && asset.model) ? asset.model : '',
-                purchased_at: (asset && asset.purchased_at) ? asset.purchased_at : '',
-                date_in: (asset && asset.date_in) ? asset.date_in : '',
-                first_year: (asset && asset.first_year) ? asset.first_year : '',
+                purchased_at: (asset && asset.purchased_at) ? asset.purchased_at : moment().format('YYYY-MM-DD'),
+                date_in: (asset && asset.date_in) ? asset.date_in : moment().format('YYYY-MM-DD'),
+                first_year: (asset && asset.first_year) ? asset.first_year : moment().year()+543,
                 obtain_type_id: (asset && asset.obtain_type_id) ? asset.obtain_type_id : '',
                 budget_id: (asset && asset.budget_id) ? asset.budget_id : '',
                 remark: (asset && asset.remark) ? asset.remark : ''
@@ -320,48 +327,85 @@ const AssetForm = ({ id, asset }) => {
                         <Row className="mb-2">
                             <Col>
                                 <FormGroup>
-                                    <label>วันที่ซื้อ</label>
-                                    <BsForm.Control
-                                        type="date"
-                                        name="purchased_at"
-                                        value={formik.values.purchased_at}
-                                        onChange={formik.handleChange}
-                                        className="form-control"
-                                    />
-                                    {(formik.errors.purchased_at && formik.touched.purchased_at) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.purchased_at}</span>
-                                    )}
+                                    <div className="flex flex-col">
+                                        <label>วันที่ซื้อ</label>
+                                        <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedPurchasedAt}
+                                                onChange={(date) => {
+                                                    setSelectedPurchasedAt(date);
+                                                    formik.setFieldValue('purchased_at', date.format('YYYY-MM-DD'));
+                                                }}
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                        {/* <BsForm.Control
+                                            type="date"
+                                            name="purchased_at"
+                                            value={formik.values.purchased_at}
+                                            onChange={formik.handleChange}
+                                            className="form-control"
+                                        /> */}
+                                        {(formik.errors.purchased_at && formik.touched.purchased_at) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.purchased_at}</span>
+                                        )}
+                                    </div>
                                 </FormGroup>
                             </Col>
                             <Col>
                                 <FormGroup>
-                                    <label>ปีที่ซื้อ (พ.ศ. เช่น 25xx)</label>
-                                    <input
-                                        type="text"
-                                        name="first_year"
-                                        value={formik.values.first_year}
-                                        onChange={formik.handleChange}
-                                        className="form-control"
-                                        placeholder="ปีที่ซื้อ"
-                                    />
-                                    {(formik.errors.first_year && formik.touched.first_year) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.first_year}</span>
-                                    )}
+                                    <div className="flex flex-col">
+                                        <label>ปีที่ซื้อ (พ.ศ. เช่น 25xx)</label>
+                                        <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                            <DatePicker
+                                                views={["year"]}
+                                                format="YYYY"
+                                                value={selectedFirstYear}
+                                                onChange={(date) => {
+                                                    setSelectedFirstYear(date);
+                                                    formik.setFieldValue('first_year', date.year()+543);
+                                                }}
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                        {/* <input
+                                            type="text"
+                                            name="first_year"
+                                            value={formik.values.first_year}
+                                            onChange={formik.handleChange}
+                                            className="form-control"
+                                            placeholder="ปีที่ซื้อ"
+                                        /> */}
+                                        {(formik.errors.first_year && formik.touched.first_year) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.first_year}</span>
+                                        )}
+                                    </div>
                                 </FormGroup>
                             </Col>
                             <Col>
                                 <FormGroup>
-                                    <label>วันที่นำเข้าระบบ</label>
-                                    <BsForm.Control
-                                        type="date"
-                                        name="date_in"
-                                        value={formik.values.date_in}
-                                        onChange={formik.handleChange}
-                                        className="form-control"
-                                    />
-                                    {(formik.errors.date_in && formik.touched.date_in) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.date_in}</span>
-                                    )}
+                                    <div className="flex flex-col">
+                                        <label>วันที่นำเข้าระบบ</label>
+                                        <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedDateIn}
+                                                onChange={(date) => {
+                                                    setSelectedDateIn(date);
+                                                    formik.setFieldValue('date_in', date.format('YYYY-MM-DD'));
+                                                }}
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                        {/* <BsForm.Control
+                                            type="date"
+                                            name="date_in"
+                                            value={formik.values.date_in}
+                                            onChange={formik.handleChange}
+                                            className="form-control"
+                                        /> */}
+                                        {(formik.errors.date_in && formik.touched.date_in) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.date_in}</span>
+                                        )}
+                                    </div>
                                 </FormGroup>
                             </Col>
                         </Row>
