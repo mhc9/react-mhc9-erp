@@ -25,7 +25,7 @@ const AssetDetail = () => {
             {/* breadcrumb */}
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
-                <Breadcrumb.Item href="/">ข้อมูลพื้ฐาน</Breadcrumb.Item>
+                <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
                 <Breadcrumb.Item href="/asset">รายการพัสดุ</Breadcrumb.Item>
                 <Breadcrumb.Item active>{id}</Breadcrumb.Item>
             </Breadcrumb>

@@ -58,7 +58,7 @@ const AssetList = () => {
             {/* breadcrumb */}
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
-                <Breadcrumb.Item href="/">ข้อมูลพื้ฐาน</Breadcrumb.Item>
+                <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการพัสดุ</Breadcrumb.Item>
             </Breadcrumb>
         
@@ -93,7 +93,7 @@ const AssetList = () => {
                             {assets && assets.map((asset, index) => (
                                 <tr key={asset.id} className="font-thin">
                                     <td className="text-center">{index+pager.from}</td>
-                                    <td className="text-center text-sm">{asset.asset_no}</td>
+                                    <td className="text-center text-xs">{asset.asset_no}</td>
                                     <td><Asset asset={asset} /></td>
                                     <td className="text-sm text-center">
                                         {`${calcUsedAge(asset.first_year)}ปี`}
