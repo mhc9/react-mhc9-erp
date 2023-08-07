@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Col, Pagination, Row } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { getAssets, destroy } from '../../features/asset/assetSlice';
-import Loading from '../../components/Loading';
-import AssetFilteringInput from '../../components/Asset/FilteringInput';
-import moment from 'moment';
-import Asset from '../../components/Asset/Asset';
+import { calcUsedAgeY } from '../../utils'
+import { getAssets, destroy } from '../../features/asset/assetSlice'
+import AssetFilteringInput from '../../components/Asset/FilteringInput'
+import Asset from '../../components/Asset/Asset'
+import Loading from '../../components/Loading'
 
 const initialFilters = {
     assetNo: '',
@@ -47,10 +47,6 @@ const AssetList = () => {
         if (window.confirm('คุณต้องการลบรายการครุภัณฑ์ใช่หรือไม่?')) {
             dispatch(destroy({ id }));
         }
-    };
-
-    const calcUsedAge = (firstYear) => {
-        return moment().year() - (firstYear-543);
     };
 
     return (
@@ -96,7 +92,7 @@ const AssetList = () => {
                                     <td className="text-center text-xs">{asset.asset_no}</td>
                                     <td><Asset asset={asset} /></td>
                                     <td className="text-sm text-center">
-                                        {`${calcUsedAge(asset.first_year)}ปี`}
+                                        {`${calcUsedAgeY(asset.first_year)}ปี`}
                                     </td>
                                     <td className="text-sm">
                                         {asset.current_owner.length > 0 && `${asset.current_owner[0].owner.prefix.name}${asset.current_owner[0].owner.firstname} ${asset.current_owner[0].owner.lastname}`}

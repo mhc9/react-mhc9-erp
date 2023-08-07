@@ -19,6 +19,10 @@ export const calcAgeY = (birthdate) => {
     return moment().diff(moment(birthdate), "years") 
 };
 
+export const calcUsedAgeY = (firstYear) => {
+    return moment().year() - (firstYear-543);
+};
+
 export const calculateTotal = (price, amount) => {
     return price * amount;
 };
