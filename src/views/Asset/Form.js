@@ -37,6 +37,14 @@ const AssetForm = ({ id, asset }) => {
     const [selectedFirstYear, setSelectedFirstYear] = useState(moment());
 
     useEffect(() => {
+        if (asset) {
+            setSelectedPurchasedAt(moment(asset.purchased_at));
+            setSelectedDateIn(moment(asset.date_in));
+            setSelectedFirstYear(moment(`${asset.first_year-543}-01-01`));
+        }
+    }, [asset]);
+
+    useEffect(() => {
         getFormInitialData();
 
         return () => getFormInitialData();
@@ -122,7 +130,7 @@ const AssetForm = ({ id, asset }) => {
                                         name="asset_no"
                                         value={formik.values.asset_no}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                         placeholder="เลขที่พัสดุ"
                                     />
                                     {(formik.errors.asset_no && formik.touched.asset_no) && (
@@ -138,7 +146,7 @@ const AssetForm = ({ id, asset }) => {
                                         name="name"
                                         value={formik.values.name}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                         placeholder="ชื่อพัสดุ"
                                     />
                                     {(formik.errors.name && formik.touched.name) && (
@@ -156,7 +164,7 @@ const AssetForm = ({ id, asset }) => {
                                         name="description"
                                         value={formik.values.description}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                         placeholder="รายละเอียด"
                                     >
                                     </textarea>
@@ -177,7 +185,7 @@ const AssetForm = ({ id, asset }) => {
                                             formik.handleChange(e);
                                             handleCategorySelected(e.target.value);
                                         }}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     >
                                         <option value="">-- เลือกชนิดพัสดุ --</option>
                                         {categories && categories.map(category => (
@@ -198,7 +206,7 @@ const AssetForm = ({ id, asset }) => {
                                         name="asset_group_id"
                                         value={formik.values.asset_group_id}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     >
                                         <option value="">-- เลือกกลุ่มพัสดุ --</option>
                                         {filteredGroups && filteredGroups.map(group => (
@@ -211,7 +219,7 @@ const AssetForm = ({ id, asset }) => {
                             </Col>
                         </Row>
                         <Row className="mb-2">
-                            <Col>
+                            <Col md={4}>
                                 <FormGroup>
                                     <label>ราคาต่อหน่วย</label>
                                     <input
@@ -219,21 +227,21 @@ const AssetForm = ({ id, asset }) => {
                                         name="price_per_unit"
                                         value={formik.values.price_per_unit}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     />
                                     {(formik.errors.price_per_unit && formik.touched.price_per_unit) && (
                                         <span className="text-red-500 text-sm">{formik.errors.price_per_unit}</span>
                                     )}
                                 </FormGroup>
                             </Col>
-                            <Col>
+                            <Col md={2}>
                                 <FormGroup>
                                     <label>หน่วยนับ</label>
                                     <select
                                         name="unit_id"
                                         value={formik.values.unit_id}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     >
                                         <option value="">-- เลือกหน่วยนับ --</option>
                                         {units && units.map(unit => (
@@ -245,50 +253,14 @@ const AssetForm = ({ id, asset }) => {
                                     )}
                                 </FormGroup>
                             </Col>
-                            <Col>
-                                <FormGroup>
-                                    <label>ยี่ห้อ/ผู้ผลิต</label>
-                                    <select
-                                        name="brand_id"
-                                        value={formik.values.brand_id}
-                                        onChange={formik.handleChange}
-                                        className="form-control"
-                                    >
-                                        <option value="">-- เลือกยี่ห้อ/ผู้ผลิต --</option>
-                                        {brands && brands.map(brand => (
-                                            <option value={brand.id} key={brand.id}>{brand.name}</option>
-                                        ))}
-                                    </select>
-                                    {(formik.errors.brand_id && formik.touched.brand_id) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.brand_id}</span>
-                                    )}
-                                </FormGroup>
-                            </Col>
-                        </Row>
-                        <Row className="mb-2">
-                            <Col>
-                                <FormGroup>
-                                    <label>รุ่น</label>
-                                    <input
-                                        type="text"
-                                        name="model"
-                                        value={formik.values.model}
-                                        onChange={formik.handleChange}
-                                        className="form-control"
-                                    />
-                                    {(formik.errors.model && formik.touched.model) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.model}</span>
-                                    )}
-                                </FormGroup>
-                            </Col>
-                            <Col>
+                            <Col md={3}>
                                 <FormGroup>
                                     <label>ประเภทการได้มา</label>
                                     <select
                                         name="obtain_type_id"
                                         value={formik.values.obtain_type_id}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     >
                                         <option value="">-- เลือกประเภทการได้มา --</option>
                                         {obtainingTypes && obtainingTypes.map(ob => (
@@ -302,14 +274,14 @@ const AssetForm = ({ id, asset }) => {
                                     )}
                                 </FormGroup>
                             </Col>
-                            <Col>
+                            <Col md={3}>
                                 <FormGroup>
                                     <label>แหล่งงบประมาณ</label>
                                     <select
                                         name="budget_id"
                                         value={formik.values.budget_id}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     >
                                         <option value="">-- เลือกแหล่งงบประมาณ --</option>
                                         {budgets && budgets.map(budget => (
@@ -320,6 +292,42 @@ const AssetForm = ({ id, asset }) => {
                                     </select>
                                     {(formik.errors.budget_id && formik.touched.budget_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.budget_id}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col md={3}>
+                                <FormGroup>
+                                    <label>ยี่ห้อ/ผู้ผลิต</label>
+                                    <select
+                                        name="brand_id"
+                                        value={formik.values.brand_id}
+                                        onChange={formik.handleChange}
+                                        className="form-control text-sm"
+                                    >
+                                        <option value="">-- เลือกยี่ห้อ/ผู้ผลิต --</option>
+                                        {brands && brands.map(brand => (
+                                            <option value={brand.id} key={brand.id}>{brand.name}</option>
+                                        ))}
+                                    </select>
+                                    {(formik.errors.brand_id && formik.touched.brand_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.brand_id}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>รุ่น</label>
+                                    <input
+                                        type="text"
+                                        name="model"
+                                        value={formik.values.model}
+                                        onChange={formik.handleChange}
+                                        className="form-control text-sm"
+                                    />
+                                    {(formik.errors.model && formik.touched.model) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.model}</span>
                                     )}
                                 </FormGroup>
                             </Col>
@@ -410,17 +418,29 @@ const AssetForm = ({ id, asset }) => {
                             </Col>
                         </Row>
                         <Row className="mb-2">
-                            <Col>
+                            <Col md={6}>
                                 <FormGroup>
                                     <label>หมายเหตุ</label>
                                     <textarea
-                                        rows={3}
+                                        rows={8}
                                         name="remark"
                                         value={formik.values.remark}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     >
                                     </textarea>
+                                </FormGroup>
+                            </Col>
+                            <Col md={6}>
+                                <FormGroup>
+                                    <label>รูปพัสดุ</label>
+                                    <input
+                                        type="file"
+                                        className="form-control text-sm"
+                                    />
+                                    <div className="border rounded-md mt-2 h-[132px] overflow-hidden">
+                                        <img src="" alt="" />
+                                    </div>
                                 </FormGroup>
                             </Col>
                         </Row>
