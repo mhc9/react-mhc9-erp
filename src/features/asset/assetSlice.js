@@ -64,12 +64,27 @@ export const destroy = createAsyncThunk("asset/destroy", async ({ id }, { dispat
     }
 });
 
+export const upload = createAsyncThunk("asset/upload", async ({ id, data }, { dispatch, rejectWithValue }) => {
+    try {
+        const res = await api.put(`/api/assets/${id}/upload`, data);
+
+        dispatch(updateImage(res.data?.img_url));
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const assetSlice = createSlice({
     name: 'asset',
     initialState,
     reducers: {
         resetSuccess: (state) => {
             state.success = false;
+        },
+        updateImage: (state, { payload }) => {
+            state.asset = { ...state.asset, img_url: payload };
         }
     },
     extraReducers: {
@@ -152,9 +167,24 @@ export const assetSlice = createSlice({
             state.loading = false;
             state.error = payload;
         },
+        [upload.pending]: (state) => {
+            state.loading = true;
+            state.success = false;
+            state.error = null;
+        },
+        [upload.fulfilled]: (state, { payload }) => {
+            console.log(payload);
+            state.loading = false
+            state.success = true;
+        },
+        [upload.rejected]: (state, { payload }) => {
+            console.log(payload);
+            state.loading = false;
+            state.error = payload;
+        },
     }
 });
 
 export default assetSlice.reducer;
 
-export const { resetSuccess } = assetSlice.actions;
+export const { resetSuccess, updateImage } = assetSlice.actions;

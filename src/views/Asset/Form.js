@@ -7,7 +7,7 @@ import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import moment from 'moment'
 import api from '../../api';
 import OverWriteMomentBE from '../../utils/OverwriteMomentBE'
-import { store, update } from '../../features/asset/assetSlice';
+import { store, update, upload } from '../../features/asset/assetSlice';
 import Loading from '../../components/Loading'
 
 const assetSchema = Yup.object().shape({
@@ -35,6 +35,7 @@ const AssetForm = ({ id, asset }) => {
     const [selectedPurchasedAt, setSelectedPurchasedAt] = useState(moment());
     const [selectedDateIn, setSelectedDateIn] = useState(moment());
     const [selectedFirstYear, setSelectedFirstYear] = useState(moment());
+    const [selectedImage, setSelectedImage] = useState(null);
 
     useEffect(() => {
         if (asset) {
@@ -52,7 +53,7 @@ const AssetForm = ({ id, asset }) => {
 
     const getFormInitialData = async () => {
         try {
-            const res = await api.get('/api/assets/form/init');
+            const res = await api.get('/api/assets/init/form');
             
             // setTypes(res.data.types);
             setCategories(res.data.categories);
@@ -93,6 +94,14 @@ const AssetForm = ({ id, asset }) => {
         // props.resetForm();
     };
 
+    const handleUploadImage = (id) => {
+        let data = new FormData();
+
+        data.append('img_url', selectedImage);
+
+        dispatch(upload({ id, data }));
+    }
+
     return (
         <Formik
             enableReinitialize
@@ -121,6 +130,38 @@ const AssetForm = ({ id, asset }) => {
             {(formik) => {
                 return (
                     <Form>
+                        {asset && (
+                            <Row className="mb-3">
+                                <Col>
+                                    <div className="flex flex-col items-center justify-center">
+                                        <div className="rounded-md mt-2 w-[200px] h-[132px] overflow-hidden flex justify-center border mb-2">
+                                            {asset?.img_url ? (
+                                                <img src={`${process.env.REACT_APP_API_URL}/${asset?.img_url}`} alt="" />
+                                            ) : (
+                                                <img src={``} alt="" />
+                                            )}
+                                            {selectedImage && <img src={URL.createObjectURL(selectedImage)} alt="" />}
+                                        </div>
+                                        <label>
+                                            <input
+                                                type="file"
+                                                onChange={(e) => setSelectedImage(e.target.files[0])}
+                                                className="hidden"
+                                            />
+                                            {!selectedImage ? (
+                                                <p className="btn btn-outline-primary btn-sm">
+                                                    เปลี่ยนรูป
+                                                </p>
+                                            ) : (
+                                                <button type="button" className="btn btn-outline-success btn-sm">
+                                                    อัพโหลด
+                                                </button>
+                                            )}
+                                        </label>
+                                    </div>
+                                </Col>
+                            </Row>
+                        )}
                         <Row className="mb-2">
                             <Col sm={6} md={4}>
                                 <FormGroup>
@@ -418,11 +459,11 @@ const AssetForm = ({ id, asset }) => {
                             </Col>
                         </Row>
                         <Row className="mb-2">
-                            <Col md={6}>
+                            <Col md={asset ? 12 : 6}>
                                 <FormGroup>
                                     <label>หมายเหตุ</label>
                                     <textarea
-                                        rows={8}
+                                        rows={asset ? 3 : 8}
                                         name="remark"
                                         value={formik.values.remark}
                                         onChange={formik.handleChange}
@@ -431,18 +472,21 @@ const AssetForm = ({ id, asset }) => {
                                     </textarea>
                                 </FormGroup>
                             </Col>
-                            <Col md={6}>
-                                <FormGroup>
-                                    <label>รูปพัสดุ</label>
-                                    <input
-                                        type="file"
-                                        className="form-control text-sm"
-                                    />
-                                    <div className="border rounded-md mt-2 h-[132px] overflow-hidden">
-                                        <img src="" alt="" />
-                                    </div>
-                                </FormGroup>
-                            </Col>
+                            {!asset && (
+                                <Col md={6}>
+                                    <FormGroup>
+                                        <label>รูปพัสดุ</label>
+                                        <input
+                                            type="file"
+                                            onChange={(e) => setSelectedImage(e.target.files[0])}
+                                            className="form-control text-sm"
+                                        />
+                                        <div className="border rounded-md mt-2 h-[132px] overflow-hidden flex justify-center">
+                                            {selectedImage && <img src={URL.createObjectURL(selectedImage)} alt="" />}
+                                        </div>
+                                    </FormGroup>
+                                </Col>
+                            )}
                         </Row>
                         <Row>
                             <Col>
