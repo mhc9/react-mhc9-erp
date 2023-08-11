@@ -15,7 +15,7 @@ const AssetFilteringInput = ({ filters, onFilter }) => {
 
     const getFormInitialData = async () => {
         try {
-            const res = await api.get('/api/assets/form/init');
+            const res = await api.get('/api/assets/init/form');
 
             // setCategories(res.data.categories);
             setGroups(res.data.groups);

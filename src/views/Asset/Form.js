@@ -96,10 +96,11 @@ const AssetForm = ({ id, asset }) => {
 
     const handleUploadImage = (id) => {
         let data = new FormData();
-
         data.append('img_url', selectedImage);
 
         dispatch(upload({ id, data }));
+
+        setSelectedImage(null);
     }
 
     return (
@@ -136,7 +137,7 @@ const AssetForm = ({ id, asset }) => {
                                     <div className="flex flex-col items-center justify-center">
                                         <div className="rounded-md mt-2 w-[200px] h-[132px] overflow-hidden flex justify-center border mb-2">
                                             {asset?.img_url ? (
-                                                <img src={`${process.env.REACT_APP_API_URL}/${asset?.img_url}`} alt="" />
+                                                <img src={`${process.env.REACT_APP_API_URL}/uploads/assets/${asset?.img_url}`} alt="asset-image" />
                                             ) : (
                                                 <img src={``} alt="" />
                                             )}
@@ -153,7 +154,7 @@ const AssetForm = ({ id, asset }) => {
                                                     เปลี่ยนรูป
                                                 </p>
                                             ) : (
-                                                <button type="button" className="btn btn-outline-success btn-sm">
+                                                <button type="button" className="btn btn-outline-success btn-sm" onClick={() => handleUploadImage(asset.id)}>
                                                     อัพโหลด
                                                 </button>
                                             )}

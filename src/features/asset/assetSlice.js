@@ -66,7 +66,7 @@ export const destroy = createAsyncThunk("asset/destroy", async ({ id }, { dispat
 
 export const upload = createAsyncThunk("asset/upload", async ({ id, data }, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/assets/${id}/upload`, data);
+        const res = await api.post(`/api/assets/${id}/upload`, data);
 
         dispatch(updateImage(res.data?.img_url));
 
