@@ -7,7 +7,7 @@ const Asset = ({ asset }) => {
             <Col md={3}>
                 <div className="w-[80px] h-[80px] overflow-hidden border">
                     {(asset && asset.img_url) ? (
-                        <img src={`${process.env.REACT_APP_API_URL}/uploads/assets/thumbnails/${asset.img_url}`} alt='asset-pic' />
+                        <img src={`${process.env.REACT_APP_API_URL}/uploads/assets/${asset.img_url}`} alt='asset-pic' />
                     ) : (
                         <img src="/img/avatar-heroes.png" alt="employee-pic" className="asset-pic" />
                     )}
