@@ -5,8 +5,8 @@ const initialState = {
     asset: null,
     assets: [],
     pager: null,
-    loading: false,
-    success: false,
+    isLoading: false,
+    isSuccess: false,
     error: null
 };
 
@@ -81,7 +81,7 @@ export const assetSlice = createSlice({
     initialState,
     reducers: {
         resetSuccess: (state) => {
-            state.success = false;
+            state.isSuccess = false;
         },
         updateImage: (state, { payload }) => {
             state.asset = { ...state.asset, img_url: payload };
@@ -91,8 +91,8 @@ export const assetSlice = createSlice({
         [getAssets.pending]: (state) => {
             state.assets = [];
             state.pager = null;
-            state.loading = true;
-            // state.success = false;
+            state.isLoading = true;
+            // state.isSuccess = false;
             state.error = null;
         },
         [getAssets.fulfilled]: (state, { payload }) => {
@@ -100,86 +100,75 @@ export const assetSlice = createSlice({
 
             state.assets = data;
             state.pager = pager;
-            state.loading = false
-            // state.success = true;
+            state.isLoading = false
+            // state.isSuccess = true;
         },
         [getAssets.rejected]: (state, { payload }) => {
-            state.loading = false;
+            state.isLoading = false;
             state.error = payload;
         },
         [getAsset.pending]: (state) => {
             state.asset = null;
-            state.loading = true;
-            // state.success = false;
+            state.isLoading = true;
+            // state.isSuccess = false;
             state.error = null;
         },
         [getAsset.fulfilled]: (state, { payload }) => {
             state.asset = payload;
-            state.loading = false
-            // state.success = true;
+            state.isLoading = false
+            // state.isSuccess = true;
         },
         [getAsset.rejected]: (state, { payload }) => {
-            state.loading = false;
+            state.isLoading = false;
             state.error = payload;
         },
         [store.pending]: (state) => {
-            state.loading = true;
-            state.success = false;
+            state.isLoading = true;
+            state.isSuccess = false;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
-            console.log(payload);
-            state.loading = false
-            state.success = true;
+            state.isLoading = false
+            state.isSuccess = true;
         },
         [store.rejected]: (state, { payload }) => {
-            console.log(payload);
-            state.loading = false;
+            state.isLoading = false;
             state.error = payload;
         },
         [update.pending]: (state) => {
-            state.loading = true;
-            state.success = false;
+            state.isLoading = true;
+            state.isSuccess = false;
             state.error = null;
         },
         [update.fulfilled]: (state, { payload }) => {
-            console.log(payload);
-            state.loading = false
-            state.success = true;
+            state.isLoading = false
+            state.isSuccess = true;
         },
         [update.rejected]: (state, { payload }) => {
-            console.log(payload);
-            state.loading = false;
+            state.isLoading = false;
             state.error = payload;
         },
         [destroy.pending]: (state) => {
-            state.loading = true;
-            state.success = false;
+            state.isLoading = true;
+            state.isSuccess = false;
             state.error = null;
         },
         [destroy.fulfilled]: (state, { payload }) => {
-            console.log(payload);
-            state.loading = false
-            state.success = true;
+            state.isLoading = false
+            state.isSuccess = true;
         },
         [destroy.rejected]: (state, { payload }) => {
-            console.log(payload);
-            state.loading = false;
+            state.isLoading = false;
             state.error = payload;
         },
         [upload.pending]: (state) => {
-            state.loading = true;
-            state.success = false;
+            state.isSuccess = false;
             state.error = null;
         },
         [upload.fulfilled]: (state, { payload }) => {
-            console.log(payload);
-            state.loading = false
-            state.success = true;
+            state.isSuccess = true;
         },
         [upload.rejected]: (state, { payload }) => {
-            console.log(payload);
-            state.loading = false;
             state.error = payload;
         },
     }
