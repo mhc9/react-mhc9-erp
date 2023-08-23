@@ -44,7 +44,7 @@ const AssetDetail = () => {
                         <>
                             <Row className="mb-3">
                                 <Col md={4}>
-                                    <Gallery />
+                                    <Gallery asset={asset} />
                                 </Col>
                                 <Col>
                                     <Row className="mb-2">
