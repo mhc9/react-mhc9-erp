@@ -5,10 +5,11 @@ import { FormGroup, Col, Row, Form as BsForm } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import moment from 'moment'
-import api from '../../api';
-import OverWriteMomentBE from '../../utils/OverwriteMomentBE'
-import { store, update, upload } from '../../features/asset/assetSlice';
-import Loading from '../../components/Loading'
+import api from '../../../api';
+import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
+import { store, update, upload } from '../../../features/asset/assetSlice';
+import Loading from '../../../components/Loading'
+import UploadImage from './UploadImage'
 
 const assetSchema = Yup.object().shape({
     asset_no: Yup.string().required(),
@@ -22,7 +23,7 @@ const assetSchema = Yup.object().shape({
 
 const AssetForm = ({ id, asset }) => {
     const dispatch = useDispatch();
-    const { loading } = useSelector(state => state.asset);
+    const { isLoading } = useSelector(state => state.asset);
     // const [types, setTypes] = useState([]);
     const [categories, setCategories] = useState([]);
     // const [filteredCategories, setFilteredCategories] = useState([]);
@@ -39,9 +40,9 @@ const AssetForm = ({ id, asset }) => {
 
     useEffect(() => {
         if (asset) {
-            setSelectedPurchasedAt(moment(asset.purchased_at));
-            setSelectedDateIn(moment(asset.date_in));
-            setSelectedFirstYear(moment(`${asset.first_year-543}-01-01`));
+            asset.purchased_at ? setSelectedPurchasedAt(moment(asset.purchased_at)) : setSelectedPurchasedAt(moment());
+            asset.date_in ? setSelectedDateIn(moment(asset.date_in)) : setSelectedDateIn(moment());
+            asset.first_year && setSelectedFirstYear(moment(`${asset.first_year-543}-01-01`));
         }
     }, [asset]);
 
@@ -54,7 +55,7 @@ const AssetForm = ({ id, asset }) => {
     const getFormInitialData = async () => {
         try {
             const res = await api.get('/api/assets/init/form');
-            
+
             // setTypes(res.data.types);
             setCategories(res.data.categories);
             setGroups(res.data.groups);
@@ -64,7 +65,6 @@ const AssetForm = ({ id, asset }) => {
             setObtainingTypes(res.data.obtainingTypes);
 
             /** If in editting mode. Set filteredGroups data for display in input */
-            // if (asset) handleCategorySelected(asset?.asset_category_id);
             if (asset) setFilteredGroups(res.data.groups);
         } catch (error) {
             console.log(error);
@@ -93,15 +93,6 @@ const AssetForm = ({ id, asset }) => {
 
         // props.resetForm();
     };
-
-    const handleUploadImage = (id) => {
-        let data = new FormData();
-        data.append('img_url', selectedImage);
-
-        dispatch(upload({ id, data }));
-
-        setSelectedImage(null);
-    }
 
     return (
         <Formik
@@ -136,29 +127,19 @@ const AssetForm = ({ id, asset }) => {
                                 <Col>
                                     <div className="flex flex-col items-center justify-center">
                                         <div className="rounded-md mt-2 w-[200px] h-[132px] overflow-hidden flex justify-center border mb-2">
-                                            {asset?.img_url ? (
+                                            {(!selectedImage && asset?.img_url) ? (
                                                 <img src={`${process.env.REACT_APP_API_URL}/uploads/assets/${asset?.img_url}`} alt="asset-image" />
                                             ) : (
                                                 <img src={``} alt="" />
                                             )}
                                             {selectedImage && <img src={URL.createObjectURL(selectedImage)} alt="" />}
                                         </div>
-                                        <label>
-                                            <input
-                                                type="file"
-                                                onChange={(e) => setSelectedImage(e.target.files[0])}
-                                                className="hidden"
-                                            />
-                                            {!selectedImage ? (
-                                                <p className="btn btn-outline-primary btn-sm">
-                                                    เปลี่ยนรูป
-                                                </p>
-                                            ) : (
-                                                <button type="button" className="btn btn-outline-success btn-sm" onClick={() => handleUploadImage(asset.id)}>
-                                                    อัพโหลด
-                                                </button>
-                                            )}
-                                        </label>
+                                        
+                                        <UploadImage
+                                            asset={asset}
+                                            selectedImage={selectedImage}
+                                            handleSelectedImage={setSelectedImage}
+                                        />
                                     </div>
                                 </Col>
                             </Row>
@@ -496,7 +477,7 @@ const AssetForm = ({ id, asset }) => {
                                     className={`btn ${asset ? 'btn-outline-warning' : 'btn-outline-primary'} mt-2 float-right`}
                                     disabled={formik.isSubmitting}
                                 >
-                                    {loading && <Loading />}
+                                    {isLoading && <Loading />}
                                     {asset ? 'บันทึกการแกไข' : 'บันทึก'}
                                 </button>
                             </Col>
