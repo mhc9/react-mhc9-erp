@@ -27,8 +27,12 @@ const Home = () => {
             </div>
 
             {/* content */}
-            <div className="content mt-3 border min-h-[70vh]">
+            <div className="content min-h-[70vh] mt-3 border rounded-md p-2">
                 <h2 className="text-xl">สถิติการแจ้งซ่อม</h2>
+
+                <div>
+                    {/* // content here... */}
+                </div>
             </div>
         </div>
     )
