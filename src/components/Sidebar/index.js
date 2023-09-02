@@ -4,19 +4,19 @@ import { FaTimes, FaAngleDown, FaAngleUp } from 'react-icons/fa'
 
 const Sidebar = ({ isShow, toggleShow, onLogout }) => {
     return (
-        <div className={`border absolute top-0 w-[220px] h-full overflow-scroll ${isShow ? 'left-0' : 'left-[-220px]'} bg-white md:hidden transition-all ease-in-out delay-300 z-[999]`}>
-            <div className={`p-2 ${isShow ? 'flex flex-col justify-between' : 'hidden'} overflow-hidden`}>
+        <div className={`sidebar border absolute top-0 w-[220px] h-full overflow-scroll ${isShow ? 'left-0' : 'left-[-220px]'} bg-white md:hidden transition-all ease-in-out delay-300 z-[999]`}>
+            <div className={`p-2 ${isShow ? 'menu-link justify-between' : 'hidden'} overflow-hidden`}>
                 <div>
                     <div className="w-full text-black py-2 flex flex-row justify-end items-center mb-3">
                         <FaTimes className="hover:text-blue-600 cursor-pointer" onClick={() => toggleShow(!isShow)} />
                     </div>
                     <div>
-                        <div className="flex flex-col">
-                            <button type="button" className="text-black text-left p-2 hover:bg-blue-500 rounded-md flex flex-row items-center justify-between">
+                        <div className="menu-link">
+                            <button type="button">
                                 บริการ
                                 <FaAngleDown />
                             </button>
-                            <ul className="bg-white text-blue-950 p-0">
+                            <ul className="sub-menus">
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                     <Link to="/task"><p className="w-full">สถานะการซ่อม</p></Link>
                                 </li>
@@ -28,12 +28,12 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
 
                         <hr className="border-b-1 border-gray-400 m-0" />
 
-                        <div className="flex flex-col">
+                        <div className="menu-link">
                             <button type="button" className="text-black text-left p-2 hover:bg-blue-500 rounded-md flex flex-row items-center justify-between">
                                 จัดซื้อจัดจ้าง
                                 <FaAngleDown />
                             </button>
-                            <ul className="bg-white text-blue-950 p-0">
+                            <ul className="sub-menus">
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                     <Link to="/requisition"><p className="w-full">คำขอซื้อ/จ้าง</p></Link>
                                 </li>
@@ -45,12 +45,12 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
 
                         <hr className="border-1 border-gray-400 m-0" />
 
-                        <div className="flex flex-col">
+                        <div className="menu-link">
                             <button type="button" className="text-black text-left p-2 hover:bg-blue-500 rounded-md flex flex-row items-center justify-between">
                                 ข้อมูลพื้ฐาน
                                 <FaAngleDown />
                             </button>
-                            <ul className="bg-white text-blue-950 p-0">
+                            <ul className="sub-menus">
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                     <Link to="/asset"><p className="w-full">พัสดุ</p></Link>
                                 </li>

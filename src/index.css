@@ -84,3 +84,24 @@ a {
   border-bottom-color: #2B1A41;
   z-index: 0;
 }
+
+.sidebar .menu-link {
+  @apply flex flex-col;
+}
+.sidebar .menu-link button {
+  @apply text-black text-left p-2 hover:bg-blue-500 rounded-md flex flex-row items-center justify-between;
+}
+
+.sidebar .menu-link .sub-menus {
+  @apply bg-white text-blue-950 p-0;
+  display: none;
+}
+
+.sidebar .menu-link:hover > .sub-menus {
+  display: block;
+}
+
+.sidebar .menu-link:hover > button svg {
+  transform: rotate(180deg);
+  transition: transform ease-in-out .3s;
+}
