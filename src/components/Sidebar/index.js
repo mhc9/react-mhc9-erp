@@ -5,7 +5,7 @@ import { FaTimes, FaAngleDown, FaAngleUp } from 'react-icons/fa'
 const Sidebar = ({ isShow, toggleShow, onLogout }) => {
     return (
         <div className={`sidebar border absolute top-0 w-[220px] h-full overflow-scroll ${isShow ? 'left-0' : 'left-[-220px]'} bg-white md:hidden transition-all ease-in-out delay-300 z-[999]`}>
-            <div className={`p-2 ${isShow ? 'menu-link justify-between' : 'hidden'} overflow-hidden`}>
+            <div className={`relative p-2 h-full ${isShow ? 'menu-link justify-between' : 'hidden'} overflow-hidden`}>
                 <div>
                     <div className="w-full text-black py-2 flex flex-row justify-end items-center mb-3">
                         <FaTimes className="hover:text-blue-600 cursor-pointer" onClick={() => toggleShow(!isShow)} />
@@ -92,8 +92,13 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                     </div>
                 </div>
 
-                <div className="text-black text-center p-2 w-full">
-                    <button type="button" className="hover:bg-gray-300 py-2 rounded-md w-full" onClick={onLogout}>
+                <div className="absolute bottom-0 left-0 text-black p-2 w-full">
+                    <button
+                        type="button"
+                        className="hover:bg-blue-500 hover:text-white p-2 rounded-md w-full flex flex-row items-center justify-center gap-1"
+                        onClick={onLogout}
+                    >
+                        <i class="fas fa-sign-out-alt"></i>
                         Logout
                     </button>
                 </div>
