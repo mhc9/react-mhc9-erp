@@ -8,6 +8,7 @@ import OwnershipList from './Ownership/List';
 import OwnershipForm from './Ownership/Form';
 import Gallery from './Gallery';
 import Loading from '../../../components/Loading';
+import AssetHistories from './Histories';
 
 const AssetDetail = () => {
     const { id } = useParams();
@@ -156,6 +157,25 @@ const AssetDetail = () => {
                                         handleHide={() => setOpenOwnershipForm(false)}
                                         assetId={id}
                                     />
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col>
+                                    <div className="flex flex-row items-center justify-between mb-2">
+                                        <h3 className="mb-2 font-bold">ประวัติการซ่อมบำรุง</h3>
+
+                                        <button
+                                            type="button"
+                                            className="btn btn-outline-primary text-sm"
+                                            onClick={() => setOpenOwnershipForm(true)}
+                                            disabled={success}
+                                        >
+                                            เพิ่มประวัติ
+                                        </button> 
+                                    </div>
+
+                                    <AssetHistories />
                                 </Col>
                             </Row>
                         </>
