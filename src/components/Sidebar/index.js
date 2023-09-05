@@ -98,7 +98,7 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                         className="hover:bg-blue-500 hover:text-white p-2 rounded-md w-full flex flex-row items-center justify-center gap-1"
                         onClick={onLogout}
                     >
-                        <i class="fas fa-sign-out-alt"></i>
+                        <i className="fas fa-sign-out-alt"></i>
                         Logout
                     </button>
                 </div>
