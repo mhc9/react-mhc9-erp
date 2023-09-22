@@ -34,6 +34,7 @@ import EditItem from './views/Item/Edit';
 import ItemDetail from './views/Item/Detail';
 import Unit from './views/Unit'
 import EditRequisition from './views/Requisition/Edit';
+import ReportViewer from './components/ReportViewer';
 
 function App() {
     return (
@@ -70,6 +71,7 @@ function App() {
                 <Route path="item/:id/edit" element={<GuardRoute><EditItem /></GuardRoute>} />
                 <Route path="item/:id/detail" element={<GuardRoute><ItemDetail /></GuardRoute>} />
                 <Route path="unit" element={<GuardRoute><Unit /></GuardRoute>} />
+                <Route path="report-viewer" element={<GuardRoute><ReportViewer /></GuardRoute>} />
                 <Route path="*" element={<div>404 Not Found</div>} />
             </Route>
             <Route path="/login" element={<Login />} />
