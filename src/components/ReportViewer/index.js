@@ -6,7 +6,7 @@ const ReportViewer = () => {
     const viewerRef = useRef();
     const reportUrl = ko.observable("TestReport");
     const requestOptions = {
-        host: 'http://localhost:5000',
+        host: 'http://localhost:5000/',
         invokeAction: 'DXXRDV'
     };
 
@@ -14,11 +14,11 @@ const ReportViewer = () => {
         const viewer = new DxReportViewer(viewerRef.current, { 
             reportUrl, 
             requestOptions,
-            callbacks: {
-                CustomizeExportOptions: function(s, e) {
-                    e.HideFormat(ExportFormatID.XLS);
-                }
-            }
+            // callbacks: {
+            //     CustomizeExportOptions: function(s, e) {
+            //         e.HideFormat(ExportFormatID.XLS);
+            //     }
+            // }
         });
 
         viewer.render(); 

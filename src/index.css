@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,800&family=Prompt:wght@200;400;500&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css');
 @import 'bootstrap/dist/css/bootstrap.min.css';
+@import url("../node_modules/devextreme/dist/css/dx.light.css");
+@import url("../node_modules/@devexpress/analytics-core/dist/css/dx-analytics.common.css");
+@import url("../node_modules/@devexpress/analytics-core/dist/css/dx-analytics.light.css");
+@import url("../node_modules/devexpress-reporting/dist/css/dx-webdocumentviewer.css");
 
 @tailwind base;
 @tailwind components;
