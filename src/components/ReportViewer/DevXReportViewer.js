@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { DxReportViewer } from 'devexpress-reporting/dx-webdocumentviewer'
 import * as ko from 'knockout'
 
-const ReportViewer = () => {
+const DevXReportViewer = () => {
     const viewerRef = useRef();
     const reportUrl = ko.observable("TestReport");
     const requestOptions = {
@@ -33,4 +33,4 @@ const ReportViewer = () => {
     )
 }
 
-export default ReportViewer
+export default DevXReportViewer
