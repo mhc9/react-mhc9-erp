@@ -91,7 +91,7 @@ const RequisitionList = () => {
                                         <p className="font-thin">{requisition.requester?.position?.name}{requisition.requester?.level && requisition.requester?.level?.name}</p>
                                     </td>
                                     <td className="text-center p-1">
-                                        <Link to="/" className="btn btn-sm btn-info px-1 mr-1">
+                                        <Link to={`/requisition/${requisition.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
                                         </Link>
                                         <Link to={`/requisition/${requisition.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">

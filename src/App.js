@@ -34,6 +34,7 @@ import EditItem from './views/Item/Edit';
 import ItemDetail from './views/Item/Detail';
 import Unit from './views/Unit'
 import EditRequisition from './views/Requisition/Edit';
+import RequisitionDetail from './views/Requisition/Detail';
 import ReportViewer from './components/ReportViewer';
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
                 <Route path="requisition" element={<GuardRoute><RequisitionList /></GuardRoute>} />
                 <Route path="requisition/add" element={<GuardRoute><AddRequisition /></GuardRoute>} />
                 <Route path="requisition/:id/edit" element={<GuardRoute><EditRequisition /></GuardRoute>} />
+                <Route path="requisition/:id/detail" element={<GuardRoute><RequisitionDetail /></GuardRoute>} />
                 <Route path="item" element={<GuardRoute><ItemList /></GuardRoute>} />
                 <Route path="item/add" element={<GuardRoute><AddItem /></GuardRoute>} />
                 <Route path="item/:id/edit" element={<GuardRoute><EditItem /></GuardRoute>} />
