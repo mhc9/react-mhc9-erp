@@ -36,6 +36,7 @@ import Unit from './views/Unit'
 import EditRequisition from './views/Requisition/Edit';
 import RequisitionDetail from './views/Requisition/Detail';
 import StiReportViewer from './components/ReportViewer/StiReportViewer';
+import Preview from './components/Preview';
 
 function App() {
     return (
@@ -78,6 +79,7 @@ function App() {
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/preview/:id" element={<Preview />} />
         </Routes>
     );
 }

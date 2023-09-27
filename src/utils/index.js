@@ -39,6 +39,14 @@ export const toShortTHDate = (dateStr) => {
     return `${day}/${month}/${parseInt(year, 10) + 543}`;
 };
 
+export const toLongTHDate = (date) => {
+    return date.toLocaleDateString('th-TH', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
+}
+
 export const filterAmphursByChangwat = (changwat, amphurs = []) => {
     return amphurs.filter(amp => amp.chw_id === changwat);
 };

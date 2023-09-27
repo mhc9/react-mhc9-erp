@@ -1,0 +1,138 @@
+
+@font-face {
+    font-family: "THSarabunNew";
+    font-style: normal;
+    font-weight: normal;
+    src: url("/public/fonts/THSarabunIT๙.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "THSarabunNew";
+    font-style: normal;
+    font-weight: bold;
+    src: url("/public/fonts/THSarabunIT๙ Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "THSarabunNew";
+    font-style: italic;
+    font-weight: normal;
+    src: url("/public/fonts/THSarabunIT๙ Italic.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "THSarabunNew";
+    font-style: italic;
+    font-weight: bold;
+    src: url("/public/fonts/THSarabunIT๙ BoldItalic.ttf") format("truetype");
+}
+
+.paper-container {
+    font-family: "THSarabunNew";
+    font-size: 16pt;
+}
+
+.memo-wrapper {
+    margin: 2.5cm 2cm 2cm 3cm;
+}
+
+.memo-top {
+    position: relative;
+    text-align: center;
+    height: 1.3cm;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.memo-top .memo-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1.5cm;
+    height: 1.5cm;
+    object-fit: contain;
+    object-position: center;
+}
+
+.memo-top .memo-logo img {
+    width: 100%;
+}
+
+.memo-top h1 {
+    font-size: 22pt;
+    font-weight: bold;
+    line-height: 1.75rem;
+}
+
+.memo-box {
+    margin-left: 10px;
+}
+
+
+.memo-box .memo-header {
+    margin-top: 0.5pt;
+    /* border: 1px solid red; */
+
+}
+
+.memo-box .memo-header div {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 8px;
+    margin-top: 0.5pt;
+}
+
+.memo-box .memo-header div:nth-child(2) > div:first-child {
+    width: 48%;
+}
+
+.memo-box .memo-header h3 {
+    font-size: 18pt;
+    font-weight: bold;
+}
+
+.memo-box .memo-header div:last-child h3,
+.memo-box .memo-header span {
+    font-size: 16pt;
+    font-weight: 200;
+}
+
+.memo-box .memo-content {
+    margin-top: 0.5pt;
+}
+
+.memo-box .memo-content .memo-paragraph {
+    width: 100%;
+    margin: 5pt 0 0;
+    padding: 0;
+    text-indent: 2.5cm;
+    line-height: 1.25rem;
+}
+
+.memo-approvement {
+    display: flex;
+    flex-direction: column;
+}
+
+.memo-approvement .memo-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    line-height: 1.25rem;
+}
+
+.memo-approvement .signature {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 0 1pt;
+}
+
+.memo-approvement .signature .signature-date {
+    display: flex;
+    flex-direction: row;
+}

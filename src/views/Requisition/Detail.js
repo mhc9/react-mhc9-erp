@@ -14,8 +14,6 @@ const RequisitionDetail = () => {
         if (id) dispatch(getRequisition({ id }));
     }, [dispatch, id]);
 
-    console.log(requisition);
-
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}
