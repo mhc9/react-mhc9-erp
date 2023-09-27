@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
-import { StiViewer } from 'stimulsoft-reports-js/Scripts/stimulsoft.viewer'
-import * as Stimulsoft from 'stimulsoft-reports-js'
+import { Stimulsoft } from 'stimulsoft-reports-js/Scripts/stimulsoft.viewer'
 import 'stimulsoft-reports-js/Css/stimulsoft.viewer.office2013.whiteblue.css'
 
 const StiReportViewer = () => {
-    const viewer = new StiViewer(undefined, 'viewer', false)
+    const viewer = new Stimulsoft.Viewer.StiViewer(undefined, 'StiViewer', false)
     const report = new Stimulsoft.Report.StiReport()
 
     useEffect(() => {
@@ -12,7 +11,7 @@ const StiReportViewer = () => {
     }, []);
 
     const getReport = async () => {
-        const res = await fetch('/reports/Report.mdc');
+        const res = await fetch('./reports/SimpleList.mrt');
         const data = res.json();
 
         report.loadDocument(data);

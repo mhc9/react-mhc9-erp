@@ -35,7 +35,7 @@ import ItemDetail from './views/Item/Detail';
 import Unit from './views/Unit'
 import EditRequisition from './views/Requisition/Edit';
 import RequisitionDetail from './views/Requisition/Detail';
-// import StiReportViewer from './components/ReportViewer/StiReportViewer';
+import StiReportViewer from './components/ReportViewer/StiReportViewer';
 
 function App() {
     return (
@@ -73,7 +73,7 @@ function App() {
                 <Route path="item/:id/edit" element={<GuardRoute><EditItem /></GuardRoute>} />
                 <Route path="item/:id/detail" element={<GuardRoute><ItemDetail /></GuardRoute>} />
                 <Route path="unit" element={<GuardRoute><Unit /></GuardRoute>} />
-                {/* <Route path="report-viewer" element={<GuardRoute><StiReportViewer /></GuardRoute>} /> */}
+                <Route path="report-viewer" element={<GuardRoute><StiReportViewer /></GuardRoute>} />
                 <Route path="*" element={<div>404 Not Found</div>} />
             </Route>
             <Route path="/login" element={<Login />} />
