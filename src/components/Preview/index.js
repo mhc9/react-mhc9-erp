@@ -28,26 +28,34 @@ const Preview = () => {
                 {requisition && (
                     <div className="memo-box">
                         <div className="memo-header">
-                            <div>
+                            <div className="memo-header-text">
                                 <h3>ส่วนราชการ</h3>
-                                <span>{requisition.division?.department?.name} ศูนย์สุขภาพจิตที่ ๙ โทร o ๔๔๒๕ ๖๗๒๙</span>
-                                {/* requisition.division?.name+ ' '+ */}
+                                <div className="memo-header-value">
+                                    <span>{requisition.division?.department?.name} ศูนย์สุขภาพจิตที่ ๙ โทร o ๔๔๒๕ ๖๗๒๙</span>
+                                    {/* requisition.division?.name+ ' '+ */}
+                                </div>
                             </div>
-                            <div>
+                            <div className="memo-header-text">
                                 <div>
                                     <h3>ที่</h3>
-                                    <span>{requisition.pr_no}</span>
+                                    <div className="memo-header-value">
+                                        <span>{requisition.pr_no}</span>
+                                    </div>
                                 </div>
                                 <div>
                                     <h3>วันที่</h3>
-                                    <span>{toLongTHDate(moment(requisition.pr_date).toDate())}</span>
+                                    <div className="memo-header-value">
+                                        <span>{toLongTHDate(moment(requisition.pr_date).toDate())}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div>
+                            <div className="memo-header-text">
                                 <h3>เรื่อง</h3>
-                                <span>{requisition.topic}</span>
+                                <div className="memo-header-value">
+                                    <span>{requisition.topic} xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                </div>
                             </div>
-                            <div>
+                            <div className="memo-header-text">
                                 <h3>เรียน</h3>
                                 <span>ผู้อำนวยการศูนย์สุขภาพจิตที่ 9</span>
                             </div>
@@ -55,11 +63,15 @@ const Preview = () => {
                         <div className="memo-content">
                             <div className="memo-paragraph">
                                 ด้วย {requisition.division?.name+ ' '+requisition.division?.department?.name+ ' มีความประสงค์จะ' +((requisition.order_type_id == 1) ? 'ซื้อ' : '') +requisition.category?.name}
-                                โดยใช้เงินงบประมาณปี {requisition.year} ตามแผนงาน รวมจำนวนเงินทั้งสิ้น {currency.format(requisition.net_total)} บาท ({ThaiNumberToText(requisition.net_total)}) รายละเอียดตามเอกสารแนบ
+                                โดยใช้เงินงบประมาณปี {requisition.year} ตามแผนงาน{requisition.budget?.project?.plan?.name} {requisition.budget?.project?.name} {requisition.budget?.name}
+                                รวมจำนวนเงินทั้งสิ้น {currency.format(requisition.net_total)} บาท ({ThaiNumberToText(requisition.net_total)}) รายละเอียดตามเอกสารแนบ
                             </div>
                             <div className="memo-paragraph">
                                 เหตุผลและความจำเป็นที่ต้องจัดซื้อจัดจ้าง
-                                เพื่อ<p>{requisition.reason} ปีงบประมาณ {requisition.year} พร้อมทั้งขอเสนอชื่อแต่งตั้งผู้รับผิดชอบ หรือคณะกรรมการตรวจรับพัสดุ (กรณีวงเงินไม่เกิน ๑oo,ooo บาท) ดังต่อไปนี้</p>
+                                <p>
+                                    เพื่อ{requisition.reason ? requisition.reason : 'เพื่อใช้ในการดำเนินงานภายในศูนย์สุขภาพจิตที่ 9'} ปีงบประมาณ {requisition.year} 
+                                    พร้อมทั้งขอเสนอชื่อแต่งตั้งผู้รับผิดชอบ หรือคณะกรรมการตรวจรับพัสดุ (กรณีวงเงินไม่เกิน ๑oo,ooo บาท) ดังต่อไปนี้
+                                </p>
                             </div>
                             <div className="memo-paragraph">
                                 ผู้กำหนดร่างขอบเขตของงานหรือรายละเอียดคุณลักษณะเฉพาะ
@@ -72,7 +84,8 @@ const Preview = () => {
                                 ผู้ตรวจรับพัสดุ
                                 {requisition.committees.map((com, index) => (
                                     <p key={com.id}>
-                                        {index+1}. {com.employee.prefix.name+com.employee.firstname+ ' ' +com.employee.lastname}
+                                        {requisition.committees.length > 1 && <span>{index+1}. </span>}
+                                        {com.employee.prefix.name+com.employee.firstname+ ' ' +com.employee.lastname}
                                         {' '}ตำแหน่ง {com.employee.position?.name}{com.employee.level?.name}
                                     </p>
                                 ))}
@@ -109,8 +122,9 @@ const Preview = () => {
                                     <div style={{ width: '60%' }}>
                                         <div style={{ textAlign: 'center', width: '100%' }}>
                                             <div className="signature">
-                                                <p>({requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname})</p>
-                                                <p>นักวิชาการพัสด</p>
+                                                {/* <p>({requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname})</p> */}
+                                                <p>(นางสาวทิพปภา สีมาธรรมการย์)</p>
+                                                <p>นักวิชาการพัสดุ</p>
                                             </div>
                                         </div>
                                     </div>
@@ -124,7 +138,8 @@ const Preview = () => {
                                                 <p style={{ textIndent: '1cm' }}>- เพื่อโปรดพิจารณาอนุมัติ</p>
                                             </div>
                                             <div className="signature">
-                                                <p>({requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname})</p>
+                                                {/* <p>({requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname})</p> */}
+                                                <p>(นางณัฏฐา ศิริผล)</p>
                                                 <p>หัวหน้าเจ้าหน้าที่</p>
                                                 <div className="signature-date">
                                                     <p>วันที่</p>
@@ -135,8 +150,9 @@ const Preview = () => {
                                     </div>
                                     <div style={{ width: '60%' }}>
                                         <div style={{ textAlign: 'center', width: '100%', height: '120px' }}>
-                                            <div style={{ marginTop: '60px', marginBottom: '40px' }}>
-                                                [  ] อนุมัติ&nbsp;&nbsp;&nbsp;&nbsp;[  ] ไม่อนุมัติ
+                                            <div style={{ marginTop: '60px' }}>
+                                                <i className="far fa-square"></i> อนุมัติ&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i className="far fa-square"></i> ไม่อนุมัติ
                                             </div>
                                             <div className="signature">
                                                 <p>( นางสาวศิริลักษณ์ แก้วเกียรติพงษ์ )</p>

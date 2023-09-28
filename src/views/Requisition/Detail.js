@@ -68,7 +68,7 @@ const RequisitionDetail = () => {
                                 </Col>
                                 <Col md={6}>
                                     <label htmlFor="">โครงการ</label>
-                                    <div className="form-control text-sm">{requisition.project_id}</div>
+                                    <div className="form-control text-sm">{requisition.project?.name}</div>
                                 </Col>
                             </Row>
                             <Row className="mb-2">
@@ -116,15 +116,21 @@ const RequisitionDetail = () => {
                             </Row>
                             <Row className="mb-2">
                                 <Col>
-                                    {/* <Committee
-                                        defaultValue={requisition.committees}
-                                        onUpdate={(committees) => handleUpdateCommittees(formik, committees)}
-                                    /> */}
+                                    {requisition.committees.length > 0 && requisition.committees.map((committee, index) => (
+                                        <div className="min-w-[50%] flex flex-row" key={committee.id}>
+                                            <span className="min-w-[45%]">
+                                                {index+1}. {committee.employee?.prefix.name}{committee.employee?.firstname} {committee.employee?.lastname}
+                                            </span>
+                                            <span>
+                                                <b>ตำแหน่ง</b> {committee.employee?.position?.name}{committee.employee?.level && committee.employee?.level?.name}
+                                            </span>
+                                        </div>
+                                    ))}
                                 </Col>
                             </Row>
                             <Row className="mb-2">
                                 <Col style={{ textAlign: 'center' }}>
-                                    <Link to="/report-viewer" className="btn btn-success">
+                                    <Link to={`/preview/${id}`} className="btn btn-success">
                                         พิมพ์ใบขอซื้อ
                                     </Link>
                                 </Col>

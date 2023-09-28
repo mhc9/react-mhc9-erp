@@ -30,10 +30,12 @@
 .paper-container {
     font-family: "THSarabunNew";
     font-size: 16pt;
+    margin: 0;
+    padding: 0;
 }
 
 .memo-wrapper {
-    margin: 2.5cm 2cm 2cm 3cm;
+    margin: 2.5cm 1.5cm 1.5cm 2.5cm;
 }
 
 .memo-top {
@@ -72,11 +74,12 @@
 
 .memo-box .memo-header {
     margin-top: 0.5pt;
-    /* border: 1px solid red; */
+    /* border: 1px solid black; */
 
 }
 
-.memo-box .memo-header div {
+.memo-box .memo-header .memo-header-text {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: start;
@@ -84,13 +87,60 @@
     margin-top: 0.5pt;
 }
 
-.memo-box .memo-header div:nth-child(2) > div:first-child {
+.memo-box .memo-header .memo-header-text > div,
+.memo-box .memo-header .memo-header-text > div > div {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 8px;
+}
+
+.memo-box .memo-header .memo-header-text:nth-child(3) {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 8px;
+    height: auto;
+    border: 1px dotted red;
+}
+
+.memo-box .memo-header .memo-header-text:nth-child(3) > div {
+    width: 96%;
+    align-items: start;
+}
+
+.memo-box .memo-header .memo-header-text .memo-header-value {
+    width: 100%;
+    height: 18px;
+    border-bottom: 1px dotted black;
+    padding: 0;
+}
+
+.memo-box .memo-header .memo-header-text:nth-child(2) > div:first-child {
     width: 48%;
 }
 
+.memo-box .memo-header .memo-header-text:nth-child(2) > div:last-child {
+    width: 52%;
+}
+
 .memo-box .memo-header h3 {
+    margin: 0;
+    padding: 0;
     font-size: 18pt;
     font-weight: bold;
+    display: block;
+    width: auto;
+    text-wrap: nowrap;
+}
+
+.memo-box .memo-header span {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    line-height: 16px;
+    word-wrap: break-word;
+    width: 100%;
 }
 
 .memo-box .memo-header div:last-child h3,
@@ -99,16 +149,21 @@
     font-weight: 200;
 }
 
+.memo-box .memo-header .memo-header-text:nth-child(3) span {
+    margin-bottom: 10px;
+}
+
 .memo-box .memo-content {
     margin-top: 0.5pt;
 }
 
 .memo-box .memo-content .memo-paragraph {
     width: 100%;
-    margin: 5pt 0 0;
+    margin: 8pt 0 0;
     padding: 0;
     text-indent: 2.5cm;
     line-height: 1.25rem;
+    text-align: justify;
 }
 
 .memo-approvement {
