@@ -102,7 +102,8 @@ const RequisitionDetail = () => {
                                     <div className="flex flex-col border p-2 rounded-md">
                                         <h1 className="font-bold text-lg mb-1">รายการสินค้า</h1>
                                         <ItemList
-                                            items={requisition.items}
+                                            items={requisition.details}
+                                            showButtons={false}
                                         />
 
                                         <div className="flex flex-row justify-end">
@@ -116,16 +117,19 @@ const RequisitionDetail = () => {
                             </Row>
                             <Row className="mb-2">
                                 <Col>
-                                    {requisition.committees.length > 0 && requisition.committees.map((committee, index) => (
-                                        <div className="min-w-[50%] flex flex-row" key={committee.id}>
-                                            <span className="min-w-[45%]">
-                                                {index+1}. {committee.employee?.prefix.name}{committee.employee?.firstname} {committee.employee?.lastname}
-                                            </span>
-                                            <span>
-                                                <b>ตำแหน่ง</b> {committee.employee?.position?.name}{committee.employee?.level && committee.employee?.level?.name}
-                                            </span>
-                                        </div>
-                                    ))}
+                                    <div className="border w-full p-2 rounded-md">
+                                        <h3 className="font-bold text-lg mb-1">ผู้ตรวจรับ</h3>
+                                        {requisition.committees.length > 0 && requisition.committees.map((committee, index) => (
+                                            <div className="min-w-[50%] flex flex-row" key={committee.id}>
+                                                <span className="min-w-[45%]">
+                                                    {index+1}. {committee.employee?.prefix.name}{committee.employee?.firstname} {committee.employee?.lastname}
+                                                </span>
+                                                <span>
+                                                    <b>ตำแหน่ง</b> {committee.employee?.position?.name}{committee.employee?.level && committee.employee?.level?.name}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </Col>
                             </Row>
                             <Row className="mb-2">

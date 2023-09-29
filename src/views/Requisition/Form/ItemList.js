@@ -2,7 +2,9 @@ import React from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency } from '../../../utils'
 
-const ItemList = ({ items, onEditItem, onRemoveItem }) => {
+const ItemList = ({ items, showButtons=true, onEditItem, onRemoveItem }) => {
+    console.log(items);
+
     return (
         <table className="table table-bordered table-striped text-sm mb-2">
             <thead>
@@ -13,7 +15,7 @@ const ItemList = ({ items, onEditItem, onRemoveItem }) => {
                     <th className="w-[8%] text-center">จำนวน</th>
                     <th className="w-[10%] text-center">หน่วยนับ</th>
                     <th className="w-[12%] text-center">รวมเป็นเงิน</th>
-                    <th className="w-[10%] text-center">Actions</th>
+                    {showButtons && <th className="w-[10%] text-center">Actions</th>}
                 </tr>
             </thead>
             <tbody>
@@ -31,14 +33,16 @@ const ItemList = ({ items, onEditItem, onRemoveItem }) => {
                         <td className="text-center">{currency.format(data.amount)}</td>
                         <td className="text-center">{data.item.unit?.name}</td>
                         <td className="text-right">{currency.format(data.total)}</td>
-                        <td className="text-center">
-                            <button type="button" className="btn btn-sm btn-outline-warning mr-1" onClick={() => onEditItem(data)}>
-                                <FaPencilAlt />
-                            </button>
-                            <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => onRemoveItem(data.item?.id)}>
-                                <FaTrash />
-                            </button>
-                        </td>
+                        {showButtons && (
+                            <td className="text-center">
+                                <button type="button" className="btn btn-sm btn-outline-warning mr-1" onClick={() => onEditItem(data)}>
+                                    <FaPencilAlt />
+                                </button>
+                                <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => onRemoveItem(data.item?.id)}>
+                                    <FaTrash />
+                                </button>
+                            </td>
+                        )}
                     </tr>
                 ))}
             </tbody>
