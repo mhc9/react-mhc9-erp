@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { getRequisition } from '../../features/requisition/requisitionSlice'
 import ItemList from './Form/ItemList'
+import { currency } from '../../utils'
 
 const RequisitionDetail = () => {
     const { id } = useParams();
@@ -108,9 +109,8 @@ const RequisitionDetail = () => {
 
                                         <div className="flex flex-row justify-end">
                                             <div className="w-[15%]">
-                                                <div className="form-control text-sm float-right text-right">{requisition.net_total}</div>
+                                                <div className="form-control text-sm float-right text-right">{currency.format(requisition.net_total)}</div>
                                             </div>
-                                            <div className="w-[10%]"></div>
                                         </div>
                                     </div>
                                 </Col>
@@ -120,7 +120,7 @@ const RequisitionDetail = () => {
                                     <div className="border w-full p-2 rounded-md">
                                         <h3 className="font-bold text-lg mb-1">ผู้ตรวจรับ</h3>
                                         {requisition.committees.length > 0 && requisition.committees.map((committee, index) => (
-                                            <div className="min-w-[50%] flex flex-row" key={committee.id}>
+                                            <div className="min-w-[50%] flex flex-row font-thin" key={committee.id}>
                                                 <span className="min-w-[45%]">
                                                     {index+1}. {committee.employee?.prefix.name}{committee.employee?.firstname} {committee.employee?.lastname}
                                                 </span>

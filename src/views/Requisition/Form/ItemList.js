@@ -3,8 +3,6 @@ import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency } from '../../../utils'
 
 const ItemList = ({ items, showButtons=true, onEditItem, onRemoveItem }) => {
-    console.log(items);
-
     return (
         <table className="table table-bordered table-striped text-sm mb-2">
             <thead>
