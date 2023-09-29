@@ -109,3 +109,8 @@ a {
   transform: rotate(180deg);
   transition: transform ease-in-out .3s;
 }
+
+.detail__list-container > span:hover i {
+  transform: translateX(2px);
+  transition: transform 200ms;
+}

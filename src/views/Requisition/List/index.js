@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb, Pagination } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import Loading from '../../components/Loading'
-import { getRequisitions } from '../../features/requisition/requisitionSlice'
-import { currency, toShortTHDate } from '../../utils'
+import Loading from '../../../components/Loading'
+import { getRequisitions } from '../../../features/requisition/requisitionSlice'
+import { currency, toShortTHDate } from '../../../utils'
+import DetailList from './DetailList'
 
 const RequisitionList = () => {
     const dispatch = useDispatch();
@@ -73,18 +74,12 @@ const RequisitionList = () => {
                                             <span>เป็นเงินทั้งสิ้น {currency.format(requisition.net_total)} บาท</span>
                                         </p>
                                         {requisition.project && (
-                                            <div className="text-xs font-thin">
+                                            <div className="text-xs font-thin text-blue-600">
                                                 *{requisition.project.name}
                                             </div>
                                         )}
-                                        <ul className="text-sm font-thin">
-                                            {requisition.details.map((detail, index) => (
-                                                <li key={detail.id}>
-                                                    <span className="mr-1">{index+1}.{detail.item?.name}</span>
-                                                    {detail.description && <span className="text-red-500">({detail.description})</span>}
-                                                </li>
-                                            ))}
-                                        </ul>
+
+                                        <DetailList items={requisition.details} />
                                     </td>
                                     <td className="text-sm">
                                         {requisition.requester?.prefix?.name}{requisition.requester?.firstname} {requisition.requester?.lastname}

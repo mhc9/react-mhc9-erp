@@ -44,13 +44,13 @@ const RequisitionDetail = () => {
                                         </div>
                                     </div>
                                 </Col>
-                                <Col md={2}>
+                                <Col md={3}>
                                     <label>ประเภท (ซื้อ/จ้าง)</label>
                                     <div className="form-control text-sm font-thin">
                                         {requisition.order_type_id === 1 ? 'ซื้อ' : 'จ้าง'}
                                     </div>
                                 </Col>
-                                <Col md={4}>
+                                <Col md={3}>
                                     <label htmlFor="">ประเภทสินค้า</label>
                                     <div className="form-control min-h-[34px] text-sm font-thin">
                                         {requisition.category?.name}

@@ -27,14 +27,14 @@ import Department from './views/Department';
 import Division from './views/Division';
 import Room from './views/Room';
 import RequisitionList from './views/Requisition/List';
+import RequisitionDetail from './views/Requisition/Detail';
 import AddRequisition from './views/Requisition/Add';
+import EditRequisition from './views/Requisition/Edit';
 import ItemList from './views/Item/List';
 import AddItem from './views/Item/Add';
 import EditItem from './views/Item/Edit';
 import ItemDetail from './views/Item/Detail';
 import Unit from './views/Unit'
-import EditRequisition from './views/Requisition/Edit';
-import RequisitionDetail from './views/Requisition/Detail';
 import StiReportViewer from './components/ReportViewer/StiReportViewer';
 import Preview from './components/Preview';
 
