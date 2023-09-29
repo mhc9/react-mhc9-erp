@@ -45,11 +45,15 @@ const RequisitionDetail = () => {
                                 </Col>
                                 <Col md={2}>
                                     <label>ประเภทการจัดซื้อ</label>
-                                    <div className="form-control text-sm font-thin">{requisition.order_type_id}</div>
+                                    <div className="form-control text-sm font-thin">
+                                        {requisition.order_type_id === 1 ? 'ซื้อ' : 'จ้าง'}
+                                    </div>
                                 </Col>
                                 <Col md={4}>
                                     <label htmlFor="">ประเภทสินค้า</label>
-                                    <div className="form-control min-h-[34px] text-sm font-thin">{requisition.category_id}</div>
+                                    <div className="form-control min-h-[34px] text-sm font-thin">
+                                        {requisition.category?.name}
+                                    </div>
                                 </Col>
                             </Row>
                             <Row className="mb-2">
