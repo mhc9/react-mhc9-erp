@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { getRequisition } from '../../features/requisition/requisitionSlice'
 import ItemList from './Form/ItemList'
-import { currency } from '../../utils'
+import { currency, toShortTHDate } from '../../utils'
 
 const RequisitionDetail = () => {
     const { id } = useParams();
@@ -39,12 +39,13 @@ const RequisitionDetail = () => {
                                 <Col md={2}>
                                     <div className="flex flex-col">
                                         <label htmlFor="">วันที่เอกสาร</label>
-                                        <div className="form-control text-sm font-thin">{requisition.pr_date}</div>
-
+                                        <div className="form-control text-sm font-thin">
+                                            {toShortTHDate(requisition.pr_date)}
+                                        </div>
                                     </div>
                                 </Col>
                                 <Col md={2}>
-                                    <label>ประเภทการจัดซื้อ</label>
+                                    <label>ประเภท (ซื้อ/จ้าง)</label>
                                     <div className="form-control text-sm font-thin">
                                         {requisition.order_type_id === 1 ? 'ซื้อ' : 'จ้าง'}
                                     </div>
@@ -59,7 +60,9 @@ const RequisitionDetail = () => {
                             <Row className="mb-2">
                                 <Col>
                                     <label htmlFor="">เรื่อง</label>
-                                    <div className="form-control min-h-[34px] text-sm font-thin">{requisition.topic}</div>
+                                    <div className="form-control min-h-[34px] text-sm font-thin">
+                                        {requisition.topic}
+                                    </div>
                                 </Col>
                             </Row>
                             <Row className="mb-2">
