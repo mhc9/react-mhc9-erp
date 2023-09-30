@@ -37,43 +37,69 @@ import ItemDetail from './views/Item/Detail';
 import Unit from './views/Unit'
 import StiReportViewer from './components/ReportViewer/StiReportViewer';
 import Preview from './components/Preview';
+import OrderList from './views/Order/List';
+import AddOrder from './views/Order/Add';
 
 function App() {
     return (
         <Routes>
             <Route path="/" element={<DefaultLayout />} >
                 <Route index element={<GuardRoute><Home /></GuardRoute>} />
+
+                {/* Tasks */}
                 <Route path="task" element={<GuardRoute><TaskList /></GuardRoute>} />
                 <Route path="task/add" element={<GuardRoute><AddTask /></GuardRoute>} />
                 <Route path="task/:id/edit" element={<GuardRoute><EditTask /></GuardRoute>} />
                 <Route path="task/:id/detail" element={<GuardRoute><TaskDetail /></GuardRoute>} />
-                <Route path="advice" element={<GuardRoute><Advice /></GuardRoute>} />
+
+                {/* Equipments */}
                 <Route path="equipment" element={<GuardRoute><EquipmentList /></GuardRoute>} />
                 <Route path="equipment/add" element={<GuardRoute><AddEquipment /></GuardRoute>} />
                 <Route path="equipment-type" element={<GuardRoute><EquipmentTypeList /></GuardRoute>} />
                 <Route path="equipment-group" element={<GuardRoute><EquipmentGroupList /></GuardRoute>} />
+
+                {/* Assets */}
                 <Route path="asset" element={<GuardRoute><AssetList /></GuardRoute>} />
                 <Route path="asset/add" element={<GuardRoute><AddAsset /></GuardRoute>} />
                 <Route path="asset/:id/edit" element={<GuardRoute><EditAsset /></GuardRoute>} />
                 <Route path="asset/:id/detail" element={<GuardRoute><AssetDetail /></GuardRoute>} />
                 <Route path="asset-type" element={<GuardRoute><AssetType /></GuardRoute>} />
                 <Route path="asset-category" element={<GuardRoute><AssetCategory /></GuardRoute>} />
+
+                {/* Employees */}
                 <Route path="employee" element={<GuardRoute><EmployeeList /></GuardRoute>} />
                 <Route path="employee/add" element={<GuardRoute><AddEmployee /></GuardRoute>} />
                 <Route path="employee/:id/edit" element={<GuardRoute><EditEmployee /></GuardRoute>} />
                 <Route path="employee/:id/detail" element={<GuardRoute><EmployeeDetail /></GuardRoute>} />
+
+                {/*  */}
                 <Route path="department" element={<GuardRoute><Department /></GuardRoute>} />
                 <Route path="division" element={<GuardRoute><Division /></GuardRoute>} />
                 <Route path="room" element={<GuardRoute><Room /></GuardRoute>} />
+
+                {/* Requisitions */}
                 <Route path="requisition" element={<GuardRoute><RequisitionList /></GuardRoute>} />
                 <Route path="requisition/add" element={<GuardRoute><AddRequisition /></GuardRoute>} />
                 <Route path="requisition/:id/edit" element={<GuardRoute><EditRequisition /></GuardRoute>} />
                 <Route path="requisition/:id/detail" element={<GuardRoute><RequisitionDetail /></GuardRoute>} />
+
+                {/* Orders */}
+                <Route path="order" element={<GuardRoute><OrderList /></GuardRoute>} />
+                <Route path="order/add" element={<GuardRoute><AddOrder /></GuardRoute>} />
+
+                {/* Items */}
                 <Route path="item" element={<GuardRoute><ItemList /></GuardRoute>} />
                 <Route path="item/add" element={<GuardRoute><AddItem /></GuardRoute>} />
                 <Route path="item/:id/edit" element={<GuardRoute><EditItem /></GuardRoute>} />
                 <Route path="item/:id/detail" element={<GuardRoute><ItemDetail /></GuardRoute>} />
+
+                {/* Units */}
                 <Route path="unit" element={<GuardRoute><Unit /></GuardRoute>} />
+
+                {/*  */}
+                <Route path="advice" element={<GuardRoute><Advice /></GuardRoute>} />
+
+                {/* Report */}
                 <Route path="report-viewer" element={<GuardRoute><StiReportViewer /></GuardRoute>} />
                 <Route path="*" element={<div>404 Not Found</div>} />
             </Route>
