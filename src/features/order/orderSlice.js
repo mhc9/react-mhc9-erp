@@ -54,7 +54,7 @@ export const orderSlice = createSlice({
         [getOrders.fulfilled]: (state, { payload }) => {
             const { data, ...pager } = payload;
 
-            state.order = data;
+            state.orders = data;
             state.pager = pager;
             state.isLoading = false;
         },

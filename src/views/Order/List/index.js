@@ -1,13 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Breadcrumb, Pagination } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { Breadcrumb, Pagination } from 'react-bootstrap'
+import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
+import { getOrders } from '../../../features/order/orderSlice'
 
 const OrderList = () => {
     const dispatch = useDispatch();
     const { orders, pager } = useSelector(state => state.order);
 
+    useEffect(() => {
+        dispatch(getOrders({ url: '/api/orders' }));
+    }, [dispatch]);
+
     const handlePageClick = (e) => {
+
+    };
+
+    const handleDelete = (id) => {
 
     };
 
@@ -40,11 +50,24 @@ const OrderList = () => {
                         <tbody>
                             {orders && orders.map((order, index) => (
                                 <tr key={order.id}>
+                                    <td className="text-center"></td>
+                                    <td>
+                                        <p className="border">เลขที่: </p>
+                                        <p className="border">วันที่: </p>
+                                    </td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td className="text-center">
+                                        <Link to={`/order/${order.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
+                                            <FaSearch />
+                                        </Link>
+                                        <Link to={`/order/${order.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
+                                            <FaPencilAlt />
+                                        </Link>
+                                        <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(order.id)}>
+                                            <FaTrash />
+                                        </button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
