@@ -30,15 +30,17 @@ import RequisitionList from './views/Requisition/List';
 import RequisitionDetail from './views/Requisition/Detail';
 import AddRequisition from './views/Requisition/Add';
 import EditRequisition from './views/Requisition/Edit';
+import OrderList from './views/Order/List';
+import AddOrder from './views/Order/Add';
 import ItemList from './views/Item/List';
 import AddItem from './views/Item/Add';
 import EditItem from './views/Item/Edit';
 import ItemDetail from './views/Item/Detail';
+import SupplierList from './views/supplier/List';
+import AddSupplier from './views/supplier/Add';
 import Unit from './views/Unit'
 import StiReportViewer from './components/ReportViewer/StiReportViewer';
 import Preview from './components/Preview';
-import OrderList from './views/Order/List';
-import AddOrder from './views/Order/Add';
 
 function App() {
     return (
@@ -92,6 +94,10 @@ function App() {
                 <Route path="item/add" element={<GuardRoute><AddItem /></GuardRoute>} />
                 <Route path="item/:id/edit" element={<GuardRoute><EditItem /></GuardRoute>} />
                 <Route path="item/:id/detail" element={<GuardRoute><ItemDetail /></GuardRoute>} />
+
+                {/* Suppliers */}
+                <Route path="supplier" element={<GuardRoute><SupplierList /></GuardRoute>} />
+                <Route path="supplier/add" element={<GuardRoute><AddSupplier /></GuardRoute>} />
 
                 {/* Units */}
                 <Route path="unit" element={<GuardRoute><Unit /></GuardRoute>} />

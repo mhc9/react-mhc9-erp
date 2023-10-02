@@ -91,6 +91,9 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                             <li className="hover:bg-gray-300 p-2">
                                 <Link to="/item"><p className="w-full">สินค้า/บริการ</p></Link>
                             </li>
+                            <li className="hover:bg-gray-300 p-2">
+                                <Link to="/supplier"><p className="w-full">ผู้จัดจำหน่าย</p></Link>
+                            </li>
                             <li className="hover:bg-gray-300 p-2 rounded-b-md">
                                 <Link to="/unit"><p className="w-full">หน่วยนับ</p></Link>
                             </li>

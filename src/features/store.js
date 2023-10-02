@@ -21,6 +21,7 @@ import { authApi } from "../services/auth/authApi";
 import { requisitionApi } from "../services/requisition/requisitionApi";
 import { employeeApi } from "../services/employee/employeeApi";
 import { itemApi } from "../services/item/itemApi";
+import { supplierApi } from "../services/supplier/supplierApi";
 
 export default configureStore({
     reducer: {
@@ -29,6 +30,7 @@ export default configureStore({
         [requisitionApi.reducerPath]: requisitionApi.reducer,
         [employeeApi.reducerPath]: employeeApi.reducer,
         [itemApi.reducerPath]: itemApi.reducer,
+        [supplierApi.reducerPath]: supplierApi.reducer,
         equipment: equipmentReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
@@ -53,5 +55,6 @@ export default configureStore({
             requisitionApi.middleware,
             employeeApi.middleware,
             itemApi.middleware,
+            supplierApi.middleware,
         ),
 });

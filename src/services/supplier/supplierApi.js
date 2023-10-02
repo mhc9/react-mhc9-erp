@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const employeeApi = createApi({
-    reducerPath: 'employeeApi',
+export const supplierApi = createApi({
+    reducerPath: 'supplierApi',
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.REACT_APP_API_URL,
         prepareHeaders: (headers, { getState }) => {
@@ -17,10 +17,11 @@ export const employeeApi = createApi({
     endpoints: (builder) => ({
         getInitialFormData: builder.query({
             query: () => ({
-                url: '/api/employees/init/form'
+                url: '/api/suppliers/init/form'
             }),
         }),
     }),
 });
 
-export const { useGetInitialFormDataQuery } = employeeApi;
+export const { useGetInitialFormDataQuery } = supplierApi;
+
