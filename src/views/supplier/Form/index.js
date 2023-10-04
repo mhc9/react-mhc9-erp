@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, Row } from 'react-bootstrap'
+import { store } from '../../../features/supplier/supplierSlice'
 import { useGetInitialFormDataQuery } from '../../../services/supplier/supplierApi'
 import Loading from '../../../components/Loading'
 
@@ -17,12 +19,15 @@ const initialFormData = {
 };
 
 const SupplierForm = () => {
+    const dispatch = useDispatch();
     const [filteredAmphurs, setFilteredAmphurs] = useState([]);
     const [filteredTambons, setFilteredTambons] = useState([]);
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
 
     const handleSubmit = (values, formik) => {
-        console.log(values);
+        dispatch(store(values));
+
+        formik.resetForm();
     };
 
     const handleChangwatSelect = (id) => {
@@ -123,7 +128,7 @@ const SupplierForm = () => {
                                     className="form-control font-thin text-sm"
                                 >
                                     <option value="">-- เลือก --</option>\
-                                    {formData.changwats.map(changwat => (
+                                    {formData.changwats?.map(changwat => (
                                         <option value={changwat.id} key={changwat.id}>{changwat.name}</option>
                                     ))}
                                 </select>
@@ -254,7 +259,7 @@ const SupplierForm = () => {
                         </Col>
                     </Row>
                     <Row className="mb-2">
-                        <Col md={4}>
+                        <Col md={3}>
                             <label>เลขที่บัญชีธนาคาร</label>
                             <input
                                 type="text"
@@ -264,7 +269,7 @@ const SupplierForm = () => {
                                 className="form-control font-thin text-sm"
                             />
                         </Col>
-                        <Col md={4}>
+                        <Col md={3}>
                             <label>ชื่อบัญชีธนาคาร</label>
                             <input
                                 type="text"
@@ -274,7 +279,7 @@ const SupplierForm = () => {
                                 className="form-control font-thin text-sm"
                             />
                         </Col>
-                        <Col md={4}>
+                        <Col md={2}>
                             <label>ธนาคาร</label>
                             {isLoading ? <div className="form-control text-sm"><Loading /></div> : (
                                 <select
@@ -284,7 +289,7 @@ const SupplierForm = () => {
                                     className="form-control font-thin text-sm"
                                 >
                                     <option value="">-- เลือก --</option>
-                                    {formData.banks.map(bank => (
+                                    {formData.banks?.map(bank => (
                                         <option value={bank.id} key={bank.id}>{bank.name}</option>
                                     ))}
                                 </select>
