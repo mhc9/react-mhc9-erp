@@ -13,6 +13,7 @@ const initialFormData = {
     changwats: [],
     amphurs: [],
     tambons: [],
+    bank: []
 };
 
 const SupplierForm = () => {
@@ -21,7 +22,7 @@ const SupplierForm = () => {
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
 
     const handleSubmit = (values, formik) => {
-
+        console.log(values);
     };
 
     const handleChangwatSelect = (id) => {
@@ -52,6 +53,7 @@ const SupplierForm = () => {
                 seller_email: '',
                 manager_name: '',
                 owner_name: '',
+                bank_id: '',
                 bank_acc_no: '',
                 bank_acc_name: '',
                 bank_acc_branch: '',
@@ -68,6 +70,7 @@ const SupplierForm = () => {
                             <label>ชื่อผู้จัดจำหน่าย</label>
                             <input
                                 type="text"
+                                name="name"
                                 value={formik.values.name}
                                 onChange={formik.handleChange}
                                 className="form-control font-thin text-sm"
@@ -79,6 +82,7 @@ const SupplierForm = () => {
                             <label>ที่อยู่เลขที่</label>
                             <input
                                 type="text"
+                                name="address"
                                 value={formik.values.address}
                                 onChange={formik.handleChange}
                                 className="form-control font-thin text-sm"
@@ -88,6 +92,7 @@ const SupplierForm = () => {
                             <label>หมู่</label>
                             <input
                                 type="text"
+                                name="moo"
                                 value={formik.values.moo}
                                 onChange={formik.handleChange}
                                 className="form-control font-thin text-sm"
@@ -97,6 +102,7 @@ const SupplierForm = () => {
                             <label>ถนน</label>
                             <input
                                 type="text"
+                                name="road"
                                 value={formik.values.road}
                                 onChange={formik.handleChange}
                                 className="form-control font-thin text-sm"
@@ -108,7 +114,6 @@ const SupplierForm = () => {
                             <label>จังหวัด</label>
                             {isLoading ? <div className="form-control text-sm"><Loading /></div> : (
                                 <select
-                                    type="text"
                                     name="changwat_id"
                                     values={formik.values.changwat_id}
                                     onChange={(e) => {
@@ -128,7 +133,6 @@ const SupplierForm = () => {
                             <label>อำเภอ</label>
                             {isLoading ? <div className="form-control text-sm"><Loading /></div> : (
                                 <select
-                                    type="text"
                                     name="amphur_id"
                                     values={formik.values.amphur_id}
                                     onChange={(e) => {
@@ -148,12 +152,9 @@ const SupplierForm = () => {
                             <label>ตำบล</label>
                             {isLoading ? <div className="form-control text-sm"><Loading /></div> : (
                                 <select
-                                    type="text"
                                     name="tambon_id"
                                     values={formik.values.tambon_id}
-                                    onChange={(e) => {
-                                        formik.handleChange(e);
-                                    }}
+                                    onChange={formik.handleChange}
                                     className="form-control font-thin text-sm"
                                 >
                                     <option value="">-- เลือก --</option>
@@ -169,6 +170,7 @@ const SupplierForm = () => {
                             <label>รหัสไปรษณีย์</label>
                             <input
                                 type="text"
+                                name="zipcode"
                                 value={formik.values.zipcode}
                                 onChange={formik.handleChange}
                                 className="form-control font-thin text-sm"
@@ -178,6 +180,7 @@ const SupplierForm = () => {
                             <label>โทรศัพท์</label>
                             <input
                                 type="text"
+                                name="tel"
                                 value={formik.values.tel}
                                 onChange={formik.handleChange}
                                 className="form-control font-thin text-sm"
@@ -187,6 +190,7 @@ const SupplierForm = () => {
                             <label>โทรสาร</label>
                             <input
                                 type="text"
+                                name="fax"
                                 value={formik.values.fax}
                                 onChange={formik.handleChange}
                                 className="form-control font-thin text-sm"
@@ -198,6 +202,7 @@ const SupplierForm = () => {
                             <label>อีเมล</label>
                             <input
                                 type="text"
+                                name="email"
                                 value={formik.values.email}
                                 onChange={formik.handleChange}
                                 className="form-control font-thin text-sm"
@@ -207,6 +212,7 @@ const SupplierForm = () => {
                             <label>เลขที่ผู้เสียภาษี</label>
                             <input
                                 type="text"
+                                name="tax_no"
                                 value={formik.values.tax_no}
                                 onChange={formik.handleChange}
                                 className="form-control font-thin text-sm"
@@ -215,7 +221,9 @@ const SupplierForm = () => {
                         <Col md={4}>
                             <label>ประเภทภาษี</label>
                             <select
-                                type="text"
+                                name="tax_type_id"
+                                value={formik.values.tax_type_id}
+                                onChange={formik.handleChange}
                                 className="form-control font-thin text-sm"
                             >
                                 <option value="">-- เลือก --</option>
@@ -228,6 +236,7 @@ const SupplierForm = () => {
                             <label>ชื่อเจ้าของ</label>
                             <input
                                 type="text"
+                                name="owner_name"
                                 value={formik.values.owner_name}
                                 onChange={formik.handleChange}
                                 className="form-control font-thin text-sm"
@@ -237,7 +246,56 @@ const SupplierForm = () => {
                             <label>ชื่อผู้จัดการ</label>
                             <input
                                 type="text"
+                                name="manager_name"
                                 value={formik.values.manager_name}
+                                onChange={formik.handleChange}
+                                className="form-control font-thin text-sm"
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="mb-2">
+                        <Col md={4}>
+                            <label>เลขที่บัญชีธนาคาร</label>
+                            <input
+                                type="text"
+                                name="bank_acc_no"
+                                value={formik.values.bank_acc_no}
+                                onChange={formik.handleChange}
+                                className="form-control font-thin text-sm"
+                            />
+                        </Col>
+                        <Col md={4}>
+                            <label>ชื่อบัญชีธนาคาร</label>
+                            <input
+                                type="text"
+                                name="bank_acc_name"
+                                value={formik.values.bank_acc_name}
+                                onChange={formik.handleChange}
+                                className="form-control font-thin text-sm"
+                            />
+                        </Col>
+                        <Col md={4}>
+                            <label>ธนาคาร</label>
+                            {isLoading ? <div className="form-control text-sm"><Loading /></div> : (
+                                <select
+                                    name="bank_id"
+                                    values={formik.values.bank_id}
+                                    onChange={formik.handleChange}
+                                    className="form-control font-thin text-sm"
+                                >
+                                    <option value="">-- เลือก --</option>
+                                    {formData.banks.map(bank => (
+                                        <option value={bank.id} key={bank.id}>{bank.name}</option>
+                                    ))}
+                                </select>
+                            )}
+                        </Col>
+                        <Col md={4}>
+                            <label>สาขา (ธนาคาร)</label>
+                            <input
+                                type="text"
+                                name="bank_acc_branch"
+                                value={formik.values.bank_acc_branch}
                                 onChange={formik.handleChange}
                                 className="form-control font-thin text-sm"
                             />
@@ -248,6 +306,7 @@ const SupplierForm = () => {
                             <label>หมายเหตุ</label>
                             <textarea
                                 rows="3"
+                                name="remark"
                                 value={formik.values.remark}
                                 onChange={formik.handleChange}
                                 className="form-control font-thin text-sm"
