@@ -9,6 +9,8 @@ import { toShortTHDate } from '../../../utils'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
 import ModalRequisitionList from '../../../components/Modals/Requisition';
 import ModalSupplierList from '../../../components/Modals/Supplier';
+import OrderItems from './OrderItems';
+import AddItem from './AddItem';
 
 const orderSchema = Yup.object().shape({
 
@@ -126,12 +128,12 @@ const OrderForm = () => {
                             )}
                         </Col>
                     </Row>
-                    <Row className="mb-2">
+                    <Row className="mb-3">
                         <Col>
                             <label htmlFor="">ผู้จัดจำหน่าย</label>
                             <div className="input-group">
                                 <div className="min-h-[34px] form-control font-thin text-sm bg-gray-100">
-                                    {selectedSupplier && selectedSupplier.supplier_id}
+                                    {selectedSupplier && selectedSupplier.tax_no+ ' ' +selectedSupplier.name}
                                 </div>
                                 <input
                                     type="hidden"
@@ -148,8 +150,54 @@ const OrderForm = () => {
                             )}
                         </Col>
                     </Row>
-                    <Row className="mb-2">
-                        <Col md={3}></Col>
+                    <Row className="mb-2 text-sm">
+                        <Col>
+                            <h3 className="mb-2">รายการสินค้า</h3>
+                            <AddItem />
+                            <OrderItems
+                                items={formik.values.items}
+                            />
+                            <div className="flex items-center justify-end p-0 mt-1">
+                                <span className="mr-2">รวมเป็นเงิน</span>
+                                <input
+                                    type="text"
+                                    name="net_total"
+                                    value={formik.values.net_total}
+                                    onChange={formik.handleChange}
+                                    className="form-control font-thin text-sm w-[12%]"
+                                />
+                                <div className="w-[11%]"></div>
+                            </div>
+                            <div className="flex items-center justify-end p-0 mt-1">
+                                <span className="mr-2">ภาษีมูลค่าเพิ่ม</span>
+                                <input
+                                    type="text"
+                                    name="net_total"
+                                    value={formik.values.net_total}
+                                    onChange={formik.handleChange}
+                                    className="form-control font-thin text-sm w-[12%]"
+                                />
+                                <div className="w-[11%]"></div>
+                            </div>
+                            <div className="flex items-center justify-end p-0 mt-1">
+                                <span className="mr-2">ยอดสิทธิ</span>
+                                <input
+                                    type="text"
+                                    name="net_total"
+                                    value={formik.values.net_total}
+                                    onChange={formik.handleChange}
+                                    className="form-control font-thin text-sm w-[12%]"
+                                />
+                                <div className="w-[11%]"></div>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className="text-center">
+                            <button type="submit" className="btn btn-outline-primary text-sm">
+                                บันทึก
+                            </button>
+                        </Col>
                     </Row>
                 </Form>
             )}
