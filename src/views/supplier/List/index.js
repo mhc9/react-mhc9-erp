@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import Pagination from '../../../components/Pagination'
 import { getSuppliers } from '../../../features/supplier/supplierSlice'
+import Pagination from '../../../components/Pagination'
+import Loading from '../../../components/Loading'
 
 const SupplierList = () => {
     const dispatch = useDispatch();
@@ -13,8 +14,12 @@ const SupplierList = () => {
     const [params, setParams] = useState('');
 
     useEffect(() => {
-        dispatch(getSuppliers({ url: `/api/suppliers/search` }))
-    }, []);
+        if (apiEndpoint === '') {
+            dispatch(getSuppliers({ url: `/api/suppliers/search?page=${params}` }));
+        } else {
+            dispatch(getSuppliers({ url: `${apiEndpoint}${params}` }));
+        }
+    }, [dispatch, apiEndpoint, params]);
 
     const handleFilter = (queryStr) => {
         setParams(queryStr);
@@ -33,7 +38,7 @@ const SupplierList = () => {
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
                 <Breadcrumb.Item active>ผู้จัดจำหน่าย</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
             <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">ผู้จัดจำหน่าย</h2>
@@ -48,16 +53,33 @@ const SupplierList = () => {
                                 <th className="w-[25%]">ชื่อผู้จัดจำหน่าย</th>
                                 <th>ที่อยู่</th>
                                 <th className="w-[20%]">เจ้าของ</th>
+                                <th className="text-center w-[6%]">สถานะ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {suppliers && suppliers.map((supplier, index) => (
-                                <tr className="font-thin">
+                            {isLoading && (
+                                <tr>
+                                    <td colSpan={6} className="text-center">
+                                        <Loading />
+                                    </td>
+                                </tr>
+                            )}
+
+                            {!isLoading && suppliers && suppliers.map((supplier, index) => (
+                                <tr className="font-thin" key={supplier.id}>
                                     <td className="text-center">{pager && pager.from + index}</td>
                                     <td>{supplier.name}</td>
-                                    <td>{supplier.address}</td>
+                                    <td className="text-xs">
+                                        {supplier.address ? supplier.address+' ' : ''}หมู่.{supplier.moo ? supplier.moo : '-'} ถ.{supplier.raod ? supplier.raod : '-'}
+                                        {supplier.tambon?.name} {supplier.amphur?.name} {supplier.changwat?.name} {supplier.zipcode ? supplier.zipcode : '-'}
+                                        <span className="ml-1">โทร.{supplier.tel ? supplier.tel : '-'} Fax.{supplier.fax ? supplier.fax : '-'}</span>
+                                    </td>
                                     <td>{supplier.owner_name}</td>
+                                    <td className="text-center">
+                                        {supplier.status === 0 && <i className="fas fa-toggle-off text-danger text-lg"></i>}
+                                        {supplier.status === 1 && <i className="fas fa-toggle-on text-primary text-lg"></i>}
+                                    </td>
                                     <td className="text-center">
                                         <Link to={`/supplier/${supplier.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
