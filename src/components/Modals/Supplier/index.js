@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Pagination } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 import { getSuppliers } from '../../../features/supplier/supplierSlice';
-import Loading from '../../Loading';
 // import FilteringInputs from '../../Item/FilteringInputs';
 // import { useGetInitialFormDataQuery } from '../../../services/item/itemApi';
 import { currency, toShortTHDate } from '../../../utils';
+import Loading from '../../Loading';
+import Pagination from '../../../components/Pagination'
 
 const initialFilters = {
     name: '',
@@ -65,28 +66,35 @@ const ModalSupplierList = ({ isShow, onHide, onSelect }) => {
                 )}
 
                 {!loading && suppliers && (
-                    <table className="table table-bordered">
+                    <table className="table table-bordered text-sm">
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
-                                <th>ชื่อผู้จัดจำหน่าย</th>
-                                <th className="text-center w-[15%]">ที่อยู่</th>
-                                <th className="text-center w-[15%]">โทรศัพท์/Fax</th>
+                                <th className="w-[20%]">ชื่อผู้จัดจำหน่าย</th>
+                                <th>ที่อยู่</th>
+                                <th className="w-[20%]">เจ้าของ</th>
+                                <th className="text-center w-[6%]">สถานะ</th>
                                 <th className="text-center w-[10%]">เลือก</th>
                             </tr>
                         </thead>
                         <tbody>
                             {suppliers && suppliers.map((supplier, index) => (
-                                <tr key={supplier.id}>
-                                    <td className="text-center">{index+pager.from}</td>
-                                    <td>
-                                        <p className="text-sm font-thin">{supplier.supplier_name}</p>
+                                <tr key={supplier.id} className="font-thin">
+                                    <td className="text-center">{pager && pager.from+index}</td>
+                                    <td>{supplier.name}</td>
+                                    <td className="text-xs">
+                                        {supplier.address ? supplier.address+' ' : ''}หมู่.{supplier.moo ? supplier.moo : '-'} ถ.{supplier.raod ? supplier.raod : '-'}
+                                        {supplier.tambon?.name} {supplier.amphur?.name} {supplier.changwat?.name} {supplier.zipcode ? supplier.zipcode : '-'}
+                                        <span className="ml-1">โทร.{supplier.tel ? supplier.tel : '-'} Fax.{supplier.fax ? supplier.fax : '-'}</span>
                                     </td>
-                                    <td className="text-center">{supplier.address}</td>
-                                    <td className="text-center">{supplier.tel}/{supplier.tel}</td>
+                                    <td>{supplier.owner_name}</td>
+                                    <td className="text-center">
+                                        {supplier.status === 0 && <i className="fas fa-toggle-off text-danger text-lg"></i>}
+                                        {supplier.status === 1 && <i className="fas fa-toggle-on text-primary text-lg"></i>}
+                                    </td>
                                     <td className="text-center">
                                         <button
-                                            className="btn btn-primary btn-sm"
+                                            className="btn btn-primary btn-sm text-sm"
                                             onClick={() => {
                                                 onHide();
                                                 onSelect(supplier);
@@ -101,32 +109,10 @@ const ModalSupplierList = ({ isShow, onHide, onSelect }) => {
                     </table>
                 )}
 
-                {(pager && pager.last_page > 1) && (
-                    <div className="flex flex-row items-center justify-between gap-4">
-                        <div className="text-sm font-thin flex flex-row items-center justify-between gap-4 w-3/5">
-                            <span>หน้าที่ {pager.current_page}/{pager.last_page}</span>
-                            <span>จำนวนทั้งสิ้น {pager.total} รายการ</span>
-                        </div>
-
-                        <Pagination className="float-right">
-                            <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
-                            <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
-                            {/* <Pagination.Item>{1}</Pagination.Item>
-                            <Pagination.Ellipsis />
-
-                            <Pagination.Item>{10}</Pagination.Item>
-                            <Pagination.Item>{11}</Pagination.Item>
-                            <Pagination.Item active>{12}</Pagination.Item>
-                            <Pagination.Item>{13}</Pagination.Item>
-                            <Pagination.Item disabled>{14}</Pagination.Item>
-
-                            <Pagination.Ellipsis />
-                            <Pagination.Item>{20}</Pagination.Item> */}
-                            <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
-                            <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
-                        </Pagination>
-                    </div>
-                )}
+                <Pagination
+                    pager={pager}
+                    onPageClick={handlePageClick}
+                />
             </Modal.Body>
         </Modal>
     )
