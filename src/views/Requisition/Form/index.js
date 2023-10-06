@@ -117,7 +117,7 @@ const RequisitionForm = ({ requisition }) => {
                 pr_date: requisition ? moment(requisition.pr_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 order_type_id: requisition ? requisition.order_type_id : 1,
                 category_id: requisition ? requisition.category_id : '',
-                topic: requisition ? requisition.topic : 'ขออนุมัติ',
+                topic: requisition ? requisition.topic : 'ขออนุมัติซื้อ',
                 year: requisition ? requisition.year : moment().year() + 543,
                 budget_id: requisition ? requisition.budget_id : '',
                 project_id: (requisition && requisition.project_id) ? requisition.project_id : '',
@@ -207,7 +207,12 @@ const RequisitionForm = ({ requisition }) => {
                                         <select
                                             name="order_type_id"
                                             value={formik.values.order_type_id}
-                                            onChange={formik.handleChange}
+                                            onChange={(e) => {
+                                                const { value } = e.target;
+
+                                                formik.handleChange(e);
+                                                formik.setFieldValue('topic', value === '1' ? 'ขออนุมัติซื้อ' : 'ขออนุมัติจ้าง');
+                                            }}
                                             className="form-control text-sm"
                                         >
                                             <option value="">-- ประเภท --</option>
