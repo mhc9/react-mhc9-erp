@@ -50,10 +50,10 @@ const OrderList = () => {
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
-                                <th className="text-center w-[18%]">เอกสาร</th>
+                                <th className="text-center w-[15%]">เอกสาร</th>
                                 <th>รายการ</th>
-                                <th className="text-center w-[18%]">ผู้ขอ</th>
                                 <th className="text-center w-[12%]">ยอดซื้อ/จ้าง</th>
+                                <th className="text-center w-[20%]">ผู้ขอ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
                         </thead>
@@ -67,14 +67,18 @@ const OrderList = () => {
                                 <tr key={order.id} className="font-thin">
                                     <td className="text-center">{pager && pager.from+index}</td>
                                     <td>
-                                        <p>เลขที่: {order.po_no}</p>
-                                        <p>วันที่: {toShortTHDate(order.po_date)}</p>
+                                        <p>เลขที่: <span className="badge rounded-pill text-bg-primary">{order.po_no}</span></p>
+                                        <p>วันที่: <span className="badge rounded-pill text-bg-primary">{toShortTHDate(order.po_date)}</span></p>
                                     </td>
                                     <td>
                                         <p>รายการ{order.requisition?.topic} จำนวน {currency.format(order.item_count)} รายการ</p>
+                                        <p>จาก {order.supplier?.name}</p>
                                     </td>
-                                    <td></td>
-                                    <td className="text-right">{currency.format(order.net_total)}</td>
+                                    <td className="text-right">{currency.format(order.net_total)} บาท</td>
+                                    <td>
+                                        {order.requisition?.requester?.prefix?.name}{order.requisition?.requester?.firstname} {order.requisition?.requester?.lastname}
+                                        <p className="text-xs">{order.requisition?.requester?.position?.name}{order.requisition?.requester?.level && order.requisition?.requester?.level?.name}</p>
+                                    </td>
                                     <td className="text-center">
                                         <Link to={`/order/${order.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
