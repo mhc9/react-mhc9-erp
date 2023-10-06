@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
+import { toast } from 'react-toastify'
+import { resetIsSuccess } from '../../features/supplier/supplierSlice'
 import SupplierForm from './Form'
 
 const AddSupplier = () => {
+    const dispatch = useDispatch();
+    const { isSuccess } = useSelector(state => state.supplier);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("บันทึกข้อมูลผู้จัดจำหน่ายเรียบร้อยแล้ว!!");
+            dispatch(resetIsSuccess());
+        }
+    }, [isSuccess]);
+
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}

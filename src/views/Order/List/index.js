@@ -65,7 +65,7 @@ const OrderList = () => {
                             )}
                             {!isLoading && orders && orders.map((order, index) => (
                                 <tr key={order.id} className="font-thin">
-                                    <td className="text-center"></td>
+                                    <td className="text-center">{pager && pager.from+index}</td>
                                     <td>
                                         <p>เลขที่: {order.po_no}</p>
                                         <p>วันที่: {toShortTHDate(order.po_date)}</p>

@@ -46,7 +46,11 @@ export const store = createAsyncThunk("supplier/store", async (data, { rejectWit
 export const supplierSlice = createSlice({
     name: 'supplier',
     initialState,
-    reducers: {},
+    reducers: {
+        resetIsSuccess: (state) => {
+            state.isSuccess = false;
+        }
+    },
     extraReducers: {
         [getSuppliers.pending]: (state) => {
             state.suppliers = [];
@@ -100,3 +104,5 @@ export const supplierSlice = createSlice({
 });
 
 export default supplierSlice.reducer;
+
+export const { resetIsSuccess } = supplierSlice.actions;
