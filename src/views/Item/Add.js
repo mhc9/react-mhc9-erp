@@ -2,16 +2,18 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
-import ItemForm from './Form'
+import { toast } from 'react-toastify'
 import { resetSuccess } from '../../features/asset/assetSlice'
+import ItemForm from './Form'
 
 const AddItem = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { isSuccess } = useSelector(state => state.asset);
+    const dispatch = useDispatch();
+    const { isSuccess } = useSelector(state => state.item);
 
     useEffect(() => {
         if (isSuccess) {
+            toast.success('บันทึกข้อมูลสินค้า/บริการเรียบร้อยแล้ว!!')
             dispatch(resetSuccess());
 
             navigate('/item');
