@@ -77,7 +77,6 @@ export const itemSlice = createSlice({
             state.items = [];
             state.pager = null;
             state.isLoading = true;
-            // state.isSuccess = false;
             state.error = null;
         },
         [getItems.fulfilled]: (state, { payload }) => {
@@ -86,7 +85,6 @@ export const itemSlice = createSlice({
             state.items = data;
             state.pager = pager;
             state.isLoading = false
-            // state.isSuccess = true;
         },
         [getItems.rejected]: (state, { payload }) => {
             state.isLoading = false;
@@ -95,31 +93,32 @@ export const itemSlice = createSlice({
         [getItem.pending]: (state) => {
             state.item = null;
             state.isLoading = true;
-            // state.isSuccess = false;
             state.error = null;
         },
         [getItem.fulfilled]: (state, { payload }) => {
             state.item = payload;
             state.isLoading = false
-            // state.isSuccess = true;
         },
         [getItem.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },
         [store.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
-            console.log(payload);
-            state.isLoading = false
-            state.isSuccess = true;
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+            } else {
+                state.isSuccess = false;
+                state.error = { message };
+            }
         },
         [store.rejected]: (state, { payload }) => {
             console.log(payload);
-            state.isLoading = false;
             state.error = payload;
         },
         [update.pending]: (state) => {

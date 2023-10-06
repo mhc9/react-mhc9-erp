@@ -2,17 +2,20 @@ import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
-import ItemForm from './Form'
+import { toast } from 'react-toastify'
 import { getItem, resetSuccess } from '../../features/item/itemSlice'
+import ItemForm from './Form'
+import Loading from '../../components/Loading'
 
 const EditItem = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { item, isSuccess } = useSelector(state => state.item);
+    const { item, isSuccess, isLoading } = useSelector(state => state.item);
 
     useEffect(() => {
         if (isSuccess) {
+            toast.success("บันทึกการแก้ไขข้อมูลสินค้าเรียบร้อยแล้ว!!")
             dispatch(resetSuccess());
 
             navigate('/item');
@@ -38,11 +41,14 @@ const EditItem = () => {
                 <h2 className="text-xl">แก้ไขสินค้า/บริการใหม่ ID : {id}</h2>
 
                 <div className="my-2 border p-4 rounded-md">
-                    <ItemForm item={item} />
+                    {isLoading
+                        ? <div className="flex justify-center"><Loading /></div>
+                        : <ItemForm item={item} />
+                    }
                 </div>
             </div>
         </div>
     )
 }
 
-    export default EditItem
+export default EditItem
