@@ -24,7 +24,10 @@ const OrderItems = ({ items = [] }) => {
                     {items && items.length > 0 && items.map((item, index) => (
                         <tr className="font-thin" key={item.id}>
                             <td className="text-center">{index+1}</td>
-                            <td>{item.item.name}</td>
+                            <td>
+                                {item.item.name}
+                                {item.description && <p className="text-xs text-red-500">{item.description}</p>}
+                            </td>
                             <td className="text-right">{currency.format(item.price)}</td>
                             <td className="text-center">{currency.format(item.amount)}</td>
                             <td className="text-right">{currency.format(item.total)}</td>
