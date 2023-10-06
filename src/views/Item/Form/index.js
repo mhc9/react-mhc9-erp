@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
@@ -17,12 +17,6 @@ const ItemForm = ({ item }) => {
     const dispatch = useDispatch();
     const { data: formData } = useGetInitialFormDataQuery();
     const [selectedImg, setSelectedImg] = useState(null);
-
-    useEffect(() => {
-        if (item) {
-            setSelectedImg(item?.img_url ? `${process.env.REACT_APP_API_URL}/uploads/products/thumbnails/${item?.img_url}` : null);
-        }
-    }, [item]);
 
     const handleSubmit = (values, props) => {
         let data = new FormData();
@@ -186,9 +180,9 @@ const ItemForm = ({ item }) => {
                                         <span className="text-red-500 text-sm">{formik.errors.img_url}</span>
                                     )}
                                     <div className="border w-[200px] p-0 mt-2">
-                                        {item
-                                            ? selectedImg && <img src={selectedImg} alt='item-pic' />
-                                            : selectedImg && <img src={URL.createObjectURL(selectedImg)} alt='item-pic' />
+                                        {selectedImg
+                                            ? <img src={URL.createObjectURL(selectedImg)} alt='item-pic' />
+                                            : item && <img src={`${process.env.REACT_APP_API_URL}/uploads/products/thumbnails/${item?.img_url}`} alt='item-pic' />
                                         }
                                     </div>
                                 </FormGroup>
