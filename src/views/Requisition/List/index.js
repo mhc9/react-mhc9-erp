@@ -46,24 +46,25 @@ const RequisitionList = () => {
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
-                                <th className="text-center w-[18%]">เอกสาร</th>
+                                <th className="text-center w-[15%]">เอกสาร</th>
                                 <th>รายการ</th>
                                 <th className="text-center w-[18%]">ผู้ขอ</th>
+                                <th className="text-center w-[6%]">สถานะ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {isLoading && (
                                 <tr>
-                                    <td className="text-center" colSpan={5}><Loading /></td>
+                                    <td className="text-center" colSpan={6}><Loading /></td>
                                 </tr>
                             )}
                             {(!isLoading && requisitions) && requisitions.map((requisition, index) => (
                                 <tr key={requisition.id}>
                                     <td className="text-center">{pager && pager.from + index}</td>
                                     <td className="text-sm">
-                                        <p>เลขที่ <span className="font-bold">{requisition.pr_no}</span></p>
-                                        <p>วันที่ <span className="font-bold">{toShortTHDate(requisition.pr_date)}</span></p>
+                                        <p>เลขที่ <span className="badge rounded-pill text-bg-primary">{requisition.pr_no}</span></p>
+                                        <p>วันที่ <span className="badge rounded-pill text-bg-primary">{toShortTHDate(requisition.pr_date)}</span></p>
                                     </td>
                                     <td className="text-sm">
                                         <p>
@@ -81,6 +82,10 @@ const RequisitionList = () => {
                                     <td className="text-sm">
                                         {requisition.requester?.prefix?.name}{requisition.requester?.firstname} {requisition.requester?.lastname}
                                         <p className="font-thin">{requisition.requester?.position?.name}{requisition.requester?.level && requisition.requester?.level?.name}</p>
+                                    </td>
+                                    <td className="text-center">
+                                        {requisition.status === 0 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
+                                        {requisition.status === 1 && <span className="badge rounded-pill text-bg-success">จัดซื้อแล้ว</span>}
                                     </td>
                                     <td className="text-center p-1">
                                         <Link to={`/requisition/${requisition.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
