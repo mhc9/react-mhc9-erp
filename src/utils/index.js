@@ -31,7 +31,18 @@ export const calculateNetTotal = (items = []) => {
     return items.reduce((sum, item) => sum + item.total, 0);
 };
 
-export const currency = Intl.NumberFormat('th-TH');
+export const calculateVat = function(netTotal, vatRate) {
+    return (netTotal * vatRate) / (100 + vatRate);
+};
+
+export const currency = Intl.NumberFormat('th-TH', {maximumFractionDigits:2});
+
+export const currencyToNumber = function(currency) {
+    if (typeof currency === 'number') return currency;
+    if (currency == '') return 0;
+
+    return currency.replaceAll(',', '');
+};
 
 export const toShortTHDate = (dateStr) => {
     const [year, month, day] = dateStr.split('-');

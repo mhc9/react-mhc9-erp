@@ -1,16 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
+import ModalItemList from '../../../components/Modals/ItemList';
 
 const AddItem = () => {
+    const [showItemModal, setShowItemModal] = useState(false);
+
     return (
         <div className="flex flex-row mb-2">
+            <ModalItemList
+                isShow={showItemModal}
+                onHide={() => setShowItemModal(false)}
+            />
+
             <div className="input-group">
                 <input
                     type="text"
                     className="form-control text-sm"
                     placeholder="รายการ"
                 />
-                <button type="button" className="btn btn-outline-secondary" onClick={() => console.log('Modal')}>
+                <button type="button" className="btn btn-outline-secondary" onClick={() => setShowItemModal(true)}>
                     <FaSearch />
                 </button>
             </div>

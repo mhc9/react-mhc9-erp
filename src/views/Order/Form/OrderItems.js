@@ -1,4 +1,5 @@
 import React from 'react'
+import { currency } from '../../../utils';
 
 const OrderItems = ({ items = [] }) => {
     return (
@@ -21,13 +22,15 @@ const OrderItems = ({ items = [] }) => {
                         </tr>
                     )}
                     {items && items.length > 0 && items.map((item, index) => (
-                        <tr className="font-thin">
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                        <tr className="font-thin" key={item.id}>
+                            <td className="text-center">{index+1}</td>
+                            <td>{item.item.name}</td>
+                            <td className="text-right">{currency.format(item.price)}</td>
+                            <td className="text-center">{currency.format(item.amount)}</td>
+                            <td className="text-right">{currency.format(item.total)}</td>
+                            <td className="text-center">
+
+                            </td>
                         </tr>
                     ))}
                 </tbody>
