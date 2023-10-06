@@ -12,7 +12,7 @@ import Committee from './Committee'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import ModalBudgetList from '../../../components/Modals/BudgetList'
 import Loading from '../../../components/Loading'
-import { calculateNetTotal } from '../../../utils'
+import { calculateNetTotal, currency } from '../../../utils'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
 import { useGetInitialFormDataQuery } from '../../../services/requisition/requisitionApi'
 import { store } from '../../../features/requisition/requisitionSlice'
@@ -65,7 +65,7 @@ const RequisitionForm = ({ requisition }) => {
 
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_count', newItems.length);
-        formik.setFieldValue('net_total', calculateNetTotal(newItems));
+        formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems)));
     };
 
     const handleEditItem = (data) => {
@@ -82,7 +82,7 @@ const RequisitionForm = ({ requisition }) => {
         setEdittedItem(null);
         formik.setFieldValue('items', updatedItems);
         formik.setFieldValue('item_count', updatedItems.length);
-        formik.setFieldValue('net_total', calculateNetTotal(updatedItems));
+        formik.setFieldValue('net_total', currency.format(calculateNetTotal(updatedItems)));
     };
 
     const handleRemoveItem = (formik, id) => {
@@ -90,7 +90,7 @@ const RequisitionForm = ({ requisition }) => {
 
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_count', newItems.length);
-        formik.setFieldValue('net_total', calculateNetTotal(newItems));
+        formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems)));
     };
 
     const handleUpdateCommittees = (formik, committees) => {
