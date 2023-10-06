@@ -169,7 +169,7 @@ const OrderForm = () => {
                                     {' ' + selectedRequisition.topic} จำนวน {currency.format(selectedRequisition.item_count)} รายการ 
                                     รวมเป็นเงิน {currency.format(selectedRequisition.net_total)} บาท
                                 </p>
-                                <p>ตาม{selectedRequisition.budget?.project?.plan?.name} {selectedRequisition.budget?.project?.name} {selectedRequisition.budget?.name}</p>
+                                <p className="text-xs text-blue-600">ตาม{selectedRequisition.budget?.project?.plan?.name} {selectedRequisition.budget?.project?.name} {selectedRequisition.budget?.name}</p>
                             </div>
                         </Col>
                     </Row>}

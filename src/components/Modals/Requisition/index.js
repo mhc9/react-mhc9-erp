@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Pagination } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 import { getRequisitions } from '../../../features/requisition/requisitionSlice';
-import Loading from '../../Loading';
 // import FilteringInputs from '../../Item/FilteringInputs';
 // import { useGetInitialFormDataQuery } from '../../../services/item/itemApi';
 import { currency, toShortTHDate } from '../../../utils';
+import Loading from '../../Loading';
+import Pagination from '../../Pagination';
 
 const initialFilters = {
     name: '',
@@ -78,8 +79,18 @@ const ModalRequisitionList = ({ isShow, onHide, onSelect }) => {
                             {requisitions && requisitions.map((requisition, index) => (
                                 <tr key={requisition.id}>
                                     <td className="text-center">{index+pager.from}</td>
-                                    <td>
-                                        <p className="text-sm font-thin">เลขที่ {requisition.pr_no} วันที่ {toShortTHDate(requisition.pr_date)}</p>
+                                    <td className="text-sm font-thin">
+                                        <p>
+                                            เลขที่ <span className="badge text-bg-success mr-1">{requisition.pr_no}</span> 
+                                            วันที่ <span className="badge text-bg-success">{toShortTHDate(requisition.pr_date)}</span></p>
+                                        <p>
+                                            {requisition.requester?.prefix?.name}{requisition.requester?.firstname} {requisition.requester?.lastname}
+                                            {' ' + requisition.requester?.position?.name}{requisition.requester?.level && requisition.requester?.level?.name}
+                                        </p>
+                                        <p>{' ' + requisition.topic} จำนวน {currency.format(requisition.item_count)} รายการ รวมเป็นเงิน {currency.format(requisition.net_total)} บาท</p>
+                                        <p className="text-xs font-thin text-blue-600">
+                                            ตาม{requisition.budget?.project?.plan?.name} {requisition.budget?.project?.name} {requisition.budget?.name}
+                                        </p>
                                     </td>
                                     <td className="text-center">
                                         <span className="text-red-500">{currency.format(requisition.net_total)}</span> บาท
@@ -101,32 +112,10 @@ const ModalRequisitionList = ({ isShow, onHide, onSelect }) => {
                     </table>
                 )}
 
-                {(pager && pager.last_page > 1) && (
-                    <div className="flex flex-row items-center justify-between gap-4">
-                        <div className="text-sm font-thin flex flex-row items-center justify-between gap-4 w-3/5">
-                            <span>หน้าที่ {pager.current_page}/{pager.last_page}</span>
-                            <span>จำนวนทั้งสิ้น {pager.total} รายการ</span>
-                        </div>
-
-                        <Pagination className="float-right">
-                            <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
-                            <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
-                            {/* <Pagination.Item>{1}</Pagination.Item>
-                            <Pagination.Ellipsis />
-
-                            <Pagination.Item>{10}</Pagination.Item>
-                            <Pagination.Item>{11}</Pagination.Item>
-                            <Pagination.Item active>{12}</Pagination.Item>
-                            <Pagination.Item>{13}</Pagination.Item>
-                            <Pagination.Item disabled>{14}</Pagination.Item>
-
-                            <Pagination.Ellipsis />
-                            <Pagination.Item>{20}</Pagination.Item> */}
-                            <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
-                            <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
-                        </Pagination>
-                    </div>
-                )}
+                <Pagination
+                    pager={pager}
+                    onPageClick={(url) => handlePageClick(url)}
+                />
             </Modal.Body>
         </Modal>
     )
