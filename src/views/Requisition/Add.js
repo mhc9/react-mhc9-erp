@@ -1,8 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
+import { toast } from 'react-toastify'
+import { resetSuccess } from '../../features/requisition/requisitionSlice'
 import RequisitionForm from './Form'
 
 const AddRequisition = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { isSuccess } = useSelector(state => state.requisition);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('บันทึกข้อมูลคำขอเรียบร้อยแล้ว!!')
+            dispatch(resetSuccess());
+
+            navigate('/requisition');
+        }
+    }, [isSuccess]);
+
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}
