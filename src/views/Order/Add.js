@@ -1,8 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
+import { toast } from 'react-toastify'
+import { resetSuccess } from '../../features/order/orderSlice'
 import OrderForm from './Form'
 
 const AddOrder = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { isSuccess } = useSelector(state => state.order);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("บันทึกข้อมูลการสั่งซื้อ/จ้างเรียบร้อยแล้ว!!");
+
+            dispatch(resetSuccess());
+
+            navigate('/order');
+        }
+    }, [isSuccess]);
+
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}

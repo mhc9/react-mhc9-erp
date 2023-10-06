@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { resetSuccess } from '../../features/asset/assetSlice'
+import { resetSuccess } from '../../features/item/itemSlice'
 import ItemForm from './Form'
 
 const AddItem = () => {

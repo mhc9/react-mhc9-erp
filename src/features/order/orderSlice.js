@@ -43,7 +43,11 @@ export const store = createAsyncThunk("order/store", async (data, { rejectWithVa
 export const orderSlice = createSlice({
     name: 'order',
     initialState,
-    reducers: {},
+    reducers: {
+        resetSuccess: (state) => {
+            state.isSuccess = false;
+        }
+    },
     extraReducers: {
         [getOrders.pending]: (state) => {
             state.orders = [];
@@ -80,8 +84,13 @@ export const orderSlice = createSlice({
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
-            if (payload.status === 1) {
+            const { status, message } = payload;
+
+            if (status === 1) {
                 state.isSuccess = true;
+            } else {
+                state.isSuccess = false;
+                state.error = { message };
             }
         },
         [store.rejected]: (state, { payload }) => {
@@ -91,3 +100,5 @@ export const orderSlice = createSlice({
 });
 
 export default orderSlice.reducer;
+
+export const { resetSuccess } = orderSlice.actions;

@@ -10,7 +10,7 @@ const initialState = {
     error: null
 };
 
-export const getRequisitions = createAsyncThunk("item/getRequisitions", async ({ url }, { rejectWithValue }) => {
+export const getRequisitions = createAsyncThunk("requisition/getRequisitions", async ({ url }, { rejectWithValue }) => {
     try {
         const res = await api.get(url);
 
@@ -20,7 +20,7 @@ export const getRequisitions = createAsyncThunk("item/getRequisitions", async ({
     }
 });
 
-export const getRequisition = createAsyncThunk("item/getRequisition", async ({ id }, { rejectWithValue }) => {
+export const getRequisition = createAsyncThunk("requisition/getRequisition", async ({ id }, { rejectWithValue }) => {
     try {
         const res = await api.get(`/api/requisitions/${id}`);
 
@@ -30,7 +30,7 @@ export const getRequisition = createAsyncThunk("item/getRequisition", async ({ i
     }
 });
 
-export const store = createAsyncThunk("item/store", async (data, { rejectWithValue }) => {
+export const store = createAsyncThunk("requisition/store", async (data, { rejectWithValue }) => {
     try {
         const res = await api.post(`/api/requisitions`, data);
 
@@ -40,7 +40,7 @@ export const store = createAsyncThunk("item/store", async (data, { rejectWithVal
     }
 });
 
-export const update = createAsyncThunk("item/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
+export const update = createAsyncThunk("requisition/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
     try {
         const res = await api.put(`/api/requisitions/${id}`, data);
 
@@ -52,7 +52,7 @@ export const update = createAsyncThunk("item/update", async ({ id, data }, { dis
     }
 });
 
-export const destroy = createAsyncThunk("item/destroy", async ({ id }, { dispatch, rejectWithValue }) => {
+export const destroy = createAsyncThunk("requisition/destroy", async ({ id }, { dispatch, rejectWithValue }) => {
     try {
         const res = await api.delete(`/api/requisitions/${id}`);
 
