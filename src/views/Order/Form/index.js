@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
+import { useDispatch } from 'react-redux';
 import { Col, Row } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import moment from 'moment';
 import {
@@ -13,14 +15,15 @@ import {
     toShortTHDate
 } from '../../../utils';
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
+import { store } from '../../../features/order/orderSlice';
 import ModalRequisitionList from '../../../components/Modals/Requisition';
 import ModalSupplierList from '../../../components/Modals/Supplier';
 import OrderItems from './OrderItems';
 
 const orderSchema = Yup.object().shape({
-    pr_id: Yup.string().required(),
     po_no: Yup.string().required(),
     po_date: Yup.string().required(),
+    requisition_id: Yup.string().required(),
     supplier_id: Yup.string().required(),
     total: Yup.string().required(),
     vat_rate: Yup.string().required(),
@@ -29,6 +32,7 @@ const orderSchema = Yup.object().shape({
 });
 
 const OrderForm = () => {
+    const dispatch = useDispatch();
     const [selectedDate, setSelectedDate] = useState(moment());
     const [showRequisitionModal, setShowRequisitionModal] = useState(false);
     const [selectedRequisition, setSelectedRequisition] = useState(null);
@@ -36,14 +40,16 @@ const OrderForm = () => {
     const [selectedSupplier, setSelectedSupplier] = useState(null);
 
     const handleSubmit = (values, formik) => {
-        console.log(values);
+        dispatch(store(values));
     };
 
     const handleSelectRequisition = (formik, requisition) => {
         setSelectedRequisition(requisition);
-        formik.setFieldValue('pr_id', requisition.pr_id);
+        formik.setFieldValue('requisition_id', requisition.id);
         formik.setFieldValue('items', requisition.details);
         formik.setFieldValue('item_count', requisition.details.length);
+
+        formik.setFieldTouched('requisition_id', true);
 
         /** คำนวณยอดสุทธิ */
         let netTotal = calculateNetTotal(requisition.details);
@@ -71,7 +77,7 @@ const OrderForm = () => {
             initialValues={{
                 po_no: '',
                 po_date: '',
-                pr_id: '',
+                requisition_id: '',
                 supplier_id: '',
                 item_count: '',
                 total: '',
@@ -84,6 +90,7 @@ const OrderForm = () => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik);
                 return (
                 <Form>
                     <ModalRequisitionList
@@ -105,12 +112,6 @@ const OrderForm = () => {
                                 <div className="min-h-[34px] form-control font-thin text-sm bg-gray-100">
                                     {selectedRequisition &&  <p>เลขที่ {selectedRequisition.pr_no} วันที่ {toShortTHDate(selectedRequisition.pr_date)}</p>}
                                 </div>
-                                <input
-                                    type="hidden"
-                                    name="pr_id"
-                                    value={formik.values.pr_id}
-                                    onChange={formik.handleChange}
-                                />
                                 <button type="button" className="btn btn-outline-secondary" onClick={() => setShowRequisitionModal(true)}>
                                     <FaSearch />
                                 </button>
