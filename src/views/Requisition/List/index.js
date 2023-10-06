@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Breadcrumb, Pagination } from 'react-bootstrap'
+import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import Loading from '../../../components/Loading'
 import { getRequisitions } from '../../../features/requisition/requisitionSlice'
 import { currency, toShortTHDate } from '../../../utils'
 import DetailList from './DetailList'
+import Pagination from '../../../components/Pagination'
 
 const RequisitionList = () => {
     const dispatch = useDispatch();
@@ -20,10 +21,6 @@ const RequisitionList = () => {
             dispatch(getRequisitions({ url: apiEndpoint }));
         }
     }, [dispatch, apiEndpoint])
-
-    const handlePageClick = (url) => {
-        setApiEndpoint(url);
-    };
 
     const handleDelete = (id) => {
 
@@ -101,32 +98,10 @@ const RequisitionList = () => {
                         </tbody>
                     </table>
 
-                    {(pager && pager.last_page > 1) && (
-                        <div className="flex flex-row items-center justify-between gap-4">
-                            <div className="text-sm font-thin flex flex-row items-center justify-between gap-4 w-3/5">
-                                <span>หน้าที่ {pager.current_page}/{pager.last_page}</span>
-                                <span>จำนวนทั้งสิ้น {pager.total} รายการ</span>
-                            </div>
-
-                            <Pagination>
-                                <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
-                                <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
-                                {/* <Pagination.Item>{1}</Pagination.Item>
-                                <Pagination.Ellipsis />
-
-                                <Pagination.Item>{10}</Pagination.Item>
-                                <Pagination.Item>{11}</Pagination.Item>
-                                <Pagination.Item active>{12}</Pagination.Item>
-                                <Pagination.Item>{13}</Pagination.Item>
-                                <Pagination.Item disabled>{14}</Pagination.Item>
-
-                                <Pagination.Ellipsis />
-                                <Pagination.Item>{20}</Pagination.Item> */}
-                                <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
-                                <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
-                            </Pagination>
-                        </div>
-                    )}
+                    <Pagination
+                        pager={pager}
+                        onPageClick={(url) => setApiEndpoint(url)}
+                    />
                 </div>
             </div>
         </div>
