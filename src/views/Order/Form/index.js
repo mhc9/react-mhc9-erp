@@ -198,55 +198,58 @@ const OrderForm = () => {
                     </Row>
                     <Row className="mb-2 text-sm">
                         <Col>
-                            <h3 className="mb-2">รายการสินค้า</h3>
+                            <div className="flex flex-col border p-2 rounded-md">
+                                
+                                <h3 className="mb-2">รายการสินค้า</h3>
 
-                            <OrderItems items={formik.values.items} />
+                                <OrderItems items={formik.values.items} />
 
-                            <div className="flex items-center justify-end p-0 mt-1">
-                                <span className="mr-2">รวมเป็นเงิน</span>
-                                <input
-                                    type="text"
-                                    name="total"
-                                    value={formik.values.total}
-                                    onChange={formik.handleChange}
-                                    className="form-control font-thin text-sm w-[12%] text-right"
-                                />
-                                <div className="w-[11%]"></div>
-                            </div>
-                            <div className="flex items-center justify-end p-0 mt-1">
-                                <span className="mr-2">ภาษีมูลค่าเพิ่ม</span>
-                                <select
-                                    name="vat_rate"
-                                    value={formik.values.vat_rate}
-                                    onChange={(e) => {
-                                        formik.handleChange(e);
-                                        calcTotal(formik, formik.values.net_total, e.target.value)
-                                    }}
-                                    className="form-control font-thin text-sm w-[8%] text-center mr-1"
-                                >
-                                    <option value="1">1%</option>
-                                    <option value="7">7%</option>
-                                    <option value="10">10%</option>
-                                </select>
-                                <input
-                                    type="text"
-                                    name="vat"
-                                    value={formik.values.vat}
-                                    onChange={formik.handleChange}
-                                    className="form-control font-thin text-sm w-[12%] text-right"
-                                />
-                                <div className="w-[11%]"></div>
-                            </div>
-                            <div className="flex items-center justify-end p-0 mt-1">
-                                <span className="mr-2">ยอดสิทธิ</span>
-                                <input
-                                    type="text"
-                                    name="net_total"
-                                    value={formik.values.net_total}
-                                    onChange={formik.handleChange}
-                                    className="form-control font-thin text-sm w-[12%] text-right"
-                                />
-                                <div className="w-[11%]"></div>
+                                <div className="flex items-center justify-end p-0 mt-1">
+                                    <span className="mr-2">รวมเป็นเงิน</span>
+                                    <input
+                                        type="text"
+                                        name="total"
+                                        value={formik.values.total}
+                                        onChange={formik.handleChange}
+                                        className="form-control font-thin text-sm w-[12%] text-right"
+                                    />
+                                    <div className="w-[11%]"></div>
+                                </div>
+                                <div className="flex items-center justify-end p-0 mt-1">
+                                    <span className="mr-2">ภาษีมูลค่าเพิ่ม</span>
+                                    <select
+                                        name="vat_rate"
+                                        value={formik.values.vat_rate}
+                                        onChange={(e) => {
+                                            formik.handleChange(e);
+                                            calcTotal(formik, formik.values.net_total, e.target.value)
+                                        }}
+                                        className="form-control font-thin text-sm w-[8%] text-center mr-1"
+                                    >
+                                        <option value="1">1%</option>
+                                        <option value="7">7%</option>
+                                        <option value="10">10%</option>
+                                    </select>
+                                    <input
+                                        type="text"
+                                        name="vat"
+                                        value={formik.values.vat}
+                                        onChange={formik.handleChange}
+                                        className="form-control font-thin text-sm w-[12%] text-right"
+                                    />
+                                    <div className="w-[11%]"></div>
+                                </div>
+                                <div className="flex items-center justify-end p-0 mt-1">
+                                    <span className="mr-2">ยอดสิทธิ</span>
+                                    <input
+                                        type="text"
+                                        name="net_total"
+                                        value={formik.values.net_total}
+                                        onChange={formik.handleChange}
+                                        className="form-control font-thin text-sm w-[12%] text-right"
+                                    />
+                                    <div className="w-[11%]"></div>
+                                </div>
                             </div>
                         </Col>
                     </Row>
