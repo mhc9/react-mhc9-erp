@@ -6,7 +6,7 @@ const DetailList = ({ items }) => {
 
     return (
         <div className="detail__list-container">
-            <ul className="h-[42px] overflow-hidden text-sm font-thin">
+            <ul className="overflow-hidden text-sm font-thin">
                 {items && items.map((item, index) => {
                     if (index < 2) {
                         return (

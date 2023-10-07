@@ -52,7 +52,7 @@ const Preview = () => {
                             <div className="memo-header-text">
                                 <h3>เรื่อง</h3>
                                 <div className="memo-header-value">
-                                    <span>{requisition.topic} xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                    <span>{requisition.topic}</span>
                                 </div>
                             </div>
                             <div className="memo-header-text">

@@ -101,7 +101,7 @@
     justify-content: start;
     gap: 8px;
     height: auto;
-    border: 1px dotted red;
+    /* border: 1px dotted red; */
 }
 
 .memo-box .memo-header .memo-header-text:nth-child(3) > div {
