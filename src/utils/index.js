@@ -65,3 +65,12 @@ export const filterAmphursByChangwat = (changwat, amphurs = []) => {
 export const filterTambonsByAmphur = (amphur, tambons = []) => {
     return tambons.filter(tam => tam.amp_id === amphur);
 };
+
+export const generateQueryString = (inputs) => {
+    let queryStr = '';
+    for (const [key, val] of Object.entries(inputs)) {
+        queryStr += `&${key}=${val}`;
+    }
+
+    return queryStr;
+};

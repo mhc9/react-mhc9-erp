@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 import { getRequisitions } from '../../../features/requisition/requisitionSlice';
-// import FilteringInputs from '../../Item/FilteringInputs';
-// import { useGetInitialFormDataQuery } from '../../../services/item/itemApi';
+import FilteringInputs from '../../Requisition/FilteringInputs';
+import { useGetInitialFormDataQuery } from '../../../services/requisition/requisitionApi';
 import { currency, toShortTHDate } from '../../../utils';
 import Loading from '../../Loading';
 import Pagination from '../../Pagination';
 
 const initialFilters = {
-    name: '',
-    category: '',
+    pr_no: '',
+    pr_date: '',
+    division: '',
 };
 
 const initialFormData = {
@@ -24,7 +25,7 @@ const ModalRequisitionList = ({ isShow, onHide, onSelect }) => {
     const { requisitions, pager, loading } = useSelector(state => state.requisition);
     const [params, setParams] = useState('');
     const [apiEndpoint, setApiEndpoint] = useState('');
-    // const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
+    const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
 
     useEffect(() => {
         if (apiEndpoint === '') {
@@ -52,12 +53,12 @@ const ModalRequisitionList = ({ isShow, onHide, onSelect }) => {
             <Modal.Header className="border py-1 px-2">
                 <Modal.Title>รายการคำขอ</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-                {/* <FilteringInputs
+            <Modal.Body className="pb-0">
+                <FilteringInputs
                     initialFilters={initialFilters}
                     onFilter={handleFilter}
                     formData={formData}
-                /> */}
+                />
 
                 {loading && (
                     <div className="text-center">
@@ -117,6 +118,9 @@ const ModalRequisitionList = ({ isShow, onHide, onSelect }) => {
                     onPageClick={(url) => handlePageClick(url)}
                 />
             </Modal.Body>
+            <Modal.Footer className="py-1 px-2">
+                <button type="button" className="btn btn-outline-danger btn-sm">ปิด</button>
+            </Modal.Footer>
         </Modal>
     )
 }
