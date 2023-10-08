@@ -45,6 +45,8 @@ export const currencyToNumber = function(currency) {
 };
 
 export const toShortTHDate = (dateStr) => {
+    if (!dateStr || dateStr === '') return '';
+
     const [year, month, day] = dateStr.split('-');
 
     return `${day}/${month}/${parseInt(year, 10) + 543}`;

@@ -32,6 +32,7 @@ import AddRequisition from './views/Requisition/Add';
 import EditRequisition from './views/Requisition/Edit';
 import OrderList from './views/Order/List';
 import AddOrder from './views/Order/Add';
+import OrderDetail from './views/Order/Detail';
 import ItemList from './views/Item/List';
 import AddItem from './views/Item/Add';
 import EditItem from './views/Item/Edit';
@@ -88,6 +89,7 @@ function App() {
                 {/* Orders */}
                 <Route path="order" element={<GuardRoute><OrderList /></GuardRoute>} />
                 <Route path="order/add" element={<GuardRoute><AddOrder /></GuardRoute>} />
+                <Route path="order/:id/detail" element={<GuardRoute><OrderDetail /></GuardRoute>} />
 
                 {/* Items */}
                 <Route path="item" element={<GuardRoute><ItemList /></GuardRoute>} />
