@@ -9,7 +9,7 @@ const Pagination = ({ pager, onPageClick }) => {
     return (
         <>
             {(pager && pager.last_page > 1) && (
-                <div className="flex flex-row items-center justify-between gap-4">
+                <div className="flex flex-row items-center justify-between gap-4 w-full">
                     <div className="text-sm font-thin flex flex-row items-center justify-between gap-4 w-3/5">
                         <span>หน้าที่ {pager.current_page}/{pager.last_page}</span>
                         <span>จำนวนทั้งสิ้น {pager.total} รายการ</span>

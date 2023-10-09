@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Pagination } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployees } from '../../../features/employee/employeeSlice';
 import Loading from '../../Loading';
 import FilteringInputs from '../../Employee/FilteringInputs';
 import { useGetInitialFormDataQuery } from '../../../services/employee/employeeApi';
+import Pagination from '../../../components/Pagination'
 
 const initialFilters = {
     name: '',
@@ -37,17 +38,13 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
         }
     };
 
-    const handlePageClick = (url) => {
-        setApiEndpoint(url);
-    };
-
     return (
         <Modal
             show={isShow}
             onHide={onHide}
             size='xl'
         >
-            <Modal.Header closeButton>
+            <Modal.Header closeButton className="py-1">
                 <Modal.Title>รายการบุคลากร</Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -58,7 +55,7 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
                 />
 
                 <div>
-                    <table className="table table-bordered">
+                    <table className="table table-bordered mb-0 text-sm">
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
@@ -76,7 +73,7 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
                                 </tr>
                             )}
                             {employees && employees.map((employee, index) => (
-                                <tr key={employee.id}>
+                                <tr key={employee.id} className="font-thin">
                                     <td className="text-center">{index+pager.from}</td>
                                     <td>{employee.prefix.name}{employee.firstname} {employee.lastname}</td>
                                     <td>{employee.position.name}{employee.level?.name}</td>
@@ -104,27 +101,13 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
                         </tbody>
                     </table>
                 </div>
-
-                {pager && (
-                    <Pagination>
-                        <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
-                        <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
-                        {/* <Pagination.Item>{1}</Pagination.Item>
-                        <Pagination.Ellipsis />
-
-                        <Pagination.Item>{10}</Pagination.Item>
-                        <Pagination.Item>{11}</Pagination.Item>
-                        <Pagination.Item active>{12}</Pagination.Item>
-                        <Pagination.Item>{13}</Pagination.Item>
-                        <Pagination.Item disabled>{14}</Pagination.Item>
-
-                        <Pagination.Ellipsis />
-                        <Pagination.Item>{20}</Pagination.Item> */}
-                        <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
-                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
-                    </Pagination>
-                )}
             </Modal.Body>
+            <Modal.Footer className="py-1">
+                <Pagination
+                    pager={pager}
+                    onPageClick={(url) => setApiEndpoint(url)}
+                />
+            </Modal.Footer>
         </Modal>
     )
 }
