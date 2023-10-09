@@ -86,6 +86,9 @@ const OrderForm = () => {
                 vat_rate: '7',
                 vat: '',
                 net_total: '',
+                deliver_days: '30',
+                deliver_date: '',
+                year: '2566',
                 items: []
             }}
             validationSchema={orderSchema}
@@ -199,9 +202,13 @@ const OrderForm = () => {
                     <Row className="mb-2">
                         <Col md={4}>
                             <label htmlFor="">ปีงบ</label>
-                                <select className="form-control">
-                                    <option></option>
-                                </select>
+                            <select className="form-control">
+                                <option value="2566">2566</option>
+                                <option value="2567">2567</option>
+                                <option value="2568">2568</option>
+                                <option value="2569">2569</option>
+                                <option value="2570">2570</option>
+                            </select>
                         </Col>
                         <Col md={4}>
                             <label htmlFor="">กำหนดส่งมอบ</label>
