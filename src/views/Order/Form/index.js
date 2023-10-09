@@ -174,7 +174,7 @@ const OrderForm = () => {
                             </div>
                         </Col>
                     </Row>}
-                    <Row className="mb-3">
+                    <Row className="mb-2">
                         <Col>
                             <label htmlFor="">ผู้จัดจำหน่าย</label>
                             <div className="input-group">
@@ -194,6 +194,37 @@ const OrderForm = () => {
                             {(formik.errors.supplier_id && formik.touched.supplier_id) && (
                                 <span className="text-red-500 text-sm">{formik.errors.supplier_id}</span>
                             )}
+                        </Col>
+                    </Row>
+                    <Row className="mb-2">
+                        <Col md={4}>
+                            <label htmlFor="">ปีงบ</label>
+                                <select className="form-control">
+                                    <option></option>
+                                </select>
+                        </Col>
+                        <Col md={4}>
+                            <label htmlFor="">กำหนดส่งมอบ</label>
+                            <div className="flex justify-center items-center gap-2">
+                                <input
+                                    type="text"
+                                    name="deliver_days"
+                                    value={formik.values.deliver_days}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm min-h-[34px]"
+                                />
+                                <span>วัน</span>
+                            </div>
+                        </Col>
+                        <Col md={4}>
+                            <label htmlFor="">ครบกำหนดวันที่</label>
+                            <input
+                                type="text"
+                                name="deliver_date"
+                                value={formik.values.deliver_date}
+                                onChange={formik.handleChange}
+                                className="form-control text-sm min-h-[34px]"
+                            />
                         </Col>
                     </Row>
                     <Row className="mb-2 text-sm">
