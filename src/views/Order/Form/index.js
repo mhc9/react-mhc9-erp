@@ -40,6 +40,8 @@ const OrderForm = () => {
     const [selectedSupplier, setSelectedSupplier] = useState(null);
 
     const handleSubmit = (values, formik) => {
+        if (!formik.isValid) toast.error("คุณกรอกข้อมูลไม่ครบ!!");
+
         dispatch(store(values));
     };
 
@@ -89,9 +91,7 @@ const OrderForm = () => {
             validationSchema={orderSchema}
             onSubmit={handleSubmit}
         >
-            {(formik) => {
-                console.log(formik);
-                return (
+            {(formik) => (
                 <Form>
                     <ModalRequisitionList
                         isShow={showRequisitionModal}
@@ -292,7 +292,7 @@ const OrderForm = () => {
                         </Col>
                     </Row>
                 </Form>
-            )}}
+            )}
         </Formik>
     )
 }

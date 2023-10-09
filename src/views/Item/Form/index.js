@@ -63,7 +63,7 @@ const ItemForm = ({ item }) => {
                                         name="name"
                                         value={formik.values.name}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm font-thin"
                                     />
                                     {(formik.errors.name && formik.touched.name) && (
                                         <span className="text-red-500 text-sm">{formik.errors.name}</span>
@@ -77,7 +77,7 @@ const ItemForm = ({ item }) => {
                                         name="category_id"
                                         value={formik.values.category_id}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm font-thin"
                                     >
                                         <option value="">-- ประเทภสินค้า/บริการ --</option>
                                         {formData && formData.types.map(type => (
@@ -105,7 +105,7 @@ const ItemForm = ({ item }) => {
                                         name="cost"
                                         value={formik.values.cost}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm font-thin"
                                     />
                                     {(formik.errors.cost && formik.touched.cost) && (
                                         <span className="text-red-500 text-sm">{formik.errors.cost}</span>
@@ -120,7 +120,7 @@ const ItemForm = ({ item }) => {
                                         name="price"
                                         value={formik.values.price}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm font-thin"
                                     />
                                     {(formik.errors.price && formik.touched.price) && (
                                         <span className="text-red-500 text-sm">{formik.errors.price}</span>
@@ -134,7 +134,7 @@ const ItemForm = ({ item }) => {
                                         name="unit_id"
                                         value={formik.values.unit_id}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm font-thin"
                                     >
                                         <option value="">-- หน่วยนับ --</option>
                                         {formData && formData.units.map(unit => (
@@ -158,7 +158,7 @@ const ItemForm = ({ item }) => {
                                         name="description"
                                         value={formik.values.description}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm font-thin"
                                     ></textarea>
                                     {(formik.errors.description && formik.touched.description) && (
                                         <span className="text-red-500 text-sm">{formik.errors.description}</span>
@@ -174,7 +174,7 @@ const ItemForm = ({ item }) => {
                                         type="file"
                                         name="img_url"
                                         onChange={(e) => setSelectedImg(e.target.files[0])}
-                                        className="ml-2"
+                                        className="ml-2 text-sm font-thin"
                                     />
                                     {(formik.errors.img_url && formik.touched.img_url) && (
                                         <span className="text-red-500 text-sm">{formik.errors.img_url}</span>
@@ -193,7 +193,7 @@ const ItemForm = ({ item }) => {
                                 <FormGroup>
                                     <button
                                         type="submit"
-                                        className={`btn ${item ? 'btn-outline-warning' : 'btn-outline-primary'} float-right`}
+                                        className={`btn ${item ? 'btn-outline-warning' : 'btn-outline-primary'} btn-sm float-right`}
                                     >
                                         {item ? 'บันทึกการแก่ไข' : 'บันทึก'}
                                     </button>
