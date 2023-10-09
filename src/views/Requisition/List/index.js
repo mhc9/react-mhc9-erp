@@ -3,27 +3,48 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import Loading from '../../../components/Loading'
 import { getRequisitions } from '../../../features/requisition/requisitionSlice'
+import { useGetInitialFormDataQuery } from '../../../services/requisition/requisitionApi'
 import { currency, toShortTHDate } from '../../../utils'
 import DetailList from './DetailList'
+import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
+import FilteringInputs from '../../../components/Requisition/FilteringInputs'
+
+const initialFilters = {
+    pr_no: '',
+    pr_date: '',
+    division: '',
+    status: '1'
+};
+
+const initialFormData = {
+    units: [],
+    categories: [],
+};
 
 const RequisitionList = () => {
     const dispatch = useDispatch();
     const { requisitions, pager, isLoading } = useSelector(state => state.requisition);
+    const { data: formData = initialFormData, isLoading: loading } = useGetInitialFormDataQuery();
     const [apiEndpoint, setApiEndpoint] = useState('');
+    const [params, setParams] = useState('');
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getRequisitions({ url: `/api/requisitions/search` }));
+            dispatch(getRequisitions({ url: `/api/requisitions/search?page=&status=1` }));
         } else {
-            dispatch(getRequisitions({ url: apiEndpoint }));
+            dispatch(getRequisitions({ url: `${apiEndpoint}${params}` }));
         }
-    }, [dispatch, apiEndpoint])
+    }, [dispatch, apiEndpoint, params])
+
+    const handleFilter = (queryStr) => {
+        setParams(queryStr);
+        setApiEndpoint(`/api/requisitions/search?page=`);
+    };
 
     const handleDelete = (id) => {
-
+        console.log(id);
     };
 
     return (
@@ -42,7 +63,13 @@ const RequisitionList = () => {
                 </div>
 
                 <div>
-                    <table className="table table-bordered">
+                    <FilteringInputs
+                        initialFilters={initialFilters}
+                        formData={formData}
+                        onFilter={handleFilter}
+                    />
+
+                    <table className="table table-bordered mb-2">
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
@@ -84,8 +111,8 @@ const RequisitionList = () => {
                                         <p className="font-thin">{requisition.requester?.position?.name}{requisition.requester?.level && requisition.requester?.level?.name}</p>
                                     </td>
                                     <td className="text-center">
-                                        {requisition.status === 0 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
-                                        {requisition.status === 1 && <span className="badge rounded-pill text-bg-success">จัดซื้อแล้ว</span>}
+                                        {requisition.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
+                                        {requisition.status === 2 && <span className="badge rounded-pill text-bg-success">จัดซื้อแล้ว</span>}
                                     </td>
                                     <td className="text-center p-1">
                                         <Link to={`/requisition/${requisition.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
