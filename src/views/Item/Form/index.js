@@ -193,7 +193,7 @@ const ItemForm = ({ item }) => {
                                 <FormGroup>
                                     <button
                                         type="submit"
-                                        className={`btn ${item ? 'btn-outline-warning' : 'btn-outline-primary'} btn-sm float-right`}
+                                        className={`btn ${item ? 'border-orange-300 hover:bg-orange-300 hover:text-white' : 'btn-outline-primary'} btn-sm float-right`}
                                     >
                                         {item ? 'บันทึกการแก่ไข' : 'บันทึก'}
                                     </button>
