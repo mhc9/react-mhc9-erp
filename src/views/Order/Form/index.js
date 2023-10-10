@@ -40,8 +40,6 @@ const OrderForm = () => {
     const [selectedSupplier, setSelectedSupplier] = useState(null);
 
     const handleSubmit = (values, formik) => {
-        if (!formik.isValid) toast.error("คุณกรอกข้อมูลไม่ครบ!!");
-
         dispatch(store(values));
     };
 

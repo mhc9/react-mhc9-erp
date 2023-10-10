@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
-import { FaTimes } from 'react-icons/fa';
 import { getRequisitions } from '../../../features/requisition/requisitionSlice';
 import FilteringInputs from '../../Requisition/FilteringInputs';
 import { useGetInitialFormDataQuery } from '../../../services/requisition/requisitionApi';
@@ -30,7 +29,7 @@ const ModalRequisitionList = ({ isShow, onHide, onSelect }) => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getRequisitions({ url: `/api/requisitions/search?page=&status=1` }));
+            dispatch(getRequisitions({ url: `/api/requisitions/search?page=&status=1&limit=5` }));
         } else {
             dispatch(getRequisitions({ url: `${apiEndpoint}${params}` }));
         }
@@ -42,7 +41,7 @@ const ModalRequisitionList = ({ isShow, onHide, onSelect }) => {
 
     const handleFilter = (queryStr) => {
         setParams(queryStr);
-        setApiEndpoint(`/api/requisitions/search?page=&status=1`);
+        setApiEndpoint(`/api/requisitions/search?page=&status=1&limit=5`);
     };
 
     return (
@@ -91,7 +90,7 @@ const ModalRequisitionList = ({ isShow, onHide, onSelect }) => {
                                         </p>
                                         <p>{' ' + requisition.topic} จำนวน {currency.format(requisition.item_count)} รายการ รวมเป็นเงิน {currency.format(requisition.net_total)} บาท</p>
                                         <p className="text-xs font-thin text-blue-600">
-                                            ตาม{requisition.budget?.project?.plan?.name} {requisition.budget?.project?.name} {requisition.budget?.name}
+                                            ตาม{requisition.budget?.project?.plan?.name} {requisition.budget?.project?.name}<br /> {requisition.budget?.name}
                                         </p>
                                     </td>
                                     <td className="text-center">
@@ -113,14 +112,12 @@ const ModalRequisitionList = ({ isShow, onHide, onSelect }) => {
                         </tbody>
                     </table>
                 )}
-
+            </Modal.Body>
+            <Modal.Footer className="py-1 px-2">
                 <Pagination
                     pager={pager}
                     onPageClick={(url) => handlePageClick(url)}
                 />
-            </Modal.Body>
-            <Modal.Footer className="py-1 px-2">
-                <button type="button" className="btn btn-outline-danger btn-sm">ปิด</button>
             </Modal.Footer>
         </Modal>
     )
