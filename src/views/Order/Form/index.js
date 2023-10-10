@@ -74,6 +74,12 @@ const OrderForm = () => {
         formik.setFieldValue('total', currency.format(_netTotal - vat));
     };
 
+    const calcDeliverDate = (formik, fromDate, days) => {
+        let deliverDate = moment(fromDate).add(days, "days").format('YYYY-MM-DD');
+
+        formik.setFieldValue('deliver_date', toShortTHDate(deliverDate));
+    };
+
     return (
         <Formik
             initialValues={{
@@ -146,6 +152,8 @@ const OrderForm = () => {
                                         onChange={(date) => {
                                             setSelectedDate(date);
                                             formik.setFieldValue('po_date', date.format('YYYY-MM-DD'));
+
+                                            calcDeliverDate(formik, date.format('YYYY-MM-DD'), formik.values.deliver_days);
                                         }}
                                         variant="outlined"
                                     />
@@ -202,7 +210,7 @@ const OrderForm = () => {
                     <Row className="mb-2">
                         <Col md={4}>
                             <label htmlFor="">ปีงบ</label>
-                            <select className="form-control">
+                            <select className="form-control text-sm">
                                 <option value="2566">2566</option>
                                 <option value="2567">2567</option>
                                 <option value="2568">2568</option>
@@ -214,11 +222,14 @@ const OrderForm = () => {
                             <label htmlFor="">กำหนดส่งมอบ</label>
                             <div className="flex justify-center items-center gap-2">
                                 <input
-                                    type="text"
+                                    type="number"
                                     name="deliver_days"
                                     value={formik.values.deliver_days}
-                                    onChange={formik.handleChange}
-                                    className="form-control text-sm min-h-[34px]"
+                                    onChange={(e) => {
+                                        formik.handleChange(e);
+                                        calcDeliverDate(formik, formik.values.po_date, e.target.value);
+                                    }}
+                                    className="form-control text-sm text-center min-h-[34px]"
                                 />
                                 <span>วัน</span>
                             </div>
@@ -230,7 +241,7 @@ const OrderForm = () => {
                                 name="deliver_date"
                                 value={formik.values.deliver_date}
                                 onChange={formik.handleChange}
-                                className="form-control text-sm min-h-[34px]"
+                                className="form-control text-sm text-center min-h-[34px] bg-gray-100"
                             />
                         </Col>
                     </Row>
