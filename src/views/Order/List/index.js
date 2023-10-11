@@ -3,27 +3,43 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { getOrders } from '../../../features/order/orderSlice'
 import { currency, toShortTHDate } from '../../../utils'
+import { useGetInitialFormDataQuery } from '../../../services/order/orderApi'
+import { getOrders } from '../../../features/order/orderSlice'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
+import FilteringInputs from '../../../components/Requisition/FilteringInputs'
+
+const initialFilters = {
+    po_no: '',
+    po_date: '',
+    supplier: '',
+    status: '1',
+};
+
+const initialFormData = {
+    suppliers: []
+};
 
 const OrderList = () => {
     const dispatch = useDispatch();
     const { orders, pager, isLoading } = useSelector(state => state.order);
+    const { data: fornData = initialFormData, isLoading: loading } = useGetInitialFormDataQuery();
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState('');
 
     useEffect(() => {
-        if (apiEndpoint) {
-            dispatch(getOrders({ url: '/api/orders' }));
+        if (apiEndpoint === '') {
+            dispatch(getOrders({ url: '/api/orders/search?page=&status=1' }));
         } else {
-            dispatch(getOrders({ url: '/api/orders' }));
+            dispatch(getOrders({ url: `${apiEndpoint}${params}` }));
         }
     }, [dispatch, apiEndpoint, params]);
 
     const handleFilter = (queryString) => {
+        setParams(queryString);
 
+        setApiEndpoint('/api/orders/search?page=')
     };
 
     const handleDelete = (id) => {
@@ -42,10 +58,16 @@ const OrderList = () => {
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการสั่งซื้อ/จ้าง</h2>
-                    <Link to="add" className="btn btn-primary">สร้างคำสั่งซื้อ/จ้าง</Link>
+                    <Link to="add" className="btn btn-primary btn-sm">สร้างคำสั่งซื้อ/จ้าง</Link>
                 </div>
 
                 <div>
+                    <FilteringInputs
+                        initialFilters={initialFilters}
+                        formData={fornData}
+                        onFilter={handleFilter}
+                    />
+
                     <table className="table table-bordered text-sm">
                         <thead>
                             <tr>

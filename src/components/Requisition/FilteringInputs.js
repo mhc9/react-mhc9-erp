@@ -28,34 +28,34 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                     <FormGroup>
                         <input
                             type="btn"
-                            name="pr_no"
-                            value={filters.pr_no}
+                            name="po_no"
+                            value={filters.po_no}
                             onChange={handleInputChange}
-                            placeholder="เลขที่คำขอ"
+                            placeholder="เลขที่ใบสั่งซื้อ/จ้าง"
                             className="form-control text-sm"
                         />
                     </FormGroup>
                     <FormGroup>
                         <input
                             type="date"
-                            name="pr_date"
-                            value={filters.pr_date}
+                            name="po_date"
+                            value={filters.po_date}
                             onChange={handleInputChange}
-                            placeholder="วันที่คำขอ"
+                            placeholder="วันที่ใบสั่งซื้อ/จ้าง"
                             className="form-control text-sm"
                         />
                     </FormGroup>
                     <FormGroup>
                         <select
-                            name="division"
-                            value={filters.division}
+                            name="supplier"
+                            value={filters.supplier}
                             onChange={handleInputChange}
                             className="form-control text-sm"
                         >
-                            <option value="">-- หน่วยงาน --</option>
-                            {formData.divisions && formData.divisions.map(division => (
-                                <option value={division.id} key={division.id}>
-                                    {division.name}
+                            <option value="">-- ผู้จัดจำหน่าย --</option>
+                            {formData.suppliers && formData.suppliers.map(supplier => (
+                                <option value={supplier.id} key={supplier.id}>
+                                    {supplier.name}
                                 </option>
                             ))}
                         </select>
