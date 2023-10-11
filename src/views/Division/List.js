@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AiFillBulb } from 'react-icons/ai'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
-import { Pagination } from 'react-bootstrap';
-import Loading from '../../components/Loading';
 import { destroy } from '../../features/division/divisionSlice';
+import Loading from '../../components/Loading';
+import Pagination from '../../components/Pagination'
 
 const DivisionList = ({ divisions, pager, onEditting, onPageClick, onDeleted }) => {
     const dispatch = useDispatch();
@@ -72,25 +72,10 @@ const DivisionList = ({ divisions, pager, onEditting, onPageClick, onDeleted }) 
                 </tbody>
             </table>
 
-            {pager && (
-                    <Pagination>
-                        <Pagination.First disabled={pager.current_page === 1} onClick={() => onPageClick(pager.first_page_url)} />
-                        <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => onPageClick(pager.prev_page_url)} />
-                        {/* <Pagination.Item>{1}</Pagination.Item>
-                        <Pagination.Ellipsis />
-
-                        <Pagination.Item>{10}</Pagination.Item>
-                        <Pagination.Item>{11}</Pagination.Item>
-                        <Pagination.Item active>{12}</Pagination.Item>
-                        <Pagination.Item>{13}</Pagination.Item>
-                        <Pagination.Item disabled>{14}</Pagination.Item>
-
-                        <Pagination.Ellipsis />
-                        <Pagination.Item>{20}</Pagination.Item> */}
-                        <Pagination.Next disabled={!pager.next_page_url} onClick={() => onPageClick(pager.next_page_url)} />
-                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => onPageClick(pager.last_page_url)} />
-                    </Pagination>
-                )}
+            <Pagination
+                pager={pager}
+                onPageClick={onPageClick}
+            />
         </div>
     )
 }

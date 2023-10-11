@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Pagination } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { destroy, getEmployees } from '../../features/employee/employeeSlice'
 import { useGetInitialFormDataQuery } from '../../services/employee/employeeApi'
 import Loading from '../../components/Loading'
+import Pagination from '../../components/Pagination'
 import FilteringInputs from '../../components/Employee/FilteringInputs'
 
 const initialFilters = {
@@ -31,10 +32,6 @@ const EmployeeList = () => {
             dispatch(getEmployees({ url: `${apiEndpoint}${params}` }));
         }
     }, [dispatch, apiEndpoint, params]);
-
-    const handlePageClick = (url) => {
-        setApiEndpoint(url);
-    };
 
     const handleFilter = (queryStr) => {
         setParams(queryStr);
@@ -82,7 +79,7 @@ const EmployeeList = () => {
                         <tbody>
                             {isLoading && (
                                 <tr>
-                                    <td colSpan={4} className="text-center">
+                                    <td colSpan={5} className="text-center">
                                         <Loading />
                                     </td>
                                 </tr>
@@ -117,32 +114,10 @@ const EmployeeList = () => {
                     </table>
                 </div>
 
-                {pager && (
-                    <div className="flex flex-row items-center justify-between gap-4">
-                        <div className="text-sm font-thin flex flex-row items-center justify-between gap-4 w-3/5">
-                            <span>หน้าที่ {pager.current_page}/{pager.last_page}</span>
-                            <span>จำนวนทั้งสิ้น {pager.total} รายการ</span>
-                        </div>
-
-                        <Pagination>
-                            <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
-                            <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
-                            {/* <Pagination.Item>{1}</Pagination.Item>
-                            <Pagination.Ellipsis />
-
-                            <Pagination.Item>{10}</Pagination.Item>
-                            <Pagination.Item>{11}</Pagination.Item>
-                            <Pagination.Item active>{12}</Pagination.Item>
-                            <Pagination.Item>{13}</Pagination.Item>
-                            <Pagination.Item disabled>{14}</Pagination.Item>
-
-                            <Pagination.Ellipsis />
-                            <Pagination.Item>{20}</Pagination.Item> */}
-                            <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
-                            <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
-                        </Pagination>
-                    </div>
-                )}
+                <Pagination
+                    pager={pager}
+                    onPageClick={(url) => setApiEndpoint(url)}
+                />
             </div>
         </div>
     )
