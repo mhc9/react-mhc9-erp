@@ -1,34 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import api from '../../api'
+import { generateQueryString } from '../../utils'
 
-const AssetFilteringInput = ({ filters, onFilter }) => {
-    // const [categories, setCategories] = useState([]);
-    const [groups, setGroups] = useState([]);
-    const [employees, setEmployees] = useState([]);
-
-    useEffect(() => {
-        getFormInitialData();
-
-        return () => getFormInitialData();
-    }, []);
-
-    const getFormInitialData = async () => {
-        try {
-            const res = await api.get('/api/assets/init/form');
-
-            // setCategories(res.data.categories);
-            setGroups(res.data.groups);
-            setEmployees(res.data.employees);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+const AssetFilteringInput = ({ initialFilters, onFilter, formData }) => {
+    const [filters, setFilters] = useState(initialFilters);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        const _filters = { ...filters, [name]: value };
 
-        onFilter(prevState => ({ ...prevState, [name]: value }));
+        setFilters(_filters);
+        onFilter(generateQueryString(_filters));
     };
 
     return (
@@ -67,7 +49,7 @@ const AssetFilteringInput = ({ filters, onFilter }) => {
                         className="form-control"
                     >
                         <option value="">-- กลุ่มพัสดุ --</option>
-                        {groups && groups.map(group => (
+                        {formData.groups && formData.groups.map(group => (
                             <option key={group.id} value={group.id}>
                                 {group.name}
                             </option>
@@ -82,7 +64,7 @@ const AssetFilteringInput = ({ filters, onFilter }) => {
                         className="form-control"
                     >
                         <option value="">-- ผู้รับผิดชอบ --</option>
-                        {employees && employees.map(employee => (
+                        {formData.employees && formData.employees.map(employee => (
                             <option key={employee.id} value={employee.id}>
                                 {`${employee.firstname} ${employee.lastname}`}
                             </option>

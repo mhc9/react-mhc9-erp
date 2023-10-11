@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Col, Pagination, Row } from 'react-bootstrap'
+import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { calcUsedAgeY } from '../../utils'
 import { getAssets, destroy } from '../../features/asset/assetSlice'
+import { useGetInitialFormDataQuery } from '../../services/asset/assetApi'
 import AssetFilteringInput from '../../components/Asset/FilteringInput'
 import Asset from '../../components/Asset/Asset'
 import Loading from '../../components/Loading'
+import Pagination from '../../components/Pagination'
 
 const initialFilters = {
     assetNo: '',
@@ -17,30 +19,29 @@ const initialFilters = {
     owner: '',
 };
 
+const initialFormData = {
+    groups: [],
+    employees: [],
+};
+
 const AssetList = () => {
     const dispatch = useDispatch();
-    const { assets, pager, loading, success } = useSelector(state => state.asset)
+    const { assets, pager, loading, success } = useSelector(state => state.asset);
+    const { data:formData = initialFormData } = useGetInitialFormDataQuery();
     const [apiEndpoint, setApiEndpoint] = useState('');
-    const [filters, setFilters] = useState(initialFilters);
+    const [params, setParams] = useState('')
 
     useEffect(() => {
         if (apiEndpoint === '') {
             dispatch(getAssets({ url: `/api/assets/search` }));
         } else {
-            dispatch(getAssets({ url: apiEndpoint }));
+            dispatch(getAssets({ url: `${apiEndpoint}${params}` }));
         }
-    }, [apiEndpoint]);
+    }, [dispatch, apiEndpoint, params]);
 
-    useEffect(() => {
-        const filterStr = `&name=${filters.name}&category=${filters.category}&group=${filters.group}&owner=${filters.owner}`
-
-        setApiEndpoint(`/api/assets/search?page=${filterStr}`);
-    }, [filters]);
-
-    const handleClickPage = (url) => {
-        const filterStr = `&name=${filters.name}&category=${filters.category}&group=${filters.group}&owner=${filters.owner}`
-
-        setApiEndpoint(`${url}${filterStr}`);
+    const handleFilter = (queryStr) => {
+        setParams(queryStr);
+        setApiEndpoint(`/api/assets/search?page=`);
     };
 
     const handleDelete = (id) => {
@@ -64,7 +65,11 @@ const AssetList = () => {
                     <Link to="add" className="btn btn-primary">เพิ่มพัสดุใหม่</Link>
                 </div>
 
-                <AssetFilteringInput filters={filters} onFilter={setFilters} />
+                <AssetFilteringInput
+                    initialFilters={initialFilters}
+                    formData={formData}
+                    onFilter={handleFilter}
+                />
 
                 <div>
                     <table className="table table-bordered">
@@ -121,25 +126,10 @@ const AssetList = () => {
                     </table>
                 </div>
 
-                {pager && (
-                    <Pagination>
-                        <Pagination.First disabled={pager.current_page === 1} onClick={() => handleClickPage(pager.first_page_url)} />
-                        <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handleClickPage(pager.prev_page_url)} />
-                        {/* <Pagination.Item>{1}</Pagination.Item>
-                        <Pagination.Ellipsis />
-
-                        <Pagination.Item>{10}</Pagination.Item>
-                        <Pagination.Item>{11}</Pagination.Item>
-                        <Pagination.Item active>{12}</Pagination.Item>
-                        <Pagination.Item>{13}</Pagination.Item>
-                        <Pagination.Item disabled>{14}</Pagination.Item>
-
-                        <Pagination.Ellipsis />
-                        <Pagination.Item>{20}</Pagination.Item> */}
-                        <Pagination.Next disabled={!pager.next_page_url} onClick={() => handleClickPage(pager.next_page_url)} />
-                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handleClickPage(pager.last_page_url)} />
-                    </Pagination>
-                )}
+                <Pagination
+                    pager={pager}
+                    onPageClick={(url) => setApiEndpoint(url)}
+                />
             </div>
         </div>
     )

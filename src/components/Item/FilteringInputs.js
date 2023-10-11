@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Col, FormGroup, Row } from 'react-bootstrap'
+import { generateQueryString } from '../../utils';
 
 const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
     const [filters, setFilters] = useState(initialFilters);
@@ -11,12 +12,7 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
     };
 
     const handleFilter = () => {
-        let queryStr = '';
-        for (const [key, val] of Object.entries(filters)) {
-            queryStr += `&${key}=${val}`;
-        }
-
-        onFilter(queryStr);
+        onFilter(generateQueryString(filters));
     };
 
     return (
