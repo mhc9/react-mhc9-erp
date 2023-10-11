@@ -33,6 +33,9 @@ import EditRequisition from './views/Requisition/Edit';
 import OrderList from './views/Order/List';
 import AddOrder from './views/Order/Add';
 import OrderDetail from './views/Order/Detail';
+import InspectionList from './views/Inspection/List';
+import AddInspection from './views/Inspection/Add';
+import InspectionDetail from './views/Inspection/Detail';
 import ItemList from './views/Item/List';
 import AddItem from './views/Item/Add';
 import EditItem from './views/Item/Edit';
@@ -90,6 +93,11 @@ function App() {
                 <Route path="order" element={<GuardRoute><OrderList /></GuardRoute>} />
                 <Route path="order/add" element={<GuardRoute><AddOrder /></GuardRoute>} />
                 <Route path="order/:id/detail" element={<GuardRoute><OrderDetail /></GuardRoute>} />
+
+                {/* Inspections */}
+                <Route path="inspection" element={<GuardRoute><InspectionList /></GuardRoute>} />
+                <Route path="inspection/add" element={<GuardRoute><AddInspection /></GuardRoute>} />
+                <Route path="inspection/:id/detail" element={<GuardRoute><InspectionDetail /></GuardRoute>} />
 
                 {/* Items */}
                 <Route path="item" element={<GuardRoute><ItemList /></GuardRoute>} />
