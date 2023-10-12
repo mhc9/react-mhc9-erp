@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { resetSuccess } from '../../features/order/orderSlice'
+import { resetSuccess } from '../../features/inspection/inspectionSlice'
 import InspectionForm from './Form'
 
 const AddInspection = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { isSuccess } = useSelector(state => state.order);
+    const { isSuccess } = useSelector(state => state.inspection);
 
     useEffect(() => {
         if (isSuccess) {
