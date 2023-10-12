@@ -43,7 +43,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                             <li className="hover:bg-gray-300 p-2 rounded-t-md">
                                 <Link to="/requisition"><p className="w-full">คำขอซื้อ/จ้าง</p></Link>
                             </li>
-                            <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                            <li className="hover:bg-gray-300 p-2">
                                 <Link to="/order"><p className="w-full">ใบสั่งซื้อ/จ้าง</p></Link>
                             </li>
                             <li className="hover:bg-gray-300 p-2 rounded-b-md">

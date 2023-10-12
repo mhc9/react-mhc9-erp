@@ -28,7 +28,7 @@ const AddInspection = () => {
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>จัดซื้อจัดจ้าง</Breadcrumb.Item>
                 <Breadcrumb.Item href="/inspection">รายการตรวจรับพัสดุ</Breadcrumb.Item>
-                <Breadcrumb.Item active>ตรวจรับพัสดุ</Breadcrumb.Item>
+                <Breadcrumb.Item active>บันทึกตรวจรับพัสดุ</Breadcrumb.Item>
             </Breadcrumb>
         
             <div className="content">

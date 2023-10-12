@@ -58,7 +58,7 @@ const InspectionList = () => {
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการตรวจรับพัสดุ</h2>
-                    <Link to="add" className="btn btn-primary btn-sm">ตรวจรับพัสดุ</Link>
+                    <Link to="add" className="btn btn-primary btn-sm">บันทึกตรวจรับพัสดุ</Link>
                 </div>
 
                 <div>
