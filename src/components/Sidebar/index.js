@@ -40,6 +40,9 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                     <Link to="/order"><p className="w-full">ใบสั่งซื้อ/จ้าง</p></Link>
                                 </li>
+                                <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                    <Link to="/inspection"><p className="w-full">ตรวจรับพัสดุ</p></Link>
+                                </li>
                             </ul>
                         </div>
 

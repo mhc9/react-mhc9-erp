@@ -52,13 +52,13 @@ const InspectionList = () => {
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>จัดซื้อจัดจ้าง</Breadcrumb.Item>
-                <Breadcrumb.Item active>รายการสั่งซื้อ/จ้าง</Breadcrumb.Item>
+                <Breadcrumb.Item active>รายการตรวจรับพัสดุ</Breadcrumb.Item>
             </Breadcrumb>
         
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-xl">รายการสั่งซื้อ/จ้าง</h2>
-                    <Link to="add" className="btn btn-primary btn-sm">สร้างคำสั่งซื้อ/จ้าง</Link>
+                    <h2 className="text-xl">รายการตรวจรับพัสดุ</h2>
+                    <Link to="add" className="btn btn-primary btn-sm">ตรวจรับพัสดุ</Link>
                 </div>
 
                 <div>

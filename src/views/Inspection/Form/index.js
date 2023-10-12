@@ -16,8 +16,7 @@ import {
 } from '../../../utils';
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
 import { store } from '../../../features/order/orderSlice';
-import ModalRequisitionList from '../../../components/Modals/Requisition';
-import ModalSupplierList from '../../../components/Modals/Supplier';
+import ModalOrderList from '../../../components/Modals/Order';
 import OrderItems from './OrderItems';
 
 const orderSchema = Yup.object().shape({
@@ -33,35 +32,30 @@ const orderSchema = Yup.object().shape({
 
 const InspectionForm = () => {
     const dispatch = useDispatch();
-    const [selectedDate, setSelectedDate] = useState(moment());
-    const [showRequisitionModal, setShowRequisitionModal] = useState(false);
-    const [selectedRequisition, setSelectedRequisition] = useState(null);
-    const [showSupplierModal, setShowSupplierModal] = useState(false);
-    const [selectedSupplier, setSelectedSupplier] = useState(null);
+    const [showOrderModal, setShowOrderModal] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const [selectedDeliverDate, setSelectedDeliverDate] = useState(moment());
+    const [selectedInspectDate, setSelectedInspectDate] = useState(moment());
+    const [selectedReportDate, setSelectedReportDate] = useState(moment());
 
     const handleSubmit = (values, formik) => {
         dispatch(store(values));
     };
 
-    const handleSelectRequisition = (formik, requisition) => {
-        setSelectedRequisition(requisition);
-        formik.setFieldValue('requisition_id', requisition.id);
-        formik.setFieldValue('items', requisition.details);
-        formik.setFieldValue('item_count', requisition.details.length);
+    const handleSelectOrder = (formik, order) => {
+        setSelectedOrder(order);
+        formik.setFieldValue('order_id', order.id);
+        formik.setFieldValue('items', order.details);
+        formik.setFieldValue('item_count', order.details.length);
 
-        formik.setFieldTouched('requisition_id', true);
+        formik.setFieldTouched('order_id', true);
 
         /** คำนวณยอดสุทธิ */
-        let netTotal = calculateNetTotal(requisition.details);
+        let netTotal = calculateNetTotal(order.details);
         formik.setFieldValue('net_total', currency.format(netTotal));
         
         /** คำนวณฐานภาษีและภาษีมูลค่าเพิ่ม */
         calcTotal(formik, netTotal, parseInt(formik.values.vat_rate, 10));
-    };
-
-    const handleSelectSupplier = (formik, supplier) => {
-        setSelectedSupplier(supplier);
-        formik.setFieldValue('supplier_id', supplier.id);
     };
 
     const calcTotal = (formik, netTotal, vatRate) => {
@@ -81,18 +75,19 @@ const InspectionForm = () => {
     return (
         <Formik
             initialValues={{
-                po_no: '',
-                po_date: '',
-                requisition_id: '',
-                supplier_id: '',
+                inspect_date: '',
+                report_no: '',
+                report_date: '',
+                deliver_no: '',
+                deliver_date: '',
+                order_id: '',
+                year: '2566',
                 item_count: '',
                 total: '',
                 vat_rate: '7',
                 vat: '',
                 net_total: '',
-                deliver_days: '30',
-                deliver_date: '',
-                year: '2566',
+                status: '1',
                 items: []
             }}
             validationSchema={orderSchema}
@@ -100,113 +95,28 @@ const InspectionForm = () => {
         >
             {(formik) => (
                 <Form>
-                    <ModalRequisitionList
-                        isShow={showRequisitionModal}
-                        onHide={() => setShowRequisitionModal(false)}
-                        onSelect={(requisition) => handleSelectRequisition(formik, requisition)}
+                    <ModalOrderList
+                        isShow={showOrderModal}
+                        onHide={() => setShowOrderModal(false)}
+                        onSelect={(order) => handleSelectOrder(formik, order)}
                     />
 
-                    <ModalSupplierList
-                        isShow={showSupplierModal}
-                        onHide={() => setShowSupplierModal(false)}
-                        onSelect={(supplier) => handleSelectSupplier(formik, supplier)}
-                    />
-
-                    <Row className="mb-2">
-                        <Col md={6}>
-                            <label htmlFor="">เลขที่คำขอ</label>
-                            <div className="input-group">
-                                <div className="min-h-[34px] form-control font-thin text-sm bg-gray-100">
-                                    {selectedRequisition &&  <p>เลขที่ {selectedRequisition.pr_no} วันที่ {toShortTHDate(selectedRequisition.pr_date)}</p>}
-                                </div>
-                                <button type="button" className="btn btn-outline-secondary" onClick={() => setShowRequisitionModal(true)}>
-                                    <FaSearch />
-                                </button>
-                            </div>
-                            {(formik.errors.pr_id && formik.touched.pr_id) && (
-                                <span className="text-red-500 text-sm">{formik.errors.pr_id}</span>
-                            )}
-                        </Col>
-                        <Col md={3}>
-                            <label htmlFor="">เลขที่ใบสั่งซื้อ</label>
-                            <input
-                                type="text"
-                                name="po_no"
-                                value={formik.values.po_no}
-                                onChange={formik.handleChange}
-                                className="form-control font-thin text-sm"
-                            />
-                            {(formik.errors.po_no && formik.touched.po_no) && (
-                                <span className="text-red-500 text-sm">{formik.errors.po_no}</span>
-                            )}
-                        </Col>
-                        <Col md={3}>
-                            <div className="flex flex-col">
-                                <label htmlFor="">วันที่เอกสาร</label>
-                                <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
-                                    <DatePicker
-                                        format="DD/MM/YYYY"
-                                        value={selectedDate}
-                                        onChange={(date) => {
-                                            setSelectedDate(date);
-                                            formik.setFieldValue('po_date', date.format('YYYY-MM-DD'));
-
-                                            calcDeliverDate(formik, date.format('YYYY-MM-DD'), formik.values.deliver_days);
-                                        }}
-                                        variant="outlined"
-                                    />
-                                </MuiPickersUtilsProvider>
-                                {/* <input
-                                    type="text"
-                                    name="pr_date"
-                                    value={formik.values.pr_date}
-                                    onChange={formik.handleChange}
-                                    className="form-control text-sm"
-                                /> */}
-
-                            </div>
-                            {(formik.errors.pr_date && formik.touched.pr_date) && (
-                                <span className="text-red-500 text-sm">{formik.errors.pr_date}</span>
-                            )}
-                        </Col>
-                    </Row>
-                    {selectedRequisition && <Row className="mb-2">
-                        <Col>
-                            <div className="border rounded-sm text-sm font-thin px-3 py-2 bg-gray-100">
-                                <h4 className="font-bold underline mb-1">รายละเอียดคำขอซื้อ</h4>
-                                <p>
-                                    {selectedRequisition.requester?.prefix?.name}{selectedRequisition.requester?.firstname} {selectedRequisition.requester?.lastname}
-                                    {' ' + selectedRequisition.topic} จำนวน {currency.format(selectedRequisition.item_count)} รายการ 
-                                    รวมเป็นเงิน {currency.format(selectedRequisition.net_total)} บาท
-                                </p>
-                                <p className="text-xs text-blue-600">ตาม{selectedRequisition.budget?.project?.plan?.name} {selectedRequisition.budget?.project?.name} {selectedRequisition.budget?.name}</p>
-                            </div>
-                        </Col>
-                    </Row>}
-                    <Row className="mb-2">
-                        <Col>
-                            <label htmlFor="">ผู้จัดจำหน่าย</label>
-                            <div className="input-group">
-                                <div className="min-h-[34px] form-control font-thin text-sm bg-gray-100">
-                                    {selectedSupplier && selectedSupplier.tax_no+ ' ' +selectedSupplier.name}
-                                </div>
-                                <input
-                                    type="hidden"
-                                    name="supplier_id"
-                                    value={formik.values.supplier_id}
-                                    onChange={formik.handleChange}
-                                />
-                                <button type="button" className="btn btn-outline-secondary" onClick={() => setShowSupplierModal(true)}>
-                                    <FaSearch />
-                                </button>
-                            </div>
-                            {(formik.errors.supplier_id && formik.touched.supplier_id) && (
-                                <span className="text-red-500 text-sm">{formik.errors.supplier_id}</span>
-                            )}
-                        </Col>
-                    </Row>
                     <Row className="mb-2">
                         <Col md={4}>
+                            <label htmlFor="">ใบสั่งซื้อ/จ้าง</label>
+                            <div className="input-group">
+                                <div className="min-h-[34px] form-control font-thin text-sm bg-gray-100">
+                                    {selectedOrder &&  <p>เลขที่ {selectedOrder.po_no} วันที่ {toShortTHDate(selectedOrder.po_date)}</p>}
+                                </div>
+                                <button type="button" className="btn btn-outline-secondary" onClick={() => setShowOrderModal(true)}>
+                                    <FaSearch />
+                                </button>
+                            </div>
+                            {(formik.errors.order_id && formik.touched.order_id) && (
+                                <span className="text-red-500 text-sm">{formik.errors.order_id}</span>
+                            )}
+                        </Col>
+                        <Col md={2}>
                             <label htmlFor="">ปีงบ</label>
                             <select className="form-control text-sm">
                                 <option value="2566">2566</option>
@@ -216,31 +126,138 @@ const InspectionForm = () => {
                                 <option value="2570">2570</option>
                             </select>
                         </Col>
-                        <Col md={4}>
-                            <label htmlFor="">กำหนดส่งมอบ</label>
-                            <div className="flex justify-center items-center gap-2">
-                                <input
-                                    type="number"
-                                    name="deliver_days"
-                                    value={formik.values.deliver_days}
-                                    onChange={(e) => {
-                                        formik.handleChange(e);
-                                        calcDeliverDate(formik, formik.values.po_date, e.target.value);
-                                    }}
-                                    className="form-control text-sm text-center min-h-[34px]"
-                                />
-                                <span>วัน</span>
-                            </div>
-                        </Col>
-                        <Col md={4}>
-                            <label htmlFor="">ครบกำหนดวันที่</label>
+                        <Col md={3}>
+                            <label htmlFor="">เลขที่ใบส่งสินค้า</label>
                             <input
                                 type="text"
-                                name="deliver_date"
-                                value={formik.values.deliver_date}
+                                name="deliver_no"
+                                value={formik.values.deliver_no}
                                 onChange={formik.handleChange}
-                                className="form-control text-sm text-center min-h-[34px] bg-gray-100"
+                                className="form-control font-thin text-sm"
                             />
+                            {(formik.errors.deliver_no && formik.touched.deliver_no) && (
+                                <span className="text-red-500 text-sm">{formik.errors.deliver_no}</span>
+                            )}
+                        </Col>
+                        <Col md={3}>
+                            <div className="flex flex-col">
+                                <label htmlFor="">วันที่ส่งสินค้า</label>
+                                <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                    <DatePicker
+                                        format="DD/MM/YYYY"
+                                        value={selectedDeliverDate}
+                                        onChange={(date) => {
+                                            setSelectedDeliverDate(date);
+                                            formik.setFieldValue('deliver_date', date.format('YYYY-MM-DD'));
+                                        }}
+                                        variant="outlined"
+                                    />
+                                </MuiPickersUtilsProvider>
+                            </div>
+                            {(formik.errors.pr_date && formik.touched.pr_date) && (
+                                <span className="text-red-500 text-sm">{formik.errors.pr_date}</span>
+                            )}
+                        </Col>
+                    </Row>
+                    {selectedOrder && (
+                        <Row className="mb-2">
+                            <Col md={8}>
+                                <div className="min-h-[148px] border rounded-sm text-sm font-thin px-3 py-2 bg-gray-100">
+                                    <h4 className="font-bold underline mb-1">รายละเอียดคำขอซื้อ</h4>
+                                    <p>
+                                        {selectedOrder.requisition.requester?.prefix?.name}{selectedOrder.requisition.requester?.firstname} {selectedOrder.requisition.requester?.lastname}
+                                        {' ' + selectedOrder.requisition.topic} จำนวน {currency.format(selectedOrder.item_count)} รายการ 
+                                        รวมเป็นเงิน {currency.format(selectedOrder.net_total)} บาท
+                                    </p>
+                                    <p className="text-sm text-blue-600">
+                                        ตาม{selectedOrder.requisition.budget?.project?.plan?.name}<br />
+                                        {selectedOrder.requisition.budget?.project?.name}<br />
+                                        {selectedOrder.requisition.budget?.name}
+                                    </p>
+                                </div>
+                            </Col>
+                            <Col md={4}>
+                                <div className="min-h-[148px] border rounded-sm text-sm font-thin px-3 py-2 bg-gray-100">
+                                    <h4 className="font-bold underline mb-1">ผู้จัดจำหน่าย</h4>
+                                    {selectedOrder && (
+                                        <div className="font-thin text-sm bg-gray-100">
+                                            <b className="text-lg">{selectedOrder.supplier?.name}</b>
+                                            <p><b className="mr-1">เลขประจำตัวผู้เสียภาษี</b>{selectedOrder.supplier?.tax_no}</p>
+                                            <p>
+                                                <b className="mr-1">ที่อยู่</b>{selectedOrder.supplier?.address} 
+                                                <span className="mx-1">หมู่</span>{selectedOrder.supplier?.moo ? selectedOrder.supplier?.moo : '-'}
+                                                <span className="mx-1">ถนน</span>{selectedOrder.supplier?.raod ? selectedOrder.supplier?.raod : '-'}
+                                            </p>
+                                            <p>
+                                                <span className="mr-1">ต.</span>{selectedOrder.supplier?.tambon?.name}
+                                                <span className="mx-1">อ.</span>{selectedOrder.supplier?.amphur?.name}
+                                                <span className="mx-1">จ.</span>{selectedOrder.supplier?.changwat?.name}
+                                                <span className="ml-1">{selectedOrder.supplier?.zipcode}</span>
+                                            </p>
+                                            <p>
+                                                <b className="mr-1">โทร.</b>{selectedOrder.supplier?.tel}
+                                                <b className="mx-1">Fax.</b>{selectedOrder.supplier?.fax}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            </Col>
+                        </Row>
+                    )}
+                    <Row className="mb-3">
+                        <Col md={3}>
+                            <div className="flex flex-col">
+                                <label htmlFor="">วันที่ตรวจรับ</label>
+                                <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                    <DatePicker
+                                        format="DD/MM/YYYY"
+                                        value={selectedInspectDate}
+                                        onChange={(date) => {
+                                            setSelectedInspectDate(date);
+                                            formik.setFieldValue('inspect_date', date.format('YYYY-MM-DD'));
+                                        }}
+                                        variant="outlined"
+                                        />
+                                </MuiPickersUtilsProvider>
+                            </div>
+                        </Col>
+                        <Col md={3}>
+                            <label htmlFor="">ครบกำหนดวันที่</label>
+                            <div className="form-control text-sm text-center min-h-[34px] bg-gray-100">
+                                {toShortTHDate(selectedOrder?.deliver_date)}
+                            </div>
+                        </Col>
+                        <Col md={3}>
+                            <label htmlFor="">เลขที่รายงานผล</label>
+                            <input
+                                type="text"
+                                name="report_no"
+                                value={formik.values.report_no}
+                                onChange={formik.handleChange}
+                                className="form-control font-thin text-sm"
+                            />
+                            {(formik.errors.report_no && formik.touched.report_no) && (
+                                <span className="text-red-500 text-sm">{formik.errors.report_no}</span>
+                            )}
+                        </Col>
+                        <Col md={3}>
+                            <div className="flex flex-col">
+                                <label htmlFor="">วันที่รายงานผล</label>
+                                <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                    <DatePicker
+                                        format="DD/MM/YYYY"
+                                        value={selectedReportDate}
+                                        onChange={(date) => {
+                                            setSelectedReportDate(date);
+                                            formik.setFieldValue('report_date', date.format('YYYY-MM-DD'));
+                                        }}
+                                        variant="outlined"
+                                    />
+                                </MuiPickersUtilsProvider>
+                            </div>
+                            {(formik.errors.pr_date && formik.touched.pr_date) && (
+                                <span className="text-red-500 text-sm">{formik.errors.pr_date}</span>
+                            )}
                         </Col>
                     </Row>
                     <Row className="mb-2 text-sm">

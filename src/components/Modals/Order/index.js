@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
-import { getRequisitions } from '../../../features/order/orderSlice';
+import { getOrders } from '../../../features/order/orderSlice';
 import { useGetInitialFormDataQuery } from '../../../services/order/orderApi';
 import { currency, toShortTHDate } from '../../../utils';
 import Loading from '../../Loading';
@@ -29,9 +29,9 @@ const ModalOrderList = ({ isShow, onHide, onSelect }) => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getRequisitions({ url: `/api/orders/search?page=&status=1&limit=5` }));
+            dispatch(getOrders({ url: `/api/orders/search?page=&status=1&limit=5` }));
         } else {
-            dispatch(getRequisitions({ url: `${apiEndpoint}${params}` }));
+            dispatch(getOrders({ url: `${apiEndpoint}${params}` }));
         }
     }, [dispatch, apiEndpoint, params]);
 
@@ -51,7 +51,7 @@ const ModalOrderList = ({ isShow, onHide, onSelect }) => {
             size='xl'
         >
             <Modal.Header className="border py-1 px-2">
-                <Modal.Title>รายการคำขอ</Modal.Title>
+                <Modal.Title>รายการสั่งซื้อ/จ้าง</Modal.Title>
             </Modal.Header>
             <Modal.Body className="pb-0">
                 <FilteringInputs
@@ -71,7 +71,7 @@ const ModalOrderList = ({ isShow, onHide, onSelect }) => {
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
-                                <th>รายการคำขอ</th>
+                                <th>รายการสั่งซื้อ/จ้าง</th>
                                 <th className="text-center w-[15%]">งบประมาณ</th>
                                 <th className="text-center w-[10%]">เลือก</th>
                             </tr>
