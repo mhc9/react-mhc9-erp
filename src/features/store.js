@@ -17,6 +17,7 @@ import unitReducer from './unit/unitSlice';
 import memberReducer from "./member/memberSlice";
 import orderReducer from "./order/orderSlice";
 import supplierReducer from "./supplier/supplierSlice";
+import inspectionReducer from "./inspection/inspectionSlice";
 import { authApi } from "../services/auth/authApi";
 import { requisitionApi } from "../services/requisition/requisitionApi";
 import { employeeApi } from "../services/employee/employeeApi";
@@ -24,6 +25,7 @@ import { itemApi } from "../services/item/itemApi";
 import { supplierApi } from "../services/supplier/supplierApi";
 import { assetApi } from "../services/asset/assetApi";
 import { orderApi } from "../services/order/orderApi";
+import { inspectionApi } from "../services/inspection/inspectionApi"
 
 export default configureStore({
     reducer: {
@@ -35,6 +37,7 @@ export default configureStore({
         [supplierApi.reducerPath]: supplierApi.reducer,
         [assetApi.reducerPath]: assetApi.reducer,
         [orderApi.reducerPath]: orderApi.reducer,
+        [inspectionApi.reducerPath]: inspectionApi.reducer,
         equipment: equipmentReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
@@ -51,7 +54,8 @@ export default configureStore({
         unit: unitReducer,
         member: memberReducer,
         order: orderReducer,
-        supplier: supplierReducer
+        supplier: supplierReducer,
+        inspection: inspectionReducer,
     },
     middleware: (getDefaultMiddleware) => 
         getDefaultMiddleware().concat(
@@ -62,5 +66,6 @@ export default configureStore({
             supplierApi.middleware,
             assetApi.middleware,
             orderApi.middleware,
+            inspectionApi.middleware,
         ),
 });
