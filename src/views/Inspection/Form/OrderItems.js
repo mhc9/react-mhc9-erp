@@ -1,7 +1,8 @@
 import React from 'react'
 import { currency } from '../../../utils';
+import ReceiveButton from './ReceiveButton';
 
-const OrderItems = ({ items = [] }) => {
+const OrderItems = ({ items = [], onReceiveItem }) => {
     return (
         <div>
             <table className="table table-bordered text-sm mb-2">
@@ -32,7 +33,10 @@ const OrderItems = ({ items = [] }) => {
                             <td className="text-center">{currency.format(item.amount)}</td>
                             <td className="text-right">{currency.format(item.total)}</td>
                             <td className="text-center">
-
+                                <ReceiveButton
+                                    id={item.id}
+                                    onReceive={(id, received) => onReceiveItem(id, received)}
+                                />
                             </td>
                         </tr>
                     ))}

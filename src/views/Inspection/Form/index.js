@@ -4,7 +4,6 @@ import * as Yup from 'yup'
 import { useDispatch } from 'react-redux';
 import { Col, Row } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
-import { toast } from 'react-toastify';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import moment from 'moment';
 import {
@@ -20,10 +19,12 @@ import ModalOrderList from '../../../components/Modals/Order';
 import OrderItems from './OrderItems';
 
 const orderSchema = Yup.object().shape({
-    po_no: Yup.string().required(),
-    po_date: Yup.string().required(),
-    requisition_id: Yup.string().required(),
-    supplier_id: Yup.string().required(),
+    deliver_no: Yup.string().required(),
+    deliver_date: Yup.string().required(),
+    inspect_date: Yup.string().required(),
+    report_no: Yup.string().required(),
+    report_date: Yup.string().required(),
+    order_id: Yup.string().required(),
     total: Yup.string().required(),
     vat_rate: Yup.string().required(),
     vat: Yup.string().required(),
@@ -47,6 +48,7 @@ const InspectionForm = () => {
         formik.setFieldValue('order_id', order.id);
         formik.setFieldValue('items', order.details);
         formik.setFieldValue('item_count', order.details.length);
+        formik.setFieldValue('item_received', order.details.length);
 
         formik.setFieldTouched('order_id', true);
 
@@ -66,10 +68,29 @@ const InspectionForm = () => {
         formik.setFieldValue('total', currency.format(_netTotal - vat));
     };
 
-    const calcDeliverDate = (formik, fromDate, days) => {
-        let deliverDate = moment(fromDate).add(days, "days").format('YYYY-MM-DD');
+    const handleReceive = (formik, id, received) => {
+        /** Get received item from items property of formik */
+        const receivedItem = formik.values.items.find(item => item.id === id);
 
-        formik.setFieldValue('deliver_date', toShortTHDate(deliverDate));
+        /** Create newItems by replacing item that have same id with receivedItem */
+        const newItem = formik.values.items.map(item => {
+            if (item.id === id) {
+                return {
+                    ...receivedItem,
+                    is_received: received ? 1 : 0,
+                }
+            }
+            
+            return item;
+        });
+
+        /** Update items and item_received properties of formik */
+        formik.setFieldValue('items', newItem);
+        formik.setFieldValue('item_received', countReceivedItem(newItem));
+    };
+
+    const countReceivedItem = (items = []) => {
+        return items.reduce((sum, item) => sum = item.is_received === 1 ? sum + 1 : sum + 0, 0);
     };
 
     return (
@@ -83,6 +104,7 @@ const InspectionForm = () => {
                 order_id: '',
                 year: '2566',
                 item_count: '',
+                item_received: '',
                 total: '',
                 vat_rate: '7',
                 vat: '',
@@ -118,13 +140,21 @@ const InspectionForm = () => {
                         </Col>
                         <Col md={2}>
                             <label htmlFor="">ปีงบ</label>
-                            <select className="form-control text-sm">
+                            <select
+                                name="year"
+                                value={formik.values.year}
+                                onChange={formik.handleChange}
+                                className="form-control text-sm"
+                            >
                                 <option value="2566">2566</option>
                                 <option value="2567">2567</option>
                                 <option value="2568">2568</option>
                                 <option value="2569">2569</option>
                                 <option value="2570">2570</option>
                             </select>
+                            {(formik.errors.order_id && formik.touched.order_id) && (
+                                <span className="text-red-500 text-sm">{formik.errors.order_id}</span>
+                            )}
                         </Col>
                         <Col md={3}>
                             <label htmlFor="">เลขที่ใบส่งสินค้า</label>
@@ -154,8 +184,8 @@ const InspectionForm = () => {
                                     />
                                 </MuiPickersUtilsProvider>
                             </div>
-                            {(formik.errors.pr_date && formik.touched.pr_date) && (
-                                <span className="text-red-500 text-sm">{formik.errors.pr_date}</span>
+                            {(formik.errors.deliver_date && formik.touched.deliver_date) && (
+                                <span className="text-red-500 text-sm">{formik.errors.deliver_date}</span>
                             )}
                         </Col>
                     </Row>
@@ -220,6 +250,9 @@ const InspectionForm = () => {
                                         />
                                 </MuiPickersUtilsProvider>
                             </div>
+                            {(formik.errors.inspect_date && formik.touched.inspect_date) && (
+                                <span className="text-red-500 text-sm">{formik.errors.inspect_date}</span>
+                            )}
                         </Col>
                         <Col md={3}>
                             <label htmlFor="">ครบกำหนดวันที่</label>
@@ -255,8 +288,8 @@ const InspectionForm = () => {
                                     />
                                 </MuiPickersUtilsProvider>
                             </div>
-                            {(formik.errors.pr_date && formik.touched.pr_date) && (
-                                <span className="text-red-500 text-sm">{formik.errors.pr_date}</span>
+                            {(formik.errors.report_date && formik.touched.report_date) && (
+                                <span className="text-red-500 text-sm">{formik.errors.report_date}</span>
                             )}
                         </Col>
                     </Row>
@@ -266,7 +299,10 @@ const InspectionForm = () => {
                                 
                                 <h3 className="mb-2">รายการสินค้า</h3>
 
-                                <OrderItems items={formik.values.items} />
+                                <OrderItems
+                                    items={formik.values.items}
+                                    onReceiveItem={(id, received) => handleReceive(formik, id, received)}
+                                />
 
                                 <div className="flex items-center justify-end p-0 mt-1">
                                     <span className="mr-2">รวมเป็นเงิน</span>
