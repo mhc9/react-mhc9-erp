@@ -58,7 +58,7 @@ const OrderList = () => {
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการใบสั่งซื้อ/จ้าง</h2>
-                    <Link to="add" className="btn btn-primary btn-sm">สร้างคำสั่งซื้อ/จ้าง</Link>
+                    <Link to="add" className="btn btn-primary">สร้างคำสั่งซื้อ/จ้าง</Link>
                 </div>
 
                 <div>
