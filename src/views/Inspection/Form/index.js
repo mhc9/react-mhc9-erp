@@ -45,10 +45,13 @@ const InspectionForm = () => {
 
     const handleSelectOrder = (formik, order) => {
         setSelectedOrder(order);
+
+        /** Set values to related order's fields */
         formik.setFieldValue('order_id', order.id);
-        formik.setFieldValue('items', order.details);
+        formik.setFieldValue('supplier_id', order.supplier_id);
         formik.setFieldValue('item_count', order.details.length);
         formik.setFieldValue('item_received', order.details.length);
+        formik.setFieldValue('items', order.details);
 
         formik.setFieldTouched('order_id', true);
 
@@ -102,6 +105,7 @@ const InspectionForm = () => {
                 deliver_no: '',
                 deliver_date: '',
                 order_id: '',
+                supplier_id: '',
                 year: '2566',
                 item_count: '',
                 item_received: '',
