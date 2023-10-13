@@ -13,7 +13,7 @@ const OrderItems = ({ items = [], onReceiveItem }) => {
                         <th className="text-center w-[12%]">ราคาต่อหน่วย</th>
                         <th className="text-center w-[8%]">จำนวน</th>
                         <th className="text-center w-[12%]">รวมเป็นเงิน</th>
-                        <th className="text-center w-[11%]">Actions</th>
+                        <th className="text-center w-[8%]">Actions</th>
                     </tr>
                 </thead>
                 <tbody>

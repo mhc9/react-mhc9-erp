@@ -313,7 +313,7 @@ const InspectionForm = () => {
                                         onChange={formik.handleChange}
                                         className="form-control font-thin text-sm w-[12%] text-right"
                                     />
-                                    <div className="w-[11%]"></div>
+                                    <div className="w-[8%]"></div>
                                 </div>
                                 <div className="flex items-center justify-end p-0 mt-1">
                                     <span className="mr-2">ภาษีมูลค่าเพิ่ม</span>
@@ -337,7 +337,7 @@ const InspectionForm = () => {
                                         onChange={formik.handleChange}
                                         className="form-control font-thin text-sm w-[12%] text-right"
                                     />
-                                    <div className="w-[11%]"></div>
+                                    <div className="w-[8%]"></div>
                                 </div>
                                 <div className="flex items-center justify-end p-0 mt-1">
                                     <span className="mr-2">ยอดสิทธิ</span>
@@ -348,7 +348,7 @@ const InspectionForm = () => {
                                         onChange={formik.handleChange}
                                         className="form-control font-thin text-sm w-[12%] text-right"
                                     />
-                                    <div className="w-[11%]"></div>
+                                    <div className="w-[8%]"></div>
                                 </div>
                             </div>
                         </Col>
