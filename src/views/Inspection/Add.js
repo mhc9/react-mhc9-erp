@@ -13,11 +13,11 @@ const AddInspection = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            toast.success("บันทึกข้อมูลการสั่งซื้อ/จ้างเรียบร้อยแล้ว!!");
+            toast.success("บันทึกข้อมูลการตรวจรับเรียบร้อยแล้ว!!");
 
             dispatch(resetSuccess());
 
-            navigate('/order');
+            navigate('/inspection');
         }
     }, [isSuccess]);
 
