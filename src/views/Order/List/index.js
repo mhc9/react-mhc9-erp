@@ -76,7 +76,7 @@ const OrderList = () => {
                                 <th>รายการ</th>
                                 <th className="text-center w-[12%]">ยอดซื้อ/จ้าง</th>
                                 <th className="text-center w-[20%]">ผู้ขอ</th>
-                                <th className="text-center w-[6%]">สถานะ</th>
+                                <th className="text-center w-[8%]">สถานะ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
                         </thead>
@@ -97,15 +97,16 @@ const OrderList = () => {
                                         <p>รายการ{order.requisition?.topic} จำนวน {currency.format(order.item_count)} รายการ</p>
                                         <p>จาก {order.supplier?.name}</p>
                                     </td>
-                                    <td className="text-right">{currency.format(order.net_total)} บาท</td>
+                                    <td className="text-right">
+                                        <b>{currency.format(order.net_total)}</b> บาท
+                                    </td>
                                     <td>
                                         <p className="font-bold">{order.requisition?.requester?.prefix?.name}{order.requisition?.requester?.firstname} {order.requisition?.requester?.lastname}</p>
                                         <p className="text-xs">{order.requisition?.requester?.position?.name}{order.requisition?.requester?.level && order.requisition?.requester?.level?.name}</p>
                                     </td>
                                     <td className="text-center">
-                                        <span className="badge rounded-pill text-bg-success">
-                                            {order.status}
-                                        </span>
+                                        {order.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
+                                        {order.status === 2 && <span className="badge rounded-pill text-bg-success">ตรวจรับแล้ว</span>}
                                     </td>
                                     <td className="text-center">
                                         <Link to={`/order/${order.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">

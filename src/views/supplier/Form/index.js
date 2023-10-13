@@ -233,6 +233,7 @@ const SupplierForm = () => {
                             >
                                 <option value="">-- เลือก --</option>
                                 <option value="1">ภาษีเงินได้บุคคลธรรมดา</option>
+                                <option value="2">ภาษีเงินได้นิติบุคคล</option>
                             </select>
                         </Col>
                     </Row>
