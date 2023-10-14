@@ -4,12 +4,13 @@ import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { Row, Col, FormGroup, Form as BsForm } from 'react-bootstrap'
 import moment from 'moment'
-import Loading from '../../components/Loading'
-import TaskAssetList from './Asset/List'
-import TaskAssetForm from './Asset/Form'
-import ModalEmployeeList from '../../components/Modals/EmployeeList'
 import api from '../../api'
 import { store, update } from '../../features/task/taskSlice'
+import { useGetInitialFormDataQuery } from '../../services/task/taskApi'
+import TaskAssetList from './Asset/List'
+import TaskAssetForm from './Asset/Form'
+import Loading from '../../components/Loading'
+import ModalEmployeeList from '../../components/Modals/EmployeeList'
 
 const taskSchema = Yup.object().shape({
     task_date: Yup.string().required(),
@@ -23,9 +24,8 @@ const taskSchema = Yup.object().shape({
 const TaskForm = ({ task }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.task);
+    const { data: formData } = useGetInitialFormDataQuery();
     const [assets, setAssets] = useState([]);
-    const [taskTypes, setTaskTypes] = useState([]);
-    const [taskGroups, setTaskGroups] = useState([]);
     const [filteredGroups, setFilteredGroups] = useState([]);
     const [reporter, setReporter] = useState(null);
     const [openModal, setOpenModal] = useState(false);
@@ -42,22 +42,11 @@ const TaskForm = ({ task }) => {
 
     /** Initial data for form's dropdown input */
     useEffect(() => {
-        getInitialFormData();
-
-        return () => getInitialFormData();
-    }, []);
-
-    const getInitialFormData = async () => {
-        const res = await api.get('/api/tasks/form/init');
-
-        setTaskTypes(res.data.types);
-        setTaskGroups(res.data.groups);
-
-        if (task) setFilteredGroups(res.data.groups);
-    };
+        if (formData && task) setFilteredGroups(formData.groups);
+    }, [formData]);
 
     const handleTypeChange = (type) => {
-        const newGroups = taskGroups.filter(group => group.task_type_id === parseInt(type, 10));
+        const newGroups = formData.groups.filter(group => group.task_type_id === parseInt(type, 10));
 
         setFilteredGroups(newGroups);
     };
@@ -160,7 +149,7 @@ const TaskForm = ({ task }) => {
                                             className="form-control"
                                         >
                                             <option value="">-- เลือกประเภทปัญหา --</option>
-                                            {taskTypes && taskTypes.map((type, index) => (
+                                            {formData.types && formData.types.map((type, index) => (
                                                 <option key={type.id} value={type.id}>
                                                     {type.name}
                                                 </option>

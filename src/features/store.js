@@ -26,6 +26,7 @@ import { supplierApi } from "../services/supplier/supplierApi";
 import { assetApi } from "../services/asset/assetApi";
 import { orderApi } from "../services/order/orderApi";
 import { inspectionApi } from "../services/inspection/inspectionApi"
+import { taskApi } from "../services/task/taskApi"
 
 export default configureStore({
     reducer: {
@@ -38,6 +39,7 @@ export default configureStore({
         [assetApi.reducerPath]: assetApi.reducer,
         [orderApi.reducerPath]: orderApi.reducer,
         [inspectionApi.reducerPath]: inspectionApi.reducer,
+        [taskApi.reducerPath]: taskApi.reducer,
         equipment: equipmentReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
@@ -67,5 +69,6 @@ export default configureStore({
             assetApi.middleware,
             orderApi.middleware,
             inspectionApi.middleware,
+            taskApi.middleware,
         ),
 });

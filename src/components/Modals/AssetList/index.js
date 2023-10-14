@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Pagination } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAssets } from '../../../features/asset/assetSlice';
 import Loading from '../../Loading';
+import Pagination from '../../Pagination';
 
 const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
     const dispatch = useDispatch();
@@ -32,12 +33,12 @@ const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
             onHide={handleHide}
             size='xl'
         >
-            <Modal.Header closeButton>
+            <Modal.Header className="py-1" closeButton>
                 <Modal.Title>รายการพัสดุ</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div>
-                    <table className="table table-bordered">
+                    <table className="table table-bordered text-sm mb-0">
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
@@ -55,7 +56,7 @@ const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
                                 </tr>
                             )}
                             {assets && assets.map((asset, index) => (
-                                <tr key={asset.id}>
+                                <tr key={asset.id} className="font-thin">
                                     <td className="text-center">{index+pager.from}</td>
                                     <td className="text-center">{asset.asset_no}</td>
                                     <td>
@@ -81,26 +82,13 @@ const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
                         </tbody>
                     </table>
                 </div>
-                {pager && (
-                    <Pagination>
-                        <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
-                        <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
-                        {/* <Pagination.Item>{1}</Pagination.Item>
-                        <Pagination.Ellipsis />
-
-                        <Pagination.Item>{10}</Pagination.Item>
-                        <Pagination.Item>{11}</Pagination.Item>
-                        <Pagination.Item active>{12}</Pagination.Item>
-                        <Pagination.Item>{13}</Pagination.Item>
-                        <Pagination.Item disabled>{14}</Pagination.Item>
-
-                        <Pagination.Ellipsis />
-                        <Pagination.Item>{20}</Pagination.Item> */}
-                        <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
-                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
-                    </Pagination>
-                )}
             </Modal.Body>
+            <Modal.Footer className="py-1">
+                <Pagination
+                    pager={pager}
+                    onPageClick={handlePageClick}
+                />
+            </Modal.Footer>
         </Modal>
     )
 }
