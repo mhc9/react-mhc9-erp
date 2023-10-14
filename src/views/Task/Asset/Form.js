@@ -21,19 +21,19 @@ const TaskAssetForm = ({ onAdd }) => {
             />
 
             <div className="input-group w-4/12">
-                <div className="form-control h-10 bg-gray-100">
+                <div className="form-control bg-gray-100 text-sm">
                     {selected?.asset_no}
                 </div>
-                <button type="button" className="btn btn-outline-secondary" onClick={() => setOpenModal(true)}>
+                <button type="button" className="btn btn-outline-secondary text-sm" onClick={() => setOpenModal(true)}>
                     ...
                 </button>
             </div>
-            <div className="form-control h-10 bg-gray-100">
+            <div className="form-control min-h-[34px] bg-gray-100 text-sm">
                 {selected?.name}
             </div>
             <button
                 type="button"
-                className="btn btn-outline-primary flex flex-row items-center"
+                className="btn btn-outline-primary text-sm flex flex-row items-center"
                 onClick={handleAdd}
                 disabled={!selected}
             >

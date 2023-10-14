@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { Row, Col, FormGroup, Form as BsForm } from 'react-bootstrap'
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import moment from 'moment'
+import OverWriteMomentBE from '../../utils/OverwriteMomentBE'
 import { store, update } from '../../features/task/taskSlice'
 import { useGetInitialFormDataQuery } from '../../services/task/taskApi'
 import TaskAssetList from './Asset/List'
@@ -28,6 +30,7 @@ const TaskForm = ({ task }) => {
     const [filteredGroups, setFilteredGroups] = useState([]);
     const [reporter, setReporter] = useState(null);
     const [openModal, setOpenModal] = useState(false);
+    const [selectedTaskDate, setSelectedTaskDate] = useState(moment());
 
     /** On mount component set initital value of asset local state by task prop */
     useEffect(() => {
@@ -103,22 +106,28 @@ const TaskForm = ({ task }) => {
                                 }}
                             />
                             <Row className="mb-2">
-                                <Col>
+                                <Col md={2}>
                                     <FormGroup>
-                                        <label>วันที่แจ้ง</label>
-                                        <BsForm.Control
-                                            type="date"
-                                            name="task_date"
-                                            value={formik.values.task_date}
-                                            onChange={formik.handleChange}
-                                            className="form-control"
-                                        />
-                                        {(formik.errors.task_date && formik.touched.task_date) && (
-                                            <span className="text-red-500 text-sm">{formik.errors.task_date}</span>
-                                        )}
+                                        <div className="flex flex-col">
+                                            <label>วันที่แจ้ง</label>
+                                            <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                                <DatePicker
+                                                    format="DD/MM/YYYY"
+                                                    value={selectedTaskDate}
+                                                    onChange={(date) => {
+                                                        setSelectedTaskDate(date);
+                                                        formik.setFieldValue('task_date', date.format('YYYY-MM-DD'));
+                                                    }}
+                                                    variant="outlined"
+                                                />
+                                            </MuiPickersUtilsProvider>
+                                            {(formik.errors.task_date && formik.touched.task_date) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.task_date}</span>
+                                            )}
+                                        </div>
                                     </FormGroup>
                                 </Col>
-                                <Col>
+                                <Col md={2}>
                                     <FormGroup>
                                         <label>เวลาที่แจ้ง</label>
                                         <BsForm.Control
@@ -126,16 +135,14 @@ const TaskForm = ({ task }) => {
                                             name="task_time"
                                             value={formik.values.task_time}
                                             onChange={formik.handleChange}
-                                            className="form-control"
+                                            className="form-control text-sm"
                                         />
                                         {(formik.errors.task_time && formik.touched.task_time) && (
                                             <span className="text-red-500 text-sm">{formik.errors.task_time}</span>
                                         )}
                                     </FormGroup>
                                 </Col>
-                            </Row>
-                            <Row className="mb-2">
-                                <Col>
+                                <Col md={4}>
                                     <FormGroup>
                                         <label>ประเภทปัญหา</label>
                                         {isLoading && <div><Loading /></div>}
@@ -146,7 +153,7 @@ const TaskForm = ({ task }) => {
                                                 formik.handleChange(e);
                                                 handleTypeChange(e.target.value);
                                             }}
-                                            className="form-control"
+                                            className="form-control text-sm"
                                         >
                                             <option value="">-- เลือกประเภทปัญหา --</option>
                                             {formData.types && formData.types.map((type, index) => (
@@ -160,7 +167,7 @@ const TaskForm = ({ task }) => {
                                         )}
                                     </FormGroup>
                                 </Col>
-                                <Col>
+                                <Col md={4}>
                                     <FormGroup>
                                         <label>กลุ่มอาการ</label>
                                         {isLoading && <div><Loading /></div>}
@@ -168,7 +175,7 @@ const TaskForm = ({ task }) => {
                                             name="task_group_id"
                                             value={formik.values.task_group_id}
                                             onChange={formik.handleChange}
-                                            className="form-control"
+                                            className="form-control text-sm"
                                         >
                                             <option value="">-- เลือกกลุ่มอาการ --</option>
                                             {filteredGroups && filteredGroups.map((group, index) => (
@@ -188,7 +195,7 @@ const TaskForm = ({ task }) => {
                                     <FormGroup>
                                         <label>ผู้แจ้ง</label>
                                         <div className="input-group">
-                                            <div className="form-control">
+                                            <div className="form-control text-sm min-h-[34px]">
                                                 {reporter && `${reporter?.firstname} ${reporter?.lastname}`}
                                             </div>
                                             <input
@@ -200,7 +207,7 @@ const TaskForm = ({ task }) => {
                                             />
                                             <button
                                                 type="button"
-                                                className="btn btn-outline-primary"
+                                                className="btn btn-outline-primary btn-sm"
                                                 onClick={() => setOpenModal(true)}
                                             >
                                                 ค้นหา
@@ -214,7 +221,7 @@ const TaskForm = ({ task }) => {
                                 <Col>
                                 <FormGroup>
                                     <label>ความเร่งด่วน</label>                                    
-                                    <Field component="div" name="priority_id" className="form-control">
+                                    <Field component="div" name="priority_id" className="form-control text-sm">
                                         <input
                                             type="radio"
                                             id="radioOne"
@@ -266,7 +273,7 @@ const TaskForm = ({ task }) => {
                                             name="description"
                                             value={formik.values.description}
                                             onChange={formik.handleChange}
-                                            className="form-control"
+                                            className="form-control text-sm"
                                         ></textarea>
                                         {(formik.errors.description && formik.touched.description) && (
                                             <span className="text-red-500 text-sm">{formik.errors.description}</span>
@@ -281,7 +288,7 @@ const TaskForm = ({ task }) => {
                                             name="remark"
                                             value={formik.values.remark}
                                             onChange={formik.handleChange}
-                                            className="form-control"
+                                            className="form-control text-sm"
                                         ></textarea>
                                         {(formik.errors.remark && formik.touched.remark) && (
                                             <span className="text-red-500 text-sm">{formik.errors.remark}</span>
@@ -291,7 +298,7 @@ const TaskForm = ({ task }) => {
                             </Row>
                             <Row className="mb-2">
                                 <Col>
-                                    <div>
+                                    <div className="flex flex-col border p-2 rounded-md">
                                         <h3 className="mb-1">รายการพัสดุ (ถ้ามี)</h3>
                                         <TaskAssetForm onAdd={(asset) => handleAddAsset(formik, asset)} />
                                         <TaskAssetList assets={assets} onRemove={(id) => handleRemoveAsset(formik, id)} />
