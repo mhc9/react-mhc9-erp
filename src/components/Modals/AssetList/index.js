@@ -44,7 +44,8 @@ const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
                                 <th className="text-center w-[5%]">#</th>
                                 <th className="text-center w-[15%]">เลขที่พัสดุ</th>
                                 <th>รายการพัสดุ</th>
-                                <th className="text-center w-[10%]">เลือก</th>
+                                <th className="w-[20%]">ผู้รับผิดชอบ</th>
+                                <th className="text-center w-[8%]">เลือก</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,6 +66,10 @@ const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
                                         <span className="font-bold ml-1">ยี่ห้อ: </span>{asset.brand.name} 
                                         <span className="font-bold ml-1">รุ่น: </span>{asset.model ? asset.model : '-'}
                                         <span className="font-bold ml-1">ซื้อเมื่อปี: </span>{asset.first_year ? asset.first_year : '-'}
+                                    </td>
+                                    <td>
+                                        {asset.current_owner.length > 0 &&
+                                            asset.current_owner[0].owner?.prefix?.name + asset.current_owner[0].owner?.firstname+ ' ' +asset.current_owner[0].owner?.lastname}
                                     </td>
                                     <td className="text-center">
                                         <button

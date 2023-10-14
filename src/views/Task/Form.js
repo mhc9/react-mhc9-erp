@@ -4,7 +4,6 @@ import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { Row, Col, FormGroup, Form as BsForm } from 'react-bootstrap'
 import moment from 'moment'
-import api from '../../api'
 import { store, update } from '../../features/task/taskSlice'
 import { useGetInitialFormDataQuery } from '../../services/task/taskApi'
 import TaskAssetList from './Asset/List'
@@ -24,7 +23,7 @@ const taskSchema = Yup.object().shape({
 const TaskForm = ({ task }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.task);
-    const { data: formData } = useGetInitialFormDataQuery();
+    const { data: formData, isLoading } = useGetInitialFormDataQuery();
     const [assets, setAssets] = useState([]);
     const [filteredGroups, setFilteredGroups] = useState([]);
     const [reporter, setReporter] = useState(null);
@@ -139,7 +138,8 @@ const TaskForm = ({ task }) => {
                                 <Col>
                                     <FormGroup>
                                         <label>ประเภทปัญหา</label>
-                                        <select
+                                        {isLoading && <div><Loading /></div>}
+                                        {!isLoading && <select
                                             name="task_type_id"
                                             value={formik.values.task_type_id}
                                             onChange={(e) => {
@@ -154,7 +154,7 @@ const TaskForm = ({ task }) => {
                                                     {type.name}
                                                 </option>
                                             ))}
-                                        </select>
+                                        </select>}
                                         {(formik.errors.task_type_id && formik.touched.task_type_id) && (
                                             <span className="text-red-500 text-sm">{formik.errors.task_type_id}</span>
                                         )}
@@ -163,7 +163,8 @@ const TaskForm = ({ task }) => {
                                 <Col>
                                     <FormGroup>
                                         <label>กลุ่มอาการ</label>
-                                        <select
+                                        {isLoading && <div><Loading /></div>}
+                                        {!isLoading && <select
                                             name="task_group_id"
                                             value={formik.values.task_group_id}
                                             onChange={formik.handleChange}
@@ -175,7 +176,7 @@ const TaskForm = ({ task }) => {
                                                     {group.name}
                                                 </option>
                                             ))}
-                                        </select>
+                                        </select>}
                                         {(formik.errors.task_group_id && formik.touched.task_group_id) && (
                                             <span className="text-red-500 text-sm">{formik.errors.task_group_id}</span>
                                         )}
