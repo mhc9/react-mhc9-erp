@@ -10,9 +10,9 @@ const initialState = {
     error: null,
 };
 
-export const getTasks = createAsyncThunk("task/getTasks", async (data, { rejectWithValue }) => {
+export const getTasks = createAsyncThunk("task/getTasks", async ({ url }, { rejectWithValue }) => {
     try {
-        const res = await api.get('/api/tasks/search');
+        const res = await api.get(url);
 
         return res.data;
     } catch (error) {

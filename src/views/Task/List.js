@@ -1,24 +1,47 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import moment from 'moment'
 import { getTasks } from '../../features/task/taskSlice'
+import { useGetInitialFormDataQuery } from '../../services/task/taskApi'
 import { getPriority } from '../../utils'
 import Loading from '../../components/Loading'
 import Pagination from '../../components/Pagination'
+import TaskFilteringInputs from '../../components/Task/FilteringInputs'
+
+const initialFilters = {
+    date: '',
+    reporter: '',
+    type: '',
+    status: ''
+};
+
+const initialFormData = {
+    types: [],
+    groups: [],
+};
 
 const TaskList = () => {
     const dispatch = useDispatch();
     const { tasks, pager, loading } = useSelector(state => state.task);
+    const { data: formData = initialFormData } = useGetInitialFormDataQuery();
+    const [apiEndpoint, setApiEndpoint] = useState('');
+    const [params, setParams] = useState('');
 
     useEffect(() => {
-        dispatch(getTasks());
-    }, []);
+        if (apiEndpoint === '') {
+            dispatch(getTasks({ url: `/api/tasks/search` }));
+        } else {
+            dispatch(getTasks({ url: `${apiEndpoint}${params}` }));
+        }
+    }, [dispatch, apiEndpoint, params]);
 
-    const handlePageClick = (url) => {
-
+    const handleFilter = (queryStr) => {
+        console.log(queryStr);
+        setApiEndpoint(`/api/tasks/search?page=`);
+        setParams(queryStr);
     };
 
     return (
@@ -34,6 +57,12 @@ const TaskList = () => {
                 <h2 className="text-xl">สถานะการซ่อม</h2>
 
                 <div>
+                    <TaskFilteringInputs
+                        initialFilters={initialFilters}
+                        formData={formData}
+                        onFilter={handleFilter}
+                    />
+
                     <table className="table table-bordered text-sm">
                         <thead>
                             <tr>
@@ -93,7 +122,7 @@ const TaskList = () => {
                 
                 <Pagination
                     pager={pager}
-                    onPageClick={handlePageClick}
+                    onPageClick={(url) => setApiEndpoint(url)}
                 />
             </div>
         </div>

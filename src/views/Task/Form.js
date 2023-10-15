@@ -131,25 +131,27 @@ const TaskForm = ({ task }) => {
                                 </Col>
                                 <Col md={2}>
                                     <FormGroup>
+                                        <div className="flex flex-col">
                                         <label>เวลาที่แจ้ง</label>
-                                        <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
-                                            <TimePicker
-                                                format="hh:mm"
-                                                value={selectedTaskTime}
-                                                onChange={(time) => {
-                                                    const dateStr = moment(selectedTaskDate).format('YYYY-MM-DD');
-                                                    const timeStr = moment(time).format('hh:mm');
+                                            <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                                <TimePicker
+                                                    format="hh:mm"
+                                                    value={selectedTaskTime}
+                                                    onChange={(time) => {
+                                                        const dateStr = moment(selectedTaskDate).format('YYYY-MM-DD');
+                                                        const timeStr = moment(time).format('hh:mm');
 
-                                                    /** Create newTime from selectedTaskDate and selected time from input */
-                                                    const newTime = moment(`${dateStr}T${timeStr}`);
+                                                        /** Create newTime from selectedTaskDate and selected time from input */
+                                                        const newTime = moment(`${dateStr}T${timeStr}`);
 
-                                                    /** Set newTime to selectedTaskTime state and task_time field */
-                                                    setSelectedTaskTime(newTime);
-                                                    formik.setFieldValue('task_time', newTime.format('hh:mm'));
-                                                }}
-                                                variant="outlined"
-                                            />
-                                        </MuiPickersUtilsProvider>
+                                                        /** Set newTime to selectedTaskTime state and task_time field */
+                                                        setSelectedTaskTime(newTime);
+                                                        formik.setFieldValue('task_time', newTime.format('hh:mm'));
+                                                    }}
+                                                    variant="outlined"
+                                                />
+                                            </MuiPickersUtilsProvider>
+                                        </div>
                                         {(formik.errors.task_time && formik.touched.task_time) && (
                                             <span className="text-red-500 text-sm">{formik.errors.task_time}</span>
                                         )}
@@ -208,7 +210,7 @@ const TaskForm = ({ task }) => {
                                     <FormGroup>
                                         <label>ผู้แจ้ง</label>
                                         <div className="input-group">
-                                            <div className="form-control text-sm font-thin min-h-[34px]">
+                                            <div className="form-control text-sm font-thin min-h-[34px] bg-gray-100">
                                                 {reporter && `${reporter?.prefix?.name}${reporter?.firstname} ${reporter?.lastname}`}
                                             </div>
                                             <button
