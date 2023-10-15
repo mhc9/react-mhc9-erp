@@ -10,7 +10,7 @@ const TaskAssetList = ({ assets, onRemove }) => {
                         <th className="w-[5%] text-center">#</th>
                         <th className="w-[20%] text-center">หมายเลขพัสดุ</th>
                         <th>รายการ</th>
-                        <th className="w-[10%] text-center">Actions</th>
+                        <th className="w-[8%] text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>

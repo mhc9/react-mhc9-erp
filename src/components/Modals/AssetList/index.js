@@ -5,7 +5,7 @@ import { getAssets } from '../../../features/asset/assetSlice';
 import Loading from '../../Loading';
 import Pagination from '../../Pagination';
 
-const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
+const ModalAssetList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
     const { assets, pager, loading } = useSelector(state => state.asset);
     const [apiEndpoint, setApiEndpoint] = useState('');
@@ -30,7 +30,7 @@ const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
     return (
         <Modal
             show={isShow}
-            onHide={handleHide}
+            onHide={onHide}
             size='xl'
         >
             <Modal.Header className="py-1" closeButton>
@@ -75,8 +75,8 @@ const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
                                         <button
                                             className="btn btn-primary btn-sm"
                                             onClick={() => {
-                                                handleHide();
-                                                handleSelect(asset);
+                                                onHide();
+                                                onSelect(asset);
                                             }}
                                         >
                                             เลือก
@@ -91,7 +91,7 @@ const ModalAssetList = ({ isShow, handleHide, handleSelect }) => {
             <Modal.Footer className="py-1">
                 <Pagination
                     pager={pager}
-                    onPageClick={handlePageClick}
+                    onPageClick={(url) => handlePageClick(url)}
                 />
             </Modal.Footer>
         </Modal>
