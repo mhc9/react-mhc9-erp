@@ -5,8 +5,8 @@ const initialState = {
     task: null,
     tasks: [],
     pager: null,
-    loading: false,
-    success: false,
+    isLoading: false,
+    isSuccess: false,
     error: null,
 };
 
@@ -63,10 +63,14 @@ export const destroy = createAsyncThunk("task/destroy", async ({ id }, { rejectW
 export const taskSlice = createSlice({
     name: 'task',
     initialState,
-    reducers: {},
+    reducers: {
+        resetSuccess(state) {
+            state.isSuccess = false;
+        }
+    },
     extraReducers: {
         [getTasks.pending]: (state) => {
-            state.loading = true;
+            state.isLoading = true;
             state.tasks = [];
             state.pager = null;
             state.error = null;
@@ -76,50 +80,57 @@ export const taskSlice = createSlice({
 
             state.tasks = data;
             state.pager = pager;
-            state.loading = false;
+            state.isLoading = false;
         },
         [getTasks.rejected]: (state, { payload }) => {
-            state.loading = false;
+            state.isLoading = false;
             state.error = payload;
         },
         [getTask.pending]: (state) => {
-            state.loading = true;
+            state.isLoading = true;
             state.task = null;
             state.error = null;
         },
         [getTask.fulfilled]: (state, { payload }) => {
             state.task = payload;
-            state.loading = false;
+            state.isLoading = false;
         },
         [getTask.rejected]: (state, { payload }) => {
-            state.loading = false;
+            state.isLoading = false;
             state.error = payload;
         },
         [store.pending]: (state) => {
-            state.success = false;
+            state.isSuccess = false;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
-            state.success = true;
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+            } else {
+                state.isSuccess = false;
+                state.error = { message };
+            }
         },
         [store.rejected]: (state, { payload }) => {
             state.error = payload;
         },
         [update.pending]: (state) => {
-            state.success = false;
+            state.isSuccess = false;
             state.error = null;
         },
         [update.fulfilled]: (state, { payload }) => {
-            state.success = true;
+            state.isSuccess = true;
         },
         [update.rejected]: (state, { payload }) => {
             state.error = payload;
         },
         [destroy.pending]: (state) => {
-            state.success = false;
+            state.isSuccess = false;
         },
         [destroy.fulfilled]: (state, { payload }) => {
-            state.success = true;
+            state.isSuccess = true;
         },
         [destroy.rejected]: (state, { payload }) => {
             state.error = payload;
@@ -128,3 +139,5 @@ export const taskSlice = createSlice({
 });
 
 export default taskSlice.reducer;
+
+export const { resetSuccess } = taskSlice.actions;

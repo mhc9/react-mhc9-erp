@@ -8,7 +8,8 @@ const AddTask = () => {
             {/* breadcrumb */}
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
-                <Breadcrumb.Item href="/">บริการ</Breadcrumb.Item>
+                <Breadcrumb.Item active>บริการ</Breadcrumb.Item>
+                <Breadcrumb.Item href="/task">สถานะการซ่อม</Breadcrumb.Item>
                 <Breadcrumb.Item active>แจ้งปัญหา/แจ้งซ่อม</Breadcrumb.Item>
             </Breadcrumb>
         
