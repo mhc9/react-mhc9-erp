@@ -234,7 +234,6 @@ const TaskForm = ({ task }) => {
                                             type="radio"
                                             name="priority_id"
                                             value="1"
-                                            defaultChecked={formik.values.priority_id === '1'}
                                         />
                                         <span className="ml-1 mr-4">ปกติ</span>
 
@@ -242,7 +241,6 @@ const TaskForm = ({ task }) => {
                                             type="radio"
                                             name="priority_id"
                                             value="2"
-                                            defaultChecked={formik.values.priority_id === "2"}
                                         />
                                         <span className="ml-1 mr-4">ด่วน</span>
 
@@ -250,7 +248,6 @@ const TaskForm = ({ task }) => {
                                             type="radio"
                                             name="priority_id"
                                             value="3"
-                                            defaultChecked={formik.values.priority_id === "3"}
                                         />
                                         <span className="ml-1 mr-4">ด่วนมาก</span>
 
@@ -258,7 +255,6 @@ const TaskForm = ({ task }) => {
                                             type="radio"
                                             name="priority_id"
                                             value="4"
-                                            defaultChecked={formik.values.priority_id === "4"}
                                         />
                                         <span className="ml-1">ด่วนที่สุด</span>
                                     </label>

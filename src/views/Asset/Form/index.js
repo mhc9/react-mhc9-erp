@@ -84,14 +84,13 @@ const AssetForm = ({ id, asset }) => {
     };
 
     const handleSubmit = (values, props) => {
-        console.log(values);
-        // if (asset) {
-        //     dispatch(update({ id, data: values }))
-        // } else {
-        //     dispatch(store(values))
-        // }
+        if (asset) {
+            dispatch(update({ id, data: values }))
+        } else {
+            dispatch(store(values))
+        }
 
-        // props.resetForm();
+        props.resetForm();
     };
 
     return (
