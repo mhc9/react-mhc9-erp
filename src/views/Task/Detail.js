@@ -3,13 +3,14 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaEdit } from 'react-icons/fa'
-import TaskForm from './Form'
 import { getTask } from '../../features/task/taskSlice'
+import TaskAssetList from './Asset/List'
+import Loading from '../../components/Loading'
 
 const TaskDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { task } = useSelector(state => state.task);
+    const { task, isLoading } = useSelector(state => state.task);
 
     useEffect(() => {
         dispatch(getTask({ id }));
@@ -26,11 +27,20 @@ const TaskDetail = () => {
             </Breadcrumb>
         
             <div className="content">
-            <h2 className="text-xl font-bold flex flex-row items-center">
+                <h2 className="text-xl font-bold flex flex-row items-center">
                     <FaEdit className='text-warning' />
-                    <span>รายละเอียดแจ้งปัญหา/แจ้งซ่อม : {id}</span>
+                    <span className="ml-1">รายละเอียดแจ้งปัญหา/แจ้งซ่อม : {id}</span>
                 </h2>
 
+                <div className="my-2 border p-4 rounded-md">
+                    {isLoading && <div className="text-center"><Loading /></div>}
+                    {!isLoading && task && (
+                        <div>
+                            <h3 className="mb-1">รายการพัสดุ (ถ้ามี)</h3>
+                            <TaskAssetList assets={task.assets} />
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     )

@@ -70,7 +70,8 @@ const TaskList = () => {
                                 <th className="w-[12%] text-center">วันที่แจ้ง</th>
                                 <th>รายละเอียดปัญหา</th>
                                 <th className="w-[8%] text-center">ความเร่งด่วน</th>
-                                <th className="w-[20%]">ผู้แจ้ง</th>
+                                <th className="w-[22%]">ผู้แจ้ง</th>
+                                <th className="w-[8%] text-center">สถานะ</th>
                                 <th className="w-[10%] text-center">Actions</th>
                             </tr>
                         </thead>
@@ -102,6 +103,13 @@ const TaskList = () => {
                                     <td>
                                         {`${task.reporter?.prefix?.name}${task.reporter?.firstname} ${task.reporter?.lastname}`}
                                         <p><b>{`${task.reporter?.position?.name}${task.reporter?.level ? task.reporter?.level?.name : ''}`}</b></p>
+                                    </td>
+                                    <td className="text-center">
+                                        {task.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
+                                        {task.status === 2 && <span className="badge rounded-pill text-bg-success">เสร็จแล้ว</span>}
+                                        {task.status === 3 && <span className="badge rounded-pill text-bg-info">รออะไหล่</span>}
+                                        {task.status === 4 && <span className="badge rounded-pill text-bg-warning">ซ่อมภายนอก</span>}
+                                        {task.status === 9 && <span className="badge rounded-pill text-bg-danger">ยกเลิก</span>}
                                     </td>
                                     <td className="text-center p-1">
                                         <Link to={`/task/${task.id}/detail`} className="btn btn-sm btn-info mr-1">
