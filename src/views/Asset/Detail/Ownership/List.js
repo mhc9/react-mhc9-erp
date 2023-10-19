@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import moment from 'moment'
+import { toShortTHDate } from '../../../../utils'
 import { getOwnershipsByAsset, resetSuccess } from '../../../../features/asset-ownership/assetOwnershipSlice'
 import Loading from '../../../../components/Loading'
 
 const OwnershipList = ({ assetId, isUpdated }) => {
     const dispatch = useDispatch();
-    const { ownerships, pager, loading } = useSelector(state => state.ownership);
+    const { ownerships, pager, isLoading: loading } = useSelector(state => state.ownership);
 
     useEffect(() => {
         if (assetId) dispatch(getOwnershipsByAsset({ assetId }));
@@ -16,7 +17,7 @@ const OwnershipList = ({ assetId, isUpdated }) => {
 
     useEffect(() => {
         if (isUpdated) dispatch(resetSuccess());
-    }, [isUpdated])
+    }, [isUpdated]);
 
     return (
         <div>
@@ -36,10 +37,10 @@ const OwnershipList = ({ assetId, isUpdated }) => {
                             <td colSpan={5} className="text-center"><Loading /></td>
                         </tr>
                     )}
-                    {ownerships && ownerships.map((owns, index) => (
+                    {!loading && ownerships && ownerships.map((owns, index) => (
                         <tr key={owns.id} className="font-thin">
                             <td className="text-center">{index+pager.from}</td>
-                            <td className="text-center">{moment(owns.owned_at).format('DD/MM/YYYY')}</td>
+                            <td className="text-center">{toShortTHDate(moment(owns.owned_at).format('YYYY-MM-DD'))}</td>
                             <td>{owns.owner.firstname} {owns.owner.lastname}</td>
                             <td className="text-center">
                                 {owns.status}

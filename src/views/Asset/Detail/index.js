@@ -13,7 +13,7 @@ import AssetHistories from './Histories';
 const AssetDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { asset, loading } = useSelector(state => state.asset);
+    const { asset, isLoading } = useSelector(state => state.asset);
     const { success } = useSelector(state => state.ownership);
     const [openOwnershipForm, setOpenOwnershipForm] = useState(false);
 
@@ -40,8 +40,8 @@ const AssetDetail = () => {
                 </div>
                 
                 <div className="content-body mt-2 mb-4">
-                    {loading && <div className="text-center"><Loading /></div>}
-                    {asset && (
+                    {isLoading && <div className="text-center"><Loading /></div>}
+                    {!isLoading && asset && (
                         <>
                             <Row className="mb-3">
                                 <Col md={4}>
@@ -52,7 +52,7 @@ const AssetDetail = () => {
                                         <Col md={4}>
                                             <FormGroup>
                                                 <label>หมายเลขพัสดุ</label>
-                                                <div className="form-control text-sm font-thin">
+                                                <div className="form-control min-h-[34px] text-sm font-thin">
                                                     {asset.asset_no}
                                                 </div>
                                             </FormGroup>
@@ -60,7 +60,7 @@ const AssetDetail = () => {
                                         <Col md={8}>
                                             <FormGroup>
                                                 <label>ชื่อพัสดุ</label>
-                                                <div className="form-control text-sm font-thin">
+                                                <div className="form-control min-h-[34px] text-sm font-thin">
                                                     {asset.name}
                                                 </div>
                                             </FormGroup>
@@ -68,7 +68,7 @@ const AssetDetail = () => {
                                         <Col md={6}>
                                             <FormGroup>
                                                 <label>ชนิดพัสดุ</label>
-                                                <div className="form-control text-sm font-thin">
+                                                <div className="form-control min-h-[34px] text-sm font-thin">
                                                     {asset.group?.category?.name}
                                                 </div>
                                             </FormGroup>
@@ -76,7 +76,7 @@ const AssetDetail = () => {
                                         <Col md={6}>
                                             <FormGroup>
                                                 <label>กลุ่มพัสดุ</label>
-                                                <div className="form-control text-sm font-thin">
+                                                <div className="form-control min-h-[34px] text-sm font-thin">
                                                     {asset.group?.name}
                                                 </div>
                                             </FormGroup>
@@ -84,7 +84,7 @@ const AssetDetail = () => {
                                         <Col md={6}>
                                             <FormGroup>
                                                 <label>ยี่ห้อ</label>
-                                                <div className="form-control text-sm font-thin">
+                                                <div className="form-control min-h-[34px] text-sm font-thin">
                                                     {asset.brand?.name}
                                                 </div>
                                             </FormGroup>
@@ -92,7 +92,7 @@ const AssetDetail = () => {
                                         <Col md={6}>
                                             <FormGroup>
                                                 <label>รุ่น</label>
-                                                <div className="form-control text-sm font-thin">
+                                                <div className="form-control min-h-[34px] text-sm font-thin">
                                                     {asset.model}
                                                 </div>
                                             </FormGroup>
@@ -100,7 +100,7 @@ const AssetDetail = () => {
                                         <Col md={6}>
                                             <FormGroup>
                                                 <label>ราคา</label>
-                                                <div className="form-control text-sm font-thin">
+                                                <div className="form-control min-h-[34px] text-sm font-thin">
                                                     {asset.price_per_unit}
                                                 </div>
                                             </FormGroup>
@@ -108,7 +108,7 @@ const AssetDetail = () => {
                                         <Col md={6}>
                                             <FormGroup>
                                                 <label>หน่วยนับ</label>
-                                                <div className="form-control text-sm font-thin">
+                                                <div className="form-control min-h-[34px] text-sm font-thin">
                                                     {asset.unit?.name}
                                                 </div>
                                             </FormGroup>
