@@ -152,7 +152,7 @@ const AssetForm = ({ id, asset }) => {
                                         name="asset_no"
                                         value={formik.values.asset_no}
                                         onChange={formik.handleChange}
-                                        className="form-control text-sm"
+                                        className="form-control text-sm font-thin"
                                         placeholder="เลขที่พัสดุ"
                                     />
                                     {(formik.errors.asset_no && formik.touched.asset_no) && (
@@ -168,7 +168,7 @@ const AssetForm = ({ id, asset }) => {
                                         name="name"
                                         value={formik.values.name}
                                         onChange={formik.handleChange}
-                                        className="form-control text-sm"
+                                        className="form-control text-sm font-thin"
                                         placeholder="ชื่อพัสดุ"
                                     />
                                     {(formik.errors.name && formik.touched.name) && (
@@ -186,7 +186,7 @@ const AssetForm = ({ id, asset }) => {
                                         name="description"
                                         value={formik.values.description}
                                         onChange={formik.handleChange}
-                                        className="form-control text-sm"
+                                        className="form-control text-sm font-thin"
                                         placeholder="รายละเอียด"
                                     >
                                     </textarea>
@@ -207,7 +207,7 @@ const AssetForm = ({ id, asset }) => {
                                             formik.handleChange(e);
                                             handleCategorySelected(e.target.value);
                                         }}
-                                        className="form-control text-sm"
+                                        className="form-control text-sm font-thin"
                                     >
                                         <option value="">-- เลือกชนิดพัสดุ --</option>
                                         {categories && categories.map(category => (
@@ -228,7 +228,7 @@ const AssetForm = ({ id, asset }) => {
                                         name="asset_group_id"
                                         value={formik.values.asset_group_id}
                                         onChange={formik.handleChange}
-                                        className="form-control text-sm"
+                                        className="form-control text-sm font-thin"
                                     >
                                         <option value="">-- เลือกกลุ่มพัสดุ --</option>
                                         {filteredGroups && filteredGroups.map(group => (
@@ -249,7 +249,7 @@ const AssetForm = ({ id, asset }) => {
                                         name="price_per_unit"
                                         value={formik.values.price_per_unit}
                                         onChange={formik.handleChange}
-                                        className="form-control text-sm"
+                                        className="form-control text-sm font-thin"
                                     />
                                     {(formik.errors.price_per_unit && formik.touched.price_per_unit) && (
                                         <span className="text-red-500 text-sm">{formik.errors.price_per_unit}</span>
@@ -263,7 +263,7 @@ const AssetForm = ({ id, asset }) => {
                                         name="unit_id"
                                         value={formik.values.unit_id}
                                         onChange={formik.handleChange}
-                                        className="form-control text-sm"
+                                        className="form-control text-sm font-thin"
                                     >
                                         <option value="">-- เลือกหน่วยนับ --</option>
                                         {units && units.map(unit => (
@@ -282,7 +282,7 @@ const AssetForm = ({ id, asset }) => {
                                         name="obtain_type_id"
                                         value={formik.values.obtain_type_id}
                                         onChange={formik.handleChange}
-                                        className="form-control text-sm"
+                                        className="form-control text-sm font-thin"
                                     >
                                         <option value="">-- เลือกประเภทการได้มา --</option>
                                         {obtainingTypes && obtainingTypes.map(ob => (
@@ -303,7 +303,7 @@ const AssetForm = ({ id, asset }) => {
                                         name="budget_id"
                                         value={formik.values.budget_id}
                                         onChange={formik.handleChange}
-                                        className="form-control text-sm"
+                                        className="form-control text-sm font-thin"
                                     >
                                         <option value="">-- เลือกแหล่งงบประมาณ --</option>
                                         {budgets && budgets.map(budget => (
@@ -326,7 +326,7 @@ const AssetForm = ({ id, asset }) => {
                                         name="brand_id"
                                         value={formik.values.brand_id}
                                         onChange={formik.handleChange}
-                                        className="form-control text-sm"
+                                        className="form-control text-sm font-thin"
                                     >
                                         <option value="">-- เลือกยี่ห้อ/ผู้ผลิต --</option>
                                         {brands && brands.map(brand => (
@@ -346,7 +346,7 @@ const AssetForm = ({ id, asset }) => {
                                         name="model"
                                         value={formik.values.model}
                                         onChange={formik.handleChange}
-                                        className="form-control text-sm"
+                                        className="form-control text-sm font-thin"
                                     />
                                     {(formik.errors.model && formik.touched.model) && (
                                         <span className="text-red-500 text-sm">{formik.errors.model}</span>
@@ -369,13 +369,6 @@ const AssetForm = ({ id, asset }) => {
                                                 }}
                                             />
                                         </MuiPickersUtilsProvider>
-                                        {/* <BsForm.Control
-                                            type="date"
-                                            name="purchased_at"
-                                            value={formik.values.purchased_at}
-                                            onChange={formik.handleChange}
-                                            className="form-control"
-                                        /> */}
                                         {(formik.errors.purchased_at && formik.touched.purchased_at) && (
                                             <span className="text-red-500 text-sm">{formik.errors.purchased_at}</span>
                                         )}
@@ -397,14 +390,6 @@ const AssetForm = ({ id, asset }) => {
                                                 }}
                                             />
                                         </MuiPickersUtilsProvider>
-                                        {/* <input
-                                            type="text"
-                                            name="first_year"
-                                            value={formik.values.first_year}
-                                            onChange={formik.handleChange}
-                                            className="form-control"
-                                            placeholder="ปีที่ซื้อ"
-                                        /> */}
                                         {(formik.errors.first_year && formik.touched.first_year) && (
                                             <span className="text-red-500 text-sm">{formik.errors.first_year}</span>
                                         )}
@@ -425,13 +410,6 @@ const AssetForm = ({ id, asset }) => {
                                                 }}
                                             />
                                         </MuiPickersUtilsProvider>
-                                        {/* <BsForm.Control
-                                            type="date"
-                                            name="date_in"
-                                            value={formik.values.date_in}
-                                            onChange={formik.handleChange}
-                                            className="form-control"
-                                        /> */}
                                         {(formik.errors.date_in && formik.touched.date_in) && (
                                             <span className="text-red-500 text-sm">{formik.errors.date_in}</span>
                                         )}
@@ -448,7 +426,7 @@ const AssetForm = ({ id, asset }) => {
                                         name="remark"
                                         value={formik.values.remark}
                                         onChange={formik.handleChange}
-                                        className="form-control text-sm"
+                                        className="form-control text-sm font-thin"
                                     >
                                     </textarea>
                                 </FormGroup>
