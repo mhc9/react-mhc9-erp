@@ -116,7 +116,7 @@ const AssetDetail = () => {
                                         <Col md={6}>
                                             <FormGroup>
                                                 <label>รายละเอียด</label>
-                                                <div className="form-control text-sm font-thin h-20">
+                                                <div className="form-control text-sm font-thin min-h-[34px]">
                                                     {asset.description}
                                                 </div>
                                             </FormGroup>
@@ -124,7 +124,7 @@ const AssetDetail = () => {
                                         <Col md={6}>
                                             <FormGroup>
                                                 <label>หมายเหตุ</label>
-                                                <div className="form-control text-sm font-thin h-20">
+                                                <div className="form-control text-sm font-thin min-h-[34px]">
                                                     {asset.remark}
                                                 </div>
                                             </FormGroup>
