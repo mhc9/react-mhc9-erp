@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
-import { FaEdit } from 'react-icons/fa'
+import { FaEdit, FaRegCheckCircle } from 'react-icons/fa'
 import { getTask } from '../../features/task/taskSlice'
 import { toShortTHDate } from '../../utils'
 import TaskHandlingForm from './Handle/Form'
+import TaskHandlingDetail from './Handle/Detail'
 import Loading from '../../components/Loading'
 
 const TaskDetail = () => {
@@ -129,7 +130,7 @@ const TaskDetail = () => {
                                 </table>
                             </div>
                             <div className="my-2 text-right">
-                                {!isHandle && (
+                                {(!isHandle && task.handlings.length === 0) && (
                                     <button className="btn btn-primary text-sm" onClick={() => setIsHandle(true)}>
                                         ดำเนินการ
                                     </button>
@@ -139,11 +140,17 @@ const TaskDetail = () => {
                     )}
                 </div>
 
-                {isHandle && (
+                {(isHandle || task?.handlings.length > 0) && (
                     <div className="my-2 border py-3 px-4 rounded-md">
-                        <h2 className="text-xl font-bold mb-2">การดำเนินการ (สำหรับฝ่ายไอที)</h2>
+                        <div className="flex flex-row items-center justify-between">
+                            <h2 className="text-xl font-bold mb-2">การดำเนินการ (สำหรับฝ่ายไอที)</h2>
+                            {task?.handlings.length > 0 && <span className="text-success"><FaRegCheckCircle /></span>}
+                        </div>
 
-                        <TaskHandlingForm task={task} onCancel={() => setIsHandle(false)} />
+                        {task?.handlings.length > 0 
+                            ? <TaskHandlingDetail task={task} />
+                            : <TaskHandlingForm task={task} onCancel={() => setIsHandle(false)} />
+                        }
                     </div>
                 )}
             </div>
