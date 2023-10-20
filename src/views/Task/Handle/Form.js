@@ -243,7 +243,7 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                             </button>
                             <button
                                 type="submit"
-                                className={`btn ${task ? 'btn-outline-warning' : 'btn-outline-primary'} mt-2 float-right`}
+                                className={`btn btn-outline-primary mt-2 float-right`}
                                 disabled={formik.isSubmitting}
                             >
                                 บันทึก
