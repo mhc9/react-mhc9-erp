@@ -22,7 +22,7 @@ const AssetFilteringInput = ({ initialFilters, onFilter, formData }) => {
                         name="name"
                         value={filters.name}
                         onChange={handleInputChange}
-                        className="form-control"
+                        className="form-control text-sm font-thin"
                         placeholder="ชื่อพัสดุ"
                     />
                 </Col>
@@ -46,7 +46,7 @@ const AssetFilteringInput = ({ initialFilters, onFilter, formData }) => {
                         name="group"
                         value={filters.group}
                         onChange={handleInputChange}
-                        className="form-control"
+                        className="form-control text-sm font-thin"
                     >
                         <option value="">-- กลุ่มพัสดุ --</option>
                         {formData.groups && formData.groups.map(group => (
@@ -61,7 +61,7 @@ const AssetFilteringInput = ({ initialFilters, onFilter, formData }) => {
                         name="owner"
                         value={filters.owner}
                         onChange={handleInputChange}
-                        className="form-control"
+                        className="form-control text-sm font-thin"
                     >
                         <option value="">-- ผู้รับผิดชอบ --</option>
                         {formData.employees && formData.employees.map(employee => (
