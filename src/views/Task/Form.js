@@ -31,6 +31,8 @@ const TaskForm = ({ task }) => {
     const [openEmployeeModal, setOpenEmployeeModal] = useState(false);
     const [selectedTaskDate, setSelectedTaskDate] = useState(moment());
     const [selectedTaskTime, setSelectedTaskTime] = useState(moment());
+    const [selectedUseDate, setSelectedUseDate] = useState(moment());
+    const [selectedUseTime, setSelectedUseTime] = useState(moment());
 
     /** On mount component set initital value of asset local state by task prop */
     // useEffect(() => {
@@ -89,6 +91,8 @@ const TaskForm = ({ task }) => {
                     task_group_id: task ? task.task_group_id : '',
                     description: task ? task.description : '',
                     priority_id: task ? task.priority_id : '1',
+                    use_date: task ? moment(task.task_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+                    use_time: task ? '' : '',
                     reporter_id: task ? task.reporter_id : '',
                     remark: task ? task.remark : '',
                     assets: task? task.assets : [],
@@ -206,6 +210,55 @@ const TaskForm = ({ task }) => {
                                 </Col>
                             </Row>
                             <Row className="mb-2">
+                                <Col md={2}>
+                                    <FormGroup>
+                                        <div className="flex flex-col">
+                                            <label>วันที่จะใช้งาน</label>
+                                            <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                                <DatePicker
+                                                    format="DD/MM/YYYY"
+                                                    value={selectedUseDate}
+                                                    onChange={(date) => {
+                                                        setSelectedUseDate(date);
+                                                        formik.setFieldValue('use_date', date.format('YYYY-MM-DD'));
+                                                    }}
+                                                    variant="outlined"
+                                                />
+                                            </MuiPickersUtilsProvider>
+                                            {(formik.errors.use_date && formik.touched.use_date) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.use_date}</span>
+                                            )}
+                                        </div>
+                                    </FormGroup>
+                                </Col>
+                                <Col md={2}>
+                                    <FormGroup>
+                                        <div className="flex flex-col">
+                                        <label>เวลาจะใช้งาน</label>
+                                            <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
+                                                <TimePicker
+                                                    format="hh:mm"
+                                                    value={selectedUseTime}
+                                                    onChange={(time) => {
+                                                        const dateStr = moment(selectedUseDate).format('YYYY-MM-DD');
+                                                        const timeStr = moment(time).format('hh:mm');
+
+                                                        /** Create newTime from selectedUseDate and selected time from input */
+                                                        const newTime = moment(`${dateStr}T${timeStr}`);
+
+                                                        /** Set newTime to selectedUseTime state and use_time field */
+                                                        setSelectedTaskTime(newTime);
+                                                        formik.setFieldValue('use_time', newTime.format('hh:mm'));
+                                                    }}
+                                                    variant="outlined"
+                                                />
+                                            </MuiPickersUtilsProvider>
+                                        </div>
+                                        {(formik.errors.use_time && formik.touched.use_time) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.use_time}</span>
+                                        )}
+                                    </FormGroup>
+                                </Col>
                                 <Col>
                                     <FormGroup>
                                         <label>ผู้แจ้ง</label>
@@ -250,13 +303,6 @@ const TaskForm = ({ task }) => {
                                             value="3"
                                         />
                                         <span className="ml-1 mr-4">ด่วนมาก</span>
-
-                                        <Field
-                                            type="radio"
-                                            name="priority_id"
-                                            value="4"
-                                        />
-                                        <span className="ml-1">ด่วนที่สุด</span>
                                     </label>
                                     {(formik.errors.priority_id && formik.touched.priority_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.priority_id}</span>
