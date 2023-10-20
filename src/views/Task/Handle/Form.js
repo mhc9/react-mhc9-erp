@@ -29,12 +29,12 @@ const TaskHandlingForm = ({ task, onCancel }) => {
     const [showEmployeeModal, setShowEmployeeModal] = useState(false)
     const [handler, setHandler] = useState(null);
 
+    /** On mounted */
     useEffect(() => {
 
     }, []);
 
     const handleSubmit = (values, formik) => {
-        console.log(values);
         dispatch(store(values));
 
         formik.resetForm();
@@ -44,8 +44,8 @@ const TaskHandlingForm = ({ task, onCancel }) => {
     return (
         <Formik
             initialValues={{
-                handle_date: '',
-                handle_time: '',
+                handle_date: moment().format('YYYY-MM-DD'),
+                handle_time: moment().format('hh:mm'),
                 task_id: task ? task.id : '',
                 handler_id: '',
                 description: '',
@@ -246,7 +246,7 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                                 className={`btn ${task ? 'btn-outline-warning' : 'btn-outline-primary'} mt-2 float-right`}
                                 disabled={formik.isSubmitting}
                             >
-                                {task ? 'บันทึกการแกไข' : 'บันทึก'}
+                                บันทึก
                             </button>
                         </Col>
                     </Row>
