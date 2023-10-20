@@ -89,7 +89,7 @@ const TaskForm = ({ task }) => {
                     task_time: task ? '' : '',
                     task_type_id: task ? task.group.task_type_id : '',
                     task_group_id: task ? task.task_group_id : '',
-                    description: task ? task.description : '',
+                    problem: task ? task.problem : '',
                     priority_id: task ? task.priority_id : '1',
                     use_date: task ? moment(task.task_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                     use_time: task ? '' : '',
@@ -316,13 +316,13 @@ const TaskForm = ({ task }) => {
                                         <label>รายละเอียด</label>
                                         <textarea
                                             rows={3}
-                                            name="description"
-                                            value={formik.values.description}
+                                            name="problem"
+                                            value={formik.values.problem}
                                             onChange={formik.handleChange}
                                             className="form-control text-sm font-thin"
                                         ></textarea>
-                                        {(formik.errors.description && formik.touched.description) && (
-                                            <span className="text-red-500 text-sm">{formik.errors.description}</span>
+                                        {(formik.errors.problem && formik.touched.problem) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.problem}</span>
                                         )}
                                     </FormGroup>
                                 </Col>
