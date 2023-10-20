@@ -50,11 +50,11 @@ const TaskList = () => {
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>บริการ</Breadcrumb.Item>
-                <Breadcrumb.Item active>สถานะการซ่อม</Breadcrumb.Item>
+                <Breadcrumb.Item active>รายการแจ้งปัญหา/แจ้งซ่อม</Breadcrumb.Item>
             </Breadcrumb>
         
             <div className="content">
-                <h2 className="text-xl">สถานะการซ่อม</h2>
+                <h2 className="text-xl">รายการแจ้งปัญหา/แจ้งซ่อม</h2>
 
                 <div>
                     <TaskFilteringInputs
