@@ -1,16 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import { Formik, Form } from 'formik'
+import { useDispatch } from 'react-redux';
+import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { Col, Row } from 'react-bootstrap';
+import { FaSearch } from 'react-icons/fa';
 import { MuiPickersUtilsProvider, DatePicker, TimePicker } from '@material-ui/pickers';
 import moment from 'moment'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
-import { FaSearch } from 'react-icons/fa';
+import { store } from '../../../features/task-handling/taskHandlingSlice'
+import { useGetInitialFormDataQuery } from '../../../services/task-handling/taskHandlingApi'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
+import Loading from '../../../components/Loading';
 
-const handlingSchema = Yup.object().shape({});
+const handlingSchema = Yup.object().shape({
+    handle_date: Yup.string().required(),
+    handle_time: Yup.string().required(),
+    handler_id: Yup.string().required(),
+    description: Yup.string().required(),
+    cause_id: Yup.string().required(),
+    handle_type_id:  Yup.string().required()
+});
 
 const TaskHandlingForm = ({ task, onCancel }) => {
+    const dispatch = useDispatch();
+    const { data: formData, isLoading } = useGetInitialFormDataQuery();
     const [selectedHandleDate, setSelectedHandleDate] = useState(moment());
     const [selectedHandleTime, setSelectedHandleTime] = useState(moment());
     const [showEmployeeModal, setShowEmployeeModal] = useState(false)
@@ -22,6 +35,7 @@ const TaskHandlingForm = ({ task, onCancel }) => {
 
     const handleSubmit = (values, formik) => {
         console.log(values);
+        dispatch(store(values));
 
         formik.resetForm();
         onCancel();
@@ -32,12 +46,12 @@ const TaskHandlingForm = ({ task, onCancel }) => {
             initialValues={{
                 handle_date: '',
                 handle_time: '',
-                task_id: '',
+                task_id: task ? task.id : '',
                 handler_id: '',
                 description: '',
                 cause_id: '',
                 cause_text: '',
-                handle_type_id: ''
+                handle_type_id: '1'
             }}
             validationSchema={handlingSchema}
             onSubmit={handleSubmit}
@@ -114,6 +128,9 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                                     <FaSearch />
                                 </button>
                             </div>
+                            {(formik.errors.handler_id && formik.touched.handler_id) && (
+                                <span className="text-red-500 text-sm">{formik.errors.handler_id}</span>
+                            )}
                         </Col>
                     </Row>
                     <Row className="mb-2">
@@ -133,25 +150,86 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                         <Col>
                             <label htmlFor="">สาเหตุของปัญหา</label>
                             <div className="flex flex-col">
-                                <select className="form-control text-sm font-thin mb-1">
-                                    <option>-- เลือก --</option>
-                                </select>
+                                {isLoading && <div className="form-control text-center"><Loading /></div>}
+                                {!isLoading && (
+                                    <select
+                                        name="cause_id"
+                                        value={formik.values.cause_id}
+                                        onChange={formik.handleChange}
+                                        className="form-control text-sm font-thin mb-1"
+                                    >
+                                        <option>-- เลือก --</option>
+                                        {formData && formData.causes.map((cause, index) => (
+                                            <option value={cause.id} key={cause.id}>
+                                                {cause.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                )}
                                 <input type="text" className="form-control text-sm font-thin" placeholder="ระบุ (ถ้ามี)" />
                             </div>
+                            {(formik.errors.cause_id && formik.touched.cause_id) && (
+                                <span className="text-red-500 text-sm">{formik.errors.cause_id}</span>
+                            )}
                         </Col>
                     </Row>
                     <Row className="mb-2">
                         <Col>
                             <label htmlFor="">ประเภทงาน</label>
-                            <select className="form-control text-sm font-thin mr-1">
-                                <option>-- เลือก --</option>
-                            </select>
+                            <label className="form-control text-sm font-thin">
+                                <Field
+                                    type="radio"
+                                    name="handle_type_id"
+                                    value="1"
+                                />
+                                <span className="ml-1 mr-4">ซ่อม</span>
+
+                                <Field
+                                    type="radio"
+                                    name="handle_type_id"
+                                    value="2"
+                                />
+                                <span className="ml-1 mr-4">บำรุงรักษา</span>
+
+                                <Field
+                                    type="radio"
+                                    name="handle_type_id"
+                                    value="3"
+                                />
+                                <span className="ml-1 mr-4">สร้าง</span>
+
+                                <Field
+                                    type="radio"
+                                    name="handle_type_id"
+                                    value="4"
+                                />
+                                <span className="ml-1 mr-4">แก้ไข</span>
+                            </label>
+                            {(formik.errors.handle_type_id && formik.touched.handle_type_id) && (
+                                <span className="text-red-500 text-sm">{formik.errors.handle_type_id}</span>
+                            )}
                         </Col>
                         <Col>
                             <label htmlFor="">สถานะ</label>
-                            <select className="form-control text-sm font-thin mr-1">
-                                <option>-- เลือก --</option>
-                            </select>
+                            {isLoading && <div className="form-control text-center"><Loading /></div>}
+                            {!isLoading && (
+                                <select
+                                    name="status"
+                                    value={formik.values.status}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm font-thin mr-1"
+                                >
+                                    <option>-- เลือก --</option>
+                                    {formData && formData.statuses.map((status, index) => (
+                                        <option value={status.id} key={status.id}>
+                                            {status.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            )}
+                            {(formik.errors.status && formik.touched.status) && (
+                                <span className="text-red-500 text-sm">{formik.errors.status}</span>
+                            )}
                         </Col>
                     </Row>
                     <Row>

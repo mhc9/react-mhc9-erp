@@ -138,7 +138,7 @@ const TaskDetail = () => {
                     <div className="my-2 border py-3 px-4 rounded-md">
                         <h2 className="text-xl font-bold mb-2">การดำเนินการ (สำหรับฝ่ายไอที)</h2>
 
-                        <TaskHandlingForm onCancel={() => setIsHandle(false)} />
+                        <TaskHandlingForm task={task} onCancel={() => setIsHandle(false)} />
                     </div>
                 )}
             </div>
