@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { FaEdit } from 'react-icons/fa'
 import { getTask } from '../../features/task/taskSlice'
-import Loading from '../../components/Loading'
+import { toShortTHDate } from '../../utils'
 import TaskHandlingForm from './Handle/Form'
+import Loading from '../../components/Loading'
 
 const TaskDetail = () => {
     const { id } = useParams();
@@ -40,11 +41,15 @@ const TaskDetail = () => {
                             <Row className="mb-2">
                                 <Col md={2}>
                                     <label>วันที่แจ้ง</label>
-                                    <div className="form-control text-sm font-thin min-h-[34px]">{task.task_date}</div>
+                                    <div className="form-control text-center text-sm font-thin min-h-[34px]">
+                                        {toShortTHDate(task.task_date)}
+                                    </div>
                                 </Col>
                                 <Col md={2}>
                                     <label>เวลาที่แจ้ง</label>
-                                    <div className="form-control text-sm font-thin min-h-[34px]">{task.task_time}</div>
+                                    <div className="form-control text-center text-sm font-thin min-h-[34px]">
+                                        {task.task_time}
+                                    </div>
                                 </Col>
                                 <Col md={4}>
                                         <label>ประเภทปัญหา</label>
