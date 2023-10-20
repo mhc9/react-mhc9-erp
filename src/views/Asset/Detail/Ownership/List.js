@@ -40,7 +40,7 @@ const OwnershipList = ({ assetId, isUpdated }) => {
                     {!loading && ownerships && ownerships.map((owns, index) => (
                         <tr key={owns.id} className="font-thin">
                             <td className="text-center">{index+pager.from}</td>
-                            <td className="text-center">{toShortTHDate(moment(owns.owned_at).format('YYYY-MM-DD'))}</td>
+                            <td className="text-center">{toShortTHDate(owns.owned_at)}</td>
                             <td>{owns.owner.firstname} {owns.owner.lastname}</td>
                             <td className="text-center">
                                 {owns.status}

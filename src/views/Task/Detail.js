@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Breadcrumb } from 'react-bootstrap'
+import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { FaEdit } from 'react-icons/fa'
 import { getTask } from '../../features/task/taskSlice'
-import TaskAssetList from './Asset/List'
 import Loading from '../../components/Loading'
+import TaskHandlingForm from './Handle/Form'
 
 const TaskDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { task, isLoading } = useSelector(state => state.task);
+    const [isHandle, setIsHandle] = useState(false);
 
     useEffect(() => {
         dispatch(getTask({ id }));
@@ -32,15 +33,114 @@ const TaskDetail = () => {
                     <span className="ml-1">รายละเอียดแจ้งปัญหา/แจ้งซ่อม : {id}</span>
                 </h2>
 
-                <div className="my-2 border p-4 rounded-md">
+                <div className="my-2 border py-3 px-4 rounded-md">
                     {isLoading && <div className="text-center"><Loading /></div>}
                     {!isLoading && task && (
                         <div>
-                            <h3 className="mb-1">รายการพัสดุ (ถ้ามี)</h3>
-                            <TaskAssetList assets={task.assets} />
+                            <Row className="mb-2">
+                                <Col md={2}>
+                                    <label>วันที่แจ้ง</label>
+                                    <div className="form-control text-sm font-thin min-h-[34px]">{task.task_date}</div>
+                                </Col>
+                                <Col md={2}>
+                                    <label>เวลาที่แจ้ง</label>
+                                    <div className="form-control text-sm font-thin min-h-[34px]">{task.task_time}</div>
+                                </Col>
+                                <Col md={4}>
+                                        <label>ประเภทปัญหา</label>
+                                        <div className="form-control text-sm font-thin">
+                                            {task.group?.name}
+                                        </div>
+                                </Col>
+                                <Col md={4}>
+                                        <label>กลุ่มอาการ</label>
+                                        <div className="form-control text-sm font-thin">
+                                            {task.group.name}    
+                                        </div>
+                                </Col>
+                            </Row>
+                            <Row className="mb-2">
+                                <Col>
+                                    <label>ผู้แจ้ง</label>
+                                    <div className="form-control text-sm font-thin min-h-[34px]">
+                                        {task.reporter && `${task.reporter?.prefix?.name}${task.reporter?.firstname} ${task.reporter?.lastname}`}
+                                    </div>
+                                </Col>
+                                <Col>
+                                    <label>ความเร่งด่วน</label>                                    
+                                    <div className="form-control text-sm font-thin">
+                                        {task.priority_id === 1 && <span className="badge rounded-pill text-bg-success">ปกติ</span>}
+                                        {task.priority_id === 2 && <span className="badge rounded-pill text-bg-info">ด่วน</span>}
+                                        {task.priority_id === 3 && <span className="badge rounded-pill text-bg-warning">ด่วนมาก</span>}
+                                    </div>
+                                </Col>
+                            </Row>
+                            <Row className="mb-4">
+                                <Col>
+                                    <label>รายละเอียด</label>
+                                    <div className="form-control text-sm font-thin min-h-[60px]">
+                                        {task.description}
+                                    </div>
+                                </Col>
+                                <Col>
+                                    <label>หมายเหตุ</label>
+                                    <div className="form-control text-sm font-thin min-h-[60px]">
+                                        {task.remark}
+                                    </div>
+                                </Col>
+                            </Row>
+
+                            <div className="border pt-2 px-2 rounded-md">
+                                <h3 className="mb-1">รายการพัสดุ (ถ้ามี)</h3>
+                                <table className="table table-bordered text-sm">
+                                    <thead>
+                                        <tr>
+                                            <th className="w-[5%] text-center">#</th>
+                                            <th className="w-[20%] text-center">หมายเลขพัสดุ</th>
+                                            <th>รายการ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {task.assets.length === 0 && (
+                                            <tr>
+                                                <td colSpan={4} className="text-center font-thin">
+                                                    <span className="text-red-500">-- ยังไม่มีข้อมูล --</span>
+                                                </td>
+                                            </tr>
+                                        )}
+                                        {task.assets && task.assets.map((asset, index) => (
+                                            <tr key={asset.id} className="font-thin">
+                                                <td className="text-center">{index+1}</td>
+                                                <td className="text-center">{asset.asset?.asset_no}</td>
+                                                <td>
+                                                    <p className="font-semibold">{asset.asset?.category?.name}</p>
+                                                    {asset.asset?.name}
+                                                    <span className="ml-1"><b>ยี่ห้อ</b> {asset.asset?.brand?.name}</span>
+                                                    <span className="ml-1"><b>ปีที่ซื้อ</b> {asset.asset.first_year ? asset.asset.first_year : '-'}</span> 
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="my-2 text-right">
+                                {!isHandle && (
+                                    <button className="btn btn-primary text-sm" onClick={() => setIsHandle(true)}>
+                                        ดำเนินการ
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     )}
                 </div>
+
+                {isHandle && (
+                    <div className="my-2 border py-3 px-4 rounded-md">
+                        <h2 className="text-xl font-bold mb-2">การดำเนินการ (สำหรับฝ่ายไอที)</h2>
+
+                        <TaskHandlingForm onCancel={() => setIsHandle(false)} />
+                    </div>
+                )}
             </div>
         </div>
     )
