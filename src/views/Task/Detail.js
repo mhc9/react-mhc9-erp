@@ -5,8 +5,8 @@ import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { FaEdit, FaRegCheckCircle } from 'react-icons/fa'
 import { getTask } from '../../features/task/taskSlice'
 import { toShortTHDate } from '../../utils'
-import TaskHandlingForm from './Handle/Form'
-import TaskHandlingDetail from './Handle/Detail'
+import TaskHandlingForm from './Handling/Form'
+import TaskHandlingDetail from './Handling/Detail'
 import Loading from '../../components/Loading'
 
 const TaskDetail = () => {
@@ -17,7 +17,7 @@ const TaskDetail = () => {
 
     useEffect(() => {
         dispatch(getTask({ id }));
-    }, [id]);
+    }, [dispatch, id]);
 
     return (
         <div className="content-wrapper">

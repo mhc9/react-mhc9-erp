@@ -40,9 +40,9 @@ export const store = createAsyncThunk("task/store", async (data, { rejectWithVal
     }
 });
 
-export const solve = createAsyncThunk("task/solve", async ({ id, data }, { rejectWithValue }) => {
+export const handle = createAsyncThunk("task/handle", async ({ id, data }, { rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/tasks/${id}/solve`, data);
+        const res = await api.put(`/api/tasks/${id}/handle`, data);
 
         return res.data;
     } catch (error) {
@@ -143,11 +143,11 @@ export const taskSlice = createSlice({
         [update.rejected]: (state, { payload }) => {
             state.error = payload;
         },
-        [solve.pending]: (state) => {
+        [handle.pending]: (state) => {
             state.isSuccess = false;
             state.error = null;
         },
-        [solve.fulfilled]: (state, { payload }) => {
+        [handle.fulfilled]: (state, { payload }) => {
             const { status, message } = payload;
 
             if (status === 1) {
@@ -157,7 +157,7 @@ export const taskSlice = createSlice({
                 state.error = { message };
             }
         },
-        [solve.rejected]: (state, { payload }) => {
+        [handle.rejected]: (state, { payload }) => {
             state.error = payload;
         },
         [destroy.pending]: (state) => {

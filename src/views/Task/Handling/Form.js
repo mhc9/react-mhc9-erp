@@ -7,7 +7,7 @@ import { FaSearch } from 'react-icons/fa';
 import { MuiPickersUtilsProvider, DatePicker, TimePicker } from '@material-ui/pickers';
 import moment from 'moment'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
-import { store } from '../../../features/task-handling/taskHandlingSlice'
+import { handle } from '../../../features/task/taskSlice'
 import { useGetInitialFormDataQuery } from '../../../services/task-handling/taskHandlingApi'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import Loading from '../../../components/Loading';
@@ -35,7 +35,7 @@ const TaskHandlingForm = ({ task, onCancel }) => {
     }, []);
 
     const handleSubmit = (values, formik) => {
-        dispatch(store(values));
+        dispatch(handle({ id: task.id, data: values }));
 
         formik.resetForm();
         onCancel();
