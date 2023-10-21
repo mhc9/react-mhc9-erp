@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getRequisitions } from '../../../features/requisition/requisitionSlice'
-import { currency, toShortTHDate } from '../../../utils'
+import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import DetailList from './DetailList'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
@@ -21,7 +21,7 @@ const RequisitionList = () => {
     const dispatch = useDispatch();
     const { requisitions, pager, isLoading } = useSelector(state => state.requisition);
     const [apiEndpoint, setApiEndpoint] = useState('');
-    const [params, setParams] = useState('');
+    const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
         if (apiEndpoint === '') {
@@ -33,6 +33,7 @@ const RequisitionList = () => {
 
     const handleFilter = (queryStr) => {
         setParams(queryStr);
+
         setApiEndpoint(`/api/requisitions/search?page=`);
     };
 
