@@ -240,7 +240,7 @@ const TaskForm = ({ task }) => {
                                                     format="hh:mm"
                                                     value={selectedUseTime}
                                                     onChange={(time) => {
-                                                        const dateStr = moment(selectedUseDate).format('YYYY-MM-DD');
+                                                        const dateStr = moment(setSelectedUseTime).format('YYYY-MM-DD');
                                                         const timeStr = moment(time).format('hh:mm');
 
                                                         /** Create newTime from selectedUseDate and selected time from input */

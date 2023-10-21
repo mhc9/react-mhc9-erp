@@ -34,7 +34,9 @@ const AddTask = () => {
             <div className="content">
                 <h2 className="text-xl">แจ้งปัญหา/แจ้งซ่อม</h2>
 
-                <TaskForm />
+                <div className="my-2 border p-4 rounded-md">
+                    <TaskForm />
+                </div>
             </div>
         </div>
     )
