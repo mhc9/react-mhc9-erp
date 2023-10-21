@@ -2,21 +2,24 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
-import AssetForm from './Form'
+import { toast } from 'react-toastify'
 import { resetSuccess } from '../../features/asset/assetSlice'
+import AssetForm from './Form'
 
 const AddAsset = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { success } = useSelector(state => state.asset);
+    const { isSuccess } = useSelector(state => state.asset);
 
     useEffect(() => {
-        if (success) {
+        if (isSuccess) {
+            toast.success('บันทึกข้อมูลพัสดุเรียบร้อยแล้ว!!');
+
             dispatch(resetSuccess());
 
             navigate('/asset');
         }
-    }, [success]);
+    }, [dispatch, isSuccess]);
 
     return (
         <div className="content-wrapper">
