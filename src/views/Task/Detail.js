@@ -55,13 +55,13 @@ const TaskDetail = () => {
                                 <Col md={4}>
                                         <label>ประเภทปัญหา</label>
                                         <div className="form-control text-sm font-thin">
-                                            {task.group?.name}
+                                            {task.group?.type?.name}
                                         </div>
                                 </Col>
                                 <Col md={4}>
                                         <label>กลุ่มอาการ</label>
                                         <div className="form-control text-sm font-thin">
-                                            {task.group.name}    
+                                            {task.group?.name}    
                                         </div>
                                 </Col>
                             </Row>
@@ -85,7 +85,7 @@ const TaskDetail = () => {
                                 <Col>
                                     <label>รายละเอียด</label>
                                     <div className="form-control text-sm font-thin min-h-[60px]">
-                                        {task.description}
+                                        {task.problem}
                                     </div>
                                 </Col>
                                 <Col>

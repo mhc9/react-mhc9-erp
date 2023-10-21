@@ -85,7 +85,7 @@ const TaskList = () => {
                                             <b className="mr-1">{task.group?.type?.name}</b>
                                             <span className="font-thin">({task.group?.name})</span>
                                         </p>
-                                        <p className="text-xs text-red-500 font-thin">{task.description}</p>
+                                        <p className="text-xs text-red-500 font-thin">{task.problem}</p>
                                     </td>
                                     <td className="text-center">
                                         <span className="badge rounded-pill text-bg-success">
