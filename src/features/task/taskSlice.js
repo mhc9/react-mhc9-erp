@@ -145,13 +145,15 @@ export const taskSlice = createSlice({
         },
         [handle.pending]: (state) => {
             state.isSuccess = false;
+            state.task = null;
             state.error = null;
         },
         [handle.fulfilled]: (state, { payload }) => {
-            const { status, message } = payload;
+            const { status, message, task } = payload;
 
             if (status === 1) {
                 state.isSuccess = true;
+                state.task = task;
             } else {
                 state.isSuccess = false;
                 state.error = { message };
