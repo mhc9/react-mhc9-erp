@@ -31,7 +31,7 @@ const TaskHandlingDetail = ({ task }) => {
                 <Col>
                     <label>รายละเอียดการดำเนินการ</label>
                     <div className="form-control text-sm font-thin min-h-[60px]">
-                        {task.solving}
+                        {task.handling}
                     </div>
                 </Col>
                 <Col>

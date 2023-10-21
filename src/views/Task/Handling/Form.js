@@ -16,7 +16,7 @@ const handlingSchema = Yup.object().shape({
     handle_date: Yup.string().required(),
     handle_time: Yup.string().required(),
     handler_id: Yup.string().required(),
-    description: Yup.string().required(),
+    handling: Yup.string().required(),
     cause_id: Yup.string().required(),
     handle_type_id:  Yup.string().required()
 });
@@ -46,9 +46,8 @@ const TaskHandlingForm = ({ task, onCancel }) => {
             initialValues={{
                 handle_date: moment().format('YYYY-MM-DD'),
                 handle_time: moment().format('hh:mm'),
-                task_id: task ? task.id : '',
                 handler_id: '',
-                description: '',
+                handling: '',
                 cause_id: '',
                 cause_text: '',
                 handle_type_id: '1'
@@ -138,13 +137,13 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                             <label>รายละเอียด</label>
                             <textarea
                                 rows={3}
-                                name="description"
-                                value={formik.values.description}
+                                name="handling"
+                                value={formik.values.handling}
                                 onChange={formik.handleChange}
                                 className="form-control text-sm font-thin"
                             ></textarea>
-                            {(formik.errors.description && formik.touched.description) && (
-                                <span className="text-red-500 text-sm">{formik.errors.description}</span>
+                            {(formik.errors.handling && formik.touched.handling) && (
+                                <span className="text-red-500 text-sm">{formik.errors.handling}</span>
                             )}
                         </Col>
                         <Col>
