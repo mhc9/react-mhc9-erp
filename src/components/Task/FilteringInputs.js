@@ -5,6 +5,7 @@ import moment from 'moment';
 import OverWriteMomentBE from '../../utils/OverwriteMomentBE'
 import { generateQueryString } from '../../utils';
 import { useGetInitialFormDataQuery } from '../../services/task/taskApi'
+import Loading from '../Loading'
 
 const initialFormData = {
     types: [],
@@ -14,7 +15,7 @@ const initialFormData = {
 const TaskFilteringInputs = ({ initialFilters, onFilter }) => {
     const [filters, setFilters] = useState(initialFilters);
     const [selectedDate, setSelectedDate] = useState(moment());
-    const { data: formData = initialFormData } = useGetInitialFormDataQuery();
+    const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -61,19 +62,22 @@ const TaskFilteringInputs = ({ initialFilters, onFilter }) => {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <select
-                            name="type"
-                            value={filters.type}
-                            onChange={handleInputChange}
-                            className="form-control text-sm"
-                        >
-                            <option value="">-- ประเภทปัญหา --</option>
-                            {formData.types && formData.types.map(type => (
-                                <option value={type.id} key={type.id}>
-                                    {type.name}
-                                </option>
-                            ))}
-                        </select>
+                        {isLoading && <div className="form-control text-center text-sm"><Loading /></div>}
+                        {!isLoading && (
+                            <select
+                                name="type"
+                                value={filters.type}
+                                onChange={handleInputChange}
+                                className="form-control text-sm"
+                            >
+                                <option value="">-- ประเภทปัญหา --</option>
+                                {formData.types && formData.types.map(type => (
+                                    <option value={type.id} key={type.id}>
+                                        {type.name}
+                                    </option>
+                                ))}
+                            </select>
+                        )}
                     </FormGroup>
                     <FormGroup>
                         <select
