@@ -2,15 +2,15 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from '../../api';
 
 const initialState = {
-    handling: null,
-    handlings: [],
+    repairation: null,
+    repairations: [],
     pager: null,
     isLoading: false,
     isSuccess: false,
     error: null,
 };
 
-export const getTaskHandlings = createAsyncThunk("task-handling/getTaskHandlings", async ({ url }, { rejectWithValue }) => {
+export const getRepairations = createAsyncThunk("repairation/getRepairations", async ({ url }, { rejectWithValue }) => {
     try {
         const res = await api.get(url);
 
@@ -20,9 +20,9 @@ export const getTaskHandlings = createAsyncThunk("task-handling/getTaskHandlings
     }
 });
 
-export const getTaskHandling = createAsyncThunk("task-handling/getTaskHandling", async ({ id }, { rejectWithValue }) => {
+export const getRepairation = createAsyncThunk("repairation/getRepairation", async ({ id }, { rejectWithValue }) => {
     try {
-        const res = await api.get(`/api/task-handlings/${id}`);
+        const res = await api.get(`/api/repairations/${id}`);
 
         return res.data;
     } catch (error) {
@@ -30,9 +30,9 @@ export const getTaskHandling = createAsyncThunk("task-handling/getTaskHandling",
     }
 });
 
-export const store = createAsyncThunk("task-handling/store", async (data, { rejectWithValue }) => {
+export const store = createAsyncThunk("repairation/store", async (data, { rejectWithValue }) => {
     try {
-        const res = await api.post(`/api/task-handlings`, data);
+        const res = await api.post(`/api/repairations`, data);
 
         return res.data;
     } catch (error) {
@@ -40,9 +40,9 @@ export const store = createAsyncThunk("task-handling/store", async (data, { reje
     }
 });
 
-export const update = createAsyncThunk("task-handling/update", async ({ id, data }, { rejectWithValue }) => {
+export const update = createAsyncThunk("repairation/update", async ({ id, data }, { rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/task-handlings/${id}`, data);
+        const res = await api.put(`/api/repairations/${id}`, data);
 
         return res.data;
     } catch (error) {
@@ -50,9 +50,9 @@ export const update = createAsyncThunk("task-handling/update", async ({ id, data
     }
 });
 
-export const destroy = createAsyncThunk("task-handling/destroy", async ({ id }, { rejectWithValue }) => {
+export const destroy = createAsyncThunk("repairation/destroy", async ({ id }, { rejectWithValue }) => {
     try {
-        const res = await api.delete(`/api/task-handlings/${id}`);
+        const res = await api.delete(`/api/repairations/${id}`);
 
         return res.data;
     } catch (error) {
@@ -69,33 +69,33 @@ export const taskHandlingSlice = createSlice({
         }
     },
     extraReducers: {
-        [getTaskHandlings.pending]: (state) => {
+        [getRepairations.pending]: (state) => {
             state.isLoading = true;
-            state.handlings = [];
+            state.repairations = [];
             state.pager = null;
             state.error = null;
         },
-        [getTaskHandlings.fulfilled]: (state, { payload }) => {
+        [getRepairations.fulfilled]: (state, { payload }) => {
             const { data, ...pager } = payload;
 
-            state.handlings = data;
+            state.repairations = data;
             state.pager = pager;
             state.isLoading = false;
         },
-        [getTaskHandlings.rejected]: (state, { payload }) => {
+        [getRepairations.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },
-        [getTaskHandling.pending]: (state) => {
+        [getRepairation.pending]: (state) => {
             state.isLoading = true;
-            state.handling = null;
+            state.repairation = null;
             state.error = null;
         },
-        [getTaskHandling.fulfilled]: (state, { payload }) => {
-            state.handling = payload;
+        [getRepairation.fulfilled]: (state, { payload }) => {
+            state.repairation = payload;
             state.isLoading = false;
         },
-        [getTaskHandling.rejected]: (state, { payload }) => {
+        [getRepairation.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },
@@ -121,7 +121,14 @@ export const taskHandlingSlice = createSlice({
             state.error = null;
         },
         [update.fulfilled]: (state, { payload }) => {
-            state.isSuccess = true;
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+            } else {
+                state.isSuccess = false;
+                state.error = { message };
+            }
         },
         [update.rejected]: (state, { payload }) => {
             state.error = payload;
@@ -130,7 +137,14 @@ export const taskHandlingSlice = createSlice({
             state.isSuccess = false;
         },
         [destroy.fulfilled]: (state, { payload }) => {
-            state.isSuccess = true;
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+            } else {
+                state.isSuccess = false;
+                state.error = { message };
+            }
         },
         [destroy.rejected]: (state, { payload }) => {
             state.error = payload;

@@ -18,7 +18,7 @@ import memberReducer from "./member/memberSlice";
 import orderReducer from "./order/orderSlice";
 import supplierReducer from "./supplier/supplierSlice";
 import inspectionReducer from "./inspection/inspectionSlice";
-import taskHandlingReducer from "./task-handling/taskHandlingSlice";
+import repairationReducer from "./repairation/repairationSlice";
 import { authApi } from "../services/auth/authApi";
 import { requisitionApi } from "../services/requisition/requisitionApi";
 import { employeeApi } from "../services/employee/employeeApi";
@@ -28,7 +28,7 @@ import { assetApi } from "../services/asset/assetApi";
 import { orderApi } from "../services/order/orderApi";
 import { inspectionApi } from "../services/inspection/inspectionApi"
 import { taskApi } from "../services/task/taskApi"
-import { taskHandlingApi } from "../services/task-handling/taskHandlingApi"
+import { repairationApi } from "../services/repairation/repairationApi"
 
 export default configureStore({
     reducer: {
@@ -42,7 +42,7 @@ export default configureStore({
         [orderApi.reducerPath]: orderApi.reducer,
         [inspectionApi.reducerPath]: inspectionApi.reducer,
         [taskApi.reducerPath]: taskApi.reducer,
-        [taskHandlingApi.reducerPath]: taskHandlingApi.reducer,
+        [repairationApi.reducerPath]: repairationApi.reducer,
         equipment: equipmentReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
@@ -61,7 +61,7 @@ export default configureStore({
         order: orderReducer,
         supplier: supplierReducer,
         inspection: inspectionReducer,
-        taskHandling: taskHandlingReducer,
+        repairation: repairationReducer,
     },
     middleware: (getDefaultMiddleware) => 
         getDefaultMiddleware().concat(
@@ -74,6 +74,6 @@ export default configureStore({
             orderApi.middleware,
             inspectionApi.middleware,
             taskApi.middleware,
-            taskHandlingApi.middleware,
+            repairationApi.middleware,
         ),
 });

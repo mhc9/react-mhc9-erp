@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const taskHandlingApi = createApi({
-    reducerPath: 'taskHandlingApi',
+export const repairationApi = createApi({
+    reducerPath: 'repairationApi',
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.REACT_APP_API_URL,
         prepareHeaders: (headers, { getState }) => {
@@ -23,5 +23,5 @@ export const taskHandlingApi = createApi({
     }),
 });
 
-export const { useGetInitialFormDataQuery } = taskHandlingApi;
+export const { useGetInitialFormDataQuery } = repairationApi;
 
