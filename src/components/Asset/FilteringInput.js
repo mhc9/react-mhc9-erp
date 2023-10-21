@@ -1,9 +1,17 @@
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { generateQueryString } from '../../utils'
+import { useGetInitialFormDataQuery } from '../../services/asset/assetApi';
+import Loading from '../Loading';
 
-const AssetFilteringInput = ({ initialFilters, onFilter, formData }) => {
+const initialFormData = {
+    groups: [],
+    employees: []
+};
+
+const AssetFilteringInput = ({ initialFilters, onFilter }) => {
     const [filters, setFilters] = useState(initialFilters);
+    const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -14,7 +22,7 @@ const AssetFilteringInput = ({ initialFilters, onFilter, formData }) => {
     };
 
     return (
-        <div className="flex flex-col gap-2 my-2">
+        <div className="flex flex-col gap-2 border rounded-md p-2 my-2">
             <Row>
                 <Col md={4}>
                     <input
@@ -42,34 +50,40 @@ const AssetFilteringInput = ({ initialFilters, onFilter, formData }) => {
                     </select>
                 </Col> */}
                 <Col md={4}>
-                    <select
-                        name="group"
-                        value={filters.group}
-                        onChange={handleInputChange}
-                        className="form-control text-sm font-thin"
-                    >
-                        <option value="">-- กลุ่มพัสดุ --</option>
-                        {formData.groups && formData.groups.map(group => (
-                            <option key={group.id} value={group.id}>
-                                {group.name}
-                            </option>
-                        ))}
-                    </select>
+                    {isLoading && <div className="form-control text-center"><Loading /></div>}
+                    {!isLoading && (
+                        <select
+                            name="group"
+                            value={filters.group}
+                            onChange={handleInputChange}
+                            className="form-control text-sm font-thin"
+                        >
+                            <option value="">-- กลุ่มพัสดุ --</option>
+                            {formData.groups && formData.groups.map(group => (
+                                <option key={group.id} value={group.id}>
+                                    {group.name}
+                                </option>
+                            ))}
+                        </select>
+                    )}
                 </Col>
                 <Col md={4}>
-                    <select
-                        name="owner"
-                        value={filters.owner}
-                        onChange={handleInputChange}
-                        className="form-control text-sm font-thin"
-                    >
-                        <option value="">-- ผู้รับผิดชอบ --</option>
-                        {formData.employees && formData.employees.map(employee => (
-                            <option key={employee.id} value={employee.id}>
-                                {`${employee.firstname} ${employee.lastname}`}
-                            </option>
-                        ))}
-                    </select>
+                    {isLoading && <div className="form-control text-center"><Loading /></div>}
+                    {!isLoading && (
+                        <select
+                            name="owner"
+                            value={filters.owner}
+                            onChange={handleInputChange}
+                            className="form-control text-sm font-thin"
+                        >
+                            <option value="">-- ผู้รับผิดชอบ --</option>
+                            {formData.employees && formData.employees.map(employee => (
+                                <option key={employee.id} value={employee.id}>
+                                    {`${employee.firstname} ${employee.lastname}`}
+                                </option>
+                            ))}
+                        </select>
+                    )}
                 </Col>
                 <Col></Col>
             </Row>

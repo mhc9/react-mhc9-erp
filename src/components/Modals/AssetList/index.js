@@ -4,27 +4,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAssets } from '../../../features/asset/assetSlice';
 import Loading from '../../Loading';
 import Pagination from '../../Pagination';
+import AssetFilteringInput from '../../Asset/FilteringInput';
+
+const initialFilters = {
+    name: '',
+    group: '',
+    owner: ''
+};
 
 const ModalAssetList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
     const { assets, pager, loading } = useSelector(state => state.asset);
     const [apiEndpoint, setApiEndpoint] = useState('');
+    const [params, setParams] = useState('');
 
     useEffect(() => {
         if (apiEndpoint === '') {
             dispatch(getAssets({ url: '/api/assets/search' }));
         } else {
-            dispatch(getAssets({ url: apiEndpoint }));
+            dispatch(getAssets({ url: `${apiEndpoint}${params}` }));
         }
-    }, [apiEndpoint]);
+    }, [dispatch, apiEndpoint, params]);
 
-    const handlePageClick = (url) => {
-        /** ============== Generate query string param list ============== */
-        // query string param list here
-        const queryStr = '';
-        /** ============================ */
+    const handleFilter = (queryStr) => {
+        setParams(queryStr);
 
-        setApiEndpoint(`${url}${queryStr}`);
+        setApiEndpoint(`/api/assets/search?page=${queryStr}`);
     };
 
     return (
@@ -38,6 +43,11 @@ const ModalAssetList = ({ isShow, onHide, onSelect }) => {
             </Modal.Header>
             <Modal.Body>
                 <div>
+                    <AssetFilteringInput
+                        initialFilters={initialFilters}
+                        onFilter={handleFilter}
+                    />
+
                     <table className="table table-bordered text-sm mb-0">
                         <thead>
                             <tr>
@@ -91,7 +101,7 @@ const ModalAssetList = ({ isShow, onHide, onSelect }) => {
             <Modal.Footer className="py-1">
                 <Pagination
                     pager={pager}
-                    onPageClick={(url) => handlePageClick(url)}
+                    onPageClick={(url) => setApiEndpoint(url)}
                 />
             </Modal.Footer>
         </Modal>

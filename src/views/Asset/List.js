@@ -19,15 +19,9 @@ const initialFilters = {
     owner: '',
 };
 
-const initialFormData = {
-    groups: [],
-    employees: [],
-};
-
 const AssetList = () => {
     const dispatch = useDispatch();
-    const { assets, pager, loading, success } = useSelector(state => state.asset);
-    const { data:formData = initialFormData } = useGetInitialFormDataQuery();
+    const { assets, pager, isLoading } = useSelector(state => state.asset);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState('')
 
@@ -41,6 +35,7 @@ const AssetList = () => {
 
     const handleFilter = (queryStr) => {
         setParams(queryStr);
+
         setApiEndpoint(`/api/assets/search?page=`);
     };
 
@@ -67,7 +62,6 @@ const AssetList = () => {
 
                 <AssetFilteringInput
                     initialFilters={initialFilters}
-                    formData={formData}
                     onFilter={handleFilter}
                 />
 
@@ -84,7 +78,7 @@ const AssetList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {loading && (
+                            {isLoading && (
                                 <tr>
                                     <td colSpan={6} className="text-center">
                                         <Loading />
@@ -115,7 +109,7 @@ const AssetList = () => {
                                     </td>
                                 </tr>
                             ))}
-                            {!loading && assets.length <= 0 && (
+                            {!isLoading && assets.length <= 0 && (
                                 <tr>
                                     <td colSpan={6} className="text-center">
                                         -- ไม่มีข้อมูล --
