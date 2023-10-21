@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { currency, toShortTHDate } from '../../../utils'
+import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import { getOrders } from '../../../features/order/orderSlice'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
@@ -20,7 +20,7 @@ const OrderList = () => {
     const dispatch = useDispatch();
     const { orders, pager, isLoading } = useSelector(state => state.order);
     const [apiEndpoint, setApiEndpoint] = useState('');
-    const [params, setParams] = useState('');
+    const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
         if (apiEndpoint === '') {
