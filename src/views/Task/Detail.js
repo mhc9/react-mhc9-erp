@@ -83,7 +83,7 @@ const TaskDetail = () => {
                             </Row>
                             <Row className="mb-4">
                                 <Col>
-                                    <label>รายละเอียด</label>
+                                    <label>รายละเอียดปัญหา</label>
                                     <div className="form-control text-sm font-thin min-h-[60px]">
                                         {task.problem}
                                     </div>
@@ -130,7 +130,7 @@ const TaskDetail = () => {
                                 </table>
                             </div>
                             <div className="my-2 text-right">
-                                {(!isHandle && task.handlings.length === 0) && (
+                                {(!isHandle && task.status === 1) && (
                                     <button className="btn btn-primary text-sm" onClick={() => setIsHandle(true)}>
                                         ดำเนินการ
                                     </button>
@@ -140,14 +140,14 @@ const TaskDetail = () => {
                     )}
                 </div>
 
-                {(isHandle || task?.handlings.length > 0) && (
+                {(isHandle || task?.status > 1) && (
                     <div className="my-2 border py-3 px-4 rounded-md">
                         <div className="flex flex-row items-center justify-between">
                             <h2 className="text-xl font-bold mb-2">การดำเนินการ (สำหรับฝ่ายไอที)</h2>
-                            {task?.handlings.length > 0 && <span className="text-success"><FaRegCheckCircle /></span>}
+                            {task?.status > 1 && <span className="text-success"><FaRegCheckCircle /></span>}
                         </div>
 
-                        {task?.handlings.length > 0 
+                        {task?.status > 1 
                             ? <TaskHandlingDetail task={task} />
                             : <TaskHandlingForm task={task} onCancel={() => setIsHandle(false)} />
                         }
