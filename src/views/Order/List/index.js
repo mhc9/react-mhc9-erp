@@ -4,11 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { currency, toShortTHDate } from '../../../utils'
-import { useGetInitialFormDataQuery } from '../../../services/order/orderApi'
 import { getOrders } from '../../../features/order/orderSlice'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
-import FilteringInputs from '../../../components/Requisition/FilteringInputs'
+import OrderFilteringInputs from '../../../components/Order/FilteringInputs'
 
 const initialFilters = {
     po_no: '',
@@ -17,14 +16,9 @@ const initialFilters = {
     status: '1',
 };
 
-const initialFormData = {
-    suppliers: []
-};
-
 const OrderList = () => {
     const dispatch = useDispatch();
     const { orders, pager, isLoading } = useSelector(state => state.order);
-    const { data: fornData = initialFormData, isLoading: loading } = useGetInitialFormDataQuery();
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState('');
 
@@ -62,9 +56,8 @@ const OrderList = () => {
                 </div>
 
                 <div>
-                    <FilteringInputs
+                    <OrderFilteringInputs
                         initialFilters={initialFilters}
-                        formData={fornData}
                         onFilter={handleFilter}
                     />
 

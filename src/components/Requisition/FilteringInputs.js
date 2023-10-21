@@ -1,9 +1,17 @@
 import React, { useState } from 'react'
 import { Col, FormGroup, Row } from 'react-bootstrap'
-import { generateQueryString } from '../../utils';
+import { generateQueryString } from '../../utils'
+import { useGetInitialFormDataQuery  } from '../../services/requisition/requisitionApi'
+import Loading from '../Loading'
 
-const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
+const initialFormData = {
+    units: [],
+    categories: [],
+};
+
+const RequisitionFilteringInputs = ({ initialFilters, onFilter }) => {
     const [filters, setFilters] = useState(initialFilters);
+    const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -12,7 +20,12 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
     };
 
     const handleFilter = () => {
-        onFilter(generateQueryString(filters));
+        let queryStr = '';
+        for (const [key, val] of Object.entries(filters)) {
+            queryStr += `&${key}=${val}`;
+        }
+
+        onFilter(queryStr);
     };
 
     const handleClearInputs = () => {
@@ -27,59 +40,67 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                 <div className="filtering-wrapper border rounded-md flex flex-row gap-2 p-2">
                     <FormGroup>
                         <input
-                            type="btn"
-                            name="po_no"
-                            value={filters.po_no}
+                            type="text"
+                            name="pr_no"
+                            value={filters.pr_no}
                             onChange={handleInputChange}
-                            placeholder="เลขที่ใบสั่งซื้อ/จ้าง"
-                            className="form-control text-sm"
+                            placeholder="เลขที่คำขอ"
+                            className="form-control text-sm font-thin"
                         />
                     </FormGroup>
                     <FormGroup>
                         <input
                             type="date"
-                            name="po_date"
-                            value={filters.po_date}
+                            name="pr_date"
+                            value={filters.pr_date}
                             onChange={handleInputChange}
-                            placeholder="วันที่ใบสั่งซื้อ/จ้าง"
-                            className="form-control text-sm"
+                            placeholder="วันที่คำขอ"
+                            className="form-control text-sm font-thin"
                         />
                     </FormGroup>
                     <FormGroup>
-                        <select
-                            name="supplier"
-                            value={filters.supplier}
-                            onChange={handleInputChange}
-                            className="form-control text-sm"
-                        >
-                            <option value="">-- ผู้จัดจำหน่าย --</option>
-                            {formData.suppliers && formData.suppliers.map(supplier => (
-                                <option value={supplier.id} key={supplier.id}>
-                                    {supplier.name}
-                                </option>
-                            ))}
-                        </select>
+                        {isLoading && <div className="form-control text-sm text-center"><Loading /></div>}
+                        {!isLoading && (
+                            <select
+                                name="category"
+                                value={filters.category}
+                                onChange={handleInputChange}
+                                className="form-control text-sm font-thin"
+                            >
+                                <option value="">-- ประเภทพัสดุ --</option>
+                                {formData.categories && formData.categories.map(category => (
+                                    <option value={category.id} key={category.id}>
+                                        {category.name}
+                                    </option>
+                                ))}
+                            </select>
+                        )}
                     </FormGroup>
                     <FormGroup>
-                        <select
-                            name="status"
-                            value={filters.status}
-                            onChange={handleInputChange}
-                            className="form-control text-sm"
-                        >
-                            <option value="">-- สถานะ --</option>
-                            <option value="1">รอดำเนินการ</option>
-                            <option value="2">สั่งซื้อแล้ว</option>
-                            <option value="9">ยกเลิก</option>
-                        </select>
+                        {isLoading && <div className="form-control text-sm text-center"><Loading /></div>}
+                        {!isLoading && (
+                            <select
+                                name="division"
+                                value={filters.division}
+                                onChange={handleInputChange}
+                                className="form-control text-sm font-thin"
+                            >
+                                <option value="">-- หน่วยงาน --</option>
+                                {formData.divisions && formData.divisions.map(division => (
+                                    <option value={division.id} key={division.id}>
+                                        {division.name}
+                                    </option>
+                                ))}
+                            </select>
+                        )}
                     </FormGroup>
                     <FormGroup>
-                        <button type="button" className="btn btn-outline-secondary btn-sm" onClick={handleFilter}>
+                        <button type="button" className="btn btn-outline-secondary text-sm" onClick={handleFilter}>
                             ตกลง
                         </button>
                         <button
                             type="button"
-                            className="btn btn-outline-danger btn-sm ml-1"
+                            className="btn btn-outline-danger text-sm ml-1"
                             onClick={handleClearInputs}
                         >
                             เคลียร์
@@ -91,4 +112,4 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
     )
 }
 
-export default FilteringInputs
+export default RequisitionFilteringInputs

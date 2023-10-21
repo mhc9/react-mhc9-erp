@@ -4,12 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getRequisitions } from '../../../features/requisition/requisitionSlice'
-import { useGetInitialFormDataQuery } from '../../../services/requisition/requisitionApi'
 import { currency, toShortTHDate } from '../../../utils'
 import DetailList from './DetailList'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
-import FilteringInputs from '../../../components/Requisition/FilteringInputs'
+import RequisitionFilteringInputs from '../../../components/Requisition/FilteringInputs'
 
 const initialFilters = {
     pr_no: '',
@@ -18,15 +17,9 @@ const initialFilters = {
     status: '1'
 };
 
-const initialFormData = {
-    units: [],
-    categories: [],
-};
-
 const RequisitionList = () => {
     const dispatch = useDispatch();
     const { requisitions, pager, isLoading } = useSelector(state => state.requisition);
-    const { data: formData = initialFormData, isLoading: loading } = useGetInitialFormDataQuery();
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState('');
 
@@ -63,9 +56,8 @@ const RequisitionList = () => {
                 </div>
 
                 <div>
-                    <FilteringInputs
+                    <RequisitionFilteringInputs
                         initialFilters={initialFilters}
-                        formData={formData}
                         onFilter={handleFilter}
                     />
 
