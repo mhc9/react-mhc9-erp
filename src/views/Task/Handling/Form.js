@@ -134,7 +134,7 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                     </Row>
                     <Row className="mb-2">
                         <Col>
-                            <label>รายละเอียด</label>
+                            <label>รายละเอียดการดำเนินการ</label>
                             <textarea
                                 rows={3}
                                 name="handling"

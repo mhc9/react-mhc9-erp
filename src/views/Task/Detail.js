@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { FaEdit, FaRegCheckCircle } from 'react-icons/fa'
-import { getTask } from '../../features/task/taskSlice'
+import { toast } from 'react-toastify';
+import { getTask, resetSuccess } from '../../features/task/taskSlice'
 import { toShortTHDate } from '../../utils'
 import TaskHandlingForm from './Handling/Form'
 import TaskHandlingDetail from './Handling/Detail'
@@ -12,12 +13,21 @@ import Loading from '../../components/Loading'
 const TaskDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { task, isLoading } = useSelector(state => state.task);
+    const { task, isSuccess, isLoading } = useSelector(state => state.task);
     const [isHandle, setIsHandle] = useState(false);
 
     useEffect(() => {
         dispatch(getTask({ id }));
     }, [dispatch, id]);
+
+    /** On handling is success */
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('บันทึกการดำเนินการเรียบร้อยแล้ว!!');
+
+            dispatch(resetSuccess());
+        }
+    }, [dispatch, isSuccess]);
 
     return (
         <div className="content-wrapper">
