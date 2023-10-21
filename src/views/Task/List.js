@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import moment from 'moment'
 import { getTasks } from '../../features/task/taskSlice'
-import { useGetInitialFormDataQuery } from '../../services/task/taskApi'
 import { getPriority } from '../../utils'
 import Loading from '../../components/Loading'
 import Pagination from '../../components/Pagination'
@@ -18,15 +17,9 @@ const initialFilters = {
     status: ''
 };
 
-const initialFormData = {
-    types: [],
-    groups: [],
-};
-
 const TaskList = () => {
     const dispatch = useDispatch();
     const { tasks, pager, loading } = useSelector(state => state.task);
-    const { data: formData = initialFormData } = useGetInitialFormDataQuery();
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState('');
 
@@ -39,9 +32,9 @@ const TaskList = () => {
     }, [dispatch, apiEndpoint, params]);
 
     const handleFilter = (queryStr) => {
-        console.log(queryStr);
-        setApiEndpoint(`/api/tasks/search?page=`);
         setParams(queryStr);
+
+        setApiEndpoint(`/api/tasks/search?page=`);
     };
 
     return (
@@ -59,7 +52,6 @@ const TaskList = () => {
                 <div>
                     <TaskFilteringInputs
                         initialFilters={initialFilters}
-                        formData={formData}
                         onFilter={handleFilter}
                     />
 

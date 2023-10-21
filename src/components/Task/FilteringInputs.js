@@ -1,13 +1,20 @@
 import React, { useState } from 'react'
 import { Col, FormGroup, Row } from 'react-bootstrap'
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import moment from 'moment';
 import OverWriteMomentBE from '../../utils/OverwriteMomentBE'
 import { generateQueryString } from '../../utils';
-import moment from 'moment';
+import { useGetInitialFormDataQuery } from '../../services/task/taskApi'
 
-const TaskFilteringInputs = ({ initialFilters, onFilter, formData }) => {
+const initialFormData = {
+    types: [],
+    groups: [],
+};
+
+const TaskFilteringInputs = ({ initialFilters, onFilter }) => {
     const [filters, setFilters] = useState(initialFilters);
     const [selectedDate, setSelectedDate] = useState(moment());
+    const { data: formData = initialFormData } = useGetInitialFormDataQuery();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
