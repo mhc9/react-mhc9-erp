@@ -37,17 +37,17 @@ const Autocomplete = ({ inputName, items, onSelect }) => {
                     value={selected}
                     onChange={(e) => setSelected(e.target.value)}
                     onClick={() => setShow(!show)}
-                    className="form-control border-none outline-none"
+                    className="form-control text-sm font-thin border-none outline-none"
                 />
                 {selected !== '' && <FaTimesCircle className="hover:cursor-pointer hover:text-red-500" onClick={handleClear} />}
             </div>
-            <div className={`absolute w-full bg-white border rounded-md ${!show ? 'hidden' : 'block'}`}>
+            <div className={`absolute w-full bg-white border rounded-md z-50 ${!show ? 'hidden' : 'block'}`}>
                 <div className="m-2">
                     <input type="text" className="form-control" onKeyUp={(e) => handleKeyUp(e)} />
                 </div>
                 <ul className="m-2">
                     {filtedItems && filtedItems.map((item, index) => (
-                        <li className="p-1 hover:cursor-pointer hover:bg-gray-200" key={item.id} onClick={() => handleSelect(item)}>
+                        <li className="text-sm font-thin p-1 hover:cursor-pointer hover:bg-gray-200" key={item.id} onClick={() => handleSelect(item)}>
                             {item.name}
                         </li>
                     ))}

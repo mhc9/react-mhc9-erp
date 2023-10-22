@@ -17,7 +17,7 @@ export const repairationApi = createApi({
     endpoints: (builder) => ({
         getInitialFormData: builder.query({
             query: () => ({
-                url: '/api/task-handlings/init/form'
+                url: '/api/repairations/init/form'
             }),
         }),
     }),

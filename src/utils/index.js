@@ -1,16 +1,22 @@
-import { priorities, duties } from "./constraints"
+import { PRIORITIES, DUTIES, EXPENSES } from "./constraints"
 import moment from "moment";
 
 export const getPriority = (id) => {
     if (!id || id === '') return null;
 
-    return priorities.find(priority => priority.id === id);
+    return PRIORITIES.find(priority => priority.id === id);
 };
 
 export const getDuty = (id) => {
     if (!id || id === '') return null;
 
-    return duties.find(duty => duty.id === id);
+    return DUTIES.find(duty => duty.id === id);
+};
+
+export const getExpense = (id) => {
+    if (!id || id === '') return null;
+
+    return EXPENSES.find(expense => expense.id === id);
 };
 
 export const calcAgeY = (birthdate) => {

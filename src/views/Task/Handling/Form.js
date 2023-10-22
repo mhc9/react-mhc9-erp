@@ -11,6 +11,7 @@ import { handle } from '../../../features/task/taskSlice'
 import { useGetInitialFormDataQuery } from '../../../services/task/taskApi'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import Loading from '../../../components/Loading';
+import RepairationForm from '../Repairation/Form';
 
 const handlingSchema = Yup.object().shape({
     handle_date: Yup.string().required(),
@@ -26,8 +27,9 @@ const TaskHandlingForm = ({ task, onCancel }) => {
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
     const [selectedHandleDate, setSelectedHandleDate] = useState(moment());
     const [selectedHandleTime, setSelectedHandleTime] = useState(moment());
-    const [showEmployeeModal, setShowEmployeeModal] = useState(false)
+    const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [handler, setHandler] = useState(null);
+    const [showRepairationForm, setShowRepairationForm] = useState(false);
 
     /** On mounted */
     useEffect(() => {
@@ -65,6 +67,12 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                             setHandler(employee);
                             formik.setFieldValue('handler_id', employee.id);
                         }}
+                    />
+
+                    <RepairationForm
+                        isShow={showRepairationForm}
+                        onHide={() => setShowRepairationForm(false)}
+                        task={task}
                     />
 
                     <Row className="mb-2">
@@ -232,6 +240,17 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                         </Col>
                     </Row>
                     <Row>
+                        <Col>
+                            {(!isLoading && task.assets.length > 0) && (
+                                <button
+                                    type="button"
+                                    className={`btn btn-outline-success mt-2`}
+                                    onClick={() => setShowRepairationForm(true)}
+                                >
+                                    บันทึกการซ่อม
+                                </button>
+                            )}
+                        </Col>
                         <Col>
                             <button
                                 type="button"
