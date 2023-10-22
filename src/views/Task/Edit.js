@@ -21,14 +21,14 @@ const EditTask = () => {
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>บริการ</Breadcrumb.Item>
-                <Breadcrumb.Item href="/task">รายการแจ้งปัญหา/แจ้งซ่อม</Breadcrumb.Item>
-                <Breadcrumb.Item active>แก้ไขแจ้งปัญหา/แจ้งซ่อม</Breadcrumb.Item>
+                <Breadcrumb.Item href="/task">รายการแจ้งปัญหา</Breadcrumb.Item>
+                <Breadcrumb.Item active>แก้ไขรายการแจ้งปัญหา</Breadcrumb.Item>
             </Breadcrumb>
         
             <div className="content">
             <h2 className="text-xl font-bold flex flex-row items-center">
                     <FaEdit className='text-warning' />
-                    <span>แก้ไขแจ้งปัญหา/แจ้งซ่อม : {id}</span>
+                    <span>แก้ไขรายการแจ้งปัญหา : {id}</span>
                 </h2>
 
                 <TaskForm task={task} />

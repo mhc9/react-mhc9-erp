@@ -27,12 +27,12 @@ const AddTask = () => {
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>บริการ</Breadcrumb.Item>
-                <Breadcrumb.Item href="/task">สถานะการซ่อม</Breadcrumb.Item>
-                <Breadcrumb.Item active>แจ้งปัญหา/แจ้งซ่อม</Breadcrumb.Item>
+                <Breadcrumb.Item href="/task">รายการแจ้งปัญหา</Breadcrumb.Item>
+                <Breadcrumb.Item active>แจ้งปัญหา</Breadcrumb.Item>
             </Breadcrumb>
 
             <div className="content">
-                <h2 className="text-xl">แจ้งปัญหา/แจ้งซ่อม</h2>
+                <h2 className="text-xl">แจ้งปัญหา</h2>
 
                 <div className="my-2 border p-4 rounded-md">
                     <TaskForm />

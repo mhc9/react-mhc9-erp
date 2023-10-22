@@ -18,10 +18,10 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                             </button>
                             <ul className="sub-menus">
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
-                                    <Link to="/task"><p className="w-full">สถานะการแจ้งปัญหา</p></Link>
+                                    <Link to="/task"><p className="w-full">รายการแจ้งปัญหา</p></Link>
                                 </li>
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
-                                    <Link to="/task/add"><p className="w-full">แจ้งปัญหา/แจ้งซ่อม</p></Link>
+                                    <Link to="/task/add"><p className="w-full">แจ้งปัญหา</p></Link>
                                 </li>
                             </ul>
                         </div>

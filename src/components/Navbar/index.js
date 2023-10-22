@@ -27,10 +27,10 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                         </button>
                         <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
                             <li className="hover:bg-gray-300 p-2 rounded-t-md">
-                                <Link to="/task"><p className="w-full">สถานะการแจ้งปัญหา</p></Link>
+                                <Link to="/task"><p className="w-full">รายการแจ้งปัญหา</p></Link>
                             </li>
                             <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                                <Link to="/task/add"><p className="w-full">แจ้งปัญหา/แจ้งซ่อม</p></Link>
+                                <Link to="/task/add"><p className="w-full">แจ้งปัญหา</p></Link>
                             </li>
                         </ul>
                     </li>
