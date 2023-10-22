@@ -5,7 +5,7 @@ import * as Yup from 'yup'
 import { Col, Row, Modal } from 'react-bootstrap';
 import { MuiPickersUtilsProvider, DatePicker, TimePicker } from '@material-ui/pickers';
 import moment from 'moment'
-import { calculateNetTotal } from '../../../utils'
+import { calculateNetTotal, isExisted } from '../../../utils'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
 import { store } from '../../../features/repairation/repairationSlice'
 import { useGetInitialFormDataQuery } from '../../../services/repairation/repairationApi'
@@ -13,6 +13,7 @@ import Loading from '../../../components/Loading';
 import Autocomplete from '../../../components/FormControls/Autocomplete'
 import ExpenseList from './ExpenseList';
 import ExpenseForm from './ExpenseForm';
+import { toast } from 'react-toastify';
 
 const repairationSchema = Yup.object().shape({
     repair_date: Yup.string().required(),
@@ -50,11 +51,23 @@ const RepairationForm = ({ isShow, onHide, task }) => {
         formik.resetForm();
     };
 
-    const handleAddExpenses = (formik, expense) => {
+    const handleAddExpense = (formik, expense) => {
+        if (isExisted(formik.values.expenses, expense.id)) {
+            toast.error('พบรายค่าใช้จ่ายที่คุณเลือกมีอยู่แล้ว!!');
+            return;
+        }
+
         const newExpenses = [...formik.values.expenses, expense];
 
         formik.setFieldValue('expenses', newExpenses);
         formik.setFieldValue('total_cost', calculateNetTotal(newExpenses));
+    };
+
+    const handleDeleteExpense = (formik, id) => {
+        const updatedExpenses = formik.values.expenses.filter(exp => exp.id !== id);
+
+        formik.setFieldValue('expenses', updatedExpenses);
+        formik.setFieldValue('total_cost', calculateNetTotal(updatedExpenses));
     };
 
     return (
@@ -218,9 +231,9 @@ const RepairationForm = ({ isShow, onHide, task }) => {
                                     <div className="border rounded-md p-2">
                                         <h3 className="mb-1">รายการค่าใช้จ่าย (ถ้ามี)</h3>
 
-                                        <ExpenseForm onAdd={(expense) => handleAddExpenses(formik, expense)} />
+                                        <ExpenseForm onAdd={(expense) => handleAddExpense(formik, expense)} />
 
-                                        <ExpenseList expenses={formik.values.expenses} />
+                                        <ExpenseList expenses={formik.values.expenses} onDelete={(id) => handleDeleteExpense(formik, id)} />
 
                                         <div className="flex flex-row justify-end items-center">
                                             <label htmlFor="" className="mr-2">ค่าใช้จ่ายรวม (บาท): </label>

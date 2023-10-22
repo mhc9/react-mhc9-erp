@@ -82,3 +82,7 @@ export const generateQueryString = (inputs) => {
 
     return queryStr;
 };
+
+export const isExisted = (items, id) => {
+    return items.some(item => item.id === id);
+};
