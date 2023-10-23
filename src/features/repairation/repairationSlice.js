@@ -20,7 +20,7 @@ export const getRepairations = createAsyncThunk("repairation/getRepairations", a
     }
 });
 
-export const getRepairation = createAsyncThunk("repairation/getRepairation", async ({ id }, { rejectWithValue }) => {
+export const getRepairation = createAsyncThunk("repairation/getRepairation", async (id, { rejectWithValue }) => {
     try {
         const res = await api.get(`/api/repairations/${id}`);
 

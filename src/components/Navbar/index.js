@@ -29,7 +29,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                             <li className="hover:bg-gray-300 p-2 rounded-t-md">
                                 <Link to="/task"><p className="w-full">รายการแจ้งปัญหา</p></Link>
                             </li>
-                            <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                            <li className="hover:bg-gray-300 p-2">
                                 <Link to="/task/add"><p className="w-full">แจ้งปัญหา</p></Link>
                             </li>
                             <li className="hover:bg-gray-300 p-2 rounded-b-md">

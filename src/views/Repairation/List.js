@@ -60,21 +60,21 @@ const RepairationList = () => {
                                     </td>
                                     <td>
                                         {/** Render Task data */}
-                                        {/* <p>
-                                            <b className="mr-1">{repairation.group?.type?.name}</b>
-                                            <span className="font-thin">({repairation.group?.name})</span>
+                                        <p className="text-sm font-thin">
+                                            {repairation.task?.problem}
+                                            <span className="ml-1">{repairation.asset?.name}</span>
+                                            <span className="ml-1"><b>ยี่ห้อ</b> {repairation.asset?.brand?.name}</span>
                                         </p>
-                                        <p className="text-xs text-red-500 font-thin">{repairation.problem}</p> */}
                                     </td>
                                     <td>
                                         {`${repairation.requester?.prefix?.name}${repairation.requester?.firstname} ${repairation.requester?.lastname}`}
                                         <p><b>{`${repairation.requester?.position?.name}${repairation.requester?.level ? repairation.requester?.level?.name : ''}`}</b></p>
                                     </td>
                                     <td className="text-center">
-                                        {repairation.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
-                                        {repairation.status === 2 && <span className="badge rounded-pill text-bg-success">เสร็จแล้ว</span>}
-                                        {repairation.status === 3 && <span className="badge rounded-pill text-bg-info">สั่งซื้ออะไหล่</span>}
-                                        {repairation.status === 4 && <span className="badge rounded-pill text-bg-warning">ส่งซ่อมภายนอก</span>}
+                                        {repairation.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอซ่อม</span>}
+                                        {repairation.status === 2 && <span className="badge rounded-pill text-bg-info">สั่งซื้ออะไหล่</span>}
+                                        {repairation.status === 3 && <span className="badge rounded-pill text-bg-warning">ส่งซ่อมภายนอก</span>}
+                                        {repairation.status === 4 && <span className="badge rounded-pill text-bg-success">ส่งมอบแล้ว</span>}
                                         {repairation.status === 9 && <span className="badge rounded-pill text-bg-danger">ยกเลิก</span>}
                                     </td>
                                     <td className="text-center p-1">

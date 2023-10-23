@@ -99,8 +99,7 @@ const TaskList = () => {
                                     <td className="text-center">
                                         {task.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
                                         {task.status === 2 && <span className="badge rounded-pill text-bg-success">เสร็จแล้ว</span>}
-                                        {task.status === 3 && <span className="badge rounded-pill text-bg-info">สั่งซื้ออะไหล่</span>}
-                                        {task.status === 4 && <span className="badge rounded-pill text-bg-warning">ส่งซ่อมภายนอก</span>}
+                                        {task.status === 3 && <span className="badge rounded-pill text-bg-warning">ส่งซ่อม</span>}
                                         {task.status === 9 && <span className="badge rounded-pill text-bg-danger">ยกเลิก</span>}
                                     </td>
                                     <td className="text-center p-1">

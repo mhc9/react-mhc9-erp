@@ -46,6 +46,7 @@ import Unit from './views/Unit'
 import StiReportViewer from './components/ReportViewer/StiReportViewer';
 import Preview from './components/Preview';
 import RepairationList from './views/Repairation/List';
+import RepairationDetail from './views/Repairation/Detail';
 
 function App() {
     return (
@@ -61,6 +62,7 @@ function App() {
 
                 {/* Repairation */}
                 <Route path="repairation" element={<GuardRoute><RepairationList /></GuardRoute>} />
+                <Route path="repairation/:id/detail" element={<GuardRoute><RepairationDetail /></GuardRoute>} />
 
                 {/* Equipments */}
                 <Route path="equipment" element={<GuardRoute><EquipmentList /></GuardRoute>} />
