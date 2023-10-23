@@ -17,7 +17,7 @@ const taskSchema = Yup.object().shape({
     task_date: Yup.string().required(),
     task_time: Yup.string().required(),
     task_group_id: Yup.string().required(),
-    description: Yup.string().required(),
+    problem: Yup.string().required(),
     priority_id: Yup.string().required(),
     reporter_id: Yup.string().required(),
 });
@@ -91,7 +91,7 @@ const TaskForm = ({ task }) => {
                     task_group_id: task ? task.task_group_id : '',
                     problem: task ? task.problem : '',
                     priority_id: task ? task.priority_id : '1',
-                    use_date: task ? moment(task.task_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+                    use_date: task ? moment(task.use_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                     use_time: task ? '' : '',
                     reporter_id: task ? task.reporter_id : '',
                     remark: task ? task.remark : '',
@@ -240,14 +240,14 @@ const TaskForm = ({ task }) => {
                                                     format="hh:mm"
                                                     value={selectedUseTime}
                                                     onChange={(time) => {
-                                                        const dateStr = moment(setSelectedUseTime).format('YYYY-MM-DD');
+                                                        const dateStr = moment(selectedUseDate).format('YYYY-MM-DD');
                                                         const timeStr = moment(time).format('hh:mm');
 
                                                         /** Create newTime from selectedUseDate and selected time from input */
                                                         const newTime = moment(`${dateStr}T${timeStr}`);
 
                                                         /** Set newTime to selectedUseTime state and use_time field */
-                                                        setSelectedTaskTime(newTime);
+                                                        setSelectedUseTime(newTime);
                                                         formik.setFieldValue('use_time', newTime.format('hh:mm'));
                                                     }}
                                                     variant="outlined"
