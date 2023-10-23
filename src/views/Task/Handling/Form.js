@@ -11,7 +11,7 @@ import { handle } from '../../../features/task/taskSlice'
 import { useGetInitialFormDataQuery } from '../../../services/task/taskApi'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import Loading from '../../../components/Loading';
-import RepairationForm from '../Repairation/Form';
+import RequestForm from '../Repairation/Form';
 
 const handlingSchema = Yup.object().shape({
     handle_date: Yup.string().required(),
@@ -29,7 +29,7 @@ const TaskHandlingForm = ({ task, onCancel }) => {
     const [selectedHandleTime, setSelectedHandleTime] = useState(moment());
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [handler, setHandler] = useState(null);
-    const [showRepairationForm, setShowRepairationForm] = useState(false);
+    const [showRequestForm, setShowRequestForm] = useState(false);
 
     /** On mounted */
     useEffect(() => {
@@ -69,9 +69,9 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                         }}
                     />
 
-                    <RepairationForm
-                        isShow={showRepairationForm}
-                        onHide={() => setShowRepairationForm(false)}
+                    <RequestForm
+                        isShow={showRequestForm}
+                        onHide={() => setShowRequestForm(false)}
                         task={task}
                     />
 
@@ -245,7 +245,7 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                                 <button
                                     type="button"
                                     className={`btn btn-outline-success mt-2`}
-                                    onClick={() => setShowRepairationForm(true)}
+                                    onClick={() => setShowRequestForm(true)}
                                 >
                                     บันทึกการซ่อม
                                 </button>
