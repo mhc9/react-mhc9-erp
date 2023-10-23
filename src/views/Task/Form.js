@@ -123,6 +123,9 @@ const TaskForm = ({ task }) => {
                                                     onChange={(date) => {
                                                         setSelectedTaskDate(date);
                                                         formik.setFieldValue('task_date', date.format('YYYY-MM-DD'));
+
+                                                        setSelectedUseDate(date);
+                                                        formik.setFieldValue('use_date', date.format('YYYY-MM-DD'));
                                                     }}
                                                     variant="outlined"
                                                 />
@@ -146,11 +149,15 @@ const TaskForm = ({ task }) => {
                                                         const timeStr = moment(time).format('hh:mm');
 
                                                         /** Create newTime from selectedTaskDate and selected time from input */
-                                                        const newTime = moment(`${dateStr}T${timeStr}`);
+                                                        const newTaskTime = moment(`${dateStr}T${timeStr}`);
+                                                        const newUseTime = moment(`${dateStr}T${timeStr}`).add(1, "hours");
 
                                                         /** Set newTime to selectedTaskTime state and task_time field */
-                                                        setSelectedTaskTime(newTime);
-                                                        formik.setFieldValue('task_time', newTime.format('hh:mm'));
+                                                        setSelectedTaskTime(newTaskTime);
+                                                        formik.setFieldValue('task_time', newTaskTime.format('hh:mm'));
+
+                                                        setSelectedUseTime(newUseTime);
+                                                        formik.setFieldValue('use_time', newUseTime.format('hh:mm'));
                                                     }}
                                                     variant="outlined"
                                                 />
