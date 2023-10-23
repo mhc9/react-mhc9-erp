@@ -40,6 +40,16 @@ export const store = createAsyncThunk("repairation/store", async (data, { reject
     }
 });
 
+export const repair = createAsyncThunk("repairation/repair", async ({ id, data }, { rejectWithValue }) => {
+    try {
+        const res = await api.put(`/api/repairations/${id}/repair`, data);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const update = createAsyncThunk("repairation/update", async ({ id, data }, { rejectWithValue }) => {
     try {
         const res = await api.put(`/api/repairations/${id}`, data);
@@ -114,6 +124,25 @@ export const taskHandlingSlice = createSlice({
             }
         },
         [store.rejected]: (state, { payload }) => {
+            state.error = payload;
+        },
+        [repair.pending]: (state) => {
+            state.repairation = null;
+            state.isSuccess = false;
+            state.error = null;
+        },
+        [repair.fulfilled]: (state, { payload }) => {
+            const { status, message, repairation } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.repairation = repairation;
+            } else {
+                state.isSuccess = false;
+                state.error = { message };
+            }
+        },
+        [repair.rejected]: (state, { payload }) => {
             state.error = payload;
         },
         [update.pending]: (state) => {
