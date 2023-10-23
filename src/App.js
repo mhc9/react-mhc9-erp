@@ -45,6 +45,7 @@ import AddSupplier from './views/supplier/Add';
 import Unit from './views/Unit'
 import StiReportViewer from './components/ReportViewer/StiReportViewer';
 import Preview from './components/Preview';
+import RepairationList from './views/Repairation/List';
 
 function App() {
     return (
@@ -57,6 +58,9 @@ function App() {
                 <Route path="task/add" element={<GuardRoute><AddTask /></GuardRoute>} />
                 <Route path="task/:id/edit" element={<GuardRoute><EditTask /></GuardRoute>} />
                 <Route path="task/:id/detail" element={<GuardRoute><TaskDetail /></GuardRoute>} />
+
+                {/* Repairation */}
+                <Route path="repairation" element={<GuardRoute><RepairationList /></GuardRoute>} />
 
                 {/* Equipments */}
                 <Route path="equipment" element={<GuardRoute><EquipmentList /></GuardRoute>} />

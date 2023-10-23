@@ -23,6 +23,9 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                     <Link to="/task/add"><p className="w-full">แจ้งปัญหา</p></Link>
                                 </li>
+                                <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                    <Link to="/repairation"><p className="w-full">รายการส่งซ่อม</p></Link>
+                                </li>
                             </ul>
                         </div>
 

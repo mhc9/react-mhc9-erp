@@ -32,6 +32,9 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                             <li className="hover:bg-gray-300 p-2 rounded-b-md">
                                 <Link to="/task/add"><p className="w-full">แจ้งปัญหา</p></Link>
                             </li>
+                            <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                                <Link to="/repairation"><p className="w-full">รายการส่งซ่อม</p></Link>
+                            </li>
                         </ul>
                     </li>
                     <li className="menu-item flex relative h-full">
