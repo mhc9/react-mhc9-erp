@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import moment from 'moment'
 import { calculateNetTotal, isExisted } from '../../../utils'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
-import { store } from '../../../features/repairation/repairationSlice'
+import { repair } from '../../../features/repairation/repairationSlice'
 import { useGetInitialFormDataQuery } from '../../../services/repairation/repairationApi'
 import ExpenseList from './ExpenseList';
 import ExpenseForm from './ExpenseForm';
@@ -18,8 +18,6 @@ import Autocomplete from '../../../components/FormControls/Autocomplete'
 const repairationSchema = Yup.object().shape({
     repair_date: Yup.string().required(),
     repair_time: Yup.string().required(),
-    task_id: Yup.string().required(),
-    // asset_id: Yup.string().required(),
     description: Yup.string().required(),
     repair_method_id: Yup.string().required(),
     repair_type_id: Yup.string().required(),
@@ -46,7 +44,7 @@ const RepairationForm = ({ repairation }) => {
     }, [formData]);
 
     const handleSubmit = (values, formik) => {
-        dispatch(store(values));
+        dispatch(repair({ id: repairation.id, data: values }));
 
         formik.resetForm();
     };
@@ -75,8 +73,6 @@ const RepairationForm = ({ repairation }) => {
             initialValues={{
                 repair_date: moment().format('YYYY-MM-DD'),
                 repair_time: moment().format('hh:mm'),
-                task_id: repairation ? repairation.task.id : '',
-                asset_id: repairation ? repairation.asset_id : '',
                 description: '',
                 repair_method_id: '',
                 repair_type_id: '1',

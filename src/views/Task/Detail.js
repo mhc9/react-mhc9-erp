@@ -140,7 +140,7 @@ const TaskDetail = () => {
                                 </table>
                             </div>
                             <div className="my-2 text-right">
-                                {(!isHandle && task.status === 1) && (
+                                {(!isHandle && ![2].some(st => st === task?.status)) && (
                                     <button className="btn btn-primary text-sm" onClick={() => setIsHandle(true)}>
                                         ดำเนินการ
                                     </button>
@@ -150,14 +150,14 @@ const TaskDetail = () => {
                     )}
                 </div>
 
-                {(isHandle || task?.status > 1) && (
+                {(isHandle || [2].some(st => st === task?.status)) && (
                     <div className="my-2 border py-3 px-4 rounded-md">
                         <div className="flex flex-row items-center justify-between">
                             <h2 className="text-xl font-bold mb-2">การดำเนินการ (สำหรับฝ่ายไอที)</h2>
-                            {task?.status > 1 && <span className="text-success"><FaRegCheckCircle /></span>}
+                            {[2].some(st => st === task?.status) && <span className="text-success"><FaRegCheckCircle /></span>}
                         </div>
 
-                        {task?.status > 1 
+                        {[2].some(st => st === task?.status)
                             ? <TaskHandlingDetail task={task} />
                             : <TaskHandlingForm task={task} onCancel={() => setIsHandle(false)} />
                         }
