@@ -30,14 +30,15 @@ const TaskHandlingDetail = ({ task }) => {
             <Row className="mb-2">
                 <Col>
                     <label>รายละเอียดการดำเนินการ</label>
-                    <div className="form-control text-sm font-thin min-h-[60px]">
+                    <div className="form-control text-sm font-thin min-h-[75px]">
                         {task.handling}
                     </div>
                 </Col>
                 <Col>
                     <label htmlFor="">สาเหตุของปัญหา</label>
-                    <div className="form-control text-sm font-thin min-h-[60px]">
-                        
+                    <div className="form-control text-sm font-thin min-h-[75px]">
+                        <b>{task.cause?.name}</b>
+                        {task.cause_text && <p className="text-red-500 text-xs">{task.cause_text}</p>}
                     </div>
                 </Col>
             </Row>
