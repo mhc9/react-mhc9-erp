@@ -59,7 +59,7 @@ const RequestForm = ({ isShow, onHide, task }) => {
                         deliver_date: moment().format('YYYY-MM-DD'),
                         requester_id: '',
                         task_id: task ? task.id : '',
-                        asset_id: task ? task.assets[0].id : '',
+                        asset_id: task ? task.assets[0].asset_id : '',
                     }}
                     validationSchema={repairationSchema}
                     onSubmit={handleSubmit}
