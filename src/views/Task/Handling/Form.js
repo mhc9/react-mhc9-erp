@@ -100,18 +100,19 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                             <label>เวลาที่ดำเนินการ</label>
                                 <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
                                     <TimePicker
-                                        format="hh:mm"
+                                        format="HH:mm"
+                                        ampm={false}
                                         value={selectedHandleTime}
                                         onChange={(time) => {
                                             const dateStr = moment(selectedHandleDate).format('YYYY-MM-DD');
-                                            const timeStr = moment(time).format('hh:mm');
+                                            const timeStr = moment(time).format('HH:mm');
 
                                             /** Create newTime from selectedHandleDate and selected time from input */
                                             const newTime = moment(`${dateStr}T${timeStr}`);
 
                                             /** Set newTime to selectedHandleTime state and handle_time field */
                                             setSelectedHandleTime(newTime);
-                                            formik.setFieldValue('handle_time', newTime.format('hh:mm'));
+                                            formik.setFieldValue('handle_time', newTime.format('HH:mm'));
                                         }}
                                         variant="outlined"
                                     />
@@ -144,7 +145,7 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                         <Col>
                             <label>รายละเอียดการดำเนินการ</label>
                             <textarea
-                                rows={3}
+                                rows={5}
                                 name="handling"
                                 value={formik.values.handling}
                                 onChange={formik.handleChange}
@@ -173,7 +174,14 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                                         ))}
                                     </select>
                                 )}
-                                <input type="text" className="form-control text-sm font-thin" placeholder="ระบุ (ถ้ามี)" />
+                                <textarea
+                                    rows={3}
+                                    name="cause_text"
+                                    value={formik.values.cause_text}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm font-thin"
+                                    placeholder="ระบุ (ถ้ามี)"
+                                ></textarea>
                             </div>
                             {(formik.errors.cause_id && formik.touched.cause_id) && (
                                 <span className="text-red-500 text-sm">{formik.errors.cause_id}</span>

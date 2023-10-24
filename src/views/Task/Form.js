@@ -142,11 +142,11 @@ const TaskForm = ({ task }) => {
                                         <label>เวลาที่แจ้ง</label>
                                             <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
                                                 <TimePicker
-                                                    format="hh:mm"
+                                                    format="HH:mm"
                                                     value={selectedTaskTime}
                                                     onChange={(time) => {
                                                         const dateStr = moment(selectedTaskDate).format('YYYY-MM-DD');
-                                                        const timeStr = moment(time).format('hh:mm');
+                                                        const timeStr = moment(time).format('HH:mm');
 
                                                         /** Create newTime from selectedTaskDate and selected time from input */
                                                         const newTaskTime = moment(`${dateStr}T${timeStr}`);
@@ -154,10 +154,10 @@ const TaskForm = ({ task }) => {
 
                                                         /** Set newTime to selectedTaskTime state and task_time field */
                                                         setSelectedTaskTime(newTaskTime);
-                                                        formik.setFieldValue('task_time', newTaskTime.format('hh:mm'));
+                                                        formik.setFieldValue('task_time', newTaskTime.format('HH:mm'));
 
                                                         setSelectedUseTime(newUseTime);
-                                                        formik.setFieldValue('use_time', newUseTime.format('hh:mm'));
+                                                        formik.setFieldValue('use_time', newUseTime.format('HH:mm'));
                                                     }}
                                                     variant="outlined"
                                                 />
@@ -244,18 +244,18 @@ const TaskForm = ({ task }) => {
                                         <label>เวลาจะใช้งาน</label>
                                             <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
                                                 <TimePicker
-                                                    format="hh:mm"
+                                                    format="HH:mm"
                                                     value={selectedUseTime}
                                                     onChange={(time) => {
                                                         const dateStr = moment(selectedUseDate).format('YYYY-MM-DD');
-                                                        const timeStr = moment(time).format('hh:mm');
+                                                        const timeStr = moment(time).format('HH:mm');
 
                                                         /** Create newTime from selectedUseDate and selected time from input */
                                                         const newTime = moment(`${dateStr}T${timeStr}`);
 
                                                         /** Set newTime to selectedUseTime state and use_time field */
                                                         setSelectedUseTime(newTime);
-                                                        formik.setFieldValue('use_time', newTime.format('hh:mm'));
+                                                        formik.setFieldValue('use_time', newTime.format('HH:mm'));
                                                     }}
                                                     variant="outlined"
                                                 />
