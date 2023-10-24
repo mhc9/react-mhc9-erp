@@ -175,7 +175,7 @@ const AssetDetail = () => {
                                         </button> 
                                     </div>
 
-                                    <AssetHistories />
+                                    <AssetHistories asset={asset} />
                                 </Col>
                             </Row>
                         </>
