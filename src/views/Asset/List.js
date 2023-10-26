@@ -16,17 +16,18 @@ const initialFilters = {
     category: '',
     group: '',
     owner: '',
+    status: '1'
 };
 
 const AssetList = () => {
     const dispatch = useDispatch();
     const { assets, pager, isLoading } = useSelector(state => state.asset);
     const [apiEndpoint, setApiEndpoint] = useState('');
-    const [params, setParams] = useState('')
+    const [params, setParams] = useState(initialFilters)
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getAssets({ url: `/api/assets/search` }));
+            dispatch(getAssets({ url: `/api/assets/search?page=&status=1` }));
         } else {
             dispatch(getAssets({ url: `${apiEndpoint}${params}` }));
         }
@@ -97,7 +98,7 @@ const AssetList = () => {
                                         {asset.current_owner?.length > 0 && `${asset.current_owner[0].owner.prefix.name}${asset.current_owner[0].owner.firstname} ${asset.current_owner[0].owner.lastname}`}
                                     </td>
                                     <td className="text-center">
-                                        {asset.status === 1 && <span className="badge rounded-pill text-bg-success">ปกติ</span>}
+                                        {asset.status === 1 && <span className="badge rounded-pill text-bg-success">ใช้งานอยู่</span>}
                                         {asset.status === 2 && <span className="badge rounded-pill text-bg-secondary">ถูกยืม</span>}
                                         {asset.status === 9 && <span className="badge rounded-pill text-bg-warning">รอจำหน่าย</span>}
                                         {asset.status === 99 && <span className="badge rounded-pill text-bg-danger">จำหน่าย</span>}

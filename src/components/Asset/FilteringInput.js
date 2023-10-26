@@ -6,7 +6,8 @@ import Loading from '../Loading';
 
 const initialFormData = {
     groups: [],
-    employees: []
+    employees: [],
+    statuses: []
 };
 
 const AssetFilteringInput = ({ initialFilters, onFilter }) => {
@@ -90,6 +91,24 @@ const AssetFilteringInput = ({ initialFilters, onFilter }) => {
                                 {formData.employees && formData.employees.map(employee => (
                                     <option key={employee.id} value={employee.id}>
                                         {`${employee.firstname} ${employee.lastname}`}
+                                    </option>
+                                ))}
+                            </select>
+                        )}
+                    </FormGroup>
+                    <FormGroup>
+                        {isLoading && <div className="form-control text-center"><Loading /></div>}
+                        {!isLoading && (
+                            <select
+                                name="status"
+                                value={filters.status}
+                                onChange={handleInputChange}
+                                className="form-control text-sm font-thin"
+                            >
+                                <option value="">-- สถานะ --</option>
+                                {formData.statuses && formData.statuses.map(status => (
+                                    <option key={status.id} value={status.id}>
+                                        {status.name}
                                     </option>
                                 ))}
                             </select>
