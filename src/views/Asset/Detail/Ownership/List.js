@@ -43,7 +43,10 @@ const OwnershipList = ({ assetId, isUpdated }) => {
                             <td className="text-center">{toShortTHDate(owns.owned_at)}</td>
                             <td>{owns.owner.firstname} {owns.owner.lastname}</td>
                             <td className="text-center">
-                                {owns.status}
+                                {owns.status === 1 && <span className="badge rounded-pill text-bg-success">ครอบครองอยู่</span>}
+                                {owns.status === 2 && <span className="badge rounded-pill text-bg-secondary">คืนความเป็นเจ้าของแล้ว</span>}
+                                {owns.status === 3 && <span className="badge rounded-pill text-bg-warning">เสียหายระหว่างการดูแล</span>}
+                                {owns.status === 4 && <span className="badge rounded-pill text-bg-danger">สูญหายระหว่างการดูแล</span>}
                             </td>
                             <td className="text-center p-1">
                                 <Link to={`/asset//edit`} className="btn btn-sm btn-warning px-1 mr-1">
