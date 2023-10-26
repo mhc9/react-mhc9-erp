@@ -95,7 +95,7 @@ const AssetList = () => {
                                         {`${calcUsedAgeY(asset.first_year)}ปี`}
                                     </td>
                                     <td className="text-sm">
-                                        {asset.current_owner.length > 0 && `${asset.current_owner[0].owner.prefix.name}${asset.current_owner[0].owner.firstname} ${asset.current_owner[0].owner.lastname}`}
+                                        {asset.current_owner?.length > 0 && `${asset.current_owner[0].owner.prefix.name}${asset.current_owner[0].owner.firstname} ${asset.current_owner[0].owner.lastname}`}
                                     </td>
                                     <td className="text-center">
                                         {asset.status === 1 && <span className="badge rounded-pill text-bg-success">ปกติ</span>}
