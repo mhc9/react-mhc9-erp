@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { calcUsedAgeY } from '../../utils'
 import { getAssets, destroy } from '../../features/asset/assetSlice'
-import { useGetInitialFormDataQuery } from '../../services/asset/assetApi'
 import AssetFilteringInput from '../../components/Asset/FilteringInput'
 import Asset from '../../components/Asset/Asset'
 import Loading from '../../components/Loading'
@@ -81,7 +80,7 @@ const AssetList = () => {
                         <tbody>
                             {isLoading && (
                                 <tr>
-                                    <td colSpan={6} className="text-center">
+                                    <td colSpan={7} className="text-center">
                                         <Loading />
                                     </td>
                                 </tr>

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import { FormGroup, Col, Row, Form as BsForm } from 'react-bootstrap'
+import { FormGroup, Col, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import moment from 'moment'
-import api from '../../../api';
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
-import { store, update, upload } from '../../../features/asset/assetSlice';
+import { store, update } from '../../../features/asset/assetSlice'
+import { useGetInitialFormDataQuery } from '../../../services/asset/assetApi'
 import Loading from '../../../components/Loading'
 import UploadImage from './UploadImage'
 
@@ -24,15 +24,8 @@ const assetSchema = Yup.object().shape({
 const AssetForm = ({ id, asset }) => {
     const dispatch = useDispatch();
     const { isLoading } = useSelector(state => state.asset);
-    // const [types, setTypes] = useState([]);
-    const [categories, setCategories] = useState([]);
-    // const [filteredCategories, setFilteredCategories] = useState([]);
-    const [groups, setGroups] = useState([]);
+    const { data: formData, isLoading: loading } = useGetInitialFormDataQuery();
     const [filteredGroups, setFilteredGroups] = useState([]);
-    const [units, setUnits] = useState([]);
-    const [brands, setBrands] = useState([]);
-    const [budgets, setBudgets] = useState([]);
-    const [obtainingTypes, setObtainingTypes] = useState([]);
     const [selectedPurchasedAt, setSelectedPurchasedAt] = useState(moment());
     const [selectedDateIn, setSelectedDateIn] = useState(moment());
     const [selectedFirstYear, setSelectedFirstYear] = useState(moment());
@@ -47,38 +40,12 @@ const AssetForm = ({ id, asset }) => {
     }, [asset]);
 
     useEffect(() => {
-        getFormInitialData();
-
-        return () => getFormInitialData();
+        /** If in editting mode. Set filteredGroups data for display in input */
+        if (asset && !loading) setFilteredGroups(formData.groups);
     }, [asset]);
 
-    const getFormInitialData = async () => {
-        try {
-            const res = await api.get('/api/assets/init/form');
-
-            // setTypes(res.data.types);
-            setCategories(res.data.categories);
-            setGroups(res.data.groups);
-            setUnits(res.data.units);
-            setBrands(res.data.brands);
-            setBudgets(res.data.budgets);
-            setObtainingTypes(res.data.obtainingTypes);
-
-            /** If in editting mode. Set filteredGroups data for display in input */
-            if (asset) setFilteredGroups(res.data.groups);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    // const handleTypeSelected = (type) => {
-    //     const newCategories = categories.filter(category => category.asset_type_id === parseInt(type, 10));
-
-    //     setFilteredCategories(newCategories);
-    // };
-
     const handleCategorySelected = (category) => {
-        const newGroups = groups.filter(group => group.category_id === parseInt(category, 10));
+        const newGroups = formData.groups.filter(group => group.category_id === parseInt(category, 10));
 
         setFilteredGroups(newGroups);
     };
@@ -208,22 +175,25 @@ const AssetForm = ({ id, asset }) => {
                             <Col>
                                 <FormGroup>
                                     <label>ชนิดพัสดุ</label>
-                                    <select
-                                        name="asset_category_id"
-                                        value={formik.values.asset_category_id} 
-                                        onChange={(e) => {
-                                            formik.handleChange(e);
-                                            handleCategorySelected(e.target.value);
-                                        }}
-                                        className="form-control text-sm font-thin"
-                                    >
-                                        <option value="">-- เลือกชนิดพัสดุ --</option>
-                                        {categories && categories.map(category => (
-                                            <option value={category.id} key={category.id}>
-                                                {category.name}
-                                            </option>
-                                        ))}
-                                    </select>
+                                    {loading && <div className="form-control text-sm"><Loading /></div>}
+                                    {!loading && (
+                                        <select
+                                            name="asset_category_id"
+                                            value={formik.values.asset_category_id} 
+                                            onChange={(e) => {
+                                                formik.handleChange(e);
+                                                handleCategorySelected(e.target.value);
+                                            }}
+                                            className="form-control text-sm font-thin"
+                                        >
+                                            <option value="">-- เลือกชนิดพัสดุ --</option>
+                                            {formData.categories && formData.categories.map(category => (
+                                                <option value={category.id} key={category.id}>
+                                                    {category.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    )}
                                     {(formik.errors.asset_category_id && formik.touched.asset_category_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.asset_category_id}</span>
                                     )}
@@ -232,19 +202,22 @@ const AssetForm = ({ id, asset }) => {
                             <Col>
                                 <FormGroup>
                                     <label>กลุ่มพัสดุ</label>
-                                    <select
-                                        name="asset_group_id"
-                                        value={formik.values.asset_group_id}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm font-thin"
-                                    >
-                                        <option value="">-- เลือกกลุ่มพัสดุ --</option>
-                                        {filteredGroups && filteredGroups.map(group => (
-                                            <option value={group.id} key={group.id}>
-                                                {group.name}
-                                            </option>
-                                        ))}
-                                    </select>
+                                    {loading && <div className="form-control text-sm"><Loading /></div>}
+                                    {!loading && (
+                                        <select
+                                            name="asset_group_id"
+                                            value={formik.values.asset_group_id}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm font-thin"
+                                        >
+                                            <option value="">-- เลือกกลุ่มพัสดุ --</option>
+                                            {filteredGroups && filteredGroups.map(group => (
+                                                <option value={group.id} key={group.id}>
+                                                    {group.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    )}
                                 </FormGroup>
                             </Col>
                         </Row>
@@ -267,17 +240,20 @@ const AssetForm = ({ id, asset }) => {
                             <Col md={2}>
                                 <FormGroup>
                                     <label>หน่วยนับ</label>
-                                    <select
-                                        name="unit_id"
-                                        value={formik.values.unit_id}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm font-thin"
-                                    >
-                                        <option value="">-- เลือกหน่วยนับ --</option>
-                                        {units && units.map(unit => (
-                                            <option value={unit.id} key={unit.id}>{unit.name}</option>
-                                        ))}
-                                    </select>
+                                    {loading && <div className="form-control text-sm"><Loading /></div>}
+                                    {!loading && (
+                                        <select
+                                            name="unit_id"
+                                            value={formik.values.unit_id}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm font-thin"
+                                        >
+                                            <option value="">-- เลือกหน่วยนับ --</option>
+                                            {formData.units && formData.units.map(unit => (
+                                                <option value={unit.id} key={unit.id}>{unit.name}</option>
+                                            ))}
+                                        </select>
+                                    )}
                                     {(formik.errors.unit_id && formik.touched.unit_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.unit_id}</span>
                                     )}
@@ -286,19 +262,22 @@ const AssetForm = ({ id, asset }) => {
                             <Col md={3}>
                                 <FormGroup>
                                     <label>ประเภทการได้มา</label>
-                                    <select
-                                        name="obtain_type_id"
-                                        value={formik.values.obtain_type_id}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm font-thin"
-                                    >
-                                        <option value="">-- เลือกประเภทการได้มา --</option>
-                                        {obtainingTypes && obtainingTypes.map(ob => (
-                                            <option key={ob.id} value={ob.id}>
-                                                {ob.name}
-                                            </option>
-                                        ))}
-                                    </select>
+                                    {loading && <div className="form-control text-sm"><Loading /></div>}
+                                    {!loading && (
+                                        <select
+                                            name="obtain_type_id"
+                                            value={formik.values.obtain_type_id}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm font-thin"
+                                        >
+                                            <option value="">-- เลือกประเภทการได้มา --</option>
+                                            {formData.obtainingTypes && formData.obtainingTypes.map(ob => (
+                                                <option key={ob.id} value={ob.id}>
+                                                    {ob.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    )}
                                     {(formik.errors.obtain_type_id && formik.touched.obtain_type_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.obtain_type_id}</span>
                                     )}
@@ -307,19 +286,22 @@ const AssetForm = ({ id, asset }) => {
                             <Col md={3}>
                                 <FormGroup>
                                     <label>แหล่งงบประมาณ</label>
-                                    <select
-                                        name="budget_id"
-                                        value={formik.values.budget_id}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm font-thin"
-                                    >
-                                        <option value="">-- เลือกแหล่งงบประมาณ --</option>
-                                        {budgets && budgets.map(budget => (
-                                            <option key={budget.id} value={budget.id}>
-                                                {budget.name}
-                                            </option>
-                                        ))}
-                                    </select>
+                                    {loading && <div className="form-control text-sm"><Loading /></div>}
+                                    {!loading && (
+                                        <select
+                                            name="budget_id"
+                                            value={formik.values.budget_id}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm font-thin"
+                                        >
+                                            <option value="">-- เลือกแหล่งงบประมาณ --</option>
+                                            {formData.budgets && formData.budgets.map(budget => (
+                                                <option key={budget.id} value={budget.id}>
+                                                    {budget.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    )}
                                     {(formik.errors.budget_id && formik.touched.budget_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.budget_id}</span>
                                     )}
@@ -330,17 +312,20 @@ const AssetForm = ({ id, asset }) => {
                             <Col md={3}>
                                 <FormGroup>
                                     <label>ยี่ห้อ/ผู้ผลิต</label>
-                                    <select
-                                        name="brand_id"
-                                        value={formik.values.brand_id}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm font-thin"
-                                    >
-                                        <option value="">-- เลือกยี่ห้อ/ผู้ผลิต --</option>
-                                        {brands && brands.map(brand => (
-                                            <option value={brand.id} key={brand.id}>{brand.name}</option>
-                                        ))}
-                                    </select>
+                                    {loading && <div className="form-control text-sm"><Loading /></div>}
+                                    {!loading && (
+                                        <select
+                                            name="brand_id"
+                                            value={formik.values.brand_id}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm font-thin"
+                                        >
+                                            <option value="">-- เลือกยี่ห้อ/ผู้ผลิต --</option>
+                                            {formData.brands && formData.brands.map(brand => (
+                                                <option value={brand.id} key={brand.id}>{brand.name}</option>
+                                            ))}
+                                        </select>
+                                    )}
                                     {(formik.errors.brand_id && formik.touched.brand_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.brand_id}</span>
                                     )}
@@ -377,6 +362,9 @@ const AssetForm = ({ id, asset }) => {
 
                                                     setSelectedDateIn(date);
                                                     formik.setFieldValue('date_in', date.format('YYYY-MM-DD'));
+
+                                                    setSelectedFirstYear(date);
+                                                    formik.setFieldValue('first_year', date.year()+543);
                                                 }}
                                             />
                                         </MuiPickersUtilsProvider>
@@ -463,7 +451,7 @@ const AssetForm = ({ id, asset }) => {
                                 <button
                                     type="submit"
                                     className={`btn ${asset ? 'btn-outline-warning' : 'btn-outline-primary'} mt-2 float-right`}
-                                    // disabled={formik.isSubmitting}
+                                    disabled={formik.isSubmitting || loading}
                                 >
                                     {isLoading && <Loading />}
                                     {asset ? 'บันทึกการแกไข' : 'บันทึก'}
