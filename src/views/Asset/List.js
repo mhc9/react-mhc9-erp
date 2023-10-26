@@ -3,7 +3,7 @@ import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { calcUsedAgeY } from '../../utils'
+import { calcUsedAgeY, generateQueryString } from '../../utils'
 import { getAssets, destroy } from '../../features/asset/assetSlice'
 import AssetFilteringInput from '../../components/Asset/FilteringInput'
 import Asset from '../../components/Asset/Asset'
@@ -23,7 +23,7 @@ const AssetList = () => {
     const dispatch = useDispatch();
     const { assets, pager, isLoading } = useSelector(state => state.asset);
     const [apiEndpoint, setApiEndpoint] = useState('');
-    const [params, setParams] = useState(initialFilters)
+    const [params, setParams] = useState(generateQueryString(initialFilters))
 
     useEffect(() => {
         if (apiEndpoint === '') {
