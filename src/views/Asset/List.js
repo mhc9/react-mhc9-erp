@@ -74,6 +74,7 @@ const AssetList = () => {
                                 <th>รายละเอียด</th>
                                 <th className="text-center w-[10%]">อายุใช้งาน</th>
                                 <th className="text-center w-[20%]">ผู้รับผิดชอบ</th>
+                                <th className="text-center w-[8%]">สถานะ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
                         </thead>
@@ -95,6 +96,12 @@ const AssetList = () => {
                                     </td>
                                     <td className="text-sm">
                                         {asset.current_owner.length > 0 && `${asset.current_owner[0].owner.prefix.name}${asset.current_owner[0].owner.firstname} ${asset.current_owner[0].owner.lastname}`}
+                                    </td>
+                                    <td className="text-center">
+                                        {asset.status === 1 && <span className="badge rounded-pill text-bg-success">ปกติ</span>}
+                                        {asset.status === 2 && <span className="badge rounded-pill text-bg-secondary">ถูกยืม</span>}
+                                        {asset.status === 9 && <span className="badge rounded-pill text-bg-warning">รอจำหน่าย</span>}
+                                        {asset.status === 99 && <span className="badge rounded-pill text-bg-danger">จำหน่าย</span>}
                                     </td>
                                     <td className="text-center p-1">
                                         <Link to={`/asset/${asset.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
