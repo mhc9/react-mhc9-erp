@@ -84,10 +84,17 @@ const AssetForm = ({ id, asset }) => {
     };
 
     const handleSubmit = (values, props) => {
+        const data = new FormData();
+        data.append('img_url', selectedImage);
+
+        for(const [key, val] of Object.entries(values)) {
+            data.append(key, val);
+        }
+
         if (asset) {
-            dispatch(update({ id, data: values }))
+            dispatch(update({ id, data }))
         } else {
-            dispatch(store(values))
+            dispatch(store(data))
         }
 
         props.resetForm();
@@ -366,6 +373,9 @@ const AssetForm = ({ id, asset }) => {
                                                 onChange={(date) => {
                                                     setSelectedPurchasedAt(date);
                                                     formik.setFieldValue('purchased_at', date.format('YYYY-MM-DD'));
+
+                                                    setSelectedDateIn(date);
+                                                    formik.setFieldValue('date_in', date.format('YYYY-MM-DD'));
                                                 }}
                                             />
                                         </MuiPickersUtilsProvider>
@@ -452,7 +462,7 @@ const AssetForm = ({ id, asset }) => {
                                 <button
                                     type="submit"
                                     className={`btn ${asset ? 'btn-outline-warning' : 'btn-outline-primary'} mt-2 float-right`}
-                                    disabled={formik.isSubmitting}
+                                    // disabled={formik.isSubmitting}
                                 >
                                     {isLoading && <Loading />}
                                     {asset ? 'บันทึกการแกไข' : 'บันทึก'}
