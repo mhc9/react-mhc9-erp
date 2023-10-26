@@ -28,6 +28,7 @@ const AssetDetail = () => {
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
                 <Breadcrumb.Item href="/asset">รายการพัสดุ</Breadcrumb.Item>
+                <Breadcrumb.Item active>รายละเอียดพัสดุ</Breadcrumb.Item>
                 <Breadcrumb.Item active>{id}</Breadcrumb.Item>
             </Breadcrumb>
         
@@ -39,7 +40,7 @@ const AssetDetail = () => {
                     </h2>
                 </div>
                 
-                <div className="content-body mt-2 mb-4">
+                <div className="my-2 border p-4 rounded-md">
                     {isLoading && <div className="text-center"><Loading /></div>}
                     {!isLoading && asset && (
                         <>
@@ -116,7 +117,7 @@ const AssetDetail = () => {
                                         <Col md={6}>
                                             <FormGroup>
                                                 <label>รายละเอียด</label>
-                                                <div className="form-control text-sm font-thin min-h-[34px]">
+                                                <div className="form-control text-sm font-thin min-h-[80px]">
                                                     {asset.description}
                                                 </div>
                                             </FormGroup>
@@ -124,7 +125,7 @@ const AssetDetail = () => {
                                         <Col md={6}>
                                             <FormGroup>
                                                 <label>หมายเหตุ</label>
-                                                <div className="form-control text-sm font-thin min-h-[34px]">
+                                                <div className="form-control text-sm font-thin min-h-[80px]">
                                                     {asset.remark}
                                                 </div>
                                             </FormGroup>
