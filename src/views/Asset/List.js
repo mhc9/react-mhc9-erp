@@ -116,7 +116,7 @@ const AssetList = () => {
                                     </td>
                                 </tr>
                             ))}
-                            {!isLoading && assets.length <= 0 && (
+                            {!isLoading && assets?.length <= 0 && (
                                 <tr>
                                     <td colSpan={6} className="text-center">
                                         -- ไม่มีข้อมูล --

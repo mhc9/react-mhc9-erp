@@ -17,7 +17,7 @@ const Asset = ({ asset }) => {
                 <p className="text-gray-500">{asset.group?.category?.name}</p>
                 <p>{asset.name}</p>
                 <p>
-                    <span className="mr-1"><b>ยี่ห้อ:</b> {asset.brand.name}</span>
+                    <span className="mr-1"><b>ยี่ห้อ:</b> {asset.brand?.name}</span>
                     <span className="mr-1"><b>รุ่น:</b> {asset.model ? asset.model : '-'}</span>
                     <span className="mr-1"><b>ซื้อเมื่อปี:</b> {asset.first_year ? asset.first_year : '-'}</span>
                 </p>

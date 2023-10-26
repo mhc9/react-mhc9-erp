@@ -84,16 +84,17 @@ const AssetForm = ({ id, asset }) => {
     };
 
     const handleSubmit = (values, props) => {
-        const data = new FormData();
-        data.append('img_url', selectedImage);
-
-        for(const [key, val] of Object.entries(values)) {
-            data.append(key, val);
-        }
-
         if (asset) {
-            dispatch(update({ id, data }))
+            dispatch(update({ id, data: values }))
         } else {
+            const data = new FormData();
+
+            data.append('img_url', selectedImage);
+
+            for(const [key, val] of Object.entries(values)) {
+                data.append(key, val);
+            }
+
             dispatch(store(data))
         }
 
