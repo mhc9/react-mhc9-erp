@@ -76,6 +76,18 @@ const TaskDetail = () => {
                                 </Col>
                             </Row>
                             <Row className="mb-2">
+                                <Col md={2}>
+                                    <label>วันที่จะใช้งาน</label>
+                                    <div className="form-control text-center text-sm font-thin min-h-[34px]">
+                                        {toShortTHDate(task.use_date)}
+                                    </div>
+                                </Col>
+                                <Col md={2}>
+                                    <label>เวลาที่จะใช้งาน</label>
+                                    <div className="form-control text-center text-sm font-thin min-h-[34px]">
+                                        {task.use_time}
+                                    </div>
+                                </Col>
                                 <Col>
                                     <label>ผู้แจ้ง</label>
                                     <div className="form-control text-sm font-thin min-h-[34px]">
