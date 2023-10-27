@@ -84,6 +84,9 @@ export const assetSlice = createSlice({
         resetSuccess: (state) => {
             state.isSuccess = false;
         },
+        resetUploaded: (state) => {
+            state.isUploaded = false;
+        },
         updateImage: (state, { payload }) => {
             state.asset = { ...state.asset, img_url: payload };
         }
@@ -167,13 +170,12 @@ export const assetSlice = createSlice({
             state.error = null;
         },
         [upload.fulfilled]: (state, { payload }) => {
-            const { status, message, img_url } = payload;
+            const { status, message } = payload;
 
             if (status === 1) {
                 state.isUploaded = true;
-                state.asset = state.asset.img_url = img_url;
             } else {
-                state.isUploaded = true;
+                state.isUploaded = false;
                 state.error = { message };
             }
         },
@@ -185,4 +187,4 @@ export const assetSlice = createSlice({
 
 export default assetSlice.reducer;
 
-export const { resetSuccess, updateImage } = assetSlice.actions;
+export const { resetSuccess, resetUploaded, updateImage } = assetSlice.actions;

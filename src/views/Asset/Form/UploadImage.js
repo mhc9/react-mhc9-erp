@@ -1,9 +1,19 @@
-import React from 'react'
-import { upload } from '../../../features/asset/assetSlice';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { upload, resetUploaded } from '../../../features/asset/assetSlice';
 
 const UploadImage = ({ asset, selectedImage, handleSelectedImage }) => {
     const dispatch = useDispatch();
+    const { isUploaded } = useSelector(state => state.asset);
+
+    useEffect(() => {
+        if (isUploaded) {
+            toast.success('อัพโหลดไฟล์เรียบร้อยแล้ว!!');
+
+            dispatch(resetUploaded());
+        }
+    }, [isUploaded]);
 
     const handleUploadImage = (id) => {
         let data = new FormData();
