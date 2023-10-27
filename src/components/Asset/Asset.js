@@ -14,8 +14,8 @@ const Asset = ({ asset }) => {
                 </div>
             </Col>
             <Col lg={12} xl={9} className="font-thin text-sm">
-                <p className="text-gray-500">{asset.group?.category?.name}</p>
-                <p>{asset.name}</p>
+                <p className="text-gray-800">{asset.group?.category?.name}</p>
+                <p className="font-bold">{asset.name}</p>
                 <p>
                     <span className="mr-1"><b>ยี่ห้อ:</b> {asset.brand?.name}</span>
                     <span className="mr-1"><b>รุ่น:</b> {asset.model ? asset.model : '-'}</span>

@@ -7,6 +7,7 @@ const initialState = {
     pager: null,
     isLoading: false,
     isSuccess: false,
+    isUploaded: false,
     error: null
 };
 
@@ -162,11 +163,19 @@ export const assetSlice = createSlice({
             state.error = payload;
         },
         [upload.pending]: (state) => {
-            state.isSuccess = false;
+            state.isUploaded = false;
             state.error = null;
         },
         [upload.fulfilled]: (state, { payload }) => {
-            state.isSuccess = true;
+            const { status, message, img_url } = payload;
+
+            if (status === 1) {
+                state.isUploaded = true;
+                state.asset = state.asset.img_url = img_url;
+            } else {
+                state.isUploaded = true;
+                state.error = { message };
+            }
         },
         [upload.rejected]: (state, { payload }) => {
             state.error = payload;
