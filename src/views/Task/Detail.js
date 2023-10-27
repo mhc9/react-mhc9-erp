@@ -36,7 +36,7 @@ const TaskDetail = () => {
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>บริการ</Breadcrumb.Item>
                 <Breadcrumb.Item href="/task">รายการแจ้งปัญหา/แจ้งซ่อม</Breadcrumb.Item>
-                <Breadcrumb.Item active>รายละเอียดแจ้งปัญหา/แจ้งซ่อม</Breadcrumb.Item>
+                <Breadcrumb.Item active>รายละเอียดแจ้งปัญหา/แจ้งซ่อม : {id}</Breadcrumb.Item>
             </Breadcrumb>
         
             <div className="content">
