@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import moment from 'moment'
 import { getTasks } from '../../features/task/taskSlice'
-import { getPriority } from '../../utils'
+import { getPriority, toShortTHDate } from '../../utils'
 import Loading from '../../components/Loading'
 import Pagination from '../../components/Pagination'
 import TaskFilteringInputs from '../../components/Task/FilteringInputs'
@@ -77,7 +77,7 @@ const TaskList = () => {
                                 <tr key={task.id} className="font-thin">
                                     <td className="text-center">{ pager && pager.from + index}</td>
                                     <td className="text-center">
-                                        <p className="text-sm">{moment(task.task_date).format('DD/MM/YYYY')}</p>
+                                        <p className="text-sm">{toShortTHDate(task.task_date)}</p>
                                         <p className="text-sm font-thin"><b className="mr-1">เวลา</b>{task.task_time}</p>
                                     </td>
                                     <td>
@@ -86,6 +86,9 @@ const TaskList = () => {
                                             <span className="font-thin">({task.group?.name})</span>
                                         </p>
                                         <p className="text-xs text-red-500 font-thin">{task.problem}</p>
+                                        <p className="text-xs text-gray-500 font-thin">
+                                            <b className="mr-1">ต้องการใช้วันที่</b>{toShortTHDate(task.use_date)}
+                                        </p>
                                     </td>
                                     <td className="text-center">
                                         <span className="badge rounded-pill text-bg-success">
