@@ -4,7 +4,7 @@ import { Col, Row } from 'react-bootstrap'
 const Asset = ({ asset }) => {
     return (
         <Row>
-            <Col md={3}>
+            <Col lg={12} xl={3}>
                 <div className="w-[80px] h-[80px] overflow-hidden border">
                     {(asset && asset.img_url) ? (
                         <img src={`${process.env.REACT_APP_API_URL}/uploads/assets/${asset.img_url}`} alt='asset-pic' />
@@ -13,7 +13,7 @@ const Asset = ({ asset }) => {
                     )}
                 </div>
             </Col>
-            <Col className="font-thin text-sm">
+            <Col lg={12} xl={9} className="font-thin text-sm">
                 <p className="text-gray-500">{asset.group?.category?.name}</p>
                 <p>{asset.name}</p>
                 <p>

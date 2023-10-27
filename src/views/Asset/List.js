@@ -72,8 +72,8 @@ const AssetList = () => {
                                 <th className="text-center w-[5%]">#</th>
                                 <th className="text-center w-[20%]">เลขที่พัสดุ</th>
                                 <th>รายละเอียด</th>
-                                <th className="text-center w-[10%]">อายุใช้งาน</th>
-                                <th className="text-center w-[20%]">ผู้รับผิดชอบ</th>
+                                <th className="text-center w-[8%]">อายุใช้งาน</th>
+                                <th className="text-center w-[15%]">ผู้รับผิดชอบ</th>
                                 <th className="text-center w-[8%]">สถานะ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
