@@ -73,11 +73,14 @@ const RepairationForm = ({ repairation }) => {
             initialValues={{
                 repair_date: moment().format('YYYY-MM-DD'),
                 repair_time: moment().format('hh:mm'),
-                description: '',
+                repair_failure_id: '',
                 repair_method_id: '',
+                root_cause: '',
+                solution: '',
                 repair_type_id: '1',
                 supplier_id: '',
                 total_cost: 0,
+                overall_time: 0,
                 staff_id: '',
                 expenses: []
             }}
@@ -135,25 +138,25 @@ const RepairationForm = ({ repairation }) => {
                     </Row>
                     <Row className="mb-2">
                         <Col>
-                            <label htmlFor="">ผู้ดำเนินการ</label>
-                            {isLoading && <div className="form-control text-center text-sm"><Loading /></div>}
+                            <label htmlFor="">กลุ่มอาการเสีย</label>
+                            {isLoading && <div className="form-control text-center"><Loading /></div>}
                             {!isLoading && (
-                                <Autocomplete
-                                    inputName="staff_id"
-                                    items={employees}
-                                    onSelect={(employee) => {
-                                        formik.setFieldTouched('staff_id', true);
-
-                                        if (employee) {
-                                            formik.setFieldValue('staff_id', employee.id);
-                                        } else {
-                                            formik.setFieldValue('staff_id', '');
-                                        }
-                                    }} 
-                                />
+                                <select
+                                    name="repair_failure_id"
+                                    value={formik.values.repair_failure_id}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm font-thin mr-1"
+                                >
+                                    <option>-- เลือก --</option>
+                                    {formData && formData.methods.map((method, index) => (
+                                        <option value={method.id} key={method.id}>
+                                            {method.name}
+                                        </option>
+                                    ))}
+                                </select>
                             )}
-                            {(formik.errors.staff_id && formik.touched.staff_id) && (
-                                <span className="text-red-500 text-sm">{formik.errors.staff_id}</span>
+                            {(formik.errors.repair_failure_id && formik.touched.repair_failure_id) && (
+                                <span className="text-red-500 text-sm">{formik.errors.repair_failure_id}</span>
                             )}
                         </Col>
                         <Col>
@@ -179,37 +182,76 @@ const RepairationForm = ({ repairation }) => {
                             )}
                         </Col>
                     </Row>
-                    <Row className="mb-3">
+                    <Row className="mb-2">
+                        <Col>
+                            <label>สาเหตุของอาการเสีย</label>
+                            <textarea
+                                rows={3}
+                                name="root_cause"
+                                value={formik.values.root_cause}
+                                onChange={formik.handleChange}
+                                className="form-control text-sm font-thin"
+                            ></textarea>
+                            {(formik.errors.root_cause && formik.touched.root_cause) && (
+                                <span className="text-red-500 text-sm">{formik.errors.root_cause}</span>
+                            )}
+                        </Col>
                         <Col>
                             <label>รายละเอียดการซ่อม</label>
                             <textarea
                                 rows={3}
-                                name="description"
-                                value={formik.values.description}
+                                name="solution"
+                                value={formik.values.solution}
                                 onChange={formik.handleChange}
                                 className="form-control text-sm font-thin"
                             ></textarea>
-                            {(formik.errors.description && formik.touched.description) && (
-                                <span className="text-red-500 text-sm">{formik.errors.description}</span>
+                            {(formik.errors.solution && formik.touched.solution) && (
+                                <span className="text-red-500 text-sm">{formik.errors.solution}</span>
                             )}
                         </Col>
-                        <Col md={4}>
+                    </Row>
+                    <Row className="mb-3">
+                        <Col md={6}>
                             <label htmlFor="">ประเภทการซ่อม</label>
                             {isLoading && <div className="form-control text-sm text-center"><Loading /></div>}
-                            <div className="form-control text-sm font-thin flex flex-col">
-                                {!isLoading && formData.types.map((type) => (
-                                    <label key={type.id}>
-                                        <Field
-                                            type="radio"
-                                            name="repair_type_id"
-                                            value={type.id}
-                                        />
-                                        <span className="ml-1 mr-4">{type.name}</span>
-                                    </label>
-                                ))}
-                            </div>
+                            {!isLoading && (
+                                <div className="form-control text-sm font-thin flex flex-row">
+                                    {formData.types.map((type) => (
+                                        <label key={type.id}>
+                                            <Field
+                                                type="radio"
+                                                name="repair_type_id"
+                                                value={type.id}
+                                            />
+                                            <span className="ml-1 mr-4">{type.name}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            )}
                             {(formik.errors.repair_type_id && formik.touched.repair_type_id) && (
                                 <span className="text-red-500 text-sm">{formik.errors.repair_type_id}</span>
+                            )}
+                        </Col>
+                        <Col>
+                            <label htmlFor="">ร้านซ่อม (กรณีส่งภายนอก)</label>
+                            {isLoading && <div className="form-control text-center text-sm"><Loading /></div>}
+                            {!isLoading && (
+                                <Autocomplete
+                                    inputName="supplier_id"
+                                    items={suppliers}
+                                    onSelect={(supplier) => {
+                                        formik.setFieldTouched('supplier_id', true);
+
+                                        if (supplier) {
+                                            formik.setFieldValue('supplier_id', supplier.id);
+                                        } else {
+                                            formik.setFieldValue('supplier_id', '');
+                                        }
+                                    }} 
+                                />
+                            )}
+                            {(formik.errors.supplier_id && formik.touched.supplier_id) && (
+                                <span className="text-red-500 text-sm">{formik.errors.supplier_id}</span>
                             )}
                         </Col>
                     </Row>
@@ -238,29 +280,45 @@ const RepairationForm = ({ repairation }) => {
                         </Col>
                     </Row>
                     <Row>
+                        <Col md={3}>
+                            <label htmlFor="">ใช้เวลาในการซ่อม (นาที)</label>
+                            {isLoading && <div className="form-control text-center text-sm"><Loading /></div>}
+                            {!isLoading && (
+                                <input
+                                    type="text"
+                                    name="overall_time"
+                                    value={formik.values.overall_time}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm font-thin"
+                                />
+                            )}
+                            {(formik.errors.overall_time && formik.touched.overall_time) && (
+                                <span className="text-red-500 text-sm">{formik.errors.overall_time}</span>
+                            )}
+                        </Col>
                         <Col>
-                            <label htmlFor="">ร้านซ่อม (กรณีส่งภายนอก)</label>
+                            <label htmlFor="">ผู้ดำเนินการ</label>
                             {isLoading && <div className="form-control text-center text-sm"><Loading /></div>}
                             {!isLoading && (
                                 <Autocomplete
-                                    inputName="supplier_id"
-                                    items={suppliers}
-                                    onSelect={(supplier) => {
-                                        formik.setFieldTouched('supplier_id', true);
+                                    inputName="staff_id"
+                                    items={employees}
+                                    onSelect={(employee) => {
+                                        formik.setFieldTouched('staff_id', true);
 
-                                        if (supplier) {
-                                            formik.setFieldValue('supplier_id', supplier.id);
+                                        if (employee) {
+                                            formik.setFieldValue('staff_id', employee.id);
                                         } else {
-                                            formik.setFieldValue('supplier_id', '');
+                                            formik.setFieldValue('staff_id', '');
                                         }
                                     }} 
                                 />
                             )}
-                            {(formik.errors.supplier_id && formik.touched.supplier_id) && (
-                                <span className="text-red-500 text-sm">{formik.errors.supplier_id}</span>
+                            {(formik.errors.staff_id && formik.touched.staff_id) && (
+                                <span className="text-red-500 text-sm">{formik.errors.staff_id}</span>
                             )}
                         </Col>
-                        <Col>
+                        <Col md={3}>
                             <label htmlFor="">สถานะ</label>
                             {isLoading && <div className="form-control text-center"><Loading /></div>}
                             {!isLoading && (
