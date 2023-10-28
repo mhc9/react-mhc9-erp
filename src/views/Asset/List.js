@@ -118,8 +118,8 @@ const AssetList = () => {
                             ))}
                             {!isLoading && assets?.length <= 0 && (
                                 <tr>
-                                    <td colSpan={6} className="text-center">
-                                        -- ไม่มีข้อมูล --
+                                    <td colSpan={7} className="text-center text-sm font-thin">
+                                        <span className="text-red-500">-- ไม่มีข้อมูล --</span>
                                     </td>
                                 </tr>
                             )}
