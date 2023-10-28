@@ -143,19 +143,6 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                     </Row>
                     <Row className="mb-2">
                         <Col>
-                            <label>รายละเอียดการดำเนินการ</label>
-                            <textarea
-                                rows={5}
-                                name="handling"
-                                value={formik.values.handling}
-                                onChange={formik.handleChange}
-                                className="form-control text-sm font-thin"
-                            ></textarea>
-                            {(formik.errors.handling && formik.touched.handling) && (
-                                <span className="text-red-500 text-sm">{formik.errors.handling}</span>
-                            )}
-                        </Col>
-                        <Col>
                             <label htmlFor="">สาเหตุของปัญหา</label>
                             <div className="flex flex-col">
                                 {isLoading && <div className="form-control text-center"><Loading /></div>}
@@ -180,11 +167,24 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                                     value={formik.values.cause_text}
                                     onChange={formik.handleChange}
                                     className="form-control text-sm font-thin"
-                                    placeholder="ระบุ (ถ้ามี)"
+                                    placeholder="รายละเอียดสาเหตุ (ถ้ามี)"
                                 ></textarea>
                             </div>
                             {(formik.errors.cause_id && formik.touched.cause_id) && (
                                 <span className="text-red-500 text-sm">{formik.errors.cause_id}</span>
+                            )}
+                        </Col>
+                        <Col>
+                            <label>การดำเนินการ</label>
+                            <textarea
+                                rows={5}
+                                name="handling"
+                                value={formik.values.handling}
+                                onChange={formik.handleChange}
+                                className="form-control text-sm font-thin"
+                            ></textarea>
+                            {(formik.errors.handling && formik.touched.handling) && (
+                                <span className="text-red-500 text-sm">{formik.errors.handling}</span>
                             )}
                         </Col>
                     </Row>
