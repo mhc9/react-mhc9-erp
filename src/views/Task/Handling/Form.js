@@ -188,7 +188,7 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                             )}
                         </Col>
                     </Row>
-                    <Row className="mb-2">
+                    <Row className="mb-1">
                         <Col>
                             <label htmlFor="">ประเภทงาน</label>
                             <label className="form-control text-sm font-thin">
@@ -249,34 +249,31 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                     </Row>
                     <Row>
                         <Col>
-                            {(!isLoading && task.repairations.length > 0) ? (
-                                <div className={`alert ${task.repairations[0].status === 4 ? 'alert-success' : 'alert-warning'} p-2`}>
-                                    <i className="fas fa-info-circle text-lg mr-2"></i>
-                                    {task.repairations[0].status === 4
-                                        ? 'รายการส่งซ่อมได้รับการส่งมอบแล้ว!!'
-                                        : 'รายการส่งซ่อมอยู่ระหว่างรอซ่อม!!'
-                                    }
-                                </div>
-                            ) : (
-                                <div className="border flex flex-row justify-between">
-                                    {(!isLoading && task.assets.length > 0) && (  
-                                        <button
+                            <div className="flex flex-row justify-between">
+                                {(!isLoading && task?.repairations.length === 0) ? (
+                                    <>
+                                        {(!isLoading && task?.assets.length > 0) && (  
+                                            <button
                                             type="button"
                                             className={`btn btn-outline-success mt-2`}
                                             onClick={() => setShowRequestForm(true)}
-                                        >
-                                            บันทึกการซ่อม
-                                        </button>
-                                    )}
+                                            >
+                                                บันทึกการซ่อม
+                                            </button>
+                                        )}
+                                    </>
+                                ) : <div></div>}
 
-                                    <div>
-                                        <button
-                                            type="button"
-                                            className={`btn btn-outline-danger mt-2 float-right ml-2`}
-                                            onClick={onCancel}
+                                <div>
+                                    <button
+                                        type="button"
+                                        className={`btn btn-outline-danger mt-2 float-right ml-2`}
+                                        onClick={onCancel}
                                         >
-                                            ยกเลิก
-                                        </button>
+                                        ยกเลิก
+                                    </button>
+
+                                    {(!isLoading && task?.repairations[0].status === 4) && (
                                         <button
                                             type="submit"
                                             className={`btn btn-outline-primary mt-2 float-right`}
@@ -284,9 +281,9 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                                         >
                                             บันทึก
                                         </button>
-                                    </div>
+                                    )}
                                 </div>
-                            )}
+                            </div>
                         </Col>
                     </Row>
                 </Form>
