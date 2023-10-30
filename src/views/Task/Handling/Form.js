@@ -52,7 +52,8 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                 handling: '',
                 cause_id: '',
                 cause_text: '',
-                handle_type_id: '1'
+                handle_type_id: '1',
+                status: ''
             }}
             validationSchema={handlingSchema}
             onSubmit={handleSubmit}
@@ -273,7 +274,7 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                                         ยกเลิก
                                     </button>
 
-                                    {(!isLoading && task?.repairations[0].status === 4) && (
+                                    {(!isLoading && (task?.repairations.length === 0 || task?.repairations[0]?.status === 4)) && (
                                         <button
                                             type="submit"
                                             className={`btn btn-outline-primary mt-2 float-right`}

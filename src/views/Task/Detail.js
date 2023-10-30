@@ -153,9 +153,9 @@ const TaskDetail = () => {
                             </div>
 
                             {(!isLoading && task?.repairations.length > 0) && (
-                                <div className={`alert ${task?.repairations[0].status === 4 ? 'alert-success' : 'alert-warning'} p-2 mt-2 mb-0`}>
+                                <div className={`alert ${task?.repairations[0]?.status === 4 ? 'alert-success' : 'alert-warning'} p-2 mt-2 mb-0`}>
                                     <i className="fas fa-info-circle text-lg mr-2"></i>
-                                    {task?.repairations[0].status === 4
+                                    {task?.repairations[0]?.status === 4
                                         ? 'รายการส่งซ่อมได้รับการส่งมอบแล้ว!!'
                                         : 'รายการส่งซ่อมอยู่ระหว่างรอซ่อม!!'
                                     }
