@@ -152,7 +152,7 @@ const TaskDetail = () => {
                                 </table>
                             </div>
 
-                            {(!isLoading && task?.repairations.length > 0) && (
+                            {(!isLoading && task?.repairations?.length > 0) && (
                                 <div className={`alert ${task?.repairations[0]?.status === 4 ? 'alert-success' : 'alert-warning'} p-2 mt-2 mb-0`}>
                                     <i className="fas fa-info-circle text-lg mr-2"></i>
                                     {task?.repairations[0]?.status === 4
