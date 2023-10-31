@@ -79,7 +79,7 @@ const AssetForm = ({ id, asset }) => {
                 asset_type_id: (asset && asset.asset_type_id) ? asset.asset_type_id : '',
                 asset_category_id: (asset && asset.asset_category_id) ? asset.asset_category_id : '',
                 asset_group_id: (asset && asset.asset_group_id) ? asset.asset_group_id : '',
-                price_per_unit: (asset && asset.price_per_unit) ? asset.price_per_unit : '',
+                price: (asset && asset.price) ? asset.price : '',
                 unit_id: asset ? asset.unit_id : '',
                 brand_id: asset ? asset.brand_id : '',
                 model: (asset && asset.model) ? asset.model : '',
@@ -229,13 +229,13 @@ const AssetForm = ({ id, asset }) => {
                                     <label>ราคาต่อหน่วย</label>
                                     <input
                                         type="text"
-                                        name="price_per_unit"
-                                        value={formik.values.price_per_unit}
+                                        name="price"
+                                        value={formik.values.price}
                                         onChange={formik.handleChange}
                                         className="form-control text-sm font-thin"
                                     />
-                                    {(formik.errors.price_per_unit && formik.touched.price_per_unit) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.price_per_unit}</span>
+                                    {(formik.errors.price && formik.touched.price) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.price}</span>
                                     )}
                                 </FormGroup>
                             </Col>
