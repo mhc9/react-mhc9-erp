@@ -1,5 +1,6 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
+import { currency } from '../../utils'
 
 const Asset = ({ asset }) => {
     return (
@@ -19,7 +20,10 @@ const Asset = ({ asset }) => {
                 <p>
                     <span className="mr-1"><b>ยี่ห้อ:</b> {asset.brand?.name}</span>
                     <span className="mr-1"><b>รุ่น:</b> {asset.model ? asset.model : '-'}</span>
+                </p>
+                <p>
                     <span className="mr-1"><b>ซื้อเมื่อปี:</b> {asset.first_year ? asset.first_year : '-'}</span>
+                    <span className="mr-1"><b>ราคา:</b> {asset.price ? currency.format(asset.price) : '-'} บาท</span>
                 </p>
                 {/* <p className="text-sm font-thin text-gray-500 ml-1">{asset.description}</p> */}
                 <p className="text-sm font-thin text-red-400">

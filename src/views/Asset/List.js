@@ -99,7 +99,8 @@ const AssetList = () => {
                                     </td>
                                     <td className="text-center">
                                         {asset.status === 1 && <span className="badge rounded-pill text-bg-success">ใช้งานอยู่</span>}
-                                        {asset.status === 2 && <span className="badge rounded-pill text-bg-secondary">ถูกยืม</span>}
+                                        {asset.status === 2 && <span className="badge rounded-pill text-bg-dark">สำรอง</span>}
+                                        {asset.status === 3 && <span className="badge rounded-pill text-bg-secondary">ถูกยืม</span>}
                                         {asset.status === 9 && <span className="badge rounded-pill text-bg-warning">รอจำหน่าย</span>}
                                         {asset.status === 99 && <span className="badge rounded-pill text-bg-danger">จำหน่าย</span>}
                                     </td>
