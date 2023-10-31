@@ -70,8 +70,7 @@ const AssetList = () => {
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
-                                <th className="text-center w-[20%]">เลขที่พัสดุ</th>
-                                <th>รายละเอียด</th>
+                                <th>รายการ</th>
                                 <th className="text-center w-[8%]">อายุใช้งาน</th>
                                 <th className="text-center w-[15%]">ผู้รับผิดชอบ</th>
                                 <th className="text-center w-[8%]">สถานะ</th>
@@ -89,7 +88,6 @@ const AssetList = () => {
                             {assets && assets.map((asset, index) => (
                                 <tr key={asset.id} className="font-thin">
                                     <td className="text-center">{index+pager.from}</td>
-                                    <td className="text-center text-xs">{asset.asset_no}</td>
                                     <td><Asset asset={asset} /></td>
                                     <td className="text-sm text-center">
                                         {`${calcUsedAgeY(asset.first_year)}ปี`}

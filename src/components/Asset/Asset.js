@@ -5,8 +5,8 @@ import { currency } from '../../utils'
 const Asset = ({ asset }) => {
     return (
         <Row>
-            <Col lg={12} xl={3}>
-                <div className="w-[80px] h-[80px] overflow-hidden border">
+            <Col lg={12} xl={2}>
+                <div className="w-[100px] h-[100px] overflow-hidden border">
                     {(asset && asset.img_url) ? (
                         <img src={`${process.env.REACT_APP_API_URL}/uploads/assets/${asset.img_url}`} alt='asset-pic' />
                     ) : (
@@ -14,7 +14,8 @@ const Asset = ({ asset }) => {
                     )}
                 </div>
             </Col>
-            <Col lg={12} xl={9} className="font-thin text-sm">
+            <Col lg={12} xl={10} className="font-thin text-sm lg:mt-2">
+                <p><b className="mr-1">เลขครุภัณฑ์:</b>{asset.asset_no ? asset.asset_no : '-'}</p>
                 <p className="text-gray-800">{asset.group?.category?.name}</p>
                 <p className="font-bold">{asset.name}</p>
                 <p>
