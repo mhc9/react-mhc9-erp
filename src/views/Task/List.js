@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
-import moment from 'moment'
 import { getTasks } from '../../features/task/taskSlice'
-import { getPriority, toShortTHDate } from '../../utils'
+import { getPriority, toShortTHDate, generateQueryString } from '../../utils'
 import Loading from '../../components/Loading'
 import Pagination from '../../components/Pagination'
 import TaskFilteringInputs from '../../components/Task/FilteringInputs'
@@ -22,7 +21,7 @@ const TaskList = () => {
     const dispatch = useDispatch();
     const { tasks, pager, loading } = useSelector(state => state.task);
     const [apiEndpoint, setApiEndpoint] = useState('');
-    const [params, setParams] = useState('');
+    const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
         if (apiEndpoint === '') {
@@ -53,7 +52,7 @@ const TaskList = () => {
                 <div>
                     <TaskFilteringInputs initialFilters={initialFilters} onFilter={handleFilter} />
 
-                    <TaskStatusBadge />
+                    <TaskStatusBadge params={params} onClick={handleFilter} />
 
                     <table className="table table-bordered text-sm">
                         <thead>

@@ -5,7 +5,7 @@ import api from '../../api';
 
 const itemColors = ['secondary','success','warning','danger'];
 
-const TaskStatusBadge = () => {
+const TaskStatusBadge = ({ params='', onClick }) => {
     const { data, isLoading } = useGetInitialFormDataQuery();
     const [statusCount, setStatusCount] = useState([]);
 
@@ -27,7 +27,30 @@ const TaskStatusBadge = () => {
         const status = statusCount?.find(st => st.status === id);
 
         return status ? status.count : 0;
-    }
+    };
+
+    const handleClick = (status) => {
+        if (params === '') {
+            onClick(`&status=${status}`);
+        } else {
+            let qsArr = params.split('&');
+            qsArr.shift(); // Remove 1st element of qsArr array (empty string)
+
+            /** Get index of status param */
+            const statusIndex = qsArr.findIndex(q => q.includes('status='));
+
+            /** Create query string from qsArr array */
+            const queryStr = qsArr.map((qs, index) => {
+                if (statusIndex === index) {
+                    return `status=${status}`;
+                }
+
+                return qs;
+            }).join('&');
+
+            onClick(`&${queryStr}`);
+        }
+    };
 
     return (
         <div className="py-1">
@@ -35,7 +58,11 @@ const TaskStatusBadge = () => {
             {!isLoading && (
                 <div className="flex flex-row gap-2">
                     {data && data.statuses.map((status, index) => (
-                        <button type="button" className={`btn btn-outline-${itemColors[index]} text-sm`} key={status.id}>
+                        <button
+                            type="button"
+                            className={`btn btn-outline-${itemColors[index]} text-sm`} key={status.id}
+                            onClick={() => handleClick(status.id)}
+                        >
                             {status.name}
                             <span className={`badge rounded-pill bg-${itemColors[index]} ml-1`}>
                                 {getCountByStatus(status.id)}
