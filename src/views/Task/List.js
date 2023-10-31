@@ -9,6 +9,7 @@ import { getPriority, toShortTHDate } from '../../utils'
 import Loading from '../../components/Loading'
 import Pagination from '../../components/Pagination'
 import TaskFilteringInputs from '../../components/Task/FilteringInputs'
+import TaskStatusBadge from '../../components/Task/StatusBadge'
 
 const initialFilters = {
     date: '',
@@ -50,10 +51,9 @@ const TaskList = () => {
                 <h2 className="text-xl">รายการแจ้งปัญหา</h2>
 
                 <div>
-                    <TaskFilteringInputs
-                        initialFilters={initialFilters}
-                        onFilter={handleFilter}
-                    />
+                    <TaskFilteringInputs initialFilters={initialFilters} onFilter={handleFilter} />
+
+                    <TaskStatusBadge />
 
                     <table className="table table-bordered text-sm">
                         <thead>
