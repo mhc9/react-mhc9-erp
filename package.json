@@ -2,6 +2,7 @@
   "name": "react-mhc9-helpdesk",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@date-io/moment": "^1.3.13",
     "@devexpress/analytics-core": "^23.1.5",
