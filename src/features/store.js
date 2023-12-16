@@ -42,7 +42,7 @@ export default configureStore({
         [inspectionApi.reducerPath]: inspectionApi.reducer,
         [taskApi.reducerPath]: taskApi.reducer,
         [repairationApi.reducerPath]: repairationApi.reducer,
-        equipment: equipmentReducer,
+        comset: comsetReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
         assetCategory: assetCategoryReducer,
