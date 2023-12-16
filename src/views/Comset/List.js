@@ -3,18 +3,18 @@ import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { getEquipments } from '../../features/equipment/equipmentSlice';
+import { getComsets } from '../../features/comset/comsetSlice';
 import Loading from '../../components/Loading';
 
-const EquipmentList = () => {
+const ComsetList = () => {
     const dispatch = useDispatch();
-    const { equipments, pager, loading, success } = useSelector(state => state.equipment)
+    const { comsets, pager, loading, success } = useSelector(state => state.equipment)
 
     useEffect(() => {
-        dispatch(getEquipments());
+        dispatch(getComsets());
     }, []);
 
-    console.log(equipments);
+    console.log(comsets);
 
     return (
         <div className="content-wrapper">
@@ -48,12 +48,12 @@ const EquipmentList = () => {
                                     </td>
                                 </tr>
                             )}
-                            {equipments && equipments.map((eq, index) => (
+                            {comsets && comsets.map((eq, index) => (
                                 <tr key={eq.id}>
                                     <td>{index+pager.from}</td>
                                     <td>{eq.description}</td>
                                     <td className="text-center">
-                                        <Link to={`/equipments/${eq.id}/edit`} className="btn btn-sm btn-warning mr-1">
+                                        <Link to={`/comsets/${eq.id}/edit`} className="btn btn-sm btn-warning mr-1">
                                             <FaPencilAlt />
                                         </Link>
                                         <button className="btn btn-sm btn-danger">
@@ -62,7 +62,7 @@ const EquipmentList = () => {
                                     </td>
                                 </tr>
                             ))}
-                            {!loading && equipments.length <= 0 && (
+                            {!loading && comsets.length <= 0 && (
                                 <tr>
                                     <td colSpan={3} className="text-center">
                                         -- ไม่มีข้อมูล --
@@ -77,4 +77,4 @@ const EquipmentList = () => {
     )
 }
 
-export default EquipmentList
+export default ComsetList

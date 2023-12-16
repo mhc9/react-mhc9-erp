@@ -1,51 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, FormGroup, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import ModalAssetList from '../../components/Modals/AssetList';
-import api from '../../api';
-import { store } from '../../features/equipment/equipmentSlice';
+import { store } from '../../features/comset/comsetSlice';
 import Loading from '../../components/Loading'
 
-const equipmentSchema = Yup.object().shape({
+const comsetSchema = Yup.object().shape({
     asset_id: Yup.string().required(),
     description: Yup.string().required(),
-    equipment_group_id: Yup.string().required(),
 });
 
-const EquipmentForm = () => {
+const ComsetForm = () => {
     const dispatch = useDispatch();
-    const { loading, success } = useSelector(state => state.equipment);
+    const { loading } = useSelector(state => state.comset);
     const [showAssetList, setShowAssetList] = useState(false);
     const [asset, setAsset] = useState(null);
-    const [types, setTypes] = useState([]);
-    const [groups, setGroups] = useState([]);
-    const [filteredGroups, setFilteredGroups] = useState([]);
-
-    useEffect(() => {
-        getFormInitialData();
-
-        return () => getFormInitialData();
-    }, []);
-
-    const getFormInitialData = async () => {
-        try {
-            const res = await api.get('/api/equipments/form/init');
-            
-            setTypes(res.data.types);
-            setGroups(res.data.groups);
-        } catch (error) {
-            
-        }
-    };
-
-    const handleTypeSelected = (type) => {
-        console.log(typeof type);
-        const newGroups = groups.filter(group => group.equipment_type_id === parseInt(type, 10));
-
-        setFilteredGroups(newGroups);
-    };
 
     const onAssetSelected = (formik, asset) => {
         setAsset(asset);
@@ -61,13 +32,11 @@ const EquipmentForm = () => {
         <Formik
             initialValues={{
                 id: '',
-                description: '',
-                equipment_type_id: '',
-                equipment_group_id: '',
                 asset_id: '',
+                description: '',
                 remark: ''
             }}
-            validationSchema={equipmentSchema}
+            validationSchema={comsetSchema}
             onSubmit={handleSubmit}
         >
             {(formik) => {
@@ -123,47 +92,6 @@ const EquipmentForm = () => {
                         <Row className="mb-2">
                             <Col>
                                 <FormGroup>
-                                    <label>ประเภทอุปกรณ์</label>
-                                    <select name="equipment_type_id" value={formik.values.equipment_type_id} className="form-control"
-                                        onChange={(e) => {
-                                            formik.handleChange(e);
-                                            handleTypeSelected(e.target.value);
-                                        }}
-                                    >
-                                        <option value="">-- เลือกประเภท --</option>
-                                        {types && types.map(type => (
-                                            <option value={type.id} key={type.id}>
-                                                {type.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </FormGroup>
-                            </Col>
-                            <Col>
-                                <FormGroup>
-                                    <label>กลุ่มอุปกรณ์</label>
-                                    <select
-                                        name="equipment_group_id"
-                                        value={formik.values.equipment_group_id} 
-                                        onChange={formik.handleChange}
-                                        className="form-control"
-                                    >
-                                        <option value="">-- เลือกกลุ่ม --</option>
-                                        {filteredGroups && filteredGroups.map(group => (
-                                            <option value={group.id} key={group.id}>
-                                                {group.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    {(formik.errors.equipment_group_id && formik.touched.equipment_group_id) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.equipment_group_id}</span>
-                                    )}
-                                </FormGroup>
-                            </Col>
-                        </Row>
-                        <Row className="mb-2">
-                            <Col>
-                                <FormGroup>
                                     <label>หมายเหตุ</label>
                                     <textarea
                                         rows={3}
@@ -195,4 +123,4 @@ const EquipmentForm = () => {
     )
 }
 
-export default EquipmentForm
+export default ComsetForm

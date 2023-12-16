@@ -2,16 +2,16 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api";
 
 const initialState = {
-    equipments: [],
+    comsets: [],
     pager: null,
     loading: false,
     success: false,
     error: null
 };
 
-export const getEquipments = createAsyncThunk("equipment/getEquipments", async (data, { rejectWithValue }) => {
+export const getComsets = createAsyncThunk("comset/getComsets", async (data, { rejectWithValue }) => {
     try {
-        const res = await api.get(`/api/equipments`);
+        const res = await api.get(`/api/comsets`);
 
         return res.data;
     } catch (error) {
@@ -20,10 +20,10 @@ export const getEquipments = createAsyncThunk("equipment/getEquipments", async (
     }
 });
 
-export const store = createAsyncThunk("equipment/store", async (data, { rejectWithValue }) => {
+export const store = createAsyncThunk("comset/store", async (data, { rejectWithValue }) => {
     try {
         console.log(data);
-        const res = await api.post(`/api/equipments`, data);
+        const res = await api.post(`/api/comsets`, data);
 
         return res.data;
     } catch (error) {
@@ -32,27 +32,27 @@ export const store = createAsyncThunk("equipment/store", async (data, { rejectWi
     }
 });
 
-export const equipmentSlice = createSlice({
-    name: 'equipment',
+export const comsetSlice = createSlice({
+    name: 'comset',
     initialState,
     reducers: {},
     extraReducers: {
-        [getEquipments.pending]: (state) => {
-            state.equipments = [];
+        [getComsets.pending]: (state) => {
+            state.comsets = [];
             state.pager = null;
             state.loading = true;
             state.success = false;
             state.error = null;
         },
-        [getEquipments.fulfilled]: (state, { payload }) => {
+        [getComsets.fulfilled]: (state, { payload }) => {
             const { data, ...pager } = payload;
 
             state.loading = false;
-            state.equipments = data;
+            state.comsets = data;
             state.pager = pager;
             state.success = true;
         },
-        [getEquipments.rejected]: (state, { payload }) => {
+        [getComsets.rejected]: (state, { payload }) => {
             console.log(payload);
 
             state.loading = false;
@@ -76,4 +76,4 @@ export const equipmentSlice = createSlice({
     }
 });
 
-export default equipmentSlice.reducer;
+export default comsetSlice.reducer;

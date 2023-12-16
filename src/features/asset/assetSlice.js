@@ -43,7 +43,7 @@ export const store = createAsyncThunk("asset/store", async (data, { rejectWithVa
 
 export const update = createAsyncThunk("asset/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/assets/${id}`, data);
+        const res = await api.post(`/api/assets/${id}/update`, data);
 
         dispatch(getAssets({ url: '/api/assets' }));
 
@@ -55,7 +55,7 @@ export const update = createAsyncThunk("asset/update", async ({ id, data }, { di
 
 export const destroy = createAsyncThunk("asset/destroy", async ({ id }, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.delete(`/api/assets/${id}`);
+        const res = await api.post(`/api/assets/${id}/delete`);
 
         dispatch(getAssets({ url: '/api/assets' }));
 

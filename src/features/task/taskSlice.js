@@ -42,7 +42,7 @@ export const store = createAsyncThunk("task/store", async (data, { rejectWithVal
 
 export const handle = createAsyncThunk("task/handle", async ({ id, data }, { rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/tasks/${id}/handle`, data);
+        const res = await api.post(`/api/tasks/${id}/handle`, data);
 
         return res.data;
     } catch (error) {
@@ -52,7 +52,7 @@ export const handle = createAsyncThunk("task/handle", async ({ id, data }, { rej
 
 export const update = createAsyncThunk("task/update", async ({ id, data }, { rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/tasks/${id}`, data);
+        const res = await api.post(`/api/tasks/${id}/update`, data);
 
         return res.data;
     } catch (error) {
@@ -62,7 +62,7 @@ export const update = createAsyncThunk("task/update", async ({ id, data }, { rej
 
 export const destroy = createAsyncThunk("task/destroy", async ({ id }, { rejectWithValue }) => {
     try {
-        const res = await api.delete(`/api/tasks/${id}`);
+        const res = await api.post(`/api/tasks/${id}/delete`);
 
         return res.data;
     } catch (error) {

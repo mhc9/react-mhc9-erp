@@ -1,8 +1,8 @@
 import React from 'react'
 import { Breadcrumb } from 'react-bootstrap'
-import EquipmentForm from './Form'
+import ComsetForm from './Form'
 
-const AddEquipment = () => {
+const AddComset = () => {
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}
@@ -16,11 +16,11 @@ const AddEquipment = () => {
                 <h2 className="text-xl">เพิ่มอุปกรณ์ใหม่</h2>
 
                 <div className="my-2 border p-4 rounded-md">
-                    <EquipmentForm />
+                    <ComsetForm />
                 </div>
             </div>
         </div>
     )
 }
 
-    export default AddEquipment
+    export default AddComset

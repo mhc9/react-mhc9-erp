@@ -1,6 +1,6 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import authReducer from "./auth/authSlice";
-import equipmentReducer from "./equipment/equipmentSlice";
+import comsetReducer from "./comset/comsetSlice";
 import asssetReducer from "./asset/assetSlice";
 import assetTypeReducer from "./asset-type/assetTypeSlice";
 import assetCategoryReducer from "./asset-category/assetCategorySlice";
@@ -43,7 +43,7 @@ export default configureStore({
         [inspectionApi.reducerPath]: inspectionApi.reducer,
         [taskApi.reducerPath]: taskApi.reducer,
         [repairationApi.reducerPath]: repairationApi.reducer,
-        equipment: equipmentReducer,
+        comset: comsetReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
         assetCategory: assetCategoryReducer,

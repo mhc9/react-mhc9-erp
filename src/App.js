@@ -15,10 +15,8 @@ import AssetDetail from './views/Asset/Detail';
 import EditAsset from './views/Asset/Edit';
 import AssetType from './views/AssetType';
 import AssetCategory from './views/AssetCategory';
-import EquipmentList from './views/Equipment/List';
-import AddEquipment from './views/Equipment/Add';
-import EquipmentTypeList from './views/EquipmentType/List';
-import EquipmentGroupList from './views/EquipmentGroup/List';
+import ComsetList from './views/Comset/List';
+import AddComset from './views/Comset/Add';
 import EmployeeList from './views/Employee/List';
 import AddEmployee from './views/Employee/Add';
 import EditEmployee from './views/Employee/Edit';
@@ -65,10 +63,8 @@ function App() {
                 <Route path="repairation/:id/detail" element={<GuardRoute><RepairationDetail /></GuardRoute>} />
 
                 {/* Equipments */}
-                <Route path="equipment" element={<GuardRoute><EquipmentList /></GuardRoute>} />
-                <Route path="equipment/add" element={<GuardRoute><AddEquipment /></GuardRoute>} />
-                <Route path="equipment-type" element={<GuardRoute><EquipmentTypeList /></GuardRoute>} />
-                <Route path="equipment-group" element={<GuardRoute><EquipmentGroupList /></GuardRoute>} />
+                <Route path="equipment" element={<GuardRoute><ComsetList /></GuardRoute>} />
+                <Route path="equipment/add" element={<GuardRoute><AddComset /></GuardRoute>} />
 
                 {/* Assets */}
                 <Route path="asset" element={<GuardRoute><AssetList /></GuardRoute>} />
