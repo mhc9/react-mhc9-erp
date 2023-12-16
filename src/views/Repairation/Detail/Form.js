@@ -115,6 +115,7 @@ const RepairationForm = ({ repairation }) => {
                                 <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
                                     <TimePicker
                                         format="hh:mm"
+                                        ampm={false}
                                         value={selectedRepairTime}
                                         onChange={(time) => {
                                             const dateStr = moment(selectedRepairDate).format('YYYY-MM-DD');

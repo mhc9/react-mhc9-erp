@@ -52,7 +52,8 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                 handling: '',
                 cause_id: '',
                 cause_text: '',
-                handle_type_id: '1'
+                handle_type_id: '1',
+                status: ''
             }}
             validationSchema={handlingSchema}
             onSubmit={handleSubmit}
@@ -219,6 +220,13 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                                     value="4"
                                 />
                                 <span className="ml-1 mr-4">แก้ไข</span>
+
+                                <Field
+                                    type="radio"
+                                    name="handle_type_id"
+                                    value="5"
+                                />
+                                <span className="ml-1 mr-4">ตรวจสอบ</span>
                             </label>
                             {(formik.errors.handle_type_id && formik.touched.handle_type_id) && (
                                 <span className="text-red-500 text-sm">{formik.errors.handle_type_id}</span>
@@ -250,9 +258,9 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                     <Row>
                         <Col>
                             <div className="flex flex-row justify-between">
-                                {(!isLoading && task?.repairations.length === 0) ? (
+                                {(!isLoading && task?.repairations?.length === 0) && (
                                     <>
-                                        {(!isLoading && task?.assets.length > 0) && (  
+                                        {(!isLoading && task?.assets?.length > 0) ? (  
                                             <button
                                             type="button"
                                             className={`btn btn-outline-success mt-2`}
@@ -260,9 +268,9 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                                             >
                                                 บันทึกการซ่อม
                                             </button>
-                                        )}
+                                        ) : <div></div>}
                                     </>
-                                ) : <div></div>}
+                                )}
 
                                 <div>
                                     <button
@@ -273,7 +281,7 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                                         ยกเลิก
                                     </button>
 
-                                    {(!isLoading && task?.repairations[0].status === 4) && (
+                                    {(!isLoading && (task?.repairations?.length === 0 || task?.repairations[0]?.status === 4)) && (
                                         <button
                                             type="submit"
                                             className={`btn btn-outline-primary mt-2 float-right`}

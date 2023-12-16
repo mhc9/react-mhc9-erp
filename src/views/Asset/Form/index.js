@@ -79,7 +79,7 @@ const AssetForm = ({ id, asset }) => {
                 asset_type_id: (asset && asset.asset_type_id) ? asset.asset_type_id : '',
                 asset_category_id: (asset && asset.asset_category_id) ? asset.asset_category_id : '',
                 asset_group_id: (asset && asset.asset_group_id) ? asset.asset_group_id : '',
-                price_per_unit: (asset && asset.price_per_unit) ? asset.price_per_unit : '',
+                price: (asset && asset.price) ? asset.price : '',
                 unit_id: asset ? asset.unit_id : '',
                 brand_id: asset ? asset.brand_id : '',
                 model: (asset && asset.model) ? asset.model : '',
@@ -88,6 +88,8 @@ const AssetForm = ({ id, asset }) => {
                 first_year: (asset && asset.first_year) ? asset.first_year : moment().year()+543,
                 obtain_type_id: (asset && asset.obtain_type_id) ? asset.obtain_type_id : '',
                 budget_id: (asset && asset.budget_id) ? asset.budget_id : '',
+                location: asset ? asset.location : '',
+                room_id: (asset && asset.room_id) ? asset.room_id : '',
                 remark: (asset && asset.remark) ? asset.remark : ''
             }}
             validationSchema={assetSchema}
@@ -227,13 +229,13 @@ const AssetForm = ({ id, asset }) => {
                                     <label>ราคาต่อหน่วย</label>
                                     <input
                                         type="text"
-                                        name="price_per_unit"
-                                        value={formik.values.price_per_unit}
+                                        name="price"
+                                        value={formik.values.price}
                                         onChange={formik.handleChange}
                                         className="form-control text-sm font-thin"
                                     />
-                                    {(formik.errors.price_per_unit && formik.touched.price_per_unit) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.price_per_unit}</span>
+                                    {(formik.errors.price && formik.touched.price) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.price}</span>
                                     )}
                                 </FormGroup>
                             </Col>
@@ -413,6 +415,47 @@ const AssetForm = ({ id, asset }) => {
                                             <span className="text-red-500 text-sm">{formik.errors.date_in}</span>
                                         )}
                                     </div>
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <FormGroup>
+                                    <label>สถานที่เก็บ/จุดติดตั้ง</label>
+                                    <input
+                                        type="text"
+                                        name="location"
+                                        value={formik.values.location}
+                                        onChange={formik.handleChange}
+                                        className="form-control text-sm font-thin"
+                                    />
+                                    {(formik.errors.location && formik.touched.location) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.location}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <FormGroup>
+                                    <label>ห้อง</label>
+                                    {loading && <div className="form-control text-sm"><Loading /></div>}
+                                    {!loading && (
+                                        <select
+                                            name="room_id"
+                                            value={formik.values.room_id}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm font-thin"
+                                        >
+                                            <option value="">-- เลือกห้อง --</option>
+                                            {formData.rooms && formData.rooms.map(room => (
+                                                <option value={room.id} key={room.id}>
+                                                    {room.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    )}
+                                    {(formik.errors.room_id && formik.touched.room_id) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.room_id}</span>
+                                    )}
                                 </FormGroup>
                             </Col>
                         </Row>

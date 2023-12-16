@@ -70,8 +70,7 @@ const AssetList = () => {
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
-                                <th className="text-center w-[20%]">เลขที่พัสดุ</th>
-                                <th>รายละเอียด</th>
+                                <th>รายการ</th>
                                 <th className="text-center w-[8%]">อายุใช้งาน</th>
                                 <th className="text-center w-[15%]">ผู้รับผิดชอบ</th>
                                 <th className="text-center w-[8%]">สถานะ</th>
@@ -89,7 +88,6 @@ const AssetList = () => {
                             {assets && assets.map((asset, index) => (
                                 <tr key={asset.id} className="font-thin">
                                     <td className="text-center">{index+pager.from}</td>
-                                    <td className="text-center text-xs">{asset.asset_no}</td>
                                     <td><Asset asset={asset} /></td>
                                     <td className="text-sm text-center">
                                         {`${calcUsedAgeY(asset.first_year)}ปี`}
@@ -99,7 +97,8 @@ const AssetList = () => {
                                     </td>
                                     <td className="text-center">
                                         {asset.status === 1 && <span className="badge rounded-pill text-bg-success">ใช้งานอยู่</span>}
-                                        {asset.status === 2 && <span className="badge rounded-pill text-bg-secondary">ถูกยืม</span>}
+                                        {asset.status === 2 && <span className="badge rounded-pill text-bg-dark">สำรอง</span>}
+                                        {asset.status === 3 && <span className="badge rounded-pill text-bg-secondary">ถูกยืม</span>}
                                         {asset.status === 9 && <span className="badge rounded-pill text-bg-warning">รอจำหน่าย</span>}
                                         {asset.status === 99 && <span className="badge rounded-pill text-bg-danger">จำหน่าย</span>}
                                     </td>

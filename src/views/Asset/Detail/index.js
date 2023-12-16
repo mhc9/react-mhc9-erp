@@ -116,6 +116,22 @@ const AssetDetail = () => {
                                         </Col>
                                         <Col md={6}>
                                             <FormGroup>
+                                                <label>สถานที่เก็บ/จุดติดตั้ง</label>
+                                                <div className="form-control text-sm font-thin min-h-[34px]">
+                                                    {asset.location}
+                                                </div>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md={6}>
+                                            <FormGroup>
+                                                <label>ห้อง</label>
+                                                <div className="form-control text-sm font-thin min-h-[34px]">
+                                                    {asset.room?.name}
+                                                </div>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md={6}>
+                                            <FormGroup>
                                                 <label>รายละเอียด</label>
                                                 <div className="form-control text-sm font-thin min-h-[80px]">
                                                     {asset.description}

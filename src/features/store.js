@@ -32,7 +32,6 @@ import { repairationApi } from "../services/repairation/repairationApi"
 
 export default configureStore({
     reducer: {
-        auth: authReducer,
         [authApi.reducerPath]: authApi.reducer,
         [requisitionApi.reducerPath]: requisitionApi.reducer,
         [employeeApi.reducerPath]: employeeApi.reducer,
@@ -43,7 +42,7 @@ export default configureStore({
         [inspectionApi.reducerPath]: inspectionApi.reducer,
         [taskApi.reducerPath]: taskApi.reducer,
         [repairationApi.reducerPath]: repairationApi.reducer,
-        comset: comsetReducer,
+        equipment: equipmentReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
         assetCategory: assetCategoryReducer,

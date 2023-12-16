@@ -143,6 +143,7 @@ const TaskForm = ({ task }) => {
                                             <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
                                                 <TimePicker
                                                     format="HH:mm"
+                                                    ampm={false}
                                                     value={selectedTaskTime}
                                                     onChange={(time) => {
                                                         const dateStr = moment(selectedTaskDate).format('YYYY-MM-DD');
@@ -245,6 +246,7 @@ const TaskForm = ({ task }) => {
                                             <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
                                                 <TimePicker
                                                     format="HH:mm"
+                                                    ampm={false}
                                                     value={selectedUseTime}
                                                     onChange={(time) => {
                                                         const dateStr = moment(selectedUseDate).format('YYYY-MM-DD');

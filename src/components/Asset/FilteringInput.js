@@ -60,7 +60,7 @@ const AssetFilteringInput = ({ initialFilters, onFilter }) => {
                             ))}
                         </select>
                     </FormGroup> */}
-                    <FormGroup>
+                    <FormGroup className="w-[40%]">
                         {isLoading && <div className="form-control text-center"><Loading /></div>}
                         {!isLoading && (
                             <select
