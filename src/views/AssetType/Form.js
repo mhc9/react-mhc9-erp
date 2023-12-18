@@ -2,8 +2,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
+import { store, update } from '../../features/slices/asset-type/assetTypeSlice'
 import Loading from '../../components/Loading'
-import { store, update } from '../../features/asset-type/assetTypeSlice'
 
 const assetTypeSchema = Yup.object().shape({
     name: Yup.string().required(),

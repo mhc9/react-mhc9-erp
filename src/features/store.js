@@ -1,34 +1,34 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import authReducer from "./auth/authSlice";
-import comsetReducer from "./comset/comsetSlice";
-import asssetReducer from "./asset/assetSlice";
-import assetTypeReducer from "./asset-type/assetTypeSlice";
-import assetCategoryReducer from "./asset-category/assetCategorySlice";
-import assetOwnershipReducer from "./asset-ownership/assetOwnershipSlice";
-import employeeReducer from "./employee/employeeSlice";
-import departmentReducer from "./department/departmentSlice";
-import divisionReducer from "./division/divisionSlice";
-import roomReducer from "./room/roomSlice";
-import taskRecuer from "./task/taskSlice";
-import itemReducer from "./item/itemSlice";
-import budgetReducer from "./budget/budgetSlice";
-import requisitionReducer from "./requisition/requisitionSlice";
-import unitReducer from './unit/unitSlice';
-import memberReducer from "./member/memberSlice";
-import orderReducer from "./order/orderSlice";
-import supplierReducer from "./supplier/supplierSlice";
-import inspectionReducer from "./inspection/inspectionSlice";
-import repairationReducer from "./repairation/repairationSlice";
-import { authApi } from "../services/auth/authApi";
-import { requisitionApi } from "../services/requisition/requisitionApi";
-import { employeeApi } from "../services/employee/employeeApi";
-import { itemApi } from "../services/item/itemApi";
-import { supplierApi } from "../services/supplier/supplierApi";
-import { assetApi } from "../services/asset/assetApi";
-import { orderApi } from "../services/order/orderApi";
-import { inspectionApi } from "../services/inspection/inspectionApi"
-import { taskApi } from "../services/task/taskApi"
-import { repairationApi } from "../services/repairation/repairationApi"
+import authReducer from "./slices/auth/authSlice";
+import comsetReducer from "./slices/comset/comsetSlice";
+import asssetReducer from "./slices/asset/assetSlice";
+import assetTypeReducer from "./slices/asset-type/assetTypeSlice";
+import assetCategoryReducer from "./slices/asset-category/assetCategorySlice";
+import assetOwnershipReducer from "./slices/asset-ownership/assetOwnershipSlice";
+import employeeReducer from "./slices/employee/employeeSlice";
+import departmentReducer from "./slices/department/departmentSlice";
+import divisionReducer from "./slices/division/divisionSlice";
+import roomReducer from "./slices/room/roomSlice";
+import taskRecuer from "./slices/task/taskSlice";
+import itemReducer from "./slices/item/itemSlice";
+import budgetReducer from "./slices/budget/budgetSlice";
+import requisitionReducer from "./slices/requisition/requisitionSlice";
+import unitReducer from './slices/unit/unitSlice';
+import memberReducer from "./slices/member/memberSlice";
+import orderReducer from "./slices/order/orderSlice";
+import supplierReducer from "./slices/supplier/supplierSlice";
+import inspectionReducer from "./slices/inspection/inspectionSlice";
+import repairationReducer from "./slices/repairation/repairationSlice";
+import { authApi } from "./services/auth/authApi";
+import { requisitionApi } from "./services/requisition/requisitionApi";
+import { employeeApi } from "./services/employee/employeeApi";
+import { itemApi } from "./services/item/itemApi";
+import { supplierApi } from "./services/supplier/supplierApi";
+import { assetApi } from "./services/asset/assetApi";
+import { orderApi } from "./services/order/orderApi";
+import { inspectionApi } from "./services/inspection/inspectionApi"
+import { taskApi } from "./services/task/taskApi"
+import { repairationApi } from "./services/repairation/repairationApi"
 
 export default configureStore({
     reducer: {
@@ -42,11 +42,12 @@ export default configureStore({
         [inspectionApi.reducerPath]: inspectionApi.reducer,
         [taskApi.reducerPath]: taskApi.reducer,
         [repairationApi.reducerPath]: repairationApi.reducer,
-        comset: comsetReducer,
+        auth: authReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
         assetCategory: assetCategoryReducer,
         ownership: assetOwnershipReducer,
+        comset: comsetReducer,
         employee: employeeReducer,
         department: departmentReducer,
         division: divisionReducer,

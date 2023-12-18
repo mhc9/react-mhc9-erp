@@ -3,7 +3,7 @@ import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { getComsets } from '../../features/comset/comsetSlice';
+import { getComsets } from '../../features/slices/comset/comsetSlice';
 import Loading from '../../components/Loading';
 
 const ComsetList = () => {

@@ -5,7 +5,7 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from 'react-bootstrap/Spinner'
-import { login, resetSuccess } from '../../features/auth/authSlice'
+import { login, resetSuccess } from '../../features/slices/auth/authSlice'
 
 const loginSchema = Yup.object().shape({
     email: Yup.string().required(),

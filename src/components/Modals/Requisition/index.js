@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
-import { getRequisitions } from '../../../features/requisition/requisitionSlice';
-import FilteringInputs from '../../Requisition/FilteringInputs';
-import { useGetInitialFormDataQuery } from '../../../services/requisition/requisitionApi';
+import { getRequisitions } from '../../../features/slices/requisition/requisitionSlice';
+import { useGetInitialFormDataQuery } from '../../../features/services/requisition/requisitionApi';
 import { currency, toShortTHDate } from '../../../utils';
 import Loading from '../../Loading';
 import Pagination from '../../Pagination';
+import FilteringInputs from '../../Requisition/FilteringInputs';
 
 const initialFilters = {
     pr_no: '',

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { resetIsSuccess } from '../../features/supplier/supplierSlice'
+import { resetIsSuccess } from '../../features/slices/supplier/supplierSlice'
 import SupplierForm from './Form'
 
 const AddSupplier = () => {

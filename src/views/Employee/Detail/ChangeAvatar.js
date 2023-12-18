@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { upload } from '../../../features/employee/employeeSlice';
+import { upload } from '../../../features/slices/employee/employeeSlice';
 
 const ChangeAvatar = ({ employee, selected, onSelect }) => {
     const dispatch = useDispatch();

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { Breadcrumb, Col, FormGroup, Row } from 'react-bootstrap'
 import { FaInfoCircle } from 'react-icons/fa';
-import { getAsset } from '../../../features/asset/assetSlice';
+import { getAsset } from '../../../features/slices/asset/assetSlice';
 import OwnershipList from './Ownership/List';
 import OwnershipForm from './Ownership/Form';
 import Gallery from './Gallery';

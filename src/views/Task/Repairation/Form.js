@@ -6,8 +6,8 @@ import { Col, Row, Modal } from 'react-bootstrap';
 import { MuiPickersUtilsProvider, DatePicker, TimePicker } from '@material-ui/pickers';
 import moment from 'moment'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
-import { store } from '../../../features/repairation/repairationSlice'
-import { useGetInitialFormDataQuery } from '../../../services/repairation/repairationApi'
+import { store } from '../../../features/slices/repairation/repairationSlice'
+import { useGetInitialFormDataQuery } from '../../../features/services/repairation/repairationApi'
 import Loading from '../../../components/Loading';
 import Autocomplete from '../../../components/FormControls/Autocomplete'
 

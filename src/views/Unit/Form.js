@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux';
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
-import { store, update } from '../../features/unit/unitSlice'
+import { store, update } from '../../features/slices/unit/unitSlice'
 
 const unitSchema = Yup.object().shape({
     name: Yup.string().required(),

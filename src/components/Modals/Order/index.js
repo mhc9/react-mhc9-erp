@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
-import { getOrders } from '../../../features/order/orderSlice';
-import { useGetInitialFormDataQuery } from '../../../services/order/orderApi';
+import { getOrders } from '../../../features/slices/order/orderSlice';
+import { useGetInitialFormDataQuery } from '../../../features/services/order/orderApi';
 import { currency, toShortTHDate } from '../../../utils';
 import Loading from '../../Loading';
 import Pagination from '../../Pagination';

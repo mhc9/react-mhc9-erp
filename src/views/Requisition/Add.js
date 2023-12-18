@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { resetSuccess } from '../../features/requisition/requisitionSlice'
+import { resetSuccess } from '../../features/slices/requisition/requisitionSlice'
 import RequisitionForm from './Form'
 
 const AddRequisition = () => {

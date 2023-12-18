@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { resetSuccess } from '../../features/order/orderSlice'
+import { resetSuccess } from '../../features/slices/order/orderSlice'
 import OrderForm from './Form'
 
 const AddOrder = () => {

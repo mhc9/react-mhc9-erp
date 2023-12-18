@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AiFillBulb } from 'react-icons/ai'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
-import { destroy } from '../../features/unit/unitSlice';
+import { destroy } from '../../features/slices/unit/unitSlice';
 import Loading from '../../components/Loading';
 import Pagination from '../../components/Pagination'
 

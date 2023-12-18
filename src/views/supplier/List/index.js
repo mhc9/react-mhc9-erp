@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { getSuppliers } from '../../../features/supplier/supplierSlice'
+import { getSuppliers } from '../../../features/slices/supplier/supplierSlice'
 import Pagination from '../../../components/Pagination'
 import Loading from '../../../components/Loading'
 

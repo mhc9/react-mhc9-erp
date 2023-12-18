@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Pagination } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
-import { getItems } from '../../../features/item/itemSlice';
+import { getItems } from '../../../features/slices/item/itemSlice';
 import Loading from '../../Loading';
 import FilteringInputs from '../../Item/FilteringInputs';
 import CardList from './CardList';
 import TableList from './TableList';
 import ControlButtons from './ControlButtons';
-import { useGetInitialFormDataQuery } from '../../../services/item/itemApi';
+import { useGetInitialFormDataQuery } from '../../../features/services/item/itemApi';
 
 const initialFilters = {
     name: '',

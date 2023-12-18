@@ -3,7 +3,7 @@ import { Breadcrumb } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 import EmployeeForm from './Form'
 import { useDispatch, useSelector } from 'react-redux'
-import { getEmployee } from '../../features/employee/employeeSlice'
+import { getEmployee } from '../../features/slices/employee/employeeSlice'
 import Loading from '../../components/Loading'
 
 const EditEmployee = () => {

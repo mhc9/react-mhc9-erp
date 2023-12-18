@@ -7,7 +7,7 @@ import { Col, FormGroup, Modal, Row, Form as BsForm } from 'react-bootstrap'
 import moment from 'moment'
 import OverWriteMomentBE from '../../../../utils/OverwriteMomentBE'
 import api from '../../../../api'
-import { store, update } from '../../../../features/asset-ownership/assetOwnershipSlice';
+import { store, update } from '../../../../features/slices/asset-ownership/assetOwnershipSlice';
 import Autocomplete from '../../../../components/FormControls/Autocomplete';
 
 const ownershipSchema = Yup.object().shape({

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import moment from 'moment'
 import { toShortTHDate } from '../../../../utils'
-import { getOwnershipsByAsset, resetSuccess } from '../../../../features/asset-ownership/assetOwnershipSlice'
+import { getOwnershipsByAsset, resetSuccess } from '../../../../features/slices/asset-ownership/assetOwnershipSlice'
 import Loading from '../../../../components/Loading'
 
 const OwnershipList = ({ assetId, isUpdated }) => {

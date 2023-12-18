@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Breadcrumb } from 'react-bootstrap';
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa';
-import Loading from '../../components/Loading';
-import FilteringInputs from '../../components/Item/FilteringInputs'
-import Item from '../../components/Item/Item';
 import { currency } from '../../utils';
-import { getItems, destroy } from '../../features/item/itemSlice';
-import { useGetInitialFormDataQuery } from '../../services/item/itemApi'
+import { getItems, destroy } from '../../features/slices/item/itemSlice';
+import { useGetInitialFormDataQuery } from '../../features/services/item/itemApi'
 import Pagination from '../../components/Pagination'
+import Loading from '../../components/Loading';
+import Item from '../../components/Item/Item';
+import FilteringInputs from '../../components/Item/FilteringInputs'
 
 const initialFilters = {
     name: '',

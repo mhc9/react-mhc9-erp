@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
-import { getItem } from '../../features/item/itemSlice'
+import { getItem } from '../../features/slices/item/itemSlice'
 import { currency } from '../../utils'
 
 const ItemDetail = () => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getRooms } from '../../features/room/roomSlice'
+import { getRooms } from '../../features/slices/room/roomSlice'
 import RoomList from './List'
 import RoomForm from './Form'
 

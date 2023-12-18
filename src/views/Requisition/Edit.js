@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import RequisitionForm from './Form'
-import { getRequisition } from '../../features/requisition/requisitionSlice'
+import { getRequisition } from '../../features/slices/requisition/requisitionSlice'
 
 const EditRequisition = () => {
     const { id } = useParams();

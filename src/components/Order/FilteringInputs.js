@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Col, FormGroup, Row } from 'react-bootstrap'
-import { useGetInitialFormDataQuery } from '../../services/order/orderApi'
+import { useGetInitialFormDataQuery } from '../../features/services/order/orderApi'
 import { generateQueryString } from '../../utils';
 import Loading from '../Loading';
 

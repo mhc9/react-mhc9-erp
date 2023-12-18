@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAssetTypes } from '../../features/asset-type/assetTypeSlice'
+import { getAssetTypes } from '../../features/slices/asset-type/assetTypeSlice'
 import AssetTypeList from './List'
 import AssetTypeForm from './Form'
 

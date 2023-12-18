@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getDivisions } from '../../features/division/divisionSlice'
+import { getDivisions } from '../../features/slices/division/divisionSlice'
 import DivisionList from './List'
 import DivisionForm from './Form'
 

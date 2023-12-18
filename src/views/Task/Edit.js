@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaEdit } from 'react-icons/fa'
+import { getTask } from '../../features/slices/task/taskSlice'
 import TaskForm from './Form'
-import { getTask } from '../../features/task/taskSlice'
 
 const EditTask = () => {
     const { id } = useParams();

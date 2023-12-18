@@ -5,7 +5,7 @@ import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { Pagination } from 'react-bootstrap'
 import Loading from '../../components/Loading'
-import { destroy } from '../../features/department/departmentSlice'
+import { destroy } from '../../features/slices/department/departmentSlice'
 
 const DepartmentList = ({ departments, pager, onEditting, onPageClick }) => {
     const dispatch = useDispatch();

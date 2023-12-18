@@ -14,7 +14,7 @@ import {
     toShortTHDate
 } from '../../../utils';
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
-import { store } from '../../../features/inspection/inspectionSlice';
+import { store } from '../../../features/slices/inspection/inspectionSlice';
 import ModalOrderList from '../../../components/Modals/Order';
 import OrderItems from './OrderItems';
 

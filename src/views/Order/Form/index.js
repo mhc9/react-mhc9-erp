@@ -15,10 +15,10 @@ import {
     toShortTHDate
 } from '../../../utils';
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
-import { store } from '../../../features/order/orderSlice';
+import { store } from '../../../features/slices/order/orderSlice';
+import OrderItems from './OrderItems';
 import ModalRequisitionList from '../../../components/Modals/Requisition';
 import ModalSupplierList from '../../../components/Modals/Supplier';
-import OrderItems from './OrderItems';
 
 const orderSchema = Yup.object().shape({
     po_no: Yup.string().required(),

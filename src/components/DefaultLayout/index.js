@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import Sidebar from '../Sidebar';
-import { logout } from '../../features/auth/authSlice'
+import { logout } from '../../features/slices/auth/authSlice'
 
 const DefaultLayout = () => {
     const dispatch = useDispatch();

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaEdit } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import { getAsset, resetSuccess } from '../../features/asset/assetSlice'
+import { getAsset, resetSuccess } from '../../features/slices/asset/assetSlice'
 import AssetForm from './Form'
 import Loading from '../../components/Loading';
 

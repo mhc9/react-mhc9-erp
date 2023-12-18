@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row, Breadcrumb } from 'react-bootstrap';
 import { toShortTHDate } from '../../../utils'
-import { getRepairation } from '../../../features/repairation/repairationSlice'
-import Loading from '../../../components/Loading';
+import { getRepairation } from '../../../features/slices/repairation/repairationSlice'
 import RepairationForm from './Form';
 import Repairation from './Repairation'
+import Loading from '../../../components/Loading';
 
 const RepairationDetail = () => {
     const { id } = useParams();

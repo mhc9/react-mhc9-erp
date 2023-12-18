@@ -5,7 +5,7 @@ import { Breadcrumb } from 'react-bootstrap'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import moment from 'moment'
 import { generateQueryString } from '../../utils'
-import { getRepairations } from '../../features/repairation/repairationSlice'
+import { getRepairations } from '../../features/slices/repairation/repairationSlice'
 import Loading from '../../components/Loading'
 import Pagination from '../../components/Pagination'
 

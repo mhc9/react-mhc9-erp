@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
-import { getSuppliers } from '../../../features/supplier/supplierSlice';
+import { getSuppliers } from '../../../features/slices/supplier/supplierSlice';
 // import FilteringInputs from '../../Item/FilteringInputs';
 // import { useGetInitialFormDataQuery } from '../../../services/item/itemApi';
 import { currency, toShortTHDate } from '../../../utils';

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUnits } from '../../features/unit/unitSlice'
+import { getUnits } from '../../features/slices/unit/unitSlice'
 import UnitList from './List'
 import UnitForm from './Form'
 

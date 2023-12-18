@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { upload, resetUploaded } from '../../../features/asset/assetSlice';
+import { upload, resetUploaded } from '../../../features/slices/asset/assetSlice';
 
 const UploadImage = ({ asset, selectedImage, handleSelectedImage }) => {
     const dispatch = useDispatch();

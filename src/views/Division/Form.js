@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
-import { store, update } from '../../features/division/divisionSlice'
+import { store, update } from '../../features/slices/division/divisionSlice'
 import api from '../../api';
 
 const divisionSchema = Yup.object().shape({

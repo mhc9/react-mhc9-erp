@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployees } from '../../../features/employee/employeeSlice';
+import { getEmployees } from '../../../features/slices/employee/employeeSlice';
 import Loading from '../../Loading';
 import FilteringInputs from '../../Employee/FilteringInputs';
-import { useGetInitialFormDataQuery } from '../../../services/employee/employeeApi';
+import { useGetInitialFormDataQuery } from '../../../features/services/employee/employeeApi';
 import Pagination from '../../../components/Pagination'
 
 const initialFilters = {

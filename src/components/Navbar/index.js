@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FaBars } from 'react-icons/fa'
-import { useGetUserDetailsQuery } from '../../services/auth/authApi'
+import { useGetUserDetailsQuery } from '../../features/services/auth/authApi'
 import Loading from '../Loading'
 
 const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {

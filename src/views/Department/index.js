@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getDepartments } from '../../features/department/departmentSlice'
+import { getDepartments } from '../../features/slices/department/departmentSlice'
 import DepartmentList from './List'
 import DepartmentForm from './Form'
 

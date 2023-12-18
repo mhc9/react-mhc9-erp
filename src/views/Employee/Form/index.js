@@ -5,12 +5,12 @@ import * as Yup from 'yup'
 import { Form as BsForm, FormGroup, Col, Row } from 'react-bootstrap'
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import moment from 'moment'
-import Loading from '../../../components/Loading'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
 import { filterAmphursByChangwat, filterTambonsByAmphur } from '../../../utils'
-import { store, update } from '../../../features/employee/employeeSlice'
-import { useGetInitialFormDataQuery } from '../../../services/employee/employeeApi'
+import { store, update } from '../../../features/slices/employee/employeeSlice'
+import { useGetInitialFormDataQuery } from '../../../features/services/employee/employeeApi'
 import './Form.css'
+import Loading from '../../../components/Loading'
 
 const employeeSchema = Yup.object().shape({
     prefix_id: Yup.string().required(),

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
-import { getAssets } from '../../../features/asset/assetSlice';
+import { getAssets } from '../../../features/slices/asset/assetSlice';
 import Loading from '../../Loading';
 import Pagination from '../../Pagination';
 import AssetFilteringInput from '../../Asset/FilteringInput';

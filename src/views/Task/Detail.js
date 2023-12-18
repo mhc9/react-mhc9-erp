@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { FaEdit, FaRegCheckCircle } from 'react-icons/fa'
 import { toast } from 'react-toastify';
-import { getTask, resetSuccess } from '../../features/task/taskSlice'
+import { getTask, resetSuccess } from '../../features/slices/task/taskSlice'
 import { toShortTHDate } from '../../utils'
 import TaskHandlingForm from './Handling/Form'
 import TaskHandlingDetail from './Handling/Detail'

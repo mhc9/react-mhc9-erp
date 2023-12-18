@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toShortTHDate } from '../../../../utils'
-import { getRepairationsByAsset } from '../../../../features/repairation/repairationSlice'
+import { getRepairationsByAsset } from '../../../../features/slices/repairation/repairationSlice'
 import Loading from '../../../../components/Loading'
 
 const AssetHistories = ({ asset }) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Pagination } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
-import { getBudgets } from '../../../features/budget/budgetSlice';
+import { getBudgets } from '../../../features/slices/budget/budgetSlice';
 import Loading from '../../Loading';
 import FilteringInputs from './FilteringInputs';
 

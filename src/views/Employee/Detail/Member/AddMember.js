@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { FormGroup } from 'react-bootstrap';
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
-import { useGetInitialFormDataQuery } from '../../../../services/employee/employeeApi'
-import { store, update } from '../../../../features/member/memberSlice'
+import { useGetInitialFormDataQuery } from '../../../../features/services/employee/employeeApi'
+import { store, update } from '../../../../features/slices/member/memberSlice'
 
 const memberSchema = Yup.object().shape({
     duty_id: Yup.string().required(),

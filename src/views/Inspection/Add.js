@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { resetSuccess } from '../../features/inspection/inspectionSlice'
+import { resetSuccess } from '../../features/slices/inspection/inspectionSlice'
 import InspectionForm from './Form'
 
 const AddInspection = () => {

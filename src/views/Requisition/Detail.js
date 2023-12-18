@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
-import { getRequisition } from '../../features/requisition/requisitionSlice'
-import ItemList from './Form/ItemList'
 import { currency, toShortTHDate } from '../../utils'
+import { getRequisition } from '../../features/slices/requisition/requisitionSlice'
+import ItemList from './Form/ItemList'
 
 const RequisitionDetail = () => {
     const { id } = useParams();

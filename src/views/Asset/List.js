@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { calcUsedAgeY, generateQueryString } from '../../utils'
-import { getAssets, destroy } from '../../features/asset/assetSlice'
-import AssetFilteringInput from '../../components/Asset/FilteringInput'
+import { getAssets, destroy } from '../../features/slices/asset/assetSlice'
 import Asset from '../../components/Asset/Asset'
 import Loading from '../../components/Loading'
 import Pagination from '../../components/Pagination'
+import AssetFilteringInput from '../../components/Asset/FilteringInput'
 
 const initialFilters = {
     assetNo: '',

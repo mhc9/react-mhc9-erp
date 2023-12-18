@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import Loading from '../../components/Loading'
-import { store, update } from '../../features/department/departmentSlice'
+import { store, update } from '../../features/slices/department/departmentSlice'
 
 const departmentSchema = Yup.object().shape({
     name: Yup.string().required()

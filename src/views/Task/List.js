@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { getTasks } from '../../features/task/taskSlice'
+import { getTasks } from '../../features/slices/task/taskSlice'
 import { getPriority, toShortTHDate, generateQueryString } from '../../utils'
 import Loading from '../../components/Loading'
 import Pagination from '../../components/Pagination'
-import TaskFilteringInputs from '../../components/Task/FilteringInputs'
 import TaskStatusBadge from '../../components/Task/StatusBadge'
+import TaskFilteringInputs from '../../components/Task/FilteringInputs'
 
 const initialFilters = {
     date: '',
