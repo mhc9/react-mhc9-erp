@@ -20,91 +20,95 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                 </button>
                 <ul className="max-md:hidden md:flex flex-row items-center gap-4 w-full">
                     <li><Link to="/" className="hover:text-gray-400">หน้าหลัก</Link></li>
-                    <li className="menu-item flex relative h-full">
-                        <button className="hover:text-gray-400 flex items-center gap-1">
-                            บริการ
-                            <i className="fas fa-caret-down"></i>
-                        </button>
-                        <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
-                            <li className="hover:bg-gray-300 p-2 rounded-t-md">
-                                <Link to="/task"><p className="w-full">รายการแจ้งปัญหา</p></Link>
-                            </li>
-                            <li className="hover:bg-gray-300 p-2">
-                                <Link to="/task/add"><p className="w-full">แจ้งปัญหา</p></Link>
-                            </li>
-                            <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                                <Link to="/repairation"><p className="w-full">รายการส่งซ่อม</p></Link>
-                            </li>
-                        </ul>
-                    </li>
-                    <li className="menu-item flex relative h-full">
-                        <button className="hover:text-gray-400 flex items-center gap-1">
-                            จัดซื้อจัดจ้าง
-                            <i className="fas fa-caret-down"></i>
-                        </button>
-                        <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
-                            <li className="hover:bg-gray-300 p-2 rounded-t-md">
-                                <Link to="/requisition"><p className="w-full">คำขอซื้อ/จ้าง</p></Link>
-                            </li>
-                            <li className="hover:bg-gray-300 p-2">
-                                <Link to="/order"><p className="w-full">ใบสั่งซื้อ/จ้าง</p></Link>
-                            </li>
-                            <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                                <Link to="/inspection"><p className="w-full">ตรวจรับพัสดุ</p></Link>
-                            </li>
-                        </ul>
-                    </li>
-                    <li className="menu-item flex relative h-full">
-                        <button className="hover:text-gray-400 flex items-center gap-1">
-                            ข้อมูลพื้ฐาน
-                            <i className="fas fa-caret-down"></i>
-                        </button>
-                        <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
-                            <li className="hover:bg-gray-300 p-2 rounded-t-md">
-                                <Link to="/asset"><p className="w-full">พัสดุ</p></Link>
-                            </li>
-                            <li className="hover:bg-gray-300 p-2">
-                                <Link to="/asset-type"><p className="w-full">ประเภทพัสดุ</p></Link>
-                            </li>
-                            <li className="hover:bg-gray-300 p-2">
-                                <Link to="/asset-category"><p className="w-full">ชนิดพัสดุ</p></Link>
-                            </li>
-                            <li><hr className="dropdown-divider m-0" /></li>
-                            {/* <li className="hover:bg-gray-300 p-2">
-                                <Link to="/equipment"><p className="w-full">อุปกรณ์</p></Link>
-                            </li>
-                            <li className="hover:bg-gray-300 p-2">
-                                <Link to="/equipment-type"><p className="w-full">ประเภทอุปกรณ์</p></Link>
-                            </li>
-                            <li className="hover:bg-gray-300 p-2">
-                                <Link to="/equipment-group"><p className="w-full">กลุ่มอุปกรณ์</p></Link>
-                            </li> */}
-                            <li><hr className="dropdown-divider m-0" /></li>
-                            <li className="hover:bg-gray-300 p-2">
-                                <Link to="/employee"><p className="w-full">บุคลากร</p></Link>
-                            </li>
-                            <li className="hover:bg-gray-300 p-2">
-                                <Link to="/department"><p className="w-full">กลุ่มงาน</p></Link>
-                            </li>
-                            <li className="hover:bg-gray-300 p-2">
-                                <Link to="/division"><p className="w-full">งาน</p></Link>
-                            </li>
-                            <li><hr className="dropdown-divider m-0" /></li>
-                            <li className="hover:bg-gray-300 p-2">
-                                <Link to="/room"><p className="w-full">ห้อง</p></Link>
-                            </li>
-                            <li><hr className="dropdown-divider m-0" /></li>
-                            <li className="hover:bg-gray-300 p-2">
-                                <Link to="/item"><p className="w-full">สินค้า/บริการ</p></Link>
-                            </li>
-                            <li className="hover:bg-gray-300 p-2">
-                                <Link to="/supplier"><p className="w-full">ผู้จัดจำหน่าย</p></Link>
-                            </li>
-                            <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                                <Link to="/unit"><p className="w-full">หน่วยนับ</p></Link>
-                            </li>
-                        </ul>
-                    </li>
+                    {user?.permissions[0]?.role_id === 1 && (
+                        <li className="menu-item flex relative h-full">
+                            <button className="hover:text-gray-400 flex items-center gap-1">
+                                บริการ
+                                <i className="fas fa-caret-down"></i>
+                            </button>
+                            <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
+                                <li className="hover:bg-gray-300 p-2 rounded-t-md">
+                                    <Link to="/task"><p className="w-full">รายการแจ้งปัญหา</p></Link>
+                                </li>
+                                <li className="hover:bg-gray-300 p-2">
+                                    <Link to="/task/add"><p className="w-full">แจ้งปัญหา</p></Link>
+                                </li>
+                                <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                                    <Link to="/repairation"><p className="w-full">รายการส่งซ่อม</p></Link>
+                                </li>
+                            </ul>
+                        </li>
+                    )}
+                    {user?.permissions[0]?.role_id === 3 && (
+                        <li className="menu-item flex relative h-full">
+                            <button className="hover:text-gray-400 flex items-center gap-1">
+                                จัดซื้อจัดจ้าง
+                                <i className="fas fa-caret-down"></i>
+                            </button>
+                            <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
+                                <li className="hover:bg-gray-300 p-2 rounded-t-md">
+                                    <Link to="/requisition"><p className="w-full">คำขอซื้อ/จ้าง</p></Link>
+                                </li>
+                                <li className="hover:bg-gray-300 p-2">
+                                    <Link to="/order"><p className="w-full">ใบสั่งซื้อ/จ้าง</p></Link>
+                                </li>
+                                <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                                    <Link to="/inspection"><p className="w-full">ตรวจรับพัสดุ</p></Link>
+                                </li>
+                            </ul>
+                        </li>
+                    )}
+                    {[1,3].includes(user?.permissions[0]?.role_id) && (
+                        <li className="menu-item flex relative h-full">
+                            <button className="hover:text-gray-400 flex items-center gap-1">
+                                ข้อมูลพื้ฐาน
+                                <i className="fas fa-caret-down"></i>
+                            </button>
+                            <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
+                                {user?.permissions[0]?.role_id === 3 && (
+                                    <>
+                                        <li className="hover:bg-gray-300 p-2 rounded-t-md">
+                                            <Link to="/asset"><p className="w-full">พัสดุ</p></Link>
+                                        </li>
+                                        <li className="hover:bg-gray-300 p-2">
+                                            <Link to="/asset-type"><p className="w-full">ประเภทพัสดุ</p></Link>
+                                        </li>
+                                        <li className="hover:bg-gray-300 p-2">
+                                            <Link to="/asset-category"><p className="w-full">ชนิดพัสดุ</p></Link>
+                                        </li>
+                                    </>
+                                )}
+                                {user?.permissions[0]?.role_id === 1 && (
+                                    <>
+                                        <li><hr className="dropdown-divider m-0" /></li>
+                                        <li className="hover:bg-gray-300 p-2">
+                                            <Link to="/employee"><p className="w-full">บุคลากร</p></Link>
+                                        </li>
+                                        <li className="hover:bg-gray-300 p-2">
+                                            <Link to="/department"><p className="w-full">กลุ่มงาน</p></Link>
+                                        </li>
+                                        <li className="hover:bg-gray-300 p-2">
+                                            <Link to="/division"><p className="w-full">งาน</p></Link>
+                                        </li>
+                                        <li><hr className="dropdown-divider m-0" /></li>
+                                        <li className="hover:bg-gray-300 p-2">
+                                            <Link to="/room"><p className="w-full">ห้อง</p></Link>
+                                        </li>
+                                        <li><hr className="dropdown-divider m-0" /></li>
+                                        <li className="hover:bg-gray-300 p-2">
+                                            <Link to="/item"><p className="w-full">สินค้า/บริการ</p></Link>
+                                        </li>
+                                        <li className="hover:bg-gray-300 p-2">
+                                            <Link to="/supplier"><p className="w-full">ผู้จัดจำหน่าย</p></Link>
+                                        </li>
+                                        <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                                            <Link to="/unit"><p className="w-full">หน่วยนับ</p></Link>
+                                        </li>
+                                    </>
+                                )}
+                            </ul>
+                        </li>
+                    )}
                     <li><Link to="/advice" className="hover:text-gray-400">แนะนำการใช้งาน</Link></li>
                 </ul>
                 <div className="menu-item max-md:hidden flex relative">
