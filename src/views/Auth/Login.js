@@ -19,7 +19,6 @@ const Login = () => {
 
     useEffect(() => {
         if (success) {
-            console.log('On success changed...');
             dispatch(resetSuccess());
 
             navigate('/');

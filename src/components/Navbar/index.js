@@ -5,7 +5,7 @@ import { useGetUserDetailsQuery } from '../../features/services/auth/authApi'
 import Loading from '../Loading'
 
 const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
-    const { data, isFetching } = useGetUserDetailsQuery('userDetails', { pollingInterval: 900000 });
+    const { data: user, isFetching } = useGetUserDetailsQuery('userDetails', { pollingInterval: 900000 });
 
     return (
         <nav className="h-[60px] border bg-slate-700 flex justify-between items-center px-5 text-white">
@@ -110,7 +110,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                 <div className="menu-item max-md:hidden flex relative">
                     <button className="hover:text-gray-400">
                         {isFetching && <Loading />}
-                        {(!isFetching && data) && (
+                        {(!isFetching && user) && (
                             <div className="flex items-center gap-1">
                                 <div className="w-8 h-8 border rounded-full flex items-center justify-center">
                                     ST
@@ -122,7 +122,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                     <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
                         <li className="hover:bg-gray-300 p-2 rounded-t-md">
                             <a href="/profile">
-                                <p className="w-full text-center">{(!isFetching && data) && data.name}</p>
+                                <p className="w-full text-center">{(!isFetching && user) && user.name}</p>
                             </a>
                         </li>
                         <li className="hover:bg-gray-300 p-2 rounded-b-md">

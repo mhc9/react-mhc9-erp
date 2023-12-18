@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { logout } from '../../features/slices/auth/authSlice';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import Sidebar from '../Sidebar';
-import { logout } from '../../features/slices/auth/authSlice'
 
 const DefaultLayout = () => {
     const dispatch = useDispatch();
