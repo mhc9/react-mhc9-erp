@@ -52,7 +52,7 @@ export const store = createAsyncThunk("repairation/store", async (data, { reject
 
 export const repair = createAsyncThunk("repairation/repair", async ({ id, data }, { rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/repairations/${id}/repair`, data);
+        const res = await api.post(`/api/repairations/${id}/repair`, data);
 
         return res.data;
     } catch (error) {
@@ -62,7 +62,7 @@ export const repair = createAsyncThunk("repairation/repair", async ({ id, data }
 
 export const update = createAsyncThunk("repairation/update", async ({ id, data }, { rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/repairations/${id}`, data);
+        const res = await api.post(`/api/repairations/${id}/update`, data);
 
         return res.data;
     } catch (error) {
@@ -72,7 +72,7 @@ export const update = createAsyncThunk("repairation/update", async ({ id, data }
 
 export const destroy = createAsyncThunk("repairation/destroy", async ({ id }, { rejectWithValue }) => {
     try {
-        const res = await api.delete(`/api/repairations/${id}`);
+        const res = await api.post(`/api/repairations/${id}/delete`);
 
         return res.data;
     } catch (error) {
