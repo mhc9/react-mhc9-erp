@@ -39,7 +39,8 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                             </ul>
                         </li>
                     )}
-                    {user?.permissions[0]?.role_id === 3 && (
+
+                    {[1,3].includes(user?.permissions[0]?.role_id) && (
                         <li className="menu-item flex relative h-full">
                             <button className="hover:text-gray-400 flex items-center gap-1">
                                 จัดซื้อจัดจ้าง
@@ -58,6 +59,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                             </ul>
                         </li>
                     )}
+
                     {[1,3].includes(user?.permissions[0]?.role_id) && (
                         <li className="menu-item flex relative h-full">
                             <button className="hover:text-gray-400 flex items-center gap-1">
