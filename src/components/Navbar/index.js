@@ -67,7 +67,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 <i className="fas fa-caret-down"></i>
                             </button>
                             <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
-                                {user?.permissions[0]?.role_id === 3 && (
+                                {[1,3].includes(user?.permissions[0]?.role_id) && (
                                     <>
                                         <li className="hover:bg-gray-300 p-2 rounded-t-md">
                                             <Link to="/asset"><p className="w-full">พัสดุ</p></Link>
@@ -80,6 +80,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                         </li>
                                     </>
                                 )}
+
                                 {user?.permissions[0]?.role_id === 1 && (
                                     <>
                                         <li><hr className="dropdown-divider m-0" /></li>
