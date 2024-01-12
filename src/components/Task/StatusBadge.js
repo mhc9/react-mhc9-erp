@@ -3,7 +3,7 @@ import { useGetInitialFormDataQuery } from '../../features/services/task/taskApi
 import Loading from '../Loading';
 import api from '../../api';
 
-const itemColors = ['secondary','success','warning','danger'];
+const itemColors = ['secondary','success','primary','warning','danger'];
 
 const TaskStatusBadge = ({ params='', onClick }) => {
     const { data, isLoading } = useGetInitialFormDataQuery();
