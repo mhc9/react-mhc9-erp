@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { store, update } from '../../features/slices/asset-category/assetCategorySlice'
-import api from '../../api';
+import { useGetInitialFormDataQuery } from '../../features/services/asset-type/assetTypeApi'
 import Loading from '../../components/Loading'
 
 const assetCategorySchema = Yup.object().shape({
@@ -14,23 +14,7 @@ const assetCategorySchema = Yup.object().shape({
 const AssetCategoryForm = ({ assetCategory, handleCancel }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.assetCategory);
-    const [assetTypes, setAssetTypes] = useState([]);
-
-    useEffect(() => {
-        getAssetTypes();
-
-        return () => getAssetTypes();
-    }, [])
-
-    const getAssetTypes = async () => {
-        try {
-            const res = await api.get(`/api/asset-categories/form/init`);
-
-            setAssetTypes(res.data.assetTypes);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    const { data: assetTypes, isLoading } = useGetInitialFormDataQuery();
 
     const handleSubmit = (values, props) => {
         if (assetCategory) {
