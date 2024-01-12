@@ -70,7 +70,10 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 {[1,3].includes(user?.permissions[0]?.role_id) && (
                                     <>
                                         <li className="hover:bg-gray-300 p-2 rounded-t-md">
-                                            <Link to="/asset"><p className="w-full">พัสดุ</p></Link>
+                                            <Link to="/asset"><p className="w-full">ครุภัณฑ์</p></Link>
+                                        </li>
+                                        <li className="hover:bg-gray-300 p-2 rounded-t-md">
+                                            <Link to="/material"><p className="w-full">วัสดุ</p></Link>
                                         </li>
                                         <li className="hover:bg-gray-300 p-2">
                                             <Link to="/asset-type"><p className="w-full">ประเภทพัสดุ</p></Link>

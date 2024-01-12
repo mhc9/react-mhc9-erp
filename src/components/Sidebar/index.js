@@ -58,7 +58,10 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                             </button>
                             <ul className="sub-menus">
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
-                                    <Link to="/asset"><p className="w-full">พัสดุ</p></Link>
+                                    <Link to="/asset"><p className="w-full">ครุภัณฑ์</p></Link>
+                                </li>
+                                <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                    <Link to="/material"><p className="w-full">วัสดุ</p></Link>
                                 </li>
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                     <Link to="/asset-type"><p className="w-full">ประเภทพัสดุ</p></Link>
