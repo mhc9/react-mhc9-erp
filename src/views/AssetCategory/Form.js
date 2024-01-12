@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { store, update } from '../../features/slices/asset-category/assetCategorySlice'
-import { useGetInitialFormDataQuery } from '../../features/services/asset-type/assetTypeApi'
+import { useGetInitialFormDataQuery } from '../../features/services/asset-category/assetCategoryApi'
 import Loading from '../../components/Loading'
 
 const assetCategorySchema = Yup.object().shape({
@@ -14,7 +14,7 @@ const assetCategorySchema = Yup.object().shape({
 const AssetCategoryForm = ({ assetCategory, handleCancel }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.assetCategory);
-    const { data: assetTypes, isLoading } = useGetInitialFormDataQuery();
+    const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     const handleSubmit = (values, props) => {
         if (assetCategory) {
@@ -65,9 +65,9 @@ const AssetCategoryForm = ({ assetCategory, handleCancel }) => {
                                         onChange={formik.handleChange}
                                     >
                                         <option>-- เลือกประเภทพัสดุ --</option>
-                                        {assetTypes && assetTypes.map(assetType => (
-                                            <option key={assetType.id} value={assetType.id}>
-                                                {assetType.name}
+                                        {formData && formData.types.map(type => (
+                                            <option key={type.id} value={type.id}>
+                                                {type.name}
                                             </option>
                                         ))}
                                     </select>
