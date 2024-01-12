@@ -19,6 +19,7 @@ const employeeSchema = Yup.object().shape({
     cid: Yup.string().required(),
     sex: Yup.string().required(),
     // birthdate: Yup.string().required(),
+    changwat_id: Yup.string().required(),
     position_id: Yup.string().required(),
     // started_at: Yup.string().required(),
 });
