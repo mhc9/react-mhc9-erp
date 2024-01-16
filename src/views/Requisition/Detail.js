@@ -141,10 +141,19 @@ const RequisitionDetail = () => {
                                     </div>
                                 </Col>
                             </Row>
-                            <Row className="mb-2">
-                                <Col style={{ textAlign: 'center' }}>
+                            <Row className="my-2">
+                                <Col className="text-center">
                                     <Link to={`/preview/${id}/requisition`} target="_blank" className="btn btn-success">
+                                        <i className="fas fa-print mr-1"></i>
                                         พิมพ์ใบขอซื้อ
+                                    </Link>
+                                    <Link to={`/preview/${id}/requisition/report`} target="_blank" className="btn btn-success mx-2">
+                                        <i className="fas fa-print mr-1"></i>
+                                        พิมพ์รายงานขอซื้อ/จ้าง
+                                    </Link>
+                                    <Link to={`/preview/${id}/requisition/committee`} target="_blank" className="btn btn-success">
+                                        <i className="fas fa-print mr-1"></i>
+                                        พิมพ์คำสั่งแต่งตั้ง
                                     </Link>
                                 </Col>
                             </Row>
