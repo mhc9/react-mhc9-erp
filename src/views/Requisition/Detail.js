@@ -24,8 +24,6 @@ const RequisitionDetail = () => {
         if (isSuccess) {
             toast.success('บันทึกข้อมูลคำขอเรียบร้อยแล้ว!!')
             dispatch(resetSuccess());
-
-            window.open(`${window.location.origin}/preview/${id}/requisition/report`);
         }
     }, [isSuccess]);
 
@@ -112,13 +110,15 @@ const RequisitionDetail = () => {
                                     <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
                                     <div className="input-group">
                                         <div className="form-control min-h-[34px] text-sm font-thin">
-                                            {requisition.requester?.firstname} {requisition.requester?.lastname}
+                                            {requisition.requester?.prefix?.name}{requisition.requester?.firstname} {requisition.requester?.lastname}
                                         </div>
                                     </div>
                                 </Col>
                                 <Col md={4}>
                                     <label htmlFor="">หน่วยงาน</label>
-                                    <div className="form-control min-h-[34px] text-sm font-thin">{requisition.division_id}</div>
+                                    <div className="form-control min-h-[34px] text-sm font-thin">
+                                        {requisition.division?.name}
+                                    </div>
                                 </Col>
                             </Row>
                             <Row className="mb-2">
@@ -167,14 +167,23 @@ const RequisitionDetail = () => {
                                         <i className="fas fa-print mr-1"></i>
                                         พิมพ์ใบขอซื้อ
                                     </Link>
-                                    <button type="button" className="btn btn-outline-success mx-2" onClick={() => setShowApprovalForm(true)}>
-                                        <i className="fas fa-print mr-1"></i>
-                                        พิมพ์รายงานขอซื้อ/จ้าง
-                                    </button>
-                                    <Link to={`/preview/${id}/requisition/committee`} target="_blank" className="btn btn-success">
-                                        <i className="fas fa-print mr-1"></i>
-                                        พิมพ์คำสั่งแต่งตั้ง
-                                    </Link>
+                                    {(requisition.approvals && requisition.approvals.length > 0) ? (
+                                        <>
+                                            <Link to={`/preview/${id}/requisition/report`} target="_blank" className="btn btn-success mx-2">
+                                                <i className="fas fa-print mr-1"></i>
+                                                พิมพ์รายงานขอซื้อ/จ้าง
+                                            </Link>
+                                            <Link to={`/preview/${id}/requisition/committee`} target="_blank" className="btn btn-success">
+                                                <i className="fas fa-print mr-1"></i>
+                                                พิมพ์คำสั่งแต่งตั้ง
+                                            </Link>
+                                        </>
+                                    ) : (
+                                        <button type="button" className="btn btn-outline-primary mx-2" onClick={() => setShowApprovalForm(true)}>
+                                            <i className="fas fa-save"></i>
+                                            บันทึกรายงานขอซื้อ/จ้าง
+                                        </button>
+                                    )}
                                 </Col>
                             </Row>
                         </>
