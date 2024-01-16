@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { currency, toShortTHDate } from '../../utils'
 import { getRequisition } from '../../features/slices/requisition/requisitionSlice'
 import ItemList from './Form/ItemList'
+import ModalApprovalForm from './Approval/Form'
 
 const RequisitionDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { requisition } = useSelector(state => state.requisition);
+    const [showApprovalForm, setShowApprovalForm] = useState(false);
 
     useEffect(() => {
         if (id) dispatch(getRequisition({ id }));
@@ -29,6 +31,11 @@ const RequisitionDetail = () => {
                 <h2 className="text-xl">รายละเอียดคำขอ</h2>
 
                 <div className="my-2 border p-4 rounded-md">
+                    <ModalApprovalForm
+                        isShow={showApprovalForm}
+                        onHide={() => setShowApprovalForm(false)}
+                    />
+
                     {requisition && (
                         <>
                             <Row className="mb-2">
@@ -147,10 +154,10 @@ const RequisitionDetail = () => {
                                         <i className="fas fa-print mr-1"></i>
                                         พิมพ์ใบขอซื้อ
                                     </Link>
-                                    <Link to={`/preview/${id}/requisition/report`} target="_blank" className="btn btn-success mx-2">
+                                    <button type="button" className="btn btn-outline-success mx-2" onClick={() => setShowApprovalForm(true)}>
                                         <i className="fas fa-print mr-1"></i>
                                         พิมพ์รายงานขอซื้อ/จ้าง
-                                    </Link>
+                                    </button>
                                     <Link to={`/preview/${id}/requisition/committee`} target="_blank" className="btn btn-success">
                                         <i className="fas fa-print mr-1"></i>
                                         พิมพ์คำสั่งแต่งตั้ง
