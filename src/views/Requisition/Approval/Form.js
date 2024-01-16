@@ -1,18 +1,24 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Col, Modal, Row } from 'react-bootstrap';
 import { Formik, Form } from 'formik';
 import { DatePicker } from '@material-ui/pickers'
 import moment from 'moment';
 import { useGetInitialFormDataQuery } from '../../../features/services/approval/approvalApi'
+import { store } from '../../../features/slices/approval/approvalSlice'
 
 const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
+    const dispatch = useDispatch();
     const [selectedReportDate, setSelectedReportDate] = useState(moment());
     const [selectedDirectiveDate, setSelectedDirectiveDate] = useState(moment());
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     const handleSubmit = (values, formik) => {
-        console.log(values);
+        dispatch(store(values));
+
+        formik.resetForm();
+        onHide();
     };
 
     return (
