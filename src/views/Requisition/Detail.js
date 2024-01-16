@@ -34,6 +34,7 @@ const RequisitionDetail = () => {
                     <ModalApprovalForm
                         isShow={showApprovalForm}
                         onHide={() => setShowApprovalForm(false)}
+                        requisitionId={id}
                     />
 
                     {requisition && (

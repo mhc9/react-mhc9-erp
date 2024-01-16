@@ -4,10 +4,12 @@ import { Col, Modal, Row } from 'react-bootstrap';
 import { Formik, Form } from 'formik';
 import { DatePicker } from '@material-ui/pickers'
 import moment from 'moment';
+import { useGetInitialFormDataQuery } from '../../../features/services/approval/approvalApi'
 
-const ModalApprovalForm = ({ isShow, onHide, id }) => {
+const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
     const [selectedReportDate, setSelectedReportDate] = useState(moment());
     const [selectedDirectiveDate, setSelectedDirectiveDate] = useState(moment());
+    const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     const handleSubmit = (values, formik) => {
         console.log(values);
@@ -21,8 +23,8 @@ const ModalApprovalForm = ({ isShow, onHide, id }) => {
         >
             <Formik
                 initialValues={{
-                    requisition_id: '',
-                    procuring_id: '',
+                    requisition_id: requisitionId,
+                    procuring_id: '1',
                     report_no: '',
                     report_date: '',
                     directive_no: '',
@@ -44,9 +46,12 @@ const ModalApprovalForm = ({ isShow, onHide, id }) => {
                                             name="procuring_id"
                                             value={formik.values.procuring_id}
                                             onChange={formik.handleChange}
-                                            className="form-control text-sm"
+                                            className="form-control"
                                         >
                                             <option value="">-- เลือก --</option>
+                                            {formData && formData.procurings.map(proc => (
+                                                <option value={proc.id} key={proc.id}>{proc.name}</option>
+                                            ))}
                                         </select>
                                     </Col>
                                 </Row>
@@ -57,7 +62,7 @@ const ModalApprovalForm = ({ isShow, onHide, id }) => {
                                             name="report_no"
                                             value={formik.values.report_no}
                                             onChange={formik.handleChange}
-                                            className="form-control text-sm"
+                                            className="form-control"
                                         />
                                     </Col>
                                     <Col>
@@ -82,7 +87,7 @@ const ModalApprovalForm = ({ isShow, onHide, id }) => {
                                             name="directive_no"
                                             value={formik.values.directive_no}
                                             onChange={formik.handleChange}
-                                            className="form-control text-sm"
+                                            className="form-control"
                                         />
                                     </Col>
                                     <Col>
