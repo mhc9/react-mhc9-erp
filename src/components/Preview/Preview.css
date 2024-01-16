@@ -162,7 +162,7 @@
     margin: 8pt 0 0;
     padding: 0;
     text-indent: 2.5cm;
-    line-height: 1.25rem;
+    line-height: 1.5rem;
     text-align: justify;
 }
 
@@ -185,9 +185,47 @@
     align-items: center;
     text-align: center;
     padding: 0 1pt;
+    line-height: 1.5rem;
 }
 
 .memo-approvement .signature .signature-date {
     display: flex;
     flex-direction: row;
+}
+
+/*
+*---------------------------------------------------------------------------
+* ขยาย/บีบข้อมูลในแต่ละแถวของบันทึกข้อความ
+*---------------------------------------------------------------------------
+*/
+.with-expanded {
+    text-align: justify;
+}
+
+.with-expanded-2x {
+    letter-spacing: 0.2px;
+}
+
+.with-expanded-3x {
+    letter-spacing: 0.3px;
+}
+
+.with-compressed {
+    letter-spacing: 0.001mm;
+}
+
+.with-compressed-2x {
+    letter-spacing: -0.2px;
+}
+
+.with-compressed-3x {
+    letter-spacing: -0.3px;
+}
+
+.with-compressed-4x {
+    letter-spacing: -0.4px;
+}
+
+.with-compressed-5x {
+    letter-spacing: -0.5px;
 }

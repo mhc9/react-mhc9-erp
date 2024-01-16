@@ -195,11 +195,11 @@ const InspectionDetail = () => {
                             </Row>
                             <Row className="mb-2">
                                 <Col style={{ textAlign: 'center' }}>
-                                    <Link to={`/preview/${id}/inspection`} className="btn btn-success mr-2">
+                                    <Link to={`/preview/${id}/inspection`} target="_blank" className="btn btn-success mr-2">
                                         <i className="fas fa-print mr-1"></i>
                                         พิมพ์ใบตรวจรับ
                                     </Link>
-                                    <Link to={`/preview/${id}/inspection/report`} className="btn btn-success">
+                                    <Link to={`/preview/${id}/inspection/report`} target="_blank" className="btn btn-success">
                                         <i className="fas fa-print mr-1"></i>
                                         พิมพ์รายงานผลการตรวจรับ
                                     </Link>
