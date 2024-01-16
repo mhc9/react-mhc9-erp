@@ -31,6 +31,7 @@ import { taskApi } from "./services/task/taskApi"
 import { repairationApi } from "./services/repairation/repairationApi"
 import { assetCategoryApi } from "./services/asset-category/assetCategoryApi"
 import { assetTypeApi } from "./services/asset-type/assetTypeApi"
+import { approvalApi } from "./services/approval/approvalApi";
 
 export default configureStore({
     reducer: {
@@ -46,6 +47,7 @@ export default configureStore({
         [repairationApi.reducerPath]: repairationApi.reducer,
         [assetCategoryApi.reducerPath]: assetCategoryApi.reducer,
         [assetTypeApi.reducerPath]: assetTypeApi.reducer,
+        [approvalApi.reducerPath]: approvalApi.reducer,
         auth: authReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
@@ -81,5 +83,6 @@ export default configureStore({
             repairationApi.middleware,
             assetCategoryApi.middleware,
             assetTypeApi.middleware,
+            approvalApi.middleware,
         ),
 });
