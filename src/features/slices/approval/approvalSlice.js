@@ -1,0 +1,155 @@
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import api from '../../../api';
+
+const initialState = {
+    approval: null,
+    approvals: [],
+    pager: null,
+    isLoading: false,
+    isSuccess: false,
+    isUploaded: false,
+    error: null
+};
+
+export const getApprovals = createAsyncThunk("approval/getApprovals", async ({ url }, { rejectWithValue }) => {
+    try {
+        const res = await api.get(url);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const getApproval = createAsyncThunk("approval/getApproval", async ({ id }, { rejectWithValue }) => {
+    try {
+        const res = await api.get(`/api/approvals/${id}`);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const store = createAsyncThunk("approval/store", async (data, { rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/approvals`, data);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const update = createAsyncThunk("approval/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/approvals/${id}/update`, data);
+
+        dispatch(getApprovals({ url: '/api/approvals' }));
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const destroy = createAsyncThunk("approval/destroy", async ({ id }, { dispatch, rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/approvals/${id}/delete`);
+
+        dispatch(getApprovals({ url: '/api/approvals' }));
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const approvalSlice = createSlice({
+    name: 'approval',
+    initialState,
+    reducers: {
+        resetSuccess: (state) => {
+            state.isSuccess = false;
+        },
+    },
+    extraReducers: {
+        [getApprovals.pending]: (state) => {
+            state.approvals = [];
+            state.pager = null;
+            state.isLoading = true;
+            // state.isSuccess = false;
+            state.error = null;
+        },
+        [getApprovals.fulfilled]: (state, { payload }) => {
+            const { data, ...pager } = payload;
+
+            state.approvals = data;
+            state.pager = pager;
+            state.isLoading = false
+            // state.isSuccess = true;
+        },
+        [getApprovals.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [getApproval.pending]: (state) => {
+            state.approval = null;
+            state.isLoading = true;
+            // state.isSuccess = false;
+            state.error = null;
+        },
+        [getApproval.fulfilled]: (state, { payload }) => {
+            state.approval = payload;
+            state.isLoading = false
+            // state.isSuccess = true;
+        },
+        [getApproval.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [store.pending]: (state) => {
+            state.isLoading = true;
+            state.isSuccess = false;
+            state.error = null;
+        },
+        [store.fulfilled]: (state, { payload }) => {
+            state.isLoading = false
+            state.isSuccess = true;
+        },
+        [store.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [update.pending]: (state) => {
+            state.isLoading = true;
+            state.isSuccess = false;
+            state.error = null;
+        },
+        [update.fulfilled]: (state, { payload }) => {
+            state.isLoading = false
+            state.isSuccess = true;
+        },
+        [update.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [destroy.pending]: (state) => {
+            state.isLoading = true;
+            state.isSuccess = false;
+            state.error = null;
+        },
+        [destroy.fulfilled]: (state, { payload }) => {
+            state.isLoading = false
+            state.isSuccess = true;
+        },
+        [destroy.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload;
+        },
+    }
+});
+
+export default approvalSlice.reducer;
+
+export const { resetSuccess } = approvalSlice.actions;

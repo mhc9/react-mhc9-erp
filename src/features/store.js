@@ -19,6 +19,7 @@ import orderReducer from "./slices/order/orderSlice";
 import supplierReducer from "./slices/supplier/supplierSlice";
 import inspectionReducer from "./slices/inspection/inspectionSlice";
 import repairationReducer from "./slices/repairation/repairationSlice";
+import approvalReducer from "./slices/approval/approvalSlice"
 import { authApi } from "./services/auth/authApi";
 import { requisitionApi } from "./services/requisition/requisitionApi";
 import { employeeApi } from "./services/employee/employeeApi";
@@ -68,6 +69,7 @@ export default configureStore({
         supplier: supplierReducer,
         inspection: inspectionReducer,
         repairation: repairationReducer,
+        approval: approvalReducer,
     },
     middleware: (getDefaultMiddleware) => 
         getDefaultMiddleware().concat(
