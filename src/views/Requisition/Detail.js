@@ -179,8 +179,8 @@ const RequisitionDetail = () => {
                                             </Link>
                                         </>
                                     ) : (
-                                        <button type="button" className="btn btn-outline-primary mx-2" onClick={() => setShowApprovalForm(true)}>
-                                            <i className="fas fa-save"></i>
+                                        <button type="button" className="btn btn-outline-primary ml-2" onClick={() => setShowApprovalForm(true)}>
+                                            <i className="fas fa-save mr-1"></i>
                                             บันทึกรายงานขอซื้อ/จ้าง
                                         </button>
                                     )}
