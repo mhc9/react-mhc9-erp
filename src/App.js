@@ -43,6 +43,7 @@ import AddSupplier from './views/supplier/Add';
 import Unit from './views/Unit'
 import StiReportViewer from './components/ReportViewer/StiReportViewer';
 import Requisition from './components/Preview/Requisition';
+import RequisitionReport from './components/Preview/RequisitionReport';
 import Inspection from './components/Preview/Inspection';
 import RepairationList from './views/Repairation/List';
 import RepairationDetail from './views/Repairation/Detail';
@@ -125,6 +126,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/preview/:id/requisition" element={<Requisition />} />
+            <Route path="/preview/:id/requisition/report" element={<RequisitionReport />} />
             <Route path="/preview/:id/inspection" element={<Inspection />} />
         </Routes>
     );

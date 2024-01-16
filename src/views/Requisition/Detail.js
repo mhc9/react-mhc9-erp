@@ -25,7 +25,7 @@ const RequisitionDetail = () => {
             toast.success('บันทึกข้อมูลคำขอเรียบร้อยแล้ว!!')
             dispatch(resetSuccess());
 
-            window.open(`${window.location.origin}/preview/${id}/requisition`);
+            window.open(`${window.location.origin}/preview/${id}/requisition/report`);
         }
     }, [isSuccess]);
 
