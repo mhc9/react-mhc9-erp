@@ -22,7 +22,7 @@ const InspectionDetail = () => {
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>จัดซื้อจัดจ้าง</Breadcrumb.Item>
-                <Breadcrumb.Item href="/order">รายการตรวจรับพัสดุ</Breadcrumb.Item>
+                <Breadcrumb.Item href="/inspection">รายการตรวจรับพัสดุ</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายละเอียดการตรวจรับพัสดุ</Breadcrumb.Item>
             </Breadcrumb>
         
@@ -195,7 +195,12 @@ const InspectionDetail = () => {
                             </Row>
                             <Row className="mb-2">
                                 <Col style={{ textAlign: 'center' }}>
-                                    <Link to={`/preview/${id}`} className="btn btn-success">
+                                    <Link to={`/preview/${id}/inspection`} className="btn btn-success mr-2">
+                                        <i className="fas fa-print mr-1"></i>
+                                        พิมพ์ใบตรวจรับ
+                                    </Link>
+                                    <Link to={`/preview/${id}/inspection/report`} className="btn btn-success">
+                                        <i className="fas fa-print mr-1"></i>
                                         พิมพ์รายงานผลการตรวจรับ
                                     </Link>
                                 </Col>
