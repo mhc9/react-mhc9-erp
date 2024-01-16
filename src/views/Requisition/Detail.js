@@ -143,7 +143,7 @@ const RequisitionDetail = () => {
                             </Row>
                             <Row className="mb-2">
                                 <Col style={{ textAlign: 'center' }}>
-                                    <Link to={`/preview/${id}`} className="btn btn-success">
+                                    <Link to={`/preview/${id}/requisition`} target="_blank" className="btn btn-success">
                                         พิมพ์ใบขอซื้อ
                                     </Link>
                                 </Col>

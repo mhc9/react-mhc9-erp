@@ -42,7 +42,7 @@ import SupplierList from './views/supplier/List';
 import AddSupplier from './views/supplier/Add';
 import Unit from './views/Unit'
 import StiReportViewer from './components/ReportViewer/StiReportViewer';
-import Preview from './components/Preview';
+import Requisition from './components/Preview/Requisition';
 import RepairationList from './views/Repairation/List';
 import RepairationDetail from './views/Repairation/Detail';
 
@@ -123,7 +123,7 @@ function App() {
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/preview/:id" element={<Preview />} />
+            <Route path="/preview/:id/requisition" element={<Requisition />} />
         </Routes>
     );
 }

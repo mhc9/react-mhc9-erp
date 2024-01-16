@@ -7,7 +7,7 @@ import { toLongTHDate, currency } from '../../utils'
 import { ThaiNumberToText } from '../../utils/currencyText'
 import './Preview.css'
 
-const Preview = () => {
+const Requisition = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { requisition } = useSelector(state => state.requisition);
@@ -228,7 +228,7 @@ const Preview = () => {
                     <div className="flex mt-[40px]">
                         <div className="w-[20%]">&nbsp;</div>
                         <div className="w-[80%] flex justify-center gap-4">
-                            <div className="mt-[35px] text-center">
+                            <div className="mt-[20px] text-center">
                                 <div className="flex flex-col items-center justify-center">
                                     <p className="w-[220px] border-dashed border-b"></p>
                                     <div className="signature">
@@ -357,4 +357,4 @@ const Preview = () => {
     )
 }
 
-export default Preview
+export default Requisition
