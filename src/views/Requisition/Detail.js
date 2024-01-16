@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 import { currency, toShortTHDate } from '../../utils'
 import { getRequisition } from '../../features/slices/requisition/requisitionSlice'
+import { resetSuccess } from '../../features/slices/approval/approvalSlice'
 import ItemList from './Form/ItemList'
 import ModalApprovalForm from './Approval/Form'
 
@@ -11,11 +13,21 @@ const RequisitionDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { requisition } = useSelector(state => state.requisition);
+    const { isSuccess } = useSelector(state => state.approval);
     const [showApprovalForm, setShowApprovalForm] = useState(false);
 
     useEffect(() => {
         if (id) dispatch(getRequisition({ id }));
     }, [dispatch, id]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('บันทึกข้อมูลคำขอเรียบร้อยแล้ว!!')
+            dispatch(resetSuccess());
+
+            window.open(`${window.location.origin}/preview/${id}/requisition`);
+        }
+    }, [isSuccess]);
 
     return (
         <div className="content-wrapper">

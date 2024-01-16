@@ -113,9 +113,6 @@ const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
                                 </Row>
                             </Modal.Body>
                             <Modal.Footer className="py-1">
-                                {/* <Link to={`/preview/${id}/requisition/report`} target="_blank" className="btn btn-primary">
-                                    บันทึก
-                                </Link> */}
                                 <button type="submit" className="btn btn-outline-primary">
                                     บันทึก
                                 </button>
