@@ -1,4 +1,4 @@
-import { PRIORITIES, DUTIES, EXPENSES } from "./constraints"
+import { PRIORITIES, DUTIES, EXPENSES, MONTH_NAMES } from "./constraints"
 import moment from "moment";
 
 export const getPriority = (id) => {
@@ -64,6 +64,14 @@ export const toLongTHDate = (date) => {
         month: 'long',
         day: 'numeric',
     });
+}
+
+export const toLongTHDateWithBE = (dateStr) => {
+    if (!dateStr || dateStr === '') return '';
+
+    const [year, month, day] = dateStr.split('-');
+
+    return `${day} ${MONTH_NAMES[parseInt(month) - 1]} พ.ศ. ${parseInt(year, 10) + 543}`;
 }
 
 export const filterAmphursByChangwat = (changwat, amphurs = []) => {

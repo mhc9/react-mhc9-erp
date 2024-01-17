@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import moment from 'moment'
 import { getRequisition } from '../../features/slices/requisition/requisitionSlice'
-import { toLongTHDate, currency } from '../../utils'
+import { toLongTHDate, toLongTHDateWithBE, currency } from '../../utils'
 import { ThaiNumberToText } from '../../utils/currencyText'
 import './Preview.css'
 
@@ -70,7 +70,7 @@ const RequisitionCommittee = () => {
                                 </div>
                                 <div className="memo-paragraph mt-2">
                                     <p className="indent-[4cm]">
-                                        สั่ง ณ วันที่  <span className="ml-[1cm]">{toLongTHDate(moment(requisition.approvals[0]?.directive_date).toDate())}</span>
+                                        สั่ง ณ วันที่  <span className="ml-[1cm]">{toLongTHDateWithBE(requisition.approvals[0]?.directive_date)}</span>
                                     </p>
                                 </div>
 
