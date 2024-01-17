@@ -70,6 +70,12 @@ export const requisitionSlice = createSlice({
     reducers: {
         resetSuccess: (state) => {
             state.isSuccess = false;
+        },
+        updateApprovals: (state, { payload }) => {
+            const updatedRequisition = { ...state.requisition, approvals: [...payload] };
+            console.log(updatedRequisition);
+
+            state.requisition = updatedRequisition;
         }
     },
     extraReducers: {
@@ -150,4 +156,4 @@ export const requisitionSlice = createSlice({
 
 export default requisitionSlice.reducer;
 
-export const { resetSuccess } = requisitionSlice.actions;
+export const { resetSuccess, updateApprovals } = requisitionSlice.actions;
