@@ -13,7 +13,7 @@ const RequisitionDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { requisition } = useSelector(state => state.requisition);
-    const { isSuccess } = useSelector(state => state.approval);
+    const { approval, isSuccess } = useSelector(state => state.approval);
     const [showApprovalForm, setShowApprovalForm] = useState(false);
 
     useEffect(() => {
@@ -24,7 +24,7 @@ const RequisitionDetail = () => {
         if (isSuccess) {
             toast.success('บันทึกข้อมูลคำขอเรียบร้อยแล้ว!!');
 
-            dispatch(updateApprovals({ id: 'test' }));
+            dispatch(updateApprovals(approval));
             dispatch(resetSuccess());
         }
     }, [isSuccess]);
