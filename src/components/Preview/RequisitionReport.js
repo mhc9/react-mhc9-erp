@@ -54,7 +54,7 @@ const RequisitionReport = () => {
                                 <div className="memo-header-text">
                                     <h3>เรื่อง</h3>
                                     <div className="memo-header-value">
-                                        <span>รายงานขอ{((requisition.order_type_id == 1) ? 'ซื้อ' : '') +requisition.category?.name} จำนวน {requisition.item_count} รายการ โดย{'...'}</span>
+                                        <span>รายงานขอ{((requisition.order_type_id == 1) ? 'ซื้อ' : '') +requisition.category?.name} จำนวน {requisition.item_count} รายการ โดย{requisition.approvals[0]?.procuring?.name}</span>
                                     </div>
                                 </div>
                                 <div className="memo-header-text">
@@ -65,7 +65,7 @@ const RequisitionReport = () => {
                             <div className="memo-content">
                                 <div className="memo-paragraph">
                                     ด้วย ศูนย์สุขภาพจิตที่ ๙ กรมสุขภาพจิต มีความประสงค์จะ{((requisition.order_type_id == 1) ? 'ซื้อ' : '') +requisition.category?.name}&nbsp;
-                                    จำนวน {requisition.item_count} รายการ โดย... ซึ่งมีรายละเอียด ดังต่อไปนี้
+                                    จำนวน {requisition.item_count} รายการ โดย{requisition.approvals[0]?.procuring?.name} ซึ่งมีรายละเอียด ดังต่อไปนี้
                                 </div>
                                 <div className="memo-paragraph">
                                     1. เหตุผลและความจำเป็นที่ต้องจัดซื้อจัดจ้าง
@@ -96,15 +96,15 @@ const RequisitionReport = () => {
                                 <div className="memo-paragraph">
                                     5. กำหนดเวลาที่ต้องการใช้พัสดุนั้น หรือให้งานนั้นแล้วเสร็จ
                                     <div className="indent-0">
-                                        <p className="indent-[3.5cm]"> กำหนดเวลาการส่งมอบพัสดุ หรือให้งานแล้วเสร็จภายในวันที่ ...</p>
+                                        <p className="indent-[3.5cm]"> กำหนดเวลาการส่งมอบพัสดุ หรือให้งานแล้วเสร็จภายในวันที่ {toLongTHDate(moment(requisition.approvals[0]?.deliver_date).toDate())}</p>
                                     </div>
                                 </div>
                                 <div className="memo-paragraph">
                                     6. วิธีที่จะซื้อ และเหตุผลที่ต้องซื้อ
                                     <div className="indent-0">
                                         <p className="indent-[3.5cm]">
-                                            ดำเนินการโดย... ตามพระราชบัญญัติการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. ๒๕๖๐ มาตรา ๕๕(๓) และมาตรา ๕๖(๒) (ข)&nbsp;
-                                            ประกอบกับระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. ๒๕๖๐ และกฎกระทรวง กำหนดวงเงินการจัดซื้อจัดจ้างพัสดุโดย...&nbsp;
+                                            ดำเนินการโดย{requisition.approvals[0]?.procuring?.name} ตามพระราชบัญญัติการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. ๒๕๖๐ มาตรา ๕๕(๓) และมาตรา ๕๖(๒) (ข)&nbsp;
+                                            ประกอบกับระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. ๒๕๖๐ และกฎกระทรวง กำหนดวงเงินการจัดซื้อจัดจ้างพัสดุโดย{requisition.approvals[0]?.procuring?.name}&nbsp;
                                             วงเงินการจัดซื้อจัดจ้างที่ไม่ทำข้อตกลงเป็นหนังสือ และวงเงินการจัดซื้อจัดจ้างในการแต่งตั้งผู้ตรวจรับพัสดุ พ.ศ. ๒๕๖๐ ข้อ ๑&nbsp;
                                             การจัดซื้อจัดจ้างพัสดุที่มีการผลิต จำหน่าย ก่อสร้าง หรือให้บริการทั่วไป และมีวงเงินในการจัดซื้อจัดจ้างครั้งหนึ่งไม่เกิน ๕๐๐,๐๐๐ บาท (ห้าแสนบาทถ้วน)
                                         </p>
