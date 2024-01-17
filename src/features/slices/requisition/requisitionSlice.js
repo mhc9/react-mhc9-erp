@@ -73,7 +73,6 @@ export const requisitionSlice = createSlice({
         },
         updateApprovals: (state, { payload }) => {
             const updatedRequisition = { ...state.requisition, approvals: [payload] };
-            console.log(updatedRequisition);
 
             state.requisition = updatedRequisition;
         }
