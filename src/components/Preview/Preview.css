@@ -57,6 +57,19 @@
     object-position: center;
 }
 
+.memo-notice {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.memo-notice .memo-logo-notice {
+    position: relative;
+    width: 3.5cm;
+    object-fit: contain;
+    object-position: center;
+}
+
 .memo-top .memo-logo img {
     width: 100%;
 }
