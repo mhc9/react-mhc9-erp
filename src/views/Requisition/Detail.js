@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { currency, toShortTHDate } from '../../utils'
-import { getRequisition } from '../../features/slices/requisition/requisitionSlice'
+import { getRequisition, updateApprovals } from '../../features/slices/requisition/requisitionSlice'
 import { resetSuccess } from '../../features/slices/approval/approvalSlice'
 import ItemList from './Form/ItemList'
 import ModalApprovalForm from './Approval/Form'
@@ -22,7 +22,9 @@ const RequisitionDetail = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            toast.success('บันทึกข้อมูลคำขอเรียบร้อยแล้ว!!')
+            toast.success('บันทึกข้อมูลคำขอเรียบร้อยแล้ว!!');
+
+            dispatch(updateApprovals({ id: 'test' }));
             dispatch(resetSuccess());
         }
     }, [isSuccess]);
