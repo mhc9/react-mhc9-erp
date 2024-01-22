@@ -188,6 +188,21 @@ const RequisitionDetail = () => {
                                     )}
                                 </Col>
                             </Row>
+
+                            {(requisition.approvals && requisition.approvals.length > 0) && (
+                                <Row>
+                                    <Col className="text-center">
+                                        <Link to={`/preview/${id}/requisition/report`} target="_blank" className="btn btn-success mx-2">
+                                            <i className="fas fa-print mr-1"></i>
+                                            พิมพ์รายงานผลการพิจารณา
+                                        </Link>
+                                        <Link to={`/preview/${id}/requisition/committee`} target="_blank" className="btn btn-success">
+                                            <i className="fas fa-print mr-1"></i>
+                                            พิมพ์ประกาศผลผู้ชนะ
+                                        </Link>
+                                    </Col>
+                                </Row>
+                            )}
                         </>
                     )}
                 </div>
