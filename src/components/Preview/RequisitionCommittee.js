@@ -82,7 +82,8 @@ const RequisitionCommittee = () => {
                                                 <div className="pt-[60px] flex flex-col items-center justify-center">
                                                     <div className="signature">
                                                         <p>( นายนิตย์  ทองเพชรศรี )</p>
-                                                        <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
+                                                        <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 6</p>
+                                                        <p>รักษาราชการแทนผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
                                                         <p>ปฏิบัติราชการแทนอธิบดีกรมสุขภาพจิต</p>
                                                     </div>
                                                 </div>

@@ -169,7 +169,9 @@ const Requisition = () => {
                                                     <p className="w-[200px] border-dashed border-b mb-1"></p>
                                                     <div className="signature">
                                                         <p>( นายนิตย์  ทองเพชรศรี )</p>
-                                                        <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
+                                                        <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 6</p>
+                                                        <p>รักษาราชการแทนผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
+                                                        <p>ปฏิบัติราชการแทนอธิบดีกรมสุขภาพจิต</p>
                                                         <div className="signature-date">
                                                             <p>วันที่</p>
                                                             <div style={{ width: '150px', borderBottom: '1px dashed black' }}></div>
@@ -340,7 +342,8 @@ const Requisition = () => {
                                                 <p className="w-[200px] border-dashed border-b"></p>
                                                 <div className="signature">
                                                     <p>( นายนิตย์  ทองเพชรศรี )</p>
-                                                    <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
+                                                    <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 6</p>
+                                                    <p>รักษาราชการแทนผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
                                                     <p>ปฏิบัติราชการแทนอธิบดีกรมสุขภาพจิต</p>
                                                 </div>
                                             </div>
