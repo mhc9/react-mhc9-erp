@@ -35,7 +35,8 @@
 }
 
 .memo-wrapper {
-    margin: 1.5cm 2.3cm 1.5cm 2.8cm;
+    margin: 1.5cm 2cm 1.5cm 2.8cm; /* top right bottom left */
+    /* border: 1px solid red; */
 }
 
 .memo-top {

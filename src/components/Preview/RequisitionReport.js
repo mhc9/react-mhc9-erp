@@ -116,12 +116,18 @@ const RequisitionReport = () => {
                                         <p className="indent-[3.5cm]">การพิจารณาคัดเลือกข้อเสนอโดยใช้เกณฑ์ราคา</p>
                                     </div>
                                 </div>
+                                <div className="text-right mt-[150px]">
+                                    /8. การขออนุมัติแต่งตั้ง...
+                                </div>
                                 {/* END PAGE 1 */}
 
                                 <div style={{ pageBreakBefore: 'always' }}></div>
 
                                 {/* PAGE 2 */}
-                                <div className="memo-paragraph mt-[2.5cm]">
+                                <div className="text-center mt-[1cm]">
+                                    - 2 -
+                                </div>
+                                <div className="memo-paragraph">
                                     8. การขออนุมัติแต่งตั้งคณะกรรมการต่าง ๆ
                                     <div className="indent-0">
                                         <p className="indent-[3.5cm]">ผู้จัดทำร่างขอบเขตของานหรือรายละเอียดคุณลักษณะเฉพาะและราคากลาง</p>
@@ -201,7 +207,8 @@ const RequisitionReport = () => {
                                                     <p className="w-[200px] border-dashed border-b mb-1"></p>
                                                     <div className="signature">
                                                         <p>( นายนิตย์  ทองเพชรศรี )</p>
-                                                        <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
+                                                        <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 6</p>
+                                                        <p>รักษาราชการแทนผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
                                                         <p>ปฏิบัติราชการแทนอธิบดีกรมสุขภาพจิต</p>
                                                         <div className="signature-date">
                                                             <p>วันที่</p>
