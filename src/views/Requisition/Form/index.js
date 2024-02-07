@@ -86,7 +86,7 @@ const RequisitionForm = ({ requisition }) => {
     };
 
     const handleRemoveItem = (formik, id) => {
-        const newItems = formik.valuesitems.filter(item => item.item_id !== id);
+        const newItems = formik.values.items.filter(item => item.item_id !== id);
 
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_count', newItems.length);
