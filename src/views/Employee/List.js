@@ -90,7 +90,7 @@ const EmployeeList = () => {
                                     <td className="text-center">{employee.employee_no}</td>
                                     <td>
                                         <div className="flex flex-row gap-2">
-                                            <div className="border rounded-md min-h-[120px]">
+                                            <div className="border rounded-md overflow-hidden w-[100px] min-h-[120px]">
                                                 <img src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee?.avatar_url}`} alt="employee-pic" />
                                             </div>
                                             <div>

@@ -7,7 +7,7 @@ import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import moment from 'moment'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
 import { filterAmphursByChangwat, filterTambonsByAmphur } from '../../../utils'
-import { store, update } from '../../../features/slices/employee/employeeSlice'
+import { store, update, upload } from '../../../features/slices/employee/employeeSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/employee/employeeApi'
 import './Form.css'
 import Loading from '../../../components/Loading'
@@ -87,6 +87,14 @@ const EmployeeForm = ({ employee }) => {
         setSelectedStartedAt(moment());
     };
 
+    const handleUpload = () => {
+        let data = new FormData();
+
+        data.append('avatar_url', selectedImage);
+
+        dispatch(upload({ id: employee.id, data }))
+    }
+
     return (
         <Formik
             enableReinitialize
@@ -128,26 +136,34 @@ const EmployeeForm = ({ employee }) => {
                                         <img src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee?.avatar_url}`} alt="employee-pic" className="avatar-img" />
                                     </div>
                                 ) : (
-                                    <div className="avatar">
-                                        <label className="hover:cursor-pointer">
-                                            <input
-                                                type="file"
-                                                className="mt-2"
-                                                onChange={(e) => setSelectedImage(e.target.files[0])}
-                                            />
-                                            <figure>
-                                                {selectedImage
-                                                    ? <img src={URL.createObjectURL(selectedImage)} alt="employee-pic" className="avatar-img" />
-                                                    : <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />
-                                                }
+                                    <>
+                                        <div className="avatar">
+                                            <label className="hover:cursor-pointer">
+                                                <input
+                                                    type="file"
+                                                    className="mt-2"
+                                                    onChange={(e) => setSelectedImage(e.target.files[0])}
+                                                />
+                                                <figure>
+                                                    {selectedImage
+                                                        ? <img src={URL.createObjectURL(selectedImage)} alt="employee-pic" className="avatar-img" />
+                                                        : <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />
+                                                    }
 
-                                                <figcaption className="avatar-caption">
-                                                    <img src="https://raw.githubusercontent.com/ThiagoLuizNunes/angular-boilerplate/master/src/assets/imgs/camera-white.png" />
-                                                    <span className="text-white">{selectedImage ? 'แก้ไขรูป' : 'เพิ่มรูป'}</span>
-                                                </figcaption>
-                                            </figure>
-                                        </label>
-                                    </div>
+                                                    <figcaption className="avatar-caption">
+                                                        <img src="https://raw.githubusercontent.com/ThiagoLuizNunes/angular-boilerplate/master/src/assets/imgs/camera-white.png" />
+                                                        <span className="text-white">{selectedImage ? 'แก้ไขรูป' : 'เพิ่มรูป'}</span>
+                                                    </figcaption>
+                                                </figure>
+                                            </label>
+                                        </div>
+
+                                        {selectedImage && (
+                                            <button type="button" className="btn btn-outline-primary btn-sm mt-2" onClick={() => handleUpload()}>
+                                                อัพโหลดรูป
+                                            </button>
+                                        )}
+                                    </>
                                 )}
                             </Col>
                         </Row>
