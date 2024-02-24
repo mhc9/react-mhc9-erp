@@ -5,13 +5,15 @@ import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { destroy, getEmployees } from '../../features/slices/employee/employeeSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/employee/employeeApi'
+import { generateQueryString } from '../../utils'
 import Loading from '../../components/Loading'
 import Pagination from '../../components/Pagination'
 import FilteringInputs from '../../components/Employee/FilteringInputs'
 
 const initialFilters = {
     name: '',
-    division: ''
+    department: '',
+    status: 1
 };
 
 const initialFormData = {
@@ -23,11 +25,11 @@ const EmployeeList = () => {
     const { employees, pager, isLoading } = useSelector(state => state.employee);
     const { data: formData = initialFormData } = useGetInitialFormDataQuery();
     const [apiEndpoint, setApiEndpoint] = useState('');
-    const [params, setParams] = useState('');
+    const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getEmployees({ url: `/api/employees/search` }));
+            dispatch(getEmployees({ url: `/api/employees/search?page=${params}` }));
         } else {
             dispatch(getEmployees({ url: `${apiEndpoint}${params}` }));
         }
@@ -90,7 +92,7 @@ const EmployeeList = () => {
                                     <td className="text-center">{employee.employee_no}</td>
                                     <td>
                                         <div className="flex flex-row gap-2">
-                                            <div className="border rounded-md overflow-hidden w-[100px] object-cover object-center">
+                                            <div className="border rounded-md overflow-hidden w-[100px] max-h-[120px] object-cover object-center">
                                                 {employee.avatar_url
                                                     ? <img src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee?.avatar_url}`} alt="employee-pic" />
                                                     : <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />}
@@ -98,6 +100,12 @@ const EmployeeList = () => {
                                             <div>
                                                 <p className="font-bold">{employee.prefix.name}{employee.firstname} {employee.lastname}</p>
                                                 <p>{employee.position.name}{employee.level?.name}</p>
+                                                {employee.member_of.length > 0 && (
+                                                    <p className="text-sm">
+                                                        {employee.member_of[0]?.department?.name}
+                                                        <span className="ml-1">({employee.member_of[0]?.duty?.name})</span>
+                                                    </p>
+                                                )}
                                             </div>
                                         </div>
                                     </td>

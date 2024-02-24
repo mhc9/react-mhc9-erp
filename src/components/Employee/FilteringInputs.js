@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Col, FormGroup, Row } from 'react-bootstrap'
+import { generateQueryString } from '../../utils';
 
 const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
     const [filters, setFilters] = useState(initialFilters);
@@ -11,12 +12,7 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
     };
 
     const handleFilter = () => {
-        let queryStr = '';
-        for (const [key, val] of Object.entries(filters)) {
-            queryStr += `&${key}=${val}`;
-        }
-
-        onFilter(queryStr);
+        onFilter(generateQueryString(filters));
     };
 
     return (
@@ -35,6 +31,21 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                     </FormGroup>
                     <FormGroup>
                         <select
+                            name="department"
+                            value={filters.department}
+                            onChange={handleInputChange}
+                            className="form-control"
+                        >
+                            <option value="">-- หน่วยงาน --</option>
+                            {formData.departments && formData.departments.map(department => (
+                                <option value={department.id} key={department.id}>
+                                    {department.name}
+                                </option>
+                            ))}
+                        </select>
+                    </FormGroup>
+                    {/* <FormGroup>
+                        <select
                             name="division"
                             value={filters.division}
                             onChange={handleInputChange}
@@ -47,7 +58,7 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                                 </option>
                             ))}
                         </select>
-                    </FormGroup>
+                    </FormGroup> */}
                     <FormGroup>
                         <button type="button" className="btn btn-outline-secondary" onClick={handleFilter}>
                             ตกลง
