@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import EmployeeForm from './Form'
 
@@ -9,7 +10,7 @@ const AddEmployee = () => {
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item href="/employee">บุคลากร</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/employee" }}>บุคลากร</Breadcrumb.Item>
                 <Breadcrumb.Item active>เพิ่มบุคลากรใหม่</Breadcrumb.Item>
             </Breadcrumb>
         

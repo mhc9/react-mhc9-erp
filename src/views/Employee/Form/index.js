@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
-import { Form as BsForm, FormGroup, Col, Row } from 'react-bootstrap'
+import { FormGroup, Col, Row } from 'react-bootstrap'
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import moment from 'moment'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
@@ -123,7 +123,7 @@ const EmployeeForm = ({ employee }) => {
                     <Form>
                         <Row className="mb-4">
                             <Col md={12} className="flex flex-col justify-center items-center">
-                                {employee ? (
+                                {employee?.avatar_url ? (
                                     <div className="rounded-full w-[120px] h-[120px] overflow-hidden">
                                         <img src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee?.avatar_url}`} alt="employee-pic" className="avatar-img" />
                                     </div>
@@ -136,10 +136,9 @@ const EmployeeForm = ({ employee }) => {
                                                 onChange={(e) => setSelectedImage(e.target.files[0])}
                                             />
                                             <figure>
-                                                {selectedImage ? (
-                                                    <img src={URL.createObjectURL(selectedImage)} alt="employee-pic" className="avatar-img" />
-                                                ) : 
-                                                    <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />
+                                                {selectedImage
+                                                    ? <img src={URL.createObjectURL(selectedImage)} alt="employee-pic" className="avatar-img" />
+                                                    : <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />
                                                 }
 
                                                 <figcaption className="avatar-caption">
