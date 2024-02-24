@@ -71,8 +71,8 @@ const EmployeeList = () => {
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
                                 <th className="text-center w-[8%]">เลขที่</th>
-                                <th>ชื่อ-สกุล</th>
-                                <th className="text-center w-[30%]">ตำแหน่ง</th>
+                                <th className="text-center">ชื่อ-สกุล</th>
+                                <th className="text-center w-[40%]">การติดต่อ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
                         </thead>
@@ -88,8 +88,22 @@ const EmployeeList = () => {
                                 <tr key={employee.id} className="font-thin">
                                     <td className="text-center">{index+pager.from}</td>
                                     <td className="text-center">{employee.employee_no}</td>
-                                    <td>{employee.prefix.name}{employee.firstname} {employee.lastname}</td>
-                                    <td>{employee.position.name}{employee.level?.name}</td>
+                                    <td>
+                                        <div className="flex flex-row gap-2">
+                                            <div className="border rounded-md min-h-[120px]">
+                                                <img src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee?.avatar_url}`} alt="employee-pic" />
+                                            </div>
+                                            <div>
+                                                <p className="font-bold">{employee.prefix.name}{employee.firstname} {employee.lastname}</p>
+                                                <p>{employee.position.name}{employee.level?.name}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p>{`${employee.address_no} หมู่ ${employee.moo} ถนน ${employee.road}`}</p>
+                                        <p>{`ต.${employee.tambon?.name} อ.${employee.amphur?.name} จ.${employee.changwat?.name} ${employee.zipcode}`}</p>
+                                        <p>{`โทร ${employee.tel}`}</p>
+                                    </td>
                                     <td className="text-center p-1">
                                         <Link to={`/employee/${employee.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
