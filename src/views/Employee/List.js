@@ -90,8 +90,10 @@ const EmployeeList = () => {
                                     <td className="text-center">{employee.employee_no}</td>
                                     <td>
                                         <div className="flex flex-row gap-2">
-                                            <div className="border rounded-md overflow-hidden w-[100px] min-h-[120px]">
-                                                <img src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee?.avatar_url}`} alt="employee-pic" />
+                                            <div className="border rounded-md overflow-hidden w-[100px] object-cover object-center">
+                                                {employee.avatar_url
+                                                    ? <img src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee?.avatar_url}`} alt="employee-pic" />
+                                                    : <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />}
                                             </div>
                                             <div>
                                                 <p className="font-bold">{employee.prefix.name}{employee.firstname} {employee.lastname}</p>
