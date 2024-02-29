@@ -15,10 +15,10 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                     <h1 className="md:hidden text-lg">IT Helpdesk</h1>
                     <p className="max-md:hidden text-sm text-gray-300">IT Helpdesk</p>
                 </div>
-                <button className="md:hidden" onClick={() => toggleSidebar(!showSidebar)}>
+                <button className="lg:hidden" onClick={() => toggleSidebar(!showSidebar)}>
                     <FaBars size={'20px'} />
                 </button>
-                <ul className="max-md:hidden md:flex flex-row items-center gap-4 w-full">
+                <ul className="max-lg:hidden lg:flex flex-row items-center gap-4 w-full">
                     <li><Link to="/" className="hover:text-gray-400">หน้าหลัก</Link></li>
                     {user?.permissions[0]?.role_id === 1 && (
                         <li className="menu-item flex relative h-full">
@@ -117,7 +117,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                     )}
                     <li><Link to="/advice" className="hover:text-gray-400">แนะนำการใช้งาน</Link></li>
                 </ul>
-                <div className="menu-item max-md:hidden flex relative">
+                <div className="menu-item max-lg:hidden flex relative">
                     <button className="hover:text-gray-400">
                         {isFetching && <Loading />}
                         {(!isFetching && user) && (

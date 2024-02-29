@@ -4,7 +4,7 @@ import { FaTimes, FaAngleDown, FaAngleUp } from 'react-icons/fa'
 
 const Sidebar = ({ isShow, toggleShow, onLogout }) => {
     return (
-        <div className={`sidebar border absolute top-0 w-[220px] h-full overflow-scroll ${isShow ? 'left-0' : 'left-[-220px]'} bg-white md:hidden transition-all ease-in-out delay-300 z-[999]`}>
+        <div className={`sidebar border absolute top-0 w-[220px] h-full overflow-scroll ${isShow ? 'left-0' : 'left-[-220px]'} bg-white lg:hidden transition-all ease-in-out delay-300 z-[999]`}>
             <div className={`relative p-2 h-full ${isShow ? 'menu-link justify-between' : 'hidden'} overflow-hidden`}>
                 <div>
                     <div className="w-full text-black py-2 flex flex-row justify-end items-center mb-3">
