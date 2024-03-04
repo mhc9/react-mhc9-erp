@@ -4,7 +4,7 @@ import { Breadcrumb } from 'react-bootstrap'
 import { useGetUserDetailsQuery } from '../../features/services/auth/authApi'
 
 const Home = () => {
-    const { data } = useGetUserDetailsQuery('userDetails', {
+    const { data: user } = useGetUserDetailsQuery('userDetails', {
         pollingInterval: 900000,
     });
 
@@ -21,7 +21,7 @@ const Home = () => {
                 <div className="flex flex-col">
                     <h1 className="font-bold text-2xl">Welcome to IT Helpdesk System</h1>
                     <p className="">
-                        {data && data.name}
+                        {user && user.name}
                     </p>
                 </div>
             </div>
