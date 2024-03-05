@@ -10,7 +10,7 @@ const Asset = ({ asset }) => {
                     {(asset && asset.img_url) ? (
                         <img src={`${process.env.REACT_APP_API_URL}/uploads/assets/${asset.img_url}`} alt='asset-pic' />
                     ) : (
-                        <img src="/img/default-product.jpg" alt="employee-pic" className="asset-pic" />
+                        <img src="./img/default-product.jpg" alt="employee-pic" className="asset-pic" />
                     )}
                 </div>
             </Col>
