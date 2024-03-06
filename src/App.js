@@ -48,6 +48,7 @@ import RequisitionCommittee from './components/Preview/RequisitionCommittee';
 import Inspection from './components/Preview/Inspection';
 import RepairationList from './views/Repairation/List';
 import RepairationDetail from './views/Repairation/Detail';
+import LoanList from './views/Loan/List';
 
 function App() {
     return (
@@ -55,6 +56,7 @@ function App() {
             <Route path="/" element={<DefaultLayout />} >
                 <Route index element={<GuardRoute><Home /></GuardRoute>} />
 
+                {/* ============================= IT Helpdesk ============================= */}
                 {/* Tasks */}
                 <Route path="task" element={<GuardRoute><TaskList /></GuardRoute>} />
                 <Route path="task/add" element={<GuardRoute><AddTask /></GuardRoute>} />
@@ -64,6 +66,40 @@ function App() {
                 {/* Repairation */}
                 <Route path="repairation" element={<GuardRoute><RepairationList /></GuardRoute>} />
                 <Route path="repairation/:id/detail" element={<GuardRoute><RepairationDetail /></GuardRoute>} />
+
+                {/* ============================= Procurement ============================= */}
+                {/* Requisitions */}
+                <Route path="requisition" element={<GuardRoute><RequisitionList /></GuardRoute>} />
+                <Route path="requisition/add" element={<GuardRoute><AddRequisition /></GuardRoute>} />
+                <Route path="requisition/:id/edit" element={<GuardRoute><EditRequisition /></GuardRoute>} />
+                <Route path="requisition/:id/detail" element={<GuardRoute><RequisitionDetail /></GuardRoute>} />
+
+                {/* Orders */}
+                <Route path="order" element={<GuardRoute><OrderList /></GuardRoute>} />
+                <Route path="order/add" element={<GuardRoute><AddOrder /></GuardRoute>} />
+                <Route path="order/:id/detail" element={<GuardRoute><OrderDetail /></GuardRoute>} />
+
+                {/* Inspections */}
+                <Route path="inspection" element={<GuardRoute><InspectionList /></GuardRoute>} />
+                <Route path="inspection/add" element={<GuardRoute><AddInspection /></GuardRoute>} />
+                <Route path="inspection/:id/detail" element={<GuardRoute><InspectionDetail /></GuardRoute>} />
+
+                {/* ============================= Advance Payment ============================= */}
+                <Route path="loan" element={<GuardRoute><LoanList /></GuardRoute>} />
+
+                {/* ============================= System Data ============================= */}
+                {/* Items */}
+                <Route path="item" element={<GuardRoute><ItemList /></GuardRoute>} />
+                <Route path="item/add" element={<GuardRoute><AddItem /></GuardRoute>} />
+                <Route path="item/:id/edit" element={<GuardRoute><EditItem /></GuardRoute>} />
+                <Route path="item/:id/detail" element={<GuardRoute><ItemDetail /></GuardRoute>} />
+
+                {/* Suppliers */}
+                <Route path="supplier" element={<GuardRoute><SupplierList /></GuardRoute>} />
+                <Route path="supplier/add" element={<GuardRoute><AddSupplier /></GuardRoute>} />
+
+                {/* Units */}
+                <Route path="unit" element={<GuardRoute><Unit /></GuardRoute>} />
 
                 {/* Equipments */}
                 <Route path="equipment" element={<GuardRoute><ComsetList /></GuardRoute>} />
@@ -88,38 +124,11 @@ function App() {
                 <Route path="division" element={<GuardRoute><Division /></GuardRoute>} />
                 <Route path="room" element={<GuardRoute><Room /></GuardRoute>} />
 
-                {/* Requisitions */}
-                <Route path="requisition" element={<GuardRoute><RequisitionList /></GuardRoute>} />
-                <Route path="requisition/add" element={<GuardRoute><AddRequisition /></GuardRoute>} />
-                <Route path="requisition/:id/edit" element={<GuardRoute><EditRequisition /></GuardRoute>} />
-                <Route path="requisition/:id/detail" element={<GuardRoute><RequisitionDetail /></GuardRoute>} />
-
-                {/* Orders */}
-                <Route path="order" element={<GuardRoute><OrderList /></GuardRoute>} />
-                <Route path="order/add" element={<GuardRoute><AddOrder /></GuardRoute>} />
-                <Route path="order/:id/detail" element={<GuardRoute><OrderDetail /></GuardRoute>} />
-
-                {/* Inspections */}
-                <Route path="inspection" element={<GuardRoute><InspectionList /></GuardRoute>} />
-                <Route path="inspection/add" element={<GuardRoute><AddInspection /></GuardRoute>} />
-                <Route path="inspection/:id/detail" element={<GuardRoute><InspectionDetail /></GuardRoute>} />
-
-                {/* Items */}
-                <Route path="item" element={<GuardRoute><ItemList /></GuardRoute>} />
-                <Route path="item/add" element={<GuardRoute><AddItem /></GuardRoute>} />
-                <Route path="item/:id/edit" element={<GuardRoute><EditItem /></GuardRoute>} />
-                <Route path="item/:id/detail" element={<GuardRoute><ItemDetail /></GuardRoute>} />
-
-                {/* Suppliers */}
-                <Route path="supplier" element={<GuardRoute><SupplierList /></GuardRoute>} />
-                <Route path="supplier/add" element={<GuardRoute><AddSupplier /></GuardRoute>} />
-
-                {/* Units */}
-                <Route path="unit" element={<GuardRoute><Unit /></GuardRoute>} />
-
+                {/* ============================= Help ============================= */}
                 {/*  */}
                 <Route path="advice" element={<GuardRoute><Advice /></GuardRoute>} />
 
+                {/* ============================= Miscellaneous ============================= */}
                 {/* Report */}
                 <Route path="report-viewer" element={<GuardRoute><StiReportViewer /></GuardRoute>} />
                 <Route path="*" element={<div>404 Not Found</div>} />

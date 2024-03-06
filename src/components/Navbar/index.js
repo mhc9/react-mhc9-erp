@@ -60,6 +60,26 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                         </li>
                     )}
 
+                    {[1].includes(user?.permissions[0]?.role_id) && (
+                        <li className="menu-item flex relative h-full">
+                            <button className="hover:text-gray-400 flex items-center gap-1">
+                                ยืมเงินราชการ
+                                <i className="fas fa-caret-down"></i>
+                            </button>
+                            <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
+                                <li className="hover:bg-gray-300 p-2 rounded-t-md">
+                                    <Link to="/loan"><p className="w-full">คำขอยืมเงิน</p></Link>
+                                </li>
+                                {/* <li className="hover:bg-gray-300 p-2">
+                                    <Link to="/order"><p className="w-full">ใบสั่งซื้อ/จ้าง</p></Link>
+                                </li>
+                                <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                                    <Link to="/inspection"><p className="w-full">ตรวจรับพัสดุ</p></Link>
+                                </li> */}
+                            </ul>
+                        </li>
+                    )}
+
                     {[1,3].includes(user?.permissions[0]?.role_id) && (
                         <li className="menu-item flex relative h-full">
                             <button className="hover:text-gray-400 flex items-center gap-1">
@@ -84,22 +104,26 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                     </>
                                 )}
 
-                                {user?.permissions[0]?.role_id === 1 && (
+                                {[1,3].includes(user?.permissions[0]?.role_id) && (
                                     <>
                                         <li><hr className="dropdown-divider m-0" /></li>
-                                        <li className="hover:bg-gray-300 p-2">
-                                            <Link to="/employee"><p className="w-full">บุคลากร</p></Link>
-                                        </li>
-                                        <li className="hover:bg-gray-300 p-2">
-                                            <Link to="/department"><p className="w-full">กลุ่มงาน</p></Link>
-                                        </li>
-                                        <li className="hover:bg-gray-300 p-2">
-                                            <Link to="/division"><p className="w-full">งาน</p></Link>
-                                        </li>
-                                        <li><hr className="dropdown-divider m-0" /></li>
-                                        <li className="hover:bg-gray-300 p-2">
-                                            <Link to="/room"><p className="w-full">ห้อง</p></Link>
-                                        </li>
+                                        {user?.permissions[0]?.role_id === 1 && (
+                                            <>
+                                                <li className="hover:bg-gray-300 p-2">
+                                                    <Link to="/employee"><p className="w-full">บุคลากร</p></Link>
+                                                </li>
+                                                <li className="hover:bg-gray-300 p-2">
+                                                    <Link to="/department"><p className="w-full">กลุ่มงาน</p></Link>
+                                                </li>
+                                                <li className="hover:bg-gray-300 p-2">
+                                                    <Link to="/division"><p className="w-full">งาน</p></Link>
+                                                </li>
+                                                <li><hr className="dropdown-divider m-0" /></li>
+                                                <li className="hover:bg-gray-300 p-2">
+                                                    <Link to="/room"><p className="w-full">ห้อง</p></Link>
+                                                </li>
+                                            </>
+                                        )}
                                         <li><hr className="dropdown-divider m-0" /></li>
                                         <li className="hover:bg-gray-300 p-2">
                                             <Link to="/item"><p className="w-full">สินค้า/บริการ</p></Link>
