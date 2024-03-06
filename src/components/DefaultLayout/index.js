@@ -35,7 +35,7 @@ const DefaultLayout = () => {
                 onLogout={handleLogout}
             />
 
-            <main className="mx-20 bg-white min-h-[87vh]">
+            <main className="container bg-white min-h-[87vh]">
                 <section className="p-4">
                     <Outlet />
                 </section>
