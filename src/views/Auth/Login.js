@@ -33,8 +33,8 @@ const Login = () => {
 
     return (
         <div className="bg-gray-200">
-            <div class="container flex flex-col justify-center items-center min-h-[100vh]">
-                <div className="login-box flex flex-col justify-center items-center bg-white border rounded-md py-10 w-1/2 max-sm:w-full lg:w-4/12">
+            <div className="container flex flex-col justify-center items-center min-h-[100vh]">
+                <div className="login-box flex flex-col justify-center items-center bg-white border rounded-md py-10 w-1/2 max-[767px]:w-full min-lg:w-4/12 min-[1285px]:w-4/12">
                     <h2 className="text-xl">ระบบ <b>MHC9</b> ERP</h2>
                     <Formik
                         initialValues={{
