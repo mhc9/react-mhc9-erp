@@ -19,7 +19,8 @@ import orderReducer from "./slices/order/orderSlice";
 import supplierReducer from "./slices/supplier/supplierSlice";
 import inspectionReducer from "./slices/inspection/inspectionSlice";
 import repairationReducer from "./slices/repairation/repairationSlice";
-import approvalReducer from "./slices/approval/approvalSlice"
+import approvalReducer from "./slices/approval/approvalSlice";
+import loanReducer from "./slices/loan/loanSlice";
 import { authApi } from "./services/auth/authApi";
 import { requisitionApi } from "./services/requisition/requisitionApi";
 import { employeeApi } from "./services/employee/employeeApi";
@@ -33,6 +34,7 @@ import { repairationApi } from "./services/repairation/repairationApi"
 import { assetCategoryApi } from "./services/asset-category/assetCategoryApi"
 import { assetTypeApi } from "./services/asset-type/assetTypeApi"
 import { approvalApi } from "./services/approval/approvalApi";
+import { loanApi } from "./services/loan/loanApi";
 
 export default configureStore({
     reducer: {
@@ -49,6 +51,7 @@ export default configureStore({
         [assetCategoryApi.reducerPath]: assetCategoryApi.reducer,
         [assetTypeApi.reducerPath]: assetTypeApi.reducer,
         [approvalApi.reducerPath]: approvalApi.reducer,
+        [loanApi.reducerPath]: loanApi.reducer,
         auth: authReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
@@ -70,6 +73,7 @@ export default configureStore({
         inspection: inspectionReducer,
         repairation: repairationReducer,
         approval: approvalReducer,
+        loan: loanReducer,
     },
     middleware: (getDefaultMiddleware) => 
         getDefaultMiddleware().concat(
@@ -86,5 +90,6 @@ export default configureStore({
             assetCategoryApi.middleware,
             assetTypeApi.middleware,
             approvalApi.middleware,
+            loanApi.middleware,
         ),
 });
