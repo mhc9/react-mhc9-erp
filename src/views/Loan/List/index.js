@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { getRequisitions } from '../../../features/slices/requisition/requisitionSlice'
+import { getLoans } from '../../../features/slices/loan/loanSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import LoanListDetail from './ListDetail'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
-import RequisitionFilteringInputs from '../../../components/Requisition/FilteringInputs'
+// import LoanFilteringInputs from '../../../components/loan/FilteringInputs'
 
 const initialFilters = {
     pr_no: '',
@@ -19,22 +19,22 @@ const initialFilters = {
 
 const LoanList = () => {
     const dispatch = useDispatch();
-    const { requisitions, pager, isLoading } = useSelector(state => state.requisition);
+    const { loans, pager, isLoading } = useSelector(state => state.loan);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getRequisitions({ url: `/api/requisitions/search?page=&status=1` }));
+            dispatch(getLoans({ url: `/api/loans/search?page=&status=1` }));
         } else {
-            dispatch(getRequisitions({ url: `${apiEndpoint}${params}` }));
+            dispatch(getLoans({ url: `${apiEndpoint}${params}` }));
         }
     }, [dispatch, apiEndpoint, params])
 
     const handleFilter = (queryStr) => {
         setParams(queryStr);
 
-        setApiEndpoint(`/api/requisitions/search?page=`);
+        setApiEndpoint(`/api/loans/search?page=`);
     };
 
     const handleDelete = (id) => {
@@ -46,7 +46,7 @@ const LoanList = () => {
             {/* breadcrumb */}
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
-                <Breadcrumb.Item active>จัดซื้อจัดจ้าง</Breadcrumb.Item>
+                <Breadcrumb.Item active>ยืมเงินราชการ</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการคำขอ</Breadcrumb.Item>
             </Breadcrumb>
         
@@ -57,10 +57,10 @@ const LoanList = () => {
                 </div>
 
                 <div>
-                    <RequisitionFilteringInputs
+                    {/* <LoanFilteringInputs
                         initialFilters={initialFilters}
                         onFilter={handleFilter}
-                    />
+                    /> */}
 
                     <table className="table table-bordered mb-2">
                         <thead>
@@ -79,42 +79,42 @@ const LoanList = () => {
                                     <td className="text-center" colSpan={6}><Loading /></td>
                                 </tr>
                             )}
-                            {(!isLoading && requisitions) && requisitions.map((requisition, index) => (
-                                <tr key={requisition.id}>
+                            {(!isLoading && loans) && loans.map((loan, index) => (
+                                <tr key={loan.id}>
                                     <td className="text-center">{pager && pager.from + index}</td>
                                     <td className="text-sm">
-                                        <p>เลขที่ <span className="badge rounded-pill text-bg-primary">{requisition.pr_no}</span></p>
-                                        <p>วันที่ <span className="badge rounded-pill text-bg-primary">{toShortTHDate(requisition.pr_date)}</span></p>
+                                        <p>เลขที่ <span className="badge rounded-pill text-bg-primary">{loan.pr_no}</span></p>
+                                        <p>วันที่ <span className="badge rounded-pill text-bg-primary">{toShortTHDate(loan.pr_date)}</span></p>
                                     </td>
                                     <td className="text-sm">
                                         <p>
-                                            <span className="mr-2">{requisition.category.name} จำนวน {requisition.item_count} รายการ</span>
-                                            <span>เป็นเงินทั้งสิ้น {currency.format(requisition.net_total)} บาท</span>
+                                            <span className="mr-2">{loan.category.name} จำนวน {loan.item_count} รายการ</span>
+                                            <span>เป็นเงินทั้งสิ้น {currency.format(loan.net_total)} บาท</span>
                                         </p>
-                                        {requisition.project && (
+                                        {loan.project && (
                                             <div className="text-xs font-thin text-blue-600">
-                                                *{requisition.project.name}
+                                                *{loan.project.name}
                                             </div>
                                         )}
 
-                                        <LoanListDetail items={requisition.details} />
+                                        <LoanListDetail items={loan.details} />
                                     </td>
                                     <td className="text-sm">
-                                        {requisition.requester?.prefix?.name}{requisition.requester?.firstname} {requisition.requester?.lastname}
-                                        <p className="font-thin">{requisition.requester?.position?.name}{requisition.requester?.level && requisition.requester?.level?.name}</p>
+                                        {loan.requester?.prefix?.name}{loan.requester?.firstname} {loan.requester?.lastname}
+                                        <p className="font-thin">{loan.requester?.position?.name}{loan.requester?.level && loan.requester?.level?.name}</p>
                                     </td>
                                     <td className="text-center">
-                                        {requisition.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
-                                        {requisition.status === 2 && <span className="badge rounded-pill text-bg-success">จัดซื้อแล้ว</span>}
+                                        {loan.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
+                                        {loan.status === 2 && <span className="badge rounded-pill text-bg-success">จัดซื้อแล้ว</span>}
                                     </td>
                                     <td className="text-center p-1">
-                                        <Link to={`/requisition/${requisition.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
+                                        <Link to={`/loan/${loan.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
                                         </Link>
-                                        <Link to={`/requisition/${requisition.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
+                                        <Link to={`/loan/${loan.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />
                                         </Link>
-                                        <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(requisition.id)}>
+                                        <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(loan.id)}>
                                             <FaTrash />
                                         </button>
                                     </td>
