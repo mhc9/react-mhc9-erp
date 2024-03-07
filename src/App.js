@@ -49,6 +49,7 @@ import Inspection from './components/Preview/Inspection';
 import RepairationList from './views/Repairation/List';
 import RepairationDetail from './views/Repairation/Detail';
 import LoanList from './views/Loan/List';
+import AddLoan from './views/Loan/Add';
 
 function App() {
     return (
@@ -86,6 +87,7 @@ function App() {
 
                 {/* ============================= Advance Payment ============================= */}
                 <Route path="loan" element={<GuardRoute><LoanList /></GuardRoute>} />
+                <Route path="loan/add" element={<GuardRoute><AddLoan /></GuardRoute>} />
 
                 {/* ============================= System Data ============================= */}
                 {/* Items */}
