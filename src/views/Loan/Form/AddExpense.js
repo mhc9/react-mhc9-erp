@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
-import { FaSearch } from 'react-icons/fa'
 import { calculateTotal } from '../../../utils'
 import ModalAddItemDesc from '../../../components/Modals/AddItemDesc'
 
@@ -12,12 +11,7 @@ const itemSchema = Yup.object().shape({
     total: Yup.string().required(),
 });
 
-const initialFormData = {
-    units: [],
-    categories: [],
-};
-
-const AddExpense = ({ data, formData, onAddItem, onUpdateItem }) => {
+const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
     const [item, setItem] = useState(null);
     const [showModalAddItemDesc, setShowModalAddItemDesc] = useState(false);
 
@@ -29,14 +23,16 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem }) => {
 
     const handleClear = (formik) => {
         formik.resetForm();
-        setItem(null);
+        onClear(null);
     };
 
     const handleSubmit = (values, formik) => {
         if (data) {
             onUpdateItem(values.item_id, { ...values, item })
         } else {
-            onAddItem({ ...values, item });
+            const expense = formData.find(exp => exp.id === parseInt(values.expense_id, 10));
+
+            onAddItem({ ...values, expense: expense });
         }
 
         formik.resetForm();
@@ -47,9 +43,10 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem }) => {
         <Formik
             enableReinitialize
             initialValues={{
-                expense_id: data ? data.expense_id : '',
-                description: data? data.description : '',
-                total: data ? data.total : '',
+                expense_id: item ? item.expense_id : '',
+                expense: null,
+                description: item? item.description : '',
+                total: item ? item.total : '',
             }}
             validationSchema={itemSchema}
             onSubmit={handleSubmit}

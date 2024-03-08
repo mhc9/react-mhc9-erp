@@ -50,7 +50,7 @@ const LoanForm = () => {
     };
 
     const handleRemoveItem = (formik, id) => {
-        const newItems = formik.values.items.filter(item => item.item_id !== id);
+        const newItems = formik.values.items.filter(item => item.expense_id !== id);
 
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems)));
@@ -84,8 +84,6 @@ const LoanForm = () => {
             }}
         >
             {(formik) => {
-                console.log(formik.values.items);
-
                 return (
                     <Form>
                         <ModalBudgetList
@@ -289,9 +287,12 @@ const LoanForm = () => {
                                         formData={formData?.expenses}
                                         onAddItem={(expense) => handleAddItem(formik, expense)}
                                         onUpdateItem={(id, expense) => handleUpdateItem(formik, id, expense)}
+                                        onClear={setEdittedItem}
                                     />
+
                                     <ExpenseList
                                         items={formik.values.items}
+                                        isEditting={edittedItem !== null}
                                         onEditItem={(data) => handleEditItem(data)}
                                         onRemoveItem={(id) => handleRemoveItem(formik, id)}
                                     />

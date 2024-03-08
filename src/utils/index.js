@@ -34,7 +34,9 @@ export const calculateTotal = (price, amount) => {
 };
 
 export const calculateNetTotal = (items = []) => {
-    return items.reduce((sum, item) => sum + item.total, 0);
+    return items.reduce((sum = 0, item) => {
+        return sum + parseFloat(item.total)
+    }, 0);
 };
 
 export const calculateVat = function(netTotal, vatRate) {
