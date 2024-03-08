@@ -50,7 +50,7 @@ const BudgetList = () => {
                         </thead>
                         <tbody>
                             {!isLoading && budgets?.map((budget, index) => (
-                                <tr className="font-thin">
+                                <tr className="font-thin" key={budget.id}>
                                     <td className="text-center">{pager && pager.from+index}</td>
                                     <td>
                                         <p className="font-bold">{budget.name}</p>
