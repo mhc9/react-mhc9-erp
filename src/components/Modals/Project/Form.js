@@ -1,13 +1,35 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Formik, Form } from 'formik'
 import { Col, FormGroup, Modal, Row } from 'react-bootstrap'
 import { DatePicker } from '@material-ui/pickers'
 import moment from 'moment'
+import { useGetInitialFormDataQuery } from '../../../features/services/project/projectApi'
+import { store } from '../../../features/slices/project/projectSlice'
 import Autocomplete from '../../../components/FormControls/Autocomplete'
 
 const ModalProjectForm = ({ isShow, onHide, onSubmit }) => {
+    const dispatch = useDispatch()
+    const [selectedYear, setSelectedYear] = useState(moment());
     const [selectedFromDate, setSelectedFromDate] = useState(moment());
     const [selectedToDate, setSelectedToDate] = useState(moment());
+    const [employees, setEmployees] = useState([]);
+    const { data: formData, isLoading } = useGetInitialFormDataQuery();
+
+    /** On mounted */
+    useEffect(() => {
+        if (formData) {
+            const newEmployees = formData.employees.map(emp => ({ id: emp.id, name: `${emp.prefix?.name}${emp.firstname} ${emp.lastname}` }));
+            setEmployees(newEmployees);
+        }
+    }, [formData]);
+
+    const handleSubmit = (values, formik) => {
+        dispatch(store(values));
+
+        // onSubmit();
+        onHide();
+    };
 
     return (
         <Modal
@@ -19,23 +41,54 @@ const ModalProjectForm = ({ isShow, onHide, onSubmit }) => {
                 <Modal.Title>เพิ่มโครงการ</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Formik>
+                <Formik
+                    initialValues={{
+                        name: '',
+                        year: '',
+                        project_type_id: '',
+                        owner_id: '',
+                        place_id: '',
+                        from_date: '',
+                        to_date: '',
+                    }}
+                    onSubmit={handleSubmit}
+                >
                     {(formik) => {
                         return (
                             <Form className="p-3">
                                 <Row className="mb-2">
                                     <Col md={3}>
                                         <label htmlFor="">ประเภทโครงการ</label>
-                                        <select name="" className="form-control text-sm">
+                                        <select
+                                            name="project_type_id"
+                                            value={formik.values.project_type_id}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm"
+                                        >
                                             <option value="">-- ประเภทโครงการ --</option>
                                             <option value="1">โครงการ</option>
                                         </select>
+                                    </Col>
+                                    <Col md={2}>
+                                        <label htmlFor="">ปีงบ</label>
+                                        <DatePicker
+                                            format="YYYY"
+                                            views={['year']}
+                                            value={selectedYear}
+                                            onChange={(date) => {
+                                                setSelectedYear(date);
+                                                formik.setFieldValue('year', date.year() + 543);
+                                            }}
+                                        />
+                                        {(formik.errors.year && formik.touched.year) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.year}</span>
+                                        )}
                                     </Col>
                                     <Col>
                                         <label htmlFor="">เจ้าของโครงการ</label>
                                         <Autocomplete
                                             inputName="owner_id"
-                                            items={[]}
+                                            items={employees}
                                             onSelect={(employee) => {
                                                 formik.setFieldTouched('owner_id', true);
 
@@ -51,19 +104,66 @@ const ModalProjectForm = ({ isShow, onHide, onSubmit }) => {
                                 <Row className="mb-2">
                                     <Col>
                                         <label htmlFor="">ชื่อโครงการ</label>
-                                        <select name="" className="form-control text-sm">
-                                            <option value="">-- ประเภทโครงการ --</option>
-                                        </select>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            value={formik.values.name}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm"
+                                            placeholder="ระบุชื่อโครงการ"
+                                        />
                                     </Col>
                                 </Row>
                                 <Row className="mb-2">
                                     <Col>
                                         <label htmlFor="">สถานที่</label>
-                                        <select name="" className="form-control text-sm">
+                                        <select
+                                            name="place_id"
+                                            value={formik.values.place_id}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm"
+                                        >
                                             <option value="">-- ประเภทโครงการ --</option>
+                                            {formData && formData?.places.map(place => (
+                                                <option value={place.id} key={place.id}>
+                                                    {place.name}
+                                                </option>
+                                            ))}
                                         </select>
                                     </Col>
-                                    {/* <Col>
+                                </Row>
+                                <Row className="mb-2">
+                                    <Col>
+                                        <div className="flex flex-col">
+                                            <label htmlFor="">จากวันที่</label>
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedFromDate}
+                                                onChange={(date) => {
+                                                    setSelectedFromDate(date);
+                                                    formik.setFieldValue('from_date', date.format('YYYY-MM-DD'));
+                                                }}
+                                                variant="outlined"
+                                            />
+                                        </div>
+                                    </Col>
+                                    <Col>
+                                        <div className="flex flex-col">
+                                            <label htmlFor="">ถึงวันที่</label>
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedToDate}
+                                                onChange={(date) => {
+                                                    setSelectedToDate(date);
+                                                    formik.setFieldValue('to_date', date.format('YYYY-MM-DD'));
+                                                }}
+                                                variant="outlined"
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
+                                {/* <Row>
+                                    <Col>
                                         <FormGroup>
                                             <label>ที่อยู่ เลขที่</label>
                                             <input
@@ -93,9 +193,7 @@ const ModalProjectForm = ({ isShow, onHide, onSubmit }) => {
                                             )}
                                         </FormGroup>
                                     </Col> */}
-                                </Row>
-                                {/* <Row className="mb-2">
-                                    <Col>
+                                    {/* <Col>
                                         <FormGroup>
                                             <label>ถนน</label>
                                             <input
@@ -126,36 +224,8 @@ const ModalProjectForm = ({ isShow, onHide, onSubmit }) => {
                                         </FormGroup>
                                     </Col>
                                 </Row> */}
-                                <Row className="mb-3">
+                                {/* <Row className="mb-3">
                                     <Col>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="">จากวันที่</label>
-                                            <DatePicker
-                                                format="DD/MM/YYYY"
-                                                value={selectedFromDate}
-                                                onChange={(date) => {
-                                                    setSelectedFromDate(date);
-                                                    // formik.setFieldValue('doc_date', date.format('YYYY-MM-DD'));
-                                                }}
-                                                variant="outlined"
-                                            />
-                                        </div>
-                                    </Col>
-                                    <Col>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="">ถึงวันที่</label>
-                                            <DatePicker
-                                                format="DD/MM/YYYY"
-                                                value={selectedToDate}
-                                                onChange={(date) => {
-                                                    setSelectedToDate(date);
-                                                    // formik.setFieldValue('doc_date', date.format('YYYY-MM-DD'));
-                                                }}
-                                                variant="outlined"
-                                            />
-                                        </div>
-                                    </Col>
-                                    {/* <Col>
                                         <FormGroup>
                                             <label>จังหวัด</label>
                                             <select
@@ -222,8 +292,8 @@ const ModalProjectForm = ({ isShow, onHide, onSubmit }) => {
                                                 <span className="text-red-500 text-sm">{formik.errors.tambon_id}</span>
                                             )}
                                         </FormGroup>
-                                    </Col> */}
-                                </Row>
+                                    </Col>
+                                </Row> */}
                                 <Row>
                                     <Col>
                                         <button type="submit" className="btn btn-outline-primary float-right">
