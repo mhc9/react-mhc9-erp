@@ -1,55 +1,74 @@
 import { Route, Routes } from 'react-router-dom';
+import GuardRoute from './components/GuardRoute';
 import DefaultLayout from "./components/DefaultLayout"
 import Home from './views/Home';
+/** Auth */
+import Login from './views/Auth/Login';
+import Register from './views/Auth/Register';
+/** Task */
 import TaskList from './views/Task/List';
 import AddTask from './views/Task/Add';
 import EditTask from './views/Task/Edit';
 import TaskDetail from './views/Task/Detail';
-import Advice from './views/Advice';
-import Login from './views/Auth/Login';
-import Register from './views/Auth/Register';
-import GuardRoute from './components/GuardRoute';
+/** Asset */
 import AddAsset from './views/Asset/Add';
 import AssetList from './views/Asset/List';
 import AssetDetail from './views/Asset/Detail';
 import EditAsset from './views/Asset/Edit';
 import AssetType from './views/AssetType';
 import AssetCategory from './views/AssetCategory';
+/** Comset */
 import ComsetList from './views/Comset/List';
 import AddComset from './views/Comset/Add';
+/** Employee */
 import EmployeeList from './views/Employee/List';
 import AddEmployee from './views/Employee/Add';
 import EditEmployee from './views/Employee/Edit';
 import EmployeeDetail from './views/Employee/Detail';
+/** Department */
 import Department from './views/Department';
 import Division from './views/Division';
 import Room from './views/Room';
+/** Requisition */
 import RequisitionList from './views/Requisition/List';
 import RequisitionDetail from './views/Requisition/Detail';
 import AddRequisition from './views/Requisition/Add';
 import EditRequisition from './views/Requisition/Edit';
+/** Purchase Order */
 import OrderList from './views/Order/List';
 import AddOrder from './views/Order/Add';
 import OrderDetail from './views/Order/Detail';
+/** Inspection */
 import InspectionList from './views/Inspection/List';
 import AddInspection from './views/Inspection/Add';
 import InspectionDetail from './views/Inspection/Detail';
+/** Item */
 import ItemList from './views/Item/List';
 import AddItem from './views/Item/Add';
 import EditItem from './views/Item/Edit';
 import ItemDetail from './views/Item/Detail';
+/** Supplier */
 import SupplierList from './views/supplier/List';
 import AddSupplier from './views/supplier/Add';
 import Unit from './views/Unit'
+/** Report */
 import StiReportViewer from './components/ReportViewer/StiReportViewer';
 import Requisition from './components/Preview/Requisition';
 import RequisitionReport from './components/Preview/RequisitionReport';
 import RequisitionCommittee from './components/Preview/RequisitionCommittee';
 import Inspection from './components/Preview/Inspection';
+/** Repairation */
 import RepairationList from './views/Repairation/List';
 import RepairationDetail from './views/Repairation/Detail';
+/** Loan */
 import LoanList from './views/Loan/List';
 import AddLoan from './views/Loan/Add';
+/** Budget */
+import BudgetList from './views/Budget/List';
+import BudgetPlanList from './views/Budget/Plan/List';
+import BudgetProjectList from './views/Budget/Project/List';
+/** Help */
+import Advice from './views/Advice';
 
 function App() {
     return (
@@ -121,10 +140,15 @@ function App() {
                 <Route path="employee/:id/edit" element={<GuardRoute><EditEmployee /></GuardRoute>} />
                 <Route path="employee/:id/detail" element={<GuardRoute><EmployeeDetail /></GuardRoute>} />
 
-                {/*  */}
+                {/* Offices */}
                 <Route path="department" element={<GuardRoute><Department /></GuardRoute>} />
                 <Route path="division" element={<GuardRoute><Division /></GuardRoute>} />
                 <Route path="room" element={<GuardRoute><Room /></GuardRoute>} />
+
+                {/* Budgets */}
+                <Route path="budget" element={<GuardRoute><BudgetList /></GuardRoute>} />
+                <Route path="budget-plan" element={<GuardRoute><BudgetPlanList /></GuardRoute>} />
+                <Route path="budget-project" element={<GuardRoute><BudgetProjectList /></GuardRoute>} />
 
                 {/* ============================= Help ============================= */}
                 {/*  */}

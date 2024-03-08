@@ -12,6 +12,8 @@ import roomReducer from "./slices/room/roomSlice";
 import taskRecuer from "./slices/task/taskSlice";
 import itemReducer from "./slices/item/itemSlice";
 import budgetReducer from "./slices/budget/budgetSlice";
+import budgetPlanReducer from "./slices/budget-plan/budgetPlanSlice";
+import budgetProjectReducer from "./slices/budget-project/budgetProjectSlice";
 import requisitionReducer from "./slices/requisition/requisitionSlice";
 import unitReducer from './slices/unit/unitSlice';
 import memberReducer from "./slices/member/memberSlice";
@@ -74,6 +76,8 @@ export default configureStore({
         repairation: repairationReducer,
         approval: approvalReducer,
         loan: loanReducer,
+        budgetPlan: budgetPlanReducer,
+        budgetProject: budgetProjectReducer,
     },
     middleware: (getDefaultMiddleware) => 
         getDefaultMiddleware().concat(
