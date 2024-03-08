@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Col, Row } from 'react-bootstrap'
 import { Formik, Form } from 'formik'
-import { FaSearch } from 'react-icons/fa'
+import { FaSearch, FaPlus } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
 import * as Yup from 'yup'
 import moment from 'moment';
@@ -12,16 +12,21 @@ import { useGetInitialFormDataQuery } from '../../../features/services/loan/loan
 import AddExpense from './AddExpense'
 import ExpenseList from './ExpenseList'
 import Loading from '../../../components/Loading'
-import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import ModalBudgetList from '../../../components/Modals/BudgetList'
+import ModalProjectList from '../../../components/Modals/Project/List'
+import ModalProjectForm from '../../../components/Modals/Project/Form'
+import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 
 const LoanForm = () => {
     const dispatch = useDispatch();
     const [selectedDate, setSelectedDate] = useState(moment());
     const [selectedYear, setSelectedYear] = useState(moment());
-    const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [showBudgetModal, setShowBudgetModal] = useState(false);
+    const [showProjectModal, setShowProjectModal] = useState(false);
+    const [showProjectForm, setShowProjectForm] = useState(false);
+    const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [budget, setBudget] = useState(null);
+    const [project, setProject] = useState(null);
     const [employee, setEmployee] = useState(null);
     const [edittedItem, setEdittedItem] = useState(null);
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
@@ -92,6 +97,24 @@ const LoanForm = () => {
                             onSelect={(budget) => {
                                 setBudget(budget);
                                 formik.setFieldValue('budget_id', budget.id);
+                            }}
+                        />
+
+                        <ModalProjectList
+                            isShow={showProjectModal}
+                            onHide={() => setShowProjectModal(false)}
+                            onSelect={(project) => {
+                                setProject(project);
+                                formik.setFieldValue('project_id', project?.id);
+                            }}
+                        />
+
+                        <ModalProjectForm
+                            isShow={showProjectForm}
+                            onHide={() => setShowProjectForm(false)}
+                            onSubmit={(project) => {
+                                setProject(project);
+                                formik.setFieldValue('project_id', project?.id);
                             }}
                         />
 
@@ -237,7 +260,7 @@ const LoanForm = () => {
                             </Col>
                         </Row>
                         <Row className="mb-2">
-                            <Col md={6}>
+                            <Col md={12}>
                                 <label htmlFor="">งบประมาณ</label>
                                 <div className="input-group">
                                     <div className="form-control h-[34px] text-sm">
@@ -258,24 +281,41 @@ const LoanForm = () => {
                                     <span className="text-red-500 text-sm">{formik.errors.budget_id}</span>
                                 )}
                             </Col>
-                            <Col md={6}>
+                            <Col md={12}>
+                                <div className="form-control text-sm min-h-[34px] bg-gray-200 mt-1">
+                                    โครงการ/ผลผลิต: <span className="font-thin">{budget?.project?.name}</span>
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col md={12}>
                                 <label htmlFor="">โครงการ</label>
-                                <select
-                                    name="project_id"
-                                    value={formik.values.project_id}
-                                    onChange={formik.handleChange}
-                                    className="form-control text-sm"
-                                >
-                                    <option value="">-- โครงการ --</option>
-                                    {/* {formData.projects && formData.projects.map(project => (
-                                        <option value={project.id} key={project.id}>
-                                            {project.name}
-                                        </option>
-                                    ))} */}
-                                </select>
+                                <div className="input-group">
+                                    <div className="form-control h-[34px] text-sm">
+                                        {project?.name}
+                                    </div>
+                                    <input
+                                        type="hidden"
+                                        name="project_id"
+                                        value={formik.values.project_id}
+                                        onChange={formik.handleChange}
+                                        className="form-control text-sm"
+                                    />
+                                    <button type="button" className="btn btn-outline-secondary" onClick={() => setShowProjectModal(true)}>
+                                        <FaSearch />
+                                    </button>
+                                    <button type="button" className="btn btn-outline-primary" onClick={() => setShowProjectForm(true)}>
+                                        <FaPlus />
+                                    </button>
+                                </div>
                                 {(formik.errors.project_id && formik.touched.project_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.project_id}</span>
                                 )}
+                            </Col>
+                            <Col md={12}>
+                                <div className="form-control text-sm min-h-[34px] bg-gray-200 mt-1">
+                                    รายละเอียดโครงการ: <span className="font-thin">{project?.name}</span>
+                                </div>
                             </Col>
                         </Row>
                         <Row className="mb-2">

@@ -60,7 +60,7 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                     />
 
                     <div className="flex flex-row gap-2 mb-2">
-                        <FormGroup className="w-[45%]">
+                        <FormGroup className="w-[40%]">
                             <select
                                 name="expense_id"
                                 value={formik.values.expense_id}
@@ -78,16 +78,7 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                                 <span className="text-red-500 text-sm">{formik.errors.item_id}</span>
                             )}
                         </FormGroup>
-                        <FormGroup>
-                            <button
-                                type="button"
-                                className="btn btn-outline-info text-sm"
-                                onClick={() => setShowModalAddItemDesc(true)}
-                            >
-                                Desc
-                            </button>
-                        </FormGroup>
-                        <FormGroup className="w-[20%]">
+                        <FormGroup className="w-[35%]">
                             <input
                                 type="text"
                                 name="description"
@@ -100,6 +91,15 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                                 <span className="text-red-500 text-sm">{formik.errors.description}</span>
                             )}
                         </FormGroup>
+                        {/* <FormGroup>
+                            <button
+                                type="button"
+                                className="btn btn-outline-info text-sm"
+                                onClick={() => setShowModalAddItemDesc(true)}
+                            >
+                                Desc
+                            </button>
+                        </FormGroup> */}
                         <FormGroup className="w-[15%]">
                             <input
                                 type="text"
