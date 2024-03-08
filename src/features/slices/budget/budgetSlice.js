@@ -10,7 +10,7 @@ const initialState = {
     error: null
 };
 
-export const getBudgets = createAsyncThunk("asset/getBudgets", async ({ url }, { rejectWithValue }) => {
+export const getBudgets = createAsyncThunk("budget/getBudgets", async ({ url }, { rejectWithValue }) => {
     try {
         const res = await api.get(url);
 
@@ -20,7 +20,7 @@ export const getBudgets = createAsyncThunk("asset/getBudgets", async ({ url }, {
     }
 });
 
-export const getBudget = createAsyncThunk("asset/getBudget", async ({ id }, { rejectWithValue }) => {
+export const getBudget = createAsyncThunk("budget/getBudget", async ({ id }, { rejectWithValue }) => {
     try {
         const res = await api.get(`/api/budgets/${id}`);
 
@@ -30,7 +30,7 @@ export const getBudget = createAsyncThunk("asset/getBudget", async ({ id }, { re
     }
 });
 
-export const store = createAsyncThunk("asset/store", async (data, { rejectWithValue }) => {
+export const store = createAsyncThunk("budget/store", async (data, { rejectWithValue }) => {
     try {
         const res = await api.post(`/api/budgets`, data);
 
@@ -40,7 +40,7 @@ export const store = createAsyncThunk("asset/store", async (data, { rejectWithVa
     }
 });
 
-export const update = createAsyncThunk("asset/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
+export const update = createAsyncThunk("budget/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
     try {
         const res = await api.put(`/api/budgets/${id}`, data);
 
@@ -52,7 +52,7 @@ export const update = createAsyncThunk("asset/update", async ({ id, data }, { di
     }
 });
 
-export const destroy = createAsyncThunk("asset/destroy", async ({ id }, { dispatch, rejectWithValue }) => {
+export const destroy = createAsyncThunk("budget/destroy", async ({ id }, { dispatch, rejectWithValue }) => {
     try {
         const res = await api.delete(`/api/budgets/${id}`);
 
@@ -65,7 +65,7 @@ export const destroy = createAsyncThunk("asset/destroy", async ({ id }, { dispat
 });
 
 export const budgetSlice = createSlice({
-    name: 'asset',
+    name: 'budget',
     initialState,
     reducers: {
         resetSuccess: (state) => {
