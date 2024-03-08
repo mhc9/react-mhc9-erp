@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { currency, toShortTHDate } from '../../../utils'
 // import ModalDetailList from './ModalDetailList'
 
 const LoanListDetail = ({ items }) => {
@@ -10,9 +11,10 @@ const LoanListDetail = ({ items }) => {
                 {items && items.map((item, index) => {
                     if (index < 2) {
                         return (
-                            <li key={item.id} className="break-words">
-                                <span className="mr-1">{index+1}.{item.item?.name}</span>
+                            <li key={item.id} className="break-words text-xs">
+                                <span className="mr-1">{index+1}.{item.expense?.name}</span>
                                 {item.description && <span className="text-red-500">({item.description})</span>}
+                                <span className="ml-2">{currency.format(item.total)} บาท</span>
                             </li>
                         )
                     }

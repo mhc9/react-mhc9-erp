@@ -83,25 +83,22 @@ const LoanList = () => {
                                 <tr key={loan.id}>
                                     <td className="text-center">{pager && pager.from + index}</td>
                                     <td className="text-sm">
-                                        <p>เลขที่ <span className="badge rounded-pill text-bg-primary">{loan.pr_no}</span></p>
-                                        <p>วันที่ <span className="badge rounded-pill text-bg-primary">{toShortTHDate(loan.pr_date)}</span></p>
+                                        <p>เลขที่ <span className="badge rounded-pill text-bg-primary">{loan.doc_no}</span></p>
+                                        <p>วันที่ <span className="badge rounded-pill text-bg-primary">{toShortTHDate(loan.doc_date)}</span></p>
                                     </td>
                                     <td className="text-sm">
-                                        <p>
-                                            <span className="mr-2">{loan.category.name} จำนวน {loan.item_count} รายการ</span>
-                                            <span>เป็นเงินทั้งสิ้น {currency.format(loan.net_total)} บาท</span>
-                                        </p>
                                         {loan.project && (
-                                            <div className="text-xs font-thin text-blue-600">
-                                                *{loan.project.name}
+                                            <div className="text-blue-600">
+                                                {loan.project.name}
+                                                <span className="ml-1">เป็นเงินทั้งสิ้น {currency.format(loan.net_total)} บาท</span>
                                             </div>
                                         )}
 
                                         <LoanListDetail items={loan.details} />
                                     </td>
                                     <td className="text-sm">
-                                        {loan.requester?.prefix?.name}{loan.requester?.firstname} {loan.requester?.lastname}
-                                        <p className="font-thin">{loan.requester?.position?.name}{loan.requester?.level && loan.requester?.level?.name}</p>
+                                        {loan.employee?.prefix?.name}{loan.employee?.firstname} {loan.employee?.lastname}
+                                        <p className="font-thin">{loan.employee?.position?.name}{loan.employee?.level && loan.employee?.level?.name}</p>
                                     </td>
                                     <td className="text-center">
                                         {loan.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
