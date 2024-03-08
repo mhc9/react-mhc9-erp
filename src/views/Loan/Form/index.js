@@ -6,7 +6,7 @@ import { FaSearch, FaPlus } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
 import * as Yup from 'yup'
 import moment from 'moment';
-import { calculateNetTotal, currency } from '../../../utils'
+import { calculateNetTotal, currency, toShortTHDate } from '../../../utils'
 import { store, update } from '../../../features/slices/loan/loanSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
 import AddExpense from './AddExpense'
@@ -85,8 +85,10 @@ const LoanForm = () => {
                 employee_id: '',
                 department_id: '',
                 net_total: '',
+                remark: '',
                 items: [],
             }}
+            onSubmit={handleSubmit}
         >
             {(formik) => {
                 return (
@@ -113,6 +115,7 @@ const LoanForm = () => {
                             isShow={showProjectForm}
                             onHide={() => setShowProjectForm(false)}
                             onSubmit={(project) => {
+                                console.log(project);
                                 setProject(project);
                                 formik.setFieldValue('project_id', project?.id);
                             }}
@@ -133,7 +136,7 @@ const LoanForm = () => {
                         />
 
                         <Row className="mb-2">
-                            <Col md={4}>
+                            <Col md={2}>
                                 <label htmlFor="">เลขที่เอกสาร</label>
                                 <input
                                     type="text"
@@ -163,7 +166,7 @@ const LoanForm = () => {
                                     <span className="text-red-500 text-sm">{formik.errors.doc_date}</span>
                                 )}
                             </Col>
-                            <Col md={3}>
+                            <Col md={4}>
                                 <label>ประเภทการยืม</label>
                                 <select
                                     name="loan_type_id"
@@ -184,7 +187,7 @@ const LoanForm = () => {
                                     <span className="text-red-500 text-sm">{formik.errors.loan_type_id}</span>
                                 )}  
                             </Col>
-                            <Col md={3}>
+                            <Col md={4}>
                                 <label htmlFor="">ประเภทเงินยืม</label>
                                 <select
                                     name="money_type_id"
@@ -225,7 +228,7 @@ const LoanForm = () => {
                             <Col md={6}>
                                 <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
                                 <div className="input-group">
-                                    <div className="form-control h-[34px] text-sm">
+                                    <div className="form-control text-sm h-[34px] bg-gray-100">
                                         {employee?.firstname} {employee?.lastname}
                                     </div>
                                     <input
@@ -263,7 +266,7 @@ const LoanForm = () => {
                             <Col md={12}>
                                 <label htmlFor="">งบประมาณ</label>
                                 <div className="input-group">
-                                    <div className="form-control h-[34px] text-sm">
+                                    <div className="form-control text-sm h-[34px] bg-gray-100">
                                         {budget?.name}
                                     </div>
                                     <input
@@ -283,7 +286,10 @@ const LoanForm = () => {
                             </Col>
                             <Col md={12}>
                                 <div className="form-control text-sm min-h-[34px] bg-gray-200 mt-1">
-                                    โครงการ/ผลผลิต: <span className="font-thin">{budget?.project?.name}</span>
+                                    โครงการ/ผลผลิต :
+                                    {budget && (
+                                        <span className="font-thin ml-1">{budget?.project?.plan?.name} / {budget?.project?.name}</span>
+                                    )}
                                 </div>
                             </Col>
                         </Row>
@@ -291,7 +297,7 @@ const LoanForm = () => {
                             <Col md={12}>
                                 <label htmlFor="">โครงการ</label>
                                 <div className="input-group">
-                                    <div className="form-control h-[34px] text-sm">
+                                    <div className="form-control text-sm h-[34px] bg-gray-100">
                                         {project?.name}
                                     </div>
                                     <input
@@ -314,7 +320,14 @@ const LoanForm = () => {
                             </Col>
                             <Col md={12}>
                                 <div className="form-control text-sm min-h-[34px] bg-gray-200 mt-1">
-                                    รายละเอียดโครงการ: <span className="font-thin">{project?.name}</span>
+                                    รายละเอียดโครงการ :
+                                    {project && (
+                                        <span className="font-thin ml-1">
+                                            {project?.place?.name}
+                                            <span className="ml-1"><b>ระหว่างวันที่</b> {toShortTHDate(project?.from_date)} - {toShortTHDate(project?.to_date)}</span>
+                                            <span className="ml-1"><b>ผู้ดำเนินการ</b> {project?.owner?.firstname} {project?.owner?.lastname}</span>
+                                        </span>
+                                    )}
                                 </div>
                             </Col>
                         </Row>
@@ -361,7 +374,13 @@ const LoanForm = () => {
                         </Row>
                         <Row className="mb-2">
                             <Col>
-                                <textarea name="remark" rows="3" className="form-control"></textarea>
+                                <textarea
+                                    rows="3"
+                                    name="remark"
+                                    value={formik.values.remark}
+                                    onChange={formik.handleChange}
+                                    className="form-control"
+                                ></textarea>
                             </Col>
                         </Row>
                         <Row>
