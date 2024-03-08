@@ -39,6 +39,7 @@ import { assetTypeApi } from "./services/asset-type/assetTypeApi"
 import { approvalApi } from "./services/approval/approvalApi";
 import { loanApi } from "./services/loan/loanApi";
 import { budgetApi } from "./services/budget/budgetApi";
+import { projectApi } from "./services/project/projectApi";
 
 export default configureStore({
     reducer: {
@@ -57,6 +58,7 @@ export default configureStore({
         [approvalApi.reducerPath]: approvalApi.reducer,
         [loanApi.reducerPath]: loanApi.reducer,
         [budgetApi.reducerPath]: budgetApi.reducer,
+        [projectApi.reducerPath]: projectApi.reducer,
         auth: authReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
@@ -100,5 +102,6 @@ export default configureStore({
             approvalApi.middleware,
             loanApi.middleware,
             budgetApi.middleware,
+            projectApi.middleware,
         ),
 });
