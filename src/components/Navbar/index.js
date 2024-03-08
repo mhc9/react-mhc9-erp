@@ -134,6 +134,18 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                         <li className="hover:bg-gray-300 p-2 rounded-b-md">
                                             <Link to="/unit"><p className="w-full">หน่วยนับ</p></Link>
                                         </li>
+
+                                        <li><hr className="dropdown-divider m-0" /></li>
+                                        {user?.permissions[0]?.role_id === 1 && (
+                                            <>
+                                                <li className="hover:bg-gray-300 p-2">
+                                                    <Link to="/budget"><p className="w-full">งบประมาณ</p></Link>
+                                                </li>
+                                                <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                                                    {/* <Link to="/unit"><p className="w-full">หน่วยนับ</p></Link> */}
+                                                </li>
+                                            </>
+                                        )}
                                     </>
                                 )}
                             </ul>
