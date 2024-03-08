@@ -65,6 +65,7 @@ import LoanList from './views/Loan/List';
 import AddLoan from './views/Loan/Add';
 /** Budget */
 import BudgetList from './views/Budget/List';
+import AddBudget from './views/Budget/Add';
 import BudgetPlanList from './views/Budget/Plan/List';
 import BudgetProjectList from './views/Budget/Project/List';
 /** Help */
@@ -147,6 +148,7 @@ function App() {
 
                 {/* Budgets */}
                 <Route path="budget" element={<GuardRoute><BudgetList /></GuardRoute>} />
+                <Route path="budget/add" element={<GuardRoute><AddBudget /></GuardRoute>} />
                 <Route path="budget-plan" element={<GuardRoute><BudgetPlanList /></GuardRoute>} />
                 <Route path="budget-project" element={<GuardRoute><BudgetProjectList /></GuardRoute>} />
 
