@@ -42,7 +42,8 @@ const BudgetList = () => {
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
                                 <th>รายการ</th>
-                                <th className="text-center w-[20%]">รหัส New GFMIS</th>
+                                <th className="text-center w-[18%]">รหัส New GFMIS</th>
+                                <th className="text-center w-[18%]">รหัสกิจกรรมหลัก</th>
                                 <th className="text-center w-[6%]">สถานะ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
@@ -57,6 +58,7 @@ const BudgetList = () => {
                                         <p className="badge rounded-pill bg-primary">{budget.project?.plan?.name}</p>
                                     </td>
                                     <td className="text-center">{budget.gfmis_id}</td>
+                                    <td className="text-center">{budget.main_gfmis_id}</td>
                                     <td className="text-center">{budget.status}</td>
                                     <td className="text-center p-1">
                                         <Link to={`/budget/${budget.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">

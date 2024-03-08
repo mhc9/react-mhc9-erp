@@ -8,7 +8,7 @@ const AddBudget = () => {
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>งบประมาณ</Breadcrumb.Item>
-                <Breadcrumb.Item href="/loan">รายการงบประมาณ</Breadcrumb.Item>
+                <Breadcrumb.Item href="/budget">รายการงบประมาณ</Breadcrumb.Item>
                 <Breadcrumb.Item active>เพิ่มงบประมาณ</Breadcrumb.Item>
             </Breadcrumb>
 
