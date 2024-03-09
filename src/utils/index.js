@@ -97,3 +97,10 @@ export const generateQueryString = (inputs) => {
 export const isExisted = (items, id) => {
     return items.some(item => item.id === id);
 };
+
+export const replaceExpensePattern = (pattern = '', replacement = '') => {
+    const [p_amount, p_time, p_price] = pattern.split('X');
+    const [r_amount, r_time, r_price] = replacement.split('*');
+
+    return `${p_amount.replace('...', r_amount)}X${p_time.replace('...', r_time)}X${p_price.replace('...', r_price)}`;
+};
