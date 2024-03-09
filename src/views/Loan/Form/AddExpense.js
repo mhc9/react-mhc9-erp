@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
-import { calculateTotal } from '../../../utils'
 import ModalAddItemDesc from '../../../components/Modals/AddItemDesc'
 
 const itemSchema = Yup.object().shape({
@@ -17,13 +16,19 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
 
     useEffect(() => {
         if (data) {
-            setItem(data.item);
+            setItem(data);
         }
     }, [data]);
 
     const handleClear = (formik) => {
         formik.resetForm();
         onClear(null);
+    };
+
+    const calculateTotalFromDesc = (desc = '') => {
+        const [amount, time, price] = desc.split('*');
+
+        return parseFloat(amount) * parseFloat(time) * parseFloat(price);
     };
 
     const handleSubmit = (values, formik) => {
@@ -60,7 +65,7 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                     />
 
                     <div className="flex flex-row gap-2 mb-2">
-                        <FormGroup className="w-[40%]">
+                        <FormGroup className="w-[35%]">
                             <select
                                 name="expense_id"
                                 value={formik.values.expense_id}
@@ -70,7 +75,7 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                                 <option value="">-- ค่าใช้จ่าย --</option>
                                 {formData && formData.map(exp => (
                                     <option value={exp.id} key={exp.id}>
-                                        {exp.name}
+                                        {exp.name} {exp.pattern}
                                     </option>
                                 ))}
                             </select>
@@ -78,12 +83,13 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                                 <span className="text-red-500 text-sm">{formik.errors.item_id}</span>
                             )}
                         </FormGroup>
-                        <FormGroup className="w-[35%]">
+                        <FormGroup className="w-[40%]">
                             <input
                                 type="text"
                                 name="description"
                                 value={formik.values.description}
                                 onChange={formik.handleChange}
+                                onBlur={(e) => formik.setFieldValue('total', calculateTotalFromDesc(e.target.value))}
                                 className="form-control text-sm"
                                 placeholder="รายละเอียด"
                             />
@@ -91,15 +97,6 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                                 <span className="text-red-500 text-sm">{formik.errors.description}</span>
                             )}
                         </FormGroup>
-                        {/* <FormGroup>
-                            <button
-                                type="button"
-                                className="btn btn-outline-info text-sm"
-                                onClick={() => setShowModalAddItemDesc(true)}
-                            >
-                                Desc
-                            </button>
-                        </FormGroup> */}
                         <FormGroup className="w-[15%]">
                             <input
                                 type="text"
@@ -113,25 +110,25 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                                 <span className="text-red-500 text-sm">{formik.errors.total}</span>
                             )}
                         </FormGroup>
-                        <FormGroup className="w-[5%]">
-                            <button
-                                type="button"
-                                className={`btn ${data ? 'btn-outline-warning' : 'btn-outline-primary'} w-full text-sm`}
-                                onClick={formik.submitForm}
-                            >
-                                {/* <FaPlus /> */}
-                                {data ? 'อัพเดต' : 'เพิ่ม'}
-                            </button>
-                        </FormGroup>
-                        <FormGroup className="w-[7%]">
-                            <button
-                                type="button"
-                                className="btn btn-outline-danger text-sm"
-                                onClick={() => handleClear(formik)}
-                            >
-                                {/* <FaTimes /> */}
-                                เคลียร์
-                            </button>
+                        <FormGroup className="w-[10%]">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button
+                                    type="button"
+                                    className={`btn ${data ? 'btn-outline-warning' : 'btn-outline-primary'} w-full text-sm`}
+                                    onClick={formik.submitForm}
+                                >
+                                    {/* <FaPlus /> */}
+                                    {data ? 'แก้ไข' : 'เพิ่ม'}
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-danger text-sm"
+                                    onClick={() => handleClear(formik)}
+                                >
+                                    {/* <FaTimes /> */}
+                                    {data ? 'ยกเลิก' : 'เคลียร์'}
+                                </button>
+                            </div>
                         </FormGroup>
                     </div>
                 </>
