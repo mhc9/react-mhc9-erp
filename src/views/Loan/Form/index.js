@@ -17,6 +17,19 @@ import ModalProjectList from '../../../components/Modals/Project/List'
 import ModalProjectForm from '../../../components/Modals/Project/Form'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 
+const loanSchema = Yup.object().shape({
+    doc_no: Yup.string().required(),
+    doc_date: Yup.string().required(),
+    loan_type_id: Yup.string().required(),
+    money_type_id: Yup.string().required(),
+    year: Yup.string().required(),
+    budget_id: Yup.string().required(),
+    project_id: Yup.string().required(),
+    department_id: Yup.string().required(),
+    employee_id: Yup.string().required(),
+    net_total: Yup.string().required(),
+});
+
 const LoanForm = () => {
     const dispatch = useDispatch();
     const [selectedDate, setSelectedDate] = useState(moment());
@@ -77,9 +90,10 @@ const LoanForm = () => {
         <Formik
             initialValues={{
                 doc_no: '',
-                doc_date: '',
+                doc_date: moment().format('YYYY-MM-DD'),
                 loan_type_id: '',
                 money_type_id: '',
+                year: moment().year() + 543,
                 budget_id: '',
                 project_id: '',
                 employee_id: '',
@@ -88,6 +102,7 @@ const LoanForm = () => {
                 remark: '',
                 items: [],
             }}
+            validationSchema={loanSchema}
             onSubmit={handleSubmit}
         >
             {(formik) => {
@@ -247,16 +262,18 @@ const LoanForm = () => {
                                 )}
                             </Col>
                             <Col md={2}>
-                                <label htmlFor="">ปีงบ</label>
-                                <DatePicker
-                                    format="YYYY"
-                                    views={['year']}
-                                    value={selectedYear}
-                                    onChange={(date) => {
-                                        setSelectedYear(date);
-                                        formik.setFieldValue('year', date.year() + 543);
-                                    }}
-                                />
+                                <div className="flex flex-col">
+                                    <label htmlFor="">ปีงบ</label>
+                                    <DatePicker
+                                        format="YYYY"
+                                        views={['year']}
+                                        value={selectedYear}
+                                        onChange={(date) => {
+                                            setSelectedYear(date);
+                                            formik.setFieldValue('year', date.year() + 543);
+                                        }}
+                                    />
+                                </div>
                                 {(formik.errors.year && formik.touched.year) && (
                                     <span className="text-red-500 text-sm">{formik.errors.year}</span>
                                 )}

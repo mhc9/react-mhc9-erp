@@ -79,8 +79,8 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                                     </option>
                                 ))}
                             </select>
-                            {(formik.errors.item_id && formik.touched.item_id) && (
-                                <span className="text-red-500 text-sm">{formik.errors.item_id}</span>
+                            {(formik.errors.expense_id && formik.touched.expense_id) && (
+                                <span className="text-red-500 text-sm">{formik.errors.expense_id}</span>
                             )}
                         </FormGroup>
                         <FormGroup className="w-[40%]">
@@ -111,7 +111,7 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                             )}
                         </FormGroup>
                         <FormGroup className="w-[10%]">
-                            <div class="btn-group" role="group" aria-label="Basic example">
+                            <div className="btn-group" role="group" aria-label="Basic example">
                                 <button
                                     type="button"
                                     className={`btn ${data ? 'btn-outline-warning' : 'btn-outline-primary'} w-full text-sm`}
