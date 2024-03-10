@@ -21,7 +21,7 @@ export const getLoans = createAsyncThunk("loan/getLoans", async ({ url }, { reje
     }
 });
 
-export const getLoan = createAsyncThunk("loan/getLoan", async ({ id }, { rejectWithValue }) => {
+export const getLoan = createAsyncThunk("loan/getLoan", async (id, { rejectWithValue }) => {
     try {
         const res = await api.get(`/api/loans/${id}`);
 

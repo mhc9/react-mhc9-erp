@@ -63,6 +63,7 @@ import RepairationDetail from './views/Repairation/Detail';
 /** Loan */
 import LoanList from './views/Loan/List';
 import AddLoan from './views/Loan/Add';
+import EditLoan from './views/Loan/Edit';
 /** Budget */
 import BudgetList from './views/Budget/List';
 import AddBudget from './views/Budget/Add';
@@ -108,6 +109,7 @@ function App() {
                 {/* ============================= Advance Payment ============================= */}
                 <Route path="loan" element={<GuardRoute><LoanList /></GuardRoute>} />
                 <Route path="loan/add" element={<GuardRoute><AddLoan /></GuardRoute>} />
+                <Route path="loan/:id/edit" element={<GuardRoute><EditLoan /></GuardRoute>} />
 
                 {/* ============================= System Data ============================= */}
                 {/* Items */}
