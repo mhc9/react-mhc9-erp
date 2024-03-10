@@ -8,6 +8,7 @@ import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import LoanListDetail from './ListDetail'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
+import EmployeeCard from '../../../components/Employee/Card'
 // import LoanFilteringInputs from '../../../components/loan/FilteringInputs'
 
 const initialFilters = {
@@ -68,8 +69,7 @@ const LoanList = () => {
                                 <th className="text-center w-[5%]">#</th>
                                 <th className="text-center w-[15%]">เอกสาร</th>
                                 <th>รายการ</th>
-                                <th className="text-center w-[18%]">ผู้ขอ</th>
-                                <th className="text-center w-[6%]">สถานะ</th>
+                                <th className="text-center w-[25%]">ผู้ขอ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
                         </thead>
@@ -85,6 +85,11 @@ const LoanList = () => {
                                     <td className="text-sm">
                                         <p>เลขที่ <span className="badge rounded-pill text-bg-primary">{loan.doc_no}</span></p>
                                         <p>วันที่ <span className="badge rounded-pill text-bg-primary">{toShortTHDate(loan.doc_date)}</span></p>
+                                        <p>
+                                            สถานะ
+                                            {loan.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
+                                            {loan.status === 2 && <span className="badge rounded-pill text-bg-success">ส่งสัญญาแล้ว</span>}
+                                        </p>
                                     </td>
                                     <td className="text-sm">
                                         {loan.project && (
@@ -97,12 +102,7 @@ const LoanList = () => {
                                         <LoanListDetail items={loan.details} />
                                     </td>
                                     <td className="text-sm">
-                                        {loan.employee?.prefix?.name}{loan.employee?.firstname} {loan.employee?.lastname}
-                                        <p className="font-thin">{loan.employee?.position?.name}{loan.employee?.level && loan.employee?.level?.name}</p>
-                                    </td>
-                                    <td className="text-center">
-                                        {loan.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
-                                        {loan.status === 2 && <span className="badge rounded-pill text-bg-success">จัดซื้อแล้ว</span>}
+                                        <EmployeeCard employee={loan?.employee} />
                                     </td>
                                     <td className="text-center p-1">
                                         <Link to={`/loan/${loan.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
