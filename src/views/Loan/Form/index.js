@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Col, Row } from 'react-bootstrap'
 import { Formik, Form } from 'formik'
@@ -30,7 +30,7 @@ const loanSchema = Yup.object().shape({
     net_total: Yup.string().required(),
 });
 
-const LoanForm = () => {
+const LoanForm = ({ loan }) => {
     const dispatch = useDispatch();
     const [selectedDate, setSelectedDate] = useState(moment());
     const [selectedYear, setSelectedYear] = useState(moment());
@@ -43,6 +43,17 @@ const LoanForm = () => {
     const [employee, setEmployee] = useState(null);
     const [edittedItem, setEdittedItem] = useState(null);
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
+
+    useEffect(() => {
+        if (loan) {
+            setSelectedDate(moment(loan.doc_date));
+            setSelectedYear(moment(loan.year));
+
+            setBudget(loan.budget);
+            setProject(loan.project);
+            setEmployee(loan.employee);
+        }
+    }, [loan]);
 
     const handleAddItem = (formik, expense) => {
         const newItems = [...formik.values.items, expense];
@@ -89,18 +100,18 @@ const LoanForm = () => {
     return (
         <Formik
             initialValues={{
-                doc_no: '',
-                doc_date: moment().format('YYYY-MM-DD'),
-                loan_type_id: '',
-                money_type_id: '',
-                year: moment().year() + 543,
-                budget_id: '',
-                project_id: '',
-                employee_id: '',
-                department_id: '',
-                net_total: '',
-                remark: '',
-                items: [],
+                doc_no: loan ? loan.doc_no : '',
+                doc_date: loan ? moment(loan.doc_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+                loan_type_id: loan ? loan.loan_type_id : '',
+                money_type_id: loan ? loan.money_type_id : '',
+                year: loan ? moment(loan.year).format('YYYY-MM-DD') : moment().year() + 543,
+                budget_id: loan ? loan.budget_id : '',
+                project_id: loan ? loan.project_id : '',
+                employee_id: loan ? loan.employee_id : '',
+                department_id: loan ? loan.department_id : '',
+                net_total: loan ? loan.net_total : '',
+                remark: loan ? loan.remark : '',
+                items: loan ? loan.details : [],
             }}
             validationSchema={loanSchema}
             onSubmit={handleSubmit}

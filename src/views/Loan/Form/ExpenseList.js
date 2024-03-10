@@ -20,11 +20,17 @@ const ExpenseList = ({ items, showButtons=true, isEditting,  onEditItem, onRemov
                         <td>
                             <p className="text-gray-500 font-thin">{data.expense?.name}</p>
                             <p className="text-xs">{data.item?.name}</p>
-                            {data.description && (
-                                <p className="text-sm text-gray-400 font-thin">
-                                    {replaceExpensePattern(data.expense?.pattern, data.description)}
-                                </p>
-                            )}
+                            {(data.description && data.expense?.pattern)
+                                ? (
+                                    <p className="text-sm text-red-500 font-thin">
+                                        {replaceExpensePattern(data.expense?.pattern, data.description)}
+                                    </p>
+                                ) : (
+                                    <p className="text-sm text-red-500 font-thin">
+                                        ({data.description})
+                                    </p>
+                                )
+                            }
                         </td>
                         <td className="text-right">{currency.format(data.total)}</td>
                         {showButtons && (
