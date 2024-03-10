@@ -41,7 +41,7 @@ const LoanForm = ({ loan }) => {
     const [budget, setBudget] = useState(null);
     const [project, setProject] = useState(null);
     const [employee, setEmployee] = useState(null);
-    const [edittedItem, setEdittedItem] = useState(null);
+    const [edittingItem, setEdittingItem] = useState(null);
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     useEffect(() => {
@@ -63,7 +63,7 @@ const LoanForm = ({ loan }) => {
     };
 
     const handleEditItem = (data) => {
-        setEdittedItem(data);
+        setEdittingItem(data);
     };
 
     const handleUpdateItem = (formik, id, data) => {
@@ -73,7 +73,7 @@ const LoanForm = ({ loan }) => {
             return item;
         });
 
-        setEdittedItem(null);
+        setEdittingItem(null);
         formik.setFieldValue('items', updatedItems);
         formik.setFieldValue('net_total', currency.format(calculateNetTotal(updatedItems)));
     };
@@ -368,16 +368,16 @@ const LoanForm = ({ loan }) => {
                                 <div className="flex flex-col border p-2 rounded-md">
                                     <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่าย</h1>
                                     <AddExpense
-                                        data={edittedItem}
+                                        data={edittingItem}
                                         formData={formData?.expenses}
                                         onAddItem={(expense) => handleAddItem(formik, expense)}
                                         onUpdateItem={(id, expense) => handleUpdateItem(formik, id, expense)}
-                                        onClear={setEdittedItem}
+                                        onClear={setEdittingItem}
                                     />
 
                                     <ExpenseList
                                         items={formik.values.items}
-                                        isEditting={edittedItem !== null}
+                                        edittingItem={edittingItem}
                                         onEditItem={(data) => handleEditItem(data)}
                                         onRemoveItem={(id) => handleRemoveItem(formik, id)}
                                     />

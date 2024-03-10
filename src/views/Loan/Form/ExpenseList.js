@@ -2,7 +2,7 @@ import React from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency, replaceExpensePattern } from '../../../utils'
 
-const ExpenseList = ({ items, showButtons=true, isEditting,  onEditItem, onRemoveItem }) => {
+const ExpenseList = ({ items, showButtons=true, edittingItem,  onEditItem, onRemoveItem }) => {
     return (
         <table className="table table-bordered table-striped text-sm mb-2">
             <thead>
@@ -35,7 +35,7 @@ const ExpenseList = ({ items, showButtons=true, isEditting,  onEditItem, onRemov
                         <td className="text-right">{currency.format(data.total)}</td>
                         {showButtons && (
                             <td className="text-center">
-                                {!isEditting && (
+                                {(!edittingItem || edittingItem?.expense_id !== data.expense_id) && (
                                     <button
                                         type="button"
                                         className="btn btn-sm btn-outline-warning mr-1"
