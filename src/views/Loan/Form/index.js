@@ -86,7 +86,11 @@ const LoanForm = ({ loan }) => {
     };
 
     const handleSubmit = (values, formik) => {
-        dispatch(store(values));
+        if (loan) {
+            dispatch(update({ id: loan.id, data: values }));
+        } else {
+            dispatch(store(values));
+        }
 
         formik.resetForm();
 
@@ -402,6 +406,7 @@ const LoanForm = ({ loan }) => {
                         </Row>
                         <Row className="mb-2">
                             <Col>
+                                <label htmlFor="">หมายเหตุ</label>
                                 <textarea
                                     rows="3"
                                     name="remark"
@@ -413,8 +418,8 @@ const LoanForm = ({ loan }) => {
                         </Row>
                         <Row>
                             <Col>
-                                <button type="submit" className="btn btn-outline-primary float-right">
-                                    บันทึก
+                                <button type="submit" className={`btn ${loan ? 'btn-outline-warning' : 'btn-outline-primary'} float-right`}>
+                                    {loan ? 'บันทึกการแก้ไข' : 'บันทึก'}
                                 </button>
                             </Col>
                         </Row>
