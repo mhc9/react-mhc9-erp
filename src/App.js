@@ -65,6 +65,11 @@ import LoanList from './views/Loan/List';
 import AddLoan from './views/Loan/Add';
 import EditLoan from './views/Loan/Edit';
 import LoanDetail from './views/Loan/Detail';
+/** Loan Contract */
+import LoanContractList from './views/LoanContract/List';
+import AddLoanContract from './views/LoanContract/Add';
+import EditLoanContract from './views/LoanContract/Edit';
+import LoanContractDetail from './views/LoanContract/Detail';
 /** Budget */
 import BudgetList from './views/Budget/List';
 import AddBudget from './views/Budget/Add';
@@ -107,11 +112,16 @@ function App() {
                 <Route path="inspection/add" element={<GuardRoute><AddInspection /></GuardRoute>} />
                 <Route path="inspection/:id/detail" element={<GuardRoute><InspectionDetail /></GuardRoute>} />
 
-                {/* ============================= Advance Payment ============================= */}
+                {/* ============================= Loan ============================= */}
                 <Route path="loan" element={<GuardRoute><LoanList /></GuardRoute>} />
                 <Route path="loan/add" element={<GuardRoute><AddLoan /></GuardRoute>} />
                 <Route path="loan/:id/edit" element={<GuardRoute><EditLoan /></GuardRoute>} />
                 <Route path="loan/:id/detail" element={<GuardRoute><LoanDetail /></GuardRoute>} />
+
+                <Route path="loan-contract" element={<GuardRoute><LoanContractList /></GuardRoute>} />
+                <Route path="loan-contract/add" element={<GuardRoute><AddLoanContract /></GuardRoute>} />
+                <Route path="loan-contract/:id/edit" element={<GuardRoute><EditLoanContract /></GuardRoute>} />
+                <Route path="loan-contract/:id/detail" element={<GuardRoute><LoanContractDetail /></GuardRoute>} />
 
                 {/* ============================= System Data ============================= */}
                 {/* Items */}
