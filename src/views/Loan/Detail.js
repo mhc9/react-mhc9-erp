@@ -5,7 +5,7 @@ import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import moment from 'moment'
 import { getLoan } from '../../features/slices/loan/loanSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi'
-import { currency, toLongTHDate } from '../../utils'
+import { currency, toLongTHDate, getFormDataItem } from '../../utils'
 import ExpenseList from './Form/ExpenseList'
 import Loading from '../../components/Loading'
 
@@ -20,10 +20,6 @@ const LoanDetail = () => {
             dispatch(getLoan(id));
         }
     }, [id]);
-
-    const getFormDataItem = (dataName, id) => {
-        return formData[dataName].find(item => item.id === id);
-    }
 
     return (
         <div className="content-wrapper">
@@ -56,13 +52,13 @@ const LoanDetail = () => {
                             <Col md={3}>
                                 <label>ประเภทการยืม</label>
                                 <div className="form-control text-sm">
-                                    {getFormDataItem('loanTypes', loan?.loan_type_id)?.name}
+                                    {getFormDataItem(formData, 'loanTypes', loan?.loan_type_id)?.name}
                                 </div>
                             </Col>
                             <Col md={3}>
                                 <label htmlFor="">ประเภทเงินยืม</label>
                                 <div className="form-control text-sm">
-                                    {getFormDataItem('moneyTypes', loan?.money_type_id)?.name}
+                                    {getFormDataItem(formData, 'moneyTypes', loan?.money_type_id)?.name}
                                 </div>
                             </Col>
                         </Row>

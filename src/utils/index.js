@@ -104,3 +104,9 @@ export const replaceExpensePattern = (pattern = '', replacement = '') => {
 
     return `${p_amount.replace('...', r_amount)}X${p_time.replace('...', r_time)}X${p_price.replace('...', r_price)}`;
 };
+
+export const getFormDataItem = (data, dataName, id) => {
+    if (!data) return null;
+
+    return data[dataName].find(item => item.id === id);
+}
