@@ -9,7 +9,7 @@ const ModalProjectList = ({ isShow, onHide, onSelect }) => {
     const { projects, pager, isLoading } = useSelector(state => state.project);
 
     useEffect(() => {
-        dispatch(getProjects({ url: '/api/projects/search' }));
+        dispatch(getProjects({ url: '/api/projects/search?page=&year=2567' }));
     }, []);
 
     const handlePageClick = () => {
@@ -33,6 +33,7 @@ const ModalProjectList = ({ isShow, onHide, onSelect }) => {
                                 <th className="text-center w-[5%]">#</th>
                                 {/* <th className="text-center w-[15%]">เลขที่พัสดุ</th> */}
                                 <th>โครงการ</th>
+                                <th className="text-center w-[10%]">ปีงบ</th>
                                 <th className="text-center w-[10%]">เลือก</th>
                             </tr>
                         </thead>
@@ -53,6 +54,7 @@ const ModalProjectList = ({ isShow, onHide, onSelect }) => {
                                         <p className="text-gray-400 text-sm">{project.project?.name}</p> */}
                                         <p>{project?.name}</p>
                                     </td>
+                                    <td className="text-center">{project.year}</td>
                                     <td className="text-center">
                                         <button
                                             className="btn btn-primary btn-sm"

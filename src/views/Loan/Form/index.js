@@ -12,10 +12,11 @@ import { useGetInitialFormDataQuery } from '../../../features/services/loan/loan
 import AddExpense from './AddExpense'
 import ExpenseList from './ExpenseList'
 import Loading from '../../../components/Loading'
-import ModalBudgetList from '../../../components/Modals/BudgetList'
 import ModalProjectList from '../../../components/Modals/Project/List'
 import ModalProjectForm from '../../../components/Modals/Project/Form'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
+import AddBudget from './AddBudget'
+import BudgetList from './BudgetList'
 
 const loanSchema = Yup.object().shape({
     doc_no: Yup.string().required(),
@@ -34,11 +35,9 @@ const LoanForm = ({ loan }) => {
     const dispatch = useDispatch();
     const [selectedDate, setSelectedDate] = useState(moment());
     const [selectedYear, setSelectedYear] = useState(moment());
-    const [showBudgetModal, setShowBudgetModal] = useState(false);
     const [showProjectModal, setShowProjectModal] = useState(false);
     const [showProjectForm, setShowProjectForm] = useState(false);
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
-    const [budget, setBudget] = useState(null);
     const [project, setProject] = useState(null);
     const [employee, setEmployee] = useState(null);
     const [edittingItem, setEdittingItem] = useState(null);
@@ -49,7 +48,7 @@ const LoanForm = ({ loan }) => {
             setSelectedDate(moment(loan.doc_date));
             setSelectedYear(moment(loan.year));
 
-            setBudget(loan.budget);
+            // setBudget(loan.budget);
             setProject(loan.project);
             setEmployee(loan.employee);
         }
@@ -85,6 +84,12 @@ const LoanForm = ({ loan }) => {
         formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems)));
     };
 
+    const handleAddBudget = (formik, budget) => {
+        const newBudgets = [...formik.values.budgets, budget];
+
+        formik.setFieldValue('budgets', newBudgets);
+    };
+
     const handleSubmit = (values, formik) => {
         if (loan) {
             dispatch(update({ id: loan.id, data: values }));
@@ -95,8 +100,8 @@ const LoanForm = ({ loan }) => {
         formik.resetForm();
 
         /** Clear value of local states */
-        setBudget(null);
-        setEmployee(null);
+        // setBudget(null);
+        // setEmployee(null);
         setSelectedDate(moment());
         setSelectedYear(moment());
     };
@@ -109,29 +114,21 @@ const LoanForm = ({ loan }) => {
                 loan_type_id: loan ? loan.loan_type_id : '',
                 money_type_id: loan ? loan.money_type_id : '',
                 year: loan ? moment(loan.year).format('YYYY-MM-DD') : moment().year() + 543,
-                budget_id: loan ? loan.budget_id : '',
                 project_id: loan ? loan.project_id : '',
                 employee_id: loan ? loan.employee_id : '',
                 department_id: loan ? loan.department_id : '',
                 net_total: loan ? loan.net_total : '',
                 remark: loan ? loan.remark : '',
+                budgets: loan ? loan.budgets : [],
                 items: loan ? loan.details : [],
             }}
             validationSchema={loanSchema}
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.values);
                 return (
                     <Form>
-                        <ModalBudgetList
-                            isShow={showBudgetModal}
-                            onHide={() => setShowBudgetModal(false)}
-                            onSelect={(budget) => {
-                                setBudget(budget);
-                                formik.setFieldValue('budget_id', budget.id);
-                            }}
-                        />
-
                         <ModalProjectList
                             isShow={showProjectModal}
                             onHide={() => setShowProjectModal(false)}
@@ -296,37 +293,6 @@ const LoanForm = ({ loan }) => {
                         </Row>
                         <Row className="mb-2">
                             <Col md={12}>
-                                <label htmlFor="">งบประมาณ</label>
-                                <div className="input-group">
-                                    <div className="form-control text-sm h-[34px] bg-gray-100">
-                                        {budget?.name}
-                                    </div>
-                                    <input
-                                        type="hidden"
-                                        name="budget_id"
-                                        value={formik.values.budget_id}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm"
-                                    />
-                                    <button type="button" className="btn btn-outline-secondary" onClick={() => setShowBudgetModal(true)}>
-                                        <FaSearch />
-                                    </button>
-                                </div>
-                                {(formik.errors.budget_id && formik.touched.budget_id) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.budget_id}</span>
-                                )}
-                            </Col>
-                            <Col md={12}>
-                                <div className="form-control text-sm min-h-[34px] bg-gray-200 mt-1">
-                                    โครงการ/ผลผลิต :
-                                    {budget && (
-                                        <span className="font-thin ml-1">{budget?.project?.plan?.name} / {budget?.project?.name}</span>
-                                    )}
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row className="mb-2">
-                            <Col md={12}>
                                 <label htmlFor="">โครงการ</label>
                                 <div className="input-group">
                                     <div className="form-control text-sm h-[34px] bg-gray-100">
@@ -360,6 +326,19 @@ const LoanForm = ({ loan }) => {
                                             <span className="ml-1"><b>ผู้ดำเนินการ</b> {project?.owner?.firstname} {project?.owner?.lastname}</span>
                                         </span>
                                     )}
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row className="mb-3">
+                            <Col>
+                                <div className="flex flex-col border p-2 rounded-md">
+                                    <h1 className="font-bold text-lg mb-1">งบประมาณ</h1>
+                                    <AddBudget
+                                        formData={formData?.budgets}
+                                        onAddBudget={(budget) => handleAddBudget(formik, budget)}
+                                    />
+
+                                    <BudgetList budgets={formik.values.budgets} />
                                 </div>
                             </Col>
                         </Row>
