@@ -11,7 +11,7 @@ import { store, update } from '../../../features/slices/loan-contract/loanContra
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
 import ExpenseList from './ExpenseList'
 import Loading from '../../../components/Loading'
-import ModalBudgetList from '../../../components/Modals/BudgetList'
+import ModalLoanList from '../../../components/Modals/Loan/List'
 // import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 
 const contractSchema = Yup.object().shape({
@@ -107,7 +107,7 @@ const LoanContractForm = ({ contract }) => {
             {(formik) => {
                 return (
                     <Form>
-                        <ModalBudgetList
+                        <ModalLoanList
                             isShow={showLoanModal}
                             onHide={() => setShowLoanModal(false)}
                             onSelect={(loan) => {
