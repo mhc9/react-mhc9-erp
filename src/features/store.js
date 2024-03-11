@@ -23,6 +23,7 @@ import inspectionReducer from "./slices/inspection/inspectionSlice";
 import repairationReducer from "./slices/repairation/repairationSlice";
 import approvalReducer from "./slices/approval/approvalSlice";
 import loanReducer from "./slices/loan/loanSlice";
+import loanContactReducer from "./slices/loan-contract/loanContractSlice";
 import projectReducer from "./slices/project/projectSlice";
 import { authApi } from "./services/auth/authApi";
 import { requisitionApi } from "./services/requisition/requisitionApi";
@@ -81,6 +82,7 @@ export default configureStore({
         repairation: repairationReducer,
         approval: approvalReducer,
         loan: loanReducer,
+        loanContract: loanContactReducer,
         budgetPlan: budgetPlanReducer,
         budgetProject: budgetProjectReducer,
         project: projectReducer,
