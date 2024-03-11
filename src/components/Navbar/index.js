@@ -70,12 +70,10 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 <li className="hover:bg-gray-300 p-2 rounded-t-md">
                                     <Link to="/loan"><p className="w-full">คำขอยืมเงิน</p></Link>
                                 </li>
-                                {/* <li className="hover:bg-gray-300 p-2">
-                                    <Link to="/order"><p className="w-full">ใบสั่งซื้อ/จ้าง</p></Link>
-                                </li> */}
-                                <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                                    {/* <Link to="/inspection"><p className="w-full">ตรวจรับพัสดุ</p></Link> */}
+                                <li className="hover:bg-gray-300 p-2">
+                                    <Link to="/loan-contract"><p className="w-full">สัญญายืมเงิน</p></Link>
                                 </li>
+                                <li className="hover:bg-gray-300 p-2 rounded-b-md"></li>
                             </ul>
                         </li>
                     )}

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { getLoans, destroy } from '../../../features/slices/loan-contract/loanContractSlice'
+import { getContracts, destroy } from '../../../features/slices/loan-contract/loanContractSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import LoanListDetail from './ListDetail'
 import Loading from '../../../components/Loading'
@@ -26,9 +26,9 @@ const LoanContractList = () => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getLoans({ url: `/api/loan-contracts/search?page=&status=1` }));
+            dispatch(getContracts({ url: `/api/loan-contracts/search?page=&status=1` }));
         } else {
-            dispatch(getLoans({ url: `${apiEndpoint}${params}` }));
+            dispatch(getContracts({ url: `${apiEndpoint}${params}` }));
         }
     }, [dispatch, apiEndpoint, params])
 
@@ -104,7 +104,7 @@ const LoanContractList = () => {
                                         <LoanListDetail items={contract.details} />
                                     </td>
                                     <td className="text-sm">
-                                        <EmployeeCard employee={loan?.employee} />
+                                        <EmployeeCard employee={contract.employee} />
                                     </td>
                                     <td className="text-center p-1">
                                         <Link to={`/loan/${contract.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">

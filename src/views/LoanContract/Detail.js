@@ -12,7 +12,7 @@ import Loading from '../../components/Loading'
 const LoanContractDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { getContract, isLoading } = useSelector(state => state.loan);
+    const { contract, isLoading } = useSelector(state => state.loan);
     const { data: formData, isLoading: loading } = useGetInitialFormDataQuery();
 
     useEffect(() => {
