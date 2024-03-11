@@ -114,7 +114,7 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                             <div className="btn-group" role="group" aria-label="Basic example">
                                 <button
                                     type="button"
-                                    className={`btn ${data ? 'btn-outline-warning' : 'btn-outline-primary'} w-full text-sm`}
+                                    className={`btn ${data ? 'btn-outline-warning' : 'btn-outline-primary'} text-sm min-[992px]:px-2 max-[992px]:px-1`}
                                     onClick={formik.submitForm}
                                 >
                                     {/* <FaPlus /> */}
@@ -122,7 +122,7 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                                 </button>
                                 <button
                                     type="button"
-                                    className="btn btn-outline-danger text-sm"
+                                    className="btn btn-outline-danger text-xs min-[1285px]:text-sm  max-[1285px]:px-1 min-[1285px]:px-2"
                                     onClick={() => handleClear(formik)}
                                 >
                                     {/* <FaTimes /> */}
