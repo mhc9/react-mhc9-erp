@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { getLoans } from '../../../features/slices/loan/loanSlice'
+import { getLoans, destroy } from '../../../features/slices/loan/loanSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import LoanListDetail from './ListDetail'
 import Loading from '../../../components/Loading'
@@ -39,7 +39,9 @@ const LoanList = () => {
     };
 
     const handleDelete = (id) => {
-        console.log(id);
+        if (window.confirm(`คุณต้องการลบรายการรหัส ${id} ใช่หรือไม่`)) {
+            dispatch(destroy(id));
+        }
     };
 
     return (

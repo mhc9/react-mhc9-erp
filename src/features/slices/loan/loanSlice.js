@@ -53,7 +53,7 @@ export const update = createAsyncThunk("loan/update", async ({ id, data }, { dis
     }
 });
 
-export const destroy = createAsyncThunk("loan/destroy", async ({ id }, { dispatch, rejectWithValue }) => {
+export const destroy = createAsyncThunk("loan/destroy", async (id, { dispatch, rejectWithValue }) => {
     try {
         const res = await api.post(`/api/loans/${id}/delete`);
 
