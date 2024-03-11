@@ -85,18 +85,18 @@ const LoanContractList = () => {
                                 <tr key={contract.id}>
                                     <td className="text-center">{pager && pager.from + index}</td>
                                     <td className="text-sm">
-                                        <p>เลขที่สัญญา <span className="badge rounded-pill text-bg-primary">{contract.doc_no}</span></p>
-                                        <p>วันที่สัญญา <span className="badge rounded-pill text-bg-primary">{toShortTHDate(contract.doc_date)}</span></p>
-                                        <p>
+                                        <p>เลขที่สัญญา <span className="badge rounded-pill text-bg-primary">{contract.contract_no}</span></p>
+                                        <p>วันที่สัญญา <span className="badge rounded-pill text-bg-primary">{toShortTHDate(contract.contract_date)}</span></p>
+                                        {/* <p>
                                             สถานะ
                                             {contract.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
                                             {contract.status === 2 && <span className="badge rounded-pill text-bg-success">ส่งสัญญาแล้ว</span>}
-                                        </p>
+                                        </p> */}
                                     </td>
                                     <td className="text-sm">
-                                        {contract.project && (
+                                        {contract.loan?.project && (
                                             <div className="text-blue-600">
-                                                {contract.project.name}
+                                                {contract.loan?.project?.name}
                                                 <span className="ml-1">เป็นเงินทั้งสิ้น {currency.format(contract.net_total)} บาท</span>
                                             </div>
                                         )}
@@ -104,7 +104,7 @@ const LoanContractList = () => {
                                         <LoanListDetail items={contract.details} />
                                     </td>
                                     <td className="text-sm">
-                                        <EmployeeCard employee={contract.employee} />
+                                        <EmployeeCard employee={contract.loan?.employee} />
                                     </td>
                                     <td className="text-center p-1">
                                         <Link to={`/loan/${contract.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
