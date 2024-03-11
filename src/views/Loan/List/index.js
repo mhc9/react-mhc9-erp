@@ -89,8 +89,11 @@ const LoanList = () => {
                                         <p>วันที่ <span className="badge rounded-pill text-bg-primary">{toShortTHDate(loan.doc_date)}</span></p>
                                         <p>
                                             สถานะ
-                                            {loan.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
-                                            {loan.status === 2 && <span className="badge rounded-pill text-bg-success">ส่งสัญญาแล้ว</span>}
+                                            {loan.status === 0 && <span className="badge rounded-pill text-bg-secondary ml-1">รอดำเนินการ</span>}
+                                            {loan.status === 1 && <span className="badge rounded-pill text-bg-secondary ml-1">ส่งสัญญาแล้ว</span>}
+                                            {loan.status === 2 && <span className="badge rounded-pill text-bg-success ml-1">อนุมัติแล้ว</span>}
+                                            {loan.status === 3 && <span className="badge rounded-pill text-bg-warning ml-1">เงินเข้าแล้ว</span>}
+                                            {loan.status === 9 && <span className="badge rounded-pill text-bg-danger ml-1">ยกเลิก</span>}
                                         </p>
                                     </td>
                                     <td className="text-sm">
