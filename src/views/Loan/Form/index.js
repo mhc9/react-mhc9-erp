@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Col, Row } from 'react-bootstrap'
-import { FaSearch, FaPlus } from 'react-icons/fa'
+import { FaSearch, FaPlus, FaMinus } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
@@ -349,7 +349,7 @@ const LoanForm = ({ loan }) => {
                                     <Row className="mb-2">
                                         <Col md={3}>
                                             <div className="flex flex-col">
-                                                <label htmlFor="">จากวันที่</label>
+                                                <label htmlFor="">วันที่จัด</label>
                                                 <DatePicker
                                                     format="DD/MM/YYYY"
                                                     value={selectedStartDate}
@@ -388,15 +388,19 @@ const LoanForm = ({ loan }) => {
                                                     type="radio"
                                                     name="calculation"
                                                     value="1"
+                                                    checked={formik.values.calculation === "1"}
+                                                    onChange={() => formik.setFieldValue("calculation", "1")}
                                                 />
-                                                <span className="ml-1 mr-4">คิดค่าใช้จ่ายรวม</span>
+                                                <span className="ml-1 mr-8">คิดค่าใช้จ่ายรวม</span>
 
                                                 <Field
                                                     type="radio"
                                                     name="calculation"
                                                     value="2"
+                                                    checked={formik.values.calculation === "2"}
+                                                    onChange={() => formik.setFieldValue("calculation", "2")}
                                                 />
-                                                <span className="ml-1 mr-4">คิดค่าใช้จ่ายแยกวันที่</span>
+                                                <span className="ml-1">คิดค่าใช้จ่ายแยกวันที่</span>
                                             </label>
                                             {(formik.errors.calculation && formik.touched.calculation) && (
                                                 <span className="text-red-500 text-sm">{formik.errors.calculation}</span>
@@ -404,13 +408,15 @@ const LoanForm = ({ loan }) => {
                                         </Col>
                                     </Row>
                                     <Row className="mb-2">
-                                        <Col md={2}>
-                                            <label htmlFor="">วันที่</label>
-                                            <div className="form-control text-sm min-h-[34px]">
-                                                
-                                            </div>
-                                        </Col>
-                                        <Col md={9}>
+                                        {formik.values.calculation === '2' && (
+                                            <Col md={2}>
+                                                <label htmlFor="">วันที่</label>
+                                                <div className="form-control text-sm min-h-[34px]">
+                                                    
+                                                </div>
+                                            </Col>
+                                        )}
+                                        <Col md={formik.values.calculation === '2' ? 9 : 11}>
                                             <label htmlFor="">สถานที่จัด</label>
                                             <div className="input-group">
                                                 <div className="form-control text-sm h-[34px] bg-gray-100">
@@ -426,8 +432,8 @@ const LoanForm = ({ loan }) => {
                                                 <button type="button" className="btn btn-outline-secondary" onClick={() => setShowEmployeeModal(true)}>
                                                     <FaSearch />
                                                 </button>
-                                                <button type="button" className="btn btn-outline-primary" onClick={() => setShowEmployeeModal(true)}>
-                                                    <FaPlus />
+                                                <button type="button" className="btn btn-outline-primary px-2" onClick={() => setShowEmployeeModal(true)}>
+                                                    New
                                                 </button>
                                             </div>
                                             {(formik.errors.doc_no && formik.touched.doc_no) && (
@@ -436,15 +442,24 @@ const LoanForm = ({ loan }) => {
                                         </Col>
                                         <Col>
                                             <label htmlFor=""></label>
-                                            <div className='flex flex-row items-center gap-2'>
+                                            <div className='flex flex-row items-center h-[36px]'>
                                                 <button
                                                     type="button"
-                                                    className={`btn btn-outline-primary text-sm min-[992px]:px-2 max-[992px]:px-1`}
+                                                    className={`btn btn-outline-primary rounded-full p-1`}
                                                 >
-                                                    {/* <FaPlus /> */}
-                                                    เพิ่ม
+                                                    <FaPlus />
                                                 </button>
                                             </div>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <ul>
+                                                <li>
+                                                    - รุ่นที่ 1 วันที่ วว/ดดดด/ปปป ณ โรงแรม xxxx
+                                                    <button type="button" className="btn btn-outline-danger rounded-full p-0 ml-2"><FaMinus /></button>
+                                                </li>
+                                            </ul>
                                         </Col>
                                     </Row>
                                 </div>
