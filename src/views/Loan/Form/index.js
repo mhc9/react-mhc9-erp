@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Col, Row } from 'react-bootstrap'
-import { Formik, Form } from 'formik'
 import { FaSearch, FaPlus } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
+import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment';
 import { calculateNetTotal, currency, toShortTHDate } from '../../../utils'
@@ -12,8 +12,8 @@ import { useGetInitialFormDataQuery } from '../../../features/services/loan/loan
 import AddExpense from './AddExpense'
 import ExpenseList from './ExpenseList'
 import Loading from '../../../components/Loading'
-import ModalProjectList from '../../../components/Modals/Project/List'
-import ModalProjectForm from '../../../components/Modals/Project/Form'
+// import ModalProjectList from '../../../components/Modals/Project/List'
+// import ModalProjectForm from '../../../components/Modals/Project/Form'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import AddBudget from './AddBudget'
 import BudgetList from './BudgetList'
@@ -34,9 +34,11 @@ const loanSchema = Yup.object().shape({
 const LoanForm = ({ loan }) => {
     const dispatch = useDispatch();
     const [selectedDate, setSelectedDate] = useState(moment());
+    const [selectedStartDate, setSelectedStartDate] = useState(moment());
+    const [selectedEndDate, setSelectedEndDate] = useState(moment());
     const [selectedYear, setSelectedYear] = useState(moment());
-    const [showProjectModal, setShowProjectModal] = useState(false);
-    const [showProjectForm, setShowProjectForm] = useState(false);
+    // const [showProjectModal, setShowProjectModal] = useState(false);
+    // const [showProjectForm, setShowProjectForm] = useState(false);
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [project, setProject] = useState(null);
     const [employee, setEmployee] = useState(null);
@@ -49,7 +51,7 @@ const LoanForm = ({ loan }) => {
             setSelectedYear(moment(loan.year));
 
             // setBudget(loan.budget);
-            setProject(loan.project);
+            // setProject(loan.project);
             setEmployee(loan.employee);
         }
     }, [loan]);
@@ -122,9 +124,10 @@ const LoanForm = ({ loan }) => {
                 loan_type_id: loan ? loan.loan_type_id : '',
                 money_type_id: loan ? loan.money_type_id : '',
                 year: loan ? moment(loan.year).format('YYYY-MM-DD') : moment().year() + 543,
-                project_id: loan ? loan.project_id : '',
                 employee_id: loan ? loan.employee_id : '',
                 department_id: loan ? loan.department_id : '',
+                project_name: loan ? loan.project_name : '',
+                calculation: loan ? loan.calculation : '1',
                 budget_total: loan ? loan.budget_total : '',
                 net_total: loan ? loan.net_total : '',
                 remark: loan ? loan.remark : '',
@@ -137,7 +140,7 @@ const LoanForm = ({ loan }) => {
             {(formik) => {
                 return (
                     <Form>
-                        <ModalProjectList
+                        {/* <ModalProjectList
                             isShow={showProjectModal}
                             onHide={() => setShowProjectModal(false)}
                             onSelect={(project) => {
@@ -154,7 +157,7 @@ const LoanForm = ({ loan }) => {
                                 setProject(project);
                                 formik.setFieldValue('project_id', project?.id);
                             }}
-                        />
+                        /> */}
 
                         <ModalEmployeeList
                             isShow={showEmployeeModal}
@@ -235,7 +238,7 @@ const LoanForm = ({ loan }) => {
                                 )}
                             </Col>
                         </Row>
-                        <Row className="mb-2">
+                        <Row className="mb-3">
                             <Col md={4}>
                                 <label htmlFor="">หน่วยงาน</label>
                                 <select
@@ -296,43 +299,158 @@ const LoanForm = ({ loan }) => {
                         </Row>
                         <Row className="mb-2">
                             <Col md={12}>
-                                <label htmlFor="">โครงการ</label>
-                                <div className="input-group">
-                                    <div className="form-control text-sm h-[34px] bg-gray-100">
-                                        {project?.name}
-                                    </div>
-                                    <input
-                                        type="hidden"
-                                        name="project_id"
-                                        value={formik.values.project_id}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm"
-                                    />
-                                    <button type="button" className="btn btn-outline-secondary" onClick={() => setShowProjectModal(true)}>
-                                        <FaSearch />
-                                    </button>
-                                    <button type="button" className="btn btn-outline-primary" onClick={() => setShowProjectForm(true)}>
-                                        <FaPlus />
-                                    </button>
-                                </div>
-                                {(formik.errors.project_id && formik.touched.project_id) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.project_id}</span>
-                                )}
-                            </Col>
-                            <Col md={12}>
-                                <div className="form-control text-sm min-h-[34px] bg-gray-200 mt-1">
-                                    รายละเอียดโครงการ :
-                                    {project && (
-                                        <span className="font-thin ml-1">
-                                            {project?.place?.name}
-                                            <span className="ml-1"><b>ระหว่างวันที่</b> {toShortTHDate(project?.from_date)} - {toShortTHDate(project?.to_date)}</span>
-                                            <span className="ml-1"><b>ผู้ดำเนินการ</b> {project?.owner?.firstname} {project?.owner?.lastname}</span>
-                                        </span>
-                                    )}
+                                <div className="flex flex-col border p-2 rounded-md">
+                                    <h1 className="font-bold text-lg mb-1">รายละเอียดโครงการ</h1>
+                                    <Row className="mb-2">
+                                        <Col md={2}>
+                                            <label htmlFor="">เลขที่ขออนุมติ</label>
+                                            <input
+                                                type="text"
+                                                name="project_no"
+                                                value={formik.values.project_no}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-sm"
+                                            />
+                                            {(formik.errors.project_no && formik.touched.project_no) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.project_no}</span>
+                                            )}
+                                        </Col>
+                                        <Col md={2}>
+                                            <div className="flex flex-col">
+                                                <label htmlFor="">วันที่ขออนุมติ</label>
+                                                <DatePicker
+                                                    format="DD/MM/YYYY"
+                                                    value={selectedDate}
+                                                    onChange={(date) => {
+                                                        setSelectedDate(date);
+                                                        formik.setFieldValue('project_date', date.format('YYYY-MM-DD'));
+                                                    }}
+                                                    variant="outlined"
+                                                />
+                                            </div>
+                                            {(formik.errors.project_date && formik.touched.project_date) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.project_date}</span>
+                                            )}
+                                        </Col>
+                                        <Col md={8}>
+                                            <label htmlFor="">ชื่อโครงการ</label>
+                                            <input
+                                                type="text"
+                                                name="project_name"
+                                                value={formik.values.project_name}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-sm"
+                                            />
+                                            {(formik.errors.project_name && formik.touched.project_name) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.project_name}</span>
+                                            )}
+                                        </Col>
+                                    </Row>
+                                    <Row className="mb-2">
+                                        <Col md={3}>
+                                            <div className="flex flex-col">
+                                                <label htmlFor="">จากวันที่</label>
+                                                <DatePicker
+                                                    format="DD/MM/YYYY"
+                                                    value={selectedStartDate}
+                                                    onChange={(date) => {
+                                                        setSelectedStartDate(date);
+                                                        formik.setFieldValue('project_sdate', date.format('YYYY-MM-DD'));
+                                                    }}
+                                                    variant="outlined"
+                                                />
+                                            </div>
+                                            {(formik.errors.project_sdate && formik.touched.project_sdate) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.project_sdate}</span>
+                                            )}
+                                        </Col>
+                                        <Col md={3}>
+                                            <div className="flex flex-col">
+                                                <label htmlFor="">ถึงวันที่</label>
+                                                <DatePicker
+                                                    format="DD/MM/YYYY"
+                                                    value={selectedEndDate}
+                                                    onChange={(date) => {
+                                                        setSelectedEndDate(date);
+                                                        formik.setFieldValue('project_edate', date.format('YYYY-MM-DD'));
+                                                    }}
+                                                    variant="outlined"
+                                                />
+                                            </div>
+                                            {(formik.errors.project_edate && formik.touched.project_edate) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.project_edate}</span>
+                                            )}
+                                        </Col>
+                                        <Col md={5}>
+                                            <label>การคิดค่าใช้จ่าย</label>                                    
+                                            <label className="form-control text-sm font-thin">
+                                                <Field
+                                                    type="radio"
+                                                    name="calculation"
+                                                    value="1"
+                                                />
+                                                <span className="ml-1 mr-4">คิดค่าใช้จ่ายรวม</span>
+
+                                                <Field
+                                                    type="radio"
+                                                    name="calculation"
+                                                    value="2"
+                                                />
+                                                <span className="ml-1 mr-4">คิดค่าใช้จ่ายแยกวันที่</span>
+                                            </label>
+                                            {(formik.errors.calculation && formik.touched.calculation) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.calculation}</span>
+                                            )}
+                                        </Col>
+                                    </Row>
+                                    <Row className="mb-2">
+                                        <Col md={2}>
+                                            <label htmlFor="">วันที่</label>
+                                            <div className="form-control text-sm min-h-[34px]">
+                                                
+                                            </div>
+                                        </Col>
+                                        <Col md={9}>
+                                            <label htmlFor="">สถานที่จัด</label>
+                                            <div className="input-group">
+                                                <div className="form-control text-sm h-[34px] bg-gray-100">
+                                                    {employee?.firstname} {employee?.lastname}
+                                                </div>
+                                                <input
+                                                    type="hidden"
+                                                    name="employee_id"
+                                                    value={formik.values.employee_id}
+                                                    onChange={formik.handleChange}
+                                                    className="form-control text-sm"
+                                                />
+                                                <button type="button" className="btn btn-outline-secondary" onClick={() => setShowEmployeeModal(true)}>
+                                                    <FaSearch />
+                                                </button>
+                                                <button type="button" className="btn btn-outline-primary" onClick={() => setShowEmployeeModal(true)}>
+                                                    <FaPlus />
+                                                </button>
+                                            </div>
+                                            {(formik.errors.doc_no && formik.touched.doc_no) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.doc_no}</span>
+                                            )}
+                                        </Col>
+                                        <Col>
+                                            <label htmlFor=""></label>
+                                            <div className='flex flex-row items-center gap-2'>
+                                                <button
+                                                    type="button"
+                                                    className={`btn btn-outline-primary text-sm min-[992px]:px-2 max-[992px]:px-1`}
+                                                >
+                                                    {/* <FaPlus /> */}
+                                                    เพิ่ม
+                                                </button>
+                                            </div>
+                                        </Col>
+                                    </Row>
                                 </div>
                             </Col>
                         </Row>
-                        <Row className="mb-3">
+                        <Row className="mb-2">
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
                                     <h1 className="font-bold text-lg mb-1">งบประมาณ</h1>
