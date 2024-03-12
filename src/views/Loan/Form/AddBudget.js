@@ -30,7 +30,7 @@ const AddBudget = ({ data, formData, onAddBudget }) => {
         >
             {(formik) => {
                 return (
-                    <Form>
+                    <>
                         <ModalBudgetList
                             isShow={showBudgetModal}
                             onHide={() => setShowBudgetModal(false)}
@@ -99,7 +99,7 @@ const AddBudget = ({ data, formData, onAddBudget }) => {
                                 </div>
                             </FormGroup>
                         </div>
-                    </Form>
+                    </>
                 )
             }}
         </Formik>

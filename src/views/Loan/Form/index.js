@@ -88,6 +88,14 @@ const LoanForm = ({ loan }) => {
         const newBudgets = [...formik.values.budgets, budget];
 
         formik.setFieldValue('budgets', newBudgets);
+        formik.setFieldValue('budget_total', currency.format(calculateNetTotal(newBudgets)));
+    };
+
+    const handleRemoveBudget = (formik, id) => {
+        const newBudgets = formik.values.budgets.filter(item => item.budget_id !== id);
+
+        formik.setFieldValue('budgets', newBudgets);
+        formik.setFieldValue('budget_total', currency.format(calculateNetTotal(newBudgets)));
     };
 
     const handleSubmit = (values, formik) => {
@@ -117,6 +125,7 @@ const LoanForm = ({ loan }) => {
                 project_id: loan ? loan.project_id : '',
                 employee_id: loan ? loan.employee_id : '',
                 department_id: loan ? loan.department_id : '',
+                budget_total: loan ? loan.budget_total : '',
                 net_total: loan ? loan.net_total : '',
                 remark: loan ? loan.remark : '',
                 budgets: loan ? loan.budgets : [],
@@ -126,7 +135,6 @@ const LoanForm = ({ loan }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik.values);
                 return (
                     <Form>
                         <ModalProjectList
@@ -198,12 +206,7 @@ const LoanForm = ({ loan }) => {
                                 <select
                                     name="loan_type_id"
                                     value={formik.values.loan_type_id}
-                                    onChange={(e) => {
-                                        const { value } = e.target;
-
-                                        formik.handleChange(e);
-                                        formik.setFieldValue('topic', value === '1' ? 'ขออนุมัติซื้อ' : 'ขออนุมัติจ้าง');
-                                    }}
+                                    onChange={formik.handleChange}
                                     className="form-control text-sm"
                                 >
                                     <option value="">-- ประเภทการยืม --</option>
@@ -338,7 +341,28 @@ const LoanForm = ({ loan }) => {
                                         onAddBudget={(budget) => handleAddBudget(formik, budget)}
                                     />
 
-                                    <BudgetList budgets={formik.values.budgets} />
+                                    <BudgetList
+                                        budgets={formik.values.budgets}
+                                        onRemoveBudget={(id) => handleRemoveBudget(formik, id)}
+                                    />
+
+                                    <div className="flex flex-row justify-end items-center">
+                                        <div className="mr-2">งบประมาณทั้งสิ้น</div>
+                                        <div className="w-[15%]">
+                                            <input
+                                                type="text"
+                                                name="budget_total"
+                                                value={formik.values.budget_total}
+                                                onChange={formik.handleChange}
+                                                placeholder="งบประมาณทั้งสิ้น"
+                                                className="form-control text-sm float-right text-right"
+                                            />
+                                            {(formik.errors.budget_total && formik.touched.budget_total) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.budget_total}</span>
+                                            )}
+                                        </div>
+                                        <div className="w-[10%]"></div>
+                                    </div>
                                 </div>
                             </Col>
                         </Row>
@@ -361,7 +385,8 @@ const LoanForm = ({ loan }) => {
                                         onRemoveItem={(id) => handleRemoveItem(formik, id)}
                                     />
 
-                                    <div className="flex flex-row justify-end">
+                                    <div className="flex flex-row justify-end items-center">
+                                        <div className="mr-2">ค่าใช้จ่ายทั้งสิ้น</div>
                                         <div className="w-[15%]">
                                             <input
                                                 type="text"

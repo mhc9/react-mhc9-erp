@@ -2,10 +2,10 @@ import React from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency } from '../../../utils'
 
-const BudgetList = ({ budgets }) => {
+const BudgetList = ({ budgets, onRemoveBudget, onEditBudget }) => {
     return (
         <>
-            <table className="table table-bordered table-striped text-sm">
+            <table className="table table-bordered table-striped text-sm mb-2">
                 <thead>
                     <tr>
                         <th className="text-center w-[5%]">#</th>
@@ -29,16 +29,16 @@ const BudgetList = ({ budgets }) => {
                                         <button
                                             type="button"
                                             className="btn btn-sm btn-outline-warning"
-                                            >
-                                            {/* onClick={() => onEditItem(data)} */}
+                                            onClick={() => onEditBudget(data)}
+                                        >
                                             <FaPencilAlt />
                                         </button>
                                     {/* )} */}
                                     <button
                                         type="button"
                                         className="btn btn-sm btn-outline-danger"
-                                        >
-                                        {/* onClick={() => onRemoveItem(data.expense_id)} */}
+                                        onClick={() => onRemoveBudget(data.budget_id)}
+                                    >
                                         <FaTrash />
                                     </button>
                                 </div>
