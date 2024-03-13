@@ -64,12 +64,30 @@ export const destroy = createAsyncThunk("item/destroy", async ({ id }, { dispatc
     }
 });
 
+export const upload = createAsyncThunk("item/upload", async ({ id, data }, { dispatch, rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/items/${id}/upload`, data);
+
+        dispatch(updateImage(res.data?.img_url));
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const itemSlice = createSlice({
     name: 'item',
     initialState,
     reducers: {
         resetSuccess: (state) => {
             state.isSuccess = false;
+        },
+        resetUploaded: (state) => {
+            state.isUploaded = false;
+        },
+        updateImage: (state, { payload }) => {
+            state.item = { ...state.item, img_url: payload };
         }
     },
     extraReducers: {
@@ -151,9 +169,26 @@ export const itemSlice = createSlice({
             state.isLoading = false;
             state.error = payload;
         },
+        [upload.pending]: (state) => {
+            state.isUploaded = false;
+            state.error = null;
+        },
+        [upload.fulfilled]: (state, { payload }) => {
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isUploaded = true;
+            } else {
+                state.isUploaded = false;
+                state.error = { message };
+            }
+        },
+        [upload.rejected]: (state, { payload }) => {
+            state.error = payload;
+        },
     }
 });
 
 export default itemSlice.reducer;
 
-export const { resetSuccess } = itemSlice.actions;
+export const { resetSuccess, resetUploaded, updateImage } = itemSlice.actions;
