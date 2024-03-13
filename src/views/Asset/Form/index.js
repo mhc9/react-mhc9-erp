@@ -104,7 +104,7 @@ const AssetForm = ({ id, asset }) => {
                                     <div className="flex flex-col items-center justify-center">
                                         <div className="rounded-md mt-2 w-[200px] h-[132px] overflow-hidden flex justify-center border mb-2">
                                             {(!selectedImage && asset?.img_url) ? (
-                                                <img src={`${process.env.REACT_APP_API_URL}/uploads/assets/${asset?.img_url}`} alt="asset-image" />
+                                                <img src={`${process.env.REACT_APP_API_URL}/storage/${asset?.img_url}`} alt="asset-image" />
                                             ) : (
                                                 <img src={``} alt="" />
                                             )}
