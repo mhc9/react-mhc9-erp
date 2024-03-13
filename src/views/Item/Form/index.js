@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { Col, FormGroup, Row } from 'react-bootstrap'
-import Dropzone from 'react-dropzone'
+import { toast } from 'react-toastify'
+// import Dropzone from 'react-dropzone'
 import { useGetInitialFormDataQuery } from '../../../features/services/item/itemApi'
-import { store, update } from '../../../features/slices/item/itemSlice'
+import { store, update, upload, resetUploaded } from '../../../features/slices/item/itemSlice'
 
 const itemSchema = Yup.object().shape({
     name: Yup.string().required(),
@@ -16,12 +17,21 @@ const itemSchema = Yup.object().shape({
 
 const ItemForm = ({ item }) => {
     const dispatch = useDispatch();
+    const { isUploaded } = useSelector(state => state.item);
     const { data: formData } = useGetInitialFormDataQuery();
     const [selectedImg, setSelectedImg] = useState(null);
 
-    const handleDropFiles = (acceptedFiles) => {
-        console.log(acceptedFiles);
-    }
+    useEffect(() => {
+        if (isUploaded) {
+            toast.success('อัพโหลดไฟล์เรียบร้อยแล้ว!!');
+
+            dispatch(resetUploaded());
+        }
+    }, [isUploaded]);
+
+    // const handleDropFiles = (acceptedFiles) => {
+    //     console.log(acceptedFiles);
+    // }
 
     const handleSubmit = (values, props) => {
         if (item) {
@@ -39,6 +49,14 @@ const ItemForm = ({ item }) => {
         }
 
         props.resetForm();
+        setSelectedImg(null);
+    };
+
+    const handleUploadImage = (id) => {
+        let data = new FormData();
+
+        data.append('img_url', selectedImg);
+        dispatch(upload({ id, data }));
         setSelectedImg(null);
     };
 
@@ -82,7 +100,15 @@ const ItemForm = ({ item }) => {
                                                     <p className={`btn btn-outline-secondary btn-sm`}>{item ? 'เปลี่ยนรูป' : 'เพิ่มรูป'}</p>
                                                 </label>
                                             )}
-                                            {(selectedImg && item) && <button type="button" className="btn btn-outline-success btn-sm">อัพโหลดรูป</button>}
+                                            {(selectedImg && item) && (
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-outline-success btn-sm"
+                                                    onClick={() => handleUploadImage(item.id)}
+                                                >
+                                                    อัพโหลดรูป
+                                                </button>
+                                            )}
                                         </div>
                                         {(formik.errors.img_url && formik.touched.img_url) && (
                                             <span className="text-red-500 text-sm">{formik.errors.img_url}</span>
