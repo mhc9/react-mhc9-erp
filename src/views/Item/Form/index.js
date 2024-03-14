@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { Col, FormGroup, Row } from 'react-bootstrap'
-import { toast } from 'react-toastify'
 // import Dropzone from 'react-dropzone'
 import { useGetInitialFormDataQuery } from '../../../features/services/item/itemApi'
-import { store, update, upload, resetUploaded } from '../../../features/slices/item/itemSlice'
+import { store, update, upload } from '../../../features/slices/item/itemSlice'
 
 const itemSchema = Yup.object().shape({
     name: Yup.string().required(),
@@ -17,17 +16,8 @@ const itemSchema = Yup.object().shape({
 
 const ItemForm = ({ item }) => {
     const dispatch = useDispatch();
-    const { isUploaded } = useSelector(state => state.item);
     const { data: formData } = useGetInitialFormDataQuery();
     const [selectedImg, setSelectedImg] = useState(null);
-
-    useEffect(() => {
-        if (isUploaded) {
-            toast.success('อัพโหลดไฟล์เรียบร้อยแล้ว!!');
-
-            dispatch(resetUploaded());
-        }
-    }, [isUploaded]);
 
     // const handleDropFiles = (acceptedFiles) => {
     //     console.log(acceptedFiles);
@@ -86,27 +76,38 @@ const ItemForm = ({ item }) => {
                                         <div className="flex justify-center items-center border rounded-md overflow-hidden p-0 mt-1 min-h-[270px]">
                                             {selectedImg
                                                 ? <img src={URL.createObjectURL(selectedImg)} alt='item-pic' />
-                                                : item && <img src={`${process.env.REACT_APP_API_URL}/uploads/products/thumbnails/${item?.img_url}`} alt='item-pic' />
+                                                : item && <img src={`${process.env.REACT_APP_API_URL}/storage/${item?.img_url}`} alt='item-pic' />
                                             }
                                         </div>
                                         <div className="mt-2 text-center">
-                                            {!selectedImg && (
-                                                <label>
-                                                    <input
-                                                        type="file"
-                                                        onChange={(e) => setSelectedImg(e.target.files[0])}
-                                                        className="ml-2 text-sm font-thin hidden"
-                                                    />
-                                                    <p className={`btn btn-outline-secondary btn-sm`}>{item ? 'เปลี่ยนรูป' : 'เพิ่มรูป'}</p>
-                                                </label>
-                                            )}
-                                            {(selectedImg && item) && (
+                                            {(selectedImg) && (
                                                 <button
                                                     type="button"
-                                                    className="btn btn-outline-success btn-sm"
+                                                    className="btn btn-outline-success btn-sm mr-1"
                                                     onClick={() => handleUploadImage(item.id)}
                                                 >
                                                     อัพโหลดรูป
+                                                </button>
+                                            )}
+                                            <label>
+                                                <input
+                                                    type="file"
+                                                    onChange={(e) => setSelectedImg(e.target.files[0])}
+                                                    className="ml-2 text-sm font-thin hidden"
+                                                />
+                                                {!selectedImg && (
+                                                    <p className={`btn ${item ? 'btn-secondary' : 'btn-primary'} btn-sm`}>
+                                                        {item ? 'เปลี่ยนรูป' : 'เพิ่มรูป'}
+                                                    </p>
+                                                )}
+                                            </label>
+                                            {selectedImg && (
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-outline-danger btn-sm mr-1"
+                                                    onClick={() => setSelectedImg(null)}
+                                                >
+                                                    ยกเลิก
                                                 </button>
                                             )}
                                         </div>

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { getItem, resetSuccess } from '../../features/slices/item/itemSlice'
+import { getItem, resetSuccess, resetUploaded } from '../../features/slices/item/itemSlice'
 import ItemForm from './Form'
 import Loading from '../../components/Loading'
 
@@ -11,16 +11,22 @@ const EditItem = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { item, isSuccess, isLoading } = useSelector(state => state.item);
+    const { item, isSuccess, isUploaded, isLoading } = useSelector(state => state.item);
 
     useEffect(() => {
         if (isSuccess) {
             toast.success("บันทึกการแก้ไขข้อมูลสินค้าเรียบร้อยแล้ว!!")
             dispatch(resetSuccess());
-
             navigate('/item');
         }
     }, [isSuccess]);
+
+    useEffect(() => {
+        if (isUploaded) {
+            toast.success('อัพโหลดไฟล์เรียบร้อยแล้ว!!');
+            dispatch(resetUploaded());
+        }
+    }, [isUploaded]);
 
     useEffect(() => {
         dispatch(getItem({ id }));

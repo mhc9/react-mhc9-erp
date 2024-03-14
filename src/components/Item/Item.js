@@ -10,12 +10,12 @@ const Item = ({ item }) => {
                 isShow={showModal}
                 onHide={() => setShowModal(false)}
                 title="ภาพสินค้า"
-                url={`${process.env.REACT_APP_API_URL}/uploads/products/thumbnails/${item?.img_url}`}
+                url={`${process.env.REACT_APP_API_URL}/storage/${item?.img_url}`}
             />
 
             {![3,4].includes(item?.category?.asset_type_id) && (
                 <img
-                    src={`${process.env.REACT_APP_API_URL}/uploads/products/thumbnails/${item?.img_url}`}
+                    src={`${process.env.REACT_APP_API_URL}/storage/${item?.img_url}`}
                     alt="item-img"
                     className="w-[80px] h-auto border rounded-sm mr-2 hover:cursor-pointer hover:opacity-50 transition-opacity delay-100"
                     onClick={() => setShowModal(true)}
