@@ -80,7 +80,7 @@ const ItemForm = ({ item }) => {
                                             }
                                         </div>
                                         <div className="mt-2 text-center">
-                                            {(selectedImg) && (
+                                            {(selectedImg && item) && (
                                                 <button
                                                     type="button"
                                                     className="btn btn-outline-success btn-sm mr-1"
