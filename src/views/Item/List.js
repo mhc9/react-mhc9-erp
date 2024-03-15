@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Breadcrumb } from 'react-bootstrap';
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 import { currency } from '../../utils';
-import { getItems, destroy } from '../../features/slices/item/itemSlice';
+import { getItems, destroy, resetSuccess } from '../../features/slices/item/itemSlice';
 import { useGetInitialFormDataQuery } from '../../features/services/item/itemApi'
 import Pagination from '../../components/Pagination'
 import Loading from '../../components/Loading';
@@ -23,7 +24,7 @@ const initialFormData = {
 
 const ItemList = () => {
     const dispatch = useDispatch();
-    const { items, pager, isLoading } = useSelector(state => state.item);
+    const { items, pager, isLoading, isSuccess } = useSelector(state => state.item);
     const { data: formData = initialFormData } = useGetInitialFormDataQuery();
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState('');
@@ -35,6 +36,14 @@ const ItemList = () => {
             dispatch(getItems({ url: `${apiEndpoint}${params}` }));
         }
     }, [dispatch, apiEndpoint, params]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('ลบรายการสินค้าเรียบร้อย!!');
+            dispatch(getItems({ url: `/api/items/search?page=${params}` }));
+            dispatch(resetSuccess());
+        }
+    }, [isSuccess]);
 
     const handleFilter = (queryStr) => {
         setParams(queryStr);

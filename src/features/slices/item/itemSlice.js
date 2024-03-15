@@ -57,8 +57,6 @@ export const destroy = createAsyncThunk("item/destroy", async ({ id }, { dispatc
     try {
         const res = await api.post(`/api/items/${id}/delete`);
 
-        dispatch(getItems({ url: '/api/items' }));
-
         return res.data;
     } catch (error) {
         rejectWithValue(error);
