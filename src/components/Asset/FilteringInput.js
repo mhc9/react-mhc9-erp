@@ -116,15 +116,11 @@ const AssetFilteringInput = ({ initialFilters, onFilter }) => {
                     </FormGroup>
                     <FormGroup>
                         <button type="button" className="btn btn-outline-secondary text-sm" onClick={handleFilter}>
-                                ตกลง
-                            </button>
-                            <button
-                                type="button"
-                                className="btn btn-outline-danger text-sm ml-1"
-                                onClick={handleClearInputs}
-                            >
-                                เคลียร์
-                            </button>
+                            ตกลง
+                        </button>
+                        <button type="button" className="btn btn-outline-danger text-sm ml-1" onClick={handleClearInputs}>
+                            เคลียร์
+                        </button>
                     </FormGroup>
                 </div>
             </Col>

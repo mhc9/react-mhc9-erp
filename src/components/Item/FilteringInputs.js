@@ -15,6 +15,12 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
         onFilter(generateQueryString(filters));
     };
 
+    const handleClearInputs = () => {
+        setFilters(initialFilters);
+
+        onFilter(generateQueryString(initialFilters));
+    };
+
     return (
         <Row className="mb-3">
             <Col>
@@ -26,7 +32,7 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                             value={filters.name}
                             onChange={handleInputChange}
                             placeholder="ค้นหาด้วยชื่อ"
-                            className="form-control"
+                            className="form-control text-sm"
                         />
                     </FormGroup>
                     <FormGroup>
@@ -34,7 +40,7 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                             name="category"
                             value={filters.category}
                             onChange={handleInputChange}
-                            className="form-control"
+                            className="form-control text-sm"
                         >
                             <option value="">-- ทั้งหมด --</option>
                             {formData.types && formData.types.map(type => (
@@ -49,8 +55,11 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                         </select>
                     </FormGroup>
                     <FormGroup>
-                        <button type="button" className="btn btn-outline-secondary" onClick={handleFilter}>
+                        <button type="button" className="btn btn-outline-secondary text-sm" onClick={handleFilter}>
                             ตกลง
+                        </button>
+                        <button type="button" className="btn btn-outline-danger text-sm ml-1" onClick={handleClearInputs}>
+                            เคลียร์
                         </button>
                     </FormGroup>
                 </div>
