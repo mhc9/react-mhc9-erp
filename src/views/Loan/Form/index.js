@@ -429,10 +429,10 @@ const LoanForm = ({ loan }) => {
                                                     onChange={formik.handleChange}
                                                     className="form-control text-sm"
                                                 />
-                                                <button type="button" className="btn btn-outline-secondary" onClick={() => setShowEmployeeModal(true)}>
+                                                <button type="button" className="btn btn-outline-secondary text-sm" onClick={() => setShowEmployeeModal(true)}>
                                                     <FaSearch />
                                                 </button>
-                                                <button type="button" className="btn btn-outline-primary px-2" onClick={() => setShowEmployeeModal(true)}>
+                                                <button type="button" className="btn btn-outline-primary text-sm px-2" onClick={() => setShowEmployeeModal(true)}>
                                                     New
                                                 </button>
                                             </div>

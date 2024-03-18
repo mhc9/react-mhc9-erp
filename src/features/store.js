@@ -25,6 +25,7 @@ import approvalReducer from "./slices/approval/approvalSlice";
 import loanReducer from "./slices/loan/loanSlice";
 import loanContactReducer from "./slices/loan-contract/loanContractSlice";
 import projectReducer from "./slices/project/projectSlice";
+import placeReducer from "./slices/place/placeSlice";
 import { authApi } from "./services/auth/authApi";
 import { requisitionApi } from "./services/requisition/requisitionApi";
 import { employeeApi } from "./services/employee/employeeApi";
@@ -86,6 +87,7 @@ export default configureStore({
         budgetPlan: budgetPlanReducer,
         budgetProject: budgetProjectReducer,
         project: projectReducer,
+        place: placeReducer,
     },
     middleware: (getDefaultMiddleware) => 
         getDefaultMiddleware().concat(
