@@ -14,6 +14,7 @@ import ExpenseList from './ExpenseList'
 import Loading from '../../../components/Loading'
 // import ModalProjectList from '../../../components/Modals/Project/List'
 // import ModalProjectForm from '../../../components/Modals/Project/Form'
+import ModalPlaceList from '../../../components/Modals/Place/List'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import AddBudget from './AddBudget'
 import BudgetList from './BudgetList'
@@ -37,10 +38,12 @@ const LoanForm = ({ loan }) => {
     const [selectedStartDate, setSelectedStartDate] = useState(moment());
     const [selectedEndDate, setSelectedEndDate] = useState(moment());
     const [selectedYear, setSelectedYear] = useState(moment());
+    const [showPlaceModal, setShowPlaceModal] = useState(false);
     // const [showProjectModal, setShowProjectModal] = useState(false);
     // const [showProjectForm, setShowProjectForm] = useState(false);
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
-    const [project, setProject] = useState(null);
+    const [place, setPlace] = useState(null);
+    // const [project, setProject] = useState(null);
     const [employee, setEmployee] = useState(null);
     const [edittingItem, setEdittingItem] = useState(null);
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
@@ -100,6 +103,12 @@ const LoanForm = ({ loan }) => {
         formik.setFieldValue('budget_total', currency.format(calculateNetTotal(newBudgets)));
     };
 
+    const handleAddCourse = (formik, course) => {
+        const newCourses = [...formik.values.courses, course];
+
+        formik.setFieldValue('courses', newCourses);
+    };
+
     const handleSubmit = (values, formik) => {
         if (loan) {
             dispatch(update({ id: loan.id, data: values }));
@@ -131,6 +140,7 @@ const LoanForm = ({ loan }) => {
                 budget_total: loan ? loan.budget_total : '',
                 net_total: loan ? loan.net_total : '',
                 remark: loan ? loan.remark : '',
+                courses: loan ? loan.courses : [], //รุ่นที่
                 budgets: loan ? loan.budgets : [],
                 items: loan ? loan.details : [],
             }}
@@ -140,6 +150,15 @@ const LoanForm = ({ loan }) => {
             {(formik) => {
                 return (
                     <Form>
+                        <ModalPlaceList
+                            isShow={showPlaceModal}
+                            onHide={() => setShowPlaceModal(false)}
+                            onSelect={(place) => {
+                                setPlace(place);
+                                formik.setFieldValue('place_id', place?.id);
+                            }}
+                        />
+
                         {/* <ModalProjectList
                             isShow={showProjectModal}
                             onHide={() => setShowProjectModal(false)}
@@ -420,7 +439,7 @@ const LoanForm = ({ loan }) => {
                                             <label htmlFor="">สถานที่จัด</label>
                                             <div className="input-group">
                                                 <div className="form-control text-sm h-[34px] bg-gray-100">
-                                                    {employee?.firstname} {employee?.lastname}
+                                                    {place?.name} จ.{place?.changwat?.name}
                                                 </div>
                                                 <input
                                                     type="hidden"
@@ -429,10 +448,10 @@ const LoanForm = ({ loan }) => {
                                                     onChange={formik.handleChange}
                                                     className="form-control text-sm"
                                                 />
-                                                <button type="button" className="btn btn-outline-secondary text-sm" onClick={() => setShowEmployeeModal(true)}>
+                                                <button type="button" className="btn btn-outline-secondary text-sm" onClick={() => setShowPlaceModal(true)}>
                                                     <FaSearch />
                                                 </button>
-                                                <button type="button" className="btn btn-outline-primary text-sm px-2" onClick={() => setShowEmployeeModal(true)}>
+                                                <button type="button" className="btn btn-outline-primary text-sm px-2" onClick={() => setShowPlaceModal(true)}>
                                                     New
                                                 </button>
                                             </div>
@@ -446,6 +465,7 @@ const LoanForm = ({ loan }) => {
                                                 <button
                                                     type="button"
                                                     className={`btn btn-outline-primary rounded-full p-1`}
+                                                    onClick={() => handleAddCourse(formik, { course_date: '', place_id: place.id, place: place })}
                                                 >
                                                     <FaPlus />
                                                 </button>
@@ -455,10 +475,12 @@ const LoanForm = ({ loan }) => {
                                     <Row>
                                         <Col>
                                             <ul>
-                                                <li>
-                                                    - รุ่นที่ 1 วันที่ วว/ดดดด/ปปป ณ โรงแรม xxxx
-                                                    <button type="button" className="btn btn-outline-danger rounded-full p-0 ml-2"><FaMinus /></button>
-                                                </li>
+                                                {formik.values.courses.map((course, index) => (
+                                                    <li key={index} className="hover:bg-gray-200 p-1 rounded-md font-thin">
+                                                        - รุ่นที่ 1 วันที่ วว/ดดดด/ปปป ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
+                                                        <button type="button" className="btn btn-outline-danger rounded-full p-0 ml-2"><FaMinus /></button>
+                                                    </li>
+                                                ))}
                                             </ul>
                                         </Col>
                                     </Row>
