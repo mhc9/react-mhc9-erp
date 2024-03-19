@@ -2,16 +2,16 @@ import React from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency } from '../../../utils'
 
-const BudgetList = ({ budgets, onRemoveBudget, onEditBudget }) => {
+const BudgetList = ({ budgets, showButtons=true, onRemoveBudget, onEditBudget }) => {
     return (
         <>
-            <table className="table table-bordered table-striped text-sm mb-2">
+            <table className="table table-bordered table-striped table-hover text-sm mb-2">
                 <thead>
                     <tr>
                         <th className="text-center w-[5%]">#</th>
                         <th>งบประมาณ</th>
                         <th className="text-center w-[15%]">จำนวนเงิน</th>
-                        <th className="text-center w-[10%]">Actions</th>
+                        {showButtons && <th className="text-center w-[10%]">Actions</th>}
                     </tr>
                 </thead>
                 <tbody>
@@ -23,26 +23,28 @@ const BudgetList = ({ budgets, onRemoveBudget, onEditBudget }) => {
                                 <p className="font-thin text-xs">{data.budget?.project?.plan?.name}/{data.budget?.project?.name}</p>
                                 </td>
                             <td className="text-right">{currency.format(data.total)}</td>
-                            <td className="text-center">
-                                <div className="btn-group" role="group" aria-label="Basic example">
-                                    {/* {(!edittingItem || edittingItem?.expense_id !== data.expense_id) && ( */}
+                            {showButtons && (
+                                <td className="text-center">
+                                    <div className="btn-group" role="group" aria-label="Basic example">
+                                        {/* {(!edittingItem || edittingItem?.expense_id !== data.expense_id) && ( */}
+                                            <button
+                                                type="button"
+                                                className="btn btn-sm btn-outline-warning"
+                                                onClick={() => onEditBudget(data)}
+                                            >
+                                                <FaPencilAlt />
+                                            </button>
+                                        {/* )} */}
                                         <button
                                             type="button"
-                                            className="btn btn-sm btn-outline-warning"
-                                            onClick={() => onEditBudget(data)}
+                                            className="btn btn-sm btn-outline-danger"
+                                            onClick={() => onRemoveBudget(data.budget_id)}
                                         >
-                                            <FaPencilAlt />
+                                            <FaTrash />
                                         </button>
-                                    {/* )} */}
-                                    <button
-                                        type="button"
-                                        className="btn btn-sm btn-outline-danger"
-                                        onClick={() => onRemoveBudget(data.budget_id)}
-                                    >
-                                        <FaTrash />
-                                    </button>
-                                </div>
-                            </td>
+                                    </div>
+                                </td>
+                            )}
                         </tr>
                     ))}
                 </tbody>

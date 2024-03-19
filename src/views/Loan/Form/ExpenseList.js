@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency, replaceExpensePattern, toShortTHDate } from '../../../utils'
 
@@ -48,7 +48,7 @@ const ExpenseList = ({ courses, items, showButtons=true, edittingItem,  onEditIt
     }
 
     return (
-        <table className="table table-bordered table-striped text-sm mb-2">
+        <table className="table table-bordered table-striped table-hover text-sm mb-2">
             <thead>
                 <tr>
                     <th className="w-[5%] text-center">#</th>
@@ -70,10 +70,10 @@ const ExpenseList = ({ courses, items, showButtons=true, edittingItem,  onEditIt
                                         ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
                                     </td>
                                 </tr>
-                                {items && items.map((data) => <>{parseInt(data.course_id, 10) === course.id && renderExpenseRow(data, ++seq)}</>)}
+                                {items && items.map((data, index) => <Fragment key={index}>{parseInt(data.course_id, 10) === course.id && renderExpenseRow(data, ++seq)}</Fragment>)}
                             </>
                         )})
-                    : items && items.map((data, index) => <>{renderExpenseRow(data, index)}</>)}
+                    : items && items.map((data, index) => <Fragment key={index}>{renderExpenseRow(data, ++index)}</Fragment>)}
             </tbody>
         </table>
     )

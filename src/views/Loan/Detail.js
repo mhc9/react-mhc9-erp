@@ -6,8 +6,9 @@ import moment from 'moment'
 import { getLoan } from '../../features/slices/loan/loanSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi'
 import { currency, toLongTHDate, getFormDataItem } from '../../utils'
-import ExpenseList from './Form/ExpenseList'
 import Loading from '../../components/Loading'
+import BudgetList from './Form/BudgetList'
+import ExpenseList from './Form/ExpenseList'
 
 const LoanDetail = () => {
     const { id } = useParams();
@@ -84,36 +85,30 @@ const LoanDetail = () => {
                         </Row>
                         <Row className="mb-2">
                             <Col md={12}>
-                                <label htmlFor="">งบประมาณ</label>
-                                <div className="form-control text-sm">
-                                    {loan?.budget?.name}
-                                </div>
-                            </Col>
-                            <Col md={12}>
-                                <div className="form-control text-sm min-h-[34px] bg-gray-200 mt-1">
-                                    โครงการ/ผลผลิต :
-                                    {loan?.budget && (
-                                        <span className="font-thin ml-1">{loan?.budget?.project?.plan?.name} / {loan?.budget?.project?.name}</span>
-                                    )}
+                                <div className="flex flex-col border p-2 rounded-md">
+                                    <h1 className="font-bold text-lg mb-1">รายละเอียดโครงการ</h1>
+
+                                    <div className="form-control text-sm">
+                                        {loan?.project_name}
+                                    </div>
                                 </div>
                             </Col>
                         </Row>
                         <Row className="mb-2">
                             <Col md={12}>
-                                <label htmlFor="">โครงการ</label>
-                                <div className="form-control text-sm">
-                                    {loan?.project?.name}
-                                </div>
-                            </Col>
-                            <Col md={12}>
-                                <div className="form-control text-sm min-h-[34px] bg-gray-200 mt-1">
-                                    รายละเอียดโครงการ :
-                                    {loan?.project && (
-                                        <span className="font-thin ml-1">
-                                            {loan?.project?.place?.name}
-                                            <span className="ml-1"><b>ระหว่างวันที่</b> {toLongTHDate(moment(loan?.project?.from_date).toDate())} - {toLongTHDate(moment(loan?.project?.to_date).toDate())}</span>
-                                        </span>
-                                    )}
+                                <div className="flex flex-col border p-2 rounded-md">
+                                    <h1 className="font-bold text-lg mb-1">งบประมาณ</h1>
+
+                                    <BudgetList budgets={loan?.budgets} showButtons={false} />
+
+                                    <div className="flex flex-row justify-end items-center">
+                                        <div className="mr-2">งบประมาณทั้งสิ้น</div>
+                                        <div className="w-[15%]">
+                                            <div className="form-control font-bold float-right text-right text-green-500">
+                                                {currency.format(loan?.net_total)}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </Col>
                         </Row>
@@ -121,11 +116,13 @@ const LoanDetail = () => {
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
                                     <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่าย</h1>
-                                    <ExpenseList items={loan?.details} showButtons={false} />
 
-                                    <div className="flex flex-row justify-end">
+                                    <ExpenseList courses={loan?.courses} items={loan?.details} showButtons={false} />
+
+                                    <div className="flex flex-row justify-end items-center">
+                                        <div className="mr-2">ค่าใช้จ่ายทั้งสิ้น</div>
                                         <div className="w-[15%]">
-                                            <div className="form-control text-sm float-right text-right">
+                                            <div className="form-control font-bold float-right text-right text-red-500">
                                                 {currency.format(loan?.net_total)}
                                             </div>
                                         </div>
