@@ -18,6 +18,7 @@ const AddBudget = ({ data, formData, onAddBudget }) => {
         }
 
         formik.resetForm();
+        setBudget(null);
     };
 
     return (

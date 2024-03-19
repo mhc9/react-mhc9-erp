@@ -10,7 +10,7 @@ const initialState = {
     error: null
 };
 
-export const getPlaces = createAsyncThunk("project/getPlaces", async ({ url }, { rejectWithValue }) => {
+export const getPlaces = createAsyncThunk("place/getPlaces", async ({ url }, { rejectWithValue }) => {
     try {
         const res = await api.get(url);
 
@@ -20,7 +20,7 @@ export const getPlaces = createAsyncThunk("project/getPlaces", async ({ url }, {
     }
 });
 
-export const getPlace = createAsyncThunk("project/getPlace", async ({ id }, { rejectWithValue }) => {
+export const getPlace = createAsyncThunk("place/getPlace", async ({ id }, { rejectWithValue }) => {
     try {
         const res = await api.get(`/api/places/${id}`);
 
@@ -30,7 +30,7 @@ export const getPlace = createAsyncThunk("project/getPlace", async ({ id }, { re
     }
 });
 
-export const store = createAsyncThunk("project/store", async (data, { rejectWithValue }) => {
+export const store = createAsyncThunk("place/store", async (data, { rejectWithValue }) => {
     try {
         const res = await api.post(`/api/places`, data);
 
@@ -40,7 +40,7 @@ export const store = createAsyncThunk("project/store", async (data, { rejectWith
     }
 });
 
-export const update = createAsyncThunk("project/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
+export const update = createAsyncThunk("place/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
     try {
         const res = await api.put(`/api/places/${id}`, data);
 
@@ -52,7 +52,7 @@ export const update = createAsyncThunk("project/update", async ({ id, data }, { 
     }
 });
 
-export const destroy = createAsyncThunk("project/destroy", async ({ id }, { dispatch, rejectWithValue }) => {
+export const destroy = createAsyncThunk("place/destroy", async ({ id }, { dispatch, rejectWithValue }) => {
     try {
         const res = await api.delete(`/api/places/${id}`);
 
@@ -93,13 +93,13 @@ export const placeSlice = createSlice({
             state.error = payload;
         },
         [getPlace.pending]: (state) => {
-            state.project = null;
+            state.place = null;
             state.isLoading = true;
             // state.isSuccess = false;
             state.error = null;
         },
         [getPlace.fulfilled]: (state, { payload }) => {
-            state.project = payload;
+            state.place = payload;
             state.isLoading = false
             // state.isSuccess = true;
         },
@@ -108,16 +108,20 @@ export const placeSlice = createSlice({
             state.error = payload;
         },
         [store.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
-            state.isSuccess = true;
+            const { status, message, place } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.place = place;
+            } else {
+                state.error = { message };
+            }
         },
         [store.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [update.pending]: (state) => {

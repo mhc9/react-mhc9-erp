@@ -20,7 +20,6 @@ const ModalPlaceForm = ({ isShow, onHide, onSubmit }) => {
     const [filteredTambons, setFilteredTambons] = useState([]);
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
-    console.log(formData);
     /** On mounted */
     useEffect(() => {
         if (formData) {
@@ -79,7 +78,9 @@ const ModalPlaceForm = ({ isShow, onHide, onSubmit }) => {
                                             <span className="text-red-500 text-sm">{formik.errors.name}</span>
                                         )}
                                     </Col>
-                                    <Col md={3}>
+                                </Row>
+                                <Row className="mb-2">
+                                    <Col md={4}>
                                         <label htmlFor="">ประเภทสถานที่</label>
                                         <select
                                             name="place_type_id"
@@ -100,8 +101,6 @@ const ModalPlaceForm = ({ isShow, onHide, onSubmit }) => {
                                             <span className="text-red-500 text-sm">{formik.errors.place_type_id}</span>
                                         )}
                                     </Col>
-                                </Row>
-                                <Row>
                                     <Col>
                                         <FormGroup>
                                             <label>ที่อยู่เลขที่</label>
@@ -117,7 +116,9 @@ const ModalPlaceForm = ({ isShow, onHide, onSubmit }) => {
                                             )}
                                         </FormGroup>
                                     </Col>
-                                    <Col md={2}>
+                                </Row>
+                                <Row className="mb-2">
+                                    <Col md={3}>
                                         <FormGroup>
                                             <label>หมู่ที่</label>
                                             <input
@@ -144,21 +145,6 @@ const ModalPlaceForm = ({ isShow, onHide, onSubmit }) => {
                                             />
                                             {(formik.errors.road && formik.touched.road) && (
                                                 <span className="text-red-500 text-sm">{formik.errors.road}</span>
-                                            )}
-                                        </FormGroup>
-                                    </Col>
-                                    <Col>
-                                        <FormGroup>
-                                            <label>รหัสไปรษณีย์</label>
-                                            <input
-                                                type="text"
-                                                name="zipcode"
-                                                value={formik.values.zipcode}
-                                                onChange={formik.handleChange}
-                                                className="form-control text-sm"
-                                            />
-                                            {(formik.errors.zipcode && formik.touched.zipcode) && (
-                                                <span className="text-red-500 text-sm">{formik.errors.zipcode}</span>
                                             )}
                                         </FormGroup>
                                     </Col>
@@ -230,6 +216,53 @@ const ModalPlaceForm = ({ isShow, onHide, onSubmit }) => {
                                             </select>
                                             {(formik.errors.tambon_id && formik.touched.tambon_id) && (
                                                 <span className="text-red-500 text-sm">{formik.errors.tambon_id}</span>
+                                            )}
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row className="mb-3">
+                                    <Col>
+                                        <FormGroup>
+                                            <label>รหัสไปรษณีย์</label>
+                                            <input
+                                                type="text"
+                                                name="zipcode"
+                                                value={formik.values.zipcode}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-sm"
+                                            />
+                                            {(formik.errors.zipcode && formik.touched.zipcode) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.zipcode}</span>
+                                            )}
+                                        </FormGroup>
+                                    </Col>
+                                    <Col>
+                                        <FormGroup>
+                                            <label>ละติจูด</label>
+                                            <input
+                                                type="text"
+                                                name="latitude"
+                                                value={formik.values.latitude}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-sm"
+                                            />
+                                            {(formik.errors.latitude && formik.touched.latitude) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.latitude}</span>
+                                            )}
+                                        </FormGroup>
+                                    </Col>
+                                    <Col>
+                                        <FormGroup>
+                                            <label>ลองติจูด</label>
+                                            <input
+                                                type="text"
+                                                name="longitude"
+                                                value={formik.values.longitude}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-sm"
+                                            />
+                                            {(formik.errors.longitude && formik.touched.longitude) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.longitude}</span>
                                             )}
                                         </FormGroup>
                                     </Col>

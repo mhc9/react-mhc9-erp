@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row } from 'react-bootstrap'
 import { FaSearch, FaPlus, FaMinus } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
@@ -8,6 +8,7 @@ import * as Yup from 'yup'
 import moment from 'moment';
 import { calculateNetTotal, currency, toShortTHDate } from '../../../utils'
 import { store, update } from '../../../features/slices/loan/loanSlice'
+import { getPlaces } from '../../../features/slices/place/placeSlice';
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
 import AddExpense from './AddExpense'
 import ExpenseList from './ExpenseList'
@@ -24,8 +25,6 @@ const loanSchema = Yup.object().shape({
     loan_type_id: Yup.string().required(),
     money_type_id: Yup.string().required(),
     year: Yup.string().required(),
-    budget_id: Yup.string().required(),
-    project_id: Yup.string().required(),
     department_id: Yup.string().required(),
     employee_id: Yup.string().required(),
     net_total: Yup.string().required(),
@@ -33,6 +32,8 @@ const loanSchema = Yup.object().shape({
 
 const LoanForm = ({ loan }) => {
     const dispatch = useDispatch();
+    const { data: formData, isLoading } = useGetInitialFormDataQuery();
+    const { place: newPlace } = useSelector(state => state.place);
     const [selectedDocDate, setSelectedDocDate] = useState(moment());
     const [selectedProjectDate, setSelectedProjectDate] = useState(moment());
     const [selectedStartDate, setSelectedStartDate] = useState(moment());
@@ -45,7 +46,6 @@ const LoanForm = ({ loan }) => {
     const [place, setPlace] = useState(null);
     const [employee, setEmployee] = useState(null);
     const [edittingItem, setEdittingItem] = useState(null);
-    const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     useEffect(() => {
         if (loan) {
@@ -59,6 +59,14 @@ const LoanForm = ({ loan }) => {
             setEmployee(loan.employee);
         }
     }, [loan]);
+
+    useEffect(() => {
+        if (newPlace) {
+            setPlace(newPlace);
+
+            dispatch(getPlaces({ url: '/api/places/search' }));
+        }
+    }, [newPlace]);
 
     const handleAddItem = (formik, expense) => {
         const newItems = [...formik.values.items, expense];
@@ -108,6 +116,14 @@ const LoanForm = ({ loan }) => {
         const newCourses = [...formik.values.courses, course];
 
         formik.setFieldValue('courses', newCourses);
+        setPlace(null);
+        setSelectedCourseDate(moment());
+    };
+
+    const handleRemoveCourse = (formik, id) => {
+        const newCourses = formik.values.courses.filter(course => course.id !== id);
+
+        formik.setFieldValue('courses', newCourses);
     };
 
     const handleSubmit = (values, formik) => {
@@ -120,8 +136,7 @@ const LoanForm = ({ loan }) => {
         formik.resetForm();
 
         /** Clear value of local states */
-        // setBudget(null);
-        // setEmployee(null);
+        setEmployee(null);
         setSelectedDocDate(moment());
         setSelectedProjectDate(moment());
         setSelectedStartDate(moment());
@@ -137,9 +152,9 @@ const LoanForm = ({ loan }) => {
                 loan_type_id: loan ? loan.loan_type_id : '',
                 money_type_id: loan ? loan.money_type_id : '',
                 year: loan ? moment(loan.year).format('YYYY-MM-DD') : moment().year() + 543,
-                employee_id: loan ? loan.employee_id : '',
                 department_id: loan ? loan.department_id : '',
-                project_no: '',
+                employee_id: loan ? loan.employee_id : '',
+                project_no:  loan ? loan.project_no : '',
                 project_date: loan ? moment(loan.project_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 project_name: loan ? loan.project_name : '',
                 project_sdate: loan ? moment(loan.project_sdate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
@@ -156,6 +171,7 @@ const LoanForm = ({ loan }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.errors);
                 return (
                     <Form>
                         <ModalPlaceList
@@ -163,18 +179,12 @@ const LoanForm = ({ loan }) => {
                             onHide={() => setShowPlaceModal(false)}
                             onSelect={(place) => {
                                 setPlace(place);
-                                formik.setFieldValue('place_id', place?.id);
                             }}
-                        />
+                            />
 
                         <ModalPlaceForm
                             isShow={showPlaceFormModal}
                             onHide={() => setShowPlaceFormModal(false)}
-                            onSubmit={(place) => {
-                                console.log(place);
-                                setPlace(place);
-                                formik.setFieldValue('place_id', place?.id);
-                            }}
                         />
 
                         <ModalEmployeeList
@@ -443,13 +453,6 @@ const LoanForm = ({ loan }) => {
                                                 <div className="form-control text-sm h-[34px] bg-gray-100">
                                                     {place?.name} {place && <span>จ.{place?.changwat?.name}</span>}
                                                 </div>
-                                                <input
-                                                    type="hidden"
-                                                    name="employee_id"
-                                                    value={formik.values.employee_id}
-                                                    onChange={formik.handleChange}
-                                                    className="form-control text-sm"
-                                                />
                                                 <button type="button" className="btn btn-outline-secondary text-sm" onClick={() => setShowPlaceModal(true)}>
                                                     <FaSearch />
                                                 </button>
@@ -457,9 +460,6 @@ const LoanForm = ({ loan }) => {
                                                     New
                                                 </button>
                                             </div>
-                                            {(formik.errors.doc_no && formik.touched.doc_no) && (
-                                                <span className="text-red-500 text-sm">{formik.errors.doc_no}</span>
-                                            )}
                                         </Col>
                                         <Col>
                                             <label htmlFor=""></label>
@@ -469,7 +469,7 @@ const LoanForm = ({ loan }) => {
                                                     className={`btn btn-outline-primary rounded-full p-1`}
                                                     onClick={() => {
                                                         const course = {
-                                                            id: formik.values.courses + 1,
+                                                            id: formik.values.courses.length + 1,
                                                             course_date: formik.values.expense_calc === '2' ? selectedCourseDate.format('YYYY-MM-DD') : '',
                                                             place_id: place.id,
                                                             place: place
@@ -486,18 +486,26 @@ const LoanForm = ({ loan }) => {
                                     <Row>
                                         <Col>
                                             <ul>
-                                                {formik.values.courses.map((course, index) => {
-                                                    console.log(course);
-                                                    return (
+                                                {formik.values.courses.map((course, index) => (
                                                     <li key={index} className="hover:bg-gray-200 p-1 rounded-md font-thin">
-                                                        - รุ่นที่ {course.id} วันที่ {toShortTHDate(course?.course_date)} ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
-                                                        <button type="button" className="btn btn-outline-danger rounded-full p-0 ml-2"><FaMinus /></button>
+                                                        - รุ่นที่ {course.id} {course?.course_date && <span>วันที่ {toShortTHDate(course?.course_date)}</span>} 
+                                                            ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-outline-danger rounded-full p-0 ml-2"
+                                                            onClick={() => handleRemoveCourse(formik, course.id)}
+                                                        >
+                                                            <FaMinus />
+                                                        </button>
                                                     </li>
-                                                )})}
+                                                ))}
                                             </ul>
                                         </Col>
                                     </Row>
                                 </div>
+                                {/* {(formik.errors.courses && formik.touched.courses) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.courses}</span>
+                                )} */}
                             </Col>
                         </Row>
                         <Row className="mb-2">
@@ -541,12 +549,14 @@ const LoanForm = ({ loan }) => {
                                     <AddExpense
                                         data={edittingItem}
                                         formData={formData?.expenses}
+                                        courses={formik.values.courses}
                                         onAddItem={(expense) => handleAddItem(formik, expense)}
                                         onUpdateItem={(id, expense) => handleUpdateItem(formik, id, expense)}
                                         onClear={setEdittingItem}
                                     />
 
                                     <ExpenseList
+                                        courses={formik.values.courses}
                                         items={formik.values.items}
                                         edittingItem={edittingItem}
                                         onEditItem={(data) => handleEditItem(data)}

@@ -16,7 +16,7 @@ const BudgetList = ({ budgets, onRemoveBudget, onEditBudget }) => {
                 </thead>
                 <tbody>
                     {budgets && budgets.map((data, index) => (
-                        <tr className="font-thin">
+                        <tr className="font-thin" key={data.budget_id}>
                             <td className="text-center">{index+1}</td>
                             <td>
                                 <p className="text-sm">{data.budget?.name}</p>

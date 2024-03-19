@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
+import { toShortTHDate } from '../../../utils'
 import ModalAddItemDesc from '../../../components/Modals/AddItemDesc'
 
 const itemSchema = Yup.object().shape({
+    course_id: Yup.string().required(),
     expense_id: Yup.string().required(),
-    description: Yup.string().required(),
     total: Yup.string().required(),
 });
 
-const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
+const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear }) => {
     const [item, setItem] = useState(null);
     const [showModalAddItemDesc, setShowModalAddItemDesc] = useState(false);
 
@@ -48,6 +49,7 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
         <Formik
             enableReinitialize
             initialValues={{
+                course_id: item ? item.course_id : '',
                 expense_id: item ? item.expense_id : '',
                 expense: null,
                 description: item? item.description : '',
@@ -65,6 +67,25 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                     />
 
                     <div className="flex flex-row gap-2 mb-2">
+                        <FormGroup className="w-[10%]">
+                            <select
+                                name="course_id"
+                                value={formik.values.course_id}
+                                onChange={formik.handleChange}
+                                className="form-control text-sm"
+                            >
+                                <option value="">-- รุ่น --</option>
+                                {courses && courses.map(course => (
+                                    <option value={course.id} key={course.id}>
+                                        รุ่นที่ {course.id} {course?.course_date && <span>วันที่ {toShortTHDate(course?.course_date)}</span>} 
+                                        ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
+                                    </option>
+                                ))}
+                            </select>
+                            {(formik.errors.course_id && formik.touched.course_id) && (
+                                <span className="text-red-500 text-sm">{formik.errors.course_id}</span>
+                            )}
+                        </FormGroup>
                         <FormGroup className="w-[35%]">
                             <select
                                 name="expense_id"
@@ -83,7 +104,7 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                                 <span className="text-red-500 text-sm">{formik.errors.expense_id}</span>
                             )}
                         </FormGroup>
-                        <FormGroup className="w-[40%]">
+                        <FormGroup className="w-[30%]">
                             <input
                                 type="text"
                                 name="description"
