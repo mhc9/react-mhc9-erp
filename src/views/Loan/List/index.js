@@ -97,12 +97,10 @@ const LoanList = () => {
                                         </p>
                                     </td>
                                     <td className="text-sm">
-                                        {loan.project && (
-                                            <div className="text-blue-600">
-                                                {loan.project.name}
-                                                <span className="ml-1">เป็นเงินทั้งสิ้น {currency.format(loan.net_total)} บาท</span>
-                                            </div>
-                                        )}
+                                        <div className="text-blue-600">
+                                            {loan.project_name}
+                                            <span className="ml-1">เป็นเงินทั้งสิ้น {currency.format(loan.net_total)} บาท</span>
+                                        </div>
 
                                         <LoanListDetail items={loan.details} />
                                     </td>
