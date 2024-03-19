@@ -12,8 +12,7 @@ import { useGetInitialFormDataQuery } from '../../../features/services/loan/loan
 import AddExpense from './AddExpense'
 import ExpenseList from './ExpenseList'
 import Loading from '../../../components/Loading'
-// import ModalProjectList from '../../../components/Modals/Project/List'
-// import ModalProjectForm from '../../../components/Modals/Project/Form'
+import ModalPlaceForm from '../../../components/Modals/Place/Form'
 import ModalPlaceList from '../../../components/Modals/Place/List'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import AddBudget from './AddBudget'
@@ -34,27 +33,29 @@ const loanSchema = Yup.object().shape({
 
 const LoanForm = ({ loan }) => {
     const dispatch = useDispatch();
-    const [selectedDate, setSelectedDate] = useState(moment());
+    const [selectedDocDate, setSelectedDocDate] = useState(moment());
+    const [selectedProjectDate, setSelectedProjectDate] = useState(moment());
     const [selectedStartDate, setSelectedStartDate] = useState(moment());
     const [selectedEndDate, setSelectedEndDate] = useState(moment());
+    const [selectedCourseDate, setSelectedCourseDate] = useState(moment());
     const [selectedYear, setSelectedYear] = useState(moment());
     const [showPlaceModal, setShowPlaceModal] = useState(false);
-    // const [showProjectModal, setShowProjectModal] = useState(false);
-    // const [showProjectForm, setShowProjectForm] = useState(false);
+    const [showPlaceFormModal, setShowPlaceFormModal] = useState(false);
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [place, setPlace] = useState(null);
-    // const [project, setProject] = useState(null);
     const [employee, setEmployee] = useState(null);
     const [edittingItem, setEdittingItem] = useState(null);
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     useEffect(() => {
         if (loan) {
-            setSelectedDate(moment(loan.doc_date));
+            setSelectedDocDate(moment(loan.doc_date));
+            setSelectedProjectDate(moment(loan.project_date));
+            setSelectedStartDate(moment(loan.project_sdate));
+            setSelectedEndDate(moment(loan.project_edate));
             setSelectedYear(moment(loan.year));
 
             // setBudget(loan.budget);
-            // setProject(loan.project);
             setEmployee(loan.employee);
         }
     }, [loan]);
@@ -121,7 +122,10 @@ const LoanForm = ({ loan }) => {
         /** Clear value of local states */
         // setBudget(null);
         // setEmployee(null);
-        setSelectedDate(moment());
+        setSelectedDocDate(moment());
+        setSelectedProjectDate(moment());
+        setSelectedStartDate(moment());
+        setSelectedEndDate(moment());
         setSelectedYear(moment());
     };
 
@@ -135,8 +139,12 @@ const LoanForm = ({ loan }) => {
                 year: loan ? moment(loan.year).format('YYYY-MM-DD') : moment().year() + 543,
                 employee_id: loan ? loan.employee_id : '',
                 department_id: loan ? loan.department_id : '',
+                project_no: '',
+                project_date: loan ? moment(loan.project_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 project_name: loan ? loan.project_name : '',
-                calculation: loan ? loan.calculation : '1',
+                project_sdate: loan ? moment(loan.project_sdate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+                project_edate: loan ? moment(loan.project_edate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+                expense_calc: loan ? loan.expense_calc : '1',
                 budget_total: loan ? loan.budget_total : '',
                 net_total: loan ? loan.net_total : '',
                 remark: loan ? loan.remark : '',
@@ -159,24 +167,15 @@ const LoanForm = ({ loan }) => {
                             }}
                         />
 
-                        {/* <ModalProjectList
-                            isShow={showProjectModal}
-                            onHide={() => setShowProjectModal(false)}
-                            onSelect={(project) => {
-                                setProject(project);
-                                formik.setFieldValue('project_id', project?.id);
+                        <ModalPlaceForm
+                            isShow={showPlaceFormModal}
+                            onHide={() => setShowPlaceFormModal(false)}
+                            onSubmit={(place) => {
+                                console.log(place);
+                                setPlace(place);
+                                formik.setFieldValue('place_id', place?.id);
                             }}
                         />
-
-                        <ModalProjectForm
-                            isShow={showProjectForm}
-                            onHide={() => setShowProjectForm(false)}
-                            onSubmit={(project) => {
-                                console.log(project);
-                                setProject(project);
-                                formik.setFieldValue('project_id', project?.id);
-                            }}
-                        /> */}
 
                         <ModalEmployeeList
                             isShow={showEmployeeModal}
@@ -211,9 +210,9 @@ const LoanForm = ({ loan }) => {
                                     <label htmlFor="">วันที่เอกสาร</label>
                                     <DatePicker
                                         format="DD/MM/YYYY"
-                                        value={selectedDate}
+                                        value={selectedDocDate}
                                         onChange={(date) => {
-                                            setSelectedDate(date);
+                                            setSelectedDocDate(date);
                                             formik.setFieldValue('doc_date', date.format('YYYY-MM-DD'));
                                         }}
                                         variant="outlined"
@@ -339,9 +338,9 @@ const LoanForm = ({ loan }) => {
                                                 <label htmlFor="">วันที่ขออนุมติ</label>
                                                 <DatePicker
                                                     format="DD/MM/YYYY"
-                                                    value={selectedDate}
+                                                    value={selectedProjectDate}
                                                     onChange={(date) => {
-                                                        setSelectedDate(date);
+                                                        setSelectedProjectDate(date);
                                                         formik.setFieldValue('project_date', date.format('YYYY-MM-DD'));
                                                     }}
                                                     variant="outlined"
@@ -405,41 +404,44 @@ const LoanForm = ({ loan }) => {
                                             <label className="form-control text-sm font-thin">
                                                 <Field
                                                     type="radio"
-                                                    name="calculation"
+                                                    name="expense_calc"
                                                     value="1"
-                                                    checked={formik.values.calculation === "1"}
-                                                    onChange={() => formik.setFieldValue("calculation", "1")}
+                                                    checked={formik.values.expense_calc === "1"}
+                                                    onChange={() => formik.setFieldValue("expense_calc", "1")}
                                                 />
                                                 <span className="ml-1 mr-8">คิดค่าใช้จ่ายรวม</span>
 
                                                 <Field
                                                     type="radio"
-                                                    name="calculation"
+                                                    name="expense_calc"
                                                     value="2"
-                                                    checked={formik.values.calculation === "2"}
-                                                    onChange={() => formik.setFieldValue("calculation", "2")}
+                                                    checked={formik.values.expense_calc === "2"}
+                                                    onChange={() => formik.setFieldValue("expense_calc", "2")}
                                                 />
                                                 <span className="ml-1">คิดค่าใช้จ่ายแยกวันที่</span>
                                             </label>
-                                            {(formik.errors.calculation && formik.touched.calculation) && (
-                                                <span className="text-red-500 text-sm">{formik.errors.calculation}</span>
+                                            {(formik.errors.expense_calc && formik.touched.expense_calc) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.expense_calc}</span>
                                             )}
                                         </Col>
                                     </Row>
                                     <Row className="mb-2">
-                                        {formik.values.calculation === '2' && (
+                                        {formik.values.expense_calc === '2' && (
                                             <Col md={2}>
                                                 <label htmlFor="">วันที่</label>
-                                                <div className="form-control text-sm min-h-[34px]">
-                                                    
-                                                </div>
+                                                <DatePicker
+                                                    format="DD/MM/YYYY"
+                                                    value={selectedCourseDate}
+                                                    onChange={(date) => setSelectedCourseDate(date)}
+                                                    variant="outlined"
+                                                />
                                             </Col>
                                         )}
-                                        <Col md={formik.values.calculation === '2' ? 9 : 11}>
+                                        <Col md={formik.values.expense_calc === '2' ? 9 : 11}>
                                             <label htmlFor="">สถานที่จัด</label>
                                             <div className="input-group">
                                                 <div className="form-control text-sm h-[34px] bg-gray-100">
-                                                    {place?.name} จ.{place?.changwat?.name}
+                                                    {place?.name} {place && <span>จ.{place?.changwat?.name}</span>}
                                                 </div>
                                                 <input
                                                     type="hidden"
@@ -451,7 +453,7 @@ const LoanForm = ({ loan }) => {
                                                 <button type="button" className="btn btn-outline-secondary text-sm" onClick={() => setShowPlaceModal(true)}>
                                                     <FaSearch />
                                                 </button>
-                                                <button type="button" className="btn btn-outline-primary text-sm px-2" onClick={() => setShowPlaceModal(true)}>
+                                                <button type="button" className="btn btn-outline-primary text-sm px-2" onClick={() => setShowPlaceFormModal(true)}>
                                                     New
                                                 </button>
                                             </div>
@@ -465,7 +467,16 @@ const LoanForm = ({ loan }) => {
                                                 <button
                                                     type="button"
                                                     className={`btn btn-outline-primary rounded-full p-1`}
-                                                    onClick={() => handleAddCourse(formik, { course_date: '', place_id: place.id, place: place })}
+                                                    onClick={() => {
+                                                        const course = {
+                                                            id: formik.values.courses + 1,
+                                                            course_date: formik.values.expense_calc === '2' ? selectedCourseDate.format('YYYY-MM-DD') : '',
+                                                            place_id: place.id,
+                                                            place: place
+                                                        };
+
+                                                        handleAddCourse(formik, course);
+                                                    }}
                                                 >
                                                     <FaPlus />
                                                 </button>
@@ -475,12 +486,14 @@ const LoanForm = ({ loan }) => {
                                     <Row>
                                         <Col>
                                             <ul>
-                                                {formik.values.courses.map((course, index) => (
+                                                {formik.values.courses.map((course, index) => {
+                                                    console.log(course);
+                                                    return (
                                                     <li key={index} className="hover:bg-gray-200 p-1 rounded-md font-thin">
-                                                        - รุ่นที่ 1 วันที่ วว/ดดดด/ปปป ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
+                                                        - รุ่นที่ {course.id} วันที่ {toShortTHDate(course?.course_date)} ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
                                                         <button type="button" className="btn btn-outline-danger rounded-full p-0 ml-2"><FaMinus /></button>
                                                     </li>
-                                                ))}
+                                                )})}
                                             </ul>
                                         </Col>
                                     </Row>
