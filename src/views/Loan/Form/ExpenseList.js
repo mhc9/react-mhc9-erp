@@ -3,6 +3,17 @@ import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency, replaceExpensePattern, toShortTHDate } from '../../../utils'
 
 const ExpenseList = ({ courses, items, showButtons=true, edittingItem,  onEditItem, onRemoveItem }) => {
+
+    const replaceExpensePatternFromDesc = (pattern = '', replacement = '') => {
+        if (replacement.includes('+')) {
+            const groups = replacement.split('+').map(group => replaceExpensePattern(pattern, group));
+
+            return groups.join('+');
+        } else {
+            return replaceExpensePattern(pattern, replacement);
+        }
+    };
+
     const renderExpenseRow = (data, index) => {
         return (
             <tr className="font-thin">
@@ -13,7 +24,7 @@ const ExpenseList = ({ courses, items, showButtons=true, edittingItem,  onEditIt
                     {(data.description && data.expense?.pattern)
                         ? (
                             <p className="text-sm text-red-500 font-thin">
-                                {replaceExpensePattern(data.expense?.pattern, data.description)}
+                                {replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}
                             </p>
                         ) : (
                             <p className="text-sm text-red-500 font-thin">
