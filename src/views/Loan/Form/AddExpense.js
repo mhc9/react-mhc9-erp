@@ -13,7 +13,6 @@ const itemSchema = Yup.object().shape({
 
 const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear }) => {
     const [item, setItem] = useState(null);
-    const [showModalAddItemDesc, setShowModalAddItemDesc] = useState(false);
 
     useEffect(() => {
         if (data) {
@@ -66,7 +65,6 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                 course_id: item ? item.course_id : '',
                 expense_id: item ? item.expense_id : '',
                 expense: null,
-                pattern: '(...คนX...วันX...บาท)+(...คนX...วันX...บาท)+(...คนX...วันX...บาท)',
                 description: item? item.description : '',
                 total: item ? item.total : '',
             }}
@@ -75,12 +73,6 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
         >
             {(formik) => (
                 <>
-                    <ModalAddItemDesc
-                        isShow={showModalAddItemDesc}
-                        onHide={() => setShowModalAddItemDesc(false)}
-                        onConfirm={(desc) => formik.setFieldValue('description', desc)}
-                    />
-
                     <div className="flex flex-row gap-2 mb-2">
                         <FormGroup className="w-[10%]">
                             <select
