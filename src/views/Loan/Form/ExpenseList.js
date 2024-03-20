@@ -26,7 +26,7 @@ const ExpenseList = ({ courses, items, showButtons=true, edittingItem,  onEditIt
                                 {replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}
                             </p>
                         ) : (
-                            <p className="text-sm text-red-500 font-thin">
+                            <p className="text-xs text-red-500 font-thin">
                                 {data.description && <span>({data.description})</span>}
                             </p>
                         )

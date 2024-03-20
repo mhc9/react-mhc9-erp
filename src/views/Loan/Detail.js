@@ -88,9 +88,61 @@ const LoanDetail = () => {
                                 <div className="flex flex-col border p-2 rounded-md">
                                     <h1 className="font-bold text-lg mb-1">รายละเอียดโครงการ</h1>
 
-                                    <div className="form-control text-sm">
-                                        {loan?.project_name}
-                                    </div>
+                                    <Row className="mb-2">
+                                        <Col md={2}>
+                                            <label htmlFor="">เลขที่ขออนุมติ</label>
+                                            <div className="form-control text-sm">
+                                                {loan?.project_no}
+                                            </div>
+                                        </Col>
+                                        <Col md={2}>
+                                            <label htmlFor="">วันที่ขออนุมติ</label>
+                                            <div className="form-control text-sm">
+                                                {toLongTHDate(moment(loan?.project_date).toDate())}
+                                            </div>
+                                        </Col>
+                                        <Col>
+                                            <label htmlFor="">ชื่อโครงการ</label>
+                                            <div className="form-control text-xs">
+                                                {loan?.project_name}
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <Row className="mb-2">
+                                        <Col>
+                                            <label htmlFor="">วันที่จัด</label>
+                                            <div className="form-control text-sm">
+                                                {toLongTHDate(moment(loan?.project_sdate).toDate())}
+                                            </div>
+                                        </Col>
+                                        <Col>
+                                            <label htmlFor="">ถึงวันที่</label>
+                                            <div className="form-control text-sm">
+                                                {toLongTHDate(moment(loan?.project_edate).toDate())}
+                                            </div>
+                                        </Col>
+                                        <Col>
+                                            <label htmlFor="">การคิดค่าใช้จ่าย</label>
+                                            <div className="form-control text-sm">
+                                                {loan?.expense_calc === 1 && <span className="badge rounded-pill bg-success">คิดค่าใช้จ่ายรวม</span>}
+                                                {loan?.expense_calc === 2 && <span className="badge rounded-pill bg-danger">คิดค่าใช้จ่ายแยกวันที่</span>}
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <div className="alert alert-primary py-1 px-2 mb-0">
+                                                <ul className="text-sm font-thin">
+                                                    {loan?.courses.map((course, index) => (
+                                                        <li key={index} className="hover:bg-gray-200 p-1 rounded-md">
+                                                            - รุ่นที่ {course.id} {course?.course_date && <span className="mr-1">วันที่ {toLongTHDate(moment(course?.course_date).toDate())}</span>} 
+                                                                ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </Col>
+                                    </Row>
                                 </div>
                             </Col>
                         </Row>
@@ -133,7 +185,7 @@ const LoanDetail = () => {
                         <Row className="mb-2">
                             <Col>
                                 <label htmlFor="">หมายเหตุ</label>
-                                <div className="form-control text-sm min-h-[34px]">
+                                <div className="form-control text-sm min-h-[68px]">
                                     {loan?.remark}
                                 </div>
                             </Col>
