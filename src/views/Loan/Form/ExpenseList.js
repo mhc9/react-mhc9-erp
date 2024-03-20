@@ -17,7 +17,7 @@ const ExpenseList = ({ courses, items, showButtons=true, edittingItem,  onEditIt
                             </p>
                         ) : (
                             <p className="text-sm text-red-500 font-thin">
-                                ({data.description})
+                                {data.description && <span>({data.description})</span>}
                             </p>
                         )
                     }
