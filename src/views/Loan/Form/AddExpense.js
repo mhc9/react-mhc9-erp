@@ -32,6 +32,10 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
         return parseFloat(amount) * parseFloat(time) * parseFloat(price);
     };
 
+    const getFormDataPattern = (id) => {
+        return formData.find(exp => exp.id === parseInt(id, 10))?.pattern;
+    };
+
     const handleSubmit = (values, formik) => {
         if (data) {
             onUpdateItem(values.item_id, { ...values, item })
@@ -110,7 +114,12 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                                 name="description"
                                 value={formik.values.description}
                                 onChange={formik.handleChange}
-                                onBlur={(e) => formik.setFieldValue('total', calculateTotalFromDesc(e.target.value))}
+                                onBlur={(e) => {
+                                    formik.setFieldValue(
+                                        'total',
+                                        (getFormDataPattern(formik.values.expense_id) && e.target.value !== '') ? calculateTotalFromDesc(e.target.value) : ''
+                                    )
+                                }}
                                 className="form-control text-sm"
                                 placeholder="รายละเอียด"
                             />

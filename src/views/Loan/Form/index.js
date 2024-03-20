@@ -171,7 +171,6 @@ const LoanForm = ({ loan }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik.errors);
                 return (
                     <Form>
                         <ModalPlaceList
