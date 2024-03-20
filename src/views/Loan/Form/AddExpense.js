@@ -27,10 +27,20 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
     };
 
     const calculateTotalFromDesc = (desc = '') => {
-        const [amount, time, price] = desc.split('*');
+        if (desc.includes('+')) {
+            const groups = desc.split('+');
+
+            return groups.reduce((sum, curVal) => sum + calculatePattern(curVal), 0);
+        } else {
+            return calculatePattern(desc);
+        }
+    };
+
+    const calculatePattern = (str) => {
+        const [amount, time, price] = str.split('*');
 
         return parseFloat(amount) * parseFloat(time) * parseFloat(price);
-    };
+    }
 
     const getFormDataPattern = (id) => {
         return formData.find(exp => exp.id === parseInt(id, 10))?.pattern;
@@ -56,6 +66,7 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                 course_id: item ? item.course_id : '',
                 expense_id: item ? item.expense_id : '',
                 expense: null,
+                pattern: '(...คนX...วันX...บาท)+(...คนX...วันX...บาท)+(...คนX...วันX...บาท)',
                 description: item? item.description : '',
                 total: item ? item.total : '',
             }}
