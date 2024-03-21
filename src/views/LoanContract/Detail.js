@@ -6,8 +6,8 @@ import moment from 'moment'
 import { getContract } from '../../features/slices/loan-contract/loanContractSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi'
 import { currency, toLongTHDate } from '../../utils'
-import ExpenseList from './Form/ExpenseList'
 import Loading from '../../components/Loading'
+import ExpenseList from '../../components/Expense//ExpenseList'
 
 const LoanContractDetail = () => {
     const { id } = useParams();

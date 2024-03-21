@@ -8,7 +8,7 @@ import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi
 import { currency, toLongTHDate, getFormDataItem } from '../../utils'
 import Loading from '../../components/Loading'
 import BudgetList from './Form/BudgetList'
-import ExpenseList from './Form/ExpenseList'
+import ExpenseList from '../../components/Expense/ExpenseList'
 
 const LoanDetail = () => {
     const { id } = useParams();

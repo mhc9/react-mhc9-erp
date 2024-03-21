@@ -9,8 +9,8 @@ import moment from 'moment';
 import { calculateNetTotal, currency, toShortTHDate, toLongTHDate, getFormDataItem } from '../../../utils'
 import { store, update } from '../../../features/slices/loan-contract/loanContractSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
-import ExpenseList from './ExpenseList'
 import Loading from '../../../components/Loading'
+import ExpenseList from '../../../components/Expense/ExpenseList'
 import ModalLoanList from '../../../components/Modals/Loan/List'
 // import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 
@@ -201,6 +201,15 @@ const LoanContractForm = ({ contract }) => {
                                             </div>
                                         </Col>
                                     </Row>
+                                    <Row>
+                                        <Col md={12} className="flex flex-row items-start">
+                                            <label htmlFor="" className="w-[12%]">โครงการ :</label>
+                                            <div className="font-thin ml-1 w-[88%]">
+                                                {loan?.project_name}
+                                                <span className="ml-1"><b>ระหว่างวันที่</b> {toShortTHDate(loan?.project_sdate)} - {toShortTHDate(loan?.project_edate)}</span>
+                                            </div>
+                                        </Col>
+                                    </Row>
                                     <Row className="mb-2">
                                         <Col md={12} className="flex flex-row items-start">
                                             <label htmlFor="" className="w-[12%]">งบประมาณ :</label>
@@ -210,23 +219,6 @@ const LoanContractForm = ({ contract }) => {
                                                         {loan?.budget?.name}
                                                         <span className="ml-1">
                                                             {loan?.budget?.project?.plan?.name} / {loan?.budget?.project?.name}
-                                                        </span>
-                                                    </>
-                                                )}
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col md={12} className="flex flex-row items-start">
-                                            <label htmlFor="" className="w-[12%]">โครงการ :</label>
-                                            <div className="font-thin ml-1 w-[88%]">
-                                                {loan?.project && (
-                                                    <>
-                                                        {loan?.project?.name}
-                                                        <span className="ml-1">
-                                                            ณ {loan?.project?.place?.name}
-                                                            <span className="ml-1"><b>ระหว่างวันที่</b> {toShortTHDate(loan?.project?.from_date)} - {toShortTHDate(loan?.project?.to_date)}</span>
-                                                            {/* <span className="ml-1"><b>ผู้ดำเนินการ</b> {loan?.project?.owner?.firstname} {project?.owner?.lastname}</span> */}
                                                         </span>
                                                     </>
                                                 )}

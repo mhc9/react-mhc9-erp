@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
-import { toShortTHDate } from '../../../utils'
-import ModalAddItemDesc from '../../../components/Modals/AddItemDesc'
+import { toShortTHDate } from '../../utils'
+import ModalAddItemDesc from '../Modals/AddItemDesc'
 
 const itemSchema = Yup.object().shape({
     course_id: Yup.string().required(),
