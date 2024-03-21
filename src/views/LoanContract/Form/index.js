@@ -149,10 +149,10 @@ const LoanContractForm = ({ contract }) => {
                                     <Row className="mb-2">
                                         <Col md={8} className="flex flex-row items-start justify-center">
                                             <label htmlFor="" className="w-[18%] mt-[8px]">คำขอยืมเงิน :</label>
-                                            <div className="w-[82%]">
+                                            <div className="w-[90%]">
                                                 <div className="input-group">
                                                     <div className="form-control text-sm h-[34px] bg-gray-100">
-                                                        เลขที่ {loan && <span>{loan?.doc_no} / {toLongTHDate(moment(loan?.doc_date).toDate())}</span>}
+                                                        <b>เลขที่</b> {loan && <span>{loan?.doc_no} <b>ลงวันที่</b> {toLongTHDate(moment(loan?.doc_date).toDate())}</span>}
                                                     </div>
                                                     <input
                                                         type="hidden"
@@ -214,14 +214,25 @@ const LoanContractForm = ({ contract }) => {
                                         <Col md={12} className="flex flex-row items-start">
                                             <label htmlFor="" className="w-[12%]">งบประมาณ :</label>
                                             <div className="font-thin ml-1 w-[88%]">
-                                                {loan?.budget && (
-                                                    <>
-                                                        {loan?.budget?.name}
-                                                        <span className="ml-1">
-                                                            {loan?.budget?.project?.plan?.name} / {loan?.budget?.project?.name}
-                                                        </span>
-                                                    </>
-                                                )}
+                                                {loan?.budgets && loan?.budgets.map((item, index) => (
+                                                    <ul key={item.id}>
+                                                        <li>
+                                                            <span className="mr-1">{index+1}.</span>
+                                                            {item.budget?.name}
+                                                            <span className="ml-1">
+                                                                {item.budget?.project?.plan?.name} / {item.budget?.project?.name}
+                                                            </span>
+                                                            {loan?.budgets.length > 1 && (
+                                                                <span className="ml-1">
+                                                                    <b>งบประมาณ</b> {currency.format(item?.total)} บาท
+                                                                </span>
+                                                            )}
+                                                        </li>
+                                                    </ul>
+                                                ))}
+                                                <p className="ml-1">
+                                                    <b>รวมงบประมาณทั้งสิ้น</b> {currency.format(loan?.budget_total)} บาท
+                                                </p>
                                             </div>
                                         </Col>
                                     </Row>
