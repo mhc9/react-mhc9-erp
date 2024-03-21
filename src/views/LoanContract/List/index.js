@@ -94,12 +94,10 @@ const LoanContractList = () => {
                                         </p> */}
                                     </td>
                                     <td className="text-sm">
-                                        {contract.loan?.project && (
-                                            <div className="text-blue-600">
-                                                {contract.loan?.project?.name}
-                                                <span className="ml-1">เป็นเงินทั้งสิ้น {currency.format(contract.net_total)} บาท</span>
-                                            </div>
-                                        )}
+                                        <div className="text-blue-600">
+                                            {contract.loan?.project_name}
+                                            <span className="ml-1">เป็นเงินทั้งสิ้น {currency.format(contract.net_total)} บาท</span>
+                                        </div>
 
                                         <LoanListDetail items={contract.details} />
                                     </td>
