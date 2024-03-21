@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Pagination } from 'react-bootstrap'
-import { getContracts } from '../../../features/slices/loan-contract/loanContractSlice';
+import { getLoans } from '../../../features/slices/loan/loanSlice';
 import { currency, toShortTHDate } from '../../../utils'
 import Loading from '../../Loading';
 
 const ModalLoanList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
-    const { contracts, pager, isLoading } = useSelector(state => state.loanContract);
+    const { loans, pager, isLoading } = useSelector(state => state.loan);
 
     useEffect(() => {
-        dispatch(getContracts({ url: '/api/loans/search?page=' }))
+        dispatch(getLoans({ url: '/api/loans/search?page=&status=1' }))
     }, []);
 
     const handlePageClick = (url) => {
@@ -45,24 +45,23 @@ const ModalLoanList = ({ isShow, onHide, onSelect }) => {
                                     </td>
                                 </tr>
                             )}
-                            {contracts && contracts.map((contract, index) => (
-                                <tr key={contract?.id} className="font-thin text-sm">
+                            {loans && loans.map((loan, index) => (
+                                <tr key={loan.id} className="font-thin text-sm">
                                     <td className="text-center">{index+pager.from}</td>
                                     <td>
-                                        <p><b>เลขที่เอกสาร</b> {contract.doc_no}</p>
-                                        <p><b>วันที่เอกสาร</b> {toShortTHDate(contract.doc_date)}</p>
+                                        <p><b>เลขที่เอกสาร</b> {loan.doc_no}</p>
+                                        <p><b>วันที่เอกสาร</b> {toShortTHDate(loan.doc_date)}</p>
                                     </td>
                                     <td>
-                                        {/* <p className="text-gray-400 text-sm">{contract?.project.plan?.name}</p> */}
-                                        <p className="text-blue-500">
-                                            {contract?.budget?.name}
-                                            <span className="font-thin ml-1">{contract?.budget?.project?.plan?.name} / {contract?.budget?.project?.name}</span>
-                                        </p>
+                                        {/* <p className="text-gray-400 text-sm">{loan?.project.plan?.name}</p> */}
+                                        {/* <p className="text-blue-500">
+                                            {loan?.budget?.name}
+                                            <span className="font-thin ml-1">{loan?.budget?.project?.plan?.name} / {loan?.budget?.project?.name}</span>
+                                        </p> */}
                                         <p>
-                                            {contract?.project?.name}
-                                            <span className="ml-1">ณ {contract?.project?.place?.name}</span>
-                                            <span className="ml-1"><b>ระหว่างวันที่</b> {toShortTHDate(contract?.project?.from_date)} - {toShortTHDate(contract?.project?.to_date)}</span>
-                                            <span className="ml-2"><b>ยอดเงินยืม</b><span className="font-bold text-red-600 mx-1">{currency.format(contract?.net_total)}</span>บาท</span>
+                                            <span className="text-blue-600">{loan?.project_name}</span>
+                                            <span className="ml-1"><b>ระหว่างวันที่</b> {toShortTHDate(loan?.project_sdate)} - {toShortTHDate(loan?.project_edate)}</span>
+                                            <span className="ml-2"><b>ยอดเงินยืม</b><span className="font-bold text-red-600 mx-1">{currency.format(loan?.net_total)}</span>บาท</span>
                                         </p>
                                     </td>
                                     <td className="text-center">
@@ -70,7 +69,7 @@ const ModalLoanList = ({ isShow, onHide, onSelect }) => {
                                             className="btn btn-primary btn-sm"
                                             onClick={() => {
                                                 onHide();
-                                                onSelect(contract);
+                                                onSelect(loan);
                                             }}
                                         >
                                             เลือก
