@@ -73,7 +73,9 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 <li className="hover:bg-gray-300 p-2">
                                     <Link to="/loan-contract"><p className="w-full">สัญญายืมเงิน</p></Link>
                                 </li>
-                                <li className="hover:bg-gray-300 p-2 rounded-b-md"></li>
+                                <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                                    <Link to="/loan-repayment"><p className="w-full">หักล้างเงินยืม</p></Link>
+                                </li>
                             </ul>
                         </li>
                     )}
