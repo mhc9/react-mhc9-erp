@@ -38,13 +38,23 @@ const AssetFilteringInput = ({ initialFilters, onFilter }) => {
                     <FormGroup>
                         <input
                             type="text"
+                            name="assetNo"
+                            value={filters.assetNo}
+                            onChange={handleInputChange}
+                            className="form-control text-sm font-thin"
+                            placeholder="หมายเลขพัสดุ"
+                        />
+                    </FormGroup>
+                    {/* <FormGroup>
+                        <input
+                            type="text"
                             name="name"
                             value={filters.name}
                             onChange={handleInputChange}
                             className="form-control text-sm font-thin"
                             placeholder="ชื่อพัสดุ"
                         />
-                    </FormGroup>
+                    </FormGroup> */}
                     {/* <FormGroup>
                         <select
                             name="category"
