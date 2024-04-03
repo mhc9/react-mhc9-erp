@@ -74,7 +74,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                     <Link to="/loan-contract"><p className="w-full">สัญญายืมเงิน</p></Link>
                                 </li>
                                 <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                                    <Link to="/loan-repayment"><p className="w-full">หักล้างเงินยืม</p></Link>
+                                    <Link to="/loan-refund"><p className="w-full">คืนเงินยืม</p></Link>
                                 </li>
                             </ul>
                         </li>
