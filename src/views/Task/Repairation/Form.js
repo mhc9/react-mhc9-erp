@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { Formik, Form, Field } from 'formik'
+import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, Row, Modal } from 'react-bootstrap';
-import { MuiPickersUtilsProvider, DatePicker, TimePicker } from '@material-ui/pickers';
+import { DatePicker, TimePicker } from '@material-ui/pickers';
 import moment from 'moment'
-import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
 import { store } from '../../../features/slices/repairation/repairationSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/repairation/repairationApi'
 import Loading from '../../../components/Loading';
@@ -70,17 +69,15 @@ const RequestForm = ({ isShow, onHide, task }) => {
                                 <Col>
                                     <div className="flex flex-col">
                                         <label>วันที่ส่งซ่อม</label>
-                                        <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
-                                            <DatePicker
-                                                format="DD/MM/YYYY"
-                                                value={selectedRequestDate}
-                                                onChange={(date) => {
-                                                    setSelectedRequestDate(date);
-                                                    formik.setFieldValue('request_date', date.format('YYYY-MM-DD'));
-                                                }}
-                                                variant="outlined"
-                                            />
-                                        </MuiPickersUtilsProvider>
+                                        <DatePicker
+                                            format="DD/MM/YYYY"
+                                            value={selectedRequestDate}
+                                            onChange={(date) => {
+                                                setSelectedRequestDate(date);
+                                                formik.setFieldValue('request_date', date.format('YYYY-MM-DD'));
+                                            }}
+                                            variant="outlined"
+                                        />
                                         {(formik.errors.request_date && formik.touched.request_date) && (
                                             <span className="text-red-500 text-sm">{formik.errors.request_date}</span>
                                         )}
@@ -89,25 +86,24 @@ const RequestForm = ({ isShow, onHide, task }) => {
                                 <Col>
                                     <div className="flex flex-col">
                                     <label>เวลาที่ส่งซ่อม</label>
-                                        <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
-                                            <TimePicker
-                                                format="hh:mm"
-                                                value={selectedRequestTime}
-                                                onChange={(time) => {
-                                                    const dateStr = moment(selectedRequestDate).format('YYYY-MM-DD');
-                                                    const timeStr = moment(time).format('hh:mm');
+                                        <TimePicker
+                                            format="HH:mm"
+                                            ampm={false}
+                                            value={selectedRequestTime}
+                                            onChange={(time) => {
+                                                const dateStr = moment(selectedRequestDate).format('YYYY-MM-DD');
+                                                const timeStr = moment(time).format('HH:mm');
 
-                                                    /** Create newTime from selectedRequestDate and selected time from input */
-                                                    const newTime = moment(`${dateStr}T${timeStr}`);
+                                                /** Create newTime from selectedRequestDate and selected time from input */
+                                                const newTime = moment(`${dateStr}T${timeStr}`);
 
-                                                    /** Set newTime to selectedRequestTime state and request_time field */
-                                                    setSelectedRequestTime(newTime);
-                                                    /** Set newTime to selectedRequestTime state and request_time field */
-                                                    formik.setFieldValue('request_time', newTime.format('hh:mm'));
-                                                }}
-                                                variant="outlined"
-                                            />
-                                        </MuiPickersUtilsProvider>
+                                                /** Set newTime to selectedRequestTime state and request_time field */
+                                                setSelectedRequestTime(newTime);
+                                                /** Set newTime to selectedRequestTime state and request_time field */
+                                                formik.setFieldValue('request_time', newTime.format('HH:mm'));
+                                            }}
+                                            variant="outlined"
+                                        />
                                         {(formik.errors.request_time && formik.touched.request_time) && (
                                             <span className="text-red-500 text-sm">{formik.errors.request_time}</span>
                                         )}
@@ -118,17 +114,15 @@ const RequestForm = ({ isShow, onHide, task }) => {
                                 <Col>
                                     <div className="flex flex-col">
                                         <label>กำหนดส่งมอบ</label>
-                                        <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
-                                            <DatePicker
-                                                format="DD/MM/YYYY"
-                                                value={selectedDeliverDate}
-                                                onChange={(date) => {
-                                                    setSelectedDeliverDate(date);
-                                                    formik.setFieldValue('deliver_date', date.format('YYYY-MM-DD'));
-                                                }}
-                                                variant="outlined"
-                                            />
-                                        </MuiPickersUtilsProvider>
+                                        <DatePicker
+                                            format="DD/MM/YYYY"
+                                            value={selectedDeliverDate}
+                                            onChange={(date) => {
+                                                setSelectedDeliverDate(date);
+                                                formik.setFieldValue('deliver_date', date.format('YYYY-MM-DD'));
+                                            }}
+                                            variant="outlined"
+                                        />
                                         {(formik.errors.deliver_date && formik.touched.deliver_date) && (
                                             <span className="text-red-500 text-sm">{formik.errors.deliver_date}</span>
                                         )}
