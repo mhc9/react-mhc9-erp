@@ -24,6 +24,7 @@ import repairationReducer from "./slices/repairation/repairationSlice";
 import approvalReducer from "./slices/approval/approvalSlice";
 import loanReducer from "./slices/loan/loanSlice";
 import loanContactReducer from "./slices/loan-contract/loanContractSlice";
+import loanRefundReducer from "./slices/loan-refund/loanRefundSlice";
 import projectReducer from "./slices/project/projectSlice";
 import placeReducer from "./slices/place/placeSlice";
 import { authApi } from "./services/auth/authApi";
@@ -86,6 +87,7 @@ export default configureStore({
         approval: approvalReducer,
         loan: loanReducer,
         loanContract: loanContactReducer,
+        loanRefund: loanRefundReducer,
         budgetPlan: budgetPlanReducer,
         budgetProject: budgetProjectReducer,
         project: projectReducer,
