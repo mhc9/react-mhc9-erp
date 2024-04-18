@@ -20,17 +20,21 @@ const ExpenseList = ({ items, showButtons=true, edittingItem,  onEditItem, onRem
                         <td>
                             <p className="text-gray-500 font-thin">
                                 {data.contract_detail?.expense?.name}
-                            {(data.contract_detail?.description && data.contract_detail?.expense?.pattern)
-                                ? (
-                                    <span className="text-sm text-red-500 font-thin ml-1">
-                                        {replaceExpensePattern(data.contract_detail?.expense?.pattern, data.contract_detail?.description)}
-                                    </span>
-                                ) : (
-                                    <span className="text-sm text-red-500 font-thin ml-1">
-                                        ({data.description})
-                                    </span>
-                                )
-                            }
+                                {(data.contract_detail?.description && data.contract_detail?.expense?.pattern)
+                                    ? (
+                                        <span className="text-sm text-red-500 font-thin ml-1">
+                                            {replaceExpensePattern(data.contract_detail?.expense?.pattern, data.contract_detail?.description)}
+                                        </span>
+                                    ) : (
+                                        <>
+                                            {data.contract_detail?.description && 
+                                                <span className="text-sm text-red-500 font-thin ml-1">
+                                                    ({data.contract_detail?.description})
+                                                </span>
+                                            }
+                                        </>
+                                    )
+                                }
                             
                                 <span className="ml-1">จำนวน {currency.format(data.contract_detail?.total)} บาท</span>
                             </p>

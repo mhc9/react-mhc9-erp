@@ -12,7 +12,7 @@ import { useGetInitialFormDataQuery } from '../../../features/services/loan/loan
 import AddExpense from './AddExpense';
 import ExpenseList from './ExpenseList'
 import Loading from '../../../components/Loading'
-import ModalLoanList from '../../../components/Modals/Loan/List'
+import ModalLoanContractList from '../../../components/Modals/LoanContract/List'
 
 const refundSchema = Yup.object().shape({
     doc_no: Yup.string().required('กรุณาระบุเลขที่สัญญา'),
@@ -27,7 +27,7 @@ const LoanRefundForm = ({ refund }) => {
     const [selectedDocDate, setSelectedDocDate] = useState(moment());
     const [showLoanModal, setShowLoanModal] = useState(false);
     // const [showEmployeeModal, setShowEmployeeModal] = useState(false);
-    const [loan, setLoan] = useState(null);
+    const [contract, setContract] = useState(null);
     const [edittingItem, setEdittingItem] = useState(null);
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
@@ -35,8 +35,8 @@ const LoanRefundForm = ({ refund }) => {
         if (refund) {
             setSelectedDocDate(moment(refund.doc_date));
 
-            setLoan(refund.loan);
-            // setEmployee(contract.employee);
+            setContract(refund.loan);
+            // setEmployee(contract?.employee);
         }
     }, [refund]);
 
@@ -80,7 +80,7 @@ const LoanRefundForm = ({ refund }) => {
         formik.resetForm();
 
         /** Clear value of local states */
-        setLoan(null);
+        setContract(null);
         setSelectedDocDate(moment());
     };
 
@@ -100,28 +100,16 @@ const LoanRefundForm = ({ refund }) => {
             {(formik) => {
                 return (
                     <Form>
-                        <ModalLoanList
+                        <ModalLoanContractList
                             isShow={showLoanModal}
                             onHide={() => setShowLoanModal(false)}
-                            onSelect={(loan) => {
-                                setLoan(loan);
-                                formik.setFieldValue('contract_id', loan.id);
+                            onSelect={(contract) => {
+                                console.log(contract);
+                                setContract(contract);
+                                formik.setFieldValue('contract_id', contract?.id);
                                 setTimeout(() => formik.setFieldTouched('contract_id', true));
                             }}
                         />
-
-                        {/* <ModalEmployeeList
-                            isShow={showEmployeeModal}
-                            onHide={() => setShowEmployeeModal(false)}
-                            onSelect={(employee) => {
-                                setEmployee(employee);
-                                formik.setFieldValue('employee_id', employee.id);
-
-                                if (employee.member_of.length > 0) {
-                                    formik.setFieldValue('division_id', employee.member_of[0]?.division_id);
-                                }
-                            }}
-                        /> */}
 
                         <Row className="mb-2">
                             <Col md={8}>
@@ -133,7 +121,7 @@ const LoanRefundForm = ({ refund }) => {
                                             <div className="w-[90%]">
                                                 <div className="input-group">
                                                     <div className="form-control text-sm h-[34px] bg-gray-100">
-                                                        <b>เลขที่</b> {loan && <span>{loan?.doc_no} <b>ลงวันที่</b> {toLongTHDate(moment(loan?.doc_date).toDate())}</span>}
+                                                        <b>เลขที่</b> {contract && <span>{contract?.contract_no} <b>ลงวันที่</b> {toLongTHDate(moment(contract?.contract_date).toDate())}</span>}
                                                     </div>
                                                     <button type="button" className="btn btn-outline-secondary" onClick={() => setShowLoanModal(true)}>
                                                         <FaSearch />
@@ -149,29 +137,29 @@ const LoanRefundForm = ({ refund }) => {
                                         <Col md={4} className="flex flex-row items-center">
                                             <label>ประเภทการยืม :</label>
                                             <div className="font-thin ml-1">
-                                                {getFormDataItem(formData, 'loanTypes', loan?.loan_type_id)?.name}
+                                                {getFormDataItem(formData, 'loanTypes', contract?.loan?.loan_type_id)?.name}
                                             </div>
                                         </Col>
                                         <Col md={5} className="flex flex-row items-center">
                                             <label htmlFor="">ประเภทเงินยืม :</label>
                                             <div className="font-thin ml-1">
-                                                {getFormDataItem(formData, 'moneyTypes', loan?.money_type_id)?.name}
+                                                {getFormDataItem(formData, 'moneyTypes', contract?.loan?.money_type_id)?.name}
                                             </div>
                                         </Col>
                                         <Col md={3} className="flex flex-row items-center">
                                             <label htmlFor="">ปีงบประมาณ :</label>
-                                            <div className="font-thin ml-1">{loan?.year}</div>
+                                            <div className="font-thin ml-1">{contract?.loan?.year}</div>
                                         </Col>
                                     </Row>
                                     <Row className="mb-2">
                                         <Col md={4} className="flex flex-row items-center">
                                             <label htmlFor="">หน่วยงาน :</label>
-                                            <div className="font-thin ml-1">{loan?.department?.name}</div>
+                                            <div className="font-thin ml-1">{contract?.loan?.department?.name}</div>
                                         </Col>
                                         <Col md={8} className="flex flex-row items-center">
                                             <label htmlFor="">ผู้ขอ/เจ้าของโครงการ :</label>
                                             <div className="font-thin ml-1">
-                                                {loan?.employee?.prefix?.name}{loan?.employee?.firstname} {loan?.employee?.lastname}
+                                                {contract?.loan?.employee?.prefix?.name}{contract?.loan?.employee?.firstname} {contract?.loan?.employee?.lastname}
                                             </div>
                                         </Col>
                                     </Row>
@@ -179,8 +167,8 @@ const LoanRefundForm = ({ refund }) => {
                                         <Col md={12} className="flex flex-row items-start">
                                             <label htmlFor="" className="w-[12%]">โครงการ :</label>
                                             <div className="font-thin ml-1 w-[88%]">
-                                                {loan?.project_name}
-                                                <span className="ml-1"><b>ระหว่างวันที่</b> {toShortTHDate(loan?.project_sdate)} - {toShortTHDate(loan?.project_edate)}</span>
+                                                {contract?.loan?.project_name}
+                                                <span className="ml-1"><b>ระหว่างวันที่</b> {toShortTHDate(contract?.loan?.project_sdate)} - {toShortTHDate(contract?.loan?.project_edate)}</span>
                                             </div>
                                         </Col>
                                     </Row>
@@ -188,7 +176,7 @@ const LoanRefundForm = ({ refund }) => {
                                         <Col md={12} className="flex flex-row items-start">
                                             <label htmlFor="" className="w-[12%]">งบประมาณ :</label>
                                             <div className="font-thin ml-1 w-[88%]">
-                                                {loan?.budgets && loan?.budgets.map((item, index) => (
+                                                {contract?.loan?.budgets && contract?.loan?.budgets.map((item, index) => (
                                                     <ul key={item.id}>
                                                         <li>
                                                             <span className="mr-1">{index+1}.</span>
@@ -196,7 +184,7 @@ const LoanRefundForm = ({ refund }) => {
                                                             <span className="ml-1">
                                                                 {item.budget?.project?.plan?.name} / {item.budget?.project?.name}
                                                             </span>
-                                                            {loan?.budgets.length > 1 && (
+                                                            {contract?.loan?.budgets.length > 1 && (
                                                                 <span className="ml-1">
                                                                     <b>งบประมาณ</b> {currency.format(item?.total)} บาท
                                                                 </span>
@@ -205,7 +193,7 @@ const LoanRefundForm = ({ refund }) => {
                                                     </ul>
                                                 ))}
                                                 <p className="ml-1">
-                                                    <b>รวมงบประมาณทั้งสิ้น</b> {currency.format(loan?.budget_total)} บาท
+                                                    <b>รวมงบประมาณทั้งสิ้น</b> {currency.format(contract?.loan?.budget_total)} บาท
                                                 </p>
                                             </div>
                                         </Col>
@@ -287,7 +275,7 @@ const LoanRefundForm = ({ refund }) => {
                                     <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่ายที่{formik.values.refund_type_id === '1' ? 'คืน' : 'เบิกเพิ่ม'}</h1>
 
                                     <AddExpense
-                                        formData={loan?.details}
+                                        formData={contract?.details}
                                         refundType={formik.values.refund_type_id}
                                         onAddItem={(data) => handleAddItem(formik, data)}
                                     />
@@ -303,7 +291,7 @@ const LoanRefundForm = ({ refund }) => {
                                     <div className="flex flex-row justify-end items-center gap-2">
                                         ยอด{formik.values.refund_type_id === '1' ? 'คืน' : 'เบิกเพิ่ม'}ทั้งสิ้น
                                         <div className="w-[15%]">
-                                            <div className="form-control font-bold text-lg text-right text-red-600 float-right">
+                                            <div className="form-control font-bold text-lg text-right text-red-600 float-right min-h-[34px]">
                                                 {formik.values.net_total}
                                             </div>
                                         </div>
