@@ -50,7 +50,7 @@ const AddExpense = ({ data, formData, refundType, onAddItem, onUpdateItem, onCle
         <Formik
             enableReinitialize
             initialValues={{
-                contract_detail_id: item ? item.expense_id : '',
+                contract_detail_id: item ? item.contract_detail_id : '',
                 contract_detail: null,
                 total: item ? item.total : '',
             }}

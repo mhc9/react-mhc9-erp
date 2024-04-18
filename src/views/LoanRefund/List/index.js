@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { getContracts, destroy } from '../../../features/slices/loan-contract/loanContractSlice'
+import { getRefunds, destroy } from '../../../features/slices/loan-refund/loanRefundSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import LoanListDetail from './ListDetail'
 import Loading from '../../../components/Loading'
@@ -20,22 +20,22 @@ const initialFilters = {
 
 const LoanRefundList = () => {
     const dispatch = useDispatch();
-    const { contracts, pager, isLoading } = useSelector(state => state.loanContract);
+    const { refunds, pager, isLoading } = useSelector(state => state.loanRefund);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getContracts({ url: `/api/loan-contracts/search?page=&status=1` }));
+            dispatch(getRefunds({ url: `/api/loan-refunds/search?page=&status=1` }));
         } else {
-            dispatch(getContracts({ url: `${apiEndpoint}${params}` }));
+            dispatch(getRefunds({ url: `${apiEndpoint}${params}` }));
         }
     }, [dispatch, apiEndpoint, params])
 
     const handleFilter = (queryStr) => {
         setParams(queryStr);
 
-        setApiEndpoint(`/api/loan-contracts/search?page=`);
+        setApiEndpoint(`/api/loan-refunds/search?page=`);
     };
 
     const handleDelete = (id) => {
@@ -81,12 +81,12 @@ const LoanRefundList = () => {
                                     <td className="text-center" colSpan={6}><Loading /></td>
                                 </tr>
                             )}
-                            {(!isLoading && contracts) && contracts.map((contract, index) => (
-                                <tr key={contract.id}>
+                            {(!isLoading && refunds) && refunds.map((refund, index) => (
+                                <tr key={refund.id}>
                                     <td className="text-center">{pager && pager.from + index}</td>
                                     <td className="text-sm">
-                                        <p>เลขที่สัญญา <span className="badge rounded-pill text-bg-primary">{contract.contract_no}</span></p>
-                                        <p>วันที่สัญญา <span className="badge rounded-pill text-bg-primary">{toShortTHDate(contract.contract_date)}</span></p>
+                                        <p>เลขที่สัญญา <span className="badge rounded-pill text-bg-primary">{refund.doc_no}</span></p>
+                                        <p>วันที่สัญญา <span className="badge rounded-pill text-bg-primary">{toShortTHDate(refund.doc_date)}</span></p>
                                         {/* <p>
                                             สถานะ
                                             {contract.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
@@ -95,23 +95,23 @@ const LoanRefundList = () => {
                                     </td>
                                     <td className="text-sm">
                                         <div className="text-blue-600">
-                                            {contract.loan?.project_name}
-                                            <span className="ml-1">เป็นเงินทั้งสิ้น {currency.format(contract.net_total)} บาท</span>
+                                            {/* {contract.loan?.project_name} */}
+                                            <span className="ml-1">เป็นเงินทั้งสิ้น {currency.format(refund.net_total)} บาท</span>
                                         </div>
 
-                                        <LoanListDetail items={contract.details} />
+                                        <LoanListDetail items={refund.details} />
                                     </td>
                                     <td className="text-sm">
-                                        <EmployeeCard employee={contract.loan?.employee} />
+                                        {/* <EmployeeCard employee={contract.loan?.employee} /> */}
                                     </td>
                                     <td className="text-center p-1">
-                                        <Link to={`/loan/${contract.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
+                                        <Link to={`/loan/${refund.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
                                         </Link>
-                                        <Link to={`/loan/${contract.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
+                                        <Link to={`/loan/${refund.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />
                                         </Link>
-                                        <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(contract.id)}>
+                                        <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(refund.id)}>
                                             <FaTrash />
                                         </button>
                                     </td>
