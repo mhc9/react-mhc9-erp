@@ -11,17 +11,17 @@ const LoanListDetail = ({ items }) => {
                 {items && items.map((item, index) => {
                     if (index < 2) {
                         return (
-                            <li key={item.id} className="break-words text-xs">
-                                <span className="mr-1">{index+1}.{item.expense?.name}</span>
-                                {item.description && (
+                            <li key={item.id} className="break-words">
+                                <span className="mr-1">{index+1}.{item.contract_detail?.expense?.name}</span>
+                                {item.contract_detail?.description && (
                                     <span className="text-red-500">
                                         {item.expense?.pattern
-                                            ? replaceExpensePattern(item.expense?.pattern, item.description)
-                                            : item.description
+                                            ? replaceExpensePattern(item.contract_detail?.expense?.pattern, item.contract_detail?.description)
+                                            : item.contract_detail?.description
                                         }
                                     </span>
                                 )}
-                                <span className="ml-2">{currency.format(item.total)} บาท</span>
+                                <span className="ml-1">{currency.format(item.total)} บาท</span>
                             </li>
                         )
                     }

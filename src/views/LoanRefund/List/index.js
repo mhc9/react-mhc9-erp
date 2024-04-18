@@ -87,22 +87,26 @@ const LoanRefundList = () => {
                                     <td className="text-sm">
                                         <p>เลขที่สัญญา <span className="badge rounded-pill text-bg-primary">{refund.doc_no}</span></p>
                                         <p>วันที่สัญญา <span className="badge rounded-pill text-bg-primary">{toShortTHDate(refund.doc_date)}</span></p>
-                                        {/* <p>
-                                            สถานะ
-                                            {contract.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
-                                            {contract.status === 2 && <span className="badge rounded-pill text-bg-success">ส่งสัญญาแล้ว</span>}
-                                        </p> */}
+                                        <div className="text-lg text-center mt-1">
+                                            {refund.contract?.status === 0 && <span className="badge rounded-pill text-bg-secondary">รออนุมัติ</span>}
+                                            {refund.contract?.status === 1 && <span className="badge rounded-pill text-bg-success">อนุมัติแล้ว</span>}
+                                            {refund.contract?.status === 2 && <span className="badge rounded-pill text-bg-info">เคลียร์แล้ว</span>}
+                                            {refund.contract?.status === 9 && <span className="badge rounded-pill text-bg-danger">ยกเลิก</span>}
+                                        </div>
                                     </td>
                                     <td className="text-sm">
-                                        <div className="text-blue-600">
-                                            {/* {contract.loan?.project_name} */}
-                                            <span className="ml-1">เป็นเงินทั้งสิ้น {currency.format(refund.net_total)} บาท</span>
+                                        <p className={`font-bold ${refund.contract?.loan?.loan_type_id === 1 ? 'text-blue-600' : 'text-red-500'}`}>
+                                            {refund.contract?.loan?.loan_type_id === 1 ? 'ยืมเงินโครงการ' : 'ยืมเงินเดินทางไปราชการ'}
+                                        </p>
+                                        <div>
+                                            {refund.contract?.loan?.project_name}
+                                            <span className="ml-1">เป็นเงินทั้งสิ้น {currency.format(refund.contract?.net_total)} บาท</span>
+                                            <span className="ml-1">โดยมีรายการ{refund.refund_type_id === 1 ? 'คืนเงิน' : 'เบิกเงินเพิ่ม'} ดังนี้</span>
                                         </div>
-
                                         <LoanListDetail items={refund.details} />
                                     </td>
                                     <td className="text-sm">
-                                        {/* <EmployeeCard employee={contract.loan?.employee} /> */}
+                                        <EmployeeCard employee={refund.contract?.loan?.employee} />
                                     </td>
                                     <td className="text-center p-1">
                                         <Link to={`/loan/${refund.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
