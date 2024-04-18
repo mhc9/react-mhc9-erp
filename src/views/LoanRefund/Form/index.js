@@ -10,6 +10,7 @@ import { calculateNetTotal, currency, toShortTHDate, toLongTHDate, getFormDataIt
 import { store, update } from '../../../features/slices/loan-contract/loanContractSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
 import Loading from '../../../components/Loading'
+import AddExpense from './AddExpense';
 import ExpenseList from '../../../components/Expense/ExpenseList'
 import ModalLoanList from '../../../components/Modals/Loan/List'
 // import ModalEmployeeList from '../../../components/Modals/EmployeeList'
@@ -296,6 +297,11 @@ const LoanRefundForm = ({ refund }) => {
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
                                     <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่ายที่{formik.values.refund_type_id === '1' ? 'คืน' : 'เบิกเพิ่ม'}</h1>
+
+                                    <AddExpense
+                                        formData={loan?.details}
+                                    />
+
                                     <ExpenseList
                                         items={loan?.details}
                                         showButtons={false}

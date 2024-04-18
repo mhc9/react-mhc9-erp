@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
-import ModalAddItemDesc from '../../../components/Modals/AddItemDesc'
+import { replaceExpensePattern } from '../../../utils'
 
 const itemSchema = Yup.object().shape({
     expense_id: Yup.string().required(),
@@ -12,7 +12,6 @@ const itemSchema = Yup.object().shape({
 
 const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
     const [item, setItem] = useState(null);
-    const [showModalAddItemDesc, setShowModalAddItemDesc] = useState(false);
 
     useEffect(() => {
         if (data) {
@@ -20,15 +19,25 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
         }
     }, [data]);
 
-    const handleClear = (formik) => {
-        formik.resetForm();
-        onClear(null);
+    const replaceExpensePatternFromDesc = (pattern = '', replacement = '') => {
+        if (replacement.includes('+')) {
+            const groups = replacement.split('+').map(group => replaceExpensePattern(pattern, group));
+
+            return groups.join('+');
+        } else {
+            return replaceExpensePattern(pattern, replacement);
+        }
     };
 
     const calculateTotalFromDesc = (desc = '') => {
         const [amount, time, price] = desc.split('*');
 
         return parseFloat(amount) * parseFloat(time) * parseFloat(price);
+    };
+
+    const handleClear = (formik) => {
+        formik.resetForm();
+        onClear(null);
     };
 
     const handleSubmit = (values, formik) => {
@@ -58,14 +67,8 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
         >
             {(formik) => (
                 <>
-                    <ModalAddItemDesc
-                        isShow={showModalAddItemDesc}
-                        onHide={() => setShowModalAddItemDesc(false)}
-                        onConfirm={(desc) => formik.setFieldValue('description', desc)}
-                    />
-
                     <div className="flex flex-row gap-2 mb-2">
-                        <FormGroup className="w-[35%]">
+                        <FormGroup className="w-[75%]">
                             <select
                                 name="expense_id"
                                 value={formik.values.expense_id}
@@ -75,26 +78,23 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                                 <option value="">-- ค่าใช้จ่าย --</option>
                                 {formData && formData.map(exp => (
                                     <option value={exp.id} key={exp.id}>
-                                        {exp.name} {exp.pattern}
+                                        {exp.expense?.name}
+                                        {(exp.description && exp.expense?.pattern)
+                                            ? (
+                                                <span className="text-sm text-red-500 font-thin ml-1">
+                                                    {replaceExpensePatternFromDesc(exp.expense?.pattern, exp.description)}
+                                                </span>
+                                            ) : (
+                                                <span className="text-xs text-red-500 font-thin">
+                                                    {exp.description && <span>({exp.description})</span>}
+                                                </span>
+                                            )
+                                        }
                                     </option>
                                 ))}
                             </select>
                             {(formik.errors.expense_id && formik.touched.expense_id) && (
                                 <span className="text-red-500 text-sm">{formik.errors.expense_id}</span>
-                            )}
-                        </FormGroup>
-                        <FormGroup className="w-[40%]">
-                            <input
-                                type="text"
-                                name="description"
-                                value={formik.values.description}
-                                onChange={formik.handleChange}
-                                onBlur={(e) => formik.setFieldValue('total', calculateTotalFromDesc(e.target.value))}
-                                className="form-control text-sm"
-                                placeholder="รายละเอียด"
-                            />
-                            {(formik.errors.description && formik.touched.description) && (
-                                <span className="text-red-500 text-sm">{formik.errors.description}</span>
                             )}
                         </FormGroup>
                         <FormGroup className="w-[15%]">
