@@ -2,15 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
-import { replaceExpensePattern } from '../../../utils'
+import { currency, replaceExpensePattern } from '../../../utils'
 
 const itemSchema = Yup.object().shape({
-    expense_id: Yup.string().required(),
-    description: Yup.string().required(),
+    contract_detail_id: Yup.string().required(),
     total: Yup.string().required(),
 });
 
-const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
+const AddExpense = ({ data, formData, refundType, onAddItem, onUpdateItem, onClear }) => {
     const [item, setItem] = useState(null);
 
     useEffect(() => {
@@ -29,12 +28,6 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
         }
     };
 
-    const calculateTotalFromDesc = (desc = '') => {
-        const [amount, time, price] = desc.split('*');
-
-        return parseFloat(amount) * parseFloat(time) * parseFloat(price);
-    };
-
     const handleClear = (formik) => {
         formik.resetForm();
         onClear(null);
@@ -44,9 +37,9 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
         if (data) {
             onUpdateItem(values.item_id, { ...values, item })
         } else {
-            const expense = formData.find(exp => exp.id === parseInt(values.expense_id, 10));
+            const detail = formData.find(cd => cd.id === parseInt(values.contract_detail_id, 10));
 
-            onAddItem({ ...values, expense: expense });
+            onAddItem({ ...values, contract_detail: detail });
         }
 
         formik.resetForm();
@@ -57,9 +50,8 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
         <Formik
             enableReinitialize
             initialValues={{
-                expense_id: item ? item.expense_id : '',
-                expense: null,
-                description: item? item.description : '',
+                contract_detail_id: item ? item.expense_id : '',
+                contract_detail: null,
                 total: item ? item.total : '',
             }}
             validationSchema={itemSchema}
@@ -70,31 +62,25 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                     <div className="flex flex-row gap-2 mb-2">
                         <FormGroup className="w-[75%]">
                             <select
-                                name="expense_id"
-                                value={formik.values.expense_id}
+                                name="contract_detail_id"
+                                value={formik.values.contract_detail_id}
                                 onChange={formik.handleChange}
                                 className="form-control text-sm"
                             >
                                 <option value="">-- ค่าใช้จ่าย --</option>
-                                {formData && formData.map(exp => (
-                                    <option value={exp.id} key={exp.id}>
-                                        {exp.expense?.name}
-                                        {(exp.description && exp.expense?.pattern)
-                                            ? (
-                                                <span className="text-sm text-red-500 font-thin ml-1">
-                                                    {replaceExpensePatternFromDesc(exp.expense?.pattern, exp.description)}
-                                                </span>
-                                            ) : (
-                                                <span className="text-xs text-red-500 font-thin">
-                                                    {exp.description && <span>({exp.description})</span>}
-                                                </span>
-                                            )
+                                {formData && formData.map((data, index) => (
+                                    <option value={data.id} key={data.id}>
+                                        {index+1}. <>{data.expense?.name}</>&nbsp;
+                                        {(data.description && data.expense?.pattern)
+                                            ? <>{replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}</>
+                                            : <>{data.description && <>({data.description})</>}</>
                                         }
+                                        &nbsp;จำนวน <>{currency.format(data.total)} บาท</>
                                     </option>
                                 ))}
                             </select>
-                            {(formik.errors.expense_id && formik.touched.expense_id) && (
-                                <span className="text-red-500 text-sm">{formik.errors.expense_id}</span>
+                            {(formik.errors.contract_detail_id && formik.touched.contract_detail_id) && (
+                                <span className="text-red-500 text-sm">{formik.errors.contract_detail_id}</span>
                             )}
                         </FormGroup>
                         <FormGroup className="w-[15%]">
@@ -104,7 +90,7 @@ const AddExpense = ({ data, formData, onAddItem, onUpdateItem, onClear }) => {
                                 value={formik.values.total}
                                 onChange={formik.handleChange}
                                 className="form-control text-sm text-right"
-                                placeholder="รวมเป็นเงิน"
+                                placeholder={refundType === '1' ? 'ยอดคืน' : 'ยอดเบิกเพิ่ม'}
                             />
                             {(formik.errors.total && formik.touched.total) && (
                                 <span className="text-red-500 text-sm">{formik.errors.total}</span>

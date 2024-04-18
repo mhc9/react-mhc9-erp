@@ -9,11 +9,10 @@ import moment from 'moment';
 import { calculateNetTotal, currency, toShortTHDate, toLongTHDate, getFormDataItem } from '../../../utils'
 import { store, update } from '../../../features/slices/loan-contract/loanContractSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
-import Loading from '../../../components/Loading'
 import AddExpense from './AddExpense';
-import ExpenseList from '../../../components/Expense/ExpenseList'
+import ExpenseList from './ExpenseList'
+import Loading from '../../../components/Loading'
 import ModalLoanList from '../../../components/Modals/Loan/List'
-// import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 
 const refundSchema = Yup.object().shape({
     doc_no: Yup.string().required('กรุณาระบุเลขที่สัญญา'),
@@ -106,11 +105,7 @@ const LoanRefundForm = ({ refund }) => {
                             onHide={() => setShowLoanModal(false)}
                             onSelect={(loan) => {
                                 setLoan(loan);
-
                                 formik.setFieldValue('loan_id', loan.id);
-                                formik.setFieldValue('net_total', loan.net_total);
-                                formik.setFieldValue('items', loan.details);
-
                                 setTimeout(() => formik.setFieldTouched('loan_id', true));
                             }}
                         />
@@ -300,18 +295,20 @@ const LoanRefundForm = ({ refund }) => {
 
                                     <AddExpense
                                         formData={loan?.details}
+                                        refundType={formik.values.refund_type_id}
+                                        onAddItem={(data) => handleAddItem(formik, data)}
                                     />
 
                                     <ExpenseList
-                                        items={loan?.details}
-                                        showButtons={false}
+                                        items={formik.values.items}
+                                        showButtons={true}
                                         edittingItem={edittingItem}
                                         onEditItem={(data) => handleEditItem(data)}
                                         onRemoveItem={(id) => handleRemoveItem(formik, id)}
                                     />
 
                                     <div className="flex flex-row justify-end items-center gap-2">
-                                        ยอดยืมทั้งสิ้น
+                                        ยอด{formik.values.refund_type_id === '1' ? 'คืน' : 'เบิกเพิ่ม'}ทั้งสิ้น
                                         <div className="w-[15%]">
                                             <div className="form-control font-bold text-lg text-right text-red-600 float-right">
                                                 {currency.format(formik.values.net_total)}
