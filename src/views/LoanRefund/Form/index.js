@@ -7,7 +7,7 @@ import { DatePicker } from '@material-ui/pickers';
 import * as Yup from 'yup'
 import moment from 'moment';
 import { calculateNetTotal, currency, toShortTHDate, toLongTHDate, getFormDataItem } from '../../../utils'
-import { store, update } from '../../../features/slices/loan-contract/loanContractSlice'
+import { store, update } from '../../../features/slices/loan-refund/loanRefundSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
 import AddExpense from './AddExpense';
 import ExpenseList from './ExpenseList'
@@ -40,8 +40,8 @@ const LoanRefundForm = ({ refund }) => {
         }
     }, [refund]);
 
-    const handleAddItem = (formik, expense) => {
-        const newItems = [...formik.values.items, expense];
+    const handleAddItem = (formik, contractDetail) => {
+        const newItems = [...formik.values.items, contractDetail];
 
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems)));
@@ -105,8 +105,8 @@ const LoanRefundForm = ({ refund }) => {
                             onHide={() => setShowLoanModal(false)}
                             onSelect={(loan) => {
                                 setLoan(loan);
-                                formik.setFieldValue('loan_id', loan.id);
-                                setTimeout(() => formik.setFieldTouched('loan_id', true));
+                                formik.setFieldValue('contract_id', loan.id);
+                                setTimeout(() => formik.setFieldTouched('contract_id', true));
                             }}
                         />
 
@@ -135,19 +135,12 @@ const LoanRefundForm = ({ refund }) => {
                                                     <div className="form-control text-sm h-[34px] bg-gray-100">
                                                         <b>เลขที่</b> {loan && <span>{loan?.doc_no} <b>ลงวันที่</b> {toLongTHDate(moment(loan?.doc_date).toDate())}</span>}
                                                     </div>
-                                                    <input
-                                                        type="hidden"
-                                                        name="loan_id"
-                                                        value={formik.values.loan_id}
-                                                        onChange={formik.handleChange}
-                                                        className="form-control text-sm"
-                                                    />
                                                     <button type="button" className="btn btn-outline-secondary" onClick={() => setShowLoanModal(true)}>
                                                         <FaSearch />
                                                     </button>
                                                 </div>
-                                                {(formik.errors.loan_id && formik.touched.loan_id) && (
-                                                    <span className="text-red-500 text-xs">{formik.errors.loan_id}</span>
+                                                {(formik.errors.contract_id && formik.touched.contract_id) && (
+                                                    <span className="text-red-500 text-xs">{formik.errors.contract_id}</span>
                                                 )}
                                             </div>
                                         </Col>
@@ -281,8 +274,8 @@ const LoanRefundForm = ({ refund }) => {
                                                 className="form-control text-sm"
                                             />
                                         </div>
-                                        {(formik.errors.bk02_date && formik.touched.bk02_date) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.bk02_date}</span>
+                                        {(formik.errors.net_total && formik.touched.net_total) && (
+                                            <span className="text-red-500 text-xs">{formik.errors.net_total}</span>
                                         )}
                                     </Col>
                                 </Row>
@@ -311,11 +304,8 @@ const LoanRefundForm = ({ refund }) => {
                                         ยอด{formik.values.refund_type_id === '1' ? 'คืน' : 'เบิกเพิ่ม'}ทั้งสิ้น
                                         <div className="w-[15%]">
                                             <div className="form-control font-bold text-lg text-right text-red-600 float-right">
-                                                {currency.format(formik.values.net_total)}
+                                                {formik.values.net_total}
                                             </div>
-                                            {(formik.errors.net_total && formik.touched.net_total) && (
-                                                <span className="text-red-500 text-xs">{formik.errors.net_total}</span>
-                                            )}
                                         </div>
                                     </div>
                                 </div>
