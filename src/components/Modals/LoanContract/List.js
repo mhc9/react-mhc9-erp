@@ -49,8 +49,8 @@ const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
                                 <tr key={contract.id} className="font-thin text-sm">
                                     <td className="text-center">{index+pager.from}</td>
                                     <td>
-                                        <p><b>เลขที่เอกสาร</b> {contract.doc_no}</p>
-                                        <p><b>วันที่เอกสาร</b> {toShortTHDate(contract.doc_date)}</p>
+                                        <p><b>เลขที่เอกสาร</b> {contract.contract_no}</p>
+                                        <p><b>วันที่เอกสาร</b> {toShortTHDate(contract.contract_date)}</p>
                                     </td>
                                     <td>
                                         {/* <p className="text-gray-400 text-sm">{contract?.project.plan?.name}</p> */}

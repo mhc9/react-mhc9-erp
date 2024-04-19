@@ -104,7 +104,6 @@ const LoanRefundForm = ({ refund }) => {
                             isShow={showLoanModal}
                             onHide={() => setShowLoanModal(false)}
                             onSelect={(contract) => {
-                                console.log(contract);
                                 setContract(contract);
                                 formik.setFieldValue('contract_id', contract?.id);
                                 setTimeout(() => formik.setFieldTouched('contract_id', true));
