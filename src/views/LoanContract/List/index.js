@@ -87,11 +87,12 @@ const LoanContractList = () => {
                                     <td className="text-sm">
                                         <p>เลขที่สัญญา <span className="badge rounded-pill text-bg-primary">{contract.contract_no}</span></p>
                                         <p>วันที่สัญญา <span className="badge rounded-pill text-bg-primary">{toShortTHDate(contract.contract_date)}</span></p>
-                                        {/* <p>
-                                            สถานะ
-                                            {contract.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
-                                            {contract.status === 2 && <span className="badge rounded-pill text-bg-success">ส่งสัญญาแล้ว</span>}
-                                        </p> */}
+                                        <div className="text-lg text-center mt-1">
+                                            {contract.status === 0 && <span className="badge rounded-pill text-bg-secondary">รออนุมัติ</span>}
+                                            {contract.status === 1 && <span className="badge rounded-pill text-bg-success">อนุมัติแล้ว</span>}
+                                            {contract.status === 2 && <span className="badge rounded-pill text-bg-info">เคลียร์แล้ว</span>}
+                                            {contract.status === 9 && <span className="badge rounded-pill text-bg-danger">ยกเลิก</span>}
+                                        </div>
                                     </td>
                                     <td className="text-sm">
                                         <div className="text-blue-600">
