@@ -4,6 +4,7 @@ import { Col, Row } from 'react-bootstrap'
 import { Formik, Form } from 'formik'
 import { FaSearch } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
+import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 import moment from 'moment';
 import { calculateNetTotal, currency, toShortTHDate, toLongTHDate, getFormDataItem } from '../../../utils'
@@ -41,6 +42,13 @@ const LoanRefundForm = ({ refund }) => {
     }, [refund]);
 
     const handleAddItem = (formik, contractDetail) => {
+        /** Determines whether incoming data is existed or not  */
+        if (formik.values.items.some(item => item.contract_detail_id === contractDetail.contract_detail_id)) {
+            toast.error('ไม่สามารถระบุรายการค่าใช้จ่ายซ้ำได้!!');
+            return
+        }
+
+        /** Create new items array */
         const newItems = [...formik.values.items, contractDetail];
 
         formik.setFieldValue('items', newItems);
