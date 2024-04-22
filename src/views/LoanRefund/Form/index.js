@@ -21,6 +21,10 @@ const refundSchema = Yup.object().shape({
     contract_id: Yup.string().required('กรุณาระบุเลือกรายการคำขอ'),
     refund_type_id: Yup.string().required('กรุณาระบุเลขที่ฎีกา/อ้างอิง'),
     net_total: Yup.string().required('กรุณาระบุเลขที่สัญญา'),
+    items: Yup.mixed().test({
+        message: "กรุณาระบุรายการค่าใช้จ่ายที่ต้องการคืน/เบิกเพิ่ม",
+        test: arr => arr.length > 0
+    })
 });
 
 const LoanRefundForm = ({ refund }) => {
@@ -53,6 +57,8 @@ const LoanRefundForm = ({ refund }) => {
 
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems)));
+
+        setTimeout(() => formik.setFieldTouched('items', true));
     };
 
     const handleEditItem = (data) => {
@@ -106,6 +112,7 @@ const LoanRefundForm = ({ refund }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.errors);
                 return (
                     <Form>
                         <ModalLoanContractList
