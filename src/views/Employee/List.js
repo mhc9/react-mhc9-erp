@@ -110,9 +110,9 @@ const EmployeeList = () => {
                                         </div>
                                     </td>
                                     <td>
-                                        <p>{`${employee.address_no} หมู่ ${employee.moo} ถนน ${employee.road}`}</p>
-                                        <p>{`ต.${employee.tambon?.name} อ.${employee.amphur?.name} จ.${employee.changwat?.name} ${employee.zipcode}`}</p>
-                                        <p>{`โทร ${employee.tel}`}</p>
+                                        <p>{`${employee.address_no ? employee.address_no : '-'} หมู่ ${employee.moo ? employee.moo : '-'} ถนน ${employee.road ? employee.road : '-'}`}</p>
+                                        <p>{`ต.${employee.tambon ? employee.tambon?.name : '-'} อ.${employee.amphur?.name} จ.${employee.changwat?.name} ${employee.zipcode ? employee.zipcode : '-'}`}</p>
+                                        <p>{`โทร ${employee.tel ? employee.tel : '-'}`}</p>
                                     </td>
                                     <td className="text-center p-1">
                                         <Link to={`/employee/${employee.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
