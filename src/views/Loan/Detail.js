@@ -135,7 +135,7 @@ const LoanDetail = () => {
                                                 <ul className="text-sm font-thin">
                                                     {loan?.courses.map((course, index) => (
                                                         <li key={index} className="hover:bg-gray-200 p-1 rounded-md">
-                                                            - รุ่นที่ {course.id} {course?.course_date && <span className="mr-1">วันที่ {toLongTHDate(moment(course?.course_date).toDate())}</span>} 
+                                                            - รุ่นที่ {course.seq_no} {course?.course_date && <span className="mr-1">วันที่ {toLongTHDate(moment(course?.course_date).toDate())}</span>} 
                                                                 ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
                                                         </li>
                                                     ))}
