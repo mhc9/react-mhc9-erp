@@ -73,15 +73,15 @@ const ExpenseList = ({ courses, items, showButtons=true, edittingItem,  onEditIt
                         let seq = 0;
 
                         return (
-                            <>
+                            <Fragment key={course.id} >
                                 <tr>
                                     <td colSpan={4}>
-                                        รุ่นที่ {course.id} {course?.course_date && <span>วันที่ {toShortTHDate(course?.course_date)}</span>} 
+                                        รุ่นที่ {course.seq_no} {course?.course_date && <span>วันที่ {toShortTHDate(course?.course_date)}</span>} 
                                         ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
                                     </td>
                                 </tr>
                                 {items && items.map((data, index) => <Fragment key={index}>{parseInt(data.course_id, 10) === course.id && renderExpenseRow(data, ++seq)}</Fragment>)}
-                            </>
+                            </Fragment>
                         )})
                     : items && items.map((data, index) => <Fragment key={index}>{renderExpenseRow(data, ++index)}</Fragment>)}
             </tbody>
