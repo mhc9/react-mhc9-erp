@@ -94,7 +94,7 @@ const EmployeeList = () => {
                                         <div className="flex flex-row gap-2">
                                             <div className="border rounded-md overflow-hidden w-[100px] max-h-[120px] object-cover object-center">
                                                 {employee.avatar_url
-                                                    ? <img src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee?.avatar_url}`} alt="employee-pic" />
+                                                    ? <img src={`${process.env.REACT_APP_API_URL}/storage/${employee?.avatar_url}`} alt="employee-pic" />
                                                     : <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />}
                                             </div>
                                             <div>
