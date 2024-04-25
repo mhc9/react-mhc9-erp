@@ -21,7 +21,7 @@ const contractSchema = Yup.object().shape({
     bill_no: Yup.string().required('กรุณาระบุเลขที่ฎีกา/อ้างอิง'),
     bk02_date: Yup.string().required('กรุณาระบุวันที่วาง บข.02'),
     sent_date: Yup.string().required('กรุณาระบุวันที่ส่งสัญญา'),
-    deposit_date: Yup.string().required('กรุณาระบุวันที่เงินเข้า'),
+    // deposit_date: Yup.string().required('กรุณาระบุวันที่เงินเข้า'),
     net_total: Yup.string().required('กรุณาระบุเลขที่สัญญา'),
 });
 
@@ -106,7 +106,8 @@ const LoanContractForm = ({ contract }) => {
                 bill_no: contract ? contract.bill_no : '',
                 bk02_date: contract ? moment(contract.bk02_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 sent_date: contract ? moment(contract.sent_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
-                deposit_date: contract ? moment(contract.deposit_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+                deposit_date: '',
+                remark: '',
                 net_total: contract ? contract.net_total : '',
                 items: contract ? contract.details : [],
             }}
@@ -272,7 +273,7 @@ const LoanContractForm = ({ contract }) => {
                                     </Col>
                                 </Row>
                                 <Row className="mb-2">
-                                    <Col md={6} className="max-[768px]:mt-2">
+                                    <Col md={12} className="max-[768px]:mt-2">
                                         <label htmlFor="">เลขที่ฎีกา/อ้างอิง</label>
                                         <input
                                             type="text"
@@ -285,7 +286,7 @@ const LoanContractForm = ({ contract }) => {
                                             <span className="text-red-500 text-xs">{formik.errors.bill_no}</span>
                                         )}
                                     </Col>
-                                    <Col md={6} className="max-[768px]:mt-2">
+                                    <Col md={12} className="mt-2">
                                         <div className="flex flex-col">
                                             <label htmlFor="">วันที่วาง บข.02</label>
                                             <DatePicker
@@ -302,9 +303,7 @@ const LoanContractForm = ({ contract }) => {
                                             <span className="text-red-500 text-xs">{formik.errors.bk02_date}</span>
                                         )}
                                     </Col>
-                                </Row>
-                                <Row className="mb-2">
-                                    <Col md={6} className="max-[768px]:mt-2">
+                                    <Col md={12} className="mt-2">
                                         <div className="flex flex-col">
                                             <label htmlFor="">วันที่ส่งสัญญา</label>
                                             <DatePicker
@@ -321,7 +320,7 @@ const LoanContractForm = ({ contract }) => {
                                             <span className="text-red-500 text-xs">{formik.errors.sent_date}</span>
                                         )}
                                     </Col>
-                                    <Col md={6} className="max-[768px]:mt-2">
+                                    {/* <Col md={6} className="max-[768px]:mt-2">
                                         <div className="flex flex-col">
                                             <label htmlFor="">วันที่เงินเข้า</label>
                                             <DatePicker
@@ -337,7 +336,7 @@ const LoanContractForm = ({ contract }) => {
                                         {(formik.errors.deposit_date && formik.touched.deposit_date) && (
                                             <span className="text-red-500 text-xs">{formik.errors.deposit_date}</span>
                                         )}
-                                    </Col>
+                                    </Col> */}
                                 </Row>
                             </Col>
                         </Row>
