@@ -107,6 +107,7 @@ const LoanContractForm = ({ contract }) => {
                 bk02_date: contract ? moment(contract.bk02_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 sent_date: contract ? moment(contract.sent_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 deposit_date: '', //contract ? moment(contract.deposit_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+                refund_days: contract ? contract.refund_days : '',
                 remark: '',
                 net_total: contract ? contract.net_total : '',
                 items: contract ? contract.details : [],
@@ -124,6 +125,7 @@ const LoanContractForm = ({ contract }) => {
                                 setLoan(loan);
 
                                 formik.setFieldValue('loan_id', loan.id);
+                                formik.setFieldValue('refund_days', loan.loan_type_id === 1 ? 30 : 15);
                                 formik.setFieldValue('net_total', loan.net_total);
                                 formik.setFieldValue('items', loan.details);
 
@@ -241,7 +243,7 @@ const LoanContractForm = ({ contract }) => {
                             </Col>
                             <Col>
                                 <Row className="mb-2">
-                                    <Col md={12} className="max-[768px]:mt-2">
+                                    <Col md={6} className="max-[768px]:mt-2">
                                         <label htmlFor="">เลขที่สัญญา</label>
                                         <input
                                             type="text"
@@ -252,6 +254,19 @@ const LoanContractForm = ({ contract }) => {
                                         />
                                         {(formik.errors.contract_no && formik.touched.contract_no) && (
                                             <span className="text-red-500 text-xs">{formik.errors.contract_no}</span>
+                                        )}
+                                    </Col>
+                                    <Col md={6} className="max-[768px]:mt-2">
+                                        <label htmlFor="">กำหนดคืนภายใน (วัน)</label>
+                                        <input
+                                            type="text"
+                                            name="refund_days"
+                                            value={formik.values.refund_days}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-center text-sm"
+                                        />
+                                        {(formik.errors.refund_days && formik.touched.refund_days) && (
+                                            <span className="text-red-500 text-xs">{formik.errors.refund_days}</span>
                                         )}
                                     </Col>
                                     {/* <Col md={6} className="max-[768px]:mt-2">

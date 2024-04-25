@@ -140,11 +140,17 @@ const LoanContractDetail = () => {
                                                     </div>
                                                 </Col>
                                                 <Col md={6} className="max-[768px]:mt-2">
+                                                    <label htmlFor="">กำหนดคืนภายใน (วัน)</label>
+                                                    <div className="form-control text-center text-sm">
+                                                        {contract?.refund_days}
+                                                    </div>
+                                                </Col>
+                                                {/* <Col md={6} className="max-[768px]:mt-2">
                                                     <label htmlFor="">วันที่สัญญา</label>
                                                     <div className="form-control text-sm">
                                                         {toLongTHDate(moment(contract?.contract_date).toDate())}
                                                     </div>
-                                                </Col>
+                                                </Col> */}
                                             </Row>
                                             <Row className="mb-2">
                                                 <Col md={6} className="max-[768px]:mt-2">
