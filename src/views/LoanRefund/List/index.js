@@ -50,13 +50,13 @@ const LoanRefundList = () => {
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ยืมเงินราชการ</Breadcrumb.Item>
-                <Breadcrumb.Item active>รายการคืนเงิน</Breadcrumb.Item>
+                <Breadcrumb.Item active>รายการหักล้างเงินยืม</Breadcrumb.Item>
             </Breadcrumb>
         
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-xl">รายการคืนเงิน</h2>
-                    <Link to="add" className="btn btn-primary">เพิ่มคืนเงิน</Link>
+                    <h2 className="text-xl">รายการหักล้างเงินยืม</h2>
+                    <Link to="add" className="btn btn-primary">เพิ่มรายการ</Link>
                 </div>
 
                 <div>
