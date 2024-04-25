@@ -183,7 +183,11 @@ const LoanContractDetail = () => {
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
                                     <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่าย</h1>
-                                    <ExpenseList items={contract?.details} showButtons={false} />
+                                    <ExpenseList
+                                        courses={contract?.loan?.courses}
+                                        items={contract?.details}
+                                        showButtons={false}
+                                    />
 
                                     <div className="flex flex-row justify-end">
                                         <div className="w-[15%]">

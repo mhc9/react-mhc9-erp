@@ -345,6 +345,7 @@ const LoanContractForm = ({ contract }) => {
                                 <div className="flex flex-col border p-2 rounded-md">
                                     <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่าย</h1>
                                     <ExpenseList
+                                        courses={loan?.courses}
                                         items={loan?.details}
                                         showButtons={false}
                                         edittingItem={edittingItem}
