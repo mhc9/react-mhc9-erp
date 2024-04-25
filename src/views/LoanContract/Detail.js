@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
@@ -8,12 +8,14 @@ import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi
 import { currency, toLongTHDate, toShortTHDate } from '../../utils'
 import Loading from '../../components/Loading'
 import ExpenseList from '../../components/Expense//ExpenseList'
+import ModalDepositForm from '../../components/Modals/Deposit/Form'
 
 const LoanContractDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { contract, isLoading } = useSelector(state => state.loanContract);
     const { data: formData, isLoading: loading } = useGetInitialFormDataQuery();
+    const [showDepositForm, setShowDepositForm] = useState(false);
 
     useEffect(() => {
         if (id) {
@@ -38,6 +40,12 @@ const LoanContractDetail = () => {
                 {isLoading && <div className="text-center"><Loading /></div>}
                 {!isLoading && (
                     <>
+                        <ModalDepositForm
+                            isShow={showDepositForm}
+                            onHide={setShowDepositForm}
+                            contract={contract}
+                        />
+
                         <Row className="mb-2">
                             <Col md={8}>
                                 <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[260px]">
@@ -225,8 +233,8 @@ const LoanContractDetail = () => {
                         <Row className="mb-2 mt-4">
                             <Col className="flex justify-center">
                                 <a href="#" className="btn btn-success mr-2">พิมพ์สัญญาเงินยืม</a>
-                                {contract?.status < 2 &&<a href="#" className="btn btn-primary">อนุมัติสัญญา</a>}
-                                {contract?.status === 2 &&<a href="#" className="btn btn-primary">บันทึกเงินเข้า</a>}
+                                {contract?.status < 2 && <a href="#" className="btn btn-primary">อนุมัติสัญญา</a>}
+                                {contract?.status === 2 && <a href="#" className="btn btn-primary" onClick={() => setShowDepositForm(true)}>บันทึกเงินเข้า</a>}
                             </Col>
                         </Row>
                     </>
