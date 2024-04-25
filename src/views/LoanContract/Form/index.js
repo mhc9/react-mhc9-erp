@@ -369,6 +369,18 @@ const LoanContractForm = ({ contract }) => {
                                 )}
                             </Col>
                         </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <label htmlFor="">หมายเหตุ</label>
+                                <textarea
+                                    rows="3"
+                                    name="remark"
+                                    value={formik.values.remark}
+                                    onChange={formik.handleChange}
+                                    className="form-control"
+                                ></textarea>
+                            </Col>
+                        </Row>
                         <Row>
                             <Col>
                                 <button type="submit" className={`btn ${contract ? 'btn-outline-warning' : 'btn-outline-primary'} float-right`}>
