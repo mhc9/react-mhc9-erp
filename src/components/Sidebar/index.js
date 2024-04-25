@@ -53,6 +53,26 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
 
                         <div className="menu-link">
                             <button type="button" className="text-black text-left p-2 hover:bg-blue-500 rounded-md flex flex-row items-center justify-between">
+                                ยืมเงินราชการ
+                                <FaAngleDown />
+                            </button>
+                            <ul className="sub-menus">
+                                <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                    <Link to="/loan"><p className="w-full">คำขอยืมเงิน</p></Link>
+                                </li>
+                                <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                    <Link to="/loan-contract"><p className="w-full">สัญญายืมเงิน</p></Link>
+                                </li>
+                                <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                    <Link to="/loan-refund"><p className="w-full">หักล้างเงินยืม</p></Link>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <hr className="border-1 border-gray-400 m-0" />
+
+                        <div className="menu-link">
+                            <button type="button" className="text-black text-left p-2 hover:bg-blue-500 rounded-md flex flex-row items-center justify-between">
                                 ข้อมูลพื้ฐาน
                                 <FaAngleDown />
                             </button>
