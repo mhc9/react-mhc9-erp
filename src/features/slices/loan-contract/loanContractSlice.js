@@ -193,7 +193,6 @@ export const loanContractSlice = createSlice({
             state.error = payload;
         },
         [deposit.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
             state.error = null;
         },

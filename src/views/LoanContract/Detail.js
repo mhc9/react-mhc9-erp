@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 import moment from 'moment'
-import { getContract } from '../../features/slices/loan-contract/loanContractSlice'
+import { getContract, resetSuccess } from '../../features/slices/loan-contract/loanContractSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi'
 import { currency, toLongTHDate, toShortTHDate } from '../../utils'
 import Loading from '../../components/Loading'
@@ -13,7 +14,7 @@ import ModalDepositForm from '../../components/Modals/Deposit/Form'
 const LoanContractDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { contract, isLoading } = useSelector(state => state.loanContract);
+    const { contract, isLoading, isSuccess } = useSelector(state => state.loanContract);
     const { data: formData, isLoading: loading } = useGetInitialFormDataQuery();
     const [showDepositForm, setShowDepositForm] = useState(false);
 
@@ -22,6 +23,13 @@ const LoanContractDetail = () => {
             dispatch(getContract(id));
         }
     }, [id]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('บันทึกเงินเข้าสำเร็จ!!');
+            dispatch(resetSuccess());
+        }
+    }, [isSuccess])
 
     const getFormDataItem = (dataName, id) => {
         return formData[dataName].find(item => item.id === id);
@@ -46,9 +54,9 @@ const LoanContractDetail = () => {
                             contract={contract}
                         />
 
-                        <Row className="mb-2">
+                        <Row className="mb-3">
                             <Col md={8}>
-                                <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[260px]">
+                                <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[305px]">
                                     <h1 className="font-bold text-lg mb-2">รายละเอียดคำขอยืมเงิน</h1>
                                     <Row>
                                         <Col md={3}>
@@ -197,6 +205,16 @@ const LoanContractDetail = () => {
                                                     </div>
                                                 </Col>
                                             </Row>
+                                            {contract?.refund_date && (
+                                                <Row className="mb-2">
+                                                    <Col md={6} className="max-[768px]:mt-2">
+                                                        <label htmlFor="">วันที่กำหนดคืนเงิน</label>
+                                                        <div className="form-control text-sm">
+                                                            {toLongTHDate(moment(contract?.refund_date).toDate())}
+                                                        </div>
+                                                    </Col>
+                                                </Row>
+                                            )}
                                         </div>
                                     </Col>
                                 </Row>
@@ -234,7 +252,9 @@ const LoanContractDetail = () => {
                             <Col className="flex justify-center">
                                 <a href="#" className="btn btn-success mr-2">พิมพ์สัญญาเงินยืม</a>
                                 {contract?.status < 2 && <a href="#" className="btn btn-primary">อนุมัติสัญญา</a>}
-                                {contract?.status === 2 && <a href="#" className="btn btn-primary" onClick={() => setShowDepositForm(true)}>บันทึกเงินเข้า</a>}
+                                {(contract?.status === 2 && !contract?.deposit_date) && (
+                                    <a href="#" className="btn btn-primary" onClick={() => setShowDepositForm(true)}>บันทึกเงินเข้า</a>
+                                )}
                             </Col>
                         </Row>
                     </>
