@@ -12,7 +12,7 @@ import ExpenseList from '../../components/Expense//ExpenseList'
 const LoanContractDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { contract, isLoading } = useSelector(state => state.loan);
+    const { contract, isLoading } = useSelector(state => state.contract);
     const { data: formData, isLoading: loading } = useGetInitialFormDataQuery();
 
     useEffect(() => {

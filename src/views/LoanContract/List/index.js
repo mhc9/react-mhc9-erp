@@ -106,10 +106,10 @@ const LoanContractList = () => {
                                         <EmployeeCard employee={contract.loan?.employee} />
                                     </td>
                                     <td className="text-center p-1">
-                                        <Link to={`/loan/${contract.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
+                                        <Link to={`/loan-contract/${contract.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
                                         </Link>
-                                        <Link to={`/loan/${contract.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
+                                        <Link to={`/loan-contract/${contract.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />
                                         </Link>
                                         <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(contract.id)}>
