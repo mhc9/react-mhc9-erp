@@ -77,6 +77,16 @@ export const upload = createAsyncThunk("loan-contract/upload", async ({ id, data
     }
 });
 
+export const deposit = createAsyncThunk("loan-contract/deposit", async ({ id, data }, { dispatch, rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/loan-contracts/${id}/deposit`, data);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const loanContractSlice = createSlice({
     name: 'loanContract',
     initialState,
@@ -180,6 +190,24 @@ export const loanContractSlice = createSlice({
             }
         },
         [upload.rejected]: (state, { payload }) => {
+            state.error = payload;
+        },
+        [deposit.pending]: (state) => {
+            state.isLoading = true;
+            state.isSuccess = false;
+            state.error = null;
+        },
+        [deposit.fulfilled]: (state, { payload }) => {
+            const { status, message, contract } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.contract = contract;
+            } else {
+                state.error = { message };
+            }
+        },
+        [deposit.rejected]: (state, { payload }) => {
             state.error = payload;
         },
     }
