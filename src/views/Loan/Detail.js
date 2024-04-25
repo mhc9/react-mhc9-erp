@@ -190,6 +190,13 @@ const LoanDetail = () => {
                                 </div>
                             </Col>
                         </Row>
+                        <Row className="mb-2 mt-4">
+                            <Col className="flex justify-center">
+                                <a href="#" className="btn btn-success">พิมพ์คำขอ</a>
+                                <a href="#" className="btn btn-success mx-2">พิมพ์บันทึกทบทวน</a>
+                                <a href="#" className="btn btn-success">พิมพ์บันทึกทวนสอบ</a>
+                            </Col>
+                        </Row>
                     </>
                 )}
             </div>
