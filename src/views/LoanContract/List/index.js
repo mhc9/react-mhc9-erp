@@ -15,7 +15,7 @@ const initialFilters = {
     pr_no: '',
     pr_date: '',
     division: '',
-    status: '1'
+    status: ''
 };
 
 const LoanContractList = () => {
@@ -26,7 +26,7 @@ const LoanContractList = () => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getContracts({ url: `/api/loan-contracts/search?page=&status=1` }));
+            dispatch(getContracts({ url: `/api/loan-contracts/search?page=&status=` }));
         } else {
             dispatch(getContracts({ url: `${apiEndpoint}${params}` }));
         }
@@ -88,9 +88,9 @@ const LoanContractList = () => {
                                         <p>เลขที่สัญญา <span className="badge rounded-pill text-bg-primary">{contract.contract_no}</span></p>
                                         <p>วันที่สัญญา <span className="badge rounded-pill text-bg-primary">{toShortTHDate(contract.contract_date)}</span></p>
                                         <div className="text-lg text-center mt-1">
-                                            {contract.status === 0 && <span className="badge rounded-pill text-bg-secondary">รออนุมัติ</span>}
-                                            {contract.status === 1 && <span className="badge rounded-pill text-bg-success">อนุมัติแล้ว</span>}
-                                            {contract.status === 2 && <span className="badge rounded-pill text-bg-info">เคลียร์แล้ว</span>}
+                                            {contract.status === 1 && <span className="badge rounded-pill text-bg-secondary">รออนุมัติ</span>}
+                                            {contract.status === 2 && <span className="badge rounded-pill text-bg-success">อนุมัติแล้ว</span>}
+                                            {contract.status === 3 && <span className="badge rounded-pill text-bg-info">เคลียร์แล้ว</span>}
                                             {contract.status === 9 && <span className="badge rounded-pill text-bg-danger">ยกเลิก</span>}
                                         </div>
                                     </td>
