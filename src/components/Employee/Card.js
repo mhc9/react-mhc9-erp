@@ -11,7 +11,7 @@ const EmployeeCard = ({
         <div className="flex flex-row gap-2">
             <div className={`border ${avatarStyle === 'rounded' ? 'rounded-full w-[40px] h-[40px] ' : 'rounded-md w-[100px] max-h-[120px]'} overflow-hidden object-cover object-center`}>
                 {showAvatar && employee?.avatar_url
-                    ? <img src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee?.avatar_url}`} alt="employee-pic" />
+                    ? <img src={`${process.env.REACT_APP_API_URL}/storage/${employee?.avatar_url}`} alt="employee-pic" />
                     : <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />}
             </div>
             <div>
