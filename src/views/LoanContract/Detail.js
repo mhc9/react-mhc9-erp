@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import moment from 'moment'
 import { getContract, resetSuccess } from '../../features/slices/loan-contract/loanContractSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi'
-import { currency, toLongTHDate, toShortTHDate } from '../../utils'
+import { currency, toLongTHDate, toShortTHDate, getFormDataItem } from '../../utils'
 import Loading from '../../components/Loading'
 import ExpenseList from '../../components/Expense//ExpenseList'
 import ModalDepositForm from '../../components/Modals/Deposit/Form'
@@ -29,11 +29,7 @@ const LoanContractDetail = () => {
             toast.success('บันทึกเงินเข้าสำเร็จ!!');
             dispatch(resetSuccess());
         }
-    }, [isSuccess])
-
-    const getFormDataItem = (dataName, id) => {
-        return formData[dataName].find(item => item.id === id);
-    }
+    }, [isSuccess]);
 
     return (
         <div className="content-wrapper">
@@ -76,13 +72,13 @@ const LoanContractDetail = () => {
                                         <Col md={3}>
                                             <label>ประเภทการยืม</label>
                                             <div className="form-control text-sm">
-                                                {formData && getFormDataItem('loanTypes', contract?.loan?.loan_type_id)?.name}
+                                                {formData && getFormDataItem(formData, 'loanTypes', contract?.loan?.loan_type_id)?.name}
                                             </div>
                                         </Col>
                                         <Col md={3}>
                                             <label htmlFor="">ประเภทเงินยืม</label>
                                             <div className="form-control text-sm">
-                                                {formData && getFormDataItem('moneyTypes', contract?.loan?.money_type_id)?.name}
+                                                {formData && getFormDataItem(formData, 'moneyTypes', contract?.loan?.money_type_id)?.name}
                                             </div>
                                         </Col>
                                     </Row>
