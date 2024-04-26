@@ -110,10 +110,10 @@ const LoanRefundList = () => {
                                         <EmployeeCard employee={refund.contract?.loan?.employee} />
                                     </td>
                                     <td className="text-center p-1">
-                                        <Link to={`/loan/${refund.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
+                                        <Link to={`/loan-refund/${refund.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
                                         </Link>
-                                        <Link to={`/loan/${refund.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
+                                        <Link to={`/loan-refund/${refund.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />
                                         </Link>
                                         <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(refund.id)}>

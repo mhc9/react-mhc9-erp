@@ -73,6 +73,7 @@ import LoanContractDetail from './views/LoanContract/Detail';
 /** Loan Refund */
 import LoanRefundList from './views/LoanRefund/List';
 import AddLoanRefund from './views/LoanRefund/Add';
+import LoanRefundDetail from './views/LoanRefund/Detail';
 /** Budget */
 import BudgetList from './views/Budget/List';
 import AddBudget from './views/Budget/Add';
@@ -128,6 +129,7 @@ function App() {
 
                 <Route path="loan-refund" element={<GuardRoute><LoanRefundList /></GuardRoute>} />
                 <Route path="loan-refund/add" element={<GuardRoute><AddLoanRefund /></GuardRoute>} />
+                <Route path="loan-refund/:id/detail" element={<GuardRoute><LoanRefundDetail /></GuardRoute>} />
                 {/* ============================= System Data ============================= */}
                 {/* Items */}
                 <Route path="item" element={<GuardRoute><ItemList /></GuardRoute>} />
