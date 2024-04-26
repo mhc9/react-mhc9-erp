@@ -162,6 +162,12 @@ const LoanRefundDetail = () => {
                                 </div>
                             </Col>
                         </Row>
+                        <Row className="mb-2 mt-4">
+                            <Col className="flex justify-center">
+                                <a href="#" className="btn btn-success mr-2">พิมพ์บันทึกหักล้างเงินยืม</a>
+                                <a href="#" className="btn btn-primary">เคลียร์เงินยืม</a>
+                            </Col>
+                        </Row>
                     </>
                 )}
             </div>
