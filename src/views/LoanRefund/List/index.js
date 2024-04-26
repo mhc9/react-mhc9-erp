@@ -69,7 +69,7 @@ const LoanRefundList = () => {
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
-                                <th className="text-center w-[15%]">เอกสาร</th>
+                                <th className="text-center w-[15%]">เอกสารหักล้าง</th>
                                 <th>รายการ</th>
                                 <th className="text-center w-[25%]">ผู้ขอ</th>
                                 <th className="text-center w-[10%]">Actions</th>
@@ -85,8 +85,8 @@ const LoanRefundList = () => {
                                 <tr key={refund.id}>
                                     <td className="text-center">{pager && pager.from + index}</td>
                                     <td className="text-sm">
-                                        <p>เลขที่สัญญา <span className="badge rounded-pill text-bg-primary">{refund.doc_no}</span></p>
-                                        <p>วันที่สัญญา <span className="badge rounded-pill text-bg-primary">{toShortTHDate(refund.doc_date)}</span></p>
+                                        <p>เลขที่ <span className="badge rounded-pill text-bg-primary">{refund.doc_no}</span></p>
+                                        <p>วันที่ <span className="badge rounded-pill text-bg-primary">{toShortTHDate(refund.doc_date)}</span></p>
                                         <div className="text-lg text-center mt-1">
                                             {refund.contract?.status === 0 && <span className="badge rounded-pill text-bg-secondary">รออนุมัติ</span>}
                                             {refund.contract?.status === 1 && <span className="badge rounded-pill text-bg-success">อนุมัติแล้ว</span>}
@@ -96,7 +96,8 @@ const LoanRefundList = () => {
                                     </td>
                                     <td className="text-sm">
                                         <p className={`font-bold ${refund.contract?.loan?.loan_type_id === 1 ? 'text-blue-600' : 'text-red-500'}`}>
-                                            {refund.contract?.loan?.loan_type_id === 1 ? 'ยืมเงินโครงการ' : 'ยืมเงินเดินทางไปราชการ'}
+                                            <span className="mr-2">เลขที่สัญญา {refund.contract?.contract_no}</span>
+                                            <span>: {refund.contract?.loan?.loan_type_id === 1 ? 'ยืมเงินโครงการ' : 'ยืมเงินเดินทางไปราชการ'}</span>
                                         </p>
                                         <div>
                                             {refund.contract?.loan?.project_name}
