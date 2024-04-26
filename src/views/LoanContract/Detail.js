@@ -41,6 +41,8 @@ const LoanContractDetail = () => {
             </Breadcrumb>
 
             <div className="content">
+                <h1 className="text-xl font-bold mb-1">รายละเอียดสัญญา (ID: {id})</h1>
+
                 {isLoading && <div className="text-center"><Loading /></div>}
                 {!isLoading && (
                     <>
@@ -53,7 +55,7 @@ const LoanContractDetail = () => {
                         <Row className="mb-3">
                             <Col md={8}>
                                 <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[305px]">
-                                    <h1 className="font-bold text-lg mb-2">รายละเอียดคำขอยืมเงิน</h1>
+                                    <h1 className="font-bold text-lg mb-2">คำขอยืมเงิน</h1>
                                     <Row>
                                         <Col md={3}>
                                             <label htmlFor="">เลขที่เอกสาร</label>
@@ -143,7 +145,7 @@ const LoanContractDetail = () => {
                                 <Row>
                                     <Col>
                                         <div className="border rounded-md py-2 px-3 bg-[#EAD9D5] text-sm min-h-[260px]">
-                                            <div className="flex items-center mb-2 border">
+                                            <div className="flex items-center mb-2">
                                                 <h1 className="font-bold text-lg mr-2">สัญญายืมเงิน</h1>
                                                 <div className="text-lg text-center">
                                                     {contract?.status === 1 && <span className="badge rounded-pill text-bg-secondary">รออนุมัติ</span>}
