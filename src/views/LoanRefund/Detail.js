@@ -96,9 +96,9 @@ const LoanRefundDetail = () => {
                                                         <li>
                                                             <span className="mr-1">{index+1}.</span>
                                                             {item.budget?.name}
-                                                            <span className="ml-1">
+                                                            {/* <span className="ml-1">
                                                                 {item.budget?.project?.plan?.name} / {item.budget?.project?.name}
-                                                            </span>
+                                                            </span> */}
                                                             {refund?.contract?.loan?.budgets.length > 1 && (
                                                                 <span className="ml-1">
                                                                     <b>งบประมาณ</b> {currency.format(item?.total)} บาท
@@ -107,9 +107,7 @@ const LoanRefundDetail = () => {
                                                         </li>
                                                     </ul>
                                                 ))}
-                                                <p className="ml-1">
-                                                    <b>รวมงบประมาณทั้งสิ้น</b> {currency.format(refund?.contract?.loan?.budget_total)} บาท
-                                                </p>
+                                                <p><b>รวมงบประมาณทั้งสิ้น</b> {currency.format(refund?.contract?.loan?.budget_total)} บาท</p>
                                             </div>
                                         </Col>
                                     </Row>
