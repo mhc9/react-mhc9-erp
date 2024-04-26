@@ -27,6 +27,8 @@ const EditLoanContract = () => {
             </Breadcrumb>
 
             <div className="content">
+                <h1 className="text-xl font-bold mb-1">แก้ไขสัญญา (ID: {id})</h1>
+
                 {isLoading
                     ? <div className="text-center"><Loading /></div>
                     : <LoanContractForm loan={loan} />

@@ -13,6 +13,7 @@ const AddLoanContract = () => {
             </Breadcrumb>
 
             <div className="content">
+                <h1 className="text-xl font-bold mb-1">เพิ่มสัญญา</h1>
 
                 <LoanContractForm />
 
