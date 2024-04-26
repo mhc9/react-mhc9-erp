@@ -38,13 +38,37 @@ const LoanRefundDetail = () => {
                             <Col md={8}>
                                 <div className="border rounded-md py-2 px-4 bg-[#EAD9D5] text-sm min-h-[260px]">
                                     <h1 className="font-bold text-lg mb-2">สัญญายืมเงิน</h1>
-                                    <Row className="mb-3">
-                                        <Col md={8} className="flex flex-row items-start justify-center">
-                                            <label htmlFor="" className="w-[20%] mt-[8px]">สัญญายืมเงิน :</label>
-                                            <div className="w-[80%]">
-                                                <div className="form-control text-sm h-[34px] bg-gray-100">
-                                                    <b>เลขที่</b> {refund?.contract && <span>{refund?.contract?.contract_no} <b>ลงวันที่</b> {toLongTHDate(moment(refund?.contract?.contract_date).toDate())}</span>}
-                                                </div>
+                                    <Row className="mb-2">
+                                        <Col md={4} className="flex flex-row items-center">
+                                            <label htmlFor="">สัญญายืมเงินเลขที่ :</label>
+                                            <div className="font-thin ml-1">
+                                                    {refund?.contract && <span>{refund?.contract?.contract_no}</span>}
+                                            </div>
+                                        </Col>
+                                        <Col md={4} className="flex flex-row items-center">
+                                            <label htmlFor="">ส่งวันที่ :</label>
+                                            <div className="font-thin ml-1">
+                                                {toLongTHDate(moment(refund?.contract?.sent_date).toDate())}
+                                            </div>
+                                        </Col>
+                                        <Col className="flex flex-row items-center">
+                                            <label>เงินเข้าวันที่ :</label>
+                                            <div className="ml-1 text-green-600 font-bold">
+                                                {toLongTHDate(moment(refund?.contract?.deposited_date).toDate())}
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <Row className="mb-2">
+                                        <Col md={4} className="flex flex-row items-center">
+                                            <label>กำหนดคืนเงินภายใน :</label>
+                                            <div className="font-thin ml-1">
+                                                {currency.format(refund?.contract?.refund_days)} วัน
+                                            </div>
+                                        </Col>
+                                        <Col className="flex flex-row items-center">
+                                            <label>วันที่กำหนดคืนเงิน :</label>
+                                            <div className="ml-1 text-red-500 font-bold">
+                                                {toLongTHDate(moment(refund?.contract?.refund_date).toDate())}
                                             </div>
                                         </Col>
                                     </Row>
@@ -126,7 +150,7 @@ const LoanRefundDetail = () => {
                                         <Col md={10} className="mt-2">
                                             <div className="flex flex-col">
                                                 <label htmlFor="">วันที่เอกสาร</label>
-                                                <div className="form-control">
+                                                <div className="form-control text-sm">
                                                     {toLongTHDate(moment(refund?.contract?.doc_date).toDate())}
                                                 </div>
                                             </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
@@ -9,7 +9,7 @@ import moment from 'moment'
 
 const depositSchema = Yup.object().shape({
     contract_id: Yup.string().required(),
-    deposit_date: Yup.string().required(),
+    deposited_date: Yup.string().required(),
     refund_date: Yup.string().required()
 });
 
@@ -37,7 +37,7 @@ const ModalDepositForm = ({ isShow, onHide, onSubmit, contract }) => {
                 <Formik
                     initialValues={{
                         contract_id: contract ? contract.id : '',
-                        deposit_date: '',
+                        deposited_date: '',
                         refund_date: '',
                     }}
                     validationSchema={depositSchema}
@@ -58,7 +58,7 @@ const ModalDepositForm = ({ isShow, onHide, onSubmit, contract }) => {
                                                 value={selectedDepositDate}
                                                 onChange={(date) => {
                                                     setSelectedDepositDate(date);
-                                                    formik.setFieldValue('deposit_date', date.format('YYYY-MM-DD'));
+                                                    formik.setFieldValue('deposited_date', date.format('YYYY-MM-DD'));
                                                     
                                                     /** คำนวณวันที่กำหนดคืนเงินจาก contract.refund_days */
                                                     const refundDate = moment(date).add(contract.refund_days, "days");
@@ -68,8 +68,8 @@ const ModalDepositForm = ({ isShow, onHide, onSubmit, contract }) => {
                                                 variant="outlined"
                                             />
                                         </div>
-                                        {(formik.errors.deposit_date && formik.touched.deposit_date) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.deposit_date}</span>
+                                        {(formik.errors.deposited_date && formik.touched.deposited_date) && (
+                                            <span className="text-red-500 text-xs">{formik.errors.deposited_date}</span>
                                         )}
                                     </Col>
                                 </Row>
