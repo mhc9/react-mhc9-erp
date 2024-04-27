@@ -53,7 +53,7 @@ const LoanForm = ({ loan }) => {
             setSelectedProjectDate(moment(loan.project_date));
             setSelectedStartDate(moment(loan.project_sdate));
             setSelectedEndDate(moment(loan.project_edate));
-            setSelectedYear(moment(loan.year));
+            setSelectedYear(moment(`${loan.year}`));
 
             // setBudget(loan.budget);
             setEmployee(loan.employee);
@@ -151,7 +151,7 @@ const LoanForm = ({ loan }) => {
                 doc_date: loan ? moment(loan.doc_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 loan_type_id: loan ? loan.loan_type_id : '',
                 money_type_id: loan ? loan.money_type_id : '',
-                year: loan ? moment(loan.year).format('YYYY-MM-DD') : moment().year() + 543,
+                year: loan ? moment(`${loan.year}`).year() : moment().year(),
                 department_id: loan ? loan.department_id : '',
                 employee_id: loan ? loan.employee_id : '',
                 project_no:  loan ? loan.project_no : '',
@@ -315,7 +315,7 @@ const LoanForm = ({ loan }) => {
                                         value={selectedYear}
                                         onChange={(date) => {
                                             setSelectedYear(date);
-                                            formik.setFieldValue('year', date.year() + 543);
+                                            formik.setFieldValue('year', date.year());
                                         }}
                                     />
                                 </div>
