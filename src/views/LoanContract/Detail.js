@@ -56,55 +56,55 @@ const LoanContractDetail = () => {
                             <Col md={8}>
                                 <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[305px]">
                                     <h1 className="font-bold text-lg mb-2">คำขอยืมเงิน</h1>
-                                    <Row>
-                                        <Col md={3}>
-                                            <label htmlFor="">เลขที่เอกสาร</label>
-                                            <div className="form-control text-sm">
+                                    <Row className="mb-2">
+                                        <Col md={5} className="flex flex-row items-center">
+                                            <label htmlFor="">เลขที่เอกสาร :</label>
+                                            <div className="font-thin ml-1">
                                                 {contract?.loan?.doc_no}
                                             </div>
                                         </Col>
-                                        <Col md={3}>
-                                            <div className="flex flex-col">
-                                                <label htmlFor="">วันที่เอกสาร</label>
-                                                <div className="form-control text-sm">
-                                                    {toLongTHDate(moment(contract?.loan?.doc_date).toDate())}
-                                                </div>
-                                            </div>
-                                        </Col>
-                                        <Col md={3}>
-                                            <label>ประเภทการยืม</label>
-                                            <div className="form-control text-sm">
-                                                {formData && getFormDataItem(formData, 'loanTypes', contract?.loan?.loan_type_id)?.name}
-                                            </div>
-                                        </Col>
-                                        <Col md={3}>
-                                            <label htmlFor="">ประเภทเงินยืม</label>
-                                            <div className="form-control text-sm">
-                                                {formData && getFormDataItem(formData, 'moneyTypes', contract?.loan?.money_type_id)?.name}
+                                        <Col md={7} className="flex flex-row items-center">
+                                            <label htmlFor="">วันที่เอกสาร :</label>
+                                            <div className="font-thin ml-1">
+                                                {toLongTHDate(moment(contract?.loan?.doc_date).toDate())}
                                             </div>
                                         </Col>
                                     </Row>
                                     <Row className="mb-2">
-                                        <Col md={4}>
-                                            <label htmlFor="">หน่วยงาน</label>
-                                            <div className="form-control text-sm">
-                                                {contract?.loan?.department?.name}
+                                        <Col md={5} className="flex flex-row items-center">
+                                            <label>ประเภทการยืม :</label>
+                                            <div className="font-thin ml-1">
+                                                {formData && getFormDataItem(formData, 'loanTypes', contract?.loan?.loan_type_id)?.name}
                                             </div>
                                         </Col>
-                                        <Col md={6}>
-                                            <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
-                                            <div className="form-control text-sm">
-                                                {contract?.loan?.employee?.firstname} {contract?.loan?.employee?.lastname}
+                                        <Col md={4} className="flex flex-row items-center">
+                                            <label htmlFor="">ประเภทเงินยืม :</label>
+                                            <div className="font-thin ml-1">
+                                                {formData && getFormDataItem(formData, 'moneyTypes', contract?.loan?.money_type_id)?.name}
                                             </div>
                                         </Col>
-                                        <Col md={2}>
-                                            <label htmlFor="">ปีงบ</label>
-                                            <div className="form-control text-sm">
+                                        <Col md={3} className="flex flex-row items-center">
+                                            <label htmlFor="">ปีงบประมาณ :</label>
+                                            <div className="font-thin ml-1">
                                                 {contract?.loan?.year}
                                             </div>
                                         </Col>
                                     </Row>
-                                    <Row>
+                                    <Row className="mb-2">
+                                        <Col md={6} className="flex flex-row items-center">
+                                            <label htmlFor="">หน่วยงาน :</label>
+                                            <div className="font-thin ml-1">
+                                                {contract?.loan?.department?.name}
+                                            </div>
+                                        </Col>
+                                        <Col md={6} className="flex flex-row items-center">
+                                            <label htmlFor="">ผู้ขอ/เจ้าของโครงการ :</label>
+                                            <div className="font-thin ml-1">
+                                                {contract?.loan?.employee?.firstname} {contract?.loan?.employee?.lastname}
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <Row className="mb-2">
                                         <Col md={12} className="flex flex-row items-start">
                                             <label htmlFor="" className="w-[12%]">โครงการ :</label>
                                             <div className="font-thin ml-1 w-[88%]">
@@ -133,9 +133,7 @@ const LoanContractDetail = () => {
                                                         </li>
                                                     </ul>
                                                 ))}
-                                                <p className="ml-1">
-                                                    <b>รวมงบประมาณทั้งสิ้น</b> {currency.format(contract?.loan?.budget_total)} บาท
-                                                </p>
+                                                <p><b>รวมงบประมาณทั้งสิ้น</b> {currency.format(contract?.loan?.budget_total)} บาท</p>
                                             </div>
                                         </Col>
                                     </Row>
