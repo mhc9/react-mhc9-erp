@@ -162,7 +162,7 @@ const LoanForm = ({ loan }) => {
                 expense_calc: loan ? loan.expense_calc : '1',
                 budget_total: loan ? loan.budget_total : '',
                 net_total: loan ? loan.net_total : '',
-                remark: loan ? loan.remark : '',
+                remark: (loan && loan.remark) ? loan.remark : '',
                 courses: loan ? loan.courses : [], //รุ่นที่
                 budgets: loan ? loan.budgets : [],
                 items: loan ? loan.details : [],
