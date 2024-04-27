@@ -13,6 +13,7 @@ const AddLoan = () => {
             </Breadcrumb>
 
             <div className="content">
+                <h1 className="text-xl font-bold mb-1">เพิ่มคำขอ</h1>
 
                 <LoanForm />
 
