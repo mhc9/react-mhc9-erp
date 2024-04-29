@@ -10,7 +10,7 @@ const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
     const { contracts, pager, isLoading } = useSelector(state => state.loanContract);
 
     useEffect(() => {
-        dispatch(getContracts({ url: '/api/loan-contracts/search?page=&status=1' }))
+        dispatch(getContracts({ url: '/api/loan-contracts/search?page=&status=2' }))
     }, []);
 
     const handlePageClick = (url) => {
