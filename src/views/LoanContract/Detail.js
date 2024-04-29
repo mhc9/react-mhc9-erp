@@ -9,7 +9,8 @@ import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi
 import { currency, toLongTHDate, toShortTHDate, getFormDataItem } from '../../utils'
 import Loading from '../../components/Loading'
 import ExpenseList from '../../components/Expense//ExpenseList'
-import ModalDepositForm from '../../components/Modals/Deposit/Form'
+import ModalDepositForm from '../../components/Modals/LoanContract/Deposit/Form'
+import ModalApprovalForm from '../../components/Modals/LoanContract/Approval/Form'
 
 const LoanContractDetail = () => {
     const { id } = useParams();
@@ -17,6 +18,7 @@ const LoanContractDetail = () => {
     const { contract, isLoading, isSuccess } = useSelector(state => state.loanContract);
     const { data: formData, isLoading: loading } = useGetInitialFormDataQuery();
     const [showDepositForm, setShowDepositForm] = useState(false);
+    const [showApprovalForm, setShowApprovalForm] = useState(false);
 
     useEffect(() => {
         if (id) {
@@ -49,6 +51,12 @@ const LoanContractDetail = () => {
                         <ModalDepositForm
                             isShow={showDepositForm}
                             onHide={setShowDepositForm}
+                            contract={contract}
+                        />
+
+                        <ModalApprovalForm
+                            isShow={showApprovalForm}
+                            onHide={setShowApprovalForm}
                             contract={contract}
                         />
 
