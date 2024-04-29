@@ -9,11 +9,10 @@ import moment from 'moment'
 
 const approvalSchema = Yup.object().shape({
     contract_id: Yup.string().required(),
-    deposited_date: Yup.string().required(),
-    refund_date: Yup.string().required()
+    approved_date: Yup.string().required()
 });
 
-const ModalApprovalForm = ({ isShow, onHide, onSubmit, contract }) => {
+const ModalApprovalForm = ({ isShow, onHide, contract }) => {
     const dispatch = useDispatch()
     const [selectedApprovedDate, setSelectedApprovedDate] = useState(moment());
 
@@ -43,14 +42,19 @@ const ModalApprovalForm = ({ isShow, onHide, onSubmit, contract }) => {
                 >
                     {(formik) => {
                         return (
-                            <Form className="p-3">
-                                <Row className="mb-2">
-                                    <Col md={6} className="text-lg text-blue-700">เลขที่สัญญา: {contract.contract_no}</Col>
-                                </Row>
+                            <Form className="px-3 pt-3">
                                 <Row className="mb-3">
+                                    <Col md={6} className="text-lg text-blue-700">
+                                        <div className="flex flex-row items-center gap-3">
+                                            <label htmlFor="">เลขที่สัญญา :</label>
+                                            {contract.contract_no}
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row className="mb-4">
                                     <Col md={12}>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="">วันที่เงินเข้า</label>
+                                        <div className="flex flex-row items-center gap-3">
+                                            <label htmlFor="">วันที่อนุมัติสัญญา :</label>
                                             <DatePicker
                                                 format="DD/MM/YYYY"
                                                 value={selectedApprovedDate}

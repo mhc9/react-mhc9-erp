@@ -255,9 +255,15 @@ const LoanContractDetail = () => {
                         <Row className="mb-2 mt-4">
                             <Col className="flex justify-center">
                                 <a href="#" className="btn btn-success mr-2">พิมพ์สัญญาเงินยืม</a>
-                                {contract?.status < 2 && <a href="#" className="btn btn-primary">อนุมัติสัญญา</a>}
+                                {contract?.status === 1 && (
+                                    <a href="#" className="btn btn-primary" onClick={() => setShowApprovalForm(true)}>
+                                        อนุมัติสัญญา
+                                    </a>
+                                )}
                                 {(contract?.status === 2 && !contract?.deposit_date) && (
-                                    <a href="#" className="btn btn-primary" onClick={() => setShowDepositForm(true)}>บันทึกเงินเข้า</a>
+                                    <a href="#" className="btn btn-primary" onClick={() => setShowDepositForm(true)}>
+                                        บันทึกเงินเข้า
+                                    </a>
                                 )}
                             </Col>
                         </Row>
