@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import moment from 'moment'
@@ -157,7 +157,7 @@ const LoanDetail = () => {
                                         <div className="mr-2">งบประมาณทั้งสิ้น</div>
                                         <div className="w-[15%]">
                                             <div className="form-control font-bold float-right text-right text-green-500">
-                                                {currency.format(loan?.net_total)}
+                                                {currency.format(loan?.budget_total)}
                                             </div>
                                         </div>
                                     </div>
@@ -192,7 +192,10 @@ const LoanDetail = () => {
                         </Row>
                         <Row className="mb-2 mt-4">
                             <Col className="flex justify-center">
-                                <a href="#" className="btn btn-success">พิมพ์คำขอ</a>
+                                <Link to={`/preview/${id}/loan/form`} target="_blank" className="btn btn-success mx-2">
+                                    <i className="fas fa-print mr-1"></i>
+                                    พิมพ์คำขอ
+                                </Link>
                                 <a href="#" className="btn btn-success mx-2">พิมพ์บันทึกทบทวน</a>
                                 <a href="#" className="btn btn-success">พิมพ์บันทึกทวนสอบ</a>
                             </Col>
