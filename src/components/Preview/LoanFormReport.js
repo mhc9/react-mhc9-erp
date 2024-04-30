@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import moment from 'moment'
 import { getLoan } from '../../features/slices/loan/loanSlice'
-import { toLongTHDate, currency, replaceExpensePattern } from '../../utils'
+import { toLongTHDate, toShortTHDate, currency, replaceExpensePattern } from '../../utils'
 import { ThaiNumberToText } from '../../utils/currencyText'
 import './Preview.css'
 
@@ -75,8 +75,12 @@ const LoanFormReport = () => {
                             <div className="memo-content">
                                 <div className="memo-paragraph">
                                     ตามหนังสือ {loan.department?.name} ที่ {loan.project_no} ลงวันที่ {toLongTHDate(moment(loan.project_date).toDate())}
+                                    {loan.loan_type_id === 1 
+                                        ? <span className="ml-1">กำหนดจัด{loan.project_name}</span>
+                                        : <span className="ml-1">เรื่อง ขออนุมัติเดินทางไปราชการเพื่อเข้าร่วม{loan.project_name}</span>
+                                    }
                                     <span className="ml-1">
-                                        กำหนดจัด{loan.project_name} ระหว่างวันที่ {toLongTHDate(moment(loan.project_sdate).toDate())} ถึงวันที่ {toLongTHDate(moment(loan.project_edate).toDate())}
+                                        ระหว่างวันที่ {toLongTHDate(moment(loan.project_sdate).toDate())} ถึงวันที่ {toLongTHDate(moment(loan.project_edate).toDate())}
                                     </span>
                                     {loan?.courses.length === 1 && loan?.courses.map((course, index) => (
                                         <span className="mx-1" key={course.id}>
@@ -100,62 +104,76 @@ const LoanFormReport = () => {
                                     <div>
                                         {(loan.courses && loan.courses.length > 1)
                                             ? loan.courses.map(course => (
-                                                <div key={course.id} >
-                                                    <span>
-                                                        รุ่นที่ {course.seq_no} {course?.course_date && <span>วันที่ {toLongTHDate(course?.course_date)}</span>} 
-                                                        ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
-                                                    </span>
+                                                <div className="mt-2" key={course.id}>
+                                                    <p className="indent-[1.3cm]">
+                                                        {course?.course_date && <span className="mx-1 font-bold">วันที่ {toLongTHDate(moment(course?.course_date).toDate())}</span>} 
+                                                        ณ {course?.place?.name} {/* จ.{course?.place?.changwat?.name} */}
+                                                    </p>
                                                     {loan.details && loan.details.map((data, index) => 
                                                         <div key={index}>
                                                             {parseInt(data.course_id, 10) === course.id && (
-                                                                <p className="font-thin">
-                                                                    {(index+1)}.{data.expense?.name}
-                                                                    {(data.description && data.expense?.pattern)
-                                                                        ? (
-                                                                            <span className="ml-1">
-                                                                                {replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}
-                                                                            </span>
-                                                                        ) : (
-                                                                            <span className="ml-1">
-                                                                                {data.description && <span>({data.description})</span>}
-                                                                            </span>
-                                                                        )
-                                                                    }
-                                                                </p>
+                                                                <table className="w-full indent-[1.4cm]">
+                                                                    <tr>
+                                                                        <td className="w-[68%]">
+                                                                            <span>-{data.expense?.name}</span>
+                                                                            {(data.description && data.expense?.pattern)
+                                                                                ? (
+                                                                                    <span className="ml-1">
+                                                                                        {replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}
+                                                                                    </span>
+                                                                                ) : (
+                                                                                    <span className="ml-1">
+                                                                                        {data.description && <span>({data.description})</span>}
+                                                                                    </span>
+                                                                                )
+                                                                            }
+                                                                        </td>
+                                                                        <td className="w-[32%]">
+                                                                            <span className="mr-4">เป็นเงิน</span>{currency.format(data.total)} บาท
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
                                                             )}
                                                         </div>
                                                     )}
                                                 </div>))
                                             : loan.details && loan.details.map((data, index) => (
-                                                <div key={index}>
-                                                    <p className="font-thin">
-                                                        {(index+1)}.{data.expense?.name}
-                                                        {(data.description && data.expense?.pattern)
-                                                            ? (
-                                                                <span className="ml-1">
-                                                                    {replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}
-                                                                </span>
-                                                            ) : (
-                                                                <span className="ml-1">
-                                                                    {data.description && <span>({data.description})</span>}
-                                                                </span>
-                                                            )
-                                                        }
-                                                    </p>
+                                                <div className="mt-2" key={index}>
+                                                    <table className="w-full indent-[1.4cm]">
+                                                        <tr>
+                                                            <td className="w-[68%]">
+                                                                <span>-{data.expense?.name}</span>
+                                                                {(data.description && data.expense?.pattern)
+                                                                    ? (
+                                                                        <span className="ml-1">
+                                                                            {replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}
+                                                                        </span>
+                                                                    ) : (
+                                                                        <span className="ml-1">
+                                                                            {data.description && <span>({data.description})</span>}
+                                                                        </span>
+                                                                    )
+                                                                }
+                                                            </td>
+                                                            <td className="w-[32%]">
+                                                                <span className="mr-4">เป็นเงิน</span>{currency.format(data.total)} บาท
+                                                            </td>
+                                                        </tr>
+                                                    </table>
                                                 </div>
                                             ))
                                         }
-                                        <div className="font-bold">
+                                        <div className="indent-[1.5cm] font-bold">
                                             รวมจำนวนเงินทั้งสิ้น {currency.format(loan.net_total)} บาท ({ThaiNumberToText(loan.net_total)})
                                         </div>
                                     </div>
-                                    <span className="ml-1">
+                                    <div className="indent-0 mt-2">
                                         <span className="underline">หมายเหตุ</span> - ค่าใช้จ่ายแต่ละรายการสามารถถัวเฉลี่ยจ่ายแทนกันได้
-                                    </span>
+                                    </div>
                                     {/* ประจำปีงบประมาณปี {loan.year+543}  รายละเอียดตามเอกสารแนบ */}
                                 </div>
                                 <div className="memo-paragraph">
-                                    จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติต่อไปด้วย จกเป็นพระคุณ
+                                    จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติต่อไปด้วย จะเป็นพระคุณ
                                 </div>
                                 <div className="memo-approvement">
                                     <div className="memo-row">
