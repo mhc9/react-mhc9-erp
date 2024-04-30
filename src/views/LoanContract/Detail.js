@@ -28,7 +28,7 @@ const LoanContractDetail = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            toast.success('บันทึกเงินเข้าสำเร็จ!!');
+            toast.success('บันทึกสำเร็จ!!');
             dispatch(resetSuccess());
         }
     }, [isSuccess]);

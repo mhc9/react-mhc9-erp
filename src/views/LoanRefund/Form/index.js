@@ -124,17 +124,17 @@ const LoanRefundForm = ({ refund }) => {
                             }}
                         />
 
-                        <Row className="mb-2">
+                        <Row className="mb-3">
                             <Col md={8}>
                                 <div className="border rounded-md py-2 px-3 bg-[#EAD9D5] text-sm min-h-[260px]">
                                     <h1 className="font-bold text-lg mb-2">สัญญายืมเงิน</h1>
-                                    <Row className="mb-2">
-                                        <Col md={8} className="flex flex-row items-start justify-center">
-                                            <label htmlFor="" className="w-[18%] mt-[8px]">สัญญายืมเงิน :</label>
-                                            <div className="w-[90%]">
+                                    <Row className="mb-3">
+                                        <Col md={8} className="flex flex-row items-start">
+                                            <label htmlFor="" className="w-[22%] mt-[8px]">สัญญายืมเงิน :</label>
+                                            <div className="w-[65%]">
                                                 <div className="input-group">
                                                     <div className="form-control text-sm h-[34px] bg-gray-100">
-                                                        <b>เลขที่</b> {contract && <span>{contract?.contract_no} <b>ลงวันที่</b> {toLongTHDate(moment(contract?.contract_date).toDate())}</span>}
+                                                        {contract && <span className="mr-4"><b className="mr-1">เลขที่</b> {contract?.contract_no}</span>}
                                                     </div>
                                                     <button type="button" className="btn btn-outline-secondary" onClick={() => setShowLoanModal(true)}>
                                                         <FaSearch />
@@ -143,6 +143,32 @@ const LoanRefundForm = ({ refund }) => {
                                                 {(formik.errors.contract_id && formik.touched.contract_id) && (
                                                     <span className="text-red-500 text-xs">{formik.errors.contract_id}</span>
                                                 )}
+                                            </div>
+                                        </Col>
+                                        <Col className="flex flex-row items-center">
+                                            <label htmlFor="">ส่งวันที่ :</label>
+                                            <div className="font-thin ml-1">
+                                                {toLongTHDate(moment(contract?.sent_date).toDate())}
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <Row className="mb-2">
+                                        <Col className="flex flex-row items-center">
+                                                <label>เงินเข้าวันที่ :</label>
+                                                <div className="ml-1 text-green-600 font-bold">
+                                                    {toLongTHDate(moment(contract?.deposited_date).toDate())}
+                                                </div>
+                                            </Col>
+                                        <Col className="flex flex-row items-center">
+                                            <label>กำหนดคืนเงินภายใน :</label>
+                                            <div className="font-thin ml-1">
+                                                {currency.format(contract?.refund_days)} วัน
+                                            </div>
+                                        </Col>
+                                        <Col className="flex flex-row items-center">
+                                            <label>วันที่กำหนดคืนเงิน :</label>
+                                            <div className="ml-1 text-red-500 font-bold">
+                                                {toLongTHDate(moment(contract?.refund_date).toDate())}
                                             </div>
                                         </Col>
                                     </Row>
@@ -161,7 +187,7 @@ const LoanRefundForm = ({ refund }) => {
                                         </Col>
                                         <Col md={3} className="flex flex-row items-center">
                                             <label htmlFor="">ปีงบประมาณ :</label>
-                                            <div className="font-thin ml-1">{contract?.loan?.year}</div>
+                                            <div className="font-thin ml-1">{contract?.loan?.year+543}</div>
                                         </Col>
                                     </Row>
                                     <Row className="mb-2">
@@ -176,7 +202,7 @@ const LoanRefundForm = ({ refund }) => {
                                             </div>
                                         </Col>
                                     </Row>
-                                    <Row>
+                                    <Row className="mb-2">
                                         <Col md={12} className="flex flex-row items-start">
                                             <label htmlFor="" className="w-[12%]">โครงการ :</label>
                                             <div className="font-thin ml-1 w-[88%]">
@@ -205,9 +231,7 @@ const LoanRefundForm = ({ refund }) => {
                                                         </li>
                                                     </ul>
                                                 ))}
-                                                <p className="ml-1">
-                                                    <b>รวมงบประมาณทั้งสิ้น</b> {currency.format(contract?.loan?.budget_total)} บาท
-                                                </p>
+                                                <p><b>รวมงบประมาณทั้งสิ้น</b> {currency.format(contract?.loan?.budget_total)} บาท</p>
                                             </div>
                                         </Col>
                                     </Row>
