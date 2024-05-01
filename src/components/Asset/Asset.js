@@ -14,12 +14,15 @@ const Asset = ({ asset }) => {
                     )}
                 </div>
             </Col>
-            <Col lg={12} xl={10} className="font-thin text-sm lg:mt-2">
-                <p><b className="mr-1">เลขครุภัณฑ์:</b>{asset.asset_no ? asset.asset_no : '-'}</p>
+            <Col lg={12} xl={10} className="font-thin text-sm max-[1199px]:mt-2">
                 <p className="text-gray-800">{asset.group?.category?.name}</p>
-                <p className="font-bold">{asset.name}</p>
                 <p>
-                    <span className="mr-1"><b>ยี่ห้อ:</b> {asset.brand?.name}</span>
+                    <b className="mr-1">เลข FSN:</b>{asset.fsn_no ? asset.fsn_no : '-'}
+                    <b className="ml-4 mr-1">เลขครุภัณฑ์:</b>{asset.asset_no ? asset.asset_no : '-'}
+                </p>
+                <p>
+                    <span className="font-bold">{asset.name}</span>
+                    <span className="mx-2"><b>ยี่ห้อ:</b> {asset.brand?.name}</span>
                     <span className="mr-1"><b>รุ่น:</b> {asset.model ? asset.model : '-'}</span>
                 </p>
                 <p>
