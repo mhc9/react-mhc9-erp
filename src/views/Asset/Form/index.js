@@ -74,6 +74,7 @@ const AssetForm = ({ id, asset }) => {
             initialValues={{
                 id: asset ? id : '',
                 asset_no: asset ? asset.asset_no : '',
+                fsn_no: asset ? asset.fsn_no : '',
                 name: asset ? asset.name : '',
                 description: (asset && asset.description) ? asset.description : '',
                 asset_type_id: (asset && asset.asset_type_id) ? asset.asset_type_id : '',
@@ -121,7 +122,7 @@ const AssetForm = ({ id, asset }) => {
                             </Row>
                         )}
                         <Row className="mb-2">
-                            <Col sm={6} md={4}>
+                            <Col sm={6} md={3}>
                                 <FormGroup>
                                     <label>เลขที่พัสดุ</label>
                                     <input
@@ -137,7 +138,23 @@ const AssetForm = ({ id, asset }) => {
                                     )}
                                 </FormGroup>
                             </Col>
-                            <Col sm={6} md={8}>
+                            <Col sm={6} md={3}>
+                                <FormGroup>
+                                    <label>เลข FSN</label>
+                                    <input
+                                        type="text"
+                                        name="fsn_no"
+                                        value={formik.values.fsn_no}
+                                        onChange={formik.handleChange}
+                                        className="form-control text-sm font-thin"
+                                        placeholder="เลข FSN"
+                                    />
+                                    {(formik.errors.fsn_no && formik.touched.fsn_no) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.fsn_no}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col sm={6} md={6}>
                                 <FormGroup>
                                     <label>ชื่อพัสดุ</label>
                                     <input
