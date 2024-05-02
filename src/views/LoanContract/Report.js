@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
-import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { getContracts, destroy } from '../../features/slices/loan-contract/loanContractSlice'
+import moment from 'moment'
+import { getReport } from '../../features/slices/loan-contract/loanContractSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../utils'
-import LoanListDetail from './List/ListDetail'
 import Loading from '../../components/Loading'
 import Pagination from '../../components/Pagination'
 import EmployeeCard from '../../components/Employee/Card'
@@ -26,9 +24,9 @@ const LoanContractReport = () => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getContracts({ url: `/api/loan-contracts/search?page=&status=` }));
+            dispatch(getReport(2024));
         } else {
-            dispatch(getContracts({ url: `${apiEndpoint}${params}` }));
+            dispatch(getReport(2024));
         }
     }, [dispatch, apiEndpoint, params])
 
@@ -38,11 +36,17 @@ const LoanContractReport = () => {
         setApiEndpoint(`/api/loan-contracts/search?page=`);
     };
 
-    const handleDelete = (id) => {
-        if (window.confirm(`คุณต้องการลบสัญญาเงินยืมรหัส ${id} ใช่หรือไม่`)) {
-            dispatch(destroy(id));
-        }
-    };
+    const renderRefundTotal = (type, total) => {
+        return (
+            <div className={`${type === 1 ? 'text-green-600' : 'text-red-600'} font-bold`}>
+                {type === 1 ? '+' : '-'}{currency.format(total)} 
+            </div>
+        )
+    }
+
+    const isOverRefund = (refundDate, clearDate) => {
+        return moment(clearDate).diff(moment(refundDate), 'days') > 1;
+    }
 
     return (
         <div className="content-wrapper">
@@ -54,7 +58,9 @@ const LoanContractReport = () => {
             </Breadcrumb>
         
             <div className="content">
-                <h2 className="text-xl">ทะเบียนคุม</h2>
+                <div className="flex items-center justify-between mb-2">
+                    <h1 className="text-xl font-bold">ทะเบียนคุม</h1>
+                </div>
 
                 <div>
                     {/* <LoanFilteringInputs
@@ -65,28 +71,35 @@ const LoanContractReport = () => {
                     <table className="table table-bordered mb-2">
                         <thead>
                             <tr>
-                                <th className="text-center w-[5%]">#</th>
-                                <th className="text-center w-[15%]">เอกสาร</th>
-                                <th className="text-center w-[20%]">ผู้ยืม</th>
-                                <th>โครงการ</th>
+                                <th className="text-center w-[3%]">#</th>
+                                <th className="text-center w-[8%]">เอกสาร</th>
+                                <th className="text-center w-[15%]">ผู้ยืม</th>
+                                <th className="text-center">โครงการ</th>
                                 <th className="text-center w-[8%]">จำนวนเงินยืม</th>
-                                <th className="text-center w-[8%]">จำนวนเงิน<br />คืน/เบิกเพิ่ม</th>
+                                <th className="text-center w-[8%]">
+                                    จำนวนเงิน<br />
+                                    <span className="text-green-600">คืน</span>/
+                                    <span className="text-red-600">เบิกเพิ่ม</span>
+                                </th>
                                 <th className="text-center w-[8%]">วันที่เงินเข้า</th>
                                 <th className="text-center w-[8%]">วันที่ครบกำหนด</th>
+                                <th className="text-center w-[8%]">วันที่เคลียร์</th>
                             </tr>
                         </thead>
                         <tbody>
                             {isLoading && (
                                 <tr>
-                                    <td className="text-center" colSpan={6}><Loading /></td>
+                                    <td className="text-center" colSpan={9}><Loading /></td>
                                 </tr>
                             )}
                             {(!isLoading && contracts) && contracts.map((contract, index) => (
                                 <tr key={contract.id}>
                                     <td className="text-center">{pager && pager.from + index}</td>
                                     <td className="text-sm">
-                                        <p>เลขที่สัญญา <span className="badge rounded-pill text-bg-primary">{contract.contract_no}</span></p>
-                                        <p>วันส่งสัญญา <span className="badge rounded-pill text-bg-primary">{toShortTHDate(contract.sent_date)}</span></p>
+                                        <p className="p-0 m-0">เลขที่สัญญา :</p>
+                                        <span className="badge rounded-pill text-bg-primary mb-1">{contract.contract_no}</span>
+                                        <p className="p-0 m-0">วันส่งสัญญา :</p>
+                                        <span className="badge rounded-pill text-bg-primary">{toShortTHDate(contract.sent_date)}</span>
                                     </td>
                                     <td className="text-sm">
                                         <EmployeeCard employee={contract.loan?.employee} />
@@ -98,23 +111,29 @@ const LoanContractReport = () => {
                                         {currency.format(contract.net_total)}
                                     </td>
                                     <td className="text-sm text-center">
-                                        {currency.format(contract.net_total)}
+                                        {contract.refund && renderRefundTotal(contract.refund?.refund_type_id, contract.refund?.net_total)}
                                     </td>
                                     <td className="text-sm text-center">
-                                        {toShortTHDate(contract.sent_date)}
+                                        {toShortTHDate(contract.deposited_date)}
                                     </td>
                                     <td className="text-sm text-center">
-                                        {toShortTHDate(contract.sent_date)}
+                                        {toShortTHDate(contract.refund_date)}
+                                    </td>
+                                    <td className="text-sm text-center font-bold">
+                                        {(contract.refund_date && contract.refund) && isOverRefund(contract.refund_date, contract.refund?.doc_date)
+                                            ? <span className="text-red-600">{toShortTHDate(contract.refund?.doc_date)}</span>
+                                            : <span className="text-green-600">{toShortTHDate(contract.refund?.doc_date)}</span>
+                                        }
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
 
-                    {/* <Pagination
+                    <Pagination
                         pager={pager}
                         onPageClick={(url) => setApiEndpoint(url)}
-                    /> */}
+                    />
                 </div>
             </div>
         </div>
