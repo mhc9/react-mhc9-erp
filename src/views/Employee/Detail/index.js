@@ -41,11 +41,11 @@ const EmployeeDetail = () => {
             <div className="content">
                 <h2 className="text-xl">รายละเอียดบุคลากร ID: {id}</h2>
 
-                <div className="my-2 border p-4 rounded-md">
+                <div className="my-2 border p-4 rounded-md min-h-[75vh]">
                     {isLoading && <div className="text-center"><Loading /></div>}
                     {(!isLoading && employee) && (
                         <>
-                            <Row>
+                            <Row className="mb-4">
                                 <Col md={3} className="flex flex-col justify-center items-center">
                                     <EmployeeAvatar
                                         avatarUrl={selectedImage ? '' : employee.avatar_url || ''}
@@ -78,6 +78,21 @@ const EmployeeDetail = () => {
                                             <b>วันที่บรรจุ : </b>{employee.assigned_at && toShortTHDate(employee.assigned_at)}
                                             <b className="ml-2">วันที่เริ่มปฏิบัติงาน : </b>{employee.started_at && toShortTHDate(employee.started_at)}
                                         </p>
+                                        <div className="flex flex-row items-center mb-2">
+                                            <b className="mr-1">สถานะ : </b>
+                                            {employee.status === 1 && <h2 className="badge rounded-pill bg-success">ปฏิบัติราชการ</h2>}
+                                            {employee.status === 2 && <h2 className="badge rounded-pill bg-bg-light text-dark">ย้าย</h2>}
+                                            {employee.status === 3 && <h2 className="badge rounded-pill bg-bg-light text-dark">โอน</h2>}
+                                            {employee.status === 4 && <h2 className="badge rounded-pill bg-dark">เกษียณ</h2>}
+                                            {employee.status === 5 && <h2 className="badge rounded-pill bg-primary">ช่วยราชการ</h2>}
+                                            {employee.status === 6 && <h2 className="badge rounded-pill bg-info">ลาศึกษาต่อ</h2>}
+                                            {employee.status === 7 && <h2 className="badge rounded-pill bg-warning">พักราชการ</h2>}
+                                            {employee.status === 9 && <h2 className="badge rounded-pill bg-danger">ลาออก</h2>}
+                                            {employee.status === 99 && <h2 className="badge rounded-pill bg-secondary">ไม่ทราบ</h2>}
+                                        </div>
+                                        <div className="flex flex-row items-center">
+                                            <a href="#" className="btn btn-primary">เปลี่ยนสถานะ</a>
+                                        </div>
                                     </div>
                                 </Col>
                             </Row>
