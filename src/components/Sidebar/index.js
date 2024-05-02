@@ -66,6 +66,9 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                     <Link to="/loan-refund"><p className="w-full">หักล้างเงินยืม</p></Link>
                                 </li>
+                                <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                    <Link to="/loan-report"><p className="w-full">ทะเบียนคุม</p></Link>
+                                </li>
                             </ul>
                         </div>
 
