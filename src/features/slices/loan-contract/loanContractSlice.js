@@ -31,6 +31,16 @@ export const getContract = createAsyncThunk("loan-contract/getContract", async (
     }
 });
 
+export const getReport = createAsyncThunk("loan-contract/getReport", async (year, { rejectWithValue }) => {
+    try {
+        const res = await api.get(`/api/loan-contracts/report/${year}`);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const store = createAsyncThunk("loan-contract/store", async (data, { rejectWithValue }) => {
     try {
         const res = await api.post(`/api/loan-contracts`, data);
@@ -143,6 +153,25 @@ export const loanContractSlice = createSlice({
             // state.isSuccess = true;
         },
         [getContract.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [getReport.pending]: (state) => {
+            state.contracts = [];
+            state.pager = null;
+            state.isLoading = true;
+            // state.isSuccess = false;
+            state.error = null;
+        },
+        [getReport.fulfilled]: (state, { payload }) => {
+            const { data, ...pager } = payload;
+
+            state.contracts = data;
+            state.pager = pager;
+            state.isLoading = false
+            // state.isSuccess = true;
+        },
+        [getReport.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },
