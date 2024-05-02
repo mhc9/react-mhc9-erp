@@ -71,6 +71,7 @@ import LoanContractList from './views/LoanContract/List';
 import AddLoanContract from './views/LoanContract/Add';
 import EditLoanContract from './views/LoanContract/Edit';
 import LoanContractDetail from './views/LoanContract/Detail';
+import LoanContractReport from './views/LoanContract/Report'
 /** Loan Refund */
 import LoanRefundList from './views/LoanRefund/List';
 import AddLoanRefund from './views/LoanRefund/Add';
@@ -127,6 +128,7 @@ function App() {
                 <Route path="loan-contract/add" element={<GuardRoute><AddLoanContract /></GuardRoute>} />
                 <Route path="loan-contract/:id/edit" element={<GuardRoute><EditLoanContract /></GuardRoute>} />
                 <Route path="loan-contract/:id/detail" element={<GuardRoute><LoanContractDetail /></GuardRoute>} />
+                <Route path="loan-report" element={<GuardRoute><LoanContractReport /></GuardRoute>} />
 
                 <Route path="loan-refund" element={<GuardRoute><LoanRefundList /></GuardRoute>} />
                 <Route path="loan-refund/add" element={<GuardRoute><AddLoanRefund /></GuardRoute>} />
