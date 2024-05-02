@@ -121,7 +121,7 @@ const EmployeeForm = ({ employee }) => {
                 level_id: (employee && employee.level_id) ? employee.level_id : '',
                 assigned_at: (employee && employee.assigned_at) ? employee.assigned_at : '',
                 started_at: (employee && employee.started_at) ? employee.started_at : '',
-                remark: (employee && employee.remark) ? employee.remark : '',
+                remark: (employee && employee.remark) ? employee.remark : ''
             }}
             validationSchema={employeeSchema}
             onSubmit={handleSubmit}
@@ -201,14 +201,14 @@ const EmployeeForm = ({ employee }) => {
                             <Col>
                                 <FormGroup>
                                     <label>เพศ</label>                                    
-                                    <Field component="div" name="sex" className="form-control text-sm">
+                                    <Field component="div" name="sex" className="form-control text-sm flex items-center">
                                         <input
                                             type="radio"
                                             name="sex"
                                             value="1"
                                             defaultChecked={formik.values.sex === 1}
                                         />
-                                        <label htmlFor="male" className="ml-1 mr-4">ชาย</label>
+                                        <label htmlFor="male" className="ml-1 mr-5">ชาย</label>
 
                                         <input
                                             type="radio"
