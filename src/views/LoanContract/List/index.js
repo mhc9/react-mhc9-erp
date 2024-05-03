@@ -90,7 +90,8 @@ const LoanContractList = () => {
                                         <div className="text-lg text-center mt-1">
                                             {contract.status === 1 && <span className="badge rounded-pill text-bg-secondary">รออนุมัติ</span>}
                                             {contract.status === 2 && <span className="badge rounded-pill text-bg-success">อนุมัติแล้ว</span>}
-                                            {contract.status === 3 && <span className="badge rounded-pill text-bg-dark">เคลียร์แล้ว</span>}
+                                            {contract.status === 3 && <span className="badge rounded-pill text-bg-warning">รอเคลียร์</span>}
+                                            {contract.status === 4 && <span className="badge rounded-pill text-bg-dark">เคลียร์แล้ว</span>}
                                             {contract.status === 9 && <span className="badge rounded-pill text-bg-danger">ยกเลิก</span>}
                                         </div>
                                     </td>
