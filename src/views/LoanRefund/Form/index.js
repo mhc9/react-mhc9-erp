@@ -56,7 +56,9 @@ const LoanRefundForm = ({ refund }) => {
         const newItems = [...formik.values.items, contractDetail];
 
         formik.setFieldValue('items', newItems);
-        formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems)));
+        formik.setFieldValue('net_total', calculateNetTotal(newItems));
+        formik.setFieldValue('balance', contract?.net_total - calculateNetTotal(newItems));
+        setRefundType(formik, contract?.net_total - calculateNetTotal(newItems));
 
         setTimeout(() => formik.setFieldTouched('items', true));
     };
@@ -82,6 +84,8 @@ const LoanRefundForm = ({ refund }) => {
 
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems)));
+        formik.setFieldValue('balance', contract?.net_total - calculateNetTotal(newItems));
+        setRefundType(formik, contract?.net_total - calculateNetTotal(newItems));
     };
 
     const handleSubmit = (values, formik) => {
@@ -98,6 +102,11 @@ const LoanRefundForm = ({ refund }) => {
         setSelectedDocDate(moment());
     };
 
+    const setRefundType = (formik, balance) => {
+        console.log(balance);
+        formik.setFieldValue('refund_type_id', balance >= 0 ? '1' : '2');
+    }
+
     return (
         <Formik
             initialValues={{
@@ -106,6 +115,7 @@ const LoanRefundForm = ({ refund }) => {
                 contract_id: refund ? refund.contract_id : '',
                 refund_type_id: refund ? refund.refund_type_id : '1',
                 net_total: refund ? refund.net_total : '',
+                balance: refund ? refund.balance : '',
                 items: refund ? refund.details : [],
             }}
             validationSchema={refundSchema}
@@ -162,7 +172,7 @@ const LoanRefundForm = ({ refund }) => {
                                         <Col className="flex flex-row items-center">
                                             <label>กำหนดคืนเงินภายใน :</label>
                                             <div className="font-thin ml-1">
-                                                {currency.format(contract?.refund_days)} วัน
+                                                {contract ? currency.format(contract?.refund_days) : '-'} วัน
                                             </div>
                                         </Col>
                                         <Col className="flex flex-row items-center">
@@ -187,7 +197,9 @@ const LoanRefundForm = ({ refund }) => {
                                         </Col>
                                         <Col md={3} className="flex flex-row items-center">
                                             <label htmlFor="">ปีงบประมาณ :</label>
-                                            <div className="font-thin ml-1">{contract?.loan?.year+543}</div>
+                                            <div className="font-thin ml-1">
+                                                {contract && contract?.loan?.year+543}
+                                            </div>
                                         </Col>
                                     </Row>
                                     <Row className="mb-2">
@@ -291,13 +303,19 @@ const LoanRefundForm = ({ refund }) => {
                                     </Col>
                                     <Col md={6} className="max-[768px]:mt-2">
                                         <div className="flex flex-col">
-                                            <label htmlFor="">ยอดเงิน{formik.values.refund_type_id === '1' ? 'คืน' : 'เบิกเพิ่ม'}</label>
-                                            <input
-                                                type="text"
-                                                value={formik.values.net_total}
-                                                onChange={formik.handleChange}
-                                                className="form-control text-sm"
-                                            />
+                                            <label htmlFor="">ยอดเงิน{parseFloat(formik.values.balance) >= 0 ? 'คืน' : 'เบิกเพิ่ม'}</label>
+                                            <div className="form-control text-sm font-bold bg-gray-200 min-h-[34px]">
+                                                {parseFloat(formik.values.balance) < 0 && (
+                                                    <span className="text-red-600">
+                                                        {currency.format(formik.values.balance)}
+                                                    </span>
+                                                )}
+                                                {parseFloat(formik.values.balance) >= 0 && (
+                                                    <span className="text-green-600">
+                                                        {currency.format(formik.values.balance)}
+                                                    </span>
+                                                )}
+                                            </div>
                                         </div>
                                         {(formik.errors.net_total && formik.touched.net_total) && (
                                             <span className="text-red-500 text-xs">{formik.errors.net_total}</span>
@@ -309,7 +327,7 @@ const LoanRefundForm = ({ refund }) => {
                         <Row className="mb-2">
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
-                                    <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่ายที่{formik.values.refund_type_id === '1' ? 'คืน' : 'เบิกเพิ่ม'}</h1>
+                                    <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่ายจริง</h1>
 
                                     <AddExpense
                                         formData={contract?.details}
@@ -326,12 +344,36 @@ const LoanRefundForm = ({ refund }) => {
                                     />
 
                                     <div className="flex flex-row justify-end items-center gap-2">
-                                        ยอด{formik.values.refund_type_id === '1' ? 'คืน' : 'เบิกเพิ่ม'}ทั้งสิ้น
-                                        <div className="w-[15%]">
-                                            <div className="form-control font-bold text-lg text-right text-red-600 float-right min-h-[34px]">
-                                                {formik.values.net_total}
+                                        ยอดใช้จริงทั้งสิ้น
+                                        <div className="w-[10%]">
+                                            <div className="form-control font-bold text-lg text-right float-right min-h-[34px]">
+                                                {contract?.net_total < parseFloat(formik.values.net_total) && (
+                                                    <span className="text-red-600">
+                                                        {currency.format(formik.values.net_total)}
+                                                    </span>
+                                                )}
+                                                {contract?.net_total >= parseFloat(formik.values.net_total) && (
+                                                    <span className="text-green-600">
+                                                        {currency.format(formik.values.net_total)}
+                                                    </span>
+                                                )}
                                             </div>
                                         </div>
+                                        <div className="w-[9.5%]">
+                                            <div className="form-control font-bold text-lg text-right float-right min-h-[34px]">
+                                                {parseFloat(formik.values.balance) < 0 && (
+                                                    <span className="text-red-600">
+                                                        {currency.format(formik.values.balance)}
+                                                    </span>
+                                                )}
+                                                {parseFloat(formik.values.balance) >= 0 && (
+                                                    <span className="text-green-600">
+                                                        {currency.format(formik.values.balance)}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="w-[9.5%]"></div>
                                     </div>
                                 </div>
                                 {(formik.errors.items && formik.touched.items) && (

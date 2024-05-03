@@ -9,7 +9,8 @@ const ExpenseList = ({ items, showButtons=true, edittingItem,  onEditItem, onRem
                 <tr>
                     <th className="w-[5%] text-center">#</th>
                     <th>รายการ</th>
-                    <th className="w-[15%] text-center">ยอดคืน/เบิกเพิ่ม</th>
+                    <th className="w-[10%] text-center">ยอดใช้จริง</th>
+                    <th className="w-[10%] text-center">คงเหลือ</th>
                     {showButtons && <th className="w-[10%] text-center">Actions</th>}
                 </tr>
             </thead>
@@ -36,10 +37,18 @@ const ExpenseList = ({ items, showButtons=true, edittingItem,  onEditItem, onRem
                                     )
                                 }
                             
-                                <span className="ml-1">จำนวน {currency.format(data.contract_detail?.total)} บาท</span>
+                                <span className="ml-1">งบประมาณ {currency.format(data.contract_detail?.total)} บาท</span>
                             </p>
                         </td>
                         <td className="text-right">{currency.format(data.total)}</td>
+                        <td className="text-right">
+                            {data.contract_detail?.total - data.total < 0 && <span className="text-red-600 font-bold">
+                                {currency.format(data.contract_detail?.total - data.total)}
+                            </span>}
+                            {data.contract_detail?.total - data.total >= 0 && <span className="text-green-600 font-bold">
+                                {currency.format(data.contract_detail?.total - data.total)}
+                            </span>}
+                        </td>
                         {showButtons && (
                             <td className="text-center">
                                 {(!edittingItem || edittingItem?.expense_id !== data.expense_id) && (

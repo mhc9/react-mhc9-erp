@@ -60,7 +60,7 @@ const AddExpense = ({ data, formData, refundType, onAddItem, onUpdateItem, onCle
             {(formik) => (
                 <>
                     <div className="flex flex-row gap-2 mb-2">
-                        <FormGroup className="w-[75%]">
+                        <FormGroup className="w-[70%]">
                             <select
                                 name="contract_detail_id"
                                 value={formik.values.contract_detail_id}
@@ -75,7 +75,7 @@ const AddExpense = ({ data, formData, refundType, onAddItem, onUpdateItem, onCle
                                             ? <>{replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}</>
                                             : <>{data.description && <>({data.description})</>}</>
                                         }
-                                        &nbsp;จำนวน <>{currency.format(data.total)} บาท</>
+                                        &nbsp;งบประมาณ <>{currency.format(data.total)} บาท</>
                                     </option>
                                 ))}
                             </select>
@@ -83,14 +83,14 @@ const AddExpense = ({ data, formData, refundType, onAddItem, onUpdateItem, onCle
                                 <span className="text-red-500 text-sm">{formik.errors.contract_detail_id}</span>
                             )}
                         </FormGroup>
-                        <FormGroup className="w-[15%]">
+                        <FormGroup className="w-[20%]">
                             <input
                                 type="text"
                                 name="total"
                                 value={formik.values.total}
                                 onChange={formik.handleChange}
                                 className="form-control text-sm text-right"
-                                placeholder={refundType === '1' ? 'ยอดคืน' : 'ยอดเบิกเพิ่ม'}
+                                placeholder="ยอดใช้จริง"
                             />
                             {(formik.errors.total && formik.touched.total) && (
                                 <span className="text-red-500 text-sm">{formik.errors.total}</span>
