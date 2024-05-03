@@ -5,7 +5,6 @@ import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getRefunds, destroy } from '../../../features/slices/loan-refund/loanRefundSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
-import LoanListDetail from './ListDetail'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
 import EmployeeCard from '../../../components/Employee/Card'
@@ -88,9 +87,10 @@ const LoanRefundList = () => {
                                         <p>เลขที่ <span className="badge rounded-pill text-bg-primary">{refund.doc_no}</span></p>
                                         <p>วันที่ <span className="badge rounded-pill text-bg-primary">{toShortTHDate(refund.doc_date)}</span></p>
                                         <div className="text-lg text-center mt-1">
-                                            {refund.contract?.status === 0 && <span className="badge rounded-pill text-bg-secondary">รออนุมัติ</span>}
-                                            {refund.contract?.status === 1 && <span className="badge rounded-pill text-bg-success">อนุมัติแล้ว</span>}
-                                            {refund.contract?.status === 2 && <span className="badge rounded-pill text-bg-info">เคลียร์แล้ว</span>}
+                                            {refund.contract?.status === 1 && <span className="badge rounded-pill text-bg-secondary">รออนุมัติ</span>}
+                                            {refund.contract?.status === 2 && <span className="badge rounded-pill text-bg-success">อนุมัติแล้ว</span>}
+                                            {refund.contract?.status === 3 && <span className="badge rounded-pill text-bg-info">รอเคลียร์</span>}
+                                            {refund.contract?.status === 4 && <span className="badge rounded-pill text-bg-info">เคลียร์แล้ว</span>}
                                             {refund.contract?.status === 9 && <span className="badge rounded-pill text-bg-danger">ยกเลิก</span>}
                                         </div>
                                     </td>
@@ -101,10 +101,17 @@ const LoanRefundList = () => {
                                         </p>
                                         <div>
                                             {refund.contract?.loan?.project_name}
-                                            <span className="ml-1">เป็นเงินทั้งสิ้น {currency.format(refund.contract?.net_total)} บาท</span>
-                                            <span className="ml-1">โดยมีรายการ{refund.refund_type_id === 1 ? 'คืนเงิน' : 'เบิกเงินเพิ่ม'} ดังนี้</span>
+                                            <span className="ml-1">
+                                                เป็นเงินทั้งสิ้น 
+                                                <span className="ml-1 text-blue-600">{currency.format(refund.contract?.net_total)}</span> บาท
+                                            </span>
+                                            <span className="ml-1">
+                                                และ{refund.refund_type_id === 1 ? 'คืนเงิน' : 'เบิกเงินเพิ่ม'} จำนวน
+                                                <span className={`ml-1 ${refund.refund_type_id === 1 ? 'text-green-600' : 'text-red-600'}`}>
+                                                    {currency.format(refund.balance)}
+                                                </span> บาท
+                                            </span>
                                         </div>
-                                        <LoanListDetail items={refund.details} />
                                     </td>
                                     <td className="text-sm">
                                         <EmployeeCard employee={refund.contract?.loan?.employee} />
