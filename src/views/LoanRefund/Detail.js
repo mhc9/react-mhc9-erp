@@ -158,7 +158,13 @@ const LoanRefundDetail = () => {
                             </Col>
                             <Col>
                                 <div className="border rounded-md pt-2 pb-2 px-4 bg-[#ADD8E6] text-sm">
-                                    <h1 className="font-bold text-lg mb-2">เอกสารหักล้างเงินยืม</h1>
+                                    <div className="flex flex-row items-center gap-2">
+                                        <h1 className="font-bold text-lg">เอกสารหักล้างเงินยืม</h1>
+                                        <div>
+                                            {refund?.status === 'N' && <span className="badge rounded-pill bg-danger">ยังไม่เคลียร์</span>}
+                                            {refund?.status === 'Y' && <span className="badge rounded-pill bg-success">เคลียร์แล้ว</span>}
+                                        </div>
+                                    </div>
                                     <Row className="mb-2">
                                         <Col md={10} className="mt-2">
                                             <label htmlFor="">เลขที่เอกสาร</label>
