@@ -27,13 +27,13 @@ const BudgetList = ({ budgets, showButtons=true, onRemoveBudget, onEditBudget })
                                 <td className="text-center">
                                     <div className="btn-group" role="group" aria-label="Basic example">
                                         {/* {(!edittingItem || edittingItem?.expense_id !== data.expense_id) && ( */}
-                                            <button
+                                            {/* <button
                                                 type="button"
                                                 className="btn btn-sm btn-outline-warning"
                                                 onClick={() => onEditBudget(data)}
                                             >
                                                 <FaPencilAlt />
-                                            </button>
+                                            </button> */}
                                         {/* )} */}
                                         <button
                                             type="button"
