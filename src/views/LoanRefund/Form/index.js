@@ -250,7 +250,7 @@ const LoanRefundForm = ({ refund }) => {
                                 </div>
                             </Col>
                             <Col>
-                                <h1 className="font-bold text-lg mb-2">เอกสารคืน/เบิกเพิ่ม</h1>
+                                <h1 className="font-bold text-lg mb-2">เอกสารหักล้างเงินยืม</h1>
                                 <Row className="mb-2">
                                     <Col md={6} className="max-[768px]:mt-2">
                                         <label htmlFor="">เลขที่เอกสาร</label>

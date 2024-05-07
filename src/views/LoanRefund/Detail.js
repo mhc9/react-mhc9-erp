@@ -39,22 +39,23 @@ const LoanRefundDetail = () => {
                         <ModalApprovalForm
                             isShow={showApprovalForm}
                             onHide={() => setShowApprovalForm(false)}
+                            contract={refund?.contract}
                         />
 
                         <Row className="mb-2">
                             <Col md={8}>
-                                <div className="border rounded-md py-2 px-4 bg-[#EAD9D5] text-sm min-h-[260px]">
+                                <div className="border rounded-md py-2 px-4 bg-[#EAD9D5] text-sm min-h-[315px]">
                                     <h1 className="font-bold text-lg mb-2">สัญญายืมเงิน</h1>
                                     <Row className="mb-2">
                                         <Col md={4} className="flex flex-row items-center">
                                             <label htmlFor="">สัญญายืมเงินเลขที่ :</label>
-                                            <div className="font-thin ml-1">
+                                            <div className="ml-1 text-blue-600 font-bold">
                                                     {refund?.contract && <span>{refund?.contract?.contract_no}</span>}
                                             </div>
                                         </Col>
                                         <Col md={4} className="flex flex-row items-center">
                                             <label htmlFor="">ส่งวันที่ :</label>
-                                            <div className="font-thin ml-1">
+                                            <div className="ml-1 font-thin">
                                                 {toLongTHDate(moment(refund?.contract?.sent_date).toDate())}
                                             </div>
                                         </Col>
@@ -68,8 +69,8 @@ const LoanRefundDetail = () => {
                                     <Row className="mb-2">
                                         <Col md={4} className="flex flex-row items-center">
                                             <label>กำหนดคืนเงินภายใน :</label>
-                                            <div className="font-thin ml-1">
-                                                {currency.format(refund?.contract?.refund_days)} วัน
+                                            <div className="ml-1 font-thin">
+                                                {refund?.contract ? currency.format(refund?.contract?.refund_days) : '-'} วัน
                                             </div>
                                         </Col>
                                         <Col className="flex flex-row items-center">
@@ -82,37 +83,39 @@ const LoanRefundDetail = () => {
                                     <Row className="mb-2">
                                         <Col md={4} className="flex flex-row items-center">
                                             <label>ประเภทการยืม :</label>
-                                            <div className="font-thin ml-1">
+                                            <div className="ml-1 font-thin">
                                                 {getFormDataItem(formData, 'loanTypes', refund?.contract?.loan?.loan_type_id)?.name}
                                             </div>
                                         </Col>
                                         <Col md={5} className="flex flex-row items-center">
                                             <label htmlFor="">ประเภทเงินยืม :</label>
-                                            <div className="font-thin ml-1">
+                                            <div className="ml-1 font-thin">
                                                 {getFormDataItem(formData, 'moneyTypes', refund?.contract?.loan?.money_type_id)?.name}
                                             </div>
                                         </Col>
                                         <Col md={3} className="flex flex-row items-center">
                                             <label htmlFor="">ปีงบประมาณ :</label>
-                                            <div className="font-thin ml-1">{refund?.contract?.loan?.year}</div>
+                                            <div className="ml-1 font-thin">
+                                                {refund?.contract && refund?.contract?.loan?.year+543}
+                                            </div>
                                         </Col>
                                     </Row>
                                     <Row className="mb-2">
                                         <Col md={4} className="flex flex-row items-center">
                                             <label htmlFor="">หน่วยงาน :</label>
-                                            <div className="font-thin ml-1">{refund?.contract?.loan?.department?.name}</div>
+                                            <div className="ml-1 font-thin">{refund?.contract?.loan?.department?.name}</div>
                                         </Col>
                                         <Col md={8} className="flex flex-row items-center">
                                             <label htmlFor="">ผู้ขอ/เจ้าของโครงการ :</label>
-                                            <div className="font-thin ml-1">
+                                            <div className="ml-1 font-thin">
                                                 {refund?.contract?.loan?.employee?.prefix?.name}{refund?.contract?.loan?.employee?.firstname} {refund?.contract?.loan?.employee?.lastname}
                                             </div>
                                         </Col>
                                     </Row>
-                                    <Row>
+                                    <Row className="mb-2">
                                         <Col md={12} className="flex flex-row items-start">
                                             <label htmlFor="" className="w-[12%]">โครงการ :</label>
-                                            <div className="font-thin ml-1 w-[88%]">
+                                            <div className="ml-1 font-thin w-[88%]">
                                                 {refund?.contract?.loan?.project_name}
                                                 <span className="ml-1"><b>ระหว่างวันที่</b> {toShortTHDate(refund?.contract?.loan?.project_sdate)} - {toShortTHDate(refund?.contract?.loan?.project_edate)}</span>
                                             </div>
@@ -121,7 +124,7 @@ const LoanRefundDetail = () => {
                                     <Row className="mb-2">
                                         <Col md={12} className="flex flex-row items-start">
                                             <label htmlFor="" className="w-[12%]">งบประมาณ :</label>
-                                            <div className="font-thin ml-1 w-[88%]">
+                                            <div className="ml-1 font-thin w-[88%]">
                                                 {refund?.contract?.loan?.budgets && refund?.contract?.loan?.budgets.map((item, index) => (
                                                     <ul key={item.id}>
                                                         <li>
@@ -145,8 +148,8 @@ const LoanRefundDetail = () => {
                                 </div>
                             </Col>
                             <Col>
-                                <div className="border rounded-md pt-2 pb-3 px-4 bg-[#ADD8E6] text-sm">
-                                    <h1 className="font-bold text-lg mb-2">เอกสารคืน/เบิกเพิ่ม</h1>
+                                <div className="border rounded-md pt-2 pb-2 px-4 bg-[#ADD8E6] text-sm">
+                                    <h1 className="font-bold text-lg mb-2">เอกสารหักล้างเงินยืม</h1>
                                     <Row className="mb-2">
                                         <Col md={10} className="mt-2">
                                             <label htmlFor="">เลขที่เอกสาร</label>
@@ -158,7 +161,7 @@ const LoanRefundDetail = () => {
                                             <div className="flex flex-col">
                                                 <label htmlFor="">วันที่เอกสาร</label>
                                                 <div className="form-control text-sm">
-                                                    {toLongTHDate(moment(refund?.contract?.doc_date).toDate())}
+                                                    {toLongTHDate(moment(refund?.doc_date).toDate())}
                                                 </div>
                                             </div>
                                         </Col>
@@ -168,6 +171,21 @@ const LoanRefundDetail = () => {
                                                 {refund?.refund_type_id === 1 ? 'คืนเงิน' : 'เบิกเพิ่ม'}
                                             </div>
                                         </Col>
+                                        <Col md={10} className="mt-2">
+                                            <label htmlFor="">ยอดเงิน{refund?.balance >= 0 ? 'คืน' : 'เบิกเพิ่ม'}</label>
+                                            <div className="form-control">
+                                                {refund?.balance < 0 && (
+                                                    <span className="text-red-600 font-bold">
+                                                        {currency.format(refund?.balance)}
+                                                    </span>
+                                                )}
+                                                {refund?.balance >= 0 && (
+                                                    <span className="text-green-600 font-bold">
+                                                        {currency.format(refund?.balance)}
+                                                    </span>
+                                                )} บาท
+                                            </div>
+                                        </Col>
                                     </Row>
                                 </div>
                             </Col>
@@ -175,7 +193,7 @@ const LoanRefundDetail = () => {
                         <Row className="mb-2">
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
-                                    <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่ายที่{refund?.refund_type_id === 1 ? 'คืน' : 'เบิกเพิ่ม'}</h1>
+                                    <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่ายจริง</h1>
 
                                     <ExpenseList
                                         items={refund?.details}
@@ -183,10 +201,33 @@ const LoanRefundDetail = () => {
                                     />
 
                                     <div className="flex flex-row justify-end items-center gap-2">
-                                        ยอด{refund?.refund_type_id === 1 ? 'คืน' : 'เบิกเพิ่ม'}ทั้งสิ้น
-                                        <div className="w-[15%]">
-                                            <div className="form-control font-bold text-lg text-right text-red-600 float-right min-h-[34px]">
-                                                {currency.format(refund?.net_total)}
+                                        ยอดใช้จริงทั้งสิ้น
+                                        <div className="w-[10%]">
+                                            <div className="form-control font-bold text-lg text-right float-right min-h-[34px]">
+                                                {refund?.net_total >= refund?.contract?.net_total && (
+                                                    <span className="text-red-600 font-bold">
+                                                        {currency.format(refund?.net_total)}
+                                                    </span>
+                                                )}
+                                                {refund?.net_total < refund?.contract?.net_total && (
+                                                    <span className="text-green-600 font-bold">
+                                                        {currency.format(refund?.net_total)}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="w-[10%]">
+                                            <div className="form-control font-bold text-lg text-right float-right min-h-[34px]">
+                                                {refund?.balance < 0 && (
+                                                    <span className="text-red-600 font-bold">
+                                                        {currency.format(refund?.balance)}
+                                                    </span>
+                                                )}
+                                                {refund?.balance >= 0 && (
+                                                    <span className="text-green-600 font-bold">
+                                                        {currency.format(refund?.balance)}
+                                                    </span>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -196,9 +237,11 @@ const LoanRefundDetail = () => {
                         <Row className="mb-2 mt-4">
                             <Col className="flex justify-center">
                                 <a href="#" className="btn btn-success mr-2">พิมพ์บันทึกหักล้างเงินยืม</a>
-                                <a href="#" className="btn btn-primary" onClick={() => setShowApprovalForm(true)}>
-                                    เคลียร์เงินยืม
-                                </a>
+                                {refund?.status === 'N' && (
+                                    <a href="#" className="btn btn-primary" onClick={() => setShowApprovalForm(true)}>
+                                        เคลียร์เงินยืม
+                                    </a>
+                                )}
                             </Col>
                         </Row>
                     </>
