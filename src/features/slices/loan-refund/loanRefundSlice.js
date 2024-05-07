@@ -65,11 +65,9 @@ export const destroy = createAsyncThunk("loan-refund/destroy", async (id, { disp
     }
 });
 
-export const upload = createAsyncThunk("loan-refund/upload", async ({ id, data }, { dispatch, rejectWithValue }) => {
+export const approve = createAsyncThunk("loan-refund/approve", async ({ id, data }, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.post(`/api/loan-refunds/${id}/upload`, data);
-
-        dispatch(updateImage(res.data?.img_url));
+        const res = await api.post(`/api/loan-refunds/${id}/approve`, data);
 
         return res.data;
     } catch (error) {
@@ -165,21 +163,23 @@ export const loanRefundSlice = createSlice({
             state.isLoading = false;
             state.error = payload;
         },
-        [upload.pending]: (state) => {
-            state.isUploaded = false;
+        [approve.pending]: (state) => {
+            state.refund = null;
+            state.isSuccess = false;
             state.error = null;
         },
-        [upload.fulfilled]: (state, { payload }) => {
-            const { status, message } = payload;
+        [approve.fulfilled]: (state, { payload }) => {
+            const { status, message, refund } = payload;
 
             if (status === 1) {
-                state.isUploaded = true;
+                state.isSuccess = true;
+                state.refund = refund;
             } else {
-                state.isUploaded = false;
+                state.isSuccess = false;
                 state.error = { message };
             }
         },
-        [upload.rejected]: (state, { payload }) => {
+        [approve.rejected]: (state, { payload }) => {
             state.error = payload;
         },
     }

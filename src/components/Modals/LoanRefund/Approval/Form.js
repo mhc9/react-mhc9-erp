@@ -4,7 +4,7 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { DatePicker } from '@material-ui/pickers'
 import { Col, Modal, Row } from 'react-bootstrap'
-import { approve } from '../../../../features/slices/loan-contract/loanContractSlice'
+import { approve } from '../../../../features/slices/loan-refund/loanRefundSlice'
 import moment from 'moment'
 
 const approvalSchema = Yup.object().shape({
