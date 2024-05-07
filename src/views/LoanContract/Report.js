@@ -36,10 +36,10 @@ const LoanContractReport = () => {
         setApiEndpoint(`/api/loan-contracts/search?page=`);
     };
 
-    const renderRefundTotal = (type, total) => {
+    const renderRefundTotal = (type, balance) => {
         return (
             <div className={`${type === 1 ? 'text-green-600' : 'text-red-600'} font-bold`}>
-                {type === 1 ? '+' : '-'}{currency.format(total)} 
+                {type === 1 ? '+' : '-'}{currency.format(balance)} 
             </div>
         )
     }
@@ -111,7 +111,7 @@ const LoanContractReport = () => {
                                         {currency.format(contract.net_total)}
                                     </td>
                                     <td className="text-sm text-center">
-                                        {contract.refund && renderRefundTotal(contract.refund?.refund_type_id, contract.refund?.net_total)}
+                                        {contract.refund && renderRefundTotal(contract.refund?.refund_type_id, contract.refund?.balance)}
                                     </td>
                                     <td className="text-sm text-center">
                                         {toShortTHDate(contract.deposited_date)}
@@ -120,9 +120,9 @@ const LoanContractReport = () => {
                                         {toShortTHDate(contract.refund_date)}
                                     </td>
                                     <td className="text-sm text-center font-bold">
-                                        {(contract.refund_date && contract.refund) && isOverRefund(contract.refund_date, contract.refund?.doc_date)
-                                            ? <span className="text-red-600">{toShortTHDate(contract.refund?.doc_date)}</span>
-                                            : <span className="text-green-600">{toShortTHDate(contract.refund?.doc_date)}</span>
+                                        {(contract.refund_date && contract.refund) && isOverRefund(contract.refund_date, contract.refund?.approved_date)
+                                            ? <span className="text-red-600">{toShortTHDate(contract.refund?.approved_date)}</span>
+                                            : <span className="text-green-600">{toShortTHDate(contract.refund?.approved_date)}</span>
                                         }
                                     </td>
                                 </tr>
