@@ -4,22 +4,31 @@ import { useParams } from 'react-router-dom';
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import moment from 'moment';
 import { currency, toShortTHDate, toLongTHDate, getFormDataItem } from '../../utils'
-import { getRefund } from '../../features/slices/loan-refund/loanRefundSlice';
+import { getRefund, resetSuccess } from '../../features/slices/loan-refund/loanRefundSlice';
 import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi'
 import ExpenseList from './Form/ExpenseList'
 import Loading from '../../components/Loading'
 import ModalApprovalForm from '../../components/Modals/LoanRefund/Approval/Form'
+import { toast } from 'react-toastify';
 
 const LoanRefundDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { refund, isLoading } = useSelector(state => state.loanRefund);
+    const { refund, isLoading, isSuccess } = useSelector(state => state.loanRefund);
     const { data: formData } = useGetInitialFormDataQuery();
     const [showApprovalForm, setShowApprovalForm] = useState(false);
 
     useEffect(() => {
         if (id) dispatch(getRefund(id));
     }, [id]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(resetSuccess());
+
+            toast.success("บันทึกเคลียร์เงินเรียบร้อยแล้ว!!");
+        }
+    }, [isSuccess]);
 
     return (
         <div className="content-wrapper">
