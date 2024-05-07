@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
@@ -8,12 +8,14 @@ import { getRefund } from '../../features/slices/loan-refund/loanRefundSlice';
 import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi'
 import ExpenseList from './Form/ExpenseList'
 import Loading from '../../components/Loading'
+import ModalApprovalForm from '../../components/Modals/LoanRefund/Approval/Form'
 
 const LoanRefundDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { refund, isLoading } = useSelector(state => state.loanRefund);
     const { data: formData } = useGetInitialFormDataQuery();
+    const [showApprovalForm, setShowApprovalForm] = useState(false);
 
     useEffect(() => {
         if (id) dispatch(getRefund(id));
@@ -34,6 +36,11 @@ const LoanRefundDetail = () => {
                 {isLoading && <div className="text-center"><Loading /></div>}
                 {!isLoading && (
                     <>
+                        <ModalApprovalForm
+                            isShow={showApprovalForm}
+                            onHide={() => setShowApprovalForm(false)}
+                        />
+
                         <Row className="mb-2">
                             <Col md={8}>
                                 <div className="border rounded-md py-2 px-4 bg-[#EAD9D5] text-sm min-h-[260px]">
@@ -189,7 +196,9 @@ const LoanRefundDetail = () => {
                         <Row className="mb-2 mt-4">
                             <Col className="flex justify-center">
                                 <a href="#" className="btn btn-success mr-2">พิมพ์บันทึกหักล้างเงินยืม</a>
-                                <a href="#" className="btn btn-primary">เคลียร์เงินยืม</a>
+                                <a href="#" className="btn btn-primary" onClick={() => setShowApprovalForm(true)}>
+                                    เคลียร์เงินยืม
+                                </a>
                             </Col>
                         </Row>
                     </>
