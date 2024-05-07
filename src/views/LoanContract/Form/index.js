@@ -148,7 +148,8 @@ const LoanContractForm = ({ contract }) => {
 
                         <Row className="mb-2">
                             <Col md={8}>
-                                <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[260px]">
+                                <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[305px]">
+                                    <h1 className="font-bold text-lg mb-2">คำขอยืมเงิน</h1>
                                     <Row className="mb-2">
                                         <Col md={8} className="flex flex-row items-start justify-center">
                                             <label htmlFor="" className="w-[18%] mt-[8px]">คำขอยืมเงิน :</label>
@@ -204,7 +205,7 @@ const LoanContractForm = ({ contract }) => {
                                             </div>
                                         </Col>
                                     </Row>
-                                    <Row>
+                                    <Row className="mb-2">
                                         <Col md={12} className="flex flex-row items-start">
                                             <label htmlFor="" className="w-[12%]">โครงการ :</label>
                                             <div className="font-thin ml-1 w-[88%]">
@@ -233,124 +234,125 @@ const LoanContractForm = ({ contract }) => {
                                                         </li>
                                                     </ul>
                                                 ))}
-                                                <p className="ml-1">
-                                                    <b>รวมงบประมาณทั้งสิ้น</b> {currency.format(loan?.budget_total)} บาท
-                                                </p>
+                                                <p><b>รวมงบประมาณทั้งสิ้น</b> {currency.format(loan?.budget_total)} บาท</p>
                                             </div>
                                         </Col>
                                     </Row>
                                 </div>
                             </Col>
                             <Col>
-                                <Row className="mb-2">
-                                    <Col md={6} className="max-[768px]:mt-2">
-                                        <label htmlFor="">เลขที่สัญญา</label>
-                                        <input
-                                            type="text"
-                                            name="contract_no"
-                                            value={formik.values.contract_no}
-                                            onChange={formik.handleChange}
-                                            className="form-control text-sm"
-                                        />
-                                        {(formik.errors.contract_no && formik.touched.contract_no) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.contract_no}</span>
-                                        )}
-                                    </Col>
-                                    <Col md={6} className="max-[768px]:mt-2">
-                                        <label htmlFor="">กำหนดคืนภายใน (วัน)</label>
-                                        <input
-                                            type="text"
-                                            name="refund_days"
-                                            value={formik.values.refund_days}
-                                            onChange={formik.handleChange}
-                                            className="form-control text-center text-sm"
-                                        />
-                                        {(formik.errors.refund_days && formik.touched.refund_days) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.refund_days}</span>
-                                        )}
-                                    </Col>
-                                    {/* <Col md={6} className="max-[768px]:mt-2">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="">วันที่สัญญา</label>
-                                            <DatePicker
-                                                format="DD/MM/YYYY"
-                                                value={selectedContractDate}
-                                                onChange={(date) => {
-                                                    setSelectedContractDate(date);
-                                                    formik.setFieldValue('contract_date', date.format('YYYY-MM-DD'));
-                                                }}
-                                                variant="outlined"
+                                <div className="border rounded-md py-2 px-3 bg-[#FED7AA] text-sm min-h-[260px]">
+                                    <h1 className="font-bold text-lg mr-2 mb-2">สัญญายืมเงิน</h1>
+                                    <Row className="mb-2">
+                                        <Col md={6} className="max-[768px]:mt-2">
+                                            <label htmlFor="">เลขที่สัญญา</label>
+                                            <input
+                                                type="text"
+                                                name="contract_no"
+                                                value={formik.values.contract_no}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-sm"
                                             />
-                                        </div>
-                                        {(formik.errors.contract_date && formik.touched.contract_date) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.contract_date}</span>
-                                        )}
-                                    </Col> */}
-                                    <Col md={12} className="mt-2">
-                                        <label htmlFor="">เลขที่ฎีกา/อ้างอิง</label>
-                                        <input
-                                            type="text"
-                                            name="bill_no"
-                                            value={formik.values.bill_no}
-                                            onChange={formik.handleChange}
-                                            className="form-control text-sm"
-                                        />
-                                        {(formik.errors.bill_no && formik.touched.bill_no) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.bill_no}</span>
-                                        )}
-                                    </Col>
-                                    <Col md={12} className="mt-2">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="">วันที่ส่งสัญญา</label>
-                                            <DatePicker
-                                                format="DD/MM/YYYY"
-                                                value={selectedSentDate}
-                                                onChange={(date) => {
-                                                    setSelectedSentDate(date);
-                                                    formik.setFieldValue('sent_date', date.format('YYYY-MM-DD'));
-                                                }}
-                                                variant="outlined"
+                                            {(formik.errors.contract_no && formik.touched.contract_no) && (
+                                                <span className="text-red-500 text-xs">{formik.errors.contract_no}</span>
+                                            )}
+                                        </Col>
+                                        <Col md={6} className="max-[768px]:mt-2">
+                                            <label htmlFor="">กำหนดคืนภายใน (วัน)</label>
+                                            <input
+                                                type="text"
+                                                name="refund_days"
+                                                value={formik.values.refund_days}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-center text-sm"
                                             />
-                                        </div>
-                                        {(formik.errors.sent_date && formik.touched.sent_date) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.sent_date}</span>
-                                        )}
-                                    </Col>
-                                    <Col md={12} className="mt-3">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="">วันที่วาง บข.02</label>
-                                            <DatePicker
-                                                format="DD/MM/YYYY"
-                                                value={selectedBk02Date}
-                                                onChange={(date) => {
-                                                    setSelectedBk02Date(date);
-                                                    formik.setFieldValue('bk02_date', date.format('YYYY-MM-DD'));
-                                                }}
-                                                variant="outlined"
+                                            {(formik.errors.refund_days && formik.touched.refund_days) && (
+                                                <span className="text-red-500 text-xs">{formik.errors.refund_days}</span>
+                                            )}
+                                        </Col>
+                                        {/* <Col md={6} className="max-[768px]:mt-2">
+                                            <div className="flex flex-col">
+                                                <label htmlFor="">วันที่สัญญา</label>
+                                                <DatePicker
+                                                    format="DD/MM/YYYY"
+                                                    value={selectedContractDate}
+                                                    onChange={(date) => {
+                                                        setSelectedContractDate(date);
+                                                        formik.setFieldValue('contract_date', date.format('YYYY-MM-DD'));
+                                                    }}
+                                                    variant="outlined"
+                                                />
+                                            </div>
+                                            {(formik.errors.contract_date && formik.touched.contract_date) && (
+                                                <span className="text-red-500 text-xs">{formik.errors.contract_date}</span>
+                                            )}
+                                        </Col> */}
+                                        <Col md={12} className="mt-2">
+                                            <label htmlFor="">เลขที่ฎีกา/อ้างอิง</label>
+                                            <input
+                                                type="text"
+                                                name="bill_no"
+                                                value={formik.values.bill_no}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-sm"
                                             />
-                                        </div>
-                                        {(formik.errors.bk02_date && formik.touched.bk02_date) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.bk02_date}</span>
-                                        )}
-                                    </Col>
-                                    {/* <Col md={6} className="max-[768px]:mt-2">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="">วันที่เงินเข้า</label>
-                                            <DatePicker
-                                                format="DD/MM/YYYY"
-                                                value={selectedDepositDate}
-                                                onChange={(date) => {
-                                                    setSelectedDepositDate(date);
-                                                    formik.setFieldValue('deposit_date', date.format('YYYY-MM-DD'));
-                                                }}
-                                                variant="outlined"
-                                            />
-                                        </div>
-                                        {(formik.errors.deposit_date && formik.touched.deposit_date) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.deposit_date}</span>
-                                        )}
-                                    </Col> */}
-                                </Row>
+                                            {(formik.errors.bill_no && formik.touched.bill_no) && (
+                                                <span className="text-red-500 text-xs">{formik.errors.bill_no}</span>
+                                            )}
+                                        </Col>
+                                        <Col md={12} className="mt-2">
+                                            <div className="flex flex-col">
+                                                <label htmlFor="">วันที่ส่งสัญญา</label>
+                                                <DatePicker
+                                                    format="DD/MM/YYYY"
+                                                    value={selectedSentDate}
+                                                    onChange={(date) => {
+                                                        setSelectedSentDate(date);
+                                                        formik.setFieldValue('sent_date', date.format('YYYY-MM-DD'));
+                                                    }}
+                                                    variant="outlined"
+                                                />
+                                            </div>
+                                            {(formik.errors.sent_date && formik.touched.sent_date) && (
+                                                <span className="text-red-500 text-xs">{formik.errors.sent_date}</span>
+                                            )}
+                                        </Col>
+                                        <Col md={12} className="mt-3">
+                                            <div className="flex flex-col">
+                                                <label htmlFor="">วันที่วาง บข.02</label>
+                                                <DatePicker
+                                                    format="DD/MM/YYYY"
+                                                    value={selectedBk02Date}
+                                                    onChange={(date) => {
+                                                        setSelectedBk02Date(date);
+                                                        formik.setFieldValue('bk02_date', date.format('YYYY-MM-DD'));
+                                                    }}
+                                                    variant="outlined"
+                                                />
+                                            </div>
+                                            {(formik.errors.bk02_date && formik.touched.bk02_date) && (
+                                                <span className="text-red-500 text-xs">{formik.errors.bk02_date}</span>
+                                            )}
+                                        </Col>
+                                        {/* <Col md={6} className="max-[768px]:mt-2">
+                                            <div className="flex flex-col">
+                                                <label htmlFor="">วันที่เงินเข้า</label>
+                                                <DatePicker
+                                                    format="DD/MM/YYYY"
+                                                    value={selectedDepositDate}
+                                                    onChange={(date) => {
+                                                        setSelectedDepositDate(date);
+                                                        formik.setFieldValue('deposit_date', date.format('YYYY-MM-DD'));
+                                                    }}
+                                                    variant="outlined"
+                                                />
+                                            </div>
+                                            {(formik.errors.deposit_date && formik.touched.deposit_date) && (
+                                                <span className="text-red-500 text-xs">{formik.errors.deposit_date}</span>
+                                            )}
+                                        </Col> */}
+                                    </Row>
+                                </div>
                             </Col>
                         </Row>
                         <Row className="mb-2">
