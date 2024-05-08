@@ -15,8 +15,6 @@ import ModalLoanList from '../../../components/Modals/Loan/List'
 // import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 
 const contractSchema = Yup.object().shape({
-    contract_no: Yup.string().required('กรุณาระบุเลขที่สัญญา'),
-    // contract_date: Yup.string().required('กรุณาระบุวันที่สัญญา'),
     loan_id: Yup.string().required('กรุณาระบุเลือกรายการคำขอ'),
     net_total: Yup.string().required('กรุณาระบุเลขที่สัญญา'),
 });
@@ -96,13 +94,11 @@ const LoanContractForm = ({ contract }) => {
     return (
         <Formik
             initialValues={{
-                contract_no: contract ? contract.contract_no : '',
-                contract_date: '', //contract ? moment(contract.contract_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 loan_id: contract ? contract.loan_id : '',
                 year: contract ? contract.year : '',
                 refund_days: contract ? contract.refund_days : '',
-                remark: '',
                 net_total: contract ? contract.net_total : '',
+                remark: '',
                 items: contract ? contract.details : [],
             }}
             validationSchema={contractSchema}
