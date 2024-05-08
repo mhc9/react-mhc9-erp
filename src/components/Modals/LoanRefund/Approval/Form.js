@@ -9,7 +9,8 @@ import moment from 'moment'
 
 const approvalSchema = Yup.object().shape({
     contract_id: Yup.string().required(),
-    approved_date: Yup.string().required()
+    bill_no: Yup.string().required('กรุณาระบุเลขที่ใบสำคัญ'),
+    approved_date: Yup.string().required('กรุณาเลือกวันที่เคลียร์')
 });
 
 const ModalApprovalForm = ({ isShow, onHide, contract }) => {
@@ -29,12 +30,14 @@ const ModalApprovalForm = ({ isShow, onHide, contract }) => {
             size='md'
         >
             <Modal.Header closeButton>
-                <Modal.Title>บันทึกอนุมัติหักล้างเงินยืม</Modal.Title>
+                <Modal.Title>บันทึกเคลียร์เงินยืม</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Formik
                     initialValues={{
                         contract_id: contract ? contract.id : '',
+                        bill_no: '',
+                        receipt_no: '',
                         approved_date: '',
                     }}
                     validationSchema={approvalSchema}
@@ -44,17 +47,53 @@ const ModalApprovalForm = ({ isShow, onHide, contract }) => {
                         return (
                             <Form className="px-3 pt-3">
                                 <Row className="mb-3">
-                                    <Col md={6} className="text-lg text-blue-700">
-                                        <div className="flex flex-row items-center gap-3">
-                                            <label htmlFor="">เลขที่สัญญา :</label>
-                                            {contract.contract_no}
+                                    <Col md={12} className="text-lg text-blue-700">
+                                        <div className="flex flex-row items-center">
+                                            <label htmlFor="" className="w-[35%]">เลขที่สัญญา :</label>
+                                            <div>
+                                                {contract.contract_no}
+                                            </div>
                                         </div>
                                     </Col>
                                 </Row>
-                                <Row className="mb-4">
+                                <Row className="mb-3">
                                     <Col md={12}>
-                                        <div className="flex flex-row items-center gap-3">
-                                            <label htmlFor="">วันที่อนุมัติ :</label>
+                                        <div className="flex flex-row items-center">
+                                            <label htmlFor="" className="w-[35%]">เลขที่ใบสำคัญ :</label>
+                                            <input
+                                                name="bill_no"
+                                                value={formik.values.bill_no}
+                                                onChange={formik.handleChange}
+                                                className="form-control w-[45%]"
+                                                placeholder="ระบุเลขที่ใบสำคัญ"
+                                            />
+                                        </div>
+                                        {(formik.errors.bill_no && formik.touched.bill_no) && (
+                                            <span className="text-red-500 text-xs">{formik.errors.bill_no}</span>
+                                        )}
+                                    </Col>
+                                </Row>
+                                <Row className="mb-3">
+                                    <Col md={12}>
+                                        <div className="flex flex-row items-center">
+                                            <label htmlFor="" className="w-[35%]">เลขที่ใบเสร็จ (ถ้ามี) :</label>
+                                            <input
+                                                name="receipt_no"
+                                                value={formik.values.receipt_no}
+                                                onChange={formik.handleChange}
+                                                className="form-control w-[45%]"
+                                                placeholder="ระบุเลขที่ใบเสร็จ (ถ้ามี)"
+                                            />
+                                        </div>
+                                        {(formik.errors.receipt_no && formik.touched.receipt_no) && (
+                                            <span className="text-red-500 text-xs">{formik.errors.receipt_no}</span>
+                                        )}
+                                    </Col>
+                                </Row>
+                                <Row className="mb-3">
+                                    <Col md={12}>
+                                        <div className="flex flex-row items-center">
+                                            <label htmlFor="" className="w-[35%]">วันที่เคลียร์ :</label>
                                             <DatePicker
                                                 format="DD/MM/YYYY"
                                                 value={selectedApprovedDate}
@@ -72,9 +111,12 @@ const ModalApprovalForm = ({ isShow, onHide, contract }) => {
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <button type="submit" className="btn btn-outline-primary float-right">
-                                            บันทึก
-                                        </button>
+                                        <div className="flex flex-row items-center">
+                                            <p className="w-[35%]"></p>
+                                            <button type="submit" className="btn btn-outline-primary float-right">
+                                                บันทึก
+                                            </button>
+                                        </div>
                                     </Col>
                                 </Row>
                             </Form>
