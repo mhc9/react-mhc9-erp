@@ -105,7 +105,7 @@ const LoanRefundForm = ({ refund }) => {
     const setRefundType = (formik, balance) => {
         console.log(balance);
         formik.setFieldValue('refund_type_id', balance >= 0 ? '1' : '2');
-    }
+    };
 
     return (
         <Formik
@@ -330,7 +330,8 @@ const LoanRefundForm = ({ refund }) => {
                                     <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่ายจริง</h1>
 
                                     <AddExpense
-                                        formData={contract?.details}
+                                        expenses={contract?.details}
+                                        courses={contract?.loan?.courses}
                                         refundType={formik.values.refund_type_id}
                                         onAddItem={(data) => handleAddItem(formik, data)}
                                     />

@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
-import { currency, replaceExpensePattern } from '../../../utils'
+import { currency, replaceExpensePattern, toShortTHDate } from '../../../utils'
 
 const itemSchema = Yup.object().shape({
     contract_detail_id: Yup.string().required(),
     total: Yup.string().required(),
 });
 
-const AddExpense = ({ data, formData, refundType, onAddItem, onUpdateItem, onClear }) => {
+const AddExpense = ({ data, expenses, courses, refundType, onAddItem, onUpdateItem, onClear }) => {
     const [item, setItem] = useState(null);
 
     useEffect(() => {
@@ -37,7 +37,7 @@ const AddExpense = ({ data, formData, refundType, onAddItem, onUpdateItem, onCle
         if (data) {
             onUpdateItem(values.item_id, { ...values, item })
         } else {
-            const detail = formData.find(cd => cd.id === parseInt(values.contract_detail_id, 10));
+            const detail = expenses.find(cd => cd.id === parseInt(values.contract_detail_id, 10));
 
             onAddItem({ ...values, contract_detail: detail });
         }
@@ -45,6 +45,8 @@ const AddExpense = ({ data, formData, refundType, onAddItem, onUpdateItem, onCle
         formik.resetForm();
         setItem(null);
     };
+
+    console.log(courses);
 
     return (
         <Formik
@@ -68,16 +70,42 @@ const AddExpense = ({ data, formData, refundType, onAddItem, onUpdateItem, onCle
                                 className="form-control text-sm"
                             >
                                 <option value="">-- ค่าใช้จ่าย --</option>
-                                {formData && formData.map((data, index) => (
-                                    <option value={data.id} key={data.id}>
-                                        {index+1}. <>{data.expense?.name}</>&nbsp;
-                                        {(data.description && data.expense?.pattern)
-                                            ? <>{replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}</>
-                                            : <>{data.description && <>({data.description})</>}</>
-                                        }
-                                        &nbsp;งบประมาณ <>{currency.format(data.total)} บาท</>
-                                    </option>
-                                ))}
+                                {(courses && courses.length > 1) ? courses.map(course => {
+                                    let index = 0;
+
+                                    return (
+                                        <optgroup key={course.id} label={`รุ่นที่ ${course.seq_no} วันที่ ${toShortTHDate(course.course_date)}`}>
+                                            {expenses && expenses.map(data => (
+                                                <Fragment key={data.id}>
+                                                    {data.loan_detail.course_id === course.id && (
+                                                        <option value={data.id}>
+                                                            {++index}. <>{data.expense?.name}</>&nbsp;
+                                                            {(data.description && data.expense?.pattern)
+                                                                ? <>{replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}</>
+                                                                : <>{data.description && <>({data.description})</>}</>
+                                                            }
+                                                            &nbsp;งบประมาณ <>{currency.format(data.total)} บาท</>
+                                                        </option>
+                                                    )}
+                                                </Fragment>
+                                            ))}
+                                        </optgroup>
+                                    )
+                                }) : (
+                                    <>
+                                        {expenses && expenses.map((data, index) => (
+                                            <option value={data.id} key={data.id}>
+                                                {++index}. <>{data.expense?.name}</>&nbsp;
+                                                {(data.description && data.expense?.pattern)
+                                                    ? <>{replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}</>
+                                                    : <>{data.description && <>({data.description})</>}</>
+                                                }
+                                                &nbsp;งบประมาณ <>{currency.format(data.total)} บาท</>
+                                            </option>
+                                        ))}
+                                    </>
+                                )}
+
                             </select>
                             {(formik.errors.contract_detail_id && formik.touched.contract_detail_id) && (
                                 <span className="text-red-500 text-sm">{formik.errors.contract_detail_id}</span>
