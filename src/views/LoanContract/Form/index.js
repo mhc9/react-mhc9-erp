@@ -319,7 +319,7 @@ const LoanContractForm = ({ contract }) => {
                                         </Col>
                                         <Col md={12} className="mt-3">
                                             <div className="flex flex-col">
-                                                <label htmlFor="">วันที่วาง บข.02</label>
+                                                <label htmlFor="">วันที่วาง ขบ.02</label>
                                                 <DatePicker
                                                     format="DD/MM/YYYY"
                                                     value={selectedBk02Date}

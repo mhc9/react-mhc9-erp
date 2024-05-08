@@ -71,10 +71,16 @@ const LoanContractDetail = () => {
                                                 {contract?.loan?.doc_no}
                                             </div>
                                         </Col>
-                                        <Col md={7} className="flex flex-row items-center">
+                                        <Col md={4} className="flex flex-row items-center">
                                             <label htmlFor="">วันที่เอกสาร :</label>
                                             <div className="font-thin ml-1">
                                                 {toLongTHDate(moment(contract?.loan?.doc_date).toDate())}
+                                            </div>
+                                        </Col>
+                                        <Col md={3} className="flex flex-row items-center">
+                                            <label htmlFor="">ปีงบประมาณ :</label>
+                                            <div className="font-thin ml-1">
+                                                {contract && contract?.loan?.year+543}
                                             </div>
                                         </Col>
                                     </Row>
@@ -92,9 +98,9 @@ const LoanContractDetail = () => {
                                             </div>
                                         </Col>
                                         <Col md={3} className="flex flex-row items-center">
-                                            <label htmlFor="">ปีงบประมาณ :</label>
+                                            <label htmlFor="">กำหนดคืนภายใน</label>
                                             <div className="font-thin ml-1">
-                                                {contract?.loan?.year}
+                                                {contract ? contract?.refund_days : '-'} วัน
                                             </div>
                                         </Col>
                                     </Row>
@@ -169,9 +175,9 @@ const LoanContractDetail = () => {
                                                     </div>
                                                 </Col>
                                                 <Col md={6} className="max-[768px]:mt-2">
-                                                    <label htmlFor="">กำหนดคืนภายใน (วัน)</label>
-                                                    <div className="form-control text-center text-sm">
-                                                        {contract?.refund_days}
+                                                    <label htmlFor="">วันที่ส่งสัญญา</label>
+                                                    <div className="form-control text-sm">
+                                                        {toLongTHDate(moment(contract?.sent_date).toDate())}
                                                     </div>
                                                 </Col>
                                                 {/* <Col md={6} className="max-[768px]:mt-2">
@@ -189,36 +195,26 @@ const LoanContractDetail = () => {
                                                     </div>
                                                 </Col>
                                                 <Col md={6} className="max-[768px]:mt-2">
-                                                    <label htmlFor="">วันที่ส่งสัญญา</label>
+                                                    <label htmlFor="">วันที่วาง ขบ.02</label>
                                                     <div className="form-control text-sm">
-                                                        {toLongTHDate(moment(contract?.sent_date).toDate())}
+                                                        {toLongTHDate(moment(contract?.bk02_date).toDate())}
                                                     </div>
                                                 </Col>
                                             </Row>
                                             <Row className="mb-2">
                                                 <Col md={6} className="max-[768px]:mt-2">
-                                                    <label htmlFor="">วันที่วาง บข.02</label>
+                                                    <label htmlFor="">วันที่เงินเข้า</label>
                                                     <div className="form-control text-sm">
-                                                        {toLongTHDate(moment(contract?.bk02_date).toDate())}
+                                                        {contract?.deposited_date ? toLongTHDate(moment(contract?.deposited_date).toDate()) : '-'}
                                                     </div>
                                                 </Col>
                                                 <Col md={6} className="max-[768px]:mt-2">
-                                                    <label htmlFor="">วันที่เงินเข้า</label>
+                                                    <label htmlFor="">วันที่กำหนดคืนเงิน</label>
                                                     <div className="form-control text-sm">
-                                                        {contract?.deposit_date ? toLongTHDate(moment(contract?.deposit_date).toDate()) : '-'}
+                                                        {contract?.refund_date ? toLongTHDate(moment(contract?.refund_date).toDate()) : '-'}
                                                     </div>
                                                 </Col>
                                             </Row>
-                                            {contract?.refund_date && (
-                                                <Row className="mb-2">
-                                                    <Col md={6} className="max-[768px]:mt-2">
-                                                        <label htmlFor="">วันที่กำหนดคืนเงิน</label>
-                                                        <div className="form-control text-sm">
-                                                            {toLongTHDate(moment(contract?.refund_date).toDate())}
-                                                        </div>
-                                                    </Col>
-                                                </Row>
-                                            )}
                                         </div>
                                     </Col>
                                 </Row>
