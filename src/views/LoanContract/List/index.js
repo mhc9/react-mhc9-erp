@@ -86,7 +86,7 @@ const LoanContractList = () => {
                                     <td className="text-center">{pager && pager.from + index}</td>
                                     <td className="text-sm">
                                         <p>เลขที่สัญญา <span className="badge rounded-pill text-bg-primary">{contract.contract_no}</span></p>
-                                        <p>วันส่งสัญญา <span className="badge rounded-pill text-bg-primary">{toShortTHDate(contract.sent_date)}</span></p>
+                                        <p>วันสัญญา <span className="badge rounded-pill text-bg-primary">{toShortTHDate(contract.sent_date)}</span></p>
                                         <div className="text-lg text-center mt-1">
                                             {contract.status === 1 && <span className="badge rounded-pill text-bg-secondary">รออนุมัติ</span>}
                                             {contract.status === 2 && <span className="badge rounded-pill text-bg-success">อนุมัติแล้ว</span>}

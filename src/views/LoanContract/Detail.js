@@ -258,7 +258,7 @@ const LoanContractDetail = () => {
                                         อนุมัติสัญญา
                                     </a>
                                 )}
-                                {(contract?.status === 2 && !contract?.deposit_date) && (
+                                {(contract?.status === 2 && !contract?.deposited_date) && (
                                     <a href="#" className="btn btn-primary" onClick={() => setShowDepositForm(true)}>
                                         บันทึกเงินเข้า
                                     </a>
