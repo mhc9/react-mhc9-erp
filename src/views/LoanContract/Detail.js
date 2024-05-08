@@ -156,7 +156,7 @@ const LoanContractDetail = () => {
                             <Col>
                                 <Row>
                                     <Col>
-                                        <div className="border rounded-md py-2 px-3 bg-[#EAD9D5] text-sm min-h-[260px]">
+                                        <div className="border rounded-md py-2 px-4 bg-[#EAD9D5] text-sm min-h-[260px]">
                                             <div className="flex items-center mb-2">
                                                 <h1 className="font-bold text-lg mr-2">สัญญายืมเงิน</h1>
                                                 <div className="text-lg text-center">
@@ -168,47 +168,49 @@ const LoanContractDetail = () => {
                                             </div>
 
                                             <Row className="mb-2">
-                                                <Col md={6} className="max-[768px]:mt-2">
+                                                <Col>
                                                     <label htmlFor="">เลขที่สัญญา</label>
-                                                    <div className="form-control text-sm">
+                                                    <div className="form-control text-sm text-center text-blue-600 font-bold min-h-[34px]">
                                                         {contract?.contract_no}
                                                     </div>
                                                 </Col>
-                                                <Col md={6} className="max-[768px]:mt-2">
-                                                    <label htmlFor="">วันที่ส่งสัญญา</label>
-                                                    <div className="form-control text-sm">
-                                                        {toLongTHDate(moment(contract?.sent_date).toDate())}
-                                                    </div>
-                                                </Col>
-                                                {/* <Col md={6} className="max-[768px]:mt-2">
-                                                    <label htmlFor="">วันที่สัญญา</label>
-                                                    <div className="form-control text-sm">
-                                                        {toLongTHDate(moment(contract?.contract_date).toDate())}
-                                                    </div>
-                                                </Col> */}
                                             </Row>
                                             <Row className="mb-2">
-                                                <Col md={6} className="max-[768px]:mt-2">
+                                                <Col md={6}>
+                                                    <label htmlFor="">วันที่ส่งสัญญา</label>
+                                                    <div className="form-control text-sm min-h-[34px]">
+                                                        {contract?.sent_date ? toLongTHDate(moment(contract?.sent_date).toDate()) : '-'}
+                                                    </div>
+                                                </Col>
+                                                <Col md={6}>
+                                                    <label htmlFor="">วันที่อนุมัติ</label>
+                                                    <div className="form-control text-sm min-h-[34px]">
+                                                        {contract?.approved_date ? toLongTHDate(moment(contract?.approved_date).toDate()) : '-'}
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                            <Row className="mb-2">
+                                                <Col md={6}>
                                                     <label htmlFor="">เลขที่ฎีกา/อ้างอิง</label>
-                                                    <div className="form-control text-sm">
+                                                    <div className="form-control text-sm min-h-[34px]">
                                                         {contract?.bill_no}
                                                     </div>
                                                 </Col>
-                                                <Col md={6} className="max-[768px]:mt-2">
+                                                <Col md={6}>
                                                     <label htmlFor="">วันที่วาง ขบ.02</label>
                                                     <div className="form-control text-sm">
-                                                        {toLongTHDate(moment(contract?.bk02_date).toDate())}
+                                                        {contract?.bk02_date ? toLongTHDate(moment(contract?.bk02_date).toDate()) : '-'}
                                                     </div>
                                                 </Col>
                                             </Row>
                                             <Row className="mb-2">
-                                                <Col md={6} className="max-[768px]:mt-2">
+                                                <Col md={6}>
                                                     <label htmlFor="">วันที่เงินเข้า</label>
                                                     <div className="form-control text-sm">
                                                         {contract?.deposited_date ? toLongTHDate(moment(contract?.deposited_date).toDate()) : '-'}
                                                     </div>
                                                 </Col>
-                                                <Col md={6} className="max-[768px]:mt-2">
+                                                <Col md={6}>
                                                     <label htmlFor="">วันที่กำหนดคืนเงิน</label>
                                                     <div className="form-control text-sm">
                                                         {contract?.refund_date ? toLongTHDate(moment(contract?.refund_date).toDate()) : '-'}
