@@ -87,11 +87,9 @@ const LoanRefundList = () => {
                                         <p>เลขที่ <span className="badge rounded-pill text-bg-primary">{refund.doc_no}</span></p>
                                         <p>วันที่ <span className="badge rounded-pill text-bg-primary">{toShortTHDate(refund.doc_date)}</span></p>
                                         <div className="text-lg text-center mt-1">
-                                            {refund.contract?.status === 1 && <span className="badge rounded-pill text-bg-secondary">รออนุมัติ</span>}
-                                            {refund.contract?.status === 2 && <span className="badge rounded-pill text-bg-success">อนุมัติแล้ว</span>}
-                                            {refund.contract?.status === 3 && <span className="badge rounded-pill text-bg-info">รอเคลียร์</span>}
-                                            {refund.contract?.status === 4 && <span className="badge rounded-pill text-bg-info">เคลียร์แล้ว</span>}
-                                            {refund.contract?.status === 9 && <span className="badge rounded-pill text-bg-danger">ยกเลิก</span>}
+                                            {refund.status === 'N' && <span className="badge rounded-pill bg-danger">ยังไม่เคลียร์</span>}
+                                            {refund.status === 'Y' && <span className="badge rounded-pill bg-success">เคลียร์แล้ว</span>}
+                                            {refund.status === 'C' && <span className="badge rounded-pill bg-dark">ยกเลิก</span>}
                                         </div>
                                     </td>
                                     <td className="text-sm">
@@ -120,12 +118,16 @@ const LoanRefundList = () => {
                                         <Link to={`/loan-refund/${refund.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
                                         </Link>
-                                        <Link to={`/loan-refund/${refund.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
-                                            <FaPencilAlt />
-                                        </Link>
-                                        <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(refund.id)}>
-                                            <FaTrash />
-                                        </button>
+                                        {refund.status === 'N' && (
+                                            <>
+                                                <Link to={`/loan-refund/${refund.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
+                                                    <FaPencilAlt />
+                                                </Link>
+                                                <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(refund.id)}>
+                                                    <FaTrash />
+                                                </button>
+                                            </>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
