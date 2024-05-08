@@ -4,6 +4,7 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { DatePicker } from '@material-ui/pickers'
 import { Col, Modal, Row } from 'react-bootstrap'
+import { toShortTHDate } from '../../../../utils'
 import { approve } from '../../../../features/slices/loan-contract/loanContractSlice'
 import moment from 'moment'
 
@@ -48,66 +49,18 @@ const ModalApprovalForm = ({ isShow, onHide, contract }) => {
                 >
                     {(formik) => {
                         return (
-                            <Form className="px-3 pt-3">
-                                <Row className="mb-3">
-                                    <Col md={12} className="text-lg text-blue-700">
+                            <Form className="px-3 py-2">
+                                <Row>
+                                    <Col md={12} className="text-lg text-blue-700 mb-3">
                                         <div className="flex flex-row items-center gap-3">
-                                            <label htmlFor="">เลขที่สัญญา :</label>
-                                            {contract.contract_no}
+                                            <label htmlFor="">เลขที่คำขอ :</label>
+                                            {contract.loan?.doc_no}
+                                            <span>ลวท. {toShortTHDate(contract.loan?.doc_date)}</span>
                                         </div>
                                     </Col>
-                                </Row>
-                                <Row className="mb-4">
-                                    <Col md={12}>
+                                    <Col md={12} className="mb-3">
                                         <div className="flex flex-row items-center gap-3">
-                                            <label htmlFor="">เลขที่สัญญา</label>
-                                            <input
-                                                type="text"
-                                                name="contract_no"
-                                                value={formik.values.contract_no}
-                                                onChange={formik.handleChange}
-                                                className="form-control text-sm"
-                                            />
-                                        </div>
-                                        {(formik.errors.contract_no && formik.touched.contract_no) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.contract_no}</span>
-                                        )}
-                                    </Col>
-                                    <Col md={12}>
-                                        <div className="flex flex-row items-center gap-3">
-                                            <label htmlFor="">วันที่อนุมัติสัญญา :</label>
-                                            <DatePicker
-                                                format="DD/MM/YYYY"
-                                                value={selectedApprovedDate}
-                                                onChange={(date) => {
-                                                    setSelectedApprovedDate(date);
-                                                    formik.setFieldValue('approved_date', date.format('YYYY-MM-DD'));
-                                                }}
-                                                variant="outlined"
-                                            />
-                                        </div>
-                                        {(formik.errors.approved_date && formik.touched.approved_date) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.approved_date}</span>
-                                        )}
-                                    </Col>
-                                    <Col md={12}>
-                                        <div className="flex flex-row items-center gap-3">
-                                            <label htmlFor="">เลขที่ฎีกา/อ้างอิง</label>
-                                            <input
-                                                type="text"
-                                                name="bill_no"
-                                                value={formik.values.bill_no}
-                                                onChange={formik.handleChange}
-                                                className="form-control text-sm"
-                                            />
-                                        </div>
-                                        {(formik.errors.bill_no && formik.touched.bill_no) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.bill_no}</span>
-                                        )}
-                                    </Col>
-                                    <Col md={12}>
-                                        <div className="flex flex-row items-center gap-3">
-                                            <label htmlFor="">วันที่ส่งสัญญา</label>
+                                            <label htmlFor="" className="w-[30%]">วันที่ส่งสัญญา :</label>
                                             <DatePicker
                                                 format="DD/MM/YYYY"
                                                 value={selectedSentDate}
@@ -122,9 +75,56 @@ const ModalApprovalForm = ({ isShow, onHide, contract }) => {
                                             <span className="text-red-500 text-xs">{formik.errors.sent_date}</span>
                                         )}
                                     </Col>
-                                    <Col md={12}>
+                                    <Col md={12} className="mb-2">
                                         <div className="flex flex-row items-center gap-3">
-                                            <label htmlFor="">วันที่วาง ขบ.02</label>
+                                            <label htmlFor="" className="w-[30%]">เลขที่สัญญา :</label>
+                                            <input
+                                                type="text"
+                                                name="contract_no"
+                                                value={formik.values.contract_no}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-sm w-[50%]"
+                                            />
+                                        </div>
+                                        {(formik.errors.contract_no && formik.touched.contract_no) && (
+                                            <span className="text-red-500 text-xs">{formik.errors.contract_no}</span>
+                                        )}
+                                    </Col>
+                                    <Col md={12} className="mb-3">
+                                        <div className="flex flex-row items-center gap-3">
+                                            <label htmlFor="" className="w-[30%]">วันที่อนุมัติ :</label>
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedApprovedDate}
+                                                onChange={(date) => {
+                                                    setSelectedApprovedDate(date);
+                                                    formik.setFieldValue('approved_date', date.format('YYYY-MM-DD'));
+                                                }}
+                                                variant="outlined"
+                                            />
+                                        </div>
+                                        {(formik.errors.approved_date && formik.touched.approved_date) && (
+                                            <span className="text-red-500 text-xs">{formik.errors.approved_date}</span>
+                                        )}
+                                    </Col>
+                                    <Col md={12} className="mb-2">
+                                        <div className="flex flex-row items-center gap-3">
+                                            <label htmlFor="" className="w-[30%]">เลขที่ฎีกา/อ้างอิง :</label>
+                                            <input
+                                                type="text"
+                                                name="bill_no"
+                                                value={formik.values.bill_no}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-sm w-[50%]"
+                                            />
+                                        </div>
+                                        {(formik.errors.bill_no && formik.touched.bill_no) && (
+                                            <span className="text-red-500 text-xs">{formik.errors.bill_no}</span>
+                                        )}
+                                    </Col>
+                                    <Col md={12} className="mb-3">
+                                        <div className="flex flex-row items-center gap-3">
+                                            <label htmlFor="" className="w-[30%]">วันที่วาง ขบ.02 :</label>
                                             <DatePicker
                                                 format="DD/MM/YYYY"
                                                 value={selectedBk02Date}
@@ -139,12 +139,13 @@ const ModalApprovalForm = ({ isShow, onHide, contract }) => {
                                             <span className="text-red-500 text-xs">{formik.errors.bk02_date}</span>
                                         )}
                                     </Col>
-                                </Row>
-                                <Row>
                                     <Col>
-                                        <button type="submit" className="btn btn-outline-primary float-right">
-                                            บันทึก
-                                        </button>
+                                        <div className="flex flex-row items-center gap-3">
+                                            <div className="w-[30%]"></div>
+                                            <button type="submit" className="btn btn-outline-primary">
+                                                บันทึก
+                                            </button>
+                                        </div>
                                     </Col>
                                 </Row>
                             </Form>
