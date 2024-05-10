@@ -16,15 +16,19 @@ import ModalLoanList from '../../../components/Modals/Loan/List'
 
 const contractSchema = Yup.object().shape({
     loan_id: Yup.string().required('กรุณาระบุเลือกรายการคำขอ'),
+    contract_no: Yup.string().required('กรุณาระบุเลขที่สัญญา'),
+    sent_date: Yup.string().required('กรุณาเลือกวันที่ส่งสัญญา'),
+    approved_date: Yup.string().required('กรุณาเลือกวันที่อนุมัติ'),
+    bill_no: Yup.string().required('กรุณาระบุเลขที่ฎีกา/อ้างอิง'),
+    bk02_date: Yup.string().required('กรุณาเลือกวันที่วาง ขบ.02'),
     net_total: Yup.string().required('กรุณาระบุเลขที่สัญญา'),
 });
 
 const LoanContractForm = ({ contract }) => {
     const dispatch = useDispatch();
-    const [selectedContractDate, setSelectedContractDate] = useState(moment());
     const [selectedBk02Date, setSelectedBk02Date] = useState(moment());
     const [selectedSentDate, setSelectedSentDate] = useState(moment());
-    const [selectedDepositDate, setSelectedDepositDate] = useState(moment());
+    const [selectedApprovedDate, setSelectedApprovedDate] = useState(moment());
     const [showLoanModal, setShowLoanModal] = useState(false);
     // const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [loan, setLoan] = useState(null);
@@ -33,10 +37,9 @@ const LoanContractForm = ({ contract }) => {
 
     useEffect(() => {
         if (contract) {
-            setSelectedContractDate(moment(contract.contract_date));
-            setSelectedBk02Date(moment(contract.bk02_date));
             setSelectedSentDate(moment(contract.sent_date));
-            setSelectedDepositDate(moment(contract.deposit_date));
+            selectedApprovedDate(moment(contract.approved_date));
+            setSelectedBk02Date(moment(contract.bk02_date));
 
             setLoan(contract.loan);
             // setEmployee(contract.employee);
@@ -85,16 +88,20 @@ const LoanContractForm = ({ contract }) => {
         /** Clear value of local states */
         setLoan(null);
         // setEmployee(null);
-        setSelectedContractDate(moment());
         setSelectedBk02Date(moment());
         setSelectedSentDate(moment());
-        setSelectedDepositDate(moment());
+        selectedApprovedDate(moment());
     };
 
     return (
         <Formik
             initialValues={{
                 loan_id: contract ? contract.loan_id : '',
+                contract_no: contract ? contract.contract_no : '',
+                sent_date: contract ? contract.sent_date : '',
+                approved_date: contract ? contract.approved_date : '',
+                bill_no: contract ? contract.bill_no : '',
+                bk02_date: contract ? contract.bk02_date : '',
                 year: contract ? contract.year : '',
                 refund_days: contract ? contract.refund_days : '',
                 net_total: contract ? contract.net_total : '',
@@ -137,7 +144,7 @@ const LoanContractForm = ({ contract }) => {
                         /> */}
 
                         <Row className="mb-2">
-                            <Col md={12}>
+                            <Col md={8}>
                                 <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[305px]">
                                     <h1 className="font-bold text-lg mb-2">คำขอยืมเงิน</h1>
                                     <Row className="mb-2">
@@ -239,6 +246,101 @@ const LoanContractForm = ({ contract }) => {
                                         </Col>
                                     </Row>
                                 </div>
+                            </Col>
+                            <Col>
+                                <Row>
+                                    <Col>
+                                        <div className="border rounded-md py-2 px-4 bg-[#EAD9D5] text-sm min-h-[260px]">
+                                            <div className="flex items-center mb-2">
+                                                <h1 className="font-bold text-lg mr-2">สัญญายืมเงิน</h1>
+                                                <div className="text-lg text-center">
+                                                    {contract?.status === 1 && <span className="badge rounded-pill text-bg-secondary">รออนุมัติ</span>}
+                                                    {contract?.status === 2 && <span className="badge rounded-pill text-bg-success">อนุมัติแล้ว</span>}
+                                                    {contract?.status === 3 && <span className="badge rounded-pill text-bg-info">เคลียร์แล้ว</span>}
+                                                    {contract?.status === 9 && <span className="badge rounded-pill text-bg-danger">ยกเลิก</span>}
+                                                </div>
+                                            </div>
+
+                                            <Row className="mb-2">
+                                                <Col>
+                                                    <label htmlFor="">เลขที่สัญญา</label>
+                                                    <input
+                                                        type="text"
+                                                        name="contract_no"
+                                                        value={formik.values.contract_no}
+                                                        onChange={formik.handleChange}
+                                                        className="form-control text-sm text-center min-h-[34px]"
+                                                    />
+                                                    {(formik.errors.contract_no && formik.touched.contract_no) && (
+                                                        <span className="text-red-500 text-xs">{formik.errors.contract_no}</span>
+                                                    )}
+                                                </Col>
+                                            </Row>
+                                            <Row className="mb-2">
+                                                <Col md={6}>
+                                                    <label htmlFor="">วันที่ส่งสัญญา</label>
+                                                    <DatePicker
+                                                        format="DD/MM/YYYY"
+                                                        value={selectedSentDate}
+                                                        onChange={(date) => {
+                                                            setSelectedSentDate(date);
+                                                            formik.setFieldValue('sent_date', date.format('YYYY-MM-DD'));
+                                                        }}
+                                                        variant="outlined"
+                                                    />
+                                                    {(formik.errors.sent_date && formik.touched.sent_date) && (
+                                                        <span className="text-red-500 text-xs">{formik.errors.sent_date}</span>
+                                                    )}
+                                                </Col>
+                                                <Col md={6}>
+                                                    <label htmlFor="">วันที่อนุมัติ</label>
+                                                    <DatePicker
+                                                        format="DD/MM/YYYY"
+                                                        value={selectedApprovedDate}
+                                                        onChange={(date) => {
+                                                            setSelectedApprovedDate(date);
+                                                            formik.setFieldValue('approved_date', date.format('YYYY-MM-DD'));
+                                                        }}
+                                                        variant="outlined"
+                                                    />
+                                                    {(formik.errors.approved_date && formik.touched.approved_date) && (
+                                                        <span className="text-red-500 text-xs">{formik.errors.approved_date}</span>
+                                                    )}
+                                                </Col>
+                                            </Row>
+                                            <Row className="mb-2">
+                                                <Col md={6}>
+                                                    <label htmlFor="">เลขที่ฎีกา/อ้างอิง</label>
+                                                    <input
+                                                        type="text"
+                                                        name="bill_no"
+                                                        value={formik.values.bill_no}
+                                                        onChange={formik.handleChange}
+                                                        className="form-control text-sm text-center min-h-[34px]"
+                                                    />
+                                                    {(formik.errors.bill_no && formik.touched.bill_no) && (
+                                                        <span className="text-red-500 text-xs">{formik.errors.bill_no}</span>
+                                                    )}
+                                                </Col>
+                                                <Col md={6}>
+                                                    <label htmlFor="">วันที่วาง ขบ.02</label>
+                                                    <DatePicker
+                                                        format="DD/MM/YYYY"
+                                                        value={selectedBk02Date}
+                                                        onChange={(date) => {
+                                                            setSelectedBk02Date(date);
+                                                            formik.setFieldValue('bk02_date', date.format('YYYY-MM-DD'));
+                                                        }}
+                                                        variant="outlined"
+                                                    />
+                                                    {(formik.errors.bk02_date && formik.touched.bk02_date) && (
+                                                        <span className="text-red-500 text-xs">{formik.errors.bk02_date}</span>
+                                                    )}
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    </Col>
+                                </Row>
                             </Col>
                         </Row>
                         <Row className="mb-2">
