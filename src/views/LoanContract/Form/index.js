@@ -171,7 +171,7 @@ const LoanContractForm = ({ contract }) => {
                                                 )}
                                             </div>
                                         </Col>
-                                        <Col md={3}></Col>
+                                        <Col md={2}></Col>
                                         <Col className="flex flex-row items-center gap-2">
                                             <label htmlFor="">กำหนดคืนภายใน :</label>
                                             <div className="form-control min-h-[34px] w-[20%] text-center text-sm">
