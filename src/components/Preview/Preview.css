@@ -207,6 +207,107 @@
     flex-direction: row;
 }
 
+.form-wrapper {
+    margin: 1cm 1.5cm 1.5cm 1.5cm; /* top right bottom left */
+    /* border: 1px solid black; */
+    font-size: 12pt;
+}
+
+.form-top {
+    position: relative;
+    text-align: center;
+    height: 1cm;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+
+.form-box {
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.form-box .form-header {
+    margin-top: 0.5pt;
+    /* border: 1px solid black; */
+
+}
+
+.form-box .form-header .memo-header-text {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 8px;
+    margin-top: 0.5pt;
+}
+
+.form-box .form-header .memo-header-text > div,
+.form-box .form-header .memo-header-text > div > div {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 8px;
+}
+
+.form-box .form-header h3,
+.form-box .form-header h4,
+.form-box .form-header h5 {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    display: block;
+    width: auto;
+    text-wrap: nowrap;
+}
+
+.form-box .form-header span {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    line-height: 16px;
+    word-wrap: break-word;
+    width: 100%;
+}
+
+.form-box .form-header div:last-child h3,
+.form-box .form-header span {
+    font-weight: 200;
+}
+
+.form-box .form-header .memo-header-text .memo-header-value {
+    width: 80%;
+    height: 18px;
+    border-bottom: 1px dotted #3B3B3B;
+    padding: 0;
+}
+
+.form-box .form-header .memo-header-text:first-child > .memo-header-value {
+    width: 70%;
+}
+
+.form-box .form-header .memo-header-text:nth-child(3) > .memo-header-value {
+    width: 70.5%;
+}
+
+.form-box .form-header .memo-header-text:nth-child(2) > div:first-child {
+    width: 40%;
+}
+
+.form-box .form-header .memo-header-text:nth-child(2) > div:last-child {
+    width: 34%;
+}
+
+.form-box .memo-content .memo-paragraph {
+    width: 100%;
+    margin: 4pt 0 0;
+    padding: 0;
+    text-indent: 1cm;
+    line-height: 1.5rem;
+    text-align: justify;
+}
+
 /*
 *---------------------------------------------------------------------------
 * ขยาย/บีบข้อมูลในแต่ละแถวของบันทึกข้อความ

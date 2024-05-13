@@ -7,7 +7,7 @@ import { toLongTHDate, toShortTHDate, currency, replaceExpensePattern } from '..
 import { ThaiNumberToText } from '../../utils/currencyText'
 import './Preview.css'
 
-const LoanFormReport = () => {
+const FormLoan = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { loan } = useSelector(state => state.loan);
@@ -224,4 +224,4 @@ const LoanFormReport = () => {
     )
 }
 
-export default LoanFormReport
+export default FormLoan

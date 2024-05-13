@@ -192,13 +192,22 @@ const LoanDetail = () => {
                         </Row>
                         <Row className="mb-2 mt-4">
                             <Col className="flex justify-center">
-                                <Link to={`/preview/${id}/loan/form`} target="_blank" className="btn btn-success mr-2">
+                                <Link to={`/preview/${id}/loan/form`} target="_blank" className="btn btn-primary mr-2">
                                     <i className="fas fa-print mr-1"></i>
                                     พิมพ์คำขอ
                                 </Link>
-                                <a href="#" className="btn btn-success mr-2">พิมพ์บันทึกทบทวน</a>
-                                <a href="#" className="btn btn-success mr-2">พิมพ์บันทึกทวนสอบ</a>
-                                <a href="#" className="btn btn-success">พิมพ์สัญญาเงินยืม</a>
+                                <a href="#" className="btn btn-success mr-2">
+                                    <i className="fas fa-print mr-1"></i>
+                                    พิมพ์บันทึกทบทวน
+                                </a>
+                                <a href="#" className="btn btn-secondary mr-2">
+                                    <i className="fas fa-print mr-1"></i>
+                                    พิมพ์บันทึกทวนสอบ
+                                </a>
+                                <Link to={`/preview/${id}/loan-contract/form`} target="_blank" className="btn btn-danger mr-2">
+                                    <i className="fas fa-print mr-1"></i>
+                                    พิมพ์สัญญาเงินยืม
+                                </Link>
                             </Col>
                         </Row>
                     </>
