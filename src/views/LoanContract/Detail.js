@@ -160,8 +160,8 @@ const LoanContractDetail = () => {
                                             <div className="flex items-center mb-2">
                                                 <h1 className="font-bold text-lg mr-2">สัญญายืมเงิน</h1>
                                                 <div className="text-lg text-center">
-                                                    {contract?.status === 1 && <span className="badge rounded-pill text-bg-secondary">รออนุมัติ</span>}
-                                                    {contract?.status === 2 && <span className="badge rounded-pill text-bg-success">อนุมัติแล้ว</span>}
+                                                    {contract?.status === 1 && <span className="badge rounded-pill text-bg-success">อนุมัติแล้ว</span>}
+                                                    {contract?.status === 2 && <span className="badge rounded-pill text-bg-secondary">เงินเข้าแล้ว</span>}
                                                     {contract?.status === 3 && <span className="badge rounded-pill text-bg-info">เคลียร์แล้ว</span>}
                                                     {contract?.status === 9 && <span className="badge rounded-pill text-bg-danger">ยกเลิก</span>}
                                                 </div>
@@ -252,7 +252,7 @@ const LoanContractDetail = () => {
                         </Row>
                         <Row className="mb-2 mt-4">
                             <Col className="flex justify-center">
-                                {(contract?.status === 2 && !contract?.deposited_date) && (
+                                {(contract?.status === 1 && !contract?.deposited_date) && (
                                     <a href="#" className="btn btn-primary" onClick={() => setShowDepositForm(true)}>
                                         บันทึกเงินเข้า
                                     </a>
