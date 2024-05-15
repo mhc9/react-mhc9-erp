@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Pagination } from 'react-bootstrap'
 import { getPlaces } from '../../../features/slices/place/placeSlice';
@@ -7,14 +7,16 @@ import Loading from '../../Loading';
 const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
     const { places, pager, isLoading } = useSelector(state => state.place);
+    const [params, setParams] = useState('');
+    const [apiEndpoint, setApiEndpoint] = useState('');
 
     useEffect(() => {
-        dispatch(getPlaces({ url: '/api/places/search?page=' }));
-    }, []);
-
-    const handlePageClick = () => {
-
-    };
+        if (apiEndpoint === '') {
+            dispatch(getPlaces({ url: '/api/places/search?page=' }));
+        } else {
+            dispatch(getPlaces({ url: `${apiEndpoint}${params}` }));
+        }
+    }, [apiEndpoint, params]);
 
     return (
         <Modal
@@ -70,8 +72,8 @@ const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
 
                 {pager && (
                     <Pagination>
-                        <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
-                        <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
+                        <Pagination.First disabled={pager.current_page === 1} onClick={() => setApiEndpoint(pager.first_page_url)} />
+                        <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => setApiEndpoint(pager.prev_page_url)} />
                         {/* <Pagination.Item>{1}</Pagination.Item>
                         <Pagination.Ellipsis />
 
@@ -83,8 +85,8 @@ const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
 
                         <Pagination.Ellipsis />
                         <Pagination.Item>{20}</Pagination.Item> */}
-                        <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
-                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
+                        <Pagination.Next disabled={!pager.next_page_url} onClick={() => setApiEndpoint(pager.next_page_url)} />
+                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => setApiEndpoint(pager.last_page_url)} />
                     </Pagination>
                 )}
             </Modal.Body>
