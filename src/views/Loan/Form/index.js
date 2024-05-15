@@ -487,8 +487,12 @@ const LoanForm = ({ loan }) => {
                                             <ul>
                                                 {formik.values.courses.map((course, index) => (
                                                     <li key={index} className="hover:bg-gray-200 p-1 rounded-md font-thin">
-                                                        - รุ่นที่ {course.seq_no} {course?.course_date && <span>วันที่ {toShortTHDate(course?.course_date)}</span>} 
-                                                            ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
+                                                        - รุ่นที่ {course.seq_no ? course.seq_no : ++index} 
+                                                        {course?.course_date && <span className="ml-1">วันที่ {toShortTHDate(course?.course_date)}</span>} 
+                                                        <span className="ml-1">
+                                                            ณ {course?.room && <span className="mr-1">{course.room}</span>}
+                                                            {course?.place?.name} จ.{course?.place?.changwat?.name}
+                                                        </span>
                                                         <button
                                                             type="button"
                                                             className="btn btn-outline-danger rounded-full p-0 ml-2"
