@@ -40,6 +40,7 @@ const LoanForm = ({ loan }) => {
     const [selectedEndDate, setSelectedEndDate] = useState(moment());
     const [selectedCourseDate, setSelectedCourseDate] = useState(moment());
     const [selectedYear, setSelectedYear] = useState(moment());
+    const [courseRoom, setCourseRoom] = useState('');
     const [showPlaceModal, setShowPlaceModal] = useState(false);
     const [showPlaceFormModal, setShowPlaceFormModal] = useState(false);
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
@@ -118,6 +119,7 @@ const LoanForm = ({ loan }) => {
         formik.setFieldValue('courses', newCourses);
         setPlace(null);
         setSelectedCourseDate(moment());
+        setCourseRoom('');
     };
 
     const handleRemoveCourse = (formik, id) => {
@@ -446,7 +448,17 @@ const LoanForm = ({ loan }) => {
                                                 />
                                             </Col>
                                         )}
-                                        <Col md={formik.values.expense_calc === '2' ? 9 : 11}>
+                                        <Col md={3}>
+                                            <label htmlFor="">ห้อง</label>
+                                            <input
+                                                type="text"
+                                                name="room"
+                                                value={courseRoom}
+                                                onChange={(e) => setCourseRoom(e.target.value)}
+                                                className="form-control text-sm"
+                                            />
+                                        </Col>
+                                        <Col md={formik.values.expense_calc === '2' ? 6 : 8}>
                                             <label htmlFor="">สถานที่จัด</label>
                                             <div className="input-group">
                                                 <div className="form-control text-sm h-[34px] bg-gray-100">
@@ -460,7 +472,7 @@ const LoanForm = ({ loan }) => {
                                                 </button>
                                             </div>
                                         </Col>
-                                        <Col>
+                                        <Col md={1}>
                                             <label htmlFor=""></label>
                                             <div className='flex flex-row items-center h-[36px]'>
                                                 <button
@@ -470,6 +482,7 @@ const LoanForm = ({ loan }) => {
                                                         const course = {
                                                             id: formik.values.courses.length + 1,
                                                             course_date: formik.values.expense_calc === '2' ? selectedCourseDate.format('YYYY-MM-DD') : '',
+                                                            room: courseRoom,
                                                             place_id: place.id,
                                                             place: place
                                                         };
