@@ -15,9 +15,8 @@ import BudgetList from './BudgetList'
 import Loading from '../../../components/Loading'
 import AddExpense from '../../../components/Expense/AddExpense'
 import ExpenseList from '../../../components/Expense/ExpenseList'
-import ModalPlaceForm from '../../../components/Modals/Place/Form'
-import ModalPlaceList from '../../../components/Modals/Place/List'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
+import AddCourse from './AddCourse';
 
 const loanSchema = Yup.object().shape({
     doc_no: Yup.string().required(),
@@ -33,18 +32,12 @@ const loanSchema = Yup.object().shape({
 const LoanForm = ({ loan }) => {
     const dispatch = useDispatch();
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
-    const { place: newPlace } = useSelector(state => state.place);
     const [selectedDocDate, setSelectedDocDate] = useState(moment());
     const [selectedProjectDate, setSelectedProjectDate] = useState(moment());
     const [selectedStartDate, setSelectedStartDate] = useState(moment());
     const [selectedEndDate, setSelectedEndDate] = useState(moment());
-    const [selectedCourseDate, setSelectedCourseDate] = useState(moment());
     const [selectedYear, setSelectedYear] = useState(moment());
-    const [courseRoom, setCourseRoom] = useState('');
-    const [showPlaceModal, setShowPlaceModal] = useState(false);
-    const [showPlaceFormModal, setShowPlaceFormModal] = useState(false);
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
-    const [place, setPlace] = useState(null);
     const [employee, setEmployee] = useState(null);
     const [edittingItem, setEdittingItem] = useState(null);
 
@@ -60,14 +53,6 @@ const LoanForm = ({ loan }) => {
             setEmployee(loan.employee);
         }
     }, [loan]);
-
-    useEffect(() => {
-        if (newPlace) {
-            setPlace(newPlace);
-
-            dispatch(getPlaces({ url: '/api/places/search' }));
-        }
-    }, [newPlace]);
 
     const handleAddItem = (formik, expense) => {
         const newItems = [...formik.values.items, expense];
@@ -117,9 +102,6 @@ const LoanForm = ({ loan }) => {
         const newCourses = [...formik.values.courses, course];
 
         formik.setFieldValue('courses', newCourses);
-        setPlace(null);
-        setSelectedCourseDate(moment());
-        setCourseRoom('');
     };
 
     const handleRemoveCourse = (formik, id) => {
@@ -175,19 +157,6 @@ const LoanForm = ({ loan }) => {
             {(formik) => {
                 return (
                     <Form>
-                        <ModalPlaceList
-                            isShow={showPlaceModal}
-                            onHide={() => setShowPlaceModal(false)}
-                            onSelect={(place) => {
-                                setPlace(place);
-                            }}
-                            />
-
-                        <ModalPlaceForm
-                            isShow={showPlaceFormModal}
-                            onHide={() => setShowPlaceFormModal(false)}
-                        />
-
                         <ModalEmployeeList
                             isShow={showEmployeeModal}
                             onHide={() => setShowEmployeeModal(false)}
@@ -436,65 +405,13 @@ const LoanForm = ({ loan }) => {
                                             )}
                                         </Col>
                                     </Row>
-                                    <Row className="mb-2">
-                                        {formik.values.expense_calc === '2' && (
-                                            <Col md={2}>
-                                                <label htmlFor="">วันที่</label>
-                                                <DatePicker
-                                                    format="DD/MM/YYYY"
-                                                    value={selectedCourseDate}
-                                                    onChange={(date) => setSelectedCourseDate(date)}
-                                                    variant="outlined"
-                                                />
-                                            </Col>
-                                        )}
-                                        <Col md={3}>
-                                            <label htmlFor="">ห้อง</label>
-                                            <input
-                                                type="text"
-                                                name="room"
-                                                value={courseRoom}
-                                                onChange={(e) => setCourseRoom(e.target.value)}
-                                                className="form-control text-sm"
-                                            />
-                                        </Col>
-                                        <Col md={formik.values.expense_calc === '2' ? 6 : 8}>
-                                            <label htmlFor="">สถานที่จัด</label>
-                                            <div className="input-group">
-                                                <div className="form-control text-sm h-[34px] bg-gray-100">
-                                                    {place?.name} {place && <span>จ.{place?.changwat?.name}</span>}
-                                                </div>
-                                                <button type="button" className="btn btn-outline-secondary text-sm" onClick={() => setShowPlaceModal(true)}>
-                                                    <FaSearch />
-                                                </button>
-                                                <button type="button" className="btn btn-outline-primary text-sm px-2" onClick={() => setShowPlaceFormModal(true)}>
-                                                    New
-                                                </button>
-                                            </div>
-                                        </Col>
-                                        <Col md={1}>
-                                            <label htmlFor=""></label>
-                                            <div className='flex flex-row items-center h-[36px]'>
-                                                <button
-                                                    type="button"
-                                                    className={`btn btn-outline-primary rounded-full p-1`}
-                                                    onClick={() => {
-                                                        const course = {
-                                                            id: formik.values.courses.length + 1,
-                                                            course_date: formik.values.expense_calc === '2' ? selectedCourseDate.format('YYYY-MM-DD') : '',
-                                                            room: courseRoom,
-                                                            place_id: place.id,
-                                                            place: place
-                                                        };
 
-                                                        handleAddCourse(formik, course);
-                                                    }}
-                                                >
-                                                    <FaPlus />
-                                                </button>
-                                            </div>
-                                        </Col>
-                                    </Row>
+                                    <AddCourse
+                                        courses={formik.values.courses}
+                                        expenseCalc={formik.values.expense_calc}
+                                        onAdd={(course) => handleAddCourse(formik, course)}
+                                    />
+
                                     <Row>
                                         <Col>
                                             <ul>
