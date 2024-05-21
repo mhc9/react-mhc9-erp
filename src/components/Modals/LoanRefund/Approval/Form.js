@@ -9,13 +9,15 @@ import moment from 'moment'
 
 const approvalSchema = Yup.object().shape({
     contract_id: Yup.string().required(),
-    bill_no: Yup.string().required('กรุณาระบุเลขที่ใบสำคัญ'),
-    approved_date: Yup.string().required('กรุณาเลือกวันที่เคลียร์')
+    approved_date: Yup.string().required('กรุณาเลือกวันที่เคลียร์'),
+    bill_no: Yup.string().required('กรุณาระบุเลขที่ใบรับใบสำคัญ'),
+    bill_date: Yup.string().required('กรุณาระบุวันที่ใบรับใบสำคัญ'),
 });
 
 const ModalApprovalForm = ({ isShow, onHide, contract }) => {
     const dispatch = useDispatch()
     const [selectedApprovedDate, setSelectedApprovedDate] = useState(moment());
+    const [selectedBillDate, setSelectedBillDate] = useState(moment());
 
     const handleSubmit = (values, formik) => {
         dispatch(approve({ id: contract?.id, data: values }));
@@ -36,9 +38,10 @@ const ModalApprovalForm = ({ isShow, onHide, contract }) => {
                 <Formik
                     initialValues={{
                         contract_id: contract ? contract.id : '',
-                        bill_no: '',
-                        receipt_no: '',
                         approved_date: '',
+                        bill_no: '',
+                        bill_date: '',
+                        receipt_no: '',
                     }}
                     validationSchema={approvalSchema}
                     onSubmit={handleSubmit}
@@ -49,7 +52,7 @@ const ModalApprovalForm = ({ isShow, onHide, contract }) => {
                                 <Row className="mb-3">
                                     <Col md={12} className="text-lg text-blue-700">
                                         <div className="flex flex-row items-center">
-                                            <label htmlFor="" className="w-[35%]">เลขที่สัญญา :</label>
+                                            <label htmlFor="" className="w-[45%]">เลขที่สัญญา :</label>
                                             <div>
                                                 {contract.contract_no}
                                             </div>
@@ -59,7 +62,26 @@ const ModalApprovalForm = ({ isShow, onHide, contract }) => {
                                 <Row className="mb-3">
                                     <Col md={12}>
                                         <div className="flex flex-row items-center">
-                                            <label htmlFor="" className="w-[35%]">เลขที่ใบสำคัญ :</label>
+                                            <label htmlFor="" className="w-[45%]">วันที่เคลียร์ (ผอ.อนุมัติ) :</label>
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedBillDate}
+                                                onChange={(date) => {
+                                                    setSelectedBillDate(date);
+                                                    formik.setFieldValue('approved_date', date.format('YYYY-MM-DD'));
+                                                }}
+                                                variant="outlined"
+                                            />
+                                        </div>
+                                        {(formik.errors.approved_date && formik.touched.approved_date) && (
+                                            <span className="text-red-500 text-xs">{formik.errors.approved_date}</span>
+                                        )}
+                                    </Col>
+                                </Row>
+                                <Row className="mb-3">
+                                    <Col md={12}>
+                                        <div className="flex flex-row items-center">
+                                            <label htmlFor="" className="w-[45%]">เลขที่ใบรับใบสำคัญ :</label>
                                             <input
                                                 name="bill_no"
                                                 value={formik.values.bill_no}
@@ -76,7 +98,26 @@ const ModalApprovalForm = ({ isShow, onHide, contract }) => {
                                 <Row className="mb-3">
                                     <Col md={12}>
                                         <div className="flex flex-row items-center">
-                                            <label htmlFor="" className="w-[35%]">เลขที่ใบเสร็จ (ถ้ามี) :</label>
+                                            <label htmlFor="" className="w-[45%]">วันที่ใบรับใบสำคัญ :</label>
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedApprovedDate}
+                                                onChange={(date) => {
+                                                    setSelectedApprovedDate(date);
+                                                    formik.setFieldValue('bill_date', date.format('YYYY-MM-DD'));
+                                                }}
+                                                variant="outlined"
+                                            />
+                                        </div>
+                                        {(formik.errors.bill_date && formik.touched.bill_date) && (
+                                            <span className="text-red-500 text-xs">{formik.errors.bill_date}</span>
+                                        )}
+                                    </Col>
+                                </Row>
+                                <Row className="mb-3">
+                                    <Col md={12}>
+                                        <div className="flex flex-row items-center">
+                                            <label htmlFor="" className="w-[45%]">เลขที่ใบเสร็จ (ถ้ามี) :</label>
                                             <input
                                                 name="receipt_no"
                                                 value={formik.values.receipt_no}
@@ -87,25 +128,6 @@ const ModalApprovalForm = ({ isShow, onHide, contract }) => {
                                         </div>
                                         {(formik.errors.receipt_no && formik.touched.receipt_no) && (
                                             <span className="text-red-500 text-xs">{formik.errors.receipt_no}</span>
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row className="mb-3">
-                                    <Col md={12}>
-                                        <div className="flex flex-row items-center">
-                                            <label htmlFor="" className="w-[35%]">วันที่เคลียร์ :</label>
-                                            <DatePicker
-                                                format="DD/MM/YYYY"
-                                                value={selectedApprovedDate}
-                                                onChange={(date) => {
-                                                    setSelectedApprovedDate(date);
-                                                    formik.setFieldValue('approved_date', date.format('YYYY-MM-DD'));
-                                                }}
-                                                variant="outlined"
-                                            />
-                                        </div>
-                                        {(formik.errors.approved_date && formik.touched.approved_date) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.approved_date}</span>
                                         )}
                                     </Col>
                                 </Row>
