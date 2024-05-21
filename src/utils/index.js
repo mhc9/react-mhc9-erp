@@ -98,6 +98,16 @@ export const isExisted = (items, id) => {
     return items.some(item => item.id === id);
 };
 
+export const replaceExpensePatternFromDesc = (pattern = '', replacement = '') => {
+    if (replacement.includes('+')) {
+        const groups = replacement.split('+').map(group => replaceExpensePattern(pattern, group));
+
+        return groups.join('+');
+    } else {
+        return replaceExpensePattern(pattern, replacement);
+    }
+};
+
 export const replaceExpensePattern = (pattern = '', replacement = '') => {
     const [p_amount, p_time, p_price] = pattern.split('X');
     const [r_amount, r_time, r_price] = replacement.split('*');

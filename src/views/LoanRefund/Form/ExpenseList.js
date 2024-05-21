@@ -1,6 +1,6 @@
 import React from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { currency, replaceExpensePattern } from '../../../utils'
+import { currency, replaceExpensePatternFromDesc } from '../../../utils'
 
 const ExpenseList = ({ items, showButtons=true, edittingItem,  onEditItem, onRemoveItem }) => {
     return (
@@ -24,7 +24,7 @@ const ExpenseList = ({ items, showButtons=true, edittingItem,  onEditItem, onRem
                                 {(data.contract_detail?.description && data.contract_detail?.expense?.pattern)
                                     ? (
                                         <span className="text-sm text-red-500 font-thin ml-1">
-                                            {replaceExpensePattern(data.contract_detail?.expense?.pattern, data.contract_detail?.description)}
+                                            {replaceExpensePatternFromDesc(data.contract_detail?.expense?.pattern, data.description)}
                                         </span>
                                     ) : (
                                         <>
@@ -36,8 +36,8 @@ const ExpenseList = ({ items, showButtons=true, edittingItem,  onEditItem, onRem
                                         </>
                                     )
                                 }
-                            
-                                <span className="ml-1">งบประมาณ {currency.format(data.contract_detail?.total)} บาท</span>
+
+                                {/* <span className="ml-1">งบประมาณ {currency.format(data.contract_detail?.total)} บาท</span> */}
                             </p>
                         </td>
                         <td className="text-right">{currency.format(data.total)}</td>

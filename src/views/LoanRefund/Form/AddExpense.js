@@ -28,6 +28,26 @@ const AddExpense = ({ data, expenses, courses, refundType, onAddItem, onUpdateIt
         }
     };
 
+    const calculateTotalFromDesc = (desc = '') => {
+        if (desc.includes('+')) {
+            const groups = desc.split('+');
+
+            return groups.reduce((sum, curVal) => sum + calculatePattern(curVal), 0);
+        } else {
+            return calculatePattern(desc);
+        }
+    };
+
+    const calculatePattern = (str) => {
+        const [amount, time, price] = str.split('*');
+
+        return parseFloat(amount) * parseFloat(time) * parseFloat(price);
+    }
+
+    const getFormDataPattern = (id) => {
+        return expenses?.find(exp => exp.id === parseInt(id, 10))?.pattern;
+    };
+
     const handleClear = (formik) => {
         formik.resetForm();
         onClear(null);
@@ -54,6 +74,7 @@ const AddExpense = ({ data, expenses, courses, refundType, onAddItem, onUpdateIt
             initialValues={{
                 contract_detail_id: item ? item.contract_detail_id : '',
                 contract_detail: null,
+                description: item ? item.description : '',
                 total: item ? item.total : '',
             }}
             validationSchema={itemSchema}
@@ -109,6 +130,25 @@ const AddExpense = ({ data, expenses, courses, refundType, onAddItem, onUpdateIt
                             </select>
                             {(formik.errors.contract_detail_id && formik.touched.contract_detail_id) && (
                                 <span className="text-red-500 text-sm">{formik.errors.contract_detail_id}</span>
+                            )}
+                        </FormGroup>
+                        <FormGroup className="w-[30%]">
+                            <input
+                                type="text"
+                                name="description"
+                                value={formik.values.description}
+                                onChange={formik.handleChange}
+                                onBlur={(e) => {
+                                    formik.setFieldValue(
+                                        'total',
+                                        (getFormDataPattern(formik.values.expense_id) && e.target.value !== '') ? calculateTotalFromDesc(e.target.value) : ''
+                                    )
+                                }}
+                                className="form-control text-sm"
+                                placeholder="รายละเอียด"
+                            />
+                            {(formik.errors.description && formik.touched.description) && (
+                                <span className="text-red-500 text-sm">{formik.errors.description}</span>
                             )}
                         </FormGroup>
                         <FormGroup className="w-[20%]">

@@ -1,17 +1,9 @@
 import React, { Fragment } from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { currency, replaceExpensePattern, toShortTHDate } from '../../utils'
+import { currency, replaceExpensePatternFromDesc, toShortTHDate } from '../../utils'
 
 const ExpenseList = ({ courses, items, showButtons=true, edittingItem,  onEditItem, onRemoveItem }) => {
-    const replaceExpensePatternFromDesc = (pattern = '', replacement = '') => {
-        if (replacement.includes('+')) {
-            const groups = replacement.split('+').map(group => replaceExpensePattern(pattern, group));
 
-            return groups.join('+');
-        } else {
-            return replaceExpensePattern(pattern, replacement);
-        }
-    };
 
     const renderExpenseRow = (data, index) => {
         return (
