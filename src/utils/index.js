@@ -110,3 +110,7 @@ export const getFormDataItem = (data, dataName, id) => {
 
     return data[dataName].find(item => item.id === id);
 }
+
+export const isOverRefundDate = (refundDate) => {
+    return moment().diff(moment(refundDate), "days") > 0;
+};

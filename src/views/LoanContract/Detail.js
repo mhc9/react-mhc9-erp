@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import moment from 'moment'
 import { getContract, resetSuccess } from '../../features/slices/loan-contract/loanContractSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi'
-import { currency, toLongTHDate, toShortTHDate, getFormDataItem } from '../../utils'
+import { currency, toLongTHDate, toShortTHDate, getFormDataItem, isOverRefundDate } from '../../utils'
 import Loading from '../../components/Loading'
 import ExpenseList from '../../components/Expense//ExpenseList'
 import ModalDepositForm from '../../components/Modals/LoanContract/Deposit/Form'
@@ -256,6 +256,12 @@ const LoanContractDetail = () => {
                                     <a href="#" className="btn btn-primary" onClick={() => setShowDepositForm(true)}>
                                         บันทึกเงินเข้า
                                     </a>
+                                )}
+                                {(contract?.status === 2 && isOverRefundDate(contract?.refund_date)) && (
+                                    <Link to={`/preview/${id}/loan-contract/collection-form`} target="_blank" className="btn btn-success">
+                                        <i className="fas fa-print mr-1"></i>
+                                        พิมพ์บันทึกทวงหนี้
+                                    </Link>
                                 )}
                             </Col>
                         </Row>
