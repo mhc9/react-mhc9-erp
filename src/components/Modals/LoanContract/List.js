@@ -24,7 +24,7 @@ const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
             size='xl'
         >
             <Modal.Header closeButton>
-                <Modal.Title>รายการคำขอยืมเงิน</Modal.Title>
+                <Modal.Title>รายการสัญญายืมเงิน</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div>
@@ -33,7 +33,7 @@ const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
                                 <th className="text-center w-[15%]">เอกสาร</th>
-                                <th>รายการคำขอ</th>
+                                <th>รายการ</th>
                                 <th className="text-center w-[10%]">เลือก</th>
                             </tr>
                         </thead>
@@ -45,12 +45,12 @@ const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
                                     </td>
                                 </tr>
                             )}
-                            {contracts && contracts.map((contract, index) => (
+                            {(contracts && contracts.length > 0) ? contracts.map((contract, index) => (
                                 <tr key={contract.id} className="font-thin text-sm">
                                     <td className="text-center">{index+pager.from}</td>
                                     <td>
-                                        <p><b>เลขที่เอกสาร</b> {contract.contract_no}</p>
-                                        <p><b>วันที่เอกสาร</b> {toShortTHDate(contract.contract_date)}</p>
+                                        <p><b>เลขที่สัญญา</b> {contract.contract_no}</p>
+                                        <p><b>วันที่สัญญา</b> {toShortTHDate(contract.approved_date)}</p>
                                     </td>
                                     <td>
                                         {/* <p className="text-gray-400 text-sm">{contract?.project.plan?.name}</p> */}
@@ -76,7 +76,13 @@ const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
                                         </button>
                                     </td>
                                 </tr>
-                            ))}
+                            )) : !isLoading && (
+                                <tr>
+                                    <td colSpan={4} className="text-center">
+                                        <span className="text-red-500 text-sm font-thin">-- ไม่มีรายการ --</span>
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
