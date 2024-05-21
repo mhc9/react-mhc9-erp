@@ -45,7 +45,7 @@ const ModalLoanList = ({ isShow, onHide, onSelect }) => {
                                     </td>
                                 </tr>
                             )}
-                            {loans && loans.map((loan, index) => (
+                            {(loans && loans.length > 0) ? loans.map((loan, index) => (
                                 <tr key={loan.id} className="font-thin text-sm">
                                     <td className="text-center">{index+pager.from}</td>
                                     <td>
@@ -76,7 +76,13 @@ const ModalLoanList = ({ isShow, onHide, onSelect }) => {
                                         </button>
                                     </td>
                                 </tr>
-                            ))}
+                            )) : !isLoading && (
+                                <tr>
+                                    <td colSpan={4} className="text-center">
+                                        <span className="text-red-500 text-sm font-thin">-- ไม่มีรายการ --</span>
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
