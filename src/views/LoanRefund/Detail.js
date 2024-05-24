@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
+import { FaCheckSquare, FaRegSquare } from 'react-icons/fa'
 import moment from 'moment';
 import { currency, toShortTHDate, toLongTHDate, getFormDataItem } from '../../utils'
 import { getRefund, resetSuccess } from '../../features/slices/loan-refund/loanRefundSlice';
@@ -180,10 +181,16 @@ const LoanRefundDetail = () => {
                                                 </div>
                                             </div>
                                         </Col>
-                                        <Col md={10} className="mt-2">
+                                        <Col md={6} className="mt-2">
                                             <label htmlFor="">ประเภท</label>
                                             <div className="form-control text-sm">
                                                 {refund?.refund_type_id === 1 ? 'คืนเงิน' : 'เบิกเพิ่ม'}
+                                            </div>
+                                        </Col>                                        
+                                        <Col md={6} className="mt-2">
+                                            <label htmlFor="">&nbsp;</label>
+                                            <div className="flex flex-row items-center gap-1 mt-1">
+                                                {refund?.is_over20 === 1 ? <FaCheckSquare /> : <FaRegSquare />} เกิน 20%
                                             </div>
                                         </Col>
                                         <Col md={10} className="mt-2">
@@ -251,7 +258,16 @@ const LoanRefundDetail = () => {
                         </Row>
                         <Row className="mb-2 mt-4">
                             <Col className="flex justify-center">
-                                <a href="#" className="btn btn-success mr-2">พิมพ์บันทึกหักล้างเงินยืม</a>
+                                <a href="#" className="btn btn-success mr-1">
+                                    พิมพ์บันทึกหักล้างเงินยืม
+                                </a>
+
+                                {refund?.is_over20 === 1 && (
+                                    <a href="#" className="btn btn-danger mr-1" onClick={() => setShowApprovalForm(true)}>
+                                        พิมพ์บันทึกขอคืนเงินยืมเกิน 20%
+                                    </a>
+                                )}
+
                                 {refund?.status === 'N' && (
                                     <a href="#" className="btn btn-primary" onClick={() => setShowApprovalForm(true)}>
                                         เคลียร์เงินยืม
