@@ -219,6 +219,7 @@ const LoanRefundDetail = () => {
 
                                     <ExpenseList
                                         items={refund?.details}
+                                        courses={refund?.contract?.loan?.courses}
                                         showButtons={false}
                                     />
 
