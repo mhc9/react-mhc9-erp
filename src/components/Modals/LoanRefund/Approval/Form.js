@@ -14,13 +14,13 @@ const approvalSchema = Yup.object().shape({
     bill_date: Yup.string().required('กรุณาระบุวันที่ใบรับใบสำคัญ'),
 });
 
-const ModalApprovalForm = ({ isShow, onHide, contract }) => {
+const ModalApprovalForm = ({ isShow, onHide, refund }) => {
     const dispatch = useDispatch()
     const [selectedApprovedDate, setSelectedApprovedDate] = useState(moment());
     const [selectedBillDate, setSelectedBillDate] = useState(moment());
 
     const handleSubmit = (values, formik) => {
-        dispatch(approve({ id: contract?.id, data: values }));
+        dispatch(approve({ id: refund?.id, data: values }));
 
         onHide();
     };
@@ -37,7 +37,7 @@ const ModalApprovalForm = ({ isShow, onHide, contract }) => {
             <Modal.Body>
                 <Formik
                     initialValues={{
-                        contract_id: contract ? contract.id : '',
+                        contract_id: refund ? refund?.contract?.id : '',
                         approved_date: '',
                         bill_no: '',
                         bill_date: '',
@@ -54,7 +54,7 @@ const ModalApprovalForm = ({ isShow, onHide, contract }) => {
                                         <div className="flex flex-row items-center">
                                             <label htmlFor="" className="w-[45%]">เลขที่สัญญา :</label>
                                             <div>
-                                                {contract.contract_no}
+                                                {refund?.contract?.contract_no}
                                             </div>
                                         </div>
                                     </Col>

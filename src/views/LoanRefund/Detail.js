@@ -49,7 +49,7 @@ const LoanRefundDetail = () => {
                         <ModalApprovalForm
                             isShow={showApprovalForm}
                             onHide={() => setShowApprovalForm(false)}
-                            contract={refund?.contract}
+                            refund={refund}
                         />
 
                         <Row className="mb-2">
