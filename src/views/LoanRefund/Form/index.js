@@ -338,6 +338,7 @@ const LoanRefundForm = ({ refund }) => {
 
                                     <ExpenseList
                                         items={formik.values.items}
+                                        courses={contract?.loan?.courses}
                                         showButtons={true}
                                         edittingItem={edittingItem}
                                         onEditItem={(data) => handleEditItem(data)}

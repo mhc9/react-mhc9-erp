@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency, replaceExpensePatternFromDesc, toShortTHDate } from '../../utils'
 
-const ExpenseList = ({ courses, items, showButtons=true, edittingItem,  onEditItem, onRemoveItem }) => {
+const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditItem, onRemoveItem }) => {
 
 
     const renderExpenseRow = (data, index) => {
@@ -47,7 +47,7 @@ const ExpenseList = ({ courses, items, showButtons=true, edittingItem,  onEditIt
                 )}
             </tr>
         )
-    }
+    };
 
     return (
         <table className="table table-bordered table-striped table-hover text-sm mb-2">
