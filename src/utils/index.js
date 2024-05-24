@@ -98,6 +98,13 @@ export const isExisted = (items, id) => {
     return items.some(item => item.id === id);
 };
 
+export const replaceExpensePattern = (pattern = '', replacement = '') => {
+    const [p_amount, p_time, p_price] = pattern.split('X');
+    const [r_amount, r_time, r_price] = replacement.split('*');
+
+    return `${p_amount.replace('...', r_amount)}X${p_time.replace('...', r_time)}X${p_price.replace('...', r_price)}`;
+};
+
 export const replaceExpensePatternFromDesc = (pattern = '', replacement = '') => {
     if (replacement.includes('+')) {
         const groups = replacement.split('+').map(group => replaceExpensePattern(pattern, group));
@@ -108,11 +115,24 @@ export const replaceExpensePatternFromDesc = (pattern = '', replacement = '') =>
     }
 };
 
-export const replaceExpensePattern = (pattern = '', replacement = '') => {
-    const [p_amount, p_time, p_price] = pattern.split('X');
-    const [r_amount, r_time, r_price] = replacement.split('*');
+export const calculateWithPattern = (pattern) => {
+    const [amount, time, price] = pattern.split('*');
 
-    return `${p_amount.replace('...', r_amount)}X${p_time.replace('...', r_time)}X${p_price.replace('...', r_price)}`;
+    return parseFloat(amount) * parseFloat(time) * parseFloat(price);
+};
+
+export const calculateTotalFromDescription = (desc = '') => {
+    if (desc.includes('+')) {
+        const groups = desc.split('+');
+
+        return groups.reduce((sum, curVal) => sum + calculateWithPattern(curVal), 0);
+    } else {
+        return calculateWithPattern(desc);
+    }
+};
+
+export const getPatternOfExpense = (expenses, id) => {
+    return expenses?.find(exp => exp.id === parseInt(id, 10))?.pattern;
 };
 
 export const getFormDataItem = (data, dataName, id) => {
