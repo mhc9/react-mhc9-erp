@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
-import { toShortTHDate } from '../../utils'
-import ModalAddItemDesc from '../Modals/AddItemDesc'
+import { calculateTotalFromDescription, getPatternOfExpense, toShortTHDate } from '../../utils'
+// import ModalAddItemDesc from '../Modals/AddItemDesc'
 
 const itemSchema = Yup.object().shape({
     course_id: Yup.string().required(),
@@ -23,26 +23,6 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
     const handleClear = (formik) => {
         formik.resetForm();
         onClear(null);
-    };
-
-    const calculateTotalFromDesc = (desc = '') => {
-        if (desc.includes('+')) {
-            const groups = desc.split('+');
-
-            return groups.reduce((sum, curVal) => sum + calculatePattern(curVal), 0);
-        } else {
-            return calculatePattern(desc);
-        }
-    };
-
-    const calculatePattern = (str) => {
-        const [amount, time, price] = str.split('*');
-
-        return parseFloat(amount) * parseFloat(time) * parseFloat(price);
-    }
-
-    const getFormDataPattern = (id) => {
-        return formData.find(exp => exp.id === parseInt(id, 10))?.pattern;
     };
 
     const handleSubmit = (values, formik) => {
@@ -120,7 +100,7 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                                 onBlur={(e) => {
                                     formik.setFieldValue(
                                         'total',
-                                        (getFormDataPattern(formik.values.expense_id) && e.target.value !== '') ? calculateTotalFromDesc(e.target.value) : ''
+                                        (getPatternOfExpense(formData, formik.values.expense_id) && e.target.value !== '') ? calculateTotalFromDescription(e.target.value) : ''
                                     )
                                 }}
                                 className="form-control text-sm"
