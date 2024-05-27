@@ -115,19 +115,19 @@ const RepairationForm = ({ repairation }) => {
                                 <label>เวลาที่ซ่อม</label>
                                     <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
                                         <TimePicker
-                                            format="hh:mm"
+                                            format="HH:mm"
                                             ampm={false}
                                             value={selectedRepairTime}
                                             onChange={(time) => {
                                                 const dateStr = moment(selectedRepairDate).format('YYYY-MM-DD');
-                                                const timeStr = moment(time).format('hh:mm');
+                                                const timeStr = moment(time).format('HH:mm');
 
                                                 /** Create newTime from selectedRepairDate and selected time from input */
                                                 const newTime = moment(`${dateStr}T${timeStr}`);
 
                                                 /** Set newTime to selectedRepairTime state and repair_time field */
                                                 setSelectedRepairTime(newTime);
-                                                formik.setFieldValue('repair_time', newTime.format('hh:mm'));
+                                                formik.setFieldValue('repair_time', newTime.format('HH:mm'));
                                             }}
                                             variant="outlined"
                                         />
