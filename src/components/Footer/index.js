@@ -7,7 +7,7 @@ const Footer = () => {
                 <h3>
                     ©2020 ศูนย์สุขภาพจิตที่ 9 All Rights Reserved | DESIGNED BY 
                     <a href="https://www.query-studio.com" target="_blank" rel="noreferrer" className="ml-1">
-                        Query Studio Inc.
+                        นายสัญญา ธรรมวงษ์
                     </a>
                 </h3>
             </div>
