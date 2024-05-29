@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { FaCheckSquare, FaRegSquare } from 'react-icons/fa'
 import moment from 'moment';
@@ -259,14 +259,14 @@ const LoanRefundDetail = () => {
                         </Row>
                         <Row className="mb-2 mt-4">
                             <Col className="flex justify-center">
-                                <a href="#" className="btn btn-success mr-1">
+                                <Link to={`/preview/${id}/loan-refund/refund-form`} className="btn btn-success mr-1">
                                     พิมพ์บันทึกหักล้างเงินยืม
-                                </a>
+                                </Link>
 
                                 {refund?.is_over20 === 1 && (
-                                    <a href="#" className="btn btn-danger mr-1" onClick={() => setShowApprovalForm(true)}>
+                                    <Link to={`/preview/${id}/loan-refund/refund-over20`} className="btn btn-danger mr-1">
                                         พิมพ์บันทึกขอคืนเงินยืมเกิน 20%
-                                    </a>
+                                    </Link>
                                 )}
 
                                 {refund?.status === 'N' && (
