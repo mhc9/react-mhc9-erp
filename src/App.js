@@ -59,6 +59,7 @@ import RequisitionCommittee from './components/Preview/RequisitionCommittee';
 import Inspection from './components/Preview/Inspection';
 import FormLoan from './components/Preview/FormLoan';
 import FormLoanContract from './components/Preview/FormLoanContract';
+import FormLoanRefund from './components/Preview/FormLoanRefund';
 /** Repairation */
 import RepairationList from './views/Repairation/List';
 import RepairationDetail from './views/Repairation/Detail';
@@ -194,6 +195,7 @@ function App() {
             <Route path="/preview/:id/inspection" element={<Inspection />} />
             <Route path="/preview/:id/loan/form" element={<FormLoan />} />
             <Route path="/preview/:id/loan-contract/form" element={<FormLoanContract />} />
+            <Route path="/preview/:id/loan-refund/form" element={<FormLoanRefund />} />
         </Routes>
     );
 }

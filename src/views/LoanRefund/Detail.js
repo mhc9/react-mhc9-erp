@@ -259,12 +259,12 @@ const LoanRefundDetail = () => {
                         </Row>
                         <Row className="mb-2 mt-4">
                             <Col className="flex justify-center">
-                                <Link to={`/preview/${id}/loan-refund/refund-form`} className="btn btn-success mr-1">
+                                <Link to={`/preview/${id}/loan-refund/form`} className="btn btn-success mr-1">
                                     พิมพ์บันทึกหักล้างเงินยืม
                                 </Link>
 
                                 {refund?.is_over20 === 1 && (
-                                    <Link to={`/preview/${id}/loan-refund/refund-over20`} className="btn btn-danger mr-1">
+                                    <Link to={`/preview/${id}/loan-refund/over20-form`} className="btn btn-danger mr-1">
                                         พิมพ์บันทึกขอคืนเงินยืมเกิน 20%
                                     </Link>
                                 )}
