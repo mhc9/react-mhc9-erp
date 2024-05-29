@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { FaCheckSquare, FaRegSquare } from 'react-icons/fa'
 import moment from 'moment'
 import { getLoan } from '../../features/slices/loan/loanSlice'
-import { toLongTHDate, currency, replaceExpensePattern } from '../../utils'
+import { currency, toLongTHDate, replaceExpensePatternFromDesc } from '../../utils'
 import { ThaiNumberToText } from '../../utils/currencyText'
 import './Preview.css'
 
@@ -16,16 +16,6 @@ const FormLoanContract = () => {
     useEffect(() => {
         if (id) dispatch(getLoan(id));
     }, [dispatch, id]);
-
-    const replaceExpensePatternFromDesc = (pattern = '', replacement = '') => {
-        if (replacement.includes('+')) {
-            const groups = replacement.split('+').map(group => replaceExpensePattern(pattern, group));
-
-            return groups.join('+');
-        } else {
-            return replaceExpensePattern(pattern, replacement);
-        }
-    };
 
     return (
         <>
