@@ -59,7 +59,7 @@ const FormLoanRefund = () => {
                                 </div>
                                 <div className="memo-header-text">
                                     <h3>เรียน</h3>
-                                    <span>ผู้อำนวยการศูนย์สุขภาพจิตที่ 9</span>
+                                    <span>อธิบดีกรมสุขภาพจิต</span>
                                 </div>
                             </div>
                             <div className="memo-content">
