@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
-import { FaPencilAlt, FaTrash } from 'react-icons/fa'
+import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getComsets } from '../../features/slices/comset/comsetSlice';
 import Loading from '../../components/Loading';
 
@@ -57,10 +57,13 @@ const ComsetList = () => {
                                     <td className="text-center">{com.name}</td>
                                     <td className="text-center text-sm font-thin">{com.description}</td>
                                     <td className="text-center">
-                                        <Link to={`/comsets/${com.id}/edit`} className="btn btn-sm btn-warning mr-1">
+                                        <Link to={`/comset/${com.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
+                                            <FaSearch />
+                                        </Link>
+                                        <Link to={`/comset/${com.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />
                                         </Link>
-                                        <button className="btn btn-sm btn-danger">
+                                        <button className="btn btn-sm btn-danger px-1">
                                             <FaTrash />
                                         </button>
                                     </td>
