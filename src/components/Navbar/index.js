@@ -96,6 +96,9 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                             <Link to="/asset"><p className="w-full">ครุภัณฑ์</p></Link>
                                         </li>
                                         <li className="hover:bg-gray-300 p-2 rounded-t-md">
+                                            <Link to="/comset"><p className="w-full">ชุดคอมพิวเตอร์</p></Link>
+                                        </li>
+                                        <li className="hover:bg-gray-300 p-2 rounded-t-md">
                                             <Link to="/material"><p className="w-full">วัสดุ</p></Link>
                                         </li>
                                         <li className="hover:bg-gray-300 p-2">

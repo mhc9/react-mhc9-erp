@@ -84,6 +84,9 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                                     <Link to="/asset"><p className="w-full">ครุภัณฑ์</p></Link>
                                 </li>
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                    <Link to="/comset"><p className="w-full">ชุดคอมพิวเตอร์</p></Link>
+                                </li>
+                                <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                     <Link to="/material"><p className="w-full">วัสดุ</p></Link>
                                 </li>
                                 <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>

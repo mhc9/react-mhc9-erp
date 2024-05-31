@@ -149,9 +149,9 @@ function App() {
                 {/* Units */}
                 <Route path="unit" element={<GuardRoute><Unit /></GuardRoute>} />
 
-                {/* Equipments */}
-                <Route path="equipment" element={<GuardRoute><ComsetList /></GuardRoute>} />
-                <Route path="equipment/add" element={<GuardRoute><AddComset /></GuardRoute>} />
+                {/* Comsets */}
+                <Route path="comset" element={<GuardRoute><ComsetList /></GuardRoute>} />
+                <Route path="comset/add" element={<GuardRoute><AddComset /></GuardRoute>} />
 
                 {/* Assets */}
                 <Route path="asset" element={<GuardRoute><AssetList /></GuardRoute>} />
