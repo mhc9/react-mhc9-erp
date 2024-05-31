@@ -8,7 +8,7 @@ import Loading from '../../components/Loading';
 
 const ComsetList = () => {
     const dispatch = useDispatch();
-    const { comsets, pager, loading, success } = useSelector(state => state.equipment)
+    const { comsets, pager, loading, success } = useSelector(state => state.comset)
 
     useEffect(() => {
         dispatch(getComsets());
@@ -22,13 +22,13 @@ const ComsetList = () => {
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item href="/">ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item active>อุปกรณ์</Breadcrumb.Item>
+                <Breadcrumb.Item active>ชุดคอมพิวเตอร์</Breadcrumb.Item>
             </Breadcrumb>
         
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-xl">อุปกรณ์</h2>
-                    <Link to="add" className="btn btn-primary">เพิ่มอุปกรณ์ใหม่</Link>
+                    <h2 className="text-xl">ชุดคอมพิวเตอร์</h2>
+                    <Link to="add" className="btn btn-primary">เพิ่มชุดคอมพิวเตอร์</Link>
                 </div>
 
                 <div>
@@ -36,6 +36,8 @@ const ComsetList = () => {
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
+                                <th className="text-center w-[15%]">หมายเลขพัสดุ</th>
+                                <th className="text-center w-[15%]">ชุดคอมพิวเตอร์</th>
                                 <th>รายละเอียด</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
@@ -43,17 +45,19 @@ const ComsetList = () => {
                         <tbody>
                             {loading && (
                                 <tr>
-                                    <td colSpan={3} className="text-center">
+                                    <td colSpan={5} className="text-center">
                                         <Loading />
                                     </td>
                                 </tr>
                             )}
-                            {comsets && comsets.map((eq, index) => (
-                                <tr key={eq.id}>
+                            {comsets && comsets.map((com, index) => (
+                                <tr key={com.id}>
                                     <td>{index+pager.from}</td>
-                                    <td>{eq.description}</td>
+                                    <td className="text-center text-sm font-thin">{com.asset?.asset_no}</td>
+                                    <td className="text-center">{com.name}</td>
+                                    <td className="text-center text-sm font-thin">{com.description}</td>
                                     <td className="text-center">
-                                        <Link to={`/comsets/${eq.id}/edit`} className="btn btn-sm btn-warning mr-1">
+                                        <Link to={`/comsets/${com.id}/edit`} className="btn btn-sm btn-warning mr-1">
                                             <FaPencilAlt />
                                         </Link>
                                         <button className="btn btn-sm btn-danger">

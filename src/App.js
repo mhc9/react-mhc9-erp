@@ -20,6 +20,7 @@ import AssetCategory from './views/AssetCategory';
 /** Comset */
 import ComsetList from './views/Comset/List';
 import AddComset from './views/Comset/Add';
+import ComsetDetail from './views/Comset/Detail';
 /** Employee */
 import EmployeeList from './views/Employee/List';
 import AddEmployee from './views/Employee/Add';
@@ -152,6 +153,7 @@ function App() {
                 {/* Comsets */}
                 <Route path="comset" element={<GuardRoute><ComsetList /></GuardRoute>} />
                 <Route path="comset/add" element={<GuardRoute><AddComset /></GuardRoute>} />
+                <Route path="comset/:id/detail" element={<GuardRoute><ComsetDetail /></GuardRoute>} />
 
                 {/* Assets */}
                 <Route path="asset" element={<GuardRoute><AssetList /></GuardRoute>} />
