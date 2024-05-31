@@ -4,14 +4,25 @@ import api from "../../../api";
 const initialState = {
     comsets: [],
     pager: null,
-    loading: false,
-    success: false,
+    isLoading: false,
+    isSuccess: false,
     error: null
 };
 
 export const getComsets = createAsyncThunk("comset/getComsets", async (data, { rejectWithValue }) => {
     try {
         const res = await api.get(`/api/comsets`);
+
+        return res.data;
+    } catch (error) {
+        console.log(error);
+        rejectWithValue(error);
+    }
+});
+
+export const getComset = createAsyncThunk("comset/getComset", async (id, { rejectWithValue }) => {
+    try {
+        const res = await api.get(`/api/comsets/${id}`);
 
         return res.data;
     } catch (error) {
@@ -55,6 +66,19 @@ export const comsetSlice = createSlice({
         [getComsets.rejected]: (state, { payload }) => {
             console.log(payload);
 
+            state.loading = false;
+            state.error = payload;
+        },
+        [getComset.pending]: (state) => {
+            state.loading = true;
+            state.comset = null;
+            state.error = null;
+        },
+        [getComset.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.comset = payload;
+        },
+        [getComset.rejected]: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
         },
