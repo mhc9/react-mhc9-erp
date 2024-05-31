@@ -9,10 +9,10 @@ import ModalAssetList from '../../components/Modals/AssetList';
 
 const comsetSchema = Yup.object().shape({
     asset_id: Yup.string().required(),
-    description: Yup.string().required(),
+    name: Yup.string().required(),
 });
 
-const ComsetForm = () => {
+const ComsetForm = ({ comset }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.comset);
     const [showAssetList, setShowAssetList] = useState(false);
@@ -31,10 +31,11 @@ const ComsetForm = () => {
     return (
         <Formik
             initialValues={{
-                id: '',
-                asset_id: '',
-                description: '',
-                remark: ''
+                id: comset ? comset.id : '',
+                name: comset ? comset.name : '',
+                description: comset ? comset.description : '',
+                asset_id: comset ? comset.asset_id : '',
+                remark: comset ? comset.remark : ''
             }}
             validationSchema={comsetSchema}
             onSubmit={handleSubmit}
@@ -49,7 +50,7 @@ const ComsetForm = () => {
                         />
 
                         <Row className="mb-2">
-                            <Col>
+                            <Col md={4}>
                                 <FormGroup>
                                     <label>เลขที่พัสดุ</label>
                                     <div className="input-group has-validation">
@@ -67,6 +68,21 @@ const ComsetForm = () => {
                                     </div>
                                     {(formik.errors.asset_id && formik.touched.asset_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.asset_id}</span>
+                                    )}
+                                </FormGroup>
+                            </Col>
+                            <Col md={8}>
+                                <FormGroup>
+                                    <label>ชื่อชุดคอมพิวเตอร์</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={formik.values.name}
+                                        onChange={formik.handleChange}
+                                        className="form-control"
+                                    />
+                                    {(formik.errors.name && formik.touched.name) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.name}</span>
                                     )}
                                 </FormGroup>
                             </Col>
@@ -88,8 +104,6 @@ const ComsetForm = () => {
                                     )}
                                 </FormGroup>
                             </Col>
-                        </Row>
-                        <Row className="mb-2">
                             <Col>
                                 <FormGroup>
                                     <label>หมายเหตุ</label>
@@ -102,6 +116,40 @@ const ComsetForm = () => {
                                     >
                                     </textarea>
                                 </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <div className="flex flex-row items-center justify-between mb-2">
+                                    <h4 className="text-lg font-bold">อุปกรณ์ภายใน</h4>
+                                    
+                                    <div className="flex flex-row">
+                                        <button type="button" className="btn btn-outline-primary btn-sm text-sm">
+                                            เพิ่มอุปกรณ์
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <table className="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th className="w-[5%] text-center">#</th>
+                                            <th className="w-[12%] text-center">ประเภทอุปกรณ์</th>
+                                            <th>รายละเอียด</th>
+                                            <th className="w-[8%] text-center">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {/* {comset.details.map((eq, index) => ( */}
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        {/* ))} */}
+                                    </tbody>
+                                </table>
                             </Col>
                         </Row>
                         <Row>
