@@ -3,9 +3,9 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, FormGroup, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { store } from '../../features/slices/comset/comsetSlice';
-import Loading from '../../components/Loading'
-import ModalAssetList from '../../components/Modals/AssetList';
+import { store } from '../../../features/slices/comset/comsetSlice';
+import Loading from '../../../components/Loading'
+import ModalAssetList from '../../../components/Modals/AssetList';
 
 const comsetSchema = Yup.object().shape({
     asset_id: Yup.string().required(),
