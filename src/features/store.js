@@ -44,6 +44,7 @@ import { loanApi } from "./services/loan/loanApi";
 import { budgetApi } from "./services/budget/budgetApi";
 import { projectApi } from "./services/project/projectApi";
 import { placeApi } from "./services/place/placeApi";
+import { comsetApi } from "./services/comset/comsetApi";
 
 export default configureStore({
     reducer: {
@@ -64,6 +65,7 @@ export default configureStore({
         [budgetApi.reducerPath]: budgetApi.reducer,
         [projectApi.reducerPath]: projectApi.reducer,
         [placeApi.reducerPath]: placeApi.reducer,
+        [comsetApi.reducerPath]: comsetApi.reducer,
         auth: authReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
@@ -108,6 +110,7 @@ export default configureStore({
             assetCategoryApi.middleware,
             assetTypeApi.middleware,
             approvalApi.middleware,
+            comsetApi.middleware,
             loanApi.middleware,
             budgetApi.middleware,
             projectApi.middleware,

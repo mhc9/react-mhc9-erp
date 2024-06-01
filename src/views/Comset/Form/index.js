@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { store } from '../../../features/slices/comset/comsetSlice';
 import Loading from '../../../components/Loading'
 import ModalAssetList from '../../../components/Modals/AssetList';
+import ModalEquipmentForm from '../../../components/Modals/Equipment/Form'
 
 const comsetSchema = Yup.object().shape({
     asset_id: Yup.string().required(),
@@ -16,16 +17,21 @@ const ComsetForm = ({ comset }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.comset);
     const [showAssetList, setShowAssetList] = useState(false);
+    const [showEquipmentForm, setShowEquipmentForm] = useState(false);
     const [asset, setAsset] = useState(null);
 
-    const onAssetSelected = (formik, asset) => {
+    const handleAssetSelected = (formik, asset) => {
         setAsset(asset);
         formik.setFieldValue('asset_id', asset.id);
     };
 
+    const handleAddEquipment = (formik, equipment) => {
+        formik.setFieldValue('equipments', [ ...formik.values.equipments, equipment ]);
+    };
+
     const handleSubmit = (values, props) => {
         console.log(values, props);
-        dispatch(store(values))
+        dispatch(store(values));
     };
 
     return (
@@ -35,7 +41,9 @@ const ComsetForm = ({ comset }) => {
                 name: comset ? comset.name : '',
                 description: comset ? comset.description : '',
                 asset_id: comset ? comset.asset_id : '',
-                remark: comset ? comset.remark : ''
+                remark: comset ? comset.remark : '',
+                equipments: [],
+                assets: []
             }}
             validationSchema={comsetSchema}
             onSubmit={handleSubmit}
@@ -46,7 +54,13 @@ const ComsetForm = ({ comset }) => {
                         <ModalAssetList
                             isShow={showAssetList}
                             handleHide={() => setShowAssetList(false)}
-                            handleSelect={(asset) => onAssetSelected(formik, asset)}
+                            handleSelect={(asset) => handleAssetSelected(formik, asset)}
+                        />
+
+                        <ModalEquipmentForm
+                            isShow={showEquipmentForm}
+                            onHide={() => setShowEquipmentForm(false)}
+                            onSubmit={(equipment) => handleAddEquipment(formik, equipment)}
                         />
 
                         <Row className="mb-2">
@@ -124,7 +138,11 @@ const ComsetForm = ({ comset }) => {
                                     <h4 className="text-lg font-bold">อุปกรณ์ภายใน</h4>
                                     
                                     <div className="flex flex-row">
-                                        <button type="button" className="btn btn-outline-primary btn-sm text-sm">
+                                        <button
+                                            type="button"
+                                            className="btn btn-outline-primary btn-sm text-sm"
+                                            onClick={() => setShowEquipmentForm(true)}
+                                        >
                                             เพิ่มอุปกรณ์
                                         </button>
                                     </div>
@@ -140,14 +158,14 @@ const ComsetForm = ({ comset }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {/* {comset.details.map((eq, index) => ( */}
+                                        {formik.values.equipments.map((eq, index) => (
                                             <tr>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
                                             </tr>
-                                        {/* ))} */}
+                                        ))}
                                     </tbody>
                                 </table>
                             </Col>
