@@ -3,6 +3,7 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, FormGroup, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { store } from '../../../features/slices/comset/comsetSlice';
 import Loading from '../../../components/Loading'
 import ModalAssetList from '../../../components/Modals/AssetList';
@@ -101,7 +102,7 @@ const ComsetForm = ({ comset }) => {
                                 </FormGroup>
                             </Col>
                         </Row>
-                        <Row className="mb-2">
+                        <Row className="mb-4">
                             <Col>
                                 <FormGroup>
                                     <label>รายละเอียด</label>
@@ -140,7 +141,7 @@ const ComsetForm = ({ comset }) => {
                                     <div className="flex flex-row">
                                         <button
                                             type="button"
-                                            className="btn btn-outline-primary btn-sm text-sm"
+                                            className="btn btn-outline-primary btn-sm"
                                             onClick={() => setShowEquipmentForm(true)}
                                         >
                                             เพิ่มอุปกรณ์
@@ -158,12 +159,23 @@ const ComsetForm = ({ comset }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {formik.values.equipments.map((eq, index) => (
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                        {formik.values.equipments.map((equipment, index) => (
+                                            <tr key={equipment.id}>
+                                                <td className="text-center">{index+1}</td>
+                                                <td className="text-center">{equipment.type?.name}</td>
+                                                <td>
+                                                    <span>{equipment.brand?.name}</span>
+                                                    <span className="mx-2">{equipment.model}</span>
+                                                    <span>{equipment.capacity}</span>
+                                                </td>
+                                                <td className="text-center">
+                                                    <a href="#" className="btn btn-sm btn-warning px-1 mr-1">
+                                                        <FaPencilAlt />
+                                                    </a>
+                                                    <a href="#" className="btn btn-sm btn-danger px-1">
+                                                        <FaTrash />
+                                                    </a>
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>

@@ -35,7 +35,7 @@ const ModalEquipmentForm = ({ isShow, onHide, onSubmit }) => {
                         capacity: '',
                         description: '',
                         price: '',
-                        equipmentType: null,
+                        type: null,
                         brand: null
                     }}
                     validationSchema={equipmentSchema}
@@ -53,7 +53,7 @@ const ModalEquipmentForm = ({ isShow, onHide, onSubmit }) => {
                                                 value={formik.values.equipment_type_id}
                                                 onChange={(e) => {
                                                     formik.handleChange(e);
-                                                    formik.setFieldValue('equipmentType', getFormDataItem(formData, 'types', parseInt(e.target.value, 10)));
+                                                    formik.setFieldValue('type', getFormDataItem(formData, 'types', parseInt(e.target.value, 10)));
                                                 }}
                                                 className="form-control text-sm"
                                             >
