@@ -15,6 +15,9 @@ const ModalEquipmentForm = ({ isShow, onHide, onSubmit }) => {
 
     const handleSubmit = (values, formik) => {
         onSubmit(values);
+
+        formik.resetForm();
+        onHide();
     };
 
     return (
