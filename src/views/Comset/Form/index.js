@@ -67,19 +67,18 @@ const ComsetForm = ({ comset }) => {
                         <Row className="mb-2">
                             <Col md={4}>
                                 <FormGroup>
-                                    <label>เลขที่พัสดุ</label>
+                                    <label>หมายเลขครุภัณฑ์/เลข FSN</label>
                                     <div className="input-group has-validation">
-                                        <div type="text" name="asset" className="form-control">
-                                            {asset?.asset_no} {asset?.name}
+                                        <div type="text" name="asset" className="form-control text-sm text-center bg-gray-100 min-h-[34px]">
+                                            {asset?.asset_no ? asset?.asset_no : asset?.fsn_no}
                                         </div>
                                         <input
                                             type="hidden"
                                             name="asset_id"
                                             value={formik.values.asset_id}
                                             onChange={formik.handleChange}
-                                            className="form-control"
                                         />
-                                        <button type="button" className="btn btn-outline-secondary" onClick={() => setShowAssetList(true)}>ค้นหา</button>
+                                        <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setShowAssetList(true)}>ค้นหา</button>
                                     </div>
                                     {(formik.errors.asset_id && formik.touched.asset_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.asset_id}</span>
@@ -88,37 +87,47 @@ const ComsetForm = ({ comset }) => {
                             </Col>
                             <Col md={8}>
                                 <FormGroup>
+                                    <label>รายละเอียดครุภัณฑ์</label>
+                                    <div className="form-control text-sm bg-gray-100 min-h-[34px]">
+                                        {asset?.name}
+                                    </div>
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col md={4}>
+                                <FormGroup>
                                     <label>ชื่อชุดคอมพิวเตอร์</label>
                                     <input
                                         type="text"
                                         name="name"
                                         value={formik.values.name}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     />
                                     {(formik.errors.name && formik.touched.name) && (
                                         <span className="text-red-500 text-sm">{formik.errors.name}</span>
                                     )}
                                 </FormGroup>
                             </Col>
-                        </Row>
-                        <Row className="mb-4">
                             <Col>
                                 <FormGroup>
                                     <label>รายละเอียด</label>
-                                    <textarea
-                                        rows={3}
+                                    <input
+                                        type="text"
                                         name="description"
                                         value={formik.values.description}
                                         onChange={formik.handleChange}
-                                        className="form-control"
+                                        className="form-control text-sm"
                                     >
-                                    </textarea>
+                                    </input>
                                     {(formik.errors.description && formik.touched.description) && (
                                         <span className="text-red-500 text-sm">{formik.errors.description}</span>
                                     )}
                                 </FormGroup>
                             </Col>
+                        </Row>
+                        <Row className="mb-4">
                             <Col>
                                 <FormGroup>
                                     <label>หมายเหตุ</label>
