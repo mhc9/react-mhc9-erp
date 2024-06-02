@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
+import { getComset } from '../../features/slices/comset/comsetSlice'
 import ComsetForm from './Form'
 
 const EditComset = () => {
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const { comset, isLoading } = useSelector(state => state.comset);
+
+    useEffect(() => {
+        if (id) {
+            dispatch(getComset(id));
+        }
+    }, [id]);
+
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}
@@ -17,7 +30,7 @@ const EditComset = () => {
                 <h2 className="text-xl">แก้ไขชุดคอมพิวเตอร์</h2>
 
                 <div className="my-2 border p-4 rounded-md">
-                    <ComsetForm />
+                    <ComsetForm comset={comset} />
                 </div>
             </div>
         </div>
