@@ -165,7 +165,7 @@ const ComsetForm = ({ comset }) => {
                                     </div>
                                 </div>
 
-                                <table className="table table-bordered">
+                                <table className="table table-bordered text-sm">
                                     <thead>
                                         <tr>
                                             <th className="w-[5%] text-center">#</th>
@@ -202,7 +202,7 @@ const ComsetForm = ({ comset }) => {
                             <Col>
                                 <button
                                     type="submit"
-                                    className="btn btn-outline-primary mt-2 float-right"
+                                    className="btn btn-outline-primary float-right"
                                     disabled={formik.isSubmitting}
                                 >
                                     บันทึก
