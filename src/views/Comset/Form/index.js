@@ -54,8 +54,8 @@ const ComsetForm = ({ comset }) => {
                     <Form>
                         <ModalAssetList
                             isShow={showAssetList}
-                            handleHide={() => setShowAssetList(false)}
-                            handleSelect={(asset) => handleAssetSelected(formik, asset)}
+                            onHide={() => setShowAssetList(false)}
+                            onSelect={(asset) => handleAssetSelected(formik, asset)}
                         />
 
                         <ModalEquipmentForm
