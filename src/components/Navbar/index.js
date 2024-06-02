@@ -95,10 +95,10 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                         <li className="hover:bg-gray-300 p-2 rounded-t-md">
                                             <Link to="/asset"><p className="w-full">ครุภัณฑ์</p></Link>
                                         </li>
-                                        <li className="hover:bg-gray-300 p-2 rounded-t-md">
+                                        <li className="hover:bg-gray-300 p-2">
                                             <Link to="/comset"><p className="w-full">ชุดคอมพิวเตอร์</p></Link>
                                         </li>
-                                        <li className="hover:bg-gray-300 p-2 rounded-t-md">
+                                        <li className="hover:bg-gray-300 p-2">
                                             <Link to="/material"><p className="w-full">วัสดุ</p></Link>
                                         </li>
                                         <li className="hover:bg-gray-300 p-2">

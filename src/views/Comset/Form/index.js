@@ -43,14 +43,15 @@ const ComsetForm = ({ comset }) => {
 
     return (
         <Formik
+            enableReinitialize
             initialValues={{
                 id: comset ? comset.id : '',
                 name: comset ? comset.name : '',
                 description: comset ? comset.description : '',
                 asset_id: comset ? comset.asset_id : '',
                 remark: comset ? comset.remark : '',
-                equipments: [],
-                assets: []
+                equipments: comset ? comset.equipments : [],
+                assets: comset ? comset.assets : []
             }}
             validationSchema={comsetSchema}
             onSubmit={handleSubmit}
@@ -204,7 +205,6 @@ const ComsetForm = ({ comset }) => {
                                     className="btn btn-outline-primary mt-2 float-right"
                                     disabled={formik.isSubmitting}
                                 >
-                                    {loading && <Loading />}
                                     บันทึก
                                 </button>
                             </Col>
