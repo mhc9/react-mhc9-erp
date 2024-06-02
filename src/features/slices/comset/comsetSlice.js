@@ -33,8 +33,18 @@ export const getComset = createAsyncThunk("comset/getComset", async (id, { rejec
 
 export const store = createAsyncThunk("comset/store", async (data, { rejectWithValue }) => {
     try {
-        console.log(data);
         const res = await api.post(`/api/comsets`, data);
+
+        return res.data;
+    } catch (error) {
+        console.log(error);
+        rejectWithValue(error);
+    }
+});
+
+export const update = createAsyncThunk("comset/update", async ({ id, data }, { rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/comsets/${id}/update`, data);
 
         return res.data;
     } catch (error) {
@@ -83,18 +93,33 @@ export const comsetSlice = createSlice({
             state.error = payload;
         },
         [store.pending]: (state) => {
-            state.loading = true;
             state.success = false;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
             console.log(payload);
-            state.loading = false;
             state.success = true;
         },
         [store.rejected]: (state, { payload }) => {
             console.log(payload);
-            state.loading = false;
+            state.error = payload;
+        },
+        [update.pending]: (state) => {
+            state.success = false;
+            state.comset = null;
+            state.error = null;
+        },
+        [update.fulfilled]: (state, { payload }) => {
+            const { status, message, comset } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.comset = comset
+            } else {
+                state.error = { message };
+            }
+        },
+        [update.rejected]: (state, { payload }) => {
             state.error = payload;
         },
     }
