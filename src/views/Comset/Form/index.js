@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, FormGroup, Row } from 'react-bootstrap'
@@ -20,6 +20,12 @@ const ComsetForm = ({ comset }) => {
     const [showAssetList, setShowAssetList] = useState(false);
     const [showEquipmentForm, setShowEquipmentForm] = useState(false);
     const [asset, setAsset] = useState(null);
+
+    useEffect(() => {
+        if (comset) {
+            setAsset(comset.asset)
+        }
+    }, [comset]);
 
     const handleAssetSelected = (formik, asset) => {
         setAsset(asset);
