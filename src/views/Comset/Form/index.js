@@ -171,7 +171,7 @@ const ComsetForm = ({ comset }) => {
                                     <thead>
                                         <tr>
                                             <th className="w-[5%] text-center">#</th>
-                                            <th className="w-[12%] text-center">ประเภทอุปกรณ์</th>
+                                            <th className="w-[20%] text-center">ประเภทอุปกรณ์</th>
                                             <th>รายละเอียด</th>
                                             <th className="w-[8%] text-center">Actions</th>
                                         </tr>
@@ -183,7 +183,7 @@ const ComsetForm = ({ comset }) => {
                                                 <td className="text-center">{equipment.type?.name}</td>
                                                 <td>
                                                     <span>{equipment.brand?.name}</span>
-                                                    <span className="mx-2">{equipment.model}</span>
+                                                    <span className="mx-1">{equipment.model}</span>
                                                     <span>{equipment.capacity}</span>
                                                 </td>
                                                 <td className="text-center">

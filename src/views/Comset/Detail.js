@@ -71,13 +71,13 @@ const ComsetDetail = () => {
                                     <thead>
                                         <tr>
                                             <th className="w-[5%] text-center">#</th>
-                                            <th className="w-[12%] text-center">ประเภทอุปกรณ์</th>
+                                            <th className="w-[20%] text-center">ประเภทอุปกรณ์</th>
                                             <th>รายละเอียด</th>
                                             <th className="w-[8%] text-center">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {comset.details.map((eq, index) => (
+                                        {comset.equipments.map((eq, index) => (
                                             <tr>
                                                 <td></td>
                                                 <td></td>
