@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import { Col, FormGroup, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { store } from '../../../features/slices/comset/comsetSlice';
+import { store, update } from '../../../features/slices/comset/comsetSlice';
 import Loading from '../../../components/Loading'
 import ModalAssetList from '../../../components/Modals/AssetList';
 import ModalEquipmentForm from '../../../components/Modals/Equipment/Form'
@@ -37,15 +37,17 @@ const ComsetForm = ({ comset }) => {
     };
 
     const handleSubmit = (values, props) => {
-        console.log(values, props);
-        dispatch(store(values));
+        if (comset) {
+            dispatch(update({ id: comset.id, data: values }));
+        } else {
+            dispatch(store(values));
+        }
     };
 
     return (
         <Formik
             enableReinitialize
             initialValues={{
-                id: comset ? comset.id : '',
                 name: comset ? comset.name : '',
                 description: comset ? comset.description : '',
                 asset_id: comset ? comset.asset_id : '',
