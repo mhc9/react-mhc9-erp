@@ -99,6 +99,8 @@ const ComsetForm = ({ comset }) => {
                                     <label>รายละเอียดครุภัณฑ์</label>
                                     <div className="form-control text-sm bg-gray-100 min-h-[34px]">
                                         {asset?.name}
+                                        <span className="ml-1">ยี่ห้อ {asset?.brand?.name}</span>
+                                        <span className="ml-1">รุ่น {asset?.model ? asset?.model : '-'}</span>
                                     </div>
                                 </FormGroup>
                             </Col>
