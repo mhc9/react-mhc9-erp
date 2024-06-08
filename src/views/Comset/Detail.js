@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { Breadcrumb, Col, Row } from 'react-bootstrap';
+import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getComset } from '../../features/slices/comset/comsetSlice';
 import Loading from '../../components/Loading'
 
@@ -42,16 +43,30 @@ const ComsetDetail = () => {
                                     {comset.asset?.asset_no}
                                 </div>
                             </Col>
-                            <Col md={8}>
+                            <Col md={8} className="mb-2">
+                                <label for="">รายละเอียดครุภัณฑ์</label>
+                                <div className="form-control min-h-[34px] text-sm">
+                                    {comset.asset?.name}
+                                    <span className="ml-1">ยี่ห้อ {comset.asset?.brand?.name}</span>
+                                    <span className="ml-1">รุ่น {comset.asset?.model ? comset.asset?.model : '-'}</span>
+                                </div>
+                            </Col>
+                            <Col md={4} className="mb-2">
                                 <label for="">ชื่อชุดคอมพิวเตอร์</label>
                                 <div className="form-control min-h-[34px] text-sm">
                                     {comset.name}
                                 </div>
                             </Col>
-                            <Col className="mb-2">
-                                <label for="">ชื่อชุดคอมพิวเตอร์</label>
-                                <div className="form-control min-h-[68px] text-sm">
+                            <Col md={8} className="mb-2">
+                                <label for="">รายละเอียด</label>
+                                <div className="form-control min-h-[34px] text-sm">
                                     {comset.description}
+                                </div>
+                            </Col>
+                            <Col md={12} className="mb-2">
+                                <label for="">หมายเหตุ</label>
+                                <div className="form-control min-h-[68px] text-sm">
+                                    {comset.remark}
                                 </div>
                             </Col>
                         </Row>
@@ -67,7 +82,7 @@ const ComsetDetail = () => {
                                     </div>
                                 </div>
 
-                                <table className="table table-bordered">
+                                <table className="table table-bordered text-sm">
                                     <thead>
                                         <tr>
                                             <th className="w-[5%] text-center">#</th>
@@ -77,13 +92,24 @@ const ComsetDetail = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {comset.equipments.map((eq, index) => (
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
+                                        {comset.equipments.map((equipment, index) => (
+                                            <tr key={equipment.id} className="font-thin">
+                                            <td className="text-center">{index+1}</td>
+                                            <td className="text-center">{equipment.type?.name}</td>
+                                            <td>
+                                                <span>{equipment.brand?.name}</span>
+                                                <span className="mx-1">{equipment.model}</span>
+                                                <span>{equipment.capacity}</span>
+                                            </td>
+                                            <td className="text-center">
+                                                <a href="#" className="btn btn-sm btn-warning px-1 mr-1">
+                                                    <FaPencilAlt />
+                                                </a>
+                                                <a href="#" className="btn btn-sm btn-danger px-1">
+                                                    <FaTrash />
+                                                </a>
+                                            </td>
+                                        </tr>
                                         ))}
                                     </tbody>
                                 </table>
@@ -105,7 +131,7 @@ const ComsetDetail = () => {
                                     <thead>
                                         <tr>
                                             <th className="w-[5%] text-center">#</th>
-                                            <th className="w-[12%] text-center">ประเภทอุปกรณ์</th>
+                                            <th className="w-[20%] text-center">ประเภทอุปกรณ์</th>
                                             <th>รายละเอียด</th>
                                             <th className="w-[8%] text-center">Actions</th>
                                         </tr>
