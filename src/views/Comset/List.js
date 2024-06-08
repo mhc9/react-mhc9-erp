@@ -55,7 +55,12 @@ const ComsetList = () => {
                                     <td>{index+pager.from}</td>
                                     <td className="text-center text-sm font-thin">{com.asset?.asset_no}</td>
                                     <td className="text-center">{com.name}</td>
-                                    <td className="text-center text-sm font-thin">{com.description}</td>
+                                    <td className="text-sm font-thin">
+                                        {com.asset?.name}
+                                        <span className="ml-1">ยี่ห้อ {com.asset?.brand?.name}</span>
+                                        <span className="ml-1">รุ่น {com.asset?.model ? com.asset?.model : '-'}</span>
+                                        <p>{com.description}</p>
+                                    </td>
                                     <td className="text-center">
                                         <Link to={`/comset/${com.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
