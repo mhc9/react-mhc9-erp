@@ -39,13 +39,14 @@ const ComsetList = () => {
                                 <th className="text-center w-[15%]">หมายเลขพัสดุ</th>
                                 <th className="text-center w-[15%]">ชุดคอมพิวเตอร์</th>
                                 <th>รายละเอียด</th>
+                                <th className="text-center w-[10%]">สถานะ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {loading && (
                                 <tr>
-                                    <td colSpan={5} className="text-center">
+                                    <td colSpan={6} className="text-center">
                                         <Loading />
                                     </td>
                                 </tr>
@@ -60,6 +61,13 @@ const ComsetList = () => {
                                         <span className="ml-1">ยี่ห้อ {com.asset?.brand?.name}</span>
                                         <span className="ml-1">รุ่น {com.asset?.model ? com.asset?.model : '-'}</span>
                                         <p>{com.description}</p>
+                                    </td>
+                                    <td className="text-center">
+                                        {com.status === 1 && <span className="badge rounded-pill text-bg-success">ใช้งานอยู่</span>}
+                                        {com.status === 2 && <span className="badge rounded-pill text-bg-warning">รอซ่อม</span>}
+                                        {com.status === 3 && <span className="badge rounded-pill text-bg-primary">ส่งซ่อม</span>}
+                                        {com.status === 4 && <span className="badge rounded-pill text-bg-secondary">รอจำหน่าย</span>}
+                                        {com.status === 5 && <span className="badge rounded-pill text-bg-dark">จำหน่าย</span>}
                                     </td>
                                     <td className="text-center">
                                         <Link to={`/comset/${com.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
