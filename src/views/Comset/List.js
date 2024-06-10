@@ -5,16 +5,21 @@ import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getComsets } from '../../features/slices/comset/comsetSlice';
 import Loading from '../../components/Loading';
+import Pagination from '../../components/Pagination';
 
 const ComsetList = () => {
     const dispatch = useDispatch();
-    const { comsets, pager, loading, success } = useSelector(state => state.comset)
+    const { comsets, pager, loading, success } = useSelector(state => state.comset);
+    const [apiEndpoint, setApiEndpoint] = useState('');
+    const [params, setParams] = useState('');
 
     useEffect(() => {
-        dispatch(getComsets());
-    }, []);
-
-    console.log(comsets);
+        if (apiEndpoint === '') {
+            dispatch(getComsets({ url: '' }));
+        } else {
+            dispatch(getComsets({ url: apiEndpoint }));
+        }
+    }, [apiEndpoint, params]);
 
     return (
         <div className="content-wrapper">
@@ -53,7 +58,7 @@ const ComsetList = () => {
                             )}
                             {comsets && comsets.map((com, index) => (
                                 <tr key={com.id}>
-                                    <td>{index+pager.from}</td>
+                                    <td className="text-center">{index+pager.from}</td>
                                     <td className="text-center text-sm font-thin">{com.asset?.asset_no}</td>
                                     <td className="text-center">{com.name}</td>
                                     <td className="text-sm font-thin">
@@ -92,6 +97,11 @@ const ComsetList = () => {
                         </tbody>
                     </table>
                 </div>
+
+                <Pagination
+                    pager={pager}
+                    onPageClick={(url) => setApiEndpoint(url)}
+                />
             </div>
         </div>
     )

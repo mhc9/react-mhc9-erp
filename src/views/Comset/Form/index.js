@@ -49,9 +49,9 @@ const ComsetForm = ({ comset }) => {
             enableReinitialize
             initialValues={{
                 name: comset ? comset.name : '',
-                description: comset ? comset.description : '',
+                description: (comset && comset.description) ? comset.description : '',
                 asset_id: comset ? comset.asset_id : '',
-                remark: comset ? comset.remark : '',
+                remark: (comset && comset.remark) ? comset.remark : '',
                 equipments: comset ? comset.equipments : [],
                 assets: comset ? comset.assets : []
             }}
