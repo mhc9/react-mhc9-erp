@@ -9,7 +9,7 @@ import Pagination from '../../components/Pagination';
 
 const ComsetList = () => {
     const dispatch = useDispatch();
-    const { comsets, pager, loading, success } = useSelector(state => state.comset);
+    const { comsets, pager, isLoading, isSuccess } = useSelector(state => state.comset);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState('');
 
@@ -49,7 +49,7 @@ const ComsetList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {loading && (
+                            {isLoading && (
                                 <tr>
                                     <td colSpan={6} className="text-center">
                                         <Loading />
@@ -87,7 +87,7 @@ const ComsetList = () => {
                                     </td>
                                 </tr>
                             ))}
-                            {!loading && comsets.length <= 0 && (
+                            {!isLoading && comsets.length <= 0 && (
                                 <tr>
                                     <td colSpan={6} className="text-center">
                                         -- ไม่มีข้อมูล --
