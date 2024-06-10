@@ -15,7 +15,7 @@ const ComsetList = () => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getComsets({ url: '' }));
+            dispatch(getComsets({ url: `/api/comsets` }));
         } else {
             dispatch(getComsets({ url: apiEndpoint }));
         }
@@ -89,7 +89,7 @@ const ComsetList = () => {
                             ))}
                             {!loading && comsets.length <= 0 && (
                                 <tr>
-                                    <td colSpan={3} className="text-center">
+                                    <td colSpan={6} className="text-center">
                                         -- ไม่มีข้อมูล --
                                     </td>
                                 </tr>

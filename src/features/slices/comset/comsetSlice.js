@@ -9,9 +9,9 @@ const initialState = {
     error: null
 };
 
-export const getComsets = createAsyncThunk("comset/getComsets", async (data, { rejectWithValue }) => {
+export const getComsets = createAsyncThunk("comset/getComsets", async ({ url }, { rejectWithValue }) => {
     try {
-        const res = await api.get(`/api/comsets`);
+        const res = await api.get(url);
 
         return res.data;
     } catch (error) {
@@ -61,51 +61,51 @@ export const comsetSlice = createSlice({
         [getComsets.pending]: (state) => {
             state.comsets = [];
             state.pager = null;
-            state.loading = true;
-            state.success = false;
+            state.isLoading = true;
+            state.isSuccess = false;
             state.error = null;
         },
         [getComsets.fulfilled]: (state, { payload }) => {
             const { data, ...pager } = payload;
 
-            state.loading = false;
+            state.isLoading = false;
             state.comsets = data;
             state.pager = pager;
-            state.success = true;
+            state.isSuccess = true;
         },
         [getComsets.rejected]: (state, { payload }) => {
             console.log(payload);
 
-            state.loading = false;
+            state.isLoading = false;
             state.error = payload;
         },
         [getComset.pending]: (state) => {
-            state.loading = true;
+            state.isLoading = true;
             state.comset = null;
             state.error = null;
         },
         [getComset.fulfilled]: (state, { payload }) => {
-            state.loading = false;
+            state.isLoading = false;
             state.comset = payload;
         },
         [getComset.rejected]: (state, { payload }) => {
-            state.loading = false;
+            state.isLoading = false;
             state.error = payload;
         },
         [store.pending]: (state) => {
-            state.success = false;
+            state.isSuccess = false;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
             console.log(payload);
-            state.success = true;
+            state.isSuccess = true;
         },
         [store.rejected]: (state, { payload }) => {
             console.log(payload);
             state.error = payload;
         },
         [update.pending]: (state) => {
-            state.success = false;
+            state.isSuccess = false;
             state.comset = null;
             state.error = null;
         },
