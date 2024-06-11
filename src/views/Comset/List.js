@@ -21,6 +21,10 @@ const ComsetList = () => {
         }
     }, [apiEndpoint, params]);
 
+    const joinEquipments = (equipments) => {
+        return equipments.map(eq => `${eq.type?.name} ${eq.brand?.name} ${eq.model} ${eq.capacity ? eq.capacity : '-'}`).join(', ');
+    };
+
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}
@@ -66,6 +70,7 @@ const ComsetList = () => {
                                         <span className="ml-1">ยี่ห้อ {com.asset?.brand?.name}</span>
                                         <span className="ml-1">รุ่น {com.asset?.model ? com.asset?.model : '-'}</span>
                                         <p>{com.description}</p>
+                                        <p className="text-xs text-gray-400">{joinEquipments(com.equipments)}</p>
                                     </td>
                                     <td className="text-center">
                                         {com.status === 1 && <span className="badge rounded-pill text-bg-success">ใช้งานอยู่</span>}
