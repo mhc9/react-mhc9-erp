@@ -21,7 +21,7 @@ const FormLoanContract = () => {
         <>
             {/* PAGE 1 */}
             <div className="paper-container">
-                <div className="form-wrapper">
+                <div className="form-wrapper form-contract">
                     <div className="border-[1px] border-black">
                         <div className="form-top">
                             <h1 className="text-2xl font-bold">สัญญายืมเงิน</h1>

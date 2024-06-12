@@ -210,7 +210,14 @@
 .form-wrapper {
     margin: 1cm 1.5cm 1.5cm 1.5cm; /* top right bottom left */
     /* border: 1px solid black; */
+}
+
+.form-wrapper.form-contract {
     font-size: 12pt;
+}
+
+.form-wrapper.form-bill {
+    font-size: 16pt;
 }
 
 .form-top {

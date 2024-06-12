@@ -262,6 +262,9 @@ const LoanRefundDetail = () => {
                                 <Link to={`/preview/${id}/loan-refund/form`} target="_blank" className="btn btn-success mr-1">
                                     พิมพ์บันทึกหักล้างเงินยืม
                                 </Link>
+                                <Link to={`/preview/${id}/loan-refund/bill`} target="_blank" className="btn btn-success mr-1">
+                                    พิมพ์ใบรับใบสำคัญ
+                                </Link>
 
                                 {refund?.is_over20 === 1 && (
                                     <Link to={`/preview/${id}/loan-refund/over20-form`} className="btn btn-danger mr-1">
