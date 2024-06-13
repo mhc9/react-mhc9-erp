@@ -23,29 +23,41 @@ const FormLoanRefundBill = () => {
             <div className="paper-container">
                 <div className="form-wrapper form-bill">
                     <div className="form-top mb-4">
-                        <h1 className="text-2xl font-bold">ใบรับใบสำคัญ</h1>
+                        <h1 className="text-3xl font-bold">ใบรับใบสำคัญ</h1>
                     </div>
                     {refund && (
                         <div className="form-box">
-                            <div className="form-header mb-2">
+                            <div className="mb-2">
                                 <div className="flex flex-row justify-between items-start">
-                                    <div className="memo-header-text">
-                                        <h3>เลขที่</h3>
-                                        <span>................./.................</span>
+                                    <div className="flex flex-row justify-start items-center">
+                                        <span className="p-0">เลขที่</span>
+                                        <span className="border-b-[1px] border-dashed w-[120px] text-center h-[28px]">
+                                            {refund.bill_no}
+                                        </span>
                                     </div>
                                     <div className="flex flex-col w-[40%]">
-                                        <div><h3>ศูนย์สุขภาพจิตที่ 9</h3></div>
-                                        <div className="flex flex-row items-center gap-2">
-                                            <h3>วันที่</h3>
-                                            <span>............................................</span>
+                                        <span>ศูนย์สุขภาพจิตที่ 9</span>
+                                        <div className="flex flex-row justify-start items-center">
+                                            <span className="p-0">วันที่</span>
+                                            <span className="border-b-[1px] border-dashed w-[200px] text-center h-[28px]">
+                                                {toLongTHDate(moment(refund.bill_date).toDate())}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="memo-content">
                                 <div className="memo-paragraph">
-                                    ได้รับใบสำคัญจาก...{refund.contract?.loan.employee.prefix.name+refund.contract?.loan.employee.firstname+ ' ' +refund.contract?.loan.employee.lastname}...
-                                    <span className="ml-1">ตำแหน่ง......{refund.contract?.loan.employee.position?.name}{refund.contract?.loan.employee.level?.name}........</span>
+                                    <div className="flex flex-row">
+                                        <span className="pr-1">ได้รับใบสำคัญจาก</span>
+                                        <div className="border-b-[1px] border-dashed w-[35%] text-center indent-0">
+                                            {refund.contract?.loan.employee.prefix.name+refund.contract?.loan.employee.firstname+ ' ' +refund.contract?.loan.employee.lastname}
+                                        </div>
+                                        <span className="indent-0 pr-1">ตำแหน่ง</span>
+                                        <div className="border-b-[1px] border-dashed w-[35%] text-center indent-0">
+                                            {refund.contract?.loan.employee.position?.name}{refund.contract?.loan.employee.level?.name}
+                                        </div>
+                                    </div>
                                     <div className="flex flex-row items-center gap-2 indent-0">
                                         <span>สังกัดศูนย์สุขภาพจิตที่ 9 เพื่อส่งใช้เงินยืม</span>
                                         <div className="flex flex-row items-center gap-1">
@@ -58,50 +70,110 @@ const FormLoanRefundBill = () => {
                                             {refund.contract?.loan.money_type_id === 3 ? <FaCheckSquare /> : <FaRegSquare /> } เงินยืมราชการ
                                         </div>
                                     </div>
-                                    <span>ตามสัญญายืมเลขที่ {refund.contract?.contract_no} ลงวันที่ {toLongTHDate(moment(refund.contract?.approved_date).toDate())}</span>
-                                    <span>
-                                        เป็นจำนวนเงิน {currency.format(refund.contract?.net_total)} บาท ({ThaiNumberToText(refund.contract?.net_total)})
-                                    </span>
-                                    <span className="ml-1">
-                                        และได้ส่งใช้ใบสำคัญ จำนวน............ ชุด............ฉบับ เป็นเงิน {currency.format(refund.net_total)} บาท ({ThaiNumberToText(refund.net_total)})
-                                    </span>
+                                    <div className="flex flex-row">
+                                        <span className="pr-1 indent-0">ตามสัญญายืมเลขที่</span>
+                                        <div className="border-b-[1px] border-dashed w-[80px] text-center indent-0">
+                                            {refund.contract?.contract_no}
+                                        </div>
+                                        <span className="pr-1 indent-0">ลงวันที่</span>
+                                        <div className="border-b-[1px] border-dashed w-[180px] text-center indent-0">
+                                            {toLongTHDate(moment(refund.contract?.approved_date).toDate())}
+                                        </div>
+                                        <span className="pr-1 indent-0">เป็นจำนวนเงิน</span>
+                                        <div className="border-b-[1px] border-dashed w-[110px] text-center indent-0">
+                                            {currency.format(refund.contract?.net_total)}
+                                        </div>
+                                        <span className="pr-1 indent-0">บาท</span>
+                                    </div>
+                                    <div className="flex flex-row">
+                                        <div className="border-b-[1px] border-dashed w-[400px] text-center indent-0">
+                                            ({ThaiNumberToText(refund.contract?.net_total)})
+                                        </div>
+                                        <span className="pr-1 indent-0">และได้ส่งใช้ใบสำคัญ</span>
+                                        <span className="pr-1 indent-0">จำนวน</span>
+                                        <div className="border-b-[1px] border-dashed w-[60px] text-center indent-0">
+                                            1
+                                        </div>
+                                        <span className="indent-0">ชุด</span>
+                                    </div>
+                                    <div className="flex flex-row">
+                                        <span className="px-1 indent-0">เป็นเงิน</span>
+                                        <div className="border-b-[1px] border-dashed w-[130px] text-center indent-0">
+                                            {currency.format(refund.net_total)}
+                                        </div>
+                                        <span className="pr-1 indent-0">บาท</span>
+                                        <div className="border-b-[1px] border-dashed w-[420px] text-center indent-0">
+                                            ({ThaiNumberToText(refund.net_total)})
+                                        </div>
+                                    </div>
                                     <div className="flex flex-row indent-0 mt-1 ml-[10px]">
                                         <div className="w-[5%]">โดย</div>
                                         <div className="flex flex-col">
                                             <div className="flex flex-row gap-1">
-                                                <FaRegSquare /> ส่งใช้ใบสำคัญเท่ากับจำนวนเงินที่ยืม
+                                                {(refund.net_total === refund.contract?.net_total) ? <FaCheckSquare /> : <FaRegSquare />} ส่งใช้ใบสำคัญเท่ากับจำนวนเงินที่ยืม
                                             </div>
                                             <div className="flex flex-row gap-1">
-                                                <FaRegSquare /> ส่งใช้ใบสำคัญสูงกว่าจำนวนเงินที่ยืม
-                                                <span>คงเหลือรับจริง...{currency.format(refund.balance)}...บาท</span>
+                                                {refund.refund_type_id === 2 ? <FaCheckSquare /> : <FaRegSquare />} ส่งใช้ใบสำคัญสูงกว่าจำนวนเงินที่ยืม
+                                                <div className="flex flex-row">
+                                                    <span className="pr-1">คงเหลือรับจริง</span>
+                                                    <div className="border-b-[1px] border-dashed w-[120px] text-center">
+                                                        {refund.refund_type_id === 2 && currency.format(refund.balance)}
+                                                    </div> บาท
+                                                </div>
                                             </div>
                                             <div className="flex flex-row gap-1">
-                                                <FaRegSquare /> ส่งใช้ใบสำคัญน้อยกว่าจำนวนเงินที่ยืม
-                                                <span>และส่งใช้ด้วยเงินสด...{currency.format(refund.balance)}...บาท</span>
+                                                {refund.refund_type_id === 1 ? <FaCheckSquare /> : <FaRegSquare />} ส่งใช้ใบสำคัญน้อยกว่าจำนวนเงินที่ยืม
+                                                <div className="flex flex-row">
+                                                    <span className="pr-1">และส่งใช้ด้วยเงินสด</span>
+                                                    <div className="border-b-[1px] border-dashed w-[120px] text-center">
+                                                        {refund.refund_type_id === 1 && currency.format(refund.balance)}
+                                                    </div> บาท
+                                                </div>
                                             </div>
-                                            <p className="indent-6">ตามใบเสร็จรับเงินเลขที่......................ลงวันที่......................</p>
+                                            <div className="flex flex-row">
+                                                <span className="pr-1">ตามใบเสร็จรับเงินเลขที่</span>
+                                                <div className="border-b-[1px] border-dashed w-[120px] text-center">
+                                                    {refund.receipt_no}
+                                                </div>
+                                                <span className="px-1">ลงวันที่</span>
+                                                <div className="border-b-[1px] border-dashed w-[200px] text-center">
+                                                    {toLongTHDate(moment(refund.receipt_date).toDate())}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="memo-approvement">
                                     <div className="memo-row">
-                                        <div style={{ width: '40%' }}>&nbsp;</div>
-                                        <div style={{ width: '60%' }}>
-                                            <div style={{ textAlign: 'center', width: '100%' }}>
+                                        <div className="w-[40%]">&nbsp;</div>
+                                        <div className="w-[60%]">
+                                            <div className="text-center w-full">
                                                 <div className="pt-[40px] flex flex-col items-center justify-center">
-                                                    <p className="w-[200px] border-dashed border-b mb-1"></p>
+                                                    <div className="flex flex-row indent-4 pl-8">
+                                                        <p className="w-[200px] border-dashed border-b mb-1"></p>
+                                                        ผู้รับใบสำคัญ
+                                                    </div>
                                                     <div className="signature">
-                                                        <p>({refund.contract?.loan?.employee.prefix.name+refund.contract?.loan?.employee.firstname+ ' ' +refund.contract?.loan?.employee.lastname})</p>
-                                                        <p>{refund.contract?.loan?.employee.position?.name}{refund.contract?.loan?.employee.level?.name}</p>
+                                                        <p>(นางสาวสิรินดา  วิถีธรรม)</p>
+                                                        <p>นักวิชาการเงินและบัญชี</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="memo-row">
-                                        <div className="mt-[40px]">
-                                            เลขที่ฎีกา...........................................ลงวันที่................................เบิกเงินจาก...............................
+                                        <div className="mt-[60px]">
+                                            <div className="flex flex-row">
+                                                <span className="pr-1">เลขที่ฎีกา</span>
+                                                <div className="border-b-[1px] border-dashed w-[120px] text-center">
+                                                    {refund.contract?.bill_no}
+                                                </div>
+                                                <span className="px-1">ลงวันที่</span>
+                                                <div className="border-b-[1px] border-dashed w-[150px] text-center"></div>
+                                                <span className="px-1">เบิกเงินจาก</span>
+                                                <div className="border-b-[1px] border-dashed w-[150px] text-center"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
