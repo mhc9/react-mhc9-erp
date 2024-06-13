@@ -79,7 +79,7 @@ const LoanDetail = () => {
                             <Col md={2}>
                                 <label htmlFor="">ปีงบ</label>
                                 <div className="form-control text-sm">
-                                    {loan?.year}
+                                    {loan?.year && loan?.year+543}
                                 </div>
                             </Col>
                         </Row>
