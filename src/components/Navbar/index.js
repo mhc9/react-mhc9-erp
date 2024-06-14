@@ -20,7 +20,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                 </button>
                 <ul className="max-lg:hidden lg:flex flex-row items-center gap-4 w-full">
                     <li><Link to="/" className="hover:text-gray-400">หน้าหลัก</Link></li>
-                    {user?.permissions[0]?.role_id === 1 && (
+                    {[1].includes(user?.permissions[0]?.role_id) && (
                         <li className="menu-item flex relative h-full">
                             <button className="hover:text-gray-400 flex items-center gap-1">
                                 บริการ
@@ -60,7 +60,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                         </li>
                     )}
 
-                    {[1].includes(user?.permissions[0]?.role_id) && (
+                    {[1,4].includes(user?.permissions[0]?.role_id) && (
                         <li className="menu-item flex relative h-full">
                             <button className="hover:text-gray-400 flex items-center gap-1">
                                 ยืมเงินราชการ
