@@ -63,6 +63,7 @@ import FormLoan from './components/Preview/FormLoan';
 import FormLoanContract from './components/Preview/FormLoanContract';
 import FormLoanRefund from './components/Preview/FormLoanRefund';
 import FormLoanRefundBill from './components/Preview/FormLoanRefundBill';
+import FormProjectVerify from './components/Preview/FormProjectVerify';
 import FormProjectReview from './components/Preview/FormProjectReview';
 /** Repairation */
 import RepairationList from './views/Repairation/List';
@@ -203,6 +204,7 @@ function App() {
             <Route path="/preview/:id/loan-contract/form" element={<FormLoanContract />} />
             <Route path="/preview/:id/loan-refund/form" element={<FormLoanRefund />} />
             <Route path="/preview/:id/loan-refund/bill" element={<FormLoanRefundBill />} />
+            <Route path="/preview/:id/project/verify" element={<FormProjectVerify />} />
             <Route path="/preview/:id/project/review" element={<FormProjectReview />} />
         </Routes>
     );

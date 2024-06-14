@@ -196,13 +196,13 @@ const LoanDetail = () => {
                                     <i className="fas fa-print mr-1"></i>
                                     พิมพ์คำขอ
                                 </Link>
-                                <Link to={`/preview/${id}/project/review`} className="btn btn-success mr-2">
-                                    <i className="fas fa-print mr-1"></i>
-                                    พิมพ์บันทึกทบทวน
-                                </Link>
-                                <Link to={`/preview/${id}/project/verify`} className="btn btn-secondary mr-2">
+                                <Link to={`/preview/${id}/project/verify`} target="_blank" className="btn btn-secondary mr-2">
                                     <i className="fas fa-print mr-1"></i>
                                     พิมพ์บันทึกทวนสอบ
+                                </Link>
+                                <Link to={`/preview/${id}/project/review`} target="_blank" className="btn btn-success mr-2">
+                                    <i className="fas fa-print mr-1"></i>
+                                    พิมพ์บันทึกทบทวน
                                 </Link>
                                 <Link to={`/preview/${id}/loan-contract/form`} target="_blank" className="btn btn-danger mr-2">
                                     <i className="fas fa-print mr-1"></i>

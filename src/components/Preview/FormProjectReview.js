@@ -21,13 +21,13 @@ const FormProjectReview = () => {
         <>
             {/* PAGE 1 */}
             <div className="paper-container">
-                <div className="form-wrapper form-bill">
-                    <div className="form-top mb-4">
-                        <h1 className="text-2xl font-bold leading-none">บันทึกการทวนสอบโครงการ</h1>
+                <div className="form-wrapper mt-[1cm]">
+                    <div className="form-top mb-2">
+                        <h1 className="text-2xl font-bold leading-none">บันทึกการทบทวนโครงการ</h1>
                     </div>
                     {loan && (
                         <div className="form-box">
-                            <div className="mb-5">
+                            <div className="mb-2">
                                 <div className="flex flex-row justify-start items-start">
                                     <span className="w-[10%]">ชื่อโครงการ</span>
                                     <div className="w-[90%] ml-2">
@@ -37,72 +37,98 @@ const FormProjectReview = () => {
                             </div>
                             <div className="memo-content">
                                 <div>
-                                    <div className="flex flex-row items-center justify-center gap-4">
-                                        <div className="flex flex-row items-center gap-1">
-                                            <FaRegSquare /> โครงการเก่า
-                                        </div>
-                                        <div className="flex flex-row items-center gap-1">
-                                            <FaRegSquare /> โครงการต่อเนื่อง
-                                        </div>
-                                        <div className="flex flex-row items-center gap-1">
-                                            <FaRegSquare /> โครงการใหม่
-                                        </div>
-                                    </div>
                                     <div className="flex flex-col mt-1">
                                         <div className="flex flex-col">
-                                            <span>1. ระยะเวลาการดำเนินการ</span>
+                                            <span>รูปแบบการเขียนโครงการ</span>
                                             <div className="flex flex-row">
-                                                <div className="flex flex-row items-center gap-1 pl-10">
-                                                    <FaRegSquare /> เป็นไปตามแผน
+                                                <div className="flex flex-row items-center gap-1 pl-10 w-[30%]">
+                                                    <FaRegSquare /> ถูกต้อง
                                                 </div>
                                                 <div className="flex flex-row items-center gap-1 pl-10">
-                                                    <FaRegSquare /> ไม่เป็นไปตามแผน (ระบุ) .......................................................................
+                                                    <FaRegSquare /> ไม่ถูกต้อง (ระบุ) .......................................................................
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="flex flex-col">
-                                            <span>2. งบประมาณ</span>
-                                            <div className="flex flex-row gap-4">
-                                                <div className="flex flex-col">
-                                                    <div className="flex flex-row items-center gap-1 pl-10">
-                                                        2.1 <FaRegSquare /> ถูกต้องตามผลผลิตที่กำหนด
-                                                    </div>
-                                                    <div className="flex flex-row items-center gap-1 pl-10">
-                                                        2.2 <FaRegSquare /> ถูกต้องตามระเบียบการเบิกจ่ายของกระทรวงการคลัง
-                                                    </div>
-                                                    <div className="flex flex-row items-center gap-1 pl-10">
-                                                        2.3 <FaRegSquare /> จำนวนเงินตรงตามที่ระบุ
-                                                    </div>
+                                            <span>1. ระยะเวลาการดำเนินงาน</span>
+                                            <div className="flex flex-row">
+                                                <div className="flex flex-row items-center gap-1 pl-10 w-[30%]">
+                                                    <FaRegSquare /> ตรงตามที่กำหนด
                                                 </div>
-                                                <div className="flex flex-col">
-                                                    <div className="flex flex-row items-center gap-1">
-                                                        <FaRegSquare /> ไม่เป็นไปตามแผน (ระบุ) ....................................
-                                                    </div>
-                                                    <div className="flex flex-row items-center gap-1">
-                                                        <FaRegSquare /> ไม่เป็นไปตามแผน (ระบุ) ....................................
-                                                    </div>
-                                                    <div className="flex flex-row items-center gap-1">
-                                                        <FaRegSquare /> ไม่ตรงตามที่ระบุ (ระบุ) ......................................
-                                                    </div>
+                                                <div className="flex flex-row items-center gap-1 pl-10">
+                                                    <FaRegSquare /> ไม่ตรงตามที่กำหนด (ระบุ) .......................................................................
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="flex flex-col">
-                                            <span>3. การเขียนโครงการเป็นไปตามแนวทางการปฏิบัติ</span>
-                                            <div className="flex flex-row gap-1 pl-10">
-                                                <FaRegSquare /> ถูกต้องตามแผน
+                                            <span>2. ความสำคัญของโครงการที่จัดทำ</span>
+                                            <div className="flex flex-row">
+                                                <div className="flex flex-row items-center gap-1 pl-10 w-[30%]">
+                                                    <FaRegSquare /> เหมาะสม
+                                                </div>
+                                                <div className="flex flex-row items-center gap-1 pl-10">
+                                                    <FaRegSquare /> ไม่เหมาะสม (ระบุ) .......................................................................
+                                                </div>
                                             </div>
-                                            <div className="flex flex-row gap-1 pl-10">
-                                                <FaRegSquare /> ไม่ถูกต้องตามแผน (ระบุ) .......................................................................
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span>3. วัตถุประสงค์โครงการสอดคล้องกับผลผลิตและวิธีการติดตามประเมินผล (สามารถวัดได้)</span>
+                                            <div className="flex flex-row">
+                                                <div className="flex flex-row items-center gap-1 pl-10 w-[30%]">
+                                                    <FaRegSquare /> ถูกต้อง
+                                                </div>
+                                                <div className="flex flex-row items-center gap-1 pl-10">
+                                                    <FaRegSquare /> ไม่ถูกต้อง (ระบุ) .......................................................................
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span>4. กลุ่มเป้าหมาย (จำนวน / กลุ่มผู้เข้าร่วม)</span>
+                                            <div className="flex flex-row">
+                                                <div className="flex flex-row items-center gap-1 pl-10 w-[30%]">
+                                                    <FaRegSquare /> ถูกต้อง
+                                                </div>
+                                                <div className="flex flex-row items-center gap-1 pl-10">
+                                                    <FaRegSquare /> ไม่ถูกต้อง (ระบุ) .......................................................................
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span>5. ตัวชี้วัดที่กำหนด</span>
+                                            <div className="flex flex-row">
+                                                <div className="flex flex-row items-center gap-1 pl-10 w-[30%]">
+                                                    <FaRegSquare /> เหมาะสมสามารถวัดได้
+                                                </div>
+                                                <div className="flex flex-row items-center gap-1 pl-10">
+                                                    <FaRegSquare /> ไม่เหมาะสม (ระบุ) .......................................................................
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span>6. วิธีการถ่ายทอด</span>
+                                            <div className="flex flex-row">
+                                                <div className="flex flex-row items-center gap-1 pl-10 w-[30%]">
+                                                    <FaRegSquare /> เหมาะสม
+                                                </div>
+                                                <div className="flex flex-row items-center gap-1 pl-10">
+                                                    <FaRegSquare /> ไม่เหมาะสม (ระบุ) .......................................................................
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex flex-col mt-4">
+                                            <span className="font-bold">สรุปผลการทบทวนโครงการ</span>
+                                            <div className="flex flex-row items-center gap-1 pl-10">
+                                                <FaRegSquare /> ผ่าน สามารถดำเนินการได้
+                                            </div>
+                                            <div className="flex flex-row items-center gap-1 pl-10">
+                                                <FaRegSquare /> ไม่ผ่าน ต้องแก้ไข (ระบุ) ..............................................................................................................................................
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="memo-approvement">
-                                    <div className="flex flex-row items-center justify-center gap-4 mt-6">
-                                        <span className="text-lg font-bold">ผู้ทวนสอบ</span>
-                                    </div>
                                     <div className="memo-row">
                                         <div className="w-[45%]">
                                             <div className="w-full">
@@ -123,36 +149,7 @@ const FormProjectReview = () => {
                                                 <div className="pt-[40px] flex flex-col items-center justify-center">
                                                     <div className="flex flex-row">
                                                         <p className="w-[150px] border-dashed border-b mb-1"></p>
-                                                        <span>งานแผนงานและประเมินผล</span>
-                                                    </div>
-                                                    <div className="signature">
-                                                        <p>(นางสาววรวรรณ หนึ่งด่านจาก)</p>
-                                                        <p>นักวิชาการสาธารณสุขชำนาญการ</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="memo-row">
-                                        <div className="w-[45%]">
-                                            <div className="w-full">
-                                                <div className="pt-[40px] flex flex-col items-center justify-center">
-                                                    <div className="flex flex-row">
-                                                        <p className="w-[150px] border-dashed border-b mb-1"></p>
-                                                        งานการเงินและบัญชี
-                                                    </div>
-                                                    <div className="signature">
-                                                        <p>(นางสาวสิรินดา  วิถีธรรม)</p>
-                                                        <p>นักวิชาการเงินและบัญชี</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="w-[55%]">
-                                            <div className="w-full">
-                                                <div className="pt-[40px] flex flex-col items-center justify-center">
-                                                    <div className="flex flex-row">
-                                                        <p className="w-[150px] border-dashed border-b mb-1"></p>หัวหน้ากลุ่มงานวิชาการ
+                                                        <span>ผู้ทบทวนโครงการ</span>
                                                     </div>
                                                     <div className="signature">
                                                         <p>(นางสาววรวรรณ หนึ่งด่านจาก)</p>
@@ -163,7 +160,7 @@ const FormProjectReview = () => {
                                         </div>
                                     </div>
 
-                                    <div className="flex flex-row items-center justify-center gap-4 mt-6">
+                                    <div className="flex flex-row items-center justify-center gap-4 mt-4">
                                         <span className="text-lg font-bold">ผู้รับรอง</span>
                                     </div>
 
