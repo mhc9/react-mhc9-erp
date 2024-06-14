@@ -10,7 +10,7 @@ const EmployeeAvatar = ({ avatarUrl, selectedImage }) => {
                 />
             ) : avatarUrl && (
                 <img
-                    src={`${process.env.REACT_APP_API_URL}/storage/${avatarUrl}`}
+                    src={`${process.env.REACT_APP_API_URL}/uploads/${avatarUrl}`}
                     alt="avatar"
                 />
             )}

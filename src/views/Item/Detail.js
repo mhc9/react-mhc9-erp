@@ -34,7 +34,7 @@ const ItemDetail = () => {
                             {![3,4].includes(item?.category?.asset_type_id) && (
                                 <div className="mr-4">
                                     <img
-                                        src={`${process.env.REACT_APP_API_URL}/uploads/products/thumbnails/${item?.img_url}`}
+                                        src={`${process.env.REACT_APP_API_URL}/uploads/${item?.img_url}`}
                                         alt="item-img"
                                         className="w-[200px] h-auto"
                                     />
