@@ -13,11 +13,15 @@ const courseSchema = Yup.object().shape({
     place_id: Yup.string().required('กรุณาเลือกสถานที่ก่อน')
 });
 
-const AddCourse = ({ courses, expenseCalc, onAdd }) => {
+const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
     const [showPlaceModal, setShowPlaceModal] = useState(false);
     const [showPlaceFormModal, setShowPlaceFormModal] = useState(false);
-    const [selectedCourseDate, setSelectedCourseDate] = useState(moment());
+    const [selectedCourseDate, setSelectedCourseDate] = useState(defaultCourseDate ? moment(defaultCourseDate) : moment());
     const [place, setPlace] = useState(null);
+
+    useEffect(() => {
+        setSelectedCourseDate(moment(defaultCourseDate));
+    }, [defaultCourseDate]);
 
     const handleSubmit = (values, formik) => {
         const course = {
@@ -31,7 +35,7 @@ const AddCourse = ({ courses, expenseCalc, onAdd }) => {
 
         formik.resetForm();
         setPlace(null);
-        setSelectedCourseDate(moment());
+        setSelectedCourseDate(defaultCourseDate ? moment(defaultCourseDate) : moment());
     }
 
     return (

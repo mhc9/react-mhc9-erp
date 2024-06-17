@@ -408,6 +408,7 @@ const LoanForm = ({ loan }) => {
 
                                     <AddCourse
                                         courses={formik.values.courses}
+                                        defaultCourseDate={formik.values.project_sdate}
                                         expenseCalc={formik.values.expense_calc}
                                         onAdd={(course) => handleAddCourse(formik, course)}
                                     />
