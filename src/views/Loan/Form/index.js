@@ -143,7 +143,7 @@ const LoanForm = ({ loan }) => {
                 project_name: loan ? loan.project_name : '',
                 project_sdate: loan ? moment(loan.project_sdate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 project_edate: loan ? moment(loan.project_edate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
-                expense_calc: loan ? loan.expense_calc : '1',
+                expense_calc: loan ? loan.expense_calc : 1,
                 budget_total: loan ? loan.budget_total : '',
                 net_total: loan ? loan.net_total : '',
                 remark: (loan && loan.remark) ? loan.remark : '',
@@ -386,7 +386,7 @@ const LoanForm = ({ loan }) => {
                                                     type="radio"
                                                     name="expense_calc"
                                                     value="1"
-                                                    checked={formik.values.expense_calc === "1"}
+                                                    checked={parseInt(formik.values.expense_calc, 10) === 1}
                                                     onChange={() => formik.setFieldValue("expense_calc", "1")}
                                                 />
                                                 <span className="ml-1 mr-8">คิดค่าใช้จ่ายรวม</span>
@@ -395,7 +395,7 @@ const LoanForm = ({ loan }) => {
                                                     type="radio"
                                                     name="expense_calc"
                                                     value="2"
-                                                    checked={formik.values.expense_calc === "2"}
+                                                    checked={parseInt(formik.values.expense_calc, 10) === 2}
                                                     onChange={() => formik.setFieldValue("expense_calc", "2")}
                                                 />
                                                 <span className="ml-1">คิดค่าใช้จ่ายแยกวันที่</span>
