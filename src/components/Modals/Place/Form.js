@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, FormGroup, Modal, Row } from 'react-bootstrap'
 import moment from 'moment'
 import { useGetInitialFormDataQuery } from '../../../features/services/place/placeApi'
-import { store } from '../../../features/slices/place/placeSlice'
+import { store, resetSuccess } from '../../../features/slices/place/placeSlice'
 import { filterAmphursByChangwat, filterTambonsByAmphur } from '../../../utils'
 
 const placeSchema = Yup.object().shape({
@@ -16,22 +16,29 @@ const placeSchema = Yup.object().shape({
 
 const ModalPlaceForm = ({ isShow, onHide, onSubmit }) => {
     const dispatch = useDispatch()
+    const { place, isSuccess } = useSelector(state => state.place);
+    const { data: formData, isLoading } = useGetInitialFormDataQuery();
     const [filteredAmphurs, setFilteredAmphurs] = useState([]);
     const [filteredTambons, setFilteredTambons] = useState([]);
-    const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     /** On mounted */
     useEffect(() => {
         if (formData) {
-            //
+            // TODO: initial form data
         }
     }, [formData]);
 
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(resetSuccess());
+
+            onSubmit(place);
+            onHide();
+        }
+    }, [isSuccess]);
+
     const handleSubmit = (values, formik) => {
         dispatch(store(values));
-
-        // onSubmit();
-        onHide();
     };
 
     return (

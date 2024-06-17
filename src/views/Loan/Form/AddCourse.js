@@ -1,35 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
-import { useDispatch, useSelector } from 'react-redux'
+import * as Yup from 'yup'
 import { Col, Row } from 'react-bootstrap'
 import { DatePicker } from '@material-ui/pickers'
 import { FaSearch, FaPlus } from 'react-icons/fa'
 import moment from 'moment'
-import { getPlaces } from '../../../features/slices/place/placeSlice'
 import ModalPlaceForm from '../../../components/Modals/Place/Form'
 import ModalPlaceList from '../../../components/Modals/Place/List'
 
+const courseSchema = Yup.object().shape({
+    course_date: Yup.string().required('กรุณาเลือกวันที่ก่อน'),
+    place_id: Yup.string().required('กรุณาเลือกสถานที่ก่อน')
+});
+
 const AddCourse = ({ courses, expenseCalc, onAdd }) => {
-    const dispatch = useDispatch();
-    const { place: newPlace } = useSelector(state => state.place);
     const [showPlaceModal, setShowPlaceModal] = useState(false);
     const [showPlaceFormModal, setShowPlaceFormModal] = useState(false);
     const [selectedCourseDate, setSelectedCourseDate] = useState(moment());
     const [place, setPlace] = useState(null);
 
-    useEffect(() => {
-        if (newPlace) {
-            setPlace(newPlace);
-
-            dispatch(getPlaces({ url: '/api/places/search' }));
-        }
-    }, [newPlace]);
-
     const handleSubmit = (values, formik) => {
         const course = {
             ...values,
             id: courses.length + 1,
-            course_date: values.expense_calc === '2' ? selectedCourseDate.format('YYYY-MM-DD') : '',
+            course_date: expenseCalc === '2' ? selectedCourseDate.format('YYYY-MM-DD') : '',
             room: values.room
         };
 
@@ -49,6 +43,7 @@ const AddCourse = ({ courses, expenseCalc, onAdd }) => {
                 place_id: '',
                 place: null
             }}
+            validationSchema={courseSchema}
             onSubmit={handleSubmit}
         >
             {(formik) => {
@@ -67,6 +62,11 @@ const AddCourse = ({ courses, expenseCalc, onAdd }) => {
                         <ModalPlaceForm
                             isShow={showPlaceFormModal}
                             onHide={() => setShowPlaceFormModal(false)}
+                            onSubmit={(place) => {
+                                setPlace(place);
+                                formik.setFieldValue('place_id', place?.id);
+                                formik.setFieldValue('place', place);
+                            }}
                         />
 
                         {expenseCalc === '2' && (
@@ -80,6 +80,9 @@ const AddCourse = ({ courses, expenseCalc, onAdd }) => {
                                         formik.setFieldValue('course_date', moment(date).format('YYYY-MM-DD'));
                                     }}
                                 />
+                                {(formik.errors.course_date && formik.touched.course_date) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.course_date}</span>
+                                )}
                             </Col>
                         )}
                         <Col md={3}>
@@ -105,6 +108,9 @@ const AddCourse = ({ courses, expenseCalc, onAdd }) => {
                                     New
                                 </button>
                             </div>
+                            {(formik.errors.place_id && formik.touched.place_id) && (
+                                <span className="text-red-500 text-sm">{formik.errors.place_id}</span>
+                            )}
                         </Col>
                         <Col md={1}>
                             <label htmlFor=""></label>
