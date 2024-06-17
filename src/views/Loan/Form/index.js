@@ -67,7 +67,7 @@ const LoanForm = ({ loan }) => {
 
     const handleUpdateItem = (formik, id, data) => {
         const updatedItems = formik.values.items.map(item => {
-            if (item.item_id === id) return { ...data };
+            if (item.id === id) return data;
 
             return item;
         });
