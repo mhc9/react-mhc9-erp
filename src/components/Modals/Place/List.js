@@ -59,6 +59,7 @@ const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
                                             onClick={() => {
                                                 onHide();
                                                 onSelect(place);
+                                                setApiEndpoint('');
                                             }}
                                         >
                                             เลือก
