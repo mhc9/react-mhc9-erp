@@ -30,7 +30,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                         {(!edittingItem || edittingItem?.expense_id !== data.expense_id) && (
                             <button
                                 type="button"
-                                className="btn btn-sm btn-outline-warning mr-1"
+                                className="btn btn-sm btn-outline-warning mr-1 p-1"
                                 onClick={() => onEditItem(data)}
                             >
                                 <FaPencilAlt />
@@ -38,7 +38,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                         )}
                         <button
                             type="button"
-                            className="btn btn-sm btn-outline-danger"
+                            className="btn btn-sm btn-outline-danger p-1"
                             onClick={() => onRemoveItem(data.expense_id)}
                         >
                             <FaTrash />
@@ -56,7 +56,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                     <th className="w-[5%] text-center">#</th>
                     <th>รายการ</th>
                     <th className="w-[15%] text-center">รวมเป็นเงิน</th>
-                    {showButtons && <th className="w-[10%] text-center">Actions</th>}
+                    {showButtons && <th className="w-[8%] text-center">Actions</th>}
                 </tr>
             </thead>
             <tbody>
@@ -68,7 +68,8 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                             <Fragment key={course.id} >
                                 <tr>
                                     <td colSpan={4}>
-                                        รุ่นที่ {course.seq_no} {course?.course_date && <span>วันที่ {toShortTHDate(course?.course_date)}</span>} 
+                                        {/* รุ่นที่ {course.seq_no} */}
+                                        {course?.course_date && <span className="mr-1">วันที่ {toShortTHDate(course?.course_date)}</span>} 
                                         ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
                                     </td>
                                 </tr>
