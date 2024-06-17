@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getBudgets } from '../../features/slices/budget/budgetSlice'
+import Pagination from '../../components/Pagination'
 
 const BudgetList = () => {
     const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const BudgetList = () => {
         } else {
             dispatch(getBudgets({ url: apiEndpoint }));
         }
-    }, []);
+    }, [apiEndpoint]);
 
     const handleDelete = (id) => {
 
@@ -76,6 +77,11 @@ const BudgetList = () => {
                         </tbody>
                     </table>
                 </div>
+
+                <Pagination
+                    pager={pager}
+                    onPageClick={(url) => setApiEndpoint(url)}
+                />
             </div>
         </div>
     )
