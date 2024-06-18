@@ -67,7 +67,7 @@ const LoanForm = ({ loan }) => {
 
     const handleUpdateItem = (formik, id, data) => {
         const updatedItems = formik.values.items.map(item => {
-            if (item.id === id) return data;
+            if (item.id === id) return { ...data, updated: true };
 
             return item;
         });
@@ -78,7 +78,12 @@ const LoanForm = ({ loan }) => {
     };
 
     const handleRemoveItem = (formik, id) => {
-        const newItems = formik.values.items.filter(item => item.expense_id !== id);
+        /** Create new items array by setting removed flag if item is removed by user */
+        const newItems = formik.values.items.map(item => {
+            if (item.id === id) return { ...item, removed: true };
+
+            return item;
+        });
 
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems)));

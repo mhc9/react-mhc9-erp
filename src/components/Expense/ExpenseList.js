@@ -3,31 +3,30 @@ import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency, replaceExpensePatternFromDesc, toShortTHDate } from '../../utils'
 
 const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditItem, onRemoveItem }) => {
-
-
     const renderExpenseRow = (data, index) => {
         return (
             <tr className="font-thin">
                 <td className="text-center">{index}</td>
                 <td>
-                    <p className="text-gray-500 font-thin">{data.expense?.name}</p>
-                    <p className="text-xs">{data.item?.name}</p>
-                    {(data.description && data.expense?.pattern)
-                        ? (
-                            <p className="text-sm text-red-500 font-thin">
-                                {replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}
-                            </p>
-                        ) : (
-                            <p className="text-xs text-red-500 font-thin">
-                                {data.description && <span>({data.description})</span>}
-                            </p>
-                        )
-                    }
+                    <p className="text-gray-500 font-thin">
+                        {data.expense?.name}
+                        {(data.description && data.expense?.pattern)
+                            ? (
+                                <span className="text-xs text-red-500 font-thin ml-1">
+                                    {replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}
+                                </span>
+                            ) : (
+                                <span className="text-xs text-red-500 font-thin">
+                                    {data.description && <span>({data.description})</span>}
+                                </span>
+                            )
+                        }
+                    </p>
                 </td>
                 <td className="text-right">{currency.format(data.total)}</td>
                 {showButtons && (
                     <td className="text-center">
-                        {(!edittingItem || edittingItem?.expense_id !== data.expense_id) && (
+                        {(!edittingItem || edittingItem?.id !== data.id) && (
                             <button
                                 type="button"
                                 className="btn btn-sm btn-outline-warning mr-1 p-1"
@@ -39,7 +38,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                         <button
                             type="button"
                             className="btn btn-sm btn-outline-danger p-1"
-                            onClick={() => onRemoveItem(data.expense_id)}
+                            onClick={() => onRemoveItem(data.id)}
                         >
                             <FaTrash />
                         </button>
@@ -73,10 +72,18 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                                         ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
                                     </td>
                                 </tr>
-                                {items && items.map((data, index) => <Fragment key={index}>{parseInt(data.course_id, 10) === course.id && renderExpenseRow(data, ++seq)}</Fragment>)}
+                                {items && items.map((data, index) => (
+                                    <Fragment key={index}>
+                                        {(parseInt(data.course_id, 10) === course.id && !data.removed) && renderExpenseRow(data, ++seq)}
+                                    </Fragment>
+                                ))}
                             </Fragment>
                         )})
-                    : items && items.map((data, index) => <Fragment key={index}>{renderExpenseRow(data, ++index)}</Fragment>)}
+                    : items && items.map((data, index) => (
+                        <Fragment key={index}>
+                            {!data.removed && renderExpenseRow(data, ++index)}
+                        </Fragment>
+                    ))}
             </tbody>
         </table>
     )
