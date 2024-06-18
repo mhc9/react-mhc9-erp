@@ -55,7 +55,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem, onEditIte
                     <th className="w-[5%] text-center">#</th>
                     <th>รายการ</th>
                     <th className="w-[15%] text-center">รวมเป็นเงิน</th>
-                    {showButtons && <th className="w-[8%] text-center">Actions</th>}
+                    {showButtons && <th className="w-[10%] text-center">Actions</th>}
                 </tr>
             </thead>
             <tbody>

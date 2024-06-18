@@ -33,9 +33,9 @@ export const calculateTotal = (price, amount) => {
     return price * amount;
 };
 
-export const calculateNetTotal = (items = []) => {
+export const calculateNetTotal = (items = [], condition = (args) => false) => {
     return items.reduce((sum = 0, item) => {
-        return sum + parseFloat(item.total)
+        return (condition(item.removed)) ? sum + 0 : sum + parseFloat(item.total);
     }, 0);
 };
 

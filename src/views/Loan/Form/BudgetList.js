@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency } from '../../../utils'
 
@@ -16,36 +16,40 @@ const BudgetList = ({ budgets, showButtons=true, onRemoveBudget, onEditBudget })
                 </thead>
                 <tbody>
                     {budgets && budgets.map((data, index) => (
-                        <tr className="font-thin" key={data.budget_id}>
-                            <td className="text-center">{index+1}</td>
-                            <td>
-                                <p className="text-sm">{data.budget?.name}</p>
-                                <p className="font-thin text-xs">{data.budget?.project?.plan?.name}/{data.budget?.project?.name}</p>
-                                </td>
-                            <td className="text-right">{currency.format(data.total)}</td>
-                            {showButtons && (
-                                <td className="text-center">
-                                    <div className="btn-group" role="group" aria-label="Basic example">
-                                        {/* {(!edittingItem || edittingItem?.expense_id !== data.expense_id) && ( */}
-                                            {/* <button
-                                                type="button"
-                                                className="btn btn-sm btn-outline-warning"
-                                                onClick={() => onEditBudget(data)}
-                                            >
-                                                <FaPencilAlt />
-                                            </button> */}
-                                        {/* )} */}
-                                        <button
-                                            type="button"
-                                            className="btn btn-sm btn-outline-danger"
-                                            onClick={() => onRemoveBudget(data.budget_id)}
-                                        >
-                                            <FaTrash />
-                                        </button>
-                                    </div>
-                                </td>
+                        <Fragment key={data.budget_id}>
+                            {!data.removed && (
+                                <tr className="font-thin">
+                                    <td className="text-center">{index+1}</td>
+                                    <td>
+                                        <p className="text-sm">{data.budget?.name}</p>
+                                        <p className="font-thin text-xs">{data.budget?.project?.plan?.name}/{data.budget?.project?.name}</p>
+                                        </td>
+                                    <td className="text-right">{currency.format(data.total)}</td>
+                                    {showButtons && (
+                                        <td className="text-center">
+                                            <div className="btn-group" role="group" aria-label="Basic example">
+                                                {/* {(!edittingItem || edittingItem?.expense_id !== data.expense_id) && ( */}
+                                                    {/* <button
+                                                        type="button"
+                                                        className="btn btn-sm btn-outline-warning"
+                                                        onClick={() => onEditBudget(data)}
+                                                    >
+                                                        <FaPencilAlt />
+                                                    </button> */}
+                                                {/* )} */}
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-sm btn-outline-danger p-1"
+                                                    onClick={() => onRemoveBudget(data.budget_id, data.loan_id === '')}
+                                                >
+                                                    <FaTrash />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    )}
+                                </tr>
                             )}
-                        </tr>
+                        </Fragment>
                     ))}
                 </tbody>
             </table>

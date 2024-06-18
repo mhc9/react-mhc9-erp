@@ -104,7 +104,28 @@ const LoanForm = ({ loan }) => {
         }
 
         formik.setFieldValue('items', newItems);
-        formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems)));
+        formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems, (isRemoved) => isRemoved)));
+    };
+
+    const handleAddCourse = (formik, course) => {
+        const newCourses = [...formik.values.courses, course];
+
+        formik.setFieldValue('courses', newCourses);
+    };
+
+    const handleRemoveCourse = (formik, id, isNewLoan=false) => {
+        let newCourses = [];
+        if (isNewLoan) {
+            newCourses = formik.values.courses.filter(course => course.id !== id);
+        } else {
+            newCourses = formik.values.courses.map(course => {
+                if (course.id === id) return { ...course, removed: true };
+
+                return course;
+            });
+        }
+
+        formik.setFieldValue('courses', newCourses);
     };
 
     const handleAddBudget = (formik, budget) => {
@@ -114,23 +135,20 @@ const LoanForm = ({ loan }) => {
         formik.setFieldValue('budget_total', currency.format(calculateNetTotal(newBudgets)));
     };
 
-    const handleRemoveBudget = (formik, id) => {
-        const newBudgets = formik.values.budgets.filter(item => item.budget_id !== id);
+    const handleRemoveBudget = (formik, id, isNewLoan=false) => {
+        let newBudgets = [];
+        if (isNewLoan) {
+            newBudgets = formik.values.budgets.filter(item => item.budget_id !== id);
+        } else {
+            newBudgets = formik.values.budgets.map(item => {
+                if (item.budget_id === id) return { ...item, removed: true };
+
+                return item;
+            });
+        }
 
         formik.setFieldValue('budgets', newBudgets);
-        formik.setFieldValue('budget_total', currency.format(calculateNetTotal(newBudgets)));
-    };
-
-    const handleAddCourse = (formik, course) => {
-        const newCourses = [...formik.values.courses, course];
-
-        formik.setFieldValue('courses', newCourses);
-    };
-
-    const handleRemoveCourse = (formik, id) => {
-        const newCourses = formik.values.courses.filter(course => course.id !== id);
-
-        formik.setFieldValue('courses', newCourses);
+        formik.setFieldValue('budget_total', currency.format(calculateNetTotal(newBudgets, (isRemoved) => isRemoved)));
     };
 
     const handleSubmit = (values, formik) => {
@@ -457,7 +475,7 @@ const LoanForm = ({ loan }) => {
 
                                     <BudgetList
                                         budgets={formik.values.budgets}
-                                        onRemoveBudget={(id) => handleRemoveBudget(formik, id)}
+                                        onRemoveBudget={(id, isNewLoan) => handleRemoveBudget(formik, id, isNewLoan)}
                                     />
 
                                     <div className="flex flex-row justify-end items-center">
