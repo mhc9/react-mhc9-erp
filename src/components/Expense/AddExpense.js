@@ -131,11 +131,11 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                                 <div className="btn-group" role="group" aria-label="Basic example">
                                     <button
                                         type="button"
-                                        className={`btn ${data ? 'btn-outline-warning' : 'btn-outline-primary'} text-sm min-[992px]:px-2 max-[992px]:px-1`}
+                                        className={`btn btn-outline-primary text-sm min-[992px]:px-2 max-[992px]:px-1`}
                                         onClick={formik.submitForm}
                                     >
                                         {/* <FaPlus /> */}
-                                        {data ? 'แก้ไข' : 'เพิ่ม'}
+                                        {data ? 'ตกลง' : 'เพิ่ม'}
                                     </button>
                                     <button
                                         type="button"
