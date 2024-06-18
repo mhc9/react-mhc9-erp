@@ -10,7 +10,7 @@ const CourseList = ({ courses, onRemoveCourse }) => {
                 <ul>
                     {courses.map((course, index) => (
                         <li key={index} className="hover:bg-gray-200 p-1 rounded-md text-sm font-thin">
-                            - รุ่นที่ {course.seq_no ? course.seq_no : ++index} 
+                            {/* - รุ่นที่ {course.seq_no ? course.seq_no : ++index} */}
                             {course?.course_date && <span className="ml-1">วันที่ {toShortTHDate(course?.course_date)}</span>} 
                             <span className="ml-1">
                                 ณ {course?.room && <span className="mr-1">{course.room}</span>}
