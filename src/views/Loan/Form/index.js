@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row } from 'react-bootstrap'
-import { FaSearch, FaPlus, FaMinus } from 'react-icons/fa'
+import { FaSearch, FaPlus, FaTimes } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
@@ -17,6 +17,7 @@ import AddExpense from '../../../components/Expense/AddExpense'
 import ExpenseList from '../../../components/Expense/ExpenseList'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import AddCourse from './AddCourse';
+import CourseList from './CourseList';
 
 const loanSchema = Yup.object().shape({
     doc_no: Yup.string().required(),
@@ -418,29 +419,10 @@ const LoanForm = ({ loan }) => {
                                         onAdd={(course) => handleAddCourse(formik, course)}
                                     />
 
-                                    <Row>
-                                        <Col>
-                                            <ul>
-                                                {formik.values.courses.map((course, index) => (
-                                                    <li key={index} className="hover:bg-gray-200 p-1 rounded-md font-thin">
-                                                        - รุ่นที่ {course.seq_no ? course.seq_no : ++index} 
-                                                        {course?.course_date && <span className="ml-1">วันที่ {toShortTHDate(course?.course_date)}</span>} 
-                                                        <span className="ml-1">
-                                                            ณ {course?.room && <span className="mr-1">{course.room}</span>}
-                                                            {course?.place?.name} จ.{course?.place?.changwat?.name}
-                                                        </span>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-outline-danger rounded-full p-0 ml-2"
-                                                            onClick={() => handleRemoveCourse(formik, course.id)}
-                                                        >
-                                                            <FaMinus />
-                                                        </button>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </Col>
-                                    </Row>
+                                    <CourseList
+                                        courses={formik.values.courses}
+                                        onRemoveCourse={(id) => handleRemoveCourse(formik, id)}
+                                    />
                                 </div>
                                 {/* {(formik.errors.courses && formik.touched.courses) && (
                                     <span className="text-red-500 text-sm">{formik.errors.courses}</span>
