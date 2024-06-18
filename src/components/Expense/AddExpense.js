@@ -42,6 +42,7 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
             enableReinitialize
             initialValues={{
                 id: item ? item.id : '',
+                loan_id: item ? item.loan_id : '',
                 course_id: item ? item.course_id : '',
                 expense_id: item ? item.expense_id : '',
                 expense: item ? item.expense : null,
