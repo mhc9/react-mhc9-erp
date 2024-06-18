@@ -370,7 +370,7 @@ const LoanForm = ({ loan }) => {
                                     <Row className="mb-2">
                                         <Col md={3}>
                                             <div className="flex flex-col">
-                                                <label htmlFor="">วันที่จัด</label>
+                                                <label htmlFor="">วันที่เริ่ม</label>
                                                 <DatePicker
                                                     format="DD/MM/YYYY"
                                                     value={selectedStartDate}

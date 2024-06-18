@@ -54,7 +54,6 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik.values);
                 return (
                     <Row>
                         <ModalPlaceList
@@ -79,7 +78,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
 
                         {expenseCalc === '2' && (
                             <Col md={2}>
-                                <label htmlFor="">วันที่</label>
+                                <label htmlFor="">รุ่นวันที่</label>
                                 <DatePicker
                                     format="DD/MM/YYYY"
                                     value={selectedCourseDate}
