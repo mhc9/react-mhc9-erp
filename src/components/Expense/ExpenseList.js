@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency, replaceExpensePatternFromDesc, toShortTHDate } from '../../utils'
 
-const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditItem, onRemoveItem }) => {
+const ExpenseList = ({ items, courses, showButtons=true, edittingItem, onEditItem, onRemoveItem }) => {
     const renderExpenseRow = (data, index) => {
         return (
             <tr className="font-thin">
@@ -38,7 +38,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                         <button
                             type="button"
                             className="btn btn-sm btn-outline-danger p-1"
-                            onClick={() => onRemoveItem(data.id)}
+                            onClick={() => onRemoveItem(data.id, data.loan_id === '')}
                         >
                             <FaTrash />
                         </button>
@@ -73,14 +73,14 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                                     </td>
                                 </tr>
                                 {items && items.map((data, index) => (
-                                    <Fragment key={index}>
+                                    <Fragment key={data.id}>
                                         {(parseInt(data.course_id, 10) === course.id && !data.removed) && renderExpenseRow(data, ++seq)}
                                     </Fragment>
                                 ))}
                             </Fragment>
                         )})
                     : items && items.map((data, index) => (
-                        <Fragment key={index}>
+                        <Fragment key={data.id}>
                             {!data.removed && renderExpenseRow(data, ++index)}
                         </Fragment>
                     ))}

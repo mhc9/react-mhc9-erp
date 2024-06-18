@@ -66,6 +66,12 @@ const LoanForm = ({ loan }) => {
         setEdittingItem(data);
     };
 
+    /**
+     * 
+     * @param formik as Formik
+     * @param id as int
+     * @param data as data (loan_detail table)
+     */
     const handleUpdateItem = (formik, id, data) => {
         const updatedItems = formik.values.items.map(item => {
             if (item.id === id) return { ...data, updated: true };
@@ -78,13 +84,24 @@ const LoanForm = ({ loan }) => {
         formik.setFieldValue('net_total', currency.format(calculateNetTotal(updatedItems)));
     };
 
-    const handleRemoveItem = (formik, id) => {
-        /** Create new items array by setting removed flag if item is removed by user */
-        const newItems = formik.values.items.map(item => {
-            if (item.id === id) return { ...item, removed: true };
-
-            return item;
-        });
+    /**
+     * 
+     * @param formik Formik
+     * @param id int
+     * @param isNewLoan bool
+     */
+    const handleRemoveItem = (formik, id, isNewLoan=false) => {
+        let newItems = [];
+        if (isNewLoan) {
+            newItems = formik.values.items.filter(item => item.id !== id);
+        } else {
+            /** Create new items array by setting removed flag if item is removed by user */
+            newItems = formik.values.items.map(item => {
+                if (item.id === id) return { ...item, removed: true };
+    
+                return item;
+            });
+        }
 
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems)));
@@ -161,6 +178,7 @@ const LoanForm = ({ loan }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.values.items);
                 return (
                     <Form>
                         <ModalEmployeeList
@@ -477,11 +495,11 @@ const LoanForm = ({ loan }) => {
                                     />
 
                                     <ExpenseList
-                                        courses={formik.values.courses}
                                         items={formik.values.items}
+                                        courses={formik.values.courses}
                                         edittingItem={edittingItem}
                                         onEditItem={(data) => handleEditItem(data)}
-                                        onRemoveItem={(id) => handleRemoveItem(formik, id)}
+                                        onRemoveItem={(id, isNewLoan) => handleRemoveItem(formik, id, isNewLoan)}
                                     />
 
                                     <div className="flex flex-row justify-end items-center">
