@@ -8,8 +8,11 @@ import moment from 'moment'
 import ModalPlaceForm from '../../../components/Modals/Place/Form'
 import ModalPlaceList from '../../../components/Modals/Place/List'
 
-const courseSchema = Yup.object().shape({
-    course_date: Yup.string().required('กรุณาเลือกวันที่ก่อน'),
+const courseSchema = (expenseCalc) => Yup.object().shape({
+    course_date: Yup.string().when([], {
+        is: () => expenseCalc === '2', 
+        then: () => Yup.string().required('กรุณาเลือกวันที่ก่อน'),
+    }),
     place_id: Yup.string().required('กรุณาเลือกสถานที่ก่อน')
 });
 
@@ -47,10 +50,11 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                 place_id: '',
                 place: null
             }}
-            validationSchema={courseSchema}
+            validationSchema={courseSchema(expenseCalc)}
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.values);
                 return (
                     <Row>
                         <ModalPlaceList

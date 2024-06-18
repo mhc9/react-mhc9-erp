@@ -178,7 +178,6 @@ const LoanForm = ({ loan }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik.values.items);
                 return (
                     <Form>
                         <ModalEmployeeList
