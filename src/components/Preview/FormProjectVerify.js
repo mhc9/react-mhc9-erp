@@ -52,10 +52,10 @@ const FormProjectVerify = () => {
                                         <div className="flex flex-col">
                                             <span>1. ระยะเวลาการดำเนินการ</span>
                                             <div className="flex flex-row">
-                                                <div className="flex flex-row items-center gap-1 pl-10">
+                                                <div className="flex flex-row items-center gap-1 pl-5">
                                                     <FaRegSquare /> เป็นไปตามแผน
                                                 </div>
-                                                <div className="flex flex-row items-center gap-1 pl-10">
+                                                <div className="flex flex-row items-center gap-1 pl-5">
                                                     <FaRegSquare /> ไม่เป็นไปตามแผน (ระบุ) .......................................................................
                                                 </div>
                                             </div>
@@ -64,35 +64,35 @@ const FormProjectVerify = () => {
                                             <span>2. งบประมาณ</span>
                                             <div className="flex flex-row gap-4">
                                                 <div className="flex flex-col">
-                                                    <div className="flex flex-row items-center gap-1 pl-10">
+                                                    <div className="flex flex-row items-center gap-1 pl-5">
                                                         2.1 <FaRegSquare /> ถูกต้องตามผลผลิตที่กำหนด
                                                     </div>
-                                                    <div className="flex flex-row items-center gap-1 pl-10">
+                                                    <div className="flex flex-row items-center gap-1 pl-5">
                                                         2.2 <FaRegSquare /> ถูกต้องตามระเบียบการเบิกจ่ายของกระทรวงการคลัง
                                                     </div>
-                                                    <div className="flex flex-row items-center gap-1 pl-10">
+                                                    <div className="flex flex-row items-center gap-1 pl-5">
                                                         2.3 <FaRegSquare /> จำนวนเงินตรงตามที่ระบุ
                                                     </div>
                                                 </div>
                                                 <div className="flex flex-col">
                                                     <div className="flex flex-row items-center gap-1">
-                                                        <FaRegSquare /> ไม่เป็นไปตามแผน (ระบุ) ....................................
+                                                        <FaRegSquare /> ไม่เป็นไปตามแผน (ระบุ) .........................
                                                     </div>
                                                     <div className="flex flex-row items-center gap-1">
-                                                        <FaRegSquare /> ไม่เป็นไปตามแผน (ระบุ) ....................................
+                                                        <FaRegSquare /> ไม่เป็นไปตามแผน (ระบุ) .........................
                                                     </div>
                                                     <div className="flex flex-row items-center gap-1">
-                                                        <FaRegSquare /> ไม่ตรงตามที่ระบุ (ระบุ) ......................................
+                                                        <FaRegSquare /> ไม่ตรงตามที่ระบุ (ระบุ) .........................
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="flex flex-col">
                                             <span>3. การเขียนโครงการเป็นไปตามแนวทางการปฏิบัติ</span>
-                                            <div className="flex flex-row gap-1 pl-10">
+                                            <div className="flex flex-row gap-1 pl-5">
                                                 <FaRegSquare /> ถูกต้องตามแผน
                                             </div>
-                                            <div className="flex flex-row gap-1 pl-10">
+                                            <div className="flex flex-row gap-1 pl-5">
                                                 <FaRegSquare /> ไม่ถูกต้องตามแผน (ระบุ) .......................................................................
                                             </div>
                                         </div>
