@@ -420,7 +420,7 @@ const LoanForm = ({ loan }) => {
                                                 <span className="text-red-500 text-sm">{formik.errors.project_edate}</span>
                                             )}
                                         </Col>
-                                        <Col md={5}>
+                                        <Col>
                                             <label>การคิดค่าใช้จ่าย</label>                                    
                                             <label className="form-control text-sm font-thin">
                                                 <Field
@@ -447,17 +447,21 @@ const LoanForm = ({ loan }) => {
                                         </Col>
                                     </Row>
 
-                                    <AddCourse
-                                        courses={formik.values.courses}
-                                        defaultCourseDate={formik.values.project_sdate}
-                                        expenseCalc={formik.values.expense_calc}
-                                        onAdd={(course) => handleAddCourse(formik, course)}
-                                    />
+                                    <div className="mt-2">
+                                        <h3 className="font-bold text-base mb-1">กำหนดรุ่นโครงการ</h3>
 
-                                    <CourseList
-                                        courses={formik.values.courses}
-                                        onRemoveCourse={(id) => handleRemoveCourse(formik, id)}
-                                    />
+                                        <AddCourse
+                                            courses={formik.values.courses}
+                                            defaultCourseDate={formik.values.project_sdate}
+                                            expenseCalc={formik.values.expense_calc}
+                                            onAdd={(course) => handleAddCourse(formik, course)}
+                                        />
+
+                                        <CourseList
+                                            courses={formik.values.courses}
+                                            onRemoveCourse={(id) => handleRemoveCourse(formik, id)}
+                                        />
+                                    </div>
                                 </div>
                                 {/* {(formik.errors.courses && formik.touched.courses) && (
                                     <span className="text-red-500 text-sm">{formik.errors.courses}</span>

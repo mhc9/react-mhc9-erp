@@ -112,7 +112,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                                     <FaSearch />
                                 </button>
                                 <button type="button" className="btn btn-outline-primary text-sm px-2" onClick={() => setShowPlaceFormModal(true)}>
-                                    New
+                                    เพิ่ม
                                 </button>
                             </div>
                             {(formik.errors.place_id && formik.touched.place_id) && (
