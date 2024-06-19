@@ -515,7 +515,7 @@ const LoanForm = ({ loan }) => {
                                     <AddExpense
                                         data={edittingItem}
                                         formData={formData?.expenses}
-                                        courses={formik.values.courses}
+                                        courses={formik.values.courses.filter(course => !course.removed)}
                                         onAddItem={(expense) => handleAddItem(formik, expense)}
                                         onUpdateItem={(id, expense) => handleUpdateItem(formik, id, expense)}
                                         onClear={setEdittingItem}
@@ -523,7 +523,7 @@ const LoanForm = ({ loan }) => {
 
                                     <ExpenseList
                                         items={formik.values.items}
-                                        courses={formik.values.courses}
+                                        courses={formik.values.courses.filter(course => !course.removed)}
                                         edittingItem={edittingItem}
                                         onEditItem={(data) => handleEditItem(data)}
                                         onRemoveItem={(id, isNewLoan) => handleRemoveItem(formik, id, isNewLoan)}

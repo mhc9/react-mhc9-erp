@@ -66,7 +66,8 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                                     <option value="">-- รุ่น --</option>
                                     {courses && courses.map(course => (
                                         <option value={course.id} key={course.id}>
-                                            รุ่นที่ {course.seq_no} {course?.course_date && <>วันที่ {toShortTHDate(course?.course_date)}</>} 
+                                            {/* รุ่นที่ {course.seq_no} */}
+                                            {course?.course_date && <>วันที่ {toShortTHDate(course?.course_date)}</>} 
                                             ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
                                         </option>
                                     ))}
