@@ -30,7 +30,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
         const course = {
             ...values,
             id: courses.length + 1,
-            course_date: expenseCalc === '2' ? selectedCourseDate.format('YYYY-MM-DD') : '',
+            course_date: expenseCalc === 2 ? selectedCourseDate.format('YYYY-MM-DD') : '',
             room: values.room
         };
 
@@ -39,7 +39,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
         formik.resetForm();
         setPlace(null);
         setSelectedCourseDate(defaultCourseDate ? moment(defaultCourseDate) : moment());
-    }
+    };
 
     return (
         <Formik
@@ -76,7 +76,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                             }}
                         />
 
-                        {expenseCalc === '2' && (
+                        {expenseCalc === 2 && (
                             <Col md={2}>
                                 <label htmlFor="">รุ่นวันที่</label>
                                 <DatePicker
@@ -102,7 +102,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                                 className="form-control text-sm"
                             />
                         </Col>
-                        <Col md={expenseCalc === '2' ? 6 : 8}>
+                        <Col md={expenseCalc === 2 ? 6 : 8}>
                             <label htmlFor="">สถานที่จัด</label>
                             <div className="input-group">
                                 <div className="form-control text-sm h-[34px] bg-gray-100">
