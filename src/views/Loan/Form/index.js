@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row } from 'react-bootstrap'
 import { FaSearch, FaPlus, FaTimes } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
+import { toast } from 'react-toastify';
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment';
@@ -114,6 +115,11 @@ const LoanForm = ({ loan }) => {
     };
 
     const handleRemoveCourse = (formik, id, isNewLoan=false) => {
+        if (formik.values.items.some(item => (item.course_id === id && !item.removed))) {
+            toast.error('ไม่สามารถลบรายการได้ เนื่องจากโครงการรุ่นนี้มีรายการค่าใช้จ่ายอยู่!!');
+            return;
+        }
+
         let newCourses = [];
         if (isNewLoan) {
             newCourses = formik.values.courses.filter(course => course.id !== id);
