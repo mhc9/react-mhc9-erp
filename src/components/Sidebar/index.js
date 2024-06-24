@@ -38,56 +38,60 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                             </>
                         )}
 
-                        {[1,3].includes(user?.permissions[0]?.role_id) && (
-                            <>
-                                <div className="menu-link">
-                                    <button type="button" className="text-black text-left p-2 hover:bg-blue-500 rounded-md flex flex-row items-center justify-between">
-                                        จัดซื้อจัดจ้าง
-                                        <FaAngleDown />
-                                    </button>
-                                    <ul className="sub-menus">
-                                        <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
-                                            <Link to="/requisition"><p className="w-full">คำขอซื้อ/จ้าง</p></Link>
-                                        </li>
-                                        <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
-                                            <Link to="/order"><p className="w-full">ใบสั่งซื้อ/จ้าง</p></Link>
-                                        </li>
-                                        <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
-                                            <Link to="/inspection"><p className="w-full">ตรวจรับพัสดุ</p></Link>
-                                        </li>
-                                    </ul>
-                                </div>
+                        <>
+                            <div className="menu-link">
+                                <button type="button" className="text-black text-left p-2 hover:bg-blue-500 rounded-md flex flex-row items-center justify-between">
+                                    จัดซื้อจัดจ้าง
+                                    <FaAngleDown />
+                                </button>
+                                <ul className="sub-menus">
+                                    <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                        <Link to="/requisition"><p className="w-full">คำขอซื้อ/จ้าง</p></Link>
+                                    </li>
+                                    {[1,3].includes(user?.permissions[0]?.role_id) && (
+                                        <>
+                                            <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                                <Link to="/order"><p className="w-full">ใบสั่งซื้อ/จ้าง</p></Link>
+                                            </li>
+                                            <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                                <Link to="/inspection"><p className="w-full">ตรวจรับพัสดุ</p></Link>
+                                            </li>
+                                        </>
+                                    )}
+                                </ul>
+                            </div>
 
-                                <hr className="border-1 border-gray-400 m-0" />
-                            </>
-                        )}
+                            <hr className="border-1 border-gray-400 m-0" />
+                        </>
 
-                        {[1,4].includes(user?.permissions[0]?.role_id) && (
-                            <>
-                                <div className="menu-link">
-                                    <button type="button" className="text-black text-left p-2 hover:bg-blue-500 rounded-md flex flex-row items-center justify-between">
-                                        ยืมเงินราชการ
-                                        <FaAngleDown />
-                                    </button>
-                                    <ul className="sub-menus">
-                                        <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
-                                            <Link to="/loan"><p className="w-full">คำขอยืมเงิน</p></Link>
-                                        </li>
+                        <>
+                            <div className="menu-link">
+                                <button type="button" className="text-black text-left p-2 hover:bg-blue-500 rounded-md flex flex-row items-center justify-between">
+                                    ยืมเงินราชการ
+                                    <FaAngleDown />
+                                </button>
+                                <ul className="sub-menus">
+                                    <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                        <Link to="/loan"><p className="w-full">คำขอยืมเงิน</p></Link>
+                                    </li>
+                                    {[1,4].includes(user?.permissions[0]?.role_id) && (
                                         <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                             <Link to="/loan-contract"><p className="w-full">สัญญายืมเงิน</p></Link>
                                         </li>
-                                        <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
-                                            <Link to="/loan-refund"><p className="w-full">หักล้างเงินยืม</p></Link>
-                                        </li>
+                                    )}
+                                    <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                        <Link to="/loan-refund"><p className="w-full">หักล้างเงินยืม</p></Link>
+                                    </li>
+                                    {[1,4].includes(user?.permissions[0]?.role_id) && (
                                         <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                             <Link to="/loan-report"><p className="w-full">ทะเบียนคุม</p></Link>
                                         </li>
-                                    </ul>
-                                </div>
+                                    )}
+                                </ul>
+                            </div>
 
-                                <hr className="border-1 border-gray-400 m-0" />
-                            </>
-                        )}
+                            <hr className="border-1 border-gray-400 m-0" />
+                        </>
 
                         {[1,3].includes(user?.permissions[0]?.role_id) && (
                             <>

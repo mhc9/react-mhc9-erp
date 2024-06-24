@@ -40,7 +40,6 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                         </li>
                     )}
 
-                    {[1,3].includes(user?.permissions[0]?.role_id) && (
                         <li className="menu-item flex relative h-full">
                             <button className="hover:text-gray-400 flex items-center gap-1">
                                 จัดซื้อจัดจ้าง
@@ -50,17 +49,19 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 <li className="hover:bg-gray-300 p-2 rounded-t-md">
                                     <Link to="/requisition"><p className="w-full">คำขอซื้อ/จ้าง</p></Link>
                                 </li>
-                                <li className="hover:bg-gray-300 p-2">
-                                    <Link to="/order"><p className="w-full">ใบสั่งซื้อ/จ้าง</p></Link>
-                                </li>
-                                <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                                    <Link to="/inspection"><p className="w-full">ตรวจรับพัสดุ</p></Link>
-                                </li>
+                                {[1,3].includes(user?.permissions[0]?.role_id) && (
+                                    <>
+                                        <li className="hover:bg-gray-300 p-2">
+                                            <Link to="/order"><p className="w-full">ใบสั่งซื้อ/จ้าง</p></Link>
+                                        </li>
+                                        <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                                            <Link to="/inspection"><p className="w-full">ตรวจรับพัสดุ</p></Link>
+                                        </li>
+                                    </>
+                                )}
                             </ul>
                         </li>
-                    )}
 
-                    {[1,4].includes(user?.permissions[0]?.role_id) && (
                         <li className="menu-item flex relative h-full">
                             <button className="hover:text-gray-400 flex items-center gap-1">
                                 ยืมเงินราชการ
@@ -70,18 +71,21 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 <li className="hover:bg-gray-300 p-2 rounded-t-md">
                                     <Link to="/loan"><p className="w-full">คำขอยืมเงิน</p></Link>
                                 </li>
-                                <li className="hover:bg-gray-300 p-2">
-                                    <Link to="/loan-contract"><p className="w-full">สัญญายืมเงิน</p></Link>
-                                </li>
+                                {[1,4].includes(user?.permissions[0]?.role_id) && (
+                                    <li className="hover:bg-gray-300 p-2">
+                                        <Link to="/loan-contract"><p className="w-full">สัญญายืมเงิน</p></Link>
+                                    </li>
+                                )}
                                 <li className="hover:bg-gray-300 p-2">
                                     <Link to="/loan-refund"><p className="w-full">หักล้างเงินยืม</p></Link>
                                 </li>
-                                <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                                    <Link to="/loan-report"><p className="w-full">ทะเบียนคุม</p></Link>
-                                </li>
+                                {[1,4].includes(user?.permissions[0]?.role_id) && (
+                                    <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                                        <Link to="/loan-report"><p className="w-full">ทะเบียนคุม</p></Link>
+                                    </li>
+                                )}
                             </ul>
                         </li>
-                    )}
 
                     {[1,3].includes(user?.permissions[0]?.role_id) && (
                         <li className="menu-item flex relative h-full">
