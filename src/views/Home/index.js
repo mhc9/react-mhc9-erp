@@ -6,6 +6,7 @@ import { useGetUserDetailsQuery } from '../../features/services/auth/authApi'
 const Home = () => {
     const { data: user } = useGetUserDetailsQuery('userDetails', {
         pollingInterval: 900000,
+        refetchOnMountOrArgChange: true,
     });
 
     return (
