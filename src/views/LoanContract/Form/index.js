@@ -12,7 +12,6 @@ import { useGetInitialFormDataQuery } from '../../../features/services/loan/loan
 import Loading from '../../../components/Loading'
 import ExpenseList from '../../../components/Expense/ExpenseList'
 import ModalLoanList from '../../../components/Modals/Loan/List'
-// import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 
 const contractSchema = Yup.object().shape({
     loan_id: Yup.string().required('กรุณาระบุเลือกรายการคำขอ'),
@@ -30,7 +29,6 @@ const LoanContractForm = ({ contract }) => {
     const [selectedSentDate, setSelectedSentDate] = useState(moment());
     const [selectedApprovedDate, setSelectedApprovedDate] = useState(moment());
     const [showLoanModal, setShowLoanModal] = useState(false);
-    // const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [loan, setLoan] = useState(null);
     const [edittingItem, setEdittingItem] = useState(null);
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
@@ -38,11 +36,9 @@ const LoanContractForm = ({ contract }) => {
     useEffect(() => {
         if (contract) {
             setSelectedSentDate(moment(contract.sent_date));
-            selectedApprovedDate(moment(contract.approved_date));
+            setSelectedApprovedDate(moment(contract.approved_date));
             setSelectedBk02Date(moment(contract.bk02_date));
-
             setLoan(contract.loan);
-            // setEmployee(contract.employee);
         }
     }, [contract]);
 
@@ -87,10 +83,15 @@ const LoanContractForm = ({ contract }) => {
 
         /** Clear value of local states */
         setLoan(null);
-        // setEmployee(null);
         setSelectedBk02Date(moment());
         setSelectedSentDate(moment());
         selectedApprovedDate(moment());
+    };
+
+    const convertToExpenseItem = (contractDetails = []) => {
+        if (contractDetails.length === 0) return [];
+
+        return contractDetails.map(detail => ({ ...detail, course_id: detail.loan_detail.course_id }));
     };
 
     return (
@@ -130,26 +131,13 @@ const LoanContractForm = ({ contract }) => {
                             }}
                         />
 
-                        {/* <ModalEmployeeList
-                            isShow={showEmployeeModal}
-                            onHide={() => setShowEmployeeModal(false)}
-                            onSelect={(employee) => {
-                                setEmployee(employee);
-                                formik.setFieldValue('employee_id', employee.id);
-
-                                if (employee.member_of.length > 0) {
-                                    formik.setFieldValue('division_id', employee.member_of[0]?.division_id);
-                                }
-                            }}
-                        /> */}
-
                         <Row className="mb-2">
                             <Col md={8}>
                                 <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[305px]">
                                     <h1 className="font-bold text-lg mb-2">คำขอยืมเงิน</h1>
                                     <Row className="mb-2">
                                         <Col md={6} className="flex flex-row items-start justify-center">
-                                            <label htmlFor="" className="w-[18%] mt-[8px]">คำขอยืมเงิน :</label>
+                                            <label htmlFor="" className="w-[18%] mt-[8px]">คำขอ :</label>
                                             <div className="w-[90%]">
                                                 <div className="input-group">
                                                     <div className="form-control text-sm h-[34px] bg-gray-100">
@@ -348,8 +336,8 @@ const LoanContractForm = ({ contract }) => {
                                 <div className="flex flex-col border p-2 rounded-md">
                                     <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่าย</h1>
                                     <ExpenseList
+                                        items={contract ? convertToExpenseItem(contract.details) : loan?.details}
                                         courses={loan?.courses}
-                                        items={loan?.details}
                                         showButtons={false}
                                         edittingItem={edittingItem}
                                         onEditItem={(data) => handleEditItem(data)}
