@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { getContracts, destroy } from '../../../features/slices/loan-contract/loanContractSlice'
+import { toast } from 'react-toastify'
+import { getContracts, destroy, resetSuccess } from '../../../features/slices/loan-contract/loanContractSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import LoanListDetail from './ListDetail'
 import Loading from '../../../components/Loading'
@@ -20,9 +21,17 @@ const initialFilters = {
 
 const LoanContractList = () => {
     const dispatch = useDispatch();
-    const { contracts, pager, isLoading } = useSelector(state => state.loanContract);
+    const { contracts, pager, isLoading, isSuccess } = useSelector(state => state.loanContract);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('ลบข้อมูลสัญญายืมเงินเรียบร้อยแล้ว!!');
+            dispatch(resetSuccess());
+            setApiEndpoint(prev => prev === '' ? '/api/loan-contracts/search?page=&status=' : '');
+        }
+    }, [isSuccess]);
 
     useEffect(() => {
         if (apiEndpoint === '') {

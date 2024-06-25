@@ -65,8 +65,6 @@ export const destroy = createAsyncThunk("loan-contract/destroy", async (id, { di
     try {
         const res = await api.post(`/api/loan-contracts/${id}/delete`);
 
-        dispatch(getContracts({ url: '/api/loan-contracts' }));
-
         return res.data;
     } catch (error) {
         rejectWithValue(error);
@@ -124,7 +122,6 @@ export const loanContractSlice = createSlice({
             state.contracts = [];
             state.pager = null;
             state.isLoading = true;
-            // state.isSuccess = false;
             state.error = null;
         },
         [getContracts.fulfilled]: (state, { payload }) => {
@@ -133,7 +130,6 @@ export const loanContractSlice = createSlice({
             state.contracts = data;
             state.pager = pager;
             state.isLoading = false
-            // state.isSuccess = true;
         },
         [getContracts.rejected]: (state, { payload }) => {
             state.isLoading = false;
@@ -142,13 +138,11 @@ export const loanContractSlice = createSlice({
         [getContract.pending]: (state) => {
             state.contract = null;
             state.isLoading = true;
-            // state.isSuccess = false;
             state.error = null;
         },
         [getContract.fulfilled]: (state, { payload }) => {
             state.contract = payload;
-            state.isLoading = false
-            // state.isSuccess = true;
+            state.isLoading = false;
         },
         [getContract.rejected]: (state, { payload }) => {
             state.isLoading = false;
@@ -158,7 +152,6 @@ export const loanContractSlice = createSlice({
             state.contracts = [];
             state.pager = null;
             state.isLoading = true;
-            // state.isSuccess = false;
             state.error = null;
         },
         [getReport.fulfilled]: (state, { payload }) => {
@@ -166,8 +159,7 @@ export const loanContractSlice = createSlice({
 
             state.contracts = data;
             state.pager = pager;
-            state.isLoading = false
-            // state.isSuccess = true;
+            state.isLoading = false;
         },
         [getReport.rejected]: (state, { payload }) => {
             state.isLoading = false;
