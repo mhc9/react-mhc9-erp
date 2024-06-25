@@ -1,8 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { resetSuccess } from '../../features/slices/loan-contract/loanContractSlice'
 import LoanContractForm from './Form'
 
 const AddLoanContract = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { isSuccess } = useSelector(state => state.loanContract);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('บันทึกข้อมูลสัญญาเงินยืมเรียบร้อย!!');
+            dispatch(resetSuccess());
+            navigate('/loan-contract');
+        }
+    }, [isSuccess]);
+
     return (
         <div className="content-wrapper">
             <Breadcrumb>
