@@ -106,7 +106,7 @@ const LoanContractForm = ({ contract }) => {
                 year: contract ? contract.year : '',
                 refund_days: contract ? contract.refund_days : '',
                 net_total: contract ? contract.net_total : '',
-                remark: '',
+                remark: (contract && contract.remark) ? contract.remark : '',
                 items: contract ? contract.details : [],
             }}
             validationSchema={contractSchema}

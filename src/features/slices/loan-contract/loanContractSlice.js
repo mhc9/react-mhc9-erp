@@ -55,8 +55,6 @@ export const update = createAsyncThunk("loan-contract/update", async ({ id, data
     try {
         const res = await api.post(`/api/loan-contracts/${id}/update`, data);
 
-        dispatch(getContracts({ url: '/api/loan-contracts' }));
-
         return res.data;
     } catch (error) {
         rejectWithValue(error);
@@ -176,42 +174,33 @@ export const loanContractSlice = createSlice({
             state.error = payload;
         },
         [store.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
             state.isSuccess = true;
         },
         [store.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [update.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
             state.error = null;
         },
         [update.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
             state.isSuccess = true;
         },
         [update.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [destroy.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
             state.error = null;
         },
         [destroy.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
             state.isSuccess = true;
         },
         [destroy.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [upload.pending]: (state) => {
