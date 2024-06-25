@@ -1,19 +1,29 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
-import { getLoan } from '../../features/slices/loan/loanSlice'
+import { toast } from 'react-toastify'
+import { getContract, resetSuccess } from '../../features/slices/loan-contract/loanContractSlice'
 import LoanContractForm from './Form'
 import Loading from '../../components/Loading'
 
 const EditLoanContract = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { loan, isLoading } = useSelector(state => state.loan);
+    const { contract, isLoading, isSuccess } = useSelector(state => state.loanContract);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('แก้ไขข้อมูลสัญญาเงินยืมเรียบร้อย!!');
+            dispatch(resetSuccess());
+            navigate('/loan-contract');
+        }
+    }, [isSuccess]);
 
     useEffect(() => {
         if (id) {
-            dispatch(getLoan(id));
+            dispatch(getContract(id));
         }
     }, [id]);
 
@@ -31,7 +41,7 @@ const EditLoanContract = () => {
 
                 {isLoading
                     ? <div className="text-center"><Loading /></div>
-                    : <LoanContractForm loan={loan} />
+                    : <LoanContractForm contract={contract} />
                 }
             </div>
         </div>
