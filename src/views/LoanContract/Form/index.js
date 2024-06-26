@@ -136,7 +136,7 @@ const LoanContractForm = ({ contract }) => {
                                 <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[305px]">
                                     <h1 className="font-bold text-lg mb-2">คำขอยืมเงิน</h1>
                                     <Row className="mb-2">
-                                        <Col md={6} className="flex flex-row items-start justify-center">
+                                        <Col md={8} className="flex flex-row items-start justify-center border">
                                             <label htmlFor="" className="w-[18%] mt-[8px]">คำขอ :</label>
                                             <div className="w-[90%]">
                                                 <div className="input-group">
@@ -159,7 +159,6 @@ const LoanContractForm = ({ contract }) => {
                                                 )}
                                             </div>
                                         </Col>
-                                        <Col md={2}></Col>
                                         <Col className="flex flex-row items-center gap-2">
                                             <label htmlFor="">กำหนดคืนภายใน :</label>
                                             <div className="form-control min-h-[34px] w-[20%] text-center text-sm">
