@@ -93,7 +93,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                             </Col>
                         )}
                         <Col md={3}>
-                            <label htmlFor="">ห้อง</label>
+                            <label htmlFor="">ชื่อห้องประชุม (ถ้ามี)</label>
                             <input
                                 type="text"
                                 name="room"

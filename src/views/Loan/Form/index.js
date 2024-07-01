@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Col, Row } from 'react-bootstrap'
+import { Col, Row, Tab, Tabs } from 'react-bootstrap'
 import { FaSearch, FaPlus, FaTimes } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
 import { toast } from 'react-toastify';
@@ -9,7 +9,6 @@ import * as Yup from 'yup'
 import moment from 'moment';
 import { calculateNetTotal, currency, toShortTHDate } from '../../../utils'
 import { store, update } from '../../../features/slices/loan/loanSlice'
-import { getPlaces } from '../../../features/slices/place/placeSlice';
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
 import AddBudget from './AddBudget'
 import BudgetList from './BudgetList'
@@ -19,6 +18,8 @@ import ExpenseList from '../../../components/Expense/ExpenseList'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import AddCourse from './AddCourse';
 import CourseList from './CourseList';
+import AddOrder from './AddOrder';
+import OrderList from './OrderList';
 
 const loanSchema = Yup.object().shape({
     doc_no: Yup.string().required(),
@@ -58,9 +59,11 @@ const LoanForm = ({ loan }) => {
 
     const handleAddItem = (formik, expense) => {
         const newItems = [...formik.values.items, expense];
+        const itemTotal = calculateNetTotal(newItems, (isRemoved) => isRemoved);
 
         formik.setFieldValue('items', newItems);
-        formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems)));
+        formik.setFieldValue('item_total', itemTotal);
+        formik.setFieldValue('net_total', parseFloat(formik.values.order_total) + itemTotal);
     };
 
     const handleEditItem = (data) => {
@@ -91,21 +94,13 @@ const LoanForm = ({ loan }) => {
      * @param id int
      * @param isNewLoan bool
      */
-    const handleRemoveItem = (formik, id, isNewLoan=false) => {
-        let newItems = [];
-        if (isNewLoan) {
-            newItems = formik.values.items.filter(item => item.id !== id);
-        } else {
-            /** Create new items array by setting removed flag if item is removed by user */
-            newItems = formik.values.items.map(item => {
-                if (item.id === id) return { ...item, removed: true };
-    
-                return item;
-            });
-        }
+    const handleRemoveItem = (formik, id, isNewLoan = false) => {
+        const newItems = removeItemWithFlag(formik.values.items, id, isNewLoan);
+        const itemTotal = calculateNetTotal(newItems, (isRemoved) => isRemoved);
 
         formik.setFieldValue('items', newItems);
-        formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems, (isRemoved) => isRemoved)));
+        formik.setFieldValue('item_total', itemTotal);
+        formik.setFieldValue('net_total', parseFloat(formik.values.order_total) + itemTotal);
     };
 
     const handleAddCourse = (formik, course) => {
@@ -114,7 +109,7 @@ const LoanForm = ({ loan }) => {
         formik.setFieldValue('courses', newCourses);
     };
 
-    const handleRemoveCourse = (formik, id, isNewLoan=false) => {
+    const handleRemoveCourse = (formik, id, isNewLoan = false) => {
         if (formik.values.items.some(item => (item.course_id === id && !item.removed))) {
             toast.error('ไม่สามารถลบรายการได้ เนื่องจากโครงการรุ่นนี้มีรายการค่าใช้จ่ายอยู่!!');
             return;
@@ -141,7 +136,7 @@ const LoanForm = ({ loan }) => {
         formik.setFieldValue('budget_total', currency.format(calculateNetTotal(newBudgets)));
     };
 
-    const handleRemoveBudget = (formik, id, isNewLoan=false) => {
+    const handleRemoveBudget = (formik, id, isNewLoan = false) => {
         let newBudgets = [];
         if (isNewLoan) {
             newBudgets = formik.values.budgets.filter(item => item.budget_id !== id);
@@ -155,6 +150,19 @@ const LoanForm = ({ loan }) => {
 
         formik.setFieldValue('budgets', newBudgets);
         formik.setFieldValue('budget_total', currency.format(calculateNetTotal(newBudgets, (isRemoved) => isRemoved)));
+    };
+
+    const removeItemWithFlag = (items, id, isNewLoan) => {
+        if (isNewLoan) {
+            return items.filter(item => item.id !== id);
+        } else {
+            /** Create new items array by setting removed flag if item is removed by user */
+            return items.map(item => {
+                if (item.id === id) return { ...item, removed: true };
+    
+                return item;
+            });
+        }
     };
 
     const handleSubmit = (values, formik) => {
@@ -192,11 +200,14 @@ const LoanForm = ({ loan }) => {
                 project_edate: loan ? moment(loan.project_edate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 expense_calc: loan ? loan.expense_calc : 1,
                 budget_total: loan ? loan.budget_total : '',
-                net_total: loan ? loan.net_total : '',
+                item_total: loan ? loan.item_total : '0',
+                order_total: loan ? loan.order_total : '0',
+                net_total: loan ? loan.net_total : '0',
                 remark: (loan && loan.remark) ? loan.remark : '',
                 courses: loan ? loan.courses : [], //รุ่นที่
                 budgets: loan ? loan.budgets : [],
                 items: loan ? loan.details : [],
+                orders: loan ? loan.orders : [],
             }}
             validationSchema={loanSchema}
             onSubmit={handleSubmit}
@@ -476,7 +487,7 @@ const LoanForm = ({ loan }) => {
                         </Row>
                         <Row className="mb-2">
                             <Col>
-                                <div className="flex flex-col border p-2 rounded-md">
+                                <div className="flex flex-col border p-2 rounded-md mt-2">
                                     <h1 className="font-bold text-lg mb-1">งบประมาณ</h1>
                                     <AddBudget
                                         formData={formData?.budgets}
@@ -510,39 +521,82 @@ const LoanForm = ({ loan }) => {
                         </Row>
                         <Row className="mb-2">
                             <Col>
-                                <div className="flex flex-col border p-2 rounded-md">
-                                    <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่าย</h1>
-                                    <AddExpense
-                                        data={edittingItem}
-                                        formData={formData?.expenses}
-                                        courses={formik.values.courses.filter(course => !course.removed)}
-                                        onAddItem={(expense) => handleAddItem(formik, expense)}
-                                        onUpdateItem={(id, expense) => handleUpdateItem(formik, id, expense)}
-                                        onClear={setEdittingItem}
-                                    />
-
-                                    <ExpenseList
-                                        items={formik.values.items}
-                                        courses={formik.values.courses.filter(course => !course.removed)}
-                                        edittingItem={edittingItem}
-                                        onEditItem={(data) => handleEditItem(data)}
-                                        onRemoveItem={(id, isNewLoan) => handleRemoveItem(formik, id, isNewLoan)}
-                                    />
-
-                                    <div className="flex flex-row justify-end items-center">
-                                        <div className="mr-2">ค่าใช้จ่ายทั้งสิ้น</div>
-                                        <div className="w-[15%]">
-                                            <input
-                                                type="text"
-                                                name="net_total"
-                                                value={formik.values.net_total}
-                                                onChange={formik.handleChange}
-                                                placeholder="รวมเป็นเงินทั้งสิ้น"
-                                                className="form-control text-sm float-right text-right"
+                                <div className="flex flex-col">
+                                    <Tabs
+                                        id=""
+                                        defaultActiveKey="expenses"
+                                        className="mt-2"
+                                    >
+                                        <Tab eventKey="expenses" title="รายการค่าใช้จ่าย">
+                                            <AddExpense
+                                                data={edittingItem}
+                                                formData={formData?.expenses.filter(exp => exp.group_id === 1)}
+                                                courses={formik.values.courses.filter(course => !course.removed)}
+                                                onAddItem={(expense) => handleAddItem(formik, expense)}
+                                                onUpdateItem={(id, expense) => handleUpdateItem(formik, id, expense)}
+                                                onClear={setEdittingItem}
                                             />
-                                            {(formik.errors.net_total && formik.touched.net_total) && (
-                                                <span className="text-red-500 text-sm">{formik.errors.net_total}</span>
-                                            )}
+
+                                            <ExpenseList
+                                                items={formik.values.items}
+                                                courses={formik.values.courses.filter(course => !course.removed)}
+                                                edittingItem={edittingItem}
+                                                onEditItem={(data) => handleEditItem(data)}
+                                                onRemoveItem={(id, isNewLoan) => handleRemoveItem(formik, id, isNewLoan)}
+                                            />
+
+                                            <div className="flex flex-row">
+                                                <div className="w-[75%]"></div>
+                                                <div className="form-control min-h-[34px] w-[15%] text-right text-sm">
+                                                    {currency.format(formik.values.item_total)}
+                                                </div>
+                                                <div className="w-[10%]"></div>
+                                            </div>
+                                        </Tab>
+                                        <Tab eventKey="procurements" title="รายการจัดซื้อจัดจ้าง">
+                                            <AddOrder
+                                                data={''}
+                                                formData={formData?.expenses.filter(exp => exp.group_id === 2)}
+                                                onAdd={(order) => {
+                                                    const newOrders = [...formik.values.orders, order];
+                                                    const orderTotal = calculateNetTotal(newOrders);
+
+                                                    formik.setFieldValue('orders', newOrders);
+                                                    formik.setFieldValue('order_total', orderTotal);
+                                                    formik.setFieldValue('net_total', parseFloat(formik.values.item_total) + orderTotal);
+                                                }}
+                                                onUpdate={(order) => console.log(order)}
+                                            />
+
+                                            <OrderList i
+                                                orders={formik.values.orders}
+                                                onEdit={(id) => console.log(id, typeof id)}
+                                                onRemove={(id, isNewLoan = false) => {
+                                                    const updatedOrder = removeItemWithFlag(formik.values.orders, id, isNewLoan);
+                                                    const orderTotal = calculateNetTotal(updatedOrder);
+
+                                                    formik.setFieldValue('orders', updatedOrder);
+                                                    formik.setFieldValue('order_total', orderTotal);
+                                                    formik.setFieldValue('net_total', parseFloat(formik.values.item_total) + orderTotal);
+                                                }}
+                                            />
+
+                                            <div className="flex flex-row">
+                                                <div className="w-[75%]"></div>
+                                                <div className="form-control min-h-[34px] w-[15%] text-right text-sm">
+                                                    {currency.format(formik.values.order_total)}
+                                                </div>
+                                                <div className="w-[10%]"></div>
+                                            </div>
+                                        </Tab>
+                                    </Tabs>
+
+                                    <div className="flex flex-row justify-start items-center mt-2 px-[10px]">
+                                        <div className="w-[75%] text-right mr-2">รวมเป็นเงินทั้งสิ้น</div>
+                                        <div className="w-[15%]">
+                                            <div className="form-control text-lg float-right text-right text-green-800 font-bold">
+                                                {currency.format(formik.values.net_total)}
+                                            </div>
                                         </div>
                                         <div className="w-[10%]"></div>
                                     </div>

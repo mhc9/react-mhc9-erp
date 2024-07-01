@@ -116,3 +116,16 @@ a {
   transform: translateX(2px);
   transition: transform 200ms;
 }
+
+.tab-content {
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+  padding: 10px;
+}
+
+.nav-tabs {
+  margin-bottom: 0;
+}
