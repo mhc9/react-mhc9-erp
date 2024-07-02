@@ -552,7 +552,7 @@ const LoanForm = ({ loan }) => {
                                                 <div className="w-[10%]"></div>
                                             </div>
                                         </Tab>
-                                        <Tab eventKey="procurements" title="รายการจัดซื้อจัดจ้าง">
+                                        <Tab eventKey="orders" title="รายการจัดซื้อจัดจ้าง">
                                             <AddOrder
                                                 data={''}
                                                 formData={formData?.expenses.filter(exp => exp.group_id === 2)}

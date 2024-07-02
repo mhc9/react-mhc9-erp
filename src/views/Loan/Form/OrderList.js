@@ -20,17 +20,11 @@ const OrderList = ({ orders, showButtons=true, edittingItem, onEdit, onRemove })
                         <td>
                             <p className="text-gray-500 font-thin">
                                 {order.expense?.name}
-                                {(order.description && order.expense?.pattern)
-                                    ? (
-                                        <span className="text-xs text-red-500 font-thin ml-1">
-                                            {replaceExpensePatternFromDesc(order.expense?.pattern, order.description)}
-                                        </span>
-                                    ) : (
-                                        <span className="text-xs text-red-500 font-thin">
-                                            {order.description && <span>({order.description})</span>}
-                                        </span>
-                                    )
-                                }
+                                {order.description && (
+                                    <span className="text-xs text-red-500 font-thin">
+                                        {order.description && <span>({order.description})</span>}
+                                    </span>
+                                )}
                             </p>
                         </td>
                         <td className="text-right">{currency.format(order.total)}</td>

@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Breadcrumb, Col, Row } from 'react-bootstrap'
+import { Breadcrumb, Col, Row, Tab, Tabs } from 'react-bootstrap'
 import moment from 'moment'
 import { getLoan } from '../../features/slices/loan/loanSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi'
 import { currency, toLongTHDate, getFormDataItem } from '../../utils'
 import Loading from '../../components/Loading'
 import BudgetList from './Form/BudgetList'
+import OrderList from './Form/OrderList'
 import ExpenseList from '../../components/Expense/ExpenseList'
 
 const LoanDetail = () => {
@@ -166,13 +167,37 @@ const LoanDetail = () => {
                         </Row>
                         <Row className="mb-2">
                             <Col>
-                                <div className="flex flex-col border p-2 rounded-md">
-                                    <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่าย</h1>
+                                <div className="flex flex-col">
+                                    <Tabs id="" defaultActiveKey="expense">
+                                        <Tab eventKey="expense" title="รายการค่าใช้จ่าย">
+                                            <ExpenseList
+                                                items={loan?.details.filter(item => item.expense_group === 1)}
+                                                courses={loan?.courses}
+                                                showButtons={false}
+                                            />
+                                            <div className="flex flex-row">
+                                                <div className="w-[85%]"></div>
+                                                <div className="form-control min-h-[34px] w-[15%] text-right text-sm">
+                                                    {currency.format(loan?.item_total)}
+                                                </div>
+                                            </div>
+                                        </Tab>
+                                        <Tab eventKey="orders" title="รายการจัดซื้อจัดจ้าง">
+                                            <OrderList
+                                                orders={loan?.details.filter(item => item.expense_group === 2)}
+                                                showButtons={false}
+                                            />
+                                            <div className="flex flex-row">
+                                                <div className="w-[85%]"></div>
+                                                <div className="form-control min-h-[34px] w-[15%] text-right text-sm">
+                                                    {currency.format(loan?.order_total)}
+                                                </div>
+                                            </div>
+                                        </Tab>
+                                    </Tabs>
 
-                                    <ExpenseList courses={loan?.courses} items={loan?.details} showButtons={false} />
-
-                                    <div className="flex flex-row justify-end items-center">
-                                        <div className="mr-2">ค่าใช้จ่ายทั้งสิ้น</div>
+                                    <div className="flex flex-row justify-end items-center mt-2 px-[10px]">
+                                        <div className="mr-2">รวมเป็นเงินทั้งสิ้น</div>
                                         <div className="w-[15%]">
                                             <div className="form-control font-bold float-right text-right text-red-500">
                                                 {currency.format(loan?.net_total)}
