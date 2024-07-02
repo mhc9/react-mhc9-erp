@@ -59,7 +59,7 @@ const LoanForm = ({ loan }) => {
 
     const handleAddItem = (formik, expense) => {
         const newItems = [...formik.values.items, expense];
-        const itemTotal = calculateNetTotal(newItems, (isRemoved) => isRemoved);
+        const itemTotal = calculateNetTotal(newItems.filter(item => item.expense_group === 1), (isRemoved) => isRemoved);
 
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_total', itemTotal);
@@ -96,7 +96,7 @@ const LoanForm = ({ loan }) => {
      */
     const handleRemoveItem = (formik, id, isNewLoan = false) => {
         const newItems = removeItemWithFlag(formik.values.items, id, isNewLoan);
-        const itemTotal = calculateNetTotal(newItems, (isRemoved) => isRemoved);
+        const itemTotal = calculateNetTotal(newItems.filter(item => item.expense_group === 1), (isRemoved) => isRemoved);
 
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_total', itemTotal);
@@ -207,7 +207,6 @@ const LoanForm = ({ loan }) => {
                 courses: loan ? loan.courses : [], //รุ่นที่
                 budgets: loan ? loan.budgets : [],
                 items: loan ? loan.details : [],
-                orders: loan ? loan.orders : [],
             }}
             validationSchema={loanSchema}
             onSubmit={handleSubmit}
@@ -538,7 +537,7 @@ const LoanForm = ({ loan }) => {
                                             />
 
                                             <ExpenseList
-                                                items={formik.values.items}
+                                                items={formik.values.items.filter(item => item.expense_group === 1)}
                                                 courses={formik.values.courses.filter(course => !course.removed)}
                                                 edittingItem={edittingItem}
                                                 onEditItem={(data) => handleEditItem(data)}
@@ -558,10 +557,10 @@ const LoanForm = ({ loan }) => {
                                                 data={''}
                                                 formData={formData?.expenses.filter(exp => exp.group_id === 2)}
                                                 onAdd={(order) => {
-                                                    const newOrders = [...formik.values.orders, order];
-                                                    const orderTotal = calculateNetTotal(newOrders);
+                                                    const newOrders = [...formik.values.items, order];
+                                                    const orderTotal = calculateNetTotal(newOrders.filter(item => item.expense_group === 1));
 
-                                                    formik.setFieldValue('orders', newOrders);
+                                                    formik.setFieldValue('items', newOrders);
                                                     formik.setFieldValue('order_total', orderTotal);
                                                     formik.setFieldValue('net_total', parseFloat(formik.values.item_total) + orderTotal);
                                                 }}
@@ -569,13 +568,13 @@ const LoanForm = ({ loan }) => {
                                             />
 
                                             <OrderList i
-                                                orders={formik.values.orders}
+                                                orders={formik.values.items.filter(item => item.expense_group === 2)}
                                                 onEdit={(id) => console.log(id, typeof id)}
                                                 onRemove={(id, isNewLoan = false) => {
-                                                    const updatedOrder = removeItemWithFlag(formik.values.orders, id, isNewLoan);
-                                                    const orderTotal = calculateNetTotal(updatedOrder);
+                                                    const updatedOrder = removeItemWithFlag(formik.values.items, id, isNewLoan);
+                                                    const orderTotal = calculateNetTotal(updatedOrder.filter(item => item.expense_group === 2));
 
-                                                    formik.setFieldValue('orders', updatedOrder);
+                                                    formik.setFieldValue('items', updatedOrder);
                                                     formik.setFieldValue('order_total', orderTotal);
                                                     formik.setFieldValue('net_total', parseFloat(formik.values.item_total) + orderTotal);
                                                 }}

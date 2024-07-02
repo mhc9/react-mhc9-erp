@@ -46,6 +46,7 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                 course_id: item ? item.course_id : '',
                 expense_id: item ? item.expense_id : '',
                 expense: item ? item.expense : null,
+                expense_group: item ? item.expense_group : 1,
                 description: (item && item.description) ? item.description : '',
                 total: item ? item.total : '',
             }}

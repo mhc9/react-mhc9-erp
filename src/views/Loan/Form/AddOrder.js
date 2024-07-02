@@ -42,9 +42,10 @@ const AddOrder = ({ data, formData, onAdd, onUpdate, onClear }) => {
             initialValues={{
                 id: order ? order.id : '',
                 loan_id: order ? order.loan_id : '',
-                order_id: order ? order.order_id : '',
+                course_id: order ? order.course_id : '',
                 expense_id: order ? order.expense_id : '',
                 expense: order ? order.expense : null,
+                expense_group: order ? order.expense_group : 2,
                 description: (order && order.description) ? order.description : '',
                 total: order ? order.total : '',
             }}
