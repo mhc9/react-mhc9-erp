@@ -28,9 +28,9 @@ const EditLoan = () => {
     return (
         <div className="content-wrapper">
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ยืมเงินราชการ</Breadcrumb.Item>
-                <Breadcrumb.Item href="/loan">รายการคำขอ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/loan' }}>รายการคำขอ</Breadcrumb.Item>
                 <Breadcrumb.Item active>แก้ไขคำขอ</Breadcrumb.Item>
             </Breadcrumb>
 
