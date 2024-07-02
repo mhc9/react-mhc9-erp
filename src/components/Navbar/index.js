@@ -168,8 +168,11 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                         {isFetching && <Loading />}
                         {(!isFetching && user) && (
                             <div className="flex items-center gap-1">
-                                <div className="w-8 h-8 border rounded-full flex items-center justify-center">
-                                    ST
+                                <div className="w-8 h-8 border-2 rounded-full flex items-start justify-center overflow-hidden">
+                                    {user.employee?.avatar_url
+                                        ? <img src={`${process.env.REACT_APP_API_URL}/uploads/${user.employee?.avatar_url}`} alt="employee-pic" />
+                                        : <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />
+                                    }
                                 </div>
                                 <i className="fas fa-caret-down"></i>
                             </div>
