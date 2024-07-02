@@ -132,12 +132,18 @@ const LoanDetail = () => {
                                     </Row>
                                     <Row>
                                         <Col>
-                                            <div className="alert alert-primary py-1 px-2 mb-0">
+                                            <div className="alert alert-primary py-1 px-1 mb-0">
+                                                <h3 className="text-blue-900 ml-1 underline">รายการรุ่น</h3>
+
                                                 <ul className="text-sm font-thin">
                                                     {loan?.courses.map((course, index) => (
-                                                        <li key={index} className="hover:bg-gray-200 p-1 rounded-md">
-                                                            - รุ่นที่ {course.seq_no} {course?.course_date && <span className="mr-1">วันที่ {toLongTHDate(moment(course?.course_date).toDate())}</span>} 
-                                                                ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
+                                                        <li key={index} className="hover:bg-blue-300 py-1 px-2 rounded-md">
+                                                            {/* - รุ่นที่ {course.seq_no} */}
+                                                            {++index}.{course?.course_date && <span className="ml-1">วันที่ {toLongTHDate(moment(course?.course_date).toDate())}</span>} 
+                                                            <span className="ml-1">
+                                                                ณ {course?.room && <span className="mr-1">{course.room}</span>}
+                                                                {course?.place?.name} จ.{course?.place?.changwat?.name}
+                                                            </span>
                                                         </li>
                                                     ))}
                                                 </ul>
