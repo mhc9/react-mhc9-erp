@@ -3,6 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Pagination } from 'react-bootstrap'
 import { getPlaces } from '../../../features/slices/place/placeSlice';
 import Loading from '../../Loading';
+import FilteringInputs from './FilteringInputs';
+
+const initialFilters = {
+    name: '',
+    place_type_id: '',
+};
 
 const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
@@ -16,7 +22,11 @@ const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
         } else {
             dispatch(getPlaces({ url: `${apiEndpoint}${params}` }));
         }
-    }, [apiEndpoint, params]);
+    }, [apiEndpoint]);
+
+    useEffect(() => {
+        dispatch(getPlaces({ url: `/api/places/search?page=${params}` }));
+    }, [params]);
 
     return (
         <Modal
@@ -28,7 +38,12 @@ const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
                 <Modal.Title>รายการสถานที่</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <div>
+                <FilteringInputs
+                    initialFilters={initialFilters}
+                    onFilter={(params) => setParams(params)}
+                />
+
+                <div className="mt-2">
                     <table className="table table-bordered text-sm">
                         <thead>
                             <tr>
@@ -60,6 +75,7 @@ const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
                                                 onHide();
                                                 onSelect(place);
                                                 setApiEndpoint('');
+                                                setParams('')
                                             }}
                                         >
                                             เลือก
