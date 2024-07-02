@@ -127,29 +127,35 @@ export const loanSlice = createSlice({
             state.error = payload;
         },
         [store.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
-            state.isSuccess = true;
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+            } else {
+                state.error = { message }
+            }
         },
         [store.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [update.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
             state.error = null;
         },
         [update.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
-            state.isSuccess = true;
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+            } else {
+                state.error = { message }
+            }
         },
         [update.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [destroy.pending]: (state) => {
