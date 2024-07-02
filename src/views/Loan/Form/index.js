@@ -558,7 +558,7 @@ const LoanForm = ({ loan }) => {
                                                 formData={formData?.expenses.filter(exp => exp.group_id === 2)}
                                                 onAdd={(order) => {
                                                     const newOrders = [...formik.values.items, order];
-                                                    const orderTotal = calculateNetTotal(newOrders.filter(item => item.expense_group === 1));
+                                                    const orderTotal = calculateNetTotal(newOrders.filter(item => item.expense_group === 2));
 
                                                     formik.setFieldValue('items', newOrders);
                                                     formik.setFieldValue('order_total', orderTotal);

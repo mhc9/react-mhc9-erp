@@ -1,21 +1,29 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
-import { getLoan } from '../../features/slices/loan/loanSlice'
+import { toast } from 'react-toastify'
+import { getLoan, resetSuccess } from '../../features/slices/loan/loanSlice'
 import LoanForm from './Form'
 import Loading from '../../components/Loading'
 
 const EditLoan = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { loan, isLoading } = useSelector(state => state.loan);
+    const { loan, isLoading, isSuccess } = useSelector(state => state.loan);
 
     useEffect(() => {
-        if (id) {
-            dispatch(getLoan(id));
-        }
+        if (id) dispatch(getLoan(id));
     }, [id]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('บันทึกการแก้ไขข้อมูลคำขอเรียบร้อยแล้ว!!');
+            dispatch(resetSuccess());
+            navigate('/loan')
+        }
+    }, [isSuccess]);
 
     return (
         <div className="content-wrapper">
