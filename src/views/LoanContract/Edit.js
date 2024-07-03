@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
@@ -30,9 +30,9 @@ const EditLoanContract = () => {
     return (
         <div className="content-wrapper">
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ยืมเงินราชการ</Breadcrumb.Item>
-                <Breadcrumb.Item href="/loan-contract">รายการสัญญา</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/loan-contract' }}>รายการสัญญา</Breadcrumb.Item>
                 <Breadcrumb.Item active>แก้ไขสัญญา</Breadcrumb.Item>
             </Breadcrumb>
 
