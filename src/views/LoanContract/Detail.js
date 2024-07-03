@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Breadcrumb, Col, Row } from 'react-bootstrap'
+import { Breadcrumb, Col, Row, Tab, Tabs } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import moment from 'moment'
 import { getContract, resetSuccess } from '../../features/slices/loan-contract/loanContractSlice'
@@ -9,6 +9,7 @@ import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi
 import { currency, toLongTHDate, toShortTHDate, getFormDataItem, isOverRefundDate } from '../../utils'
 import Loading from '../../components/Loading'
 import ExpenseList from '../../components/Expense//ExpenseList'
+import OrderList from '../Loan/Form/OrderList'
 import ModalDepositForm from '../../components/Modals/LoanContract/Deposit/Form'
 import ModalApprovalForm from '../../components/Modals/LoanContract/Approval/Form'
 
@@ -60,7 +61,7 @@ const LoanContractDetail = () => {
                             contract={contract}
                         />
 
-                        <Row className="mb-3">
+                        <Row className="mb-2">
                             <Col md={8}>
                                 <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[305px]">
                                     <h1 className="font-bold text-lg mb-2">คำขอยืมเงิน</h1>
@@ -225,17 +226,41 @@ const LoanContractDetail = () => {
                         </Row>
                         <Row className="mb-2">
                             <Col>
-                                <div className="flex flex-col border p-2 rounded-md">
-                                    <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่าย</h1>
-                                    <ExpenseList
-                                        courses={contract?.loan?.courses}
-                                        items={contract?.details.map(item => ({ ...item, course_id: item.loan_detail.course_id }))}
-                                        showButtons={false}
-                                    />
+                                <div className="flex flex-col border rounded-md p-2">
+                                    <Tabs>
+                                        <Tab eventKey="expenses" title="รายการค่าใช้จ่าย">
+                                            <ExpenseList
+                                                courses={contract?.loan?.courses}
+                                                items={contract?.details.map(item => ({ ...item, course_id: item.loan_detail.course_id })).filter(item => item.expense_group === 1)}
+                                                showButtons={false}
+                                            />
 
-                                    <div className="flex flex-row justify-end">
+                                            <div className="flex flex-row items-center gap-2">
+                                                <div className="w-[85%] text-right">รวมค่าใช้จ่ายทั้งสิ้น</div>
+                                                <div className="form-control min-h-[34px] w-[15%] text-right text-sm font-bold">
+                                                    {currency.format(contract?.item_total)}
+                                                </div>
+                                            </div>
+                                        </Tab>
+                                        <Tab eventKey="orders" title="รายการจัดซื้อจัดจ้าง">
+                                            <OrderList
+                                                orders={contract?.details.map(item => ({ ...item, course_id: item.loan_detail.course_id })).filter(item => item.expense_group === 2)}
+                                                showButtons={false}
+                                            />
+
+                                            <div className="flex flex-row items-center gap-2">
+                                                <div className="w-[85%] text-right">รวมจัดซื้อจัดจ้างทั้งสิ้น</div>
+                                                <div className="form-control min-h-[34px] w-[15%] text-right text-sm font-bold">
+                                                    {currency.format(contract?.order_total)}
+                                                </div>
+                                            </div>
+                                        </Tab>
+                                    </Tabs>
+
+                                    <div className="flex flex-row justify-end items-center gap-2 p-2">
+                                        <span className="text-lg font-bold">ยอดยืมทั้งสิ้น</span>
                                         <div className="w-[15%]">
-                                            <div className="form-control text-sm float-right text-right">
+                                            <div className="form-control text-lg font-bold text-right text-red-600 float-right">
                                                 {currency.format(contract?.net_total)}
                                             </div>
                                         </div>
