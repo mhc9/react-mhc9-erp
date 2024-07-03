@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaEdit } from 'react-icons/fa'
@@ -19,9 +19,9 @@ const EditTask = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>บริการ</Breadcrumb.Item>
-                <Breadcrumb.Item href="/task">รายการแจ้งปัญหา</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/task' }}>รายการแจ้งปัญหา</Breadcrumb.Item>
                 <Breadcrumb.Item active>แก้ไขรายการแจ้งปัญหา</Breadcrumb.Item>
             </Breadcrumb>
         

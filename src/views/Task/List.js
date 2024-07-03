@@ -41,7 +41,7 @@ const TaskList = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>บริการ</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการแจ้งปัญหา</Breadcrumb.Item>
             </Breadcrumb>
