@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row, Breadcrumb } from 'react-bootstrap';
 import { toShortTHDate } from '../../../utils'
@@ -21,9 +21,9 @@ const RepairationDetail = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>บริการ</Breadcrumb.Item>
-                <Breadcrumb.Item href="/repairation">รายการส่งซ่อม</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/repairation' }}>รายการส่งซ่อม</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายละเอียดการส่งซ่อม</Breadcrumb.Item>
             </Breadcrumb>
         
