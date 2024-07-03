@@ -34,9 +34,9 @@ const LoanRefundDetail = () => {
     return (
         <div className="content-wrapper">
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ยืมเงินราชการ</Breadcrumb.Item>
-                <Breadcrumb.Item href="/loan-refund">รายการหักล้างเงินยืม</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/loan-refund' }}>รายการหักล้างเงินยืม</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายละเอียดหักล้างเงินยืม</Breadcrumb.Item>
             </Breadcrumb>
 
