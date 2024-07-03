@@ -106,7 +106,9 @@ const LoanContractForm = ({ contract }) => {
                 bk02_date: contract ? contract.bk02_date : '',
                 year: contract ? contract.year : '',
                 refund_days: contract ? contract.refund_days : '',
-                net_total: contract ? contract.net_total : '',
+                item_total: contract ? contract.item_total : '0',
+                order_total: contract ? contract.order_total : '0',
+                net_total: contract ? contract.net_total : '0',
                 remark: (contract && contract.remark) ? contract.remark : '',
                 items: contract ? contract.details : [],
             }}
@@ -125,6 +127,8 @@ const LoanContractForm = ({ contract }) => {
                                 formik.setFieldValue('loan_id', loan.id);
                                 formik.setFieldValue('year', loan.year);
                                 formik.setFieldValue('refund_days', loan.loan_type_id === 1 ? 30 : 15);
+                                formik.setFieldValue('item_total', loan.item_total);
+                                formik.setFieldValue('order_total', loan.order_total);
                                 formik.setFieldValue('net_total', loan.net_total);
                                 formik.setFieldValue('items', loan.details);
 
