@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Col, Row } from 'react-bootstrap'
+import { Col, Row, Tabs, Tab } from 'react-bootstrap'
 import { Formik, Form } from 'formik'
 import { FaSearch } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
@@ -11,6 +11,7 @@ import { store, update } from '../../../features/slices/loan-contract/loanContra
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
 import Loading from '../../../components/Loading'
 import ExpenseList from '../../../components/Expense/ExpenseList'
+import OrderList from '../../Loan/Form/OrderList'
 import ModalLoanList from '../../../components/Modals/Loan/List'
 
 const contractSchema = Yup.object().shape({
@@ -332,19 +333,38 @@ const LoanContractForm = ({ contract }) => {
                         </Row>
                         <Row className="mb-2">
                             <Col>
-                                <div className="flex flex-col border p-2 rounded-md">
-                                    <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่าย</h1>
-                                    <ExpenseList
-                                        items={contract ? convertToExpenseItem(contract.details) : loan?.details}
-                                        courses={loan?.courses}
-                                        showButtons={false}
-                                        edittingItem={edittingItem}
-                                        onEditItem={(data) => handleEditItem(data)}
-                                        onRemoveItem={(id) => handleRemoveItem(formik, id)}
-                                    />
+                                <div className="flex flex-col mt-2">
+                                    <Tabs>
+                                        <Tab eventKey="expenses" title="รายการค่าใช้จ่าย">
+                                            <ExpenseList
+                                                items={contract ? convertToExpenseItem(contract.details).filter(item => item.expense_group === 1) : loan?.details.filter(item => item.expense_group === 1)}
+                                                courses={loan?.courses}
+                                                showButtons={false}
+                                            />
+                                            <div className="flex flex-row items-center gap-2">
+                                                <div className="w-[85%] text-right">รวมค่าใช้จ่ายทั้งสิ้น</div>
+                                                <div className="form-control min-h-[34px] w-[15%] text-right text-sm font-bold">
+                                                    {currency.format(loan?.item_total)}
+                                                </div>
+                                            </div>
+                                        </Tab>
+                                        <Tab eventKey="orders" title="รายการจัดซื้อจัดจ้าง">
+                                            <OrderList
+                                                orders={contract ? convertToExpenseItem(contract.details).filter(item => item.expense_group === 2) : loan?.details.filter(item => item.expense_group === 2)}
+                                                showButtons={false}
+                                            />
 
-                                    <div className="flex flex-row justify-end items-center gap-2">
-                                        ยอดยืมทั้งสิ้น
+                                            <div className="flex flex-row items-center gap-2">
+                                                <div className="w-[85%] text-right">รวมจัดซื้อจัดจ้างทั้งสิ้น</div>
+                                                <div className="form-control min-h-[34px] w-[15%] text-right text-sm font-bold">
+                                                    {currency.format(loan?.order_total)}
+                                                </div>
+                                            </div>
+                                        </Tab>
+                                    </Tabs>
+
+                                    <div className="flex flex-row justify-end items-center gap-2 p-2">
+                                        <span className="text-lg font-bold">ยอดยืมทั้งสิ้น</span>
                                         <div className="w-[15%]">
                                             <div className="form-control font-bold text-lg text-right text-red-600 float-right">
                                                 {currency.format(formik.values.net_total)}

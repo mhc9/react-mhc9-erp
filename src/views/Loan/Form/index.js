@@ -544,8 +544,8 @@ const LoanForm = ({ loan }) => {
                                                 onRemoveItem={(id, isNewLoan) => handleRemoveItem(formik, id, isNewLoan)}
                                             />
 
-                                            <div className="flex flex-row">
-                                                <div className="w-[75%]"></div>
+                                            <div className="flex flex-row items-center gap-2">
+                                                <div className="w-[75%] text-right">รวมค่าใช้จ่ายทั้งสิ้น</div>
                                                 <div className="form-control min-h-[34px] w-[15%] text-right text-sm">
                                                     {currency.format(formik.values.item_total)}
                                                 </div>
@@ -580,8 +580,8 @@ const LoanForm = ({ loan }) => {
                                                 }}
                                             />
 
-                                            <div className="flex flex-row">
-                                                <div className="w-[75%]"></div>
+                                            <div className="flex flex-row items-center gap-2">
+                                                <div className="w-[75%] text-right">รวมจัดซื้อจัดจ้างทั้งสิ้น</div>
                                                 <div className="form-control min-h-[34px] w-[15%] text-right text-sm">
                                                     {currency.format(formik.values.order_total)}
                                                 </div>
@@ -591,7 +591,7 @@ const LoanForm = ({ loan }) => {
                                     </Tabs>
 
                                     <div className="flex flex-row justify-start items-center mt-2 px-[10px]">
-                                        <div className="w-[75%] text-right mr-2">รวมเป็นเงินทั้งสิ้น</div>
+                                        <div className="w-[75%] text-right text-lg font-bold mr-2">รวมเป็นเงินทั้งสิ้น</div>
                                         <div className="w-[15%]">
                                             <div className="form-control text-lg float-right text-right text-green-800 font-bold">
                                                 {currency.format(formik.values.net_total)}

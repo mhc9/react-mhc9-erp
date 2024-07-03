@@ -181,8 +181,8 @@ const LoanDetail = () => {
                                                 courses={loan?.courses}
                                                 showButtons={false}
                                             />
-                                            <div className="flex flex-row">
-                                                <div className="w-[85%]"></div>
+                                            <div className="flex flex-row items-center gap-2">
+                                                <div className="w-[85%] text-right">รวมค่าใช้จ่ายทั้งสิ้น</div>
                                                 <div className="form-control min-h-[34px] w-[15%] text-right text-sm">
                                                     {currency.format(loan?.item_total)}
                                                 </div>
@@ -193,8 +193,8 @@ const LoanDetail = () => {
                                                 orders={loan?.details.filter(item => item.expense_group === 2)}
                                                 showButtons={false}
                                             />
-                                            <div className="flex flex-row">
-                                                <div className="w-[85%]"></div>
+                                            <div className="flex flex-row items-center gap-2">
+                                                <div className="w-[85%] text-right">รวมจัดซื้อจัดจ้างทั้งสิ้น</div>
                                                 <div className="form-control min-h-[34px] w-[15%] text-right text-sm">
                                                     {currency.format(loan?.order_total)}
                                                 </div>
@@ -203,7 +203,7 @@ const LoanDetail = () => {
                                     </Tabs>
 
                                     <div className="flex flex-row justify-end items-center mt-2 px-[10px]">
-                                        <div className="mr-2">รวมเป็นเงินทั้งสิ้น</div>
+                                        <div className="text-lg font-bold mr-2">รวมเป็นเงินทั้งสิ้น</div>
                                         <div className="w-[15%]">
                                             <div className="form-control font-bold float-right text-right text-red-500">
                                                 {currency.format(loan?.net_total)}
