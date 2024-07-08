@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Col, Row } from 'react-bootstrap'
+import { Col, Row, Tabs, Tab } from 'react-bootstrap'
 import { Formik, Form } from 'formik'
 import { FaSearch } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
@@ -12,6 +12,8 @@ import { store, update } from '../../../features/slices/loan-refund/loanRefundSl
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
 import AddExpense from './AddExpense';
 import ExpenseList from './ExpenseList'
+import AddOrder from './AddOrder';
+import OrderList from './OrderList';
 import Loading from '../../../components/Loading'
 import ModalLoanContractList from '../../../components/Modals/LoanContract/List'
 
@@ -54,11 +56,14 @@ const LoanRefundForm = ({ refund }) => {
 
         /** Create new items array */
         const newItems = [...formik.values.items, contractDetail];
+        const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1));
+        const netTotal = parseFloat(formik.values.order_total) + itemTotal;
 
         formik.setFieldValue('items', newItems);
-        formik.setFieldValue('net_total', calculateNetTotal(newItems));
-        formik.setFieldValue('balance', contract?.net_total - calculateNetTotal(newItems));
-        setRefundType(formik, contract?.net_total - calculateNetTotal(newItems));
+        formik.setFieldValue('item_total', itemTotal);
+        formik.setFieldValue('net_total', netTotal);
+        formik.setFieldValue('balance', contract?.net_total - netTotal);
+        setRefundType(formik, contract?.net_total - netTotal);
 
         setTimeout(() => formik.setFieldTouched('items', true));
     };
@@ -80,12 +85,15 @@ const LoanRefundForm = ({ refund }) => {
     };
 
     const handleRemoveItem = (formik, id) => {
-        const newItems = formik.values.items.filter(item => item.expense_id !== id);
+        const newItems = formik.values.items.filter(item => item.contract_detail_id !== id);
+        const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1));
+        const netTotal = parseFloat(formik.values.order_total) + itemTotal;
 
         formik.setFieldValue('items', newItems);
-        formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems)));
-        formik.setFieldValue('balance', contract?.net_total - calculateNetTotal(newItems));
-        setRefundType(formik, contract?.net_total - calculateNetTotal(newItems));
+        formik.setFieldValue('item_total', itemTotal);
+        formik.setFieldValue('net_total', netTotal);
+        formik.setFieldValue('balance', contract?.net_total - netTotal);
+        setRefundType(formik, contract?.net_total - netTotal);
     };
 
     const handleSubmit = (values, formik) => {
@@ -114,6 +122,8 @@ const LoanRefundForm = ({ refund }) => {
                 doc_date:  refund ? moment(refund.doc_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 contract_id: refund ? refund.contract_id : '',
                 refund_type_id: refund ? refund.refund_type_id : '1',
+                item_total: '0',
+                order_total: '0',
                 net_total: refund ? refund.net_total : '',
                 balance: refund ? refund.balance : '',
                 items: refund ? refund.details : [],
@@ -327,25 +337,96 @@ const LoanRefundForm = ({ refund }) => {
                         <Row className="mb-2">
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
-                                    <h1 className="font-bold text-lg mb-1">รายการค่าใช้จ่ายจริง</h1>
+                                    <Tabs>
+                                        <Tab eventKey="expenses" title="รายการค่าใช้จ่ายจริง">
+                                            <AddExpense
+                                                expenses={contract?.details.filter(item => item.expense_group === 1)}
+                                                courses={contract?.loan?.courses}
+                                                refundType={formik.values.refund_type_id}
+                                                onAddItem={(data) => handleAddItem(formik, data)}
+                                            />
 
-                                    <AddExpense
-                                        expenses={contract?.details}
-                                        courses={contract?.loan?.courses}
-                                        refundType={formik.values.refund_type_id}
-                                        onAddItem={(data) => handleAddItem(formik, data)}
-                                    />
+                                            <ExpenseList
+                                                items={formik.values.items.filter(item => item.contract_detail?.expense_group === 1)}
+                                                courses={contract?.loan?.courses}
+                                                showButtons={true}
+                                                edittingItem={edittingItem}
+                                                onEditItem={(data) => handleEditItem(data)}
+                                                onRemoveItem={(id) => handleRemoveItem(formik, id)}
+                                            />
 
-                                    <ExpenseList
-                                        items={formik.values.items}
-                                        courses={contract?.loan?.courses}
-                                        showButtons={true}
-                                        edittingItem={edittingItem}
-                                        onEditItem={(data) => handleEditItem(data)}
-                                        onRemoveItem={(id) => handleRemoveItem(formik, id)}
-                                    />
+                                            <div className="flex flex-row justify-end items-center gap-2">
+                                                รวมค่าใช้จ่ายทั้งสิ้น
+                                                <div className="w-[10%]">
+                                                    <div className="form-control min-h-[34px] text-right text-sm font-bold">
+                                                        {currency.format(formik.values.item_total)}
+                                                    </div>
+                                                </div>
+                                                <div className="w-[9.5%]">
+                                                    <div className="form-control min-h-[34px] text-right text-sm font-bold">
+                                                        {currency.format(contract?.item_total - parseFloat(formik.values.item_total))}
+                                                    </div>
+                                                </div>
+                                                <div className="w-[9.5%]"></div>
+                                            </div>
+                                        </Tab>
+                                        <Tab eventKey="orders" title="รายการจัดซื้อจัดจ้าง">
+                                            <AddOrder
+                                                formData={contract?.details.filter(item => item.expense_group === 2)}
+                                                onAdd={(order) => {
+                                                    console.log(order);
+                                                    /** Determines whether incoming data is existed or not  */
+                                                    // if (formik.values.items.some(item => item.contract_detail_id === order.contract_detail_id)) {
+                                                    //     toast.error('ไม่สามารถระบุรายการค่าใช้จ่ายซ้ำได้!!');
+                                                    //     return
+                                                    // }
 
-                                    <div className="flex flex-row justify-end items-center gap-2">
+                                                    // /** Create new items array */
+                                                    const newItems = [...formik.values.items, order];
+                                                    const orderTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 2));
+                                                    const netTotal = parseFloat(formik.values.item_total) + orderTotal;
+
+                                                    formik.setFieldValue('items', newItems);
+                                                    formik.setFieldValue('order_total', orderTotal);
+                                                    formik.setFieldValue('net_total', netTotal);
+                                                    formik.setFieldValue('balance', contract?.net_total - netTotal);
+                                                    setRefundType(formik, contract?.net_total - netTotal);
+                                                }}
+                                            />
+
+                                            <OrderList
+                                                orders={formik.values.items.filter(item => item.contract_detail?.expense_group === 2)}
+                                                onRemove={(order) => {
+                                                    const newItems = formik.values.items.filter(item => item.contract_detail_id !== order);
+                                                    const orderTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 2));
+                                                    const netTotal = parseFloat(formik.values.item_total) + orderTotal;
+
+                                                    formik.setFieldValue('items', newItems);
+                                                    formik.setFieldValue('order_total', orderTotal);
+                                                    formik.setFieldValue('net_total', netTotal);
+                                                    formik.setFieldValue('balance', contract?.net_total - netTotal);
+                                                    setRefundType(formik, contract?.net_total - netTotal);
+                                                }}
+                                            />
+
+                                            <div className="flex flex-row justify-end items-center gap-2">
+                                                รวมค่าใช้จ่ายทั้งสิ้น
+                                                <div className="w-[10%]">
+                                                    <div className="form-control min-h-[34px] text-right text-sm font-bold">
+                                                        {currency.format(formik.values.order_total)}
+                                                    </div>
+                                                </div>
+                                                <div className="w-[9.5%]">
+                                                    <div className="form-control min-h-[34px] text-right text-sm font-bold">
+                                                        {currency.format(contract?.order_total - parseFloat(formik.values.order_total))}
+                                                    </div>
+                                                </div>
+                                                <div className="w-[9.5%]"></div>
+                                            </div>
+                                        </Tab>
+                                    </Tabs>
+
+                                    <div className="flex flex-row justify-end items-center gap-2 p-2">
                                         ยอดใช้จริงทั้งสิ้น
                                         <div className="w-[10%]">
                                             <div className="form-control font-bold text-lg text-right float-right min-h-[34px]">

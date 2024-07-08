@@ -61,7 +61,7 @@ const ModalDepositForm = ({ isShow, onHide, onSubmit, contract }) => {
                                                     formik.setFieldValue('deposited_date', date.format('YYYY-MM-DD'));
                                                     
                                                     /** คำนวณวันที่กำหนดคืนเงินจาก contract.refund_days */
-                                                    const refundDate = moment(date).add(contract.refund_days, "days");
+                                                    const refundDate = moment(date).add(contract.refund_days - 1, "days");
                                                     setSelectedRefundDate(refundDate);
                                                     formik.setFieldValue('refund_date', refundDate.format('YYYY-MM-DD'));
                                                 }}

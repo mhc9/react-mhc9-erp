@@ -19,7 +19,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                     ? courses.map(course => (
                         <Fragment key={course.id}>
                             <tr>
-                                <td colSpan={4}>
+                                <td colSpan={5}>
                                     รุ่นที่ {course.seq_no} {course?.course_date && <span>วันที่ {toShortTHDate(course?.course_date)}</span>} 
                                     ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
                                 </td>
@@ -74,7 +74,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                                                 <button
                                                     type="button"
                                                     className="btn btn-sm btn-outline-danger"
-                                                    onClick={() => onRemoveItem(data.expense_id)}
+                                                    onClick={() => onRemoveItem(data.contract_detail_id)}
                                                 >
                                                     <FaTrash />
                                                 </button>
@@ -134,7 +134,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                                             <button
                                                 type="button"
                                                 className="btn btn-sm btn-outline-danger"
-                                                onClick={() => onRemoveItem(data.expense_id)}
+                                                onClick={() => onRemoveItem(data.contract_detail_id)}
                                             >
                                                 <FaTrash />
                                             </button>
