@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { getRefunds, destroy } from '../../../features/slices/loan-refund/loanRefundSlice'
+import { getRefunds, destroy, resetSuccess } from '../../../features/slices/loan-refund/loanRefundSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
@@ -19,9 +20,19 @@ const initialFilters = {
 
 const LoanRefundList = () => {
     const dispatch = useDispatch();
-    const { refunds, pager, isLoading } = useSelector(state => state.loanRefund);
+    const { refunds, pager, isLoading, isSuccess } = useSelector(state => state.loanRefund);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
+
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(resetSuccess());
+            toast.success('ลบรายการหักล้างเงินยืมสำเร็จ!!');
+
+            /** Reset ค่าของ apiEndpoint เพื่่อ re-render page */
+            setApiEndpoint(prev => prev === '' ? `/api/loan-refunds/search?page=&status=1` : '')
+        }
+    }, [isSuccess]);
 
     useEffect(() => {
         if (apiEndpoint === '') {

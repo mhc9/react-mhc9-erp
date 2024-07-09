@@ -29,6 +29,8 @@ const LoanContractList = () => {
         if (isSuccess) {
             toast.success('ลบข้อมูลสัญญายืมเงินเรียบร้อยแล้ว!!');
             dispatch(resetSuccess());
+
+            /** Reset ค่าของ apiEndpoint เพื่่อ re-render page */
             setApiEndpoint(prev => prev === '' ? '/api/loan-contracts/search?page=&status=' : '');
         }
     }, [isSuccess]);

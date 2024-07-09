@@ -57,8 +57,6 @@ export const destroy = createAsyncThunk("loan-refund/destroy", async (id, { disp
     try {
         const res = await api.post(`/api/loan-refunds/${id}/delete`);
 
-        dispatch(getRefunds({ url: '/api/loan-refunds' }));
-
         return res.data;
     } catch (error) {
         rejectWithValue(error);
@@ -151,16 +149,19 @@ export const loanRefundSlice = createSlice({
             state.error = payload;
         },
         [destroy.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
             state.error = null;
         },
         [destroy.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
-            state.isSuccess = true;
+            const { status, message } = payload;
+
+            if(status === 1) {
+                state.isSuccess = true;
+            } else {
+                state.error = payload;
+            }
         },
         [destroy.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [approve.pending]: (state) => {
