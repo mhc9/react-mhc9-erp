@@ -121,12 +121,16 @@ const LoanContractList = () => {
                                         <Link to={`/loan-contract/${contract.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
                                         </Link>
-                                        <Link to={`/loan-contract/${contract.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
-                                            <FaPencilAlt />
-                                        </Link>
-                                        <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(contract.id)}>
-                                            <FaTrash />
-                                        </button>
+                                        {![3,4].includes(contract.status) && (
+                                            <>
+                                                <Link to={`/loan-contract/${contract.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
+                                                    <FaPencilAlt />
+                                                </Link>
+                                                <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(contract.id)}>
+                                                    <FaTrash />
+                                                </button>
+                                            </>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
