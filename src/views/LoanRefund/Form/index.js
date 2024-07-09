@@ -337,7 +337,10 @@ const LoanRefundForm = ({ refund }) => {
                         <Row className="mb-2">
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
-                                    <Tabs>
+                                    <Tabs
+                                        id=""
+                                        defaultActiveKey="expenses"
+                                    >
                                         <Tab eventKey="expenses" title="รายการค่าใช้จ่ายจริง">
                                             <AddExpense
                                                 expenses={contract?.details.filter(item => item.expense_group === 1)}
@@ -364,10 +367,10 @@ const LoanRefundForm = ({ refund }) => {
                                                 </div>
                                                 <div className="w-[9.5%]">
                                                     <div className="form-control min-h-[34px] text-right text-sm font-bold">
-                                                        {currency.format(contract?.item_total - parseFloat(formik.values.item_total))}
+                                                        {contract ? currency.format(contract?.item_total - parseFloat(formik.values.item_total)) : '0'}
                                                     </div>
                                                 </div>
-                                                <div className="w-[9.5%]"></div>
+                                                <div className="w-[9%]"></div>
                                             </div>
                                         </Tab>
                                         <Tab eventKey="orders" title="รายการจัดซื้อจัดจ้าง">
@@ -410,7 +413,7 @@ const LoanRefundForm = ({ refund }) => {
                                             />
 
                                             <div className="flex flex-row justify-end items-center gap-2">
-                                                รวมค่าใช้จ่ายทั้งสิ้น
+                                                รวมจัดซื้อจัดทั้งสิ้น
                                                 <div className="w-[10%]">
                                                     <div className="form-control min-h-[34px] text-right text-sm font-bold">
                                                         {currency.format(formik.values.order_total)}
@@ -418,10 +421,10 @@ const LoanRefundForm = ({ refund }) => {
                                                 </div>
                                                 <div className="w-[9.5%]">
                                                     <div className="form-control min-h-[34px] text-right text-sm font-bold">
-                                                        {currency.format(contract?.order_total - parseFloat(formik.values.order_total))}
+                                                        {contract ? currency.format(contract?.order_total - parseFloat(formik.values.order_total)) : '0'}
                                                     </div>
                                                 </div>
-                                                <div className="w-[9.5%]"></div>
+                                                <div className="w-[9%]"></div>
                                             </div>
                                         </Tab>
                                     </Tabs>
@@ -456,7 +459,7 @@ const LoanRefundForm = ({ refund }) => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="w-[9.5%]"></div>
+                                        <div className="w-[9%]"></div>
                                     </div>
                                 </div>
                                 {(formik.errors.items && formik.touched.items) && (

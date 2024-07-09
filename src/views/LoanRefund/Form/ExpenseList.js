@@ -4,7 +4,7 @@ import { currency, replaceExpensePatternFromDesc, toShortTHDate } from '../../..
 
 const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditItem, onRemoveItem }) => {
     return (
-        <table className="table table-bordered table-striped text-sm mb-2">
+        <table className="table table-bordered table-striped table-hover text-sm mb-2">
             <thead>
                 <tr>
                     <th className="w-[5%] text-center">#</th>

@@ -9,8 +9,8 @@ const OrderList = ({ orders, showButtons=true, edittingItem, onEdit, onRemove })
                 <tr>
                     <th className="w-[5%] text-center">#</th>
                     <th>รายการ</th>
-                    <th className="w-[15%] text-center">ยอดใช้จริง</th>
-                    <th className="w-[15%] text-center">คงเหลือ</th>
+                    <th className="w-[10%] text-center">ยอดใช้จริง</th>
+                    <th className="w-[10%] text-center">คงเหลือ</th>
                     {showButtons && <th className="w-[10%] text-center">Actions</th>}
                 </tr>
             </thead>
