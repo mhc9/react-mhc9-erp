@@ -5,7 +5,7 @@ import { Breadcrumb, Col, Row, Tab, Tabs } from 'react-bootstrap'
 import moment from 'moment'
 import { getLoan } from '../../features/slices/loan/loanSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi'
-import { currency, toLongTHDate, getFormDataItem } from '../../utils'
+import { currency, toLongTHDate, getFormDataItem, sortObjectByDate } from '../../utils'
 import Loading from '../../components/Loading'
 import BudgetList from './Form/BudgetList'
 import OrderList from './Form/OrderList'
@@ -136,16 +136,19 @@ const LoanDetail = () => {
                                                 <h3 className="text-blue-900 ml-1 underline">รายการรุ่น</h3>
 
                                                 <ul className="text-sm font-thin">
-                                                    {loan?.courses.map((course, index) => (
-                                                        <li key={index} className="hover:bg-blue-300 py-1 px-2 rounded-md">
-                                                            {/* - รุ่นที่ {course.seq_no} */}
-                                                            {++index}.{course?.course_date && <span className="ml-1">วันที่ {toLongTHDate(moment(course?.course_date).toDate())}</span>} 
-                                                            <span className="ml-1">
-                                                                ณ {course?.room && <span className="mr-1">{course.room}</span>}
-                                                                {course?.place?.name} จ.{course?.place?.changwat?.name}
-                                                            </span>
-                                                        </li>
-                                                    ))}
+                                                    {[...loan?.courses]
+                                                        .sort((a, b) => sortObjectByDate(a.course_date, b.course_date))
+                                                        .map((course, index) => (
+                                                            <li key={index} className="hover:bg-blue-300 py-1 px-2 rounded-md">
+                                                                {/* - รุ่นที่ {course.seq_no} */}
+                                                                {++index}.{course?.course_date && <span className="ml-1">วันที่ {toLongTHDate(moment(course?.course_date).toDate())}</span>} 
+                                                                <span className="ml-1">
+                                                                    ณ {course?.room && <span className="mr-1">{course.room}</span>}
+                                                                    {course?.place?.name} จ.{course?.place?.changwat?.name}
+                                                                </span>
+                                                            </li>
+                                                        )
+                                                    )}
                                                 </ul>
                                             </div>
                                         </Col>
@@ -178,7 +181,7 @@ const LoanDetail = () => {
                                         <Tab eventKey="expense" title="รายการค่าใช้จ่าย">
                                             <ExpenseList
                                                 items={loan?.details.filter(item => item.expense_group === 1)}
-                                                courses={loan?.courses}
+                                                courses={[...loan?.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date))}
                                                 showButtons={false}
                                             />
                                             <div className="flex flex-row items-center gap-2">

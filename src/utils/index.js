@@ -144,3 +144,12 @@ export const getFormDataItem = (data, dataName, id) => {
 export const isOverRefundDate = (refundDate) => {
     return moment().diff(moment(refundDate), "days") > 0;
 };
+
+export const sortObjectByDate = (a, b, type='ASC') => {
+    if (type === 'ASC') {
+        return moment(a).toDate() - moment(b).toDate();
+    } else {
+        return moment(b).toDate() - moment(a).toDate();
+    }
+    return 
+}

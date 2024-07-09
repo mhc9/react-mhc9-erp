@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment';
-import { calculateNetTotal, currency, toShortTHDate } from '../../../utils'
+import { calculateNetTotal, currency, sortObjectByDate, toShortTHDate } from '../../../utils'
 import { store, update } from '../../../features/slices/loan/loanSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
 import AddBudget from './AddBudget'
@@ -204,7 +204,7 @@ const LoanForm = ({ loan }) => {
                 order_total: loan ? loan.order_total : '0',
                 net_total: loan ? loan.net_total : '0',
                 remark: (loan && loan.remark) ? loan.remark : '',
-                courses: loan ? loan.courses : [], //รุ่นที่
+                courses: loan ? [...loan.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date)) : [], //รุ่นที่
                 budgets: loan ? loan.budgets : [],
                 items: loan ? loan.details : [],
             }}
