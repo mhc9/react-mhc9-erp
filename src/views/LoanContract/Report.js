@@ -69,12 +69,12 @@ const LoanContractReport = () => {
                         onFilter={handleFilter}
                     /> */}
 
-                    <table className="table table-bordered mb-2">
+                    <table className="table table-bordered table-striped table-hover text-xs mb-2">
                         <thead>
                             <tr>
                                 <th className="text-center w-[3%]">#</th>
                                 <th className="text-center w-[8%]">เอกสาร</th>
-                                <th className="text-center w-[15%]">ผู้ยืม</th>
+                                <th className="text-center w-[20%]">ผู้ยืม</th>
                                 <th className="text-center">โครงการ</th>
                                 <th className="text-center w-[8%]">จำนวนเงินยืม</th>
                                 <th className="text-center w-[8%]">
@@ -96,31 +96,27 @@ const LoanContractReport = () => {
                             {(!isLoading && contracts) && contracts.map((contract, index) => (
                                 <tr key={contract.id}>
                                     <td className="text-center">{pager && pager.from + index}</td>
-                                    <td className="text-sm">
+                                    <td>
                                         <p className="p-0 m-0">เลขที่สัญญา :</p>
                                         <span className="badge rounded-pill text-bg-primary mb-1">{contract.contract_no}</span>
-                                        <p className="p-0 m-0">วันส่งสัญญา :</p>
-                                        <span className="badge rounded-pill text-bg-primary">{toShortTHDate(contract.sent_date)}</span>
+                                        <p className="p-0 m-0">วันสัญญา :</p>
+                                        <span className="badge rounded-pill text-bg-primary">{toShortTHDate(contract.approved_date)}</span>
                                     </td>
-                                    <td className="text-sm">
-                                        <EmployeeCard employee={contract.loan?.employee} />
-                                    </td>
-                                    <td className="text-sm">
-                                        {contract.loan?.project_name}
-                                    </td>
-                                    <td className="text-sm text-center">
+                                    <td><EmployeeCard employee={contract.loan?.employee} /></td>
+                                    <td>{contract.loan?.project_name}</td>
+                                    <td className="text-center">
                                         {currency.format(contract.net_total)}
                                     </td>
-                                    <td className="text-sm text-center">
+                                    <td className="text-center">
                                         {contract.refund && renderRefundTotal(contract.refund?.refund_type_id, contract.refund?.balance)}
                                     </td>
-                                    <td className="text-sm text-center">
+                                    <td className="text-center">
                                         {toShortTHDate(contract.deposited_date)}
                                     </td>
-                                    <td className="text-sm text-center">
+                                    <td className="text-center">
                                         {toShortTHDate(contract.refund_date)}
                                     </td>
-                                    <td className="text-sm text-center font-bold">
+                                    <td className="text-center font-bold">
                                         {(contract.refund_date && contract.refund) && isOverRefund(contract.refund_date, contract.refund?.approved_date)
                                             ? <span className="text-red-600">{toShortTHDate(contract.refund?.approved_date)}</span>
                                             : <span className="text-green-600">{toShortTHDate(contract.refund?.approved_date)}</span>
