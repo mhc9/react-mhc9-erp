@@ -7,7 +7,14 @@ import { DatePicker } from '@material-ui/pickers';
 import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 import moment from 'moment';
-import { calculateNetTotal, currency, toShortTHDate, toLongTHDate, getFormDataItem } from '../../../utils'
+import {
+    calculateNetTotal,
+    currency,
+    getFormDataItem,
+    sortObjectByDate,
+    toLongTHDate,
+    toShortTHDate
+} from '../../../utils'
 import { store, update } from '../../../features/slices/loan-refund/loanRefundSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
 import AddExpense from './AddExpense';
@@ -344,14 +351,14 @@ const LoanRefundForm = ({ refund }) => {
                                         <Tab eventKey="expenses" title="รายการค่าใช้จ่ายจริง">
                                             <AddExpense
                                                 expenses={contract?.details.filter(item => item.expense_group === 1)}
-                                                courses={contract?.loan?.courses}
+                                                courses={contract && [...contract?.loan?.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date))}
                                                 refundType={formik.values.refund_type_id}
                                                 onAddItem={(data) => handleAddItem(formik, data)}
                                             />
 
                                             <ExpenseList
                                                 items={formik.values.items.filter(item => item.contract_detail?.expense_group === 1)}
-                                                courses={contract?.loan?.courses}
+                                                courses={contract && [...contract?.loan?.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date))}
                                                 showButtons={true}
                                                 edittingItem={edittingItem}
                                                 onEditItem={(data) => handleEditItem(data)}

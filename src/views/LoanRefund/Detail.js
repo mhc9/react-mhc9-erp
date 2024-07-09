@@ -4,7 +4,13 @@ import { useParams, Link } from 'react-router-dom';
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { FaCheckSquare, FaRegSquare } from 'react-icons/fa'
 import moment from 'moment';
-import { currency, toShortTHDate, toLongTHDate, getFormDataItem } from '../../utils'
+import {
+    currency,
+    getFormDataItem,
+    sortObjectByDate,
+    toLongTHDate,
+    toShortTHDate
+} from '../../utils'
 import { getRefund, resetSuccess } from '../../features/slices/loan-refund/loanRefundSlice';
 import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi'
 import ExpenseList from './Form/ExpenseList'
@@ -219,7 +225,7 @@ const LoanRefundDetail = () => {
 
                                     <ExpenseList
                                         items={refund?.details}
-                                        courses={refund?.contract?.loan?.courses}
+                                        courses={refund && [...refund?.contract?.loan?.courses].sort((a, b) => sortObjectByDate(a.course_date ,b.course_date))}
                                         showButtons={false}
                                     />
 

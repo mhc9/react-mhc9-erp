@@ -93,7 +93,7 @@ const LoanContractForm = ({ contract }) => {
         setLoan(null);
         setSelectedBk02Date(moment());
         setSelectedSentDate(moment());
-        selectedApprovedDate(moment());
+        setSelectedApprovedDate(moment());
     };
 
     const convertToExpenseItem = (contractDetails = []) => {
