@@ -6,7 +6,14 @@ import { toast } from 'react-toastify'
 import moment from 'moment'
 import { getContract, resetSuccess } from '../../features/slices/loan-contract/loanContractSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi'
-import { currency, toLongTHDate, toShortTHDate, getFormDataItem, isOverRefundDate } from '../../utils'
+import {
+    currency,
+    toLongTHDate,
+    toShortTHDate,
+    getFormDataItem,
+    isOverRefundDate,
+    sortObjectByDate
+} from '../../utils'
 import Loading from '../../components/Loading'
 import ExpenseList from '../../components/Expense//ExpenseList'
 import OrderList from '../Loan/Form/OrderList'
@@ -230,8 +237,8 @@ const LoanContractDetail = () => {
                                     <Tabs>
                                         <Tab eventKey="expenses" title="รายการค่าใช้จ่าย">
                                             <ExpenseList
-                                                courses={contract?.loan?.courses}
                                                 items={contract?.details.map(item => ({ ...item, course_id: item.loan_detail.course_id })).filter(item => item.expense_group === 1)}
+                                                courses={contract && [...contract?.loan?.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date))}
                                                 showButtons={false}
                                             />
 

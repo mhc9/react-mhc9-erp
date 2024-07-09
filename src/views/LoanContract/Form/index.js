@@ -6,7 +6,14 @@ import { FaSearch } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
 import * as Yup from 'yup'
 import moment from 'moment';
-import { calculateNetTotal, currency, toShortTHDate, toLongTHDate, getFormDataItem } from '../../../utils'
+import {
+    calculateNetTotal,
+    currency,
+    getFormDataItem,
+    toLongTHDate,
+    toShortTHDate,
+    sortObjectByDate
+} from '../../../utils'
 import { store, update } from '../../../features/slices/loan-contract/loanContractSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
 import Loading from '../../../components/Loading'
@@ -342,7 +349,7 @@ const LoanContractForm = ({ contract }) => {
                                         <Tab eventKey="expenses" title="รายการค่าใช้จ่าย">
                                             <ExpenseList
                                                 items={contract ? convertToExpenseItem(contract.details).filter(item => item.expense_group === 1) : loan?.details.filter(item => item.expense_group === 1)}
-                                                courses={loan?.courses}
+                                                courses={loan && [...loan?.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date))}
                                                 showButtons={false}
                                             />
                                             <div className="flex flex-row items-center gap-2">

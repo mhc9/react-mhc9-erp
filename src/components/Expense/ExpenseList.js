@@ -66,7 +66,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem, onEditIte
                         return (
                             <Fragment key={course.id} >
                                 <tr>
-                                    <td colSpan={4}>
+                                    <td colSpan={showButtons ? 4 : 3}>
                                         {/* รุ่นที่ {course.seq_no} */}
                                         {course?.course_date && <span className="mr-1">วันที่ {toShortTHDate(course?.course_date)}</span>} 
                                         ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
