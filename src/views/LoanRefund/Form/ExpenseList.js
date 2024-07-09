@@ -20,8 +20,9 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                         <Fragment key={course.id}>
                             <tr>
                                 <td colSpan={5}>
-                                    รุ่นที่ {course.seq_no} {course?.course_date && <span>วันที่ {toShortTHDate(course?.course_date)}</span>} 
-                                    ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
+                                    {/* รุ่นที่ {course.seq_no} */}
+                                    {course?.course_date && <span className="ml-1">วันที่ {toShortTHDate(course?.course_date)}</span>} 
+                                    <span className="ml-1">ณ {course?.place?.name} จ.{course?.place?.changwat?.name}</span>
                                 </td>
                             </tr>
 

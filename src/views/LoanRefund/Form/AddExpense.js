@@ -72,7 +72,7 @@ const AddExpense = ({ data, expenses, courses, refundType, onAddItem, onUpdateIt
                                     let index = 0;
 
                                     return (
-                                        <optgroup key={course.id} label={`รุ่นที่ ${course.seq_no} วันที่ ${toShortTHDate(course.course_date)}`}>
+                                        <optgroup key={course.id} label={`วันที่ ${toShortTHDate(course.course_date)} ณ ${course?.place?.name} จ.${course?.place?.changwat?.name}`}>
                                             {expenses && expenses.map(data => (
                                                 <Fragment key={data.id}>
                                                     {data.loan_detail.course_id === course.id && (
