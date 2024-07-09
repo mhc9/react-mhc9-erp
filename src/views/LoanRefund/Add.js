@@ -1,9 +1,24 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 import { Breadcrumb } from 'react-bootstrap'
+import { resetSuccess } from '../../features/slices/loan-refund/loanRefundSlice'
 import LoanRefundForm from './Form'
 
 const AddLoanRefund = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { isSuccess } = useSelector(state => state.loanRefund);
+
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(resetSuccess());
+            toast.success('บันทึกรายการหักล้างเงินยืมเรียบร้อย!!');
+            navigate('/loan-refund');
+        }
+    }, [isSuccess]);
+
     return (
         <div className="content-wrapper">
             <Breadcrumb>
