@@ -219,7 +219,7 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                                     name="handle_type_id"
                                     value="4"
                                 />
-                                <span className="ml-1 mr-4">แก้ไข</span>
+                                <span className="ml-1 mr-4">แก้ไข/ปรับปรุง</span>
 
                                 <Field
                                     type="radio"
@@ -227,6 +227,13 @@ const TaskHandlingForm = ({ task, onCancel }) => {
                                     value="5"
                                 />
                                 <span className="ml-1 mr-4">ตรวจสอบ</span>
+
+                                <Field
+                                    type="radio"
+                                    name="handle_type_id"
+                                    value="6"
+                                />
+                                <span className="ml-1 mr-4">ติดตั้ง</span>
                             </label>
                             {(formik.errors.handle_type_id && formik.touched.handle_type_id) && (
                                 <span className="text-red-500 text-sm">{formik.errors.handle_type_id}</span>
