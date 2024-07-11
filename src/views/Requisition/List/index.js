@@ -9,6 +9,7 @@ import DetailList from './DetailList'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
 import RequisitionFilteringInputs from '../../../components/Requisition/FilteringInputs'
+import EmployeeCard from '../../../components/Employee/Card'
 
 const initialFilters = {
     pr_no: '',
@@ -68,7 +69,7 @@ const RequisitionList = () => {
                                 <th className="text-center w-[5%]">#</th>
                                 <th className="text-center w-[15%]">เอกสาร</th>
                                 <th>รายการ</th>
-                                <th className="text-center w-[18%]">ผู้ขอ</th>
+                                <th className="text-center w-[20%]">ผู้ขอ</th>
                                 <th className="text-center w-[6%]">สถานะ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
@@ -100,8 +101,7 @@ const RequisitionList = () => {
                                         <DetailList items={requisition.details} />
                                     </td>
                                     <td className="text-sm">
-                                        {requisition.requester?.prefix?.name}{requisition.requester?.firstname} {requisition.requester?.lastname}
-                                        <p className="font-thin">{requisition.requester?.position?.name}{requisition.requester?.level && requisition.requester?.level?.name}</p>
+                                        <EmployeeCard employee={requisition.requester} />
                                     </td>
                                     <td className="text-center">
                                         {requisition.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
