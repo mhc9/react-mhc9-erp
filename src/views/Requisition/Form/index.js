@@ -6,7 +6,7 @@ import { Col, Row } from 'react-bootstrap'
 import { FaSearch } from 'react-icons/fa'
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import moment from 'moment'
-import { calculateNetTotal, currency } from '../../../utils'
+import { calculateNetTotal, currency, getFormDataItem } from '../../../utils'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
 import { useGetInitialFormDataQuery } from '../../../features/services/requisition/requisitionApi'
 import { store } from '../../../features/slices/requisition/requisitionSlice'
@@ -18,16 +18,20 @@ import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import ModalBudgetList from '../../../components/Modals/BudgetList'
 
 const requisitionSchema = Yup.object().shape({
-    pr_no: Yup.string().required(),
-    pr_date: Yup.string().required(),
-    order_type_id: Yup.string().required(),
-    category_id: Yup.string().required(),
-    topic: Yup.string().required(),
-    year: Yup.string().required(),
-    budget_id: Yup.string().required(),
-    requester_id: Yup.string().required(),
-    division_id: Yup.string().required(),
-    reason: Yup.string().required(),
+    pr_no: Yup.string().required('กรุณาระบุเลขที่เอกสาร'),
+    pr_date: Yup.string().required('กรุณาเลือกวันที่เอกสาร'),
+    order_type_id: Yup.string().required('กรุณาเลือกประเภทการจัดซื้อ'),
+    category_id: Yup.string().required('กรุณาเลือกประเภทสินค้า'),
+    contract_desc: Yup.string().ensure().when('order_type_id', {
+        is: (val) => val === '2',
+        then: () => Yup.string().required('กรุณาระบุรายละเอียดการจ้าง'),
+    }),
+    topic: Yup.string().required('กรุณาระบุเรื่อง'),
+    year: Yup.string().required('กรุณาเลือกปีงบ'),
+    budget_id: Yup.string().required('กรุณาเลือกงบประมาณ'),
+    requester_id: Yup.string().required('กรุณาเลือกผู้ขอ/เจ้าของโครงการ'),
+    division_id: Yup.string().required('กรุณาเลือกหน่วยงาน'),
+    reason: Yup.string().required('กรุณาระบุเหตุผลที่ขอ'),
     items: Yup.mixed().test('Items Count', 'ไม่พบการระบุรายการสินค้า', val => val.length > 0),
     committees: Yup.mixed().test('Committees Count', 'ไม่พบการระบุผู้ตรวจรับ', val => val.length > 0),
 });
@@ -46,6 +50,7 @@ const RequisitionForm = ({ requisition }) => {
     const [edittedItem, setEdittedItem] = useState(null);
     const [selectedDate, setSelectedDate] = useState(moment());
     const [selectedYear, setSelectedYear] = useState(moment());
+    const [filteredTypes, setFilteredTypes] = useState([]);
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [showBudgetModal, setShowBudgetModal] = useState(false);
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
@@ -117,6 +122,7 @@ const RequisitionForm = ({ requisition }) => {
                 pr_date: requisition ? moment(requisition.pr_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 order_type_id: requisition ? requisition.order_type_id : 1,
                 category_id: requisition ? requisition.category_id : '',
+                contract_desc: (requisition && requisition.contract_desc) ? requisition.contract_desc : '',
                 topic: requisition ? requisition.topic : 'ขออนุมัติซื้อ',
                 year: requisition ? requisition.year : moment().year() + 543,
                 budget_id: requisition ? requisition.budget_id : '',
@@ -210,7 +216,9 @@ const RequisitionForm = ({ requisition }) => {
                                                 const { value } = e.target;
 
                                                 formik.handleChange(e);
-                                                formik.setFieldValue('topic', value === '1' ? 'ขออนุมัติซื้อ' : 'ขออนุมัติจ้าง');
+                                                formik.setFieldValue('topic', value === '1' ? 'ขออนุมัติซื้อ' : 'ขออนุมัติ');
+
+                                                setFilteredTypes(formData?.types.filter(type => type.order_type_id === parseInt(value)))
                                             }}
                                             className="form-control text-sm"
                                         >
@@ -227,11 +235,17 @@ const RequisitionForm = ({ requisition }) => {
                                         <select
                                             name="category_id"
                                             value={formik.values.category_id}
-                                            onChange={formik.handleChange}
+                                            onChange={(e) => {
+                                                formik.handleChange(e);
+
+                                                if (formik.values.order_type_id === '1') {
+                                                    formik.setFieldValue('topic', 'ขออนุมัติซื้อ' + getFormDataItem(formData, "categories", parseInt(e.target.value))?.name);
+                                                }
+                                            }}
                                             className="form-control text-sm"
                                         >
                                             <option value="">-- ประเภทสินค้า --</option>
-                                            {formData?.types && formData.types.map(type => (
+                                            {filteredTypes.map(type => (
                                                 <optgroup key={type.id} label={type.name}>
                                                     {type.categories.map(category => (
                                                         <option value={category.id} key={category.id}>
@@ -246,6 +260,26 @@ const RequisitionForm = ({ requisition }) => {
                                         )}
                                     </Col>
                                 </Row>
+                                {formik.values.order_type_id === '2' && (
+                                    <Row className="mb-2">
+                                        <Col>
+                                            <label htmlFor="">รายละเอียดการจ้าง</label>
+                                                <input
+                                                    type="text"
+                                                    name="contract_desc"
+                                                    value={formik.values.contract_desc}
+                                                    onChange={(e) => {
+                                                        formik.handleChange(e);
+                                                        formik.setFieldValue('topic', 'ขออนุมัติ' + e.target.value);
+                                                    }}
+                                                    className="form-control text-sm"
+                                                />
+                                            {(formik.errors.contract_desc && formik.touched.contract_desc) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.contract_desc}</span>
+                                            )}
+                                        </Col>
+                                    </Row>
+                                )}
                                 <Row className="mb-2">
                                     <Col>
                                         <label htmlFor="">เรื่อง</label>
