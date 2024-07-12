@@ -64,7 +64,8 @@ const Requisition = () => {
                             </div>
                             <div className="memo-content">
                                 <div className="memo-paragraph">
-                                    ด้วย {requisition.division?.name+ ' '+requisition.division?.department?.name+ ' มีความประสงค์จะ' +((requisition.order_type_id === 1) ? 'ซื้อ' : '') +requisition.category?.name}
+                                    ด้วย {requisition.division?.name+ ' '+requisition.division?.department?.name}
+                                    <span className="ml-1">มีความประสงค์จะ{requisition.order_type_id === 1 ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc}</span>
                                     <span className="ml-1">จำนวน {requisition.item_count} รายการ</span>
                                     <span className="ml-1">{requisition.reason ? requisition.reason : 'เพื่อใช้ในการดำเนินงานภายในศูนย์สุขภาพจิตที่ 9'}</span>
                                     <span className="ml-1">โดยใช้เงินงบประมาณปี {requisition.year} ตาม{requisition.budget?.project?.plan?.name} {requisition.budget?.project?.name} {requisition.budget?.name}</span>
@@ -75,7 +76,7 @@ const Requisition = () => {
                                         เหตุผลและความจำเป็นที่ต้องจัดซื้อจัดจ้าง
                                         <p>
                                             <span>{requisition.reason ? requisition.reason : 'เพื่อใช้ในการดำเนินงานภายในศูนย์สุขภาพจิตที่ 9'}</span>
-                                            <span className="ml-1">{requisition.category?.name}</span>
+                                            <span className="ml-1">{requisition.order_type_id === 1 ? requisition.category?.name : requisition.contract_desc}</span>
                                             <span className="ml-1">จำนวน {requisition.item_count} รายการ</span>
                                             <span className="ml-1">ปีงบประมาณ {requisition.year}</span>
                                             <span className="ml-1">พร้อมทั้งขอเสนอชื่อแต่งตั้งผู้รับผิดชอบ หรือคณะกรรมการตรวจรับพัสดุ (กรณีวงเงินไม่เกิน ๑oo,ooo บาท) ดังต่อไปนี้</span>
@@ -204,7 +205,7 @@ const Requisition = () => {
                     <h1 className="text-2xl font-bold mb-2">รายละเอียดที่ขอซื้อ</h1>
 
                     <div className="mt-2 mb-1 pl-[10%] flex flex-col items-start justify-center">
-                        1. รายละเอียดของพัสดุที่จะ{(requisition?.order_type_id === 1 ? 'ซื้อ' : '') +requisition?.category?.name} โดยวิธีเฉพาะเจาะจง จำนวน {requisition?.item_count} รายการ
+                        1. รายละเอียดของพัสดุที่จะ{(requisition?.order_type_id === 1 ? 'ซื้อ' + requisition?.category?.name : requisition?.contract_desc)} โดยวิธีเฉพาะเจาะจง จำนวน {requisition?.item_count} รายการ
                     </div>
 
                     <div>
