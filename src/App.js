@@ -53,8 +53,9 @@ import ItemDetail from './views/Item/Detail';
 import SupplierList from './views/supplier/List';
 import AddSupplier from './views/supplier/Add';
 import Unit from './views/Unit'
+/** Viewer */
+import WordViewer from './components/ReportViewer/WordViewer';
 /** Report */
-import StiReportViewer from './components/ReportViewer/StiReportViewer';
 import Requisition from './components/Preview/Requisition';
 import RequisitionReport from './components/Preview/RequisitionReport';
 import RequisitionCommittee from './components/Preview/RequisitionCommittee';
@@ -186,16 +187,18 @@ function App() {
                 <Route path="budget-project" element={<GuardRoute><BudgetProjectList /></GuardRoute>} />
 
                 {/* ============================= Help ============================= */}
-                {/*  */}
+                {/* Advice */}
                 <Route path="advice" element={<GuardRoute><Advice /></GuardRoute>} />
 
                 {/* ============================= Miscellaneous ============================= */}
-                {/* Report */}
-                <Route path="report-viewer" element={<GuardRoute><StiReportViewer /></GuardRoute>} />
-                <Route path="*" element={<div>404 Not Found</div>} />
+
             </Route>
+            {/* Authentication */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            {/* Report Viewer */}
+            <Route path="report-viewer" element={<GuardRoute><WordViewer /></GuardRoute>} />
+            {/* Preview */}
             <Route path="/preview/:id/requisition" element={<Requisition />} />
             <Route path="/preview/:id/requisition/report" element={<RequisitionReport />} />
             <Route path="/preview/:id/requisition/committee" element={<RequisitionCommittee />} />
@@ -206,6 +209,7 @@ function App() {
             <Route path="/preview/:id/loan-refund/bill" element={<FormLoanRefundBill />} />
             <Route path="/preview/:id/project/verify" element={<FormProjectVerify />} />
             <Route path="/preview/:id/project/review" element={<FormProjectReview />} />
+            <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
     );
 }
