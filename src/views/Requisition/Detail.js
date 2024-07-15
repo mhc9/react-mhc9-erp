@@ -193,13 +193,17 @@ const RequisitionDetail = () => {
                                         <i className="fas fa-print mr-1"></i>
                                         พิมพ์ใบขอซื้อ
                                     </Link>
+                                    <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/document`} target="_blank" className="btn btn-primary btn-sm ml-2">
+                                        <i className="far fa-file-word mr-1"></i>
+                                        ดาวน์โหลดใบขอซื้อ
+                                    </a>
                                     {(requisition.approvals && requisition.approvals.length > 0) ? (
                                         <>
-                                            <Link to={`/preview/${id}/requisition/report`} target="_blank" className="btn btn-success btn-sm mx-2">
+                                            <Link to={`/preview/${id}/requisition/report`} target="_blank" className="btn btn-success btn-sm ml-2">
                                                 <i className="fas fa-print mr-1"></i>
                                                 พิมพ์รายงานขอซื้อ/จ้าง
                                             </Link>
-                                            <Link to={`/preview/${id}/requisition/committee`} target="_blank" className="btn btn-success btn-sm">
+                                            <Link to={`/preview/${id}/requisition/committee`} target="_blank" className="btn btn-success btn-sm ml-2">
                                                 <i className="fas fa-print mr-1"></i>
                                                 พิมพ์คำสั่งแต่งตั้ง
                                             </Link>
