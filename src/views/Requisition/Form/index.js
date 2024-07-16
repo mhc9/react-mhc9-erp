@@ -428,7 +428,7 @@ const RequisitionForm = ({ requisition }) => {
                                 <Row className="mb-2">
                                     <Col>
                                         <div className="flex flex-col border p-2 rounded-md">
-                                            <h1 className="font-bold text-lg mb-1">รายการสินค้า</h1>
+                                            <h1 className="font-bold text-lg mb-1">รายการสินค้า/บริการ</h1>
                                             <AddItem
                                                 data={edittedItem}
                                                 filteredCategory={formik.values.category_id}
@@ -441,7 +441,8 @@ const RequisitionForm = ({ requisition }) => {
                                                 onRemoveItem={(id) => handleRemoveItem(formik, id)}
                                             />
 
-                                            <div className="flex flex-row justify-end">
+                                            <div className="flex flex-row justify-end items-center">
+                                                <div className="pr-1">รวมเป็นเงินทั้งสิ้น :</div>
                                                 <div className="w-[15%]">
                                                     <input
                                                         type="text"
@@ -455,7 +456,7 @@ const RequisitionForm = ({ requisition }) => {
                                                         <span className="text-red-500 text-sm">{formik.errors.net_total}</span>
                                                     )}
                                                 </div>
-                                                <div className="w-[10%]"></div>
+                                                <div className="w-[10%] pl-1">บาท</div>
                                             </div>
                                         </div>
                                         {(formik.errors.items && formik.touched.items) && (
