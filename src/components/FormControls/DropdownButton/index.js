@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 import DropdownMenu from './DropdownMenu';
-import './Dropdown.css'
+import './DropdownButton.css'
 
 const DropdownContext = createContext({});
 
@@ -8,7 +8,7 @@ export function useDropdownContext() {
     return useContext(DropdownContext);
 }
 
-const Dropdown = ({ title, children }) => {
+const DropdownButton = ({ title, btnColor, cssClass, children }) => {
     const menuRef = useRef();
     const [open, setOpen] = useState(false);
 
@@ -25,8 +25,8 @@ const Dropdown = ({ title, children }) => {
     }, []);
 
     return (
-        <div className="dropdown-wrapper" ref={menuRef}>
-            <div className="btn btn-primary btn-sm p-0" onClick={() => setOpen(!open)}>
+        <div className={`c9-dropdown-wrapper ${cssClass} border`} ref={menuRef}>
+            <div className={`btn btn-${btnColor} btn-sm p-0`} onClick={() => setOpen(!open)}>
                 <div className="flex flex-row items-center">
                     <div className="pl-3 py-1">
                         {title}
@@ -45,4 +45,4 @@ const Dropdown = ({ title, children }) => {
     )
 }
 
-export default Dropdown
+export default DropdownButton

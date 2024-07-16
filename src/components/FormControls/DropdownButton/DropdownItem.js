@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDropdownContext } from './Dropdown';
+import { useDropdownContext } from './';
 
 const DropdownItem = ({ children }) => {
     const { setOpen } = useDropdownContext();

@@ -9,7 +9,7 @@ import { resetSuccess } from '../../features/slices/approval/approvalSlice'
 import ItemList from './Form/ItemList'
 import ModalApprovalForm from './Approval/Form'
 import Loading from '../../components/Loading'
-import Dropdown from '../../components/FormControls/DropdownButton/Dropdown'
+import DropdownButton from '../../components/FormControls/DropdownButton'
 import DropdownItem from '../../components/FormControls/DropdownButton/DropdownItem'
 
 const RequisitionDetail = () => {
@@ -190,52 +190,95 @@ const RequisitionDetail = () => {
                                 </Col>
                             </Row>
                             <Row className="mt-3">
-                                <Col className="text-center flex flex-row">
-                                    <Dropdown title="ใบขอซื้อ">
-                                        <DropdownItem>
-                                            <Link to={`/preview/${id}/requisition`} target="_blank" className="text-success">
-                                                <i className="fas fa-print mr-1"></i>
-                                                พิมพ์ใบขอซื้อ
-                                            </Link>
-                                        </DropdownItem>
-                                        <DropdownItem>
-                                            <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/document`} target="_blank" className="text-primary">
-                                                <i className="far fa-file-word mr-1"></i>
-                                                ดาวน์โหลดใบขอซื้อ
-                                            </a>
-                                        </DropdownItem>
-                                    </Dropdown>
+                                <Col>
+                                    <div className="flex flex-row justify-center">
+                                        <DropdownButton title="ใบขอซื้อ" btnColor="primary" cssClass="mr-1">
+                                            <DropdownItem>
+                                                <Link to={`/preview/${id}/requisition`} target="_blank" className="text-success">
+                                                    <i className="fas fa-print mr-1"></i>
+                                                    พิมพ์ใบขอซื้อ
+                                                </Link>
+                                            </DropdownItem>
+                                            <DropdownItem>
+                                                <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/document`} target="_blank" className="text-primary">
+                                                    <i className="far fa-file-word mr-1"></i>
+                                                    ดาวน์โหลดใบขอซื้อ
+                                                </a>
+                                            </DropdownItem>
+                                        </DropdownButton>
 
-                                    {(requisition.approvals && requisition.approvals.length > 0) ? (
-                                        <>
-                                            <Link to={`/preview/${id}/requisition/report`} target="_blank" className="btn btn-success btn-sm ml-2">
-                                                <i className="fas fa-print mr-1"></i>
-                                                พิมพ์รายงานขอซื้อ/จ้าง
-                                            </Link>
-                                            <Link to={`/preview/${id}/requisition/committee`} target="_blank" className="btn btn-success btn-sm ml-2">
-                                                <i className="fas fa-print mr-1"></i>
-                                                พิมพ์คำสั่งแต่งตั้ง
-                                            </Link>
-                                        </>
-                                    ) : (
-                                        <button type="button" className="btn btn-outline-primary btn-sm ml-2" onClick={() => setShowApprovalForm(true)}>
-                                            <i className="fas fa-save mr-1"></i>
-                                            บันทึกรายงานขอซื้อ/จ้าง
-                                        </button>
-                                    )}
+                                        {(requisition.approvals && requisition.approvals.length > 0) ? (
+                                            <>
+                                                <DropdownButton title="รายงานขอซื้อ/จ้าง" btnColor="primary" cssClass="mr-1">
+                                                    <DropdownItem>
+                                                        <Link to={`/preview/${id}/requisition/report`} target="_blank" className="text-success">
+                                                            <i className="fas fa-print mr-1"></i>
+                                                            พิมพ์รายงานขอซื้อ/จ้าง
+                                                        </Link>
+                                                    </DropdownItem>
+                                                    <DropdownItem>
+                                                        <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/document`} target="_blank" className="text-primary">
+                                                            <i className="far fa-file-word mr-1"></i>
+                                                            ดาวน์โหลดรายงานขอซื้อ/จ้าง
+                                                        </a>
+                                                    </DropdownItem>
+                                                </DropdownButton>
 
-                                    {(requisition.approvals && requisition.approvals.length > 0) && (
-                                        <>
-                                            <Link to={`/preview/${id}/requisition/report`} target="_blank" className="btn btn-success btn-sm mx-2">
-                                                <i className="fas fa-print mr-1"></i>
-                                                พิมพ์รายงานผลการพิจารณา
-                                            </Link>
-                                            <Link to={`/preview/${id}/requisition/committee`} target="_blank" className="btn btn-success btn-sm">
-                                                <i className="fas fa-print mr-1"></i>
-                                                พิมพ์ประกาศผลผู้ชนะ
-                                            </Link>
-                                        </>
-                                    )}
+                                                <DropdownButton title="คำสั่งแต่งตั้ง" btnColor="primary" cssClass="mr-1">
+                                                    <DropdownItem>
+                                                        <Link to={`/preview/${id}/requisition/committee`} target="_blank" className="text-success">
+                                                            <i className="fas fa-print mr-1"></i>
+                                                            พิมพ์คำสั่งแต่งตั้ง
+                                                        </Link>
+                                                    </DropdownItem>
+                                                    <DropdownItem>
+                                                        <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/document`} target="_blank" className="text-primary">
+                                                            <i className="far fa-file-word mr-1"></i>
+                                                            ดาวน์โหลดคำสั่งแต่งตั้ง
+                                                        </a>
+                                                    </DropdownItem>
+                                                </DropdownButton>
+                                            </>
+                                        ) : (
+                                            <button type="button" className="btn btn-outline-primary btn-sm mr-1" onClick={() => setShowApprovalForm(true)}>
+                                                <i className="fas fa-save mr-1"></i>
+                                                บันทึกรายงานขอซื้อ/จ้าง
+                                            </button>
+                                        )}
+
+                                        {(requisition.approvals && requisition.approvals.length > 0) && (
+                                            <>
+                                                <DropdownButton title="รายงานผลการพิจารณา" btnColor="primary" cssClass="mr-1">
+                                                    <DropdownItem>
+                                                        <Link to={`/preview/${id}/requisition/report`} target="_blank" className="text-success">
+                                                            <i className="fas fa-print mr-1"></i>
+                                                            พิมพ์รายงานผลการพิจารณา
+                                                        </Link>
+                                                    </DropdownItem>
+                                                    <DropdownItem>
+                                                        <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/document`} target="_blank" className="text-primary">
+                                                            <i className="far fa-file-word mr-1"></i>
+                                                            ดาวน์โหลดรายงานผลการพิจารณา
+                                                        </a>
+                                                    </DropdownItem>
+                                                </DropdownButton>
+                                                <DropdownButton title="ประกาศผลผู้ชนะ" btnColor="primary" cssClass="mr-1">
+                                                    <DropdownItem>
+                                                        <Link to={`/preview/${id}/requisition/committee`} target="_blank" className="text-success">
+                                                            <i className="fas fa-print mr-1"></i>
+                                                            พิมพ์ประกาศผลผู้ชนะ
+                                                        </Link>
+                                                    </DropdownItem>
+                                                    <DropdownItem>
+                                                        <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/document`} target="_blank" className="text-primary">
+                                                            <i className="far fa-file-word mr-1"></i>
+                                                            ดาวน์โหลดประกาศผลผู้ชนะ
+                                                        </a>
+                                                    </DropdownItem>
+                                                </DropdownButton>
+                                            </>
+                                        )}
+                                    </div>
                                 </Col>
                             </Row>
 
