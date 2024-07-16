@@ -62,6 +62,8 @@ const RequisitionForm = ({ requisition }) => {
             setRequester(requisition.requester);
             setSelectedDate(requisition.pr_date);
             setSelectedYear(moment(`${requisition.year - 543}-09-01`));
+
+            handleTypeChange(requisition.order_type_id || 1);
         }
     }, [requisition]);
 
@@ -112,6 +114,10 @@ const RequisitionForm = ({ requisition }) => {
         setRequester(null);
         setSelectedDate(moment());
         setSelectedYear(moment());
+    };
+
+    const handleTypeChange = (typeId) => {
+        setFilteredTypes(formData?.types.filter(type => type.order_type_id === parseInt(typeId)));
     };
 
     return (
@@ -217,8 +223,7 @@ const RequisitionForm = ({ requisition }) => {
 
                                                 formik.handleChange(e);
                                                 formik.setFieldValue('topic', value === '1' ? 'ขออนุมัติซื้อ' : 'ขออนุมัติ');
-
-                                                setFilteredTypes(formData?.types.filter(type => type.order_type_id === parseInt(value)))
+                                                handleTypeChange(value);
                                             }}
                                             className="form-control text-sm"
                                         >
@@ -238,7 +243,7 @@ const RequisitionForm = ({ requisition }) => {
                                             onChange={(e) => {
                                                 formik.handleChange(e);
 
-                                                if (formik.values.order_type_id === '1') {
+                                                if (parseInt(formik.values.order_type_id, 10) === 1) {
                                                     formik.setFieldValue('topic', 'ขออนุมัติซื้อ' + getFormDataItem(formData, "categories", parseInt(e.target.value))?.name);
                                                 }
                                             }}
@@ -260,7 +265,7 @@ const RequisitionForm = ({ requisition }) => {
                                         )}
                                     </Col>
                                 </Row>
-                                {formik.values.order_type_id === '2' && (
+                                {parseInt(formik.values.order_type_id, 10) === 2 && (
                                     <Row className="mb-2">
                                         <Col>
                                             <label htmlFor="">รายละเอียดการจ้าง</label>
