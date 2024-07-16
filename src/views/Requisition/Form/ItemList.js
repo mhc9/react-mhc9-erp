@@ -12,7 +12,7 @@ const ItemList = ({ items, showButtons=true, onEditItem, onRemoveItem }) => {
                     <th className="w-[12%] text-center">ราคาต่อหน่วย</th>
                     <th className="w-[8%] text-center">จำนวน</th>
                     <th className="w-[10%] text-center">หน่วยนับ</th>
-                    <th className="w-[12%] text-center">รวมเป็นเงิน</th>
+                    <th className="w-[15%] text-center">รวมเป็นเงิน</th>
                     {showButtons && <th className="w-[10%] text-center">Actions</th>}
                 </tr>
             </thead>
@@ -33,10 +33,10 @@ const ItemList = ({ items, showButtons=true, onEditItem, onRemoveItem }) => {
                         <td className="text-right">{currency.format(data.total)}</td>
                         {showButtons && (
                             <td className="text-center">
-                                <button type="button" className="btn btn-sm btn-outline-warning mr-1" onClick={() => onEditItem(data)}>
+                                <button type="button" className="btn btn-outline-warning btn-sm px-1 mr-1" onClick={() => onEditItem(data)}>
                                     <FaPencilAlt />
                                 </button>
-                                <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => onRemoveItem(data.item?.id)}>
+                                <button type="button" className="btn btn-outline-danger btn-sm px-1" onClick={() => onRemoveItem(data.item?.id)}>
                                     <FaTrash />
                                 </button>
                             </td>

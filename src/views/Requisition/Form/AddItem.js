@@ -98,7 +98,7 @@ const AddItem = ({ data, filteredCategory, onAddItem, onUpdateItem }) => {
                         onConfirm={(desc) => formik.setFieldValue('description', desc)}
                     />
 
-                    <div className="flex flex-row gap-2 mb-2">
+                    <div className="flex flex-row gap-1 mb-2">
                         <FormGroup className="w-[45%]">
                             <div className="input-group">
                                 <div className="form-control text-sm overflow-hidden whitespace-nowrap text-ellipsis">
@@ -147,6 +147,22 @@ const AddItem = ({ data, filteredCategory, onAddItem, onUpdateItem }) => {
                                 <span className="text-red-500 text-sm">{formik.errors.price}</span>
                             )}
                         </FormGroup>
+                        <FormGroup className="w-[8%]">
+                            <input
+                                type="text"
+                                name="amount"
+                                value={formik.values.amount}
+                                onChange={(e) => {
+                                    formik.handleChange(e);
+                                    handleCalculateTotal(formik, formik.values.price, e.target.value);
+                                }}
+                                className="form-control text-sm text-center"
+                                placeholder="จำนวน"
+                            />
+                            {(formik.errors.amount && formik.touched.amount) && (
+                                <span className="text-red-500 text-sm">{formik.errors.amount}</span>
+                            )}
+                        </FormGroup>
                         <FormGroup className="w-[10%]">
                             <select
                                 name="unit_id"
@@ -166,22 +182,6 @@ const AddItem = ({ data, filteredCategory, onAddItem, onUpdateItem }) => {
                                 <span className="text-red-500 text-sm">{formik.errors.unit_id}</span>
                             )}
                         </FormGroup>
-                        <FormGroup className="w-[8%]">
-                            <input
-                                type="text"
-                                name="amount"
-                                value={formik.values.amount}
-                                onChange={(e) => {
-                                    formik.handleChange(e);
-                                    handleCalculateTotal(formik, formik.values.price, e.target.value);
-                                }}
-                                className="form-control text-sm text-center"
-                                placeholder="จำนวน"
-                            />
-                            {(formik.errors.amount && formik.touched.amount) && (
-                                <span className="text-red-500 text-sm">{formik.errors.amount}</span>
-                            )}
-                        </FormGroup>
                         <FormGroup className="w-[15%]">
                             <input
                                 type="text"
@@ -198,7 +198,7 @@ const AddItem = ({ data, filteredCategory, onAddItem, onUpdateItem }) => {
                         <FormGroup className="w-[5%]">
                             <button
                                 type="button"
-                                className={`btn ${data ? 'btn-outline-warning' : 'btn-outline-primary'} w-full text-sm`}
+                                className={`btn ${data ? 'btn-outline-warning' : 'btn-outline-primary'} w-full text-sm px-1`}
                                 onClick={formik.submitForm}
                             >
                                 {/* <FaPlus /> */}
@@ -208,7 +208,7 @@ const AddItem = ({ data, filteredCategory, onAddItem, onUpdateItem }) => {
                         <FormGroup className="w-[7%]">
                             <button
                                 type="button"
-                                className="btn btn-outline-danger text-sm"
+                                className="btn btn-outline-danger text-sm px-1"
                                 onClick={() => handleClear(formik)}
                             >
                                 {/* <FaTimes /> */}
