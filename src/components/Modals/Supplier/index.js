@@ -1,47 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
-import { FaTimes } from 'react-icons/fa';
 import { getSuppliers } from '../../../features/slices/supplier/supplierSlice';
-// import FilteringInputs from '../../Item/FilteringInputs';
-// import { useGetInitialFormDataQuery } from '../../../services/item/itemApi';
-import { currency, toShortTHDate } from '../../../utils';
+import { generateQueryString } from '../../../utils';
 import Loading from '../../Loading';
 import Pagination from '../../../components/Pagination'
+import FilteringInputs from './FilteringInputs';
 
 const initialFilters = {
     name: '',
-    category: '',
-};
-
-const initialFormData = {
-    units: [],
-    categories: [],
+    status: '0',
 };
 
 const ModalSupplierList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
     const { suppliers, pager, loading } = useSelector(state => state.supplier);
-    const [params, setParams] = useState('');
     const [apiEndpoint, setApiEndpoint] = useState('');
-    // const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
+    const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getSuppliers({ url: `/api/suppliers/search?page=&status=0` }));
+            dispatch(getSuppliers({ url: `/api/suppliers/search?page=${params}` }));
         } else {
             dispatch(getSuppliers({ url: `${apiEndpoint}${params}` }));
         }
     }, [dispatch, apiEndpoint, params]);
-
-    const handlePageClick = (url) => {
-        setApiEndpoint(`${url}&status=0`);
-    };
-
-    const handleFilter = (queryStr) => {
-        setParams(queryStr);
-        setApiEndpoint(`/api/suppliers/search?page=&status=0`);
-    };
 
     return (
         <Modal
@@ -53,11 +36,10 @@ const ModalSupplierList = ({ isShow, onHide, onSelect }) => {
                 <Modal.Title>รายการผู้จัดจำหน่าย</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {/* <FilteringInputs
+                <FilteringInputs
                     initialFilters={initialFilters}
-                    onFilter={handleFilter}
-                    formData={formData}
-                /> */}
+                    onFilter={(queryStr) => setParams(queryStr)}
+                />
 
                 {loading && (
                     <div className="text-center">
@@ -111,7 +93,7 @@ const ModalSupplierList = ({ isShow, onHide, onSelect }) => {
 
                 <Pagination
                     pager={pager}
-                    onPageClick={handlePageClick}
+                    onPageClick={(url) => setApiEndpoint(`${url}&status=0`)}
                 />
             </Modal.Body>
         </Modal>
