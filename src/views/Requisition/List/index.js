@@ -69,8 +69,8 @@ const RequisitionList = () => {
                                 <th className="text-center w-[5%]">#</th>
                                 <th className="text-center w-[15%]">เอกสาร</th>
                                 <th>รายการ</th>
-                                <th className="text-center w-[20%]">ผู้ขอ</th>
-                                <th className="text-center w-[6%]">สถานะ</th>
+                                <th className="text-center w-[25%]">ผู้ขอ</th>
+                                <th className="text-center w-[8%]">สถานะ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
                         </thead>
