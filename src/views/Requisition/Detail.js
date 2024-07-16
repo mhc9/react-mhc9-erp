@@ -41,7 +41,7 @@ const RequisitionDetail = () => {
             </Breadcrumb>
         
             <div className="content">
-                <h2 className="text-xl">รายละเอียดคำขอ</h2>
+                <h2 className="text-xl">รายละเอียดคำขอ (ID #{id})</h2>
 
                 <div className="my-2 border p-3 rounded-md">
                     {isLoading && <div className="text-center"><Loading /></div>}

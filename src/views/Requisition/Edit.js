@@ -25,7 +25,7 @@ const EditRequisition = () => {
             </Breadcrumb>
         
             <div className="content">
-                <h2 className="text-xl">แก้ไขรายการคำขอ</h2>
+                <h2 className="text-xl">แก้ไขรายการคำขอ (ID #{id})</h2>
 
                 <div className="my-2 border p-4 rounded-md">
                     <RequisitionForm requisition={requisition} />
