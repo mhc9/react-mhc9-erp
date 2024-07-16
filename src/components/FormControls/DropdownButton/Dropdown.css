@@ -1,0 +1,51 @@
+.dropdown-wrapper {
+    position: relative;
+}
+
+.c9-dropdown-menu {
+    position: absolute;
+    top: 34px;
+    left: 0;
+    width: 220px;
+    opacity: 0;
+    visibility: hidden;
+    background: #fff;
+    @apply rounded-md text-sm border;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    transition: all 0.5s;
+}
+
+.c9-dropdown-menu.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.c9-dropdown-menu::before {
+    content: "";
+    position: absolute;
+    top: -19px;
+    left: 15px;
+    border: 10px solid;
+    border-color: transparent transparent #fff transparent;
+}
+
+/** เปลี่ยนสีหัวลูกศรตามสี :hover ของ item */
+.c9-dropdown-menu:has(li:first-child:hover)::before {
+    border-color: transparent transparent #F5F5F5 transparent;
+}
+
+.c9-dropdown-menu li {
+    @apply border-b py-2 pl-4 text-left;
+}
+
+.c9-dropdown-menu li:first-child {
+    @apply rounded-t-md;
+}
+
+.c9-dropdown-menu li:last-child {
+    @apply rounded-b-md;
+}
+
+.c9-dropdown-menu li:hover {
+    background: #F5F5F5;
+}

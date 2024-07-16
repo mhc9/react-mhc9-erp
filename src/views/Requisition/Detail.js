@@ -9,6 +9,8 @@ import { resetSuccess } from '../../features/slices/approval/approvalSlice'
 import ItemList from './Form/ItemList'
 import ModalApprovalForm from './Approval/Form'
 import Loading from '../../components/Loading'
+import Dropdown from '../../components/FormControls/DropdownButton/Dropdown'
+import DropdownItem from '../../components/FormControls/DropdownButton/DropdownItem'
 
 const RequisitionDetail = () => {
     const { id } = useParams();
@@ -188,15 +190,22 @@ const RequisitionDetail = () => {
                                 </Col>
                             </Row>
                             <Row className="mt-3">
-                                <Col className="text-center">
-                                    <Link to={`/preview/${id}/requisition`} target="_blank" className="btn btn-success btn-sm">
-                                        <i className="fas fa-print mr-1"></i>
-                                        พิมพ์ใบขอซื้อ
-                                    </Link>
-                                    <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/document`} target="_blank" className="btn btn-primary btn-sm ml-2">
-                                        <i className="far fa-file-word mr-1"></i>
-                                        ดาวน์โหลดใบขอซื้อ
-                                    </a>
+                                <Col className="text-center flex flex-row">
+                                    <Dropdown title="ใบขอซื้อ">
+                                        <DropdownItem>
+                                            <Link to={`/preview/${id}/requisition`} target="_blank" className="text-success">
+                                                <i className="fas fa-print mr-1"></i>
+                                                พิมพ์ใบขอซื้อ
+                                            </Link>
+                                        </DropdownItem>
+                                        <DropdownItem>
+                                            <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/document`} target="_blank" className="text-primary">
+                                                <i className="far fa-file-word mr-1"></i>
+                                                ดาวน์โหลดใบขอซื้อ
+                                            </a>
+                                        </DropdownItem>
+                                    </Dropdown>
+
                                     {(requisition.approvals && requisition.approvals.length > 0) ? (
                                         <>
                                             <Link to={`/preview/${id}/requisition/report`} target="_blank" className="btn btn-success btn-sm ml-2">
@@ -214,23 +223,22 @@ const RequisitionDetail = () => {
                                             บันทึกรายงานขอซื้อ/จ้าง
                                         </button>
                                     )}
+
+                                    {(requisition.approvals && requisition.approvals.length > 0) && (
+                                        <>
+                                            <Link to={`/preview/${id}/requisition/report`} target="_blank" className="btn btn-success btn-sm mx-2">
+                                                <i className="fas fa-print mr-1"></i>
+                                                พิมพ์รายงานผลการพิจารณา
+                                            </Link>
+                                            <Link to={`/preview/${id}/requisition/committee`} target="_blank" className="btn btn-success btn-sm">
+                                                <i className="fas fa-print mr-1"></i>
+                                                พิมพ์ประกาศผลผู้ชนะ
+                                            </Link>
+                                        </>
+                                    )}
                                 </Col>
                             </Row>
 
-                            {(requisition.approvals && requisition.approvals.length > 0) && (
-                                <Row className="mt-1">
-                                    <Col className="text-center">
-                                        <Link to={`/preview/${id}/requisition/report`} target="_blank" className="btn btn-success btn-sm mx-2">
-                                            <i className="fas fa-print mr-1"></i>
-                                            พิมพ์รายงานผลการพิจารณา
-                                        </Link>
-                                        <Link to={`/preview/${id}/requisition/committee`} target="_blank" className="btn btn-success btn-sm">
-                                            <i className="fas fa-print mr-1"></i>
-                                            พิมพ์ประกาศผลผู้ชนะ
-                                        </Link>
-                                    </Col>
-                                </Row>
-                            )}
                         </>
                     )}
                 </div>
