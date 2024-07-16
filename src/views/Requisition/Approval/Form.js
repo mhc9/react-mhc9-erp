@@ -26,7 +26,7 @@ const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
         <Modal
             show={isShow}
             onHide={onHide}
-            size='lg'
+            size='md'
         >
             <Formik
                 initialValues={{
@@ -44,7 +44,7 @@ const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
                     return (
                         <Form>
                             <Modal.Header className="border py-1 px-2">
-                                <Modal.Title>บันทึกรายงานขอซื้อ/จ้าง</Modal.Title>
+                                <Modal.Title className="text-xl">บันทึกรายงานขอซื้อ/จ้าง</Modal.Title>
                             </Modal.Header>
                             <Modal.Body className="px-4">
                                 <Row className="mb-2">
@@ -54,7 +54,7 @@ const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
                                             name="procuring_id"
                                             value={formik.values.procuring_id}
                                             onChange={formik.handleChange}
-                                            className="form-control"
+                                            className="form-control text-sm"
                                         >
                                             <option value="">-- เลือก --</option>
                                             {formData && formData.procurings.map(proc => (
@@ -84,7 +84,7 @@ const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
                                             name="report_no"
                                             value={formik.values.report_no}
                                             onChange={formik.handleChange}
-                                            className="form-control"
+                                            className="form-control text-sm"
                                         />
                                     </Col>
                                     <Col>
@@ -109,7 +109,7 @@ const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
                                             name="directive_no"
                                             value={formik.values.directive_no}
                                             onChange={formik.handleChange}
-                                            className="form-control"
+                                            className="form-control text-sm"
                                         />
                                     </Col>
                                     <Col>
@@ -129,7 +129,7 @@ const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
                                 </Row>
                             </Modal.Body>
                             <Modal.Footer className="py-1">
-                                <button type="submit" className="btn btn-outline-primary">
+                                <button type="submit" className="btn btn-outline-primary btn-sm">
                                     บันทึก
                                 </button>
                             </Modal.Footer>
