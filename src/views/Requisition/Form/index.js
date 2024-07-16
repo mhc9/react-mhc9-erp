@@ -55,6 +55,11 @@ const RequisitionForm = ({ requisition }) => {
     const [showBudgetModal, setShowBudgetModal] = useState(false);
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
 
+    useEffect(() => {
+        /** Initial filteredType state with order_type_id is 1 */
+        handleTypeChange(1);
+    }, []);
+
     /** On editting mode set default value to requester, budget, selectedDate and selectedYear local states */
     useEffect(() => {
         if (requisition) {
