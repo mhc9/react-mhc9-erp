@@ -195,17 +195,15 @@ const RequisitionForm = ({ requisition }) => {
                                     <Col md={2}>
                                         <div className="flex flex-col">
                                             <label htmlFor="">วันที่เอกสาร</label>
-                                            <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
-                                                <DatePicker
-                                                    format="DD/MM/YYYY"
-                                                    value={selectedDate}
-                                                    onChange={(date) => {
-                                                        setSelectedDate(date);
-                                                        formik.setFieldValue('pr_date', date.format('YYYY-MM-DD'));
-                                                    }}
-                                                    variant="outlined"
-                                                />
-                                            </MuiPickersUtilsProvider>
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedDate}
+                                                onChange={(date) => {
+                                                    setSelectedDate(date);
+                                                    formik.setFieldValue('pr_date', date.format('YYYY-MM-DD'));
+                                                }}
+                                                variant="outlined"
+                                            />
                                             {/* <input
                                                 type="text"
                                                 name="pr_date"
@@ -219,7 +217,7 @@ const RequisitionForm = ({ requisition }) => {
                                         )}
                                     </Col>
                                     <Col md={2}>
-                                        <label>ประเภทการจัดซื้อ</label>
+                                        <label>ประเภทซื้อ/จ้าง</label>
                                         <select
                                             name="order_type_id"
                                             value={formik.values.order_type_id}
@@ -350,17 +348,15 @@ const RequisitionForm = ({ requisition }) => {
                                 <Row className="mb-2">
                                     <Col md={2}>
                                         <label htmlFor="">ปีงบ</label>
-                                        <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
-                                            <DatePicker
-                                                format="YYYY"
-                                                views={['year']}
-                                                value={selectedYear}
-                                                onChange={(date) => {
-                                                    setSelectedYear(date);
-                                                    formik.setFieldValue('year', date.year() + 543);
-                                                }}
-                                            />
-                                        </MuiPickersUtilsProvider>
+                                        <DatePicker
+                                            format="YYYY"
+                                            views={['year']}
+                                            value={selectedYear}
+                                            onChange={(date) => {
+                                                setSelectedYear(date);
+                                                formik.setFieldValue('year', date.year() + 543);
+                                            }}
+                                        />
                                         {(formik.errors.year && formik.touched.year) && (
                                             <span className="text-red-500 text-sm">{formik.errors.year}</span>
                                         )}
