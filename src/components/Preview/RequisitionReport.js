@@ -40,20 +40,20 @@ const RequisitionReport = () => {
                                     <div>
                                         <h3>ที่</h3>
                                         <div className="memo-header-value">
-                                            <span>{requisition.pr_no}</span>
+                                            <span>{requisition.approvals[0].report_no}</span>
                                         </div>
                                     </div>
                                     <div>
                                         <h3>วันที่</h3>
                                         <div className="memo-header-value">
-                                            <span>{toLongTHDate(moment(requisition.pr_date).toDate())}</span>
+                                            <span>{toLongTHDate(moment(requisition.approvals[0].report_date).toDate())}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="memo-header-text">
                                     <h3>เรื่อง</h3>
                                     <div className="memo-header-value">
-                                        <span>รายงานขอ{((requisition.order_type_id == 1) ? 'ซื้อ' : '') +requisition.category?.name} จำนวน {requisition.item_count} รายการ โดย{requisition.approvals[0]?.procuring?.name}</span>
+                                        <span>รายงานขอ{((requisition.order_type_id == 1) ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc)} จำนวน {requisition.item_count} รายการ โดย{requisition.approvals[0]?.procuring?.name}</span>
                                     </div>
                                 </div>
                                 <div className="memo-header-text">
@@ -63,7 +63,7 @@ const RequisitionReport = () => {
                             </div>
                             <div className="memo-content">
                                 <div className="memo-paragraph">
-                                    ด้วย ศูนย์สุขภาพจิตที่ ๙ กรมสุขภาพจิต มีความประสงค์จะ{((requisition.order_type_id == 1) ? 'ซื้อ' : '') +requisition.category?.name}&nbsp;
+                                    ด้วย ศูนย์สุขภาพจิตที่ ๙ กรมสุขภาพจิต มีความประสงค์จะ{((requisition.order_type_id == 1) ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc)}&nbsp;
                                     จำนวน {requisition.item_count} รายการ โดย{requisition.approvals[0]?.procuring?.name} ซึ่งมีรายละเอียด ดังต่อไปนี้
                                 </div>
                                 <div className="memo-paragraph">
@@ -77,7 +77,7 @@ const RequisitionReport = () => {
                                 <div className="memo-paragraph">
                                     2. รายละเอียดของพัสดุ
                                     <div className="indent-0">
-                                        <p className="indent-[3.5cm]">{((requisition.order_type_id == 1) ? 'ซื้อ' : '') +requisition.category?.name} จำนวน {requisition.item_count} รายการ (รายละเอียดตามเอกสารแนบ)</p>
+                                        <p className="indent-[3.5cm]">{((requisition.order_type_id == 1) ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc)} จำนวน {requisition.item_count} รายการ (รายละเอียดตามเอกสารแนบ)</p>
                                     </div>
                                 </div>
                                 <div className="memo-paragraph">
@@ -129,7 +129,7 @@ const RequisitionReport = () => {
                                 <div className="memo-paragraph">
                                     8. การขออนุมัติแต่งตั้งคณะกรรมการต่าง ๆ
                                     <div className="indent-0">
-                                        <p className="indent-[3.5cm]">ผู้จัดทำร่างขอบเขตของานหรือรายละเอียดคุณลักษณะเฉพาะและราคากลาง</p>
+                                        {/* <p className="indent-[3.5cm]">ผู้จัดทำร่างขอบเขตของานหรือรายละเอียดคุณลักษณะเฉพาะและราคากลาง</p>
                                         <div className="indent-[4cm]">
                                             {requisition.committees.map((com, index) => (
                                                 <p key={com.id}>
@@ -138,7 +138,7 @@ const RequisitionReport = () => {
                                                     {' '}ตำแหน่ง {com.employee.position?.name}{com.employee.level?.name}
                                                 </p>
                                             ))}
-                                        </div>
+                                        </div> */}
                                         <p className="indent-[3.5cm]">ผู้ตรวจรับพัสดุ</p>
                                         <div className="indent-[4cm]">
                                             {requisition.committees.map((com, index) => (
