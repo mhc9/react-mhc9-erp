@@ -20,8 +20,8 @@ const ItemDetail = () => {
             <Breadcrumb>
                 <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item href="/item">รายการสินค้า-บริการ</Breadcrumb.Item>
-                <Breadcrumb.Item active>รายละเอียดสินค้า-บริการใหม่</Breadcrumb.Item>
+                <Breadcrumb.Item href="/item">รายการสินค้า/บริการ</Breadcrumb.Item>
+                <Breadcrumb.Item active>รายละเอียดสินค้า/บริการใหม่</Breadcrumb.Item>
                 <Breadcrumb.Item active>{id}</Breadcrumb.Item>
             </Breadcrumb>
         

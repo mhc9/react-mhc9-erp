@@ -10,7 +10,7 @@ import { store, update, upload } from '../../../features/slices/item/itemSlice'
 const itemSchema = Yup.object().shape({
     name: Yup.string().required(),
     category_id: Yup.string().required(),
-    price: Yup.number().min(1, 'ราคาขายต้องมากกว่า 0').required(),
+    price: Yup.number().required(),
     unit_id: Yup.string().required(),
 });
 
