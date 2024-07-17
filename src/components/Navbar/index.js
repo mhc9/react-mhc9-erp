@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom'
 import { FaBars } from 'react-icons/fa'
 import { useGetUserDetailsQuery } from '../../features/services/auth/authApi'
 import Loading from '../Loading'
+import './Navbar.css'
 
 const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
     const { data: user, isFetching } = useGetUserDetailsQuery('userDetails', { pollingInterval: 900000 });
 
     return (
-        <nav className="h-[60px] border bg-slate-700 flex justify-between items-center px-5 text-white">
+        <nav className="navbar h-[60px] border bg-slate-700 flex justify-between items-center px-5 text-white">
             <div className="flex justify-between w-full">
                 <div className="sm:w-3/12 md:w-1/2 lg:w-4/12">
                     <h1 className="max-md:hidden text-lg">ระบบวางแผนทรัพยากร</h1>
@@ -26,7 +27,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 บริการ
                                 <i className="fas fa-caret-down"></i>
                             </button>
-                            <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
+                            <ul className="dropdown-menu">
                                 <li className="hover:bg-gray-300 p-2 rounded-t-md">
                                     <Link to="/task"><p className="w-full">รายการแจ้งปัญหา</p></Link>
                                 </li>
@@ -45,7 +46,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 จัดซื้อจัดจ้าง
                                 <i className="fas fa-caret-down"></i>
                             </button>
-                            <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
+                            <ul className="dropdown-menu">
                                 <li className="hover:bg-gray-300 p-2 rounded-t-md">
                                     <Link to="/requisition"><p className="w-full">คำขอซื้อ/จ้าง</p></Link>
                                 </li>
@@ -67,7 +68,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 ยืมเงินราชการ
                                 <i className="fas fa-caret-down"></i>
                             </button>
-                            <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
+                            <ul className="dropdown-menu">
                                 <li className="hover:bg-gray-300 p-2 rounded-t-md">
                                     <Link to="/loan"><p className="w-full">คำขอยืมเงิน</p></Link>
                                 </li>
@@ -93,7 +94,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 ข้อมูลพื้ฐาน
                                 <i className="fas fa-caret-down"></i>
                             </button>
-                            <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
+                            <ul className="dropdown-menu">
                                 {[1,3].includes(user?.permissions[0]?.role_id) && (
                                     <>
                                         <li className="hover:bg-gray-300 p-2 rounded-t-md">
@@ -178,18 +179,34 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                             </div>
                         )}
                     </button>
-                    <ul className="dropdown-menu rounded-md bg-white text-blue-950 p-0">
-                        <li className="hover:bg-gray-300 p-2 rounded-t-md">
-                            <a href="/profile">
-                                <p className="w-full text-center">{(!isFetching && user) && user.name}</p>
-                            </a>
-                        </li>
-                        <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                            <button type="button" className="w-full" onClick={onLogout}>
-                                Logout
-                            </button>
-                        </li>
-                    </ul>
+                    <div className="dropdown-menu">
+                        <div className="py-3 border-b rounded-t-md flex flex-col justify-center items-center gap-1">
+                            <div className="w-12 h-12 border-2 rounded-full flex items-start justify-center overflow-hidden">
+                                {user?.employee?.avatar_url
+                                    ? <img src={`${process.env.REACT_APP_API_URL}/uploads/${user?.employee?.avatar_url}`} alt="employee-pic" />
+                                    : <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />
+                                }
+                            </div>
+                            <h3 className="font-bold">{(!isFetching && user) && user.name}</h3>
+                            <p className="text-sm">{user?.employee?.position?.name}</p>
+                        </div>
+                        <ul>
+                            <li className="hover:bg-gray-300 p-2 text-left">
+                                <Link to="/profile">
+                                    <p className="w-full">
+                                        <i className="far fa-user-circle mr-1 ml-1"></i>
+                                        Profile
+                                    </p>
+                                </Link>
+                            </li>
+                            <li className="hover:bg-gray-300 p-2 rounded-b-md">
+                                <button type="button" className="w-full text-left" onClick={onLogout}>
+                                    <i className="fas fa-sign-out-alt mx-1"></i>
+                                    Logout
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>

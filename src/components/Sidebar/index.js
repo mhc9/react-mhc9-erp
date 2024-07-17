@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { FaTimes, FaAngleDown, FaAngleUp } from 'react-icons/fa'
 import { useGetUserDetailsQuery } from '../../features/services/auth/authApi'
+import './Sidebar.css'
 
 const Sidebar = ({ isShow, toggleShow, onLogout }) => {
     const { data: user, isFetching } = useGetUserDetailsQuery('userDetails', { pollingInterval: 900000 });

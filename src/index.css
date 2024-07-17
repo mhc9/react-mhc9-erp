@@ -51,67 +51,6 @@ a {
   box-shadow: 10px 10px 5px 0px rgba(140,136,136,0.75);
 }
 
-.dropdown-menu {
-  display: none;
-  width: 180px;
-  position: absolute;
-  /* background: white; */
-  border: 1px solid #301B46;
-  /* padding: 20px; */
-  top: 45px;
-  right: 0px;
-}
-.menu-item:hover .dropdown-menu {
-  display: block;
-}
-
-.dropdown-menu:before {
-  content: "";
-  position: absolute;
-  border: rgba(194, 225, 245, 0);
-  border: solid transparent;
-  border-bottom-color: white;
-  border-width: 11px;
-  margin-left: -10px;
-  top: -21px;
-  right: 4px;
-  z-index: 1;
-}
-
-.dropdown-menu:after {
-  content: "";
-  position: absolute;
-  right: 5px;
-  top: -21px;
-  width: 0;
-  height: 0;
-  border: solid transparent;
-  border-width: 10px;
-  border-bottom-color: #2B1A41;
-  z-index: 0;
-}
-
-.sidebar .menu-link {
-  @apply flex flex-col;
-}
-.sidebar .menu-link > button {
-  @apply text-black text-left p-2 hover:bg-blue-500 rounded-md flex flex-row items-center justify-between;
-}
-
-.sidebar .menu-link .sub-menus {
-  @apply bg-white text-blue-950 p-0;
-  display: none;
-}
-
-.sidebar .menu-link:hover > .sub-menus {
-  display: block;
-}
-
-.sidebar .menu-link:hover > button svg {
-  transform: rotate(180deg);
-  transition: transform ease-in-out .3s;
-}
-
 .detail__list-container > span:hover i {
   transform: translateX(2px);
   transition: transform 200ms;
