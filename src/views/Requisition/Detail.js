@@ -56,7 +56,7 @@ const RequisitionDetail = () => {
                                 requisitionId={id}
                             />
 
-                            <Row>
+                            <Row className="mb-2">
                                 <Col md={9}>
                                     <Row className="text-sm">
                                         <Col md={3} className="pb-1">
@@ -120,6 +120,40 @@ const RequisitionDetail = () => {
                                             <div className="text-sm font-thin">{requisition.reason}</div>
                                         </Col>
                                     </Row>
+
+                                    {/* Report and directive */}
+                                    {(requisition.approvals && requisition.approvals.length > 0) && (
+                                        <>
+                                            <Row className="mb-2">
+                                                <Col md={4}>
+                                                    <label htmlFor="">เลขที่รายงานขอซื้อ/จ้าง</label>
+                                                    <div className="text-sm font-thin">{requisition.approvals[0].report_no}</div>
+                                                </Col>
+                                                <Col md={4}>
+                                                    <label htmlFor="">วันที่รายงานขอซื้อ/จ้าง</label>
+                                                    <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].report_date)}</div>
+                                                </Col>
+                                                <Col md={4}>
+                                                    <label htmlFor="">วิธีการจัดหา</label>
+                                                    <div className="text-sm font-thin">{requisition.approvals[0].procuring?.name}</div>
+                                                </Col>
+                                            </Row>
+                                            <Row className="mb-2">
+                                                <Col md={4}>
+                                                    <label htmlFor="">วันที่กำหนดส่งมอบ</label>
+                                                    <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].deliver_date)}</div>
+                                                </Col>
+                                                <Col md={4}>
+                                                    <label htmlFor="">เลขที่คำสั่งแต่งตั้งผู้ตรวจรับ</label>
+                                                    <div className="text-sm font-thin">{requisition.approvals[0].directive_no}</div>
+                                                </Col>
+                                                <Col md={4}>
+                                                    <label htmlFor="">เลขที่คำสั่งแต่งตั้งผู้ตรวจรับ</label>
+                                                    <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].directive_date)}</div>
+                                                </Col>
+                                            </Row>
+                                        </>
+                                    )}
                                 </Col>
                                 <Col>
                                     <div className="flex flex-col items-center border rounded-md p-3 mb-2">
@@ -164,9 +198,12 @@ const RequisitionDetail = () => {
                                             showButtons={false}
                                         />
 
-                                        <div className="flex flex-row justify-end">
-                                            <div className="w-[12%]">
-                                                <div className="text-sm float-right text-right">{currency.format(requisition.net_total)}</div>
+                                        <div className="flex flex-row justify-end items-center gap-1">
+                                            <div>รวมเป็นเงินทั้งสิ้น :</div>
+                                            <div className="w-[15%]">
+                                                <div className="text-right form-control font-bold">
+                                                    {currency.format(requisition.net_total)}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
