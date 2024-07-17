@@ -33,8 +33,7 @@ const RequisitionReport = () => {
                                 <div className="memo-header-text">
                                     <h3>ส่วนราชการ</h3>
                                     <div className="memo-header-value">
-                                        <span>{requisition.division?.department?.name} ศูนย์สุขภาพจิตที่ ๙ โทร o ๔๔๒๕ ๖๗๒๙</span>
-                                        {/* requisition.division?.name+ ' '+ */}
+                                        <span>งานพัสดุ กลุ่มงานอำนวยการ ศูนย์สุขภาพจิตที่ ๙ โทร o ๔๔๒๕ ๖๗๒๙</span>
                                     </div>
                                 </div>
                                 <div className="memo-header-text">
