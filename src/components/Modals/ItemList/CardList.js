@@ -11,7 +11,7 @@ const CardList = ({ items, onHide, onSelect }) => {
                     <Card>
                         {![3,4].includes(item?.category?.asset_type_id) && (
                             <Card.Img
-                                src={`${process.env.REACT_APP_API_URL}/uploads/products/thumbnails/${item?.img_url}`}
+                                src={`${process.env.REACT_APP_API_URL}/uploads/${item?.img_url}`}
                                 className="w-[120px] h-auto self-center"
                             />
                         )}
