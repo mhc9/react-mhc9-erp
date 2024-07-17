@@ -15,7 +15,7 @@ const initialFilters = {
     pr_no: '',
     pr_date: '',
     division: '',
-    status: '1'
+    status: ''
 };
 
 const RequisitionList = () => {
@@ -26,7 +26,7 @@ const RequisitionList = () => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getRequisitions({ url: `/api/requisitions/search?page=&status=1` }));
+            dispatch(getRequisitions({ url: `/api/requisitions/search?page=` }));
         } else {
             dispatch(getRequisitions({ url: `${apiEndpoint}${params}` }));
         }
@@ -105,7 +105,11 @@ const RequisitionList = () => {
                                     </td>
                                     <td className="text-center">
                                         {requisition.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
-                                        {requisition.status === 2 && <span className="badge rounded-pill text-bg-success">จัดซื้อแล้ว</span>}
+                                        {requisition.status === 2 && <span className="badge rounded-pill text-bg-primary">แต่งตั้ง ผตร.</span>}
+                                        {requisition.status === 3 && <span className="badge rounded-pill text-bg-info">ประกาศผู้ชนะ</span>}
+                                        {requisition.status === 4 && <span className="badge rounded-pill text-bg-danger">จัดซื้อแล้ว</span>}
+                                        {requisition.status === 5 && <span className="badge rounded-pill text-bg-success">ตรวจรับแล้ว</span>}
+                                        {requisition.status === 9 && <span className="badge rounded-pill text-bg-dark">ยกเลิก</span>}
                                     </td>
                                     <td className="text-center p-1">
                                         <Link to={`/requisition/${requisition.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
