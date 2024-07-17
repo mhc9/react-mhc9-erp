@@ -206,8 +206,7 @@ const RequisitionReport = () => {
                                                     <p className="w-[200px] border-dashed border-b mb-1"></p>
                                                     <div className="signature">
                                                         <p>( นายนิตย์  ทองเพชรศรี )</p>
-                                                        <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 6</p>
-                                                        <p>รักษาราชการแทนผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
+                                                        <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
                                                         <p>ปฏิบัติราชการแทนอธิบดีกรมสุขภาพจิต</p>
                                                         <div className="signature-date">
                                                             <p>วันที่</p>

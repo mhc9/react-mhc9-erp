@@ -73,7 +73,7 @@ export const toLongTHDateWithBE = (dateStr) => {
 
     const [year, month, day] = dateStr.split('-');
 
-    return `${day} ${MONTH_NAMES[parseInt(month) - 1]} พ.ศ. ${parseInt(year, 10) + 543}`;
+    return `${parseInt(day, 10)} ${MONTH_NAMES[parseInt(month) - 1]} พ.ศ. ${parseInt(year, 10) + 543}`;
 }
 
 export const filterAmphursByChangwat = (changwat, amphurs = []) => {

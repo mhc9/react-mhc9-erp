@@ -38,7 +38,7 @@ const RequisitionCommittee = () => {
                                 <div className="flex justify-center items-center">
                                     <span className="m-0">เรื่อง</span>
                                     <span className="ml-2">
-                                        แต่งตั้งผู้ตรวจรับพัสดุสำหรับการ {((requisition.order_type_id == 1) ? 'ซื้อ' : '') +requisition.category?.name}&nbsp;
+                                        แต่งตั้งผู้ตรวจรับพัสดุสำหรับการ {((requisition.order_type_id == 1) ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc)}&nbsp;
                                         จำนวน {requisition.item_count} รายการ โดย{requisition.approvals[0]?.procuring?.name}
                                     </span>
                                 </div>
@@ -46,10 +46,10 @@ const RequisitionCommittee = () => {
                             </div>
                             <div className="memo-content">
                                 <div className="memo-paragraph">
-                                    ด้วย ศูนย์สุขภาพจิตที่ ๙ กรมสุขภาพจิต มีความประสงค์จะ{((requisition.order_type_id == 1) ? 'ซื้อ' : '') +requisition.category?.name}&nbsp;
+                                    ด้วย ศูนย์สุขภาพจิตที่ ๙ กรมสุขภาพจิต มีความประสงค์จะ{((requisition.order_type_id == 1) ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc)}&nbsp;
                                     จำนวน {requisition.item_count} รายการ โดย{requisition.approvals[0]?.procuring?.name}&nbsp;
                                     และเพื่อให้เป็นไปตามระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. ๒๕๖๐ จึงขอแต่งตั้งรายชื่อต่อไปนี้เป็น ผู้ตรวจรับพัสดุสำหรับการ
-                                    {((requisition.order_type_id == 1) ? 'ซื้อ' : '') +requisition.category?.name} จำนวน {requisition.item_count} รายการ โดย{requisition.approvals[0]?.procuring?.name}
+                                    {((requisition.order_type_id == 1) ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc)} จำนวน {requisition.item_count} รายการ โดย{requisition.approvals[0]?.procuring?.name}
                                 </div>
                                 <div className="memo-paragraph mt-[2.5cm]">
                                     ผู้ตรวจรับพัสดุ
@@ -70,7 +70,7 @@ const RequisitionCommittee = () => {
                                 </div>
                                 <div className="memo-paragraph mt-2">
                                     <p className="indent-[4cm]">
-                                        สั่ง ณ วันที่  <span className="ml-[1cm]">{toLongTHDateWithBE(requisition.approvals[0]?.directive_date)}</span>
+                                        สั่ง ณ วันที่ <span className="ml-2">{toLongTHDateWithBE(requisition.approvals[0]?.directive_date)}</span>
                                     </p>
                                 </div>
 
@@ -82,8 +82,7 @@ const RequisitionCommittee = () => {
                                                 <div className="pt-[60px] flex flex-col items-center justify-center">
                                                     <div className="signature">
                                                         <p>( นายนิตย์  ทองเพชรศรี )</p>
-                                                        <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 6</p>
-                                                        <p>รักษาราชการแทนผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
+                                                        <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
                                                         <p>ปฏิบัติราชการแทนอธิบดีกรมสุขภาพจิต</p>
                                                     </div>
                                                 </div>
