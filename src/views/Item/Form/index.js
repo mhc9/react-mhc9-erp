@@ -76,7 +76,7 @@ const ItemForm = ({ item }) => {
                                         <div className="flex justify-center items-center border rounded-md overflow-hidden p-0 mt-1 min-h-[270px]">
                                             {selectedImg
                                                 ? <img src={URL.createObjectURL(selectedImg)} alt='item-pic' />
-                                                : item && <img src={`${process.env.REACT_APP_API_URL}/storage/${item?.img_url}`} alt='item-pic' />
+                                                : item && <img src={`${process.env.REACT_APP_API_URL}/uploads/${item?.img_url}`} alt='item-pic' />
                                             }
                                         </div>
                                         <div className="mt-2 text-center">

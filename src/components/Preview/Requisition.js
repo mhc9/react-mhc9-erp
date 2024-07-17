@@ -209,37 +209,38 @@ const Requisition = () => {
                     </div>
 
                     <div>
-                        <table className="table table-bordered mb-2">
+                        <table className="w-full border-collapse border border-slate-400 mb-2">
                             <tr className="text-[14pt]">
-                                <th className="w-[5%]">ลำดับ</th>
-                                <th className="text-left pl-2">รายการ</th>
-                                <th className="text-left pl-2 w-[30%]">รายละเอียดคุณลักษณะเฉพาะ</th>
-                                <th className="w-[6%]">จำนวน</th>
-                                <th className="w-[8%]">หน่วยนับ</th>
-                                <th className="w-[10%]">ราคาต่อหน่วย</th>
-                                <th className="w-[12%]">รวมเป็นเงิน</th>
+                                <th className="w-[5%] border border-slate-300">ลำดับ</th>
+                                <th className="border border-slate-300">รายการ/รายละเอียดคุณลักษณะเฉพาะ</th>
+                                <th className="w-[6%] border border-slate-300">จำนวน</th>
+                                <th className="w-[8%] border border-slate-300">หน่วยนับ</th>
+                                <th className="w-[10%] border border-slate-300">ราคาต่อหน่วย</th>
+                                <th className="w-[12%] border border-slate-300">รวมเป็นเงิน</th>
                             </tr>
                             {requisition?.details.map((detail, index) => (
                                 <tr>
-                                    <td>{index+1}</td>
-                                    <td className="text-left pl-2">{detail.item?.name}</td>
-                                    <td className="text-left text-[14pt] pl-2">{detail.description}</td>
-                                    <td>{detail.amount}</td>
-                                    <td>{detail.item?.unit?.name}</td>
-                                    <td>{currency.format(detail.price)}</td>
-                                    <td>{currency.format(detail.total)}</td>
+                                    <td className="border border-slate-300">{index+1}</td>
+                                    <td className="border border-slate-300 text-left pl-2">
+                                        <span>{detail.item?.name}</span>
+                                        {detail.description && <span className="ml-1">{detail.description}</span>}
+                                    </td>
+                                    <td className="border border-slate-300">{detail.amount}</td>
+                                    <td className="border border-slate-300">{detail.item?.unit?.name}</td>
+                                    <td className="border border-slate-300">{currency.format(detail.price)}</td>
+                                    <td className="border border-slate-300">{currency.format(detail.total)}</td>
                                 </tr>
                             ))}
 
                             <tr className="font-bold">
-                                <td colSpan={6}>รวมเป็นเงินทั้งสิ้น</td>
+                                <td colSpan={5}>รวมเป็นเงินทั้งสิ้น</td>
                                 <td>{currency.format(requisition?.details.reduce((sum, curVal) => sum = sum + curVal.total, 0))}</td>
                             </tr>
                         </table>
                     </div>
 
                     <div className="mt-1 pl-[10%] flex flex-col items-start justify-center">
-                        <p className="text-left">2. กำหนดเวลาที่ต้องการส่งมอบหรือให้งานแล้วเสร็จภายใน 5 วันทำการ นับตั้งแต่วันถัดจากวันทำข้อตกลงเป็นหนังสือหรือใบสั่งซื้อสั่งจ้างหรือสัญญา</p>
+                        <p className="text-left">2. กำหนดเวลาที่ต้องการส่งมอบหรือให้งานแล้วเสร็จภายใน............วันทำการ นับตั้งแต่วันถัดจากวันทำข้อตกลงเป็นหนังสือหรือใบสั่งซื้อสั่งจ้างหรือสัญญา</p>
                         <p>3. หลักเกณฑ์การพิจารณาคัดเลือกข้อเสนอ การพิจารณาคัดเลือกข้อเสนอโดยใช้ เกณฑ์ราคา</p>
                         <p>4. สถานที่ส่งมอบพัสดุ ศูนย์สุขภาพจิตที่ 9 กรณี เติมน้ำมันระบุเป็น “สถานบริการน้ำมันเชื้อเพลิง”</p>
                     </div>
