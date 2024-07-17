@@ -12,7 +12,7 @@ const initialFilters = {
     pr_no: '',
     pr_date: '',
     division: '',
-    status: '1'
+    status: '2'
 };
 
 const initialFormData = {
@@ -29,7 +29,7 @@ const ModalRequisitionList = ({ isShow, onHide, onSelect }) => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getRequisitions({ url: `/api/requisitions/search?page=&status=1&limit=5` }));
+            dispatch(getRequisitions({ url: `/api/requisitions/search?page=&status=2&limit=5` }));
         } else {
             dispatch(getRequisitions({ url: `${apiEndpoint}${params}` }));
         }
@@ -41,7 +41,7 @@ const ModalRequisitionList = ({ isShow, onHide, onSelect }) => {
 
     const handleFilter = (queryStr) => {
         setParams(queryStr);
-        setApiEndpoint(`/api/requisitions/search?page=&status=1&limit=5`);
+        setApiEndpoint(`/api/requisitions/search?page=&status=2&limit=5`);
     };
 
     return (
