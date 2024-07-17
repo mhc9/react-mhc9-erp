@@ -9,11 +9,11 @@ import ModalItemList from '../../../components/Modals/ItemList'
 import ModalAddItemDesc from '../../../components/Modals/AddItemDesc'
 
 const itemSchema = Yup.object().shape({
-    item_id: Yup.string().required(),
-    price: Yup.string().required(),
-    unit_id: Yup.string().required(),
-    amount: Yup.string().required(),
-    total: Yup.string().required(),
+    item_id: Yup.string().required('กรุณาเลือกรายสินค้า/บริการ'),
+    price: Yup.number().min(1, 'ราคาต่อหน่วยต้องมากกว่า 0').required('กรุณาระบุราคาต่อหน่วย'),
+    unit_id: Yup.string().required('กรุณาเลือกหน่วยนับ'),
+    amount: Yup.string().required('กรุณาระบุจำนวน'),
+    total: Yup.string().required('กรุณาระบุรวมเป็นเงิน'),
 });
 
 const initialFormData = {
@@ -119,7 +119,7 @@ const AddItem = ({ data, filteredCategory, onAddItem, onUpdateItem }) => {
                                 </button>
                             </div>
                             {(formik.errors.item_id && formik.touched.item_id) && (
-                                <span className="text-red-500 text-sm">{formik.errors.item_id}</span>
+                                <span className="text-red-500 text-xs">{formik.errors.item_id}</span>
                             )}
                         </FormGroup>
                         <FormGroup>
@@ -144,7 +144,7 @@ const AddItem = ({ data, filteredCategory, onAddItem, onUpdateItem }) => {
                                 placeholder="ราคาต่อหน่วย"
                             />
                             {(formik.errors.price && formik.touched.price) && (
-                                <span className="text-red-500 text-sm">{formik.errors.price}</span>
+                                <span className="text-red-500 text-xs">{formik.errors.price}</span>
                             )}
                         </FormGroup>
                         <FormGroup className="w-[8%]">
@@ -160,7 +160,7 @@ const AddItem = ({ data, filteredCategory, onAddItem, onUpdateItem }) => {
                                 placeholder="จำนวน"
                             />
                             {(formik.errors.amount && formik.touched.amount) && (
-                                <span className="text-red-500 text-sm">{formik.errors.amount}</span>
+                                <span className="text-red-500 text-xs">{formik.errors.amount}</span>
                             )}
                         </FormGroup>
                         <FormGroup className="w-[10%]">
@@ -179,7 +179,7 @@ const AddItem = ({ data, filteredCategory, onAddItem, onUpdateItem }) => {
                                 ))}
                             </select>
                             {(formik.errors.unit_id && formik.touched.unit_id) && (
-                                <span className="text-red-500 text-sm">{formik.errors.unit_id}</span>
+                                <span className="text-red-500 text-xs">{formik.errors.unit_id}</span>
                             )}
                         </FormGroup>
                         <FormGroup className="w-[15%]">
@@ -192,7 +192,7 @@ const AddItem = ({ data, filteredCategory, onAddItem, onUpdateItem }) => {
                                 placeholder="รวมเป็นเงิน"
                             />
                             {(formik.errors.total && formik.touched.total) && (
-                                <span className="text-red-500 text-sm">{formik.errors.total}</span>
+                                <span className="text-red-500 text-xs">{formik.errors.total}</span>
                             )}
                         </FormGroup>
                         <FormGroup className="w-[5%]">
