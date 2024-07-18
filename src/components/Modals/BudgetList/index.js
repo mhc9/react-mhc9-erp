@@ -1,41 +1,32 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Pagination } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { getBudgets } from '../../../features/slices/budget/budgetSlice';
+import { useGetInitialFormDataQuery } from '../../../features/services/budget/budgetApi'
 import Loading from '../../Loading';
 import FilteringInputs from './FilteringInputs';
+import Pagination from '../../../components/Pagination'
 
 const initialFilters = {
     name: '',
     type: '',
-    project: '',
+    plan: '',
 };
 
 const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
     const { budgets, pager, isLoading } = useSelector(state => state.budget);
+    const { data: formData } = useGetInitialFormDataQuery();
     const [apiEndpoint, setApiEndpoint] = useState('');
+    const [params, setParams] = useState('');
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getBudgets({ url: '/api/budgets/search' }));
+            dispatch(getBudgets({ url: `/api/budgets/search?page=&limit=5${params}` }));
         } else {
-            dispatch(getBudgets({ url: apiEndpoint }));
+            dispatch(getBudgets({ url: `${apiEndpoint}&limit=5${params}` }));
         }
-    }, [apiEndpoint]);
-
-    const handlePageClick = (url) => {
-        /** ============== Generate query string param list ============== */
-        // query string param list here
-        const queryStr = '';
-        /** ============================ */
-
-        setApiEndpoint(`${url}${queryStr}`);
-    };
-
-    const handleFilter = (queryStr) => {
-        console.log(queryStr);
-    };
+    }, [apiEndpoint, params]);
 
     return (
         <Modal
@@ -43,18 +34,18 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
             onHide={onHide}
             size='xl'
         >
-            <Modal.Header closeButton>
+            <Modal.Header closeButton className="py-1">
                 <Modal.Title>รายการงบประมาณ</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <FilteringInputs
                     initialFilters={initialFilters}
-                    onFilter={handleFilter}
-                    formData={{ types: [{ id: 1, name: 'งบบุคลากร' }, { id: 2, name: 'งบดำเนินงาน' }] }}
+                    onFilter={(queryStr) => setParams(queryStr)}
+                    formData={formData}
                 />
 
                 <div>
-                    <table className="table table-bordered">
+                    <table className="table table-bordered table-striped table-hover mb-0">
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
@@ -78,7 +69,7 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
                                     <td>
                                         <p className="text-gray-400 text-sm">{budget.project?.plan?.name}</p>
                                         <p className="text-gray-400 text-sm">{budget.project?.name}</p>
-                                        <p>{budget.name}</p>
+                                        <p className="text-sm">{budget.name}</p>
                                     </td>
                                     <td className="text-center">
                                         <button
@@ -96,27 +87,15 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
                         </tbody>
                     </table>
                 </div>
-
-                {pager && (
-                    <Pagination>
-                        <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
-                        <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
-                        {/* <Pagination.Item>{1}</Pagination.Item>
-                        <Pagination.Ellipsis />
-
-                        <Pagination.Item>{10}</Pagination.Item>
-                        <Pagination.Item>{11}</Pagination.Item>
-                        <Pagination.Item active>{12}</Pagination.Item>
-                        <Pagination.Item>{13}</Pagination.Item>
-                        <Pagination.Item disabled>{14}</Pagination.Item>
-
-                        <Pagination.Ellipsis />
-                        <Pagination.Item>{20}</Pagination.Item> */}
-                        <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
-                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
-                    </Pagination>
-                )}
             </Modal.Body>
+            {pager && (
+                <Modal.Footer className="py-1">
+                    <Pagination
+                        pager={pager}
+                        onPageClick={(url) => setApiEndpoint(url)}
+                    />
+                </Modal.Footer>
+            )}
         </Modal>
     )
 }

@@ -122,7 +122,7 @@ const RequisitionForm = ({ requisition }) => {
     };
 
     const handleTypeChange = (typeId) => {
-        setFilteredTypes(formData?.types.filter(type => type.order_type_id === parseInt(typeId)));
+        (formData && formData.types) && setFilteredTypes(formData.types.filter(type => type.order_type_id === parseInt(typeId)));
     };
 
     return (

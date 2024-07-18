@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Col, FormGroup, Row } from 'react-bootstrap'
+import { generateQueryString } from '../../../utils';
 
 const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
     const [filters, setFilters] = useState(initialFilters);
@@ -11,35 +12,35 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
     };
 
     const handleFilter = () => {
-        let queryStr = '';
-        for (const [key, val] of Object.entries(filters)) {
-            queryStr += `&${key}=${val}`;
-        }
+        onFilter(generateQueryString(filters));
+    };
 
-        onFilter(queryStr);
+    const handleClear = () => {
+        setFilters(initialFilters);
+
+        onFilter(generateQueryString(filters));
     }
 
     return (
         <Row className="mb-3">
             <Col>
-                <div className="filtering-wrapper border rounded-md flex flex-row gap-2 p-2">
-                    <FormGroup>
+                <div className="filtering-wrapper border rounded-md flex flex-row items-center gap-2 p-2">
+                    <FormGroup className="w-[25%]">
                         <input
                             type="text"
                             name="name"
                             value={filters.name}
                             onChange={handleInputChange}
-                            placeholder=""
-                            className="form-control"
+                            placeholder="งบประมาณ"
+                            className="form-control text-sm"
                         />
                     </FormGroup>
-                    <FormGroup>
+                    {/* <FormGroup>
                         <select
                             name="type"
                             value={filters.type}
                             onChange={handleInputChange}
-                            placeholder=""
-                            className="form-control"
+                            className="form-control text-sm"
                         >
                             <option value="">-- ประเภท --</option>
                             {formData.types && formData.types.map(type => (
@@ -48,10 +49,28 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                                 </option>
                             ))}
                         </select>
+                    </FormGroup> */}
+                    <FormGroup>
+                        <select
+                            name="plan"
+                            value={filters.plan}
+                            onChange={handleInputChange}
+                            className="form-control text-sm"
+                        >
+                            <option value="">-- ประเภท --</option>
+                            {formData.plans && formData.plans.map(plan => (
+                                <option value={plan.id} key={plan.id}>
+                                    {plan.name}
+                                </option>
+                            ))}
+                        </select>
                     </FormGroup>
                     <FormGroup>
-                        <button type="button" className="btn btn-outline-secondary" onClick={() => handleFilter()}>
+                        <button type="button" className="btn btn-outline-secondary btn-sm mr-1" onClick={() => handleFilter()}>
                             ตกลง
+                        </button>
+                        <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => handleClear()}>
+                            เคลียร์
                         </button>
                     </FormGroup>
                 </div>
