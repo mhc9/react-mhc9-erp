@@ -45,8 +45,6 @@ export const update = createAsyncThunk("item/update", async ({ id, data }, { dis
     try {
         const res = await api.post(`/api/items/${id}/update`, data);
 
-        dispatch(getItems({ url: '/api/items' }));
-
         return res.data;
     } catch (error) {
         rejectWithValue(error);
@@ -130,27 +128,26 @@ export const itemSlice = createSlice({
             if (status === 1) {
                 state.isSuccess = true;
             } else {
-                state.isSuccess = false;
                 state.error = { message };
             }
         },
         [store.rejected]: (state, { payload }) => {
-            console.log(payload);
             state.error = payload;
         },
         [update.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
             state.error = null;
         },
         [update.fulfilled]: (state, { payload }) => {
-            console.log(payload);
-            state.isLoading = false
-            state.isSuccess = true;
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+            } else {
+                state.error = { message };
+            }
         },
         [update.rejected]: (state, { payload }) => {
-            console.log(payload);
-            state.isLoading = false;
             state.error = payload;
         },
         [destroy.pending]: (state) => {
