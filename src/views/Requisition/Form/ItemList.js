@@ -22,9 +22,9 @@ const ItemList = ({ items, showButtons=true, onEditItem, onRemoveItem }) => {
                         <td className="text-center">{index+1}</td>
                         <td>
                             <p className="text-gray-500 font-thin">{data.item?.category?.name}</p>
-                            <p className="text-xs">{data.item?.name}</p>
+                            <p className="text-sm">{data.item?.name}</p>
                             {data.description && (
-                                <p className="text-sm text-gray-400 font-thin">{data.description}</p>
+                                <p className="text-xs text-gray-400 font-thin">{data.description}</p>
                             )}
                         </td>
                         <td className="text-center">{currency.format(data.price)}</td>
