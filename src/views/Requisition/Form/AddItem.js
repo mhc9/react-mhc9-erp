@@ -43,7 +43,7 @@ const AddItem = ({ data, filteredCategory, onAddItem, onUpdateItem }) => {
 
         formik.setFieldValue('item_id', item?.id);
         // formik.setFieldTouched('item_id', true);
-        formik.setFieldValue('price', item?.price);
+        formik.setFieldValue('price', '');
         // formik.setFieldTouched('price', true);
         formik.setFieldValue('unit_id', item?.unit_id);
         // formik.setFieldTouched('unit_id', true);
