@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { FaBars } from 'react-icons/fa'
 import { useGetUserDetailsQuery } from '../../features/services/auth/authApi'
 import Loading from '../Loading'
+import NavMenuItem from './NavMenuItem'
 import './Navbar.css'
 
 const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
@@ -22,145 +23,58 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                 <ul className="max-lg:hidden lg:flex flex-row items-center gap-4 w-full">
                     <li><Link to="/" className="hover:text-gray-400">หน้าหลัก</Link></li>
                     {[1].includes(user?.permissions[0]?.role_id) && (
-                        <li className="menu-item flex relative h-full">
-                            <button className="hover:text-gray-400 flex items-center gap-1">
-                                บริการ
-                                <i className="fas fa-caret-down"></i>
-                            </button>
-                            <ul className="dropdown-menu">
-                                <li className="hover:bg-gray-300 p-2 rounded-t-md">
-                                    <Link to="/task"><p className="w-full">รายการแจ้งปัญหา</p></Link>
-                                </li>
-                                <li className="hover:bg-gray-300 p-2">
-                                    <Link to="/task/add"><p className="w-full">แจ้งปัญหา</p></Link>
-                                </li>
-                                <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                                    <Link to="/repairation"><p className="w-full">รายการส่งซ่อม</p></Link>
-                                </li>
-                            </ul>
-                        </li>
+                        <NavMenuItem
+                            text="บริการ"
+                            submenus={[
+                                {type: 'menu', text: 'รายการแจ้งปัญหา', link: '/task'},
+                                {type: 'menu', text: 'แจ้งปัญหา', link: '/task/add'},
+                                {type: 'menu', text: 'รายการส่งซ่อม', link: '/repairation'},
+                            ]}
+                        />
                     )}
 
-                        <li className="menu-item flex relative h-full">
-                            <button className="hover:text-gray-400 flex items-center gap-1">
-                                จัดซื้อจัดจ้าง
-                                <i className="fas fa-caret-down"></i>
-                            </button>
-                            <ul className="dropdown-menu">
-                                <li className="hover:bg-gray-300 p-2 rounded-t-md">
-                                    <Link to="/requisition"><p className="w-full">คำขอซื้อ/จ้าง</p></Link>
-                                </li>
-                                {[1,3].includes(user?.permissions[0]?.role_id) && (
-                                    <>
-                                        <li className="hover:bg-gray-300 p-2">
-                                            <Link to="/order"><p className="w-full">ใบสั่งซื้อ/จ้าง</p></Link>
-                                        </li>
-                                        <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                                            <Link to="/inspection"><p className="w-full">ตรวจรับพัสดุ</p></Link>
-                                        </li>
-                                    </>
-                                )}
-                            </ul>
-                        </li>
-
-                        <li className="menu-item flex relative h-full">
-                            <button className="hover:text-gray-400 flex items-center gap-1">
-                                ยืมเงินราชการ
-                                <i className="fas fa-caret-down"></i>
-                            </button>
-                            <ul className="dropdown-menu">
-                                <li className="hover:bg-gray-300 p-2 rounded-t-md">
-                                    <Link to="/loan"><p className="w-full">คำขอยืมเงิน</p></Link>
-                                </li>
-                                {[1,4].includes(user?.permissions[0]?.role_id) && (
-                                    <li className="hover:bg-gray-300 p-2">
-                                        <Link to="/loan-contract"><p className="w-full">สัญญายืมเงิน</p></Link>
-                                    </li>
-                                )}
-                                <li className="hover:bg-gray-300 p-2">
-                                    <Link to="/loan-refund"><p className="w-full">หักล้างเงินยืม</p></Link>
-                                </li>
-                                {[1,4].includes(user?.permissions[0]?.role_id) && (
-                                    <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                                        <Link to="/loan-report"><p className="w-full">ทะเบียนคุม</p></Link>
-                                    </li>
-                                )}
-                            </ul>
-                        </li>
+                    <NavMenuItem
+                        text="จัดซื้อจัดจ้าง"
+                        submenus={[
+                            {type: 'menu', text: 'คำขอซื้อ/จ้าง', link: '/requisition', user: []},
+                            {type: 'menu', text: 'ใบสั่งซื้อ/จ้าง', link: '/order', user: [1, 3]},
+                            {type: 'menu', text: 'ตรวจรับพัสดุ', link: '/inspection', user: [1, 3]},
+                        ]}
+                        userRole={user?.permissions[0]?.role_id}
+                    />
+                    <NavMenuItem
+                        text="ยืมเงินราชการ"
+                        submenus={[
+                            {type: 'menu', text: 'คำขอยืมเงิน', link: '/loan', user: []},
+                            {type: 'menu', text: 'สัญญายืมเงิน', link: '/loan-contract', user: [1, 4]},
+                            {type: 'menu', text: 'หักล้างเงินยืม', link: '/loan-refund', user: []},
+                            {type: 'menu', text: 'ทะเบียนคุม', link: '/loan-report', user: [1, 4]},
+                        ]}
+                        userRole={user?.permissions[0]?.role_id}
+                    />
 
                     {[1,3].includes(user?.permissions[0]?.role_id) && (
-                        <li className="menu-item flex relative h-full">
-                            <button className="hover:text-gray-400 flex items-center gap-1">
-                                ข้อมูลพื้ฐาน
-                                <i className="fas fa-caret-down"></i>
-                            </button>
-                            <ul className="dropdown-menu">
-                                {[1,3].includes(user?.permissions[0]?.role_id) && (
-                                    <>
-                                        <li className="hover:bg-gray-300 p-2 rounded-t-md">
-                                            <Link to="/asset"><p className="w-full">ครุภัณฑ์</p></Link>
-                                        </li>
-                                        <li className="hover:bg-gray-300 p-2">
-                                            <Link to="/comset"><p className="w-full">ชุดคอมพิวเตอร์</p></Link>
-                                        </li>
-                                        <li className="hover:bg-gray-300 p-2">
-                                            <Link to="/material"><p className="w-full">วัสดุ</p></Link>
-                                        </li>
-                                        <li className="hover:bg-gray-300 p-2">
-                                            <Link to="/asset-type"><p className="w-full">ประเภทพัสดุ</p></Link>
-                                        </li>
-                                        <li className="hover:bg-gray-300 p-2">
-                                            <Link to="/asset-category"><p className="w-full">ชนิดพัสดุ</p></Link>
-                                        </li>
-                                    </>
-                                )}
-
-                                {[1,3].includes(user?.permissions[0]?.role_id) && (
-                                    <>
-                                        <li><hr className="dropdown-divider m-0" /></li>
-                                        {user?.permissions[0]?.role_id === 1 && (
-                                            <>
-                                                <li className="hover:bg-gray-300 p-2">
-                                                    <Link to="/employee"><p className="w-full">บุคลากร</p></Link>
-                                                </li>
-                                                <li className="hover:bg-gray-300 p-2">
-                                                    <Link to="/department"><p className="w-full">กลุ่มงาน</p></Link>
-                                                </li>
-                                                <li className="hover:bg-gray-300 p-2">
-                                                    <Link to="/division"><p className="w-full">งาน</p></Link>
-                                                </li>
-                                                <li><hr className="dropdown-divider m-0" /></li>
-                                                <li className="hover:bg-gray-300 p-2">
-                                                    <Link to="/room"><p className="w-full">ห้อง</p></Link>
-                                                </li>
-                                            </>
-                                        )}
-                                        <li><hr className="dropdown-divider m-0" /></li>
-                                        <li className="hover:bg-gray-300 p-2">
-                                            <Link to="/item"><p className="w-full">สินค้า/บริการ</p></Link>
-                                        </li>
-                                        <li className="hover:bg-gray-300 p-2">
-                                            <Link to="/supplier"><p className="w-full">ผู้จัดจำหน่าย</p></Link>
-                                        </li>
-                                        <li className="hover:bg-gray-300 p-2">
-                                            <Link to="/unit"><p className="w-full">หน่วยนับ</p></Link>
-                                        </li>
-
-                                        <li><hr className="dropdown-divider m-0" /></li>
-                                        {user?.permissions[0]?.role_id === 1 && (
-                                            <>
-                                                <li className="hover:bg-gray-300 p-2">
-                                                    <Link to="/budget"><p className="w-full">งบประมาณ</p></Link>
-                                                </li>
-                                                <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                                                    {/* <Link to="/unit"><p className="w-full">หน่วยนับ</p></Link> */}
-                                                </li>
-                                            </>
-                                        )}
-                                    </>
-                                )}
-                            </ul>
-                        </li>
+                        <NavMenuItem
+                            text="ข้อมูลพื้ฐาน"
+                            submenus={[
+                                {type: 'menu', text: 'ครุภัณฑ์', link: '/asset', user: [1, 3]},
+                                {type: 'menu', text: 'ชุดคอมพิวเตอร์', link: '/comset', user: [1, 3]},
+                                {type: 'menu', text: 'วัสดุ', link: '/material', user: [1, 3]},
+                                {type: 'menu', text: 'ประเภทพัสดุ', link: '/asset-type', user: [1, 3]},
+                                {type: 'menu', text: 'ชนิดพัสดุ', link: '/asset-category', user: [1, 3]},
+                                {type: 'divided'},
+                                {type: 'menu', text: 'บุคลากร', link: '/employee', user: [1]},
+                                {type: 'menu', text: 'กลุ่มงาน', link: '/department', user: [1]},
+                                {type: 'menu', text: 'งาน', link: '/division', user: [1]},
+                                {type: 'divided'},
+                                {type: 'menu', text: 'สินค้า/บริการ', link: '/item', user: [1, 3]},
+                                {type: 'menu', text: 'หน่วยนับ', link: '/unit', user: [1, 3]},
+                                {type: 'menu', text: 'ผู้จัดจำหน่าย', link: '/supplier', user: [1, 3]},
+                                {type: 'divided'},
+                                {type: 'menu', text: 'งบประมาณ', link: '/budget', user: [1, 3]},
+                            ]}
+                            userRole={user?.permissions[0]?.role_id}
+                        />
                     )}
                     <li><Link to="/advice" className="hover:text-gray-400">แนะนำการใช้งาน</Link></li>
                 </ul>

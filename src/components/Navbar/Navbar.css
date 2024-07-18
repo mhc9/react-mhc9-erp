@@ -38,10 +38,17 @@
     z-index: 0;
 }
 
-.navbar .menu-item:hover .dropdown-menu {
+.navbar .menu-item .dropdown-menu.active {
     opacity: 1;
     visibility: visible;
-    /* display: block; */
+}
+
+.navbar .menu-item .dropdown-menu li:first-child {
+    @apply rounded-t-md;
+}
+
+.navbar .menu-item .dropdown-menu li:last-child {
+    @apply rounded-b-md;
 }
 
 .navbar .menu-item .dropdown-menu li p,
