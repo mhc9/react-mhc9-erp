@@ -38,7 +38,8 @@
     z-index: 0;
 }
 
-.navbar .menu-item .dropdown-menu.active {
+.navbar .menu-item .dropdown-menu.active,
+.navbar .user-profile .dropdown-menu.active {
     opacity: 1;
     visibility: visible;
 }

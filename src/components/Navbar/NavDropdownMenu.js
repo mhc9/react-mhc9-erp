@@ -2,8 +2,6 @@ import React, { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom';
 
 const NavDropdownMenu = ({ isShow, hide, submenus, userRole }) => {
-    const [show, setShow] = useState(false);
-
     return (
         <ul className={`dropdown-menu ${isShow ? 'active' : ''}`}>
             {submenus.map((menu, index) => (

@@ -2,9 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { FaBars } from 'react-icons/fa'
 import { useGetUserDetailsQuery } from '../../features/services/auth/authApi'
-import Loading from '../Loading'
 import NavMenuItem from './NavMenuItem'
 import './Navbar.css'
+import UserProfile from './UserProfile'
 
 const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
     const { data: user, isFetching } = useGetUserDetailsQuery('userDetails', { pollingInterval: 900000 });
@@ -78,50 +78,12 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                     )}
                     <li><Link to="/advice" className="hover:text-gray-400">แนะนำการใช้งาน</Link></li>
                 </ul>
-                <div className="menu-item max-lg:hidden flex relative">
-                    <button className="hover:text-gray-400">
-                        {isFetching && <Loading />}
-                        {(!isFetching && user) && (
-                            <div className="flex items-center gap-1">
-                                <div className="w-8 h-8 border-2 rounded-full flex items-start justify-center overflow-hidden">
-                                    {user.employee?.avatar_url
-                                        ? <img src={`${process.env.REACT_APP_API_URL}/uploads/${user.employee?.avatar_url}`} alt="employee-pic" />
-                                        : <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />
-                                    }
-                                </div>
-                                <i className="fas fa-caret-down"></i>
-                            </div>
-                        )}
-                    </button>
-                    <div className="dropdown-menu">
-                        <div className="py-3 border-b rounded-t-md flex flex-col justify-center items-center gap-1">
-                            <div className="w-12 h-12 border-2 rounded-full flex items-start justify-center overflow-hidden">
-                                {user?.employee?.avatar_url
-                                    ? <img src={`${process.env.REACT_APP_API_URL}/uploads/${user?.employee?.avatar_url}`} alt="employee-pic" />
-                                    : <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />
-                                }
-                            </div>
-                            <h3 className="font-bold">{(!isFetching && user) && user.name}</h3>
-                            <p className="text-sm">{user?.employee?.position?.name}</p>
-                        </div>
-                        <ul>
-                            <li className="hover:bg-gray-300 p-2 text-left">
-                                <Link to="/profile">
-                                    <p className="w-full">
-                                        <i className="far fa-user-circle mr-1 ml-1"></i>
-                                        Profile
-                                    </p>
-                                </Link>
-                            </li>
-                            <li className="hover:bg-gray-300 p-2 rounded-b-md">
-                                <button type="button" className="w-full text-left" onClick={onLogout}>
-                                    <i className="fas fa-sign-out-alt mx-1"></i>
-                                    Logout
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                
+                <UserProfile
+                    user={user}
+                    isLoading={isFetching}
+                    logout={onLogout}
+                />
             </div>
         </nav>
     )
