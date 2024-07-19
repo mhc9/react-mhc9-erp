@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { getComset } from '../../features/slices/comset/comsetSlice'
@@ -20,9 +20,9 @@ const EditComset = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item href="/comset">ชุดคอมพิวเตอร์</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/comset' }}>ชุดคอมพิวเตอร์</Breadcrumb.Item>
                 <Breadcrumb.Item active>แก้ไขชุดคอมพิวเตอร์</Breadcrumb.Item>
             </Breadcrumb>
         

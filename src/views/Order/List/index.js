@@ -44,7 +44,7 @@ const OrderList = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>จัดซื้อจัดจ้าง</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการใบสั่งซื้อ/จ้าง</Breadcrumb.Item>
             </Breadcrumb>

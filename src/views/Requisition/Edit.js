@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import RequisitionForm from './Form'
 import { getRequisition } from '../../features/slices/requisition/requisitionSlice'
@@ -18,9 +18,9 @@ const EditRequisition = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item href="/requisition">รายการคำขอ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/requisition' }}>รายการคำขอ</Breadcrumb.Item>
                 <Breadcrumb.Item active>แก้ไขรายการคำขอ</Breadcrumb.Item>
             </Breadcrumb>
         

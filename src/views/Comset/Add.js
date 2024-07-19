@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import ComsetForm from './Form'
 
@@ -7,9 +8,9 @@ const AddComset = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item href="/comset">ชุดคอมพิวเตอร์</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/comset' }}>ชุดคอมพิวเตอร์</Breadcrumb.Item>
                 <Breadcrumb.Item active>เพิ่มชุดคอมพิวเตอร์</Breadcrumb.Item>
             </Breadcrumb>
         

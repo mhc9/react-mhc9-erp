@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { resetSuccess } from '../../features/slices/inspection/inspectionSlice'
@@ -25,9 +25,9 @@ const AddInspection = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>จัดซื้อจัดจ้าง</Breadcrumb.Item>
-                <Breadcrumb.Item href="/inspection">รายการตรวจรับพัสดุ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/inspection' }}>รายการตรวจรับพัสดุ</Breadcrumb.Item>
                 <Breadcrumb.Item active>บันทึกตรวจรับพัสดุ</Breadcrumb.Item>
             </Breadcrumb>
         

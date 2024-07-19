@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { getItem } from '../../features/slices/item/itemSlice'
@@ -18,9 +18,9 @@ const ItemDetail = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item href="/item">รายการสินค้า/บริการ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/item' }}>รายการสินค้า/บริการ</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายละเอียดสินค้า/บริการใหม่</Breadcrumb.Item>
                 <Breadcrumb.Item active>{id}</Breadcrumb.Item>
             </Breadcrumb>

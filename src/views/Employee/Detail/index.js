@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getEmployee } from '../../../features/slices/employee/employeeSlice'
 import { resetSuccess } from '../../../features/slices/member/memberSlice'
@@ -31,9 +31,9 @@ const EmployeeDetail = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item href="/employee">บุคลากร</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/employee" }}>บุคลากร</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายละเอียดบุคลากร</Breadcrumb.Item>
                 <Breadcrumb.Item active>{id}</Breadcrumb.Item>
             </Breadcrumb>

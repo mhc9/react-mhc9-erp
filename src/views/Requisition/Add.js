@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { resetSuccess } from '../../features/slices/requisition/requisitionSlice'
@@ -24,9 +24,9 @@ const AddRequisition = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>จัดซื้อจัดจ้าง</Breadcrumb.Item>
-                <Breadcrumb.Item href="/requisition">รายการคำขอ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/requisition' }}>รายการคำขอ</Breadcrumb.Item>
                 <Breadcrumb.Item active>เพิ่มรายการคำขอ</Breadcrumb.Item>
             </Breadcrumb>
         

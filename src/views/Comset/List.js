@@ -29,8 +29,8 @@ const ComsetList = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
-                <Breadcrumb.Item href="/">ข้อมูลพื้ฐาน</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
                 <Breadcrumb.Item active>ชุดคอมพิวเตอร์</Breadcrumb.Item>
             </Breadcrumb>
         

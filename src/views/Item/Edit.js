@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
@@ -36,9 +36,9 @@ const EditItem = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item href="/item">รายการสินค้า/บริการ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/item' }}>รายการสินค้า/บริการ</Breadcrumb.Item>
                 <Breadcrumb.Item active>แก้ไขสินค้า/บริการใหม่</Breadcrumb.Item>
                 <Breadcrumb.Item active>{id}</Breadcrumb.Item>
             </Breadcrumb>

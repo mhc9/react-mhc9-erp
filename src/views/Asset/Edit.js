@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaEdit } from 'react-icons/fa';
@@ -32,9 +32,9 @@ const EditAsset = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
-                <Breadcrumb.Item href="/">ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item href="/asset">รายการพัสดุ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/asset' }}>รายการพัสดุ</Breadcrumb.Item>
                 <Breadcrumb.Item active>แก้ไขพัสดุ</Breadcrumb.Item>
                 <Breadcrumb.Item active>{id}</Breadcrumb.Item>
             </Breadcrumb>

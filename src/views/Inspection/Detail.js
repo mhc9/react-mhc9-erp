@@ -20,9 +20,9 @@ const InspectionDetail = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>จัดซื้อจัดจ้าง</Breadcrumb.Item>
-                <Breadcrumb.Item href="/inspection">รายการตรวจรับพัสดุ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/inspection' }}>รายการตรวจรับพัสดุ</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายละเอียดการตรวจรับพัสดุ</Breadcrumb.Item>
             </Breadcrumb>
         

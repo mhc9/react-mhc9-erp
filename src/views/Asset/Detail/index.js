@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { Breadcrumb, Col, FormGroup, Row } from 'react-bootstrap'
 import { FaInfoCircle } from 'react-icons/fa';
@@ -25,9 +25,9 @@ const AssetDetail = () => {
         <div className="content-wrapper">
             {/* breadcrumb */}
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
-                <Breadcrumb.Item href="/asset">รายการพัสดุ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/asset' }}>รายการพัสดุ</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายละเอียดพัสดุ</Breadcrumb.Item>
                 <Breadcrumb.Item active>{id}</Breadcrumb.Item>
             </Breadcrumb>
