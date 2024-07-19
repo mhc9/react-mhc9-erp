@@ -10,7 +10,6 @@ import { store } from '../../../features/slices/approval/approvalSlice'
 
 const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
     const dispatch = useDispatch();
-    const [selectedDeliverDate, setSelectedDeliverDate] = useState(moment());
     const [selectedReportDate, setSelectedReportDate] = useState(moment());
     const [selectedDirectiveDate, setSelectedDirectiveDate] = useState(moment());
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
@@ -32,7 +31,6 @@ const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
                 initialValues={{
                     requisition_id: requisitionId,
                     procuring_id: '1',
-                    deliver_date: '',
                     report_no: '',
                     report_date: '',
                     directive_no: '',
@@ -61,20 +59,6 @@ const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
                                                 <option value={proc.id} key={proc.id}>{proc.name}</option>
                                             ))}
                                         </select>
-                                    </Col>
-                                    <Col>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="">กำหนดส่งมอบวันที่</label>
-                                            <DatePicker
-                                                variant="outlined"
-                                                format="DD/MM/YYYY"
-                                                value={selectedDeliverDate}
-                                                onChange={(date) => {
-                                                    setSelectedDeliverDate(date);
-                                                    formik.setFieldValue('deliver_date', date.format('YYYY-MM-DD'));
-                                                }}
-                                            />
-                                        </div>
                                     </Col>
                                 </Row>
                                 <Row className="mb-2">

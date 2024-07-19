@@ -3,14 +3,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { currency, toShortTHDate } from '../../utils'
-import { getRequisition, updateApprovals } from '../../features/slices/requisition/requisitionSlice'
-import { resetSuccess } from '../../features/slices/approval/approvalSlice'
-import ItemList from './Form/ItemList'
-import ModalApprovalForm from './Approval/Form'
-import Loading from '../../components/Loading'
-import DropdownButton from '../../components/FormControls/DropdownButton'
-import DropdownItem from '../../components/FormControls/DropdownButton/DropdownItem'
+import { currency, toShortTHDate } from '../../../utils'
+import { getRequisition, updateApprovals } from '../../../features/slices/requisition/requisitionSlice'
+import { resetSuccess } from '../../../features/slices/approval/approvalSlice'
+import ItemList from '../Form/ItemList'
+import ModalApprovalForm from '../Approval/Form'
+import Loading from '../../../components/Loading'
+import DropdownButton from '../../../components/FormControls/DropdownButton'
+import DropdownItem from '../../../components/FormControls/DropdownButton/DropdownItem'
+import Consideration from './Consideration'
 
 const RequisitionDetail = () => {
     const { id } = useParams();
@@ -209,7 +210,7 @@ const RequisitionDetail = () => {
                                     </div>
                                 </Col>
                             </Row>
-                            <Row>
+                            <Row className="mb-2">
                                 <Col>
                                     <div className="border w-full pt-2 pb-4 px-2 rounded-md">
                                         <h3 className="font-bold text-lg mb-1">ผู้ตรวจรับ</h3>
@@ -226,6 +227,17 @@ const RequisitionDetail = () => {
                                     </div>
                                 </Col>
                             </Row>
+                            {(requisition.approvals && requisition.approvals.length > 0) && (
+                                <Row>
+                                    <Col>
+                                        <div className="border w-full py-2 px-3 rounded-md">
+                                            <h3 className="font-bold text-lg mb-1">รายงานผลการพิจารณา</h3>
+                                            
+                                            <Consideration requisition={requisition} />
+                                        </div>
+                                    </Col>
+                                </Row>
+                            )}
                             <Row className="mt-3">
                                 <Col>
                                     <div className="flex flex-row justify-center">
@@ -283,7 +295,7 @@ const RequisitionDetail = () => {
                                             </button>
                                         )}
 
-                                        {(requisition.approvals && requisition.approvals.length > 0) && (
+                                        {/* {(requisition.approvals && requisition.approvals.length > 0) && (
                                             <>
                                                 <DropdownButton title="รายงานผลการพิจารณา" btnColor="primary" cssClass="mr-1">
                                                     <DropdownItem>
@@ -314,7 +326,7 @@ const RequisitionDetail = () => {
                                                     </DropdownItem>
                                                 </DropdownButton>
                                             </>
-                                        )}
+                                        )} */}
                                     </div>
                                 </Col>
                             </Row>
