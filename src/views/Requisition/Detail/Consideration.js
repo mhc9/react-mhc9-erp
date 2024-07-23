@@ -126,7 +126,7 @@ const Consideration = ({ requisition }) => {
                                     {formik.values.deliver_days} วัน
                                 </div>
                             </Col>
-                            <Col className="text-center">
+                            <Col md={12} className="text-center">
                                 <button type="submit" className="btn btn-outline-primary btn-sm mt-3">
                                     <i className="fas fa-save mr-1"></i>
                                     บันทึก
