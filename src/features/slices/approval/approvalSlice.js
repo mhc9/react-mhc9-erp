@@ -45,8 +45,6 @@ export const update = createAsyncThunk("approval/update", async ({ id, data }, {
     try {
         const res = await api.post(`/api/approvals/${id}/update`, data);
 
-        dispatch(getApprovals({ url: '/api/approvals' }));
-
         return res.data;
     } catch (error) {
         rejectWithValue(error);
@@ -58,6 +56,16 @@ export const destroy = createAsyncThunk("approval/destroy", async ({ id }, { dis
         const res = await api.post(`/api/approvals/${id}/delete`);
 
         dispatch(getApprovals({ url: '/api/approvals' }));
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const consider = createAsyncThunk("approval/consider", async ({ id, data }, { dispatch, rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/approvals/${id}/consider`, data);
 
         return res.data;
     } catch (error) {
@@ -78,7 +86,6 @@ export const approvalSlice = createSlice({
             state.approvals = [];
             state.pager = null;
             state.isLoading = true;
-            // state.isSuccess = false;
             state.error = null;
         },
         [getApprovals.fulfilled]: (state, { payload }) => {
@@ -86,8 +93,7 @@ export const approvalSlice = createSlice({
 
             state.approvals = data;
             state.pager = pager;
-            state.isLoading = false
-            // state.isSuccess = true;
+            state.isLoading = false;
         },
         [getApprovals.rejected]: (state, { payload }) => {
             state.isLoading = false;
@@ -96,13 +102,11 @@ export const approvalSlice = createSlice({
         [getApproval.pending]: (state) => {
             state.approval = null;
             state.isLoading = true;
-            // state.isSuccess = false;
             state.error = null;
         },
         [getApproval.fulfilled]: (state, { payload }) => {
             state.approval = payload;
             state.isLoading = false
-            // state.isSuccess = true;
         },
         [getApproval.rejected]: (state, { payload }) => {
             state.isLoading = false;
@@ -144,6 +148,22 @@ export const approvalSlice = createSlice({
             state.isSuccess = true;
         },
         [destroy.rejected]: (state, { payload }) => {
+            state.error = payload;
+        },
+        [consider.pending]: (state) => {
+            state.isSuccess = false;
+            state.error = null;
+        },
+        [consider.fulfilled]: (state, { payload }) => {
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+            } else {
+                state.error = { message };
+            }
+        },
+        [consider.rejected]: (state, { payload }) => {
             state.error = payload;
         },
     }
