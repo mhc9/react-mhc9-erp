@@ -114,6 +114,7 @@ export const approvalSlice = createSlice({
         },
         [store.pending]: (state) => {
             state.isSuccess = false;
+            state.approval = null;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
@@ -132,6 +133,7 @@ export const approvalSlice = createSlice({
         },
         [update.pending]: (state) => {
             state.isSuccess = false;
+            state.approval = null;
             state.error = null;
         },
         [update.fulfilled]: (state, { payload }) => {
@@ -152,13 +154,15 @@ export const approvalSlice = createSlice({
         },
         [consider.pending]: (state) => {
             state.isSuccess = false;
+            state.approval = null;
             state.error = null;
         },
         [consider.fulfilled]: (state, { payload }) => {
-            const { status, message } = payload;
+            const { status, message, approval } = payload;
 
             if (status === 1) {
                 state.isSuccess = true;
+                state.approval = approval;
             } else {
                 state.error = { message };
             }
