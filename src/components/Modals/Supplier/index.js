@@ -14,7 +14,7 @@ const initialFilters = {
 
 const ModalSupplierList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
-    const { suppliers, pager, loading } = useSelector(state => state.supplier);
+    const { suppliers, pager, isLoading } = useSelector(state => state.supplier);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
 
@@ -41,13 +41,13 @@ const ModalSupplierList = ({ isShow, onHide, onSelect }) => {
                     onFilter={(queryStr) => setParams(queryStr)}
                 />
 
-                {loading && (
-                    <div className="text-center">
+                {isLoading && (
+                    <div className="text-center py-2">
                         <Loading />
                     </div>
                 )}
 
-                {!loading && suppliers && (
+                {!isLoading && suppliers && (
                     <table className="table table-bordered text-sm">
                         <thead>
                             <tr>
