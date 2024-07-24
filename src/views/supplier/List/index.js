@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Breadcrumb } from 'react-bootstrap'
+import { Breadcrumb, Row } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
+import { generateQueryString } from '../../../utils'
 import { getSuppliers } from '../../../features/slices/supplier/supplierSlice'
 import Pagination from '../../../components/Pagination'
 import Loading from '../../../components/Loading'
+import FilteringInputs from '../../../components/Modals/Supplier/FilteringInputs'
+
+const initialFilters = {
+    name: '',
+    status: '0',
+};
 
 const SupplierList = () => {
     const dispatch = useDispatch();
     const { suppliers, pager, isLoading } = useSelector(state => state.supplier);
     const [apiEndpoint, setApiEndpoint] = useState('');
-    const [params, setParams] = useState('');
+    const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
         if (apiEndpoint === '') {
@@ -20,11 +27,6 @@ const SupplierList = () => {
             dispatch(getSuppliers({ url: `${apiEndpoint}${params}` }));
         }
     }, [dispatch, apiEndpoint, params]);
-
-    const handleFilter = (queryStr) => {
-        setParams(queryStr);
-        setApiEndpoint(`/api/suppliers/search?page=`);
-    };
 
     const handleDelete = (id) => {
 
@@ -40,9 +42,16 @@ const SupplierList = () => {
             </Breadcrumb>
 
             <div className="content">
-            <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">ผู้จัดจำหน่าย</h2>
                     <Link to="add" className="btn btn-primary">เพิ่มผู้จัดจำหน่าย</Link>
+                </div>
+
+                <div className="border pt-2 px-2 mb-2 rounded-md">
+                    <FilteringInputs
+                        initialFilters={initialFilters}
+                        onFilter={(queryStr) => setParams(queryStr)}
+                    />
                 </div>
 
                 <div>
