@@ -233,7 +233,10 @@ const RequisitionDetail = () => {
                                         <div className="border w-full py-2 px-3 rounded-md">
                                             <h3 className="font-bold text-lg mb-1">รายงานผลการพิจารณา</h3>
                                             
-                                            <Consideration requisition={requisition} />
+                                            <Consideration
+                                                approval={requisition.approvals[0]}
+                                                requisition={requisition}
+                                            />
                                         </div>
                                     </Col>
                                 </Row>

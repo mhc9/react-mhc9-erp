@@ -18,7 +18,7 @@ const ItemList = ({ items, showButtons=true, onEditItem, onRemoveItem }) => {
             </thead>
             <tbody>
                 {items && items.map((data, index) => (
-                    <tr key={data.item?.id} className="font-thin">
+                    <tr key={data.id} className="font-thin">
                         <td className="text-center">{index+1}</td>
                         <td>
                             <p className="text-gray-500 font-thin">{data.item?.category?.name}</p>

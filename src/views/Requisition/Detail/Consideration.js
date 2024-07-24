@@ -11,15 +11,19 @@ import { consider } from '../../../features/slices/approval/approvalSlice'
 import ModalSupplierList from '../../../components/Modals/Supplier'
 
 const approvalSchema = Yup.object().shape({
-    consider_no: Yup.string().required(),
-    consider_date: Yup.string().required(),
-    notice_date: Yup.string().required(),
-    supplier_id: Yup.string().required(),
-    deliver_date: Yup.string().when('notice_date', {
-        is: (val) => val !== '',
-        then: () => Yup.string().required()
-    }),
-    deliver_days: Yup.string().min(1, "กำหนดส่งมอบภายใน (วัน) ต้องมากกว่า 0").required(),
+    consider_no: Yup.string().required('กรุณาระบุเลขที่รายงาน'),
+    consider_date: Yup.string().required('กรุณาเลือกวันที่รายงาน'),
+    notice_date: Yup.string().required('กรุณาเลือกวันที่ประกาศผู้ชน'),
+    supplier_id: Yup.string().required('กรุณาเลือกผู้ขาย/ผู้จัดจำหน่าย'),
+    deliver_date: Yup.mixed().test({
+        name: 'cannotLessThanNoticeDate',
+        exclusive: true,
+        message: 'ไม่สามารถกำหนดวันที่ส่งมอบก่อนวันที่ประกาศผู้ชนะได้',
+        test: function (val) {
+            return moment(val).toDate() > moment(this.parent.notice_date).toDate()
+        },
+    }).required('กรุณาเลือกวันที่ส่งมอบ'),
+    deliver_days: Yup.number().min(1, "ส่งมอบภายในต้องมากกว่า 0 (วัน)").required('กรุณาระบุเลขที่รายงาน'),
 });
 
 const Consideration = ({ approval, requisition }) => {
@@ -31,18 +35,19 @@ const Consideration = ({ approval, requisition }) => {
     const [selectedDeliverDate, setSelectedDeliverDate] = useState(moment());
 
     const handleSubmit = (values, formik) => {
-        dispatch(consider({ id: requisition.id, data: values }))
+        dispatch(consider({ id: approval.id, data: values }))
     };
 
     return (
         <Formik
             initialValues={{
-                consider_no: approval ? approval.consider_no : '',
-                consider_date: approval ? approval.consider_date : '',
-                notice_date: approval ? approval.notice_date : '',
-                supplier_id: approval ? approval.supplier_id : '',
-                deliver_date: approval ? approval.deliver_date : '',
-                deliver_days: approval ? approval.deliver_days : 0,
+                requisition_id: requisition.id,
+                consider_no: (approval && approval.consider_no) ? approval.consider_no : '',
+                consider_date: (approval && approval.consider_date) ? approval.consider_date : '',
+                notice_date: (approval && approval.notice_date) ? approval.notice_date : '',
+                supplier_id: (approval && approval.supplier_id) ? approval.supplier_id : '',
+                deliver_date: (approval && approval.deliver_date) ? approval.deliver_date : '',
+                deliver_days: (approval && approval.deliver_days) ? approval.deliver_days : 0,
             }}
             validationSchema={approvalSchema}
             onSubmit={handleSubmit}
@@ -108,7 +113,7 @@ const Consideration = ({ approval, requisition }) => {
                                 )}
                             </Col>
                             <Col md={5} className="mt-2">
-                                <label htmlFor="">ผู้จัดจำหน่าย</label>
+                                <label htmlFor="">ผู้ขาย/ผู้จัดจำหน่าย</label>
                                 <div className="input-group">
                                     <div className="min-h-[34px] form-control font-thin text-sm bg-gray-100">
                                         {selectedSupplier && selectedSupplier.tax_no+ ' ' +selectedSupplier.name}
@@ -129,7 +134,7 @@ const Consideration = ({ approval, requisition }) => {
                             </Col>
                             <Col md={3} className="mt-2">
                                 <div className="flex flex-col">
-                                    <label htmlFor="">กำหนดส่งมอบวันที่</label>
+                                    <label htmlFor="">วันที่ส่งมอบ</label>
                                     <DatePicker
                                         variant="outlined"
                                         format="DD/MM/YYYY"
@@ -137,12 +142,15 @@ const Consideration = ({ approval, requisition }) => {
                                         onChange={(date) => {
                                             setSelectedDeliverDate(date);
                                             formik.setFieldValue('deliver_date', date.format('YYYY-MM-DD'));
+                                            setTimeout(() => formik.setFieldTouched('deliver_date', true), 300);
 
                                             /** คำนวณวันกำหนดส่งมอบภายใน (วัน) */
-                                            if (moment(date) < moment(formik.values.notice_date)) {
-                                                toast.error('ไม่สามารถกำหนดวันที่ส่งมอบก่อนวันที่ประกาศผู้ชนะได้!!')
+                                            if (moment(date).toDate() <= moment(formik.values.notice_date).toDate()) {
+                                                toast.error('วันที่ส่งมอบต้องหลังวันที่ประกาศผู้ชนะได้!!');
+
+                                                formik.setFieldValue('deliver_days', 0);
                                             } else {
-                                                console.log(moment(date).diff(moment(formik.values.notice_date), "day"));
+                                                formik.setFieldValue('deliver_days', moment(date).diff(moment(formik.values.notice_date), "day"));
                                             }
                                         }}
                                     />
@@ -152,7 +160,7 @@ const Consideration = ({ approval, requisition }) => {
                                 </div>
                             </Col>
                             <Col md={3} className="mt-2">
-                                <label htmlFor="">กำหนดส่งมอบภายใน</label>
+                                <label htmlFor="">ส่งมอบภายใน</label>
                                 <div className="form-control min-h-[34px] text-sm text-center bg-gray-100">
                                     {formik.values.deliver_days} วัน
                                 </div>
