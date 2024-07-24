@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { FaSearch } from 'react-icons/fa'
@@ -7,8 +7,8 @@ import { Col, Row } from 'react-bootstrap'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
-import { consider } from '../../../features/slices/approval/approvalSlice'
-import ModalSupplierList from '../../../components/Modals/Supplier'
+import { consider } from '../../../../features/slices/approval/approvalSlice'
+import ModalSupplierList from '../../../../components/Modals/Supplier'
 
 const approvalSchema = Yup.object().shape({
     consider_no: Yup.string().required('กรุณาระบุเลขที่รายงาน'),
@@ -26,7 +26,7 @@ const approvalSchema = Yup.object().shape({
     deliver_days: Yup.number().min(1, "ส่งมอบภายในต้องมากกว่า 0 (วัน)").required('กรุณาระบุเลขที่รายงาน'),
 });
 
-const Consideration = ({ approval, requisition }) => {
+const ConsiderationForm = ({ approval, requisition, onSubmitted }) => {
     const dispatch = useDispatch();
     const [showSupplierModal, setShowSupplierModal] = useState(false);
     const [selectedSupplier, setSelectedSupplier] = useState(null);
@@ -34,8 +34,19 @@ const Consideration = ({ approval, requisition }) => {
     const [selectedNoticeDate, setSelectedNoticeDate] = useState(moment());
     const [selectedDeliverDate, setSelectedDeliverDate] = useState(moment());
 
+    useEffect(() => {
+        if (approval && approval.consider_no !== '') {
+            setSelectedSupplier(approval.supplier);
+            setSelectedConsiderDate(moment(approval.consider_date));
+            setSelectedNoticeDate(moment(approval.notice_date));
+            setSelectedDeliverDate(moment(approval.deliver_date));
+        }
+    }, []);
+
     const handleSubmit = (values, formik) => {
-        dispatch(consider({ id: approval.id, data: values }))
+        dispatch(consider({ id: approval.id, data: values }));
+
+        onSubmitted();
     };
 
     return (
@@ -46,6 +57,7 @@ const Consideration = ({ approval, requisition }) => {
                 consider_date: (approval && approval.consider_date) ? approval.consider_date : '',
                 notice_date: (approval && approval.notice_date) ? approval.notice_date : '',
                 supplier_id: (approval && approval.supplier_id) ? approval.supplier_id : '',
+                supplier: (approval && approval.supplier) ? approval.supplier : null,
                 deliver_date: (approval && approval.deliver_date) ? approval.deliver_date : '',
                 deliver_days: (approval && approval.deliver_days) ? approval.deliver_days : 0,
             }}
@@ -168,11 +180,17 @@ const Consideration = ({ approval, requisition }) => {
                                     <span className="text-red-500 text-sm">{formik.errors.deliver_days}</span>
                                 )}
                             </Col>
-                            <Col md={12} className="text-center">
-                                <button type="submit" className="btn btn-outline-primary btn-sm mt-3">
+                            <Col md={12} className="text-center mt-3">
+                                <button type="submit" className="btn btn-outline-primary btn-sm">
                                     <i className="fas fa-save mr-1"></i>
                                     บันทึก
                                 </button>
+                                {approval.consider_no && (
+                                    <button type="submit" className="btn btn-outline-danger btn-sm ml-2">
+                                        <i className="fas fa-times mr-1"></i>
+                                        ยกเลิก
+                                    </button>
+                                )}
                             </Col>
                         </Row>
                     </Form>
@@ -182,4 +200,4 @@ const Consideration = ({ approval, requisition }) => {
     )
 }
 
-export default Consideration
+export default ConsiderationForm

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { toast } from 'react-toastify'
+import { FaEdit } from "react-icons/fa";
 import { currency, toShortTHDate } from '../../../utils'
 import { getRequisition, updateApprovals } from '../../../features/slices/requisition/requisitionSlice'
 import { resetSuccess } from '../../../features/slices/approval/approvalSlice'
@@ -11,7 +12,8 @@ import ModalApprovalForm from '../Approval/Form'
 import Loading from '../../../components/Loading'
 import DropdownButton from '../../../components/FormControls/DropdownButton'
 import DropdownItem from '../../../components/FormControls/DropdownButton/DropdownItem'
-import Consideration from './Consideration'
+import ConsiderationForm from './Consideration/Form'
+import ConsiderationDetail from './Consideration/Detail'
 
 const RequisitionDetail = () => {
     const { id } = useParams();
@@ -19,6 +21,7 @@ const RequisitionDetail = () => {
     const { requisition, isLoading } = useSelector(state => state.requisition);
     const { approval, isSuccess } = useSelector(state => state.approval);
     const [showApprovalForm, setShowApprovalForm] = useState(false);
+    const [showConsiderForm, setShowConsiderForm] = useState(false);
 
     useEffect(() => {
         if (id) dispatch(getRequisition({ id }));
@@ -32,6 +35,14 @@ const RequisitionDetail = () => {
             dispatch(resetSuccess());
         }
     }, [isSuccess]);
+
+    
+    /** เซตโชว์ฟอร์มบันทึกรายงานผลการพิจารณา ถ้ายังไม่ได้บันทึกข้อมูลรายงานผลการพิจารณา */
+    useEffect(() => {
+        if (requisition) {
+            setShowConsiderForm(requisition.approvals.length > 0 && requisition.approvals[0].consider_no === '');
+        }
+    }, [requisition]);
 
     return (
         <div className="content-wrapper">
@@ -231,12 +242,27 @@ const RequisitionDetail = () => {
                                 <Row>
                                     <Col>
                                         <div className="border w-full py-2 px-3 rounded-md">
-                                            <h3 className="font-bold text-lg mb-1">รายงานผลการพิจารณา</h3>
-                                            
-                                            <Consideration
-                                                approval={requisition.approvals[0]}
-                                                requisition={requisition}
-                                            />
+                                            <div className="flex flex-row justify-between items-center">
+                                                <h3 className="font-bold text-lg mb-1">รายงานผลการพิจารณา</h3>
+                                                {!showConsiderForm && (
+                                                    <button type="button" className="btn btn-light">
+                                                        <FaEdit className="text-warning" onClick={() => setShowConsiderForm(true)} />
+                                                    </button>
+                                                )}
+                                                
+                                                {requisition.approvals[0].consider_no !== '' &&<span class="badge rounded-pill bg-warning text-dark">แก้ไขรายงาน</span>}
+                                            </div>
+
+                                            {!showConsiderForm
+                                                ? (
+                                                    <ConsiderationDetail approval={requisition.approvals[0]} />
+                                                ) : (
+                                                    <ConsiderationForm
+                                                        approval={requisition.approvals[0].consider_no !== '' ? null : requisition.approvals[0]}
+                                                        requisition={requisition}
+                                                        onSubmitted={() => setShowConsiderForm(false)}
+                                                    />
+                                                )}
                                         </div>
                                     </Col>
                                 </Row>
