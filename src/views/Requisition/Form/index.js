@@ -179,7 +179,6 @@ const RequisitionForm = ({ requisition }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik.values.items);
                 return (
                     <Form>
                         {isLoading && <div className="text-center"><Loading /></div>}

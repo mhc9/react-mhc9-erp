@@ -74,6 +74,7 @@ const AddItem = ({ item, filteredCategory, onAddItem, onUpdateItem, onCancel }) 
         <Formik
             enableReinitialize
             initialValues={{
+                ...data,
                 id: data ? data.id : '',
                 item_id: data ? data.item_id : '',
                 item: data ? data.item : null,
