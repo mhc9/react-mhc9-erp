@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency } from '../../../utils'
 
@@ -18,30 +18,34 @@ const ItemList = ({ items, showButtons=true, onEditItem, onRemoveItem }) => {
             </thead>
             <tbody>
                 {items && items.map((data, index) => (
-                    <tr key={data.id} className="font-thin">
-                        <td className="text-center">{index+1}</td>
-                        <td>
-                            <p className="text-gray-500 font-thin">{data.item?.category?.name}</p>
-                            <p className="text-sm">{data.item?.name}</p>
-                            {data.description && (
-                                <p className="text-xs text-gray-400 font-thin">{data.description}</p>
-                            )}
-                        </td>
-                        <td className="text-center">{currency.format(data.price)}</td>
-                        <td className="text-center">{currency.format(data.amount)}</td>
-                        <td className="text-center">{data.unit?.name}</td>
-                        <td className="text-right">{currency.format(data.total)}</td>
-                        {showButtons && (
-                            <td className="text-center">
-                                <button type="button" className="btn btn-outline-warning btn-sm px-1 mr-1" onClick={() => onEditItem(data)}>
-                                    <FaPencilAlt />
-                                </button>
-                                <button type="button" className="btn btn-outline-danger btn-sm px-1" onClick={() => onRemoveItem(data.item?.id)}>
-                                    <FaTrash />
-                                </button>
-                            </td>
+                    <Fragment key={data.id}>
+                        {!data.removed && (
+                            <tr className="font-thin">
+                                <td className="text-center">{index+1}</td>
+                                <td>
+                                    <p className="text-gray-500 font-thin">{data.item?.category?.name}</p>
+                                    <p className="text-sm">{data.item?.name}</p>
+                                    {data.description && (
+                                        <p className="text-xs text-gray-400 font-thin">{data.description}</p>
+                                    )}
+                                </td>
+                                <td className="text-center">{currency.format(data.price)}</td>
+                                <td className="text-center">{currency.format(data.amount)}</td>
+                                <td className="text-center">{data.unit?.name}</td>
+                                <td className="text-right">{currency.format(data.total)}</td>
+                                {showButtons && (
+                                    <td className="text-center">
+                                        <button type="button" className="btn btn-outline-warning btn-sm px-1 mr-1" onClick={() => onEditItem(data)}>
+                                            <FaPencilAlt />
+                                        </button>
+                                        <button type="button" className="btn btn-outline-danger btn-sm px-1" onClick={() => onRemoveItem(data.id)}>
+                                            <FaTrash />
+                                        </button>
+                                    </td>
+                                )}
+                            </tr>
                         )}
-                    </tr>
+                    </Fragment>
                 ))}
             </tbody>
         </table>

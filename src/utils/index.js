@@ -153,3 +153,17 @@ export const sortObjectByDate = (a, b, type='ASC') => {
     }
     return 
 }
+
+export const removeItemWithFlag = (items, id, isNew) => {
+    console.log(items, id, isNew);
+    if (isNew) {
+        return items.filter(item => item.id !== id);
+    } else {
+        /** Create new items array by setting removed flag if item is removed by user */
+        return items.map(item => {
+            if (item.id === id) return { ...item, removed: true };
+
+            return item;
+        });
+    }
+};

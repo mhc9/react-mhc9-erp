@@ -7,7 +7,13 @@ import { FaSearch } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers'
 import { toast } from 'react-toastify'
 import moment from 'moment'
-import { calculateNetTotal, currency, getFormDataItem, isExisted } from '../../../utils'
+import {
+    calculateNetTotal,
+    currency,
+    getFormDataItem,
+    isExisted,
+    removeItemWithFlag
+} from '../../../utils'
 import { useGetInitialFormDataQuery } from '../../../features/services/requisition/requisitionApi'
 import { store, update } from '../../../features/slices/requisition/requisitionSlice'
 import AddItem from './AddItem'
@@ -89,9 +95,15 @@ const RequisitionForm = ({ requisition }) => {
         setEdittingItem(data);
     };
 
+    /**
+     * 
+     * @param formik as Formik
+     * @param id as int
+     * @param data as data (loan_detail table)
+     */
     const handleUpdateItem = (formik, id, data) => {
         const updatedItems = formik.values.items.map(item => {
-            if (item.item_id === id) return { ...data };
+            if (item.item_id === id) return { ...data, updated: true };
 
             return item;
         });
@@ -102,12 +114,20 @@ const RequisitionForm = ({ requisition }) => {
         formik.setFieldValue('net_total', currency.format(calculateNetTotal(updatedItems)));
     };
 
-    const handleRemoveItem = (formik, id) => {
-        const newItems = formik.values.items.filter(item => item.item_id !== id);
+    /**
+     * 
+     * @param formik Formik
+     * @param id int
+     * @param isNewItem bool
+     */
+    const handleRemoveItem = (formik, id, isNewItem = false) => {
+        const newItems = removeItemWithFlag(formik.values.items, id, isNewItem);
+        const itemTotal = calculateNetTotal(newItems.filter(item => item.expense_group === 1), (isRemoved) => isRemoved);
+
 
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_count', newItems.length);
-        formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems)));
+        formik.setFieldValue('net_total', itemTotal);
     };
 
     const handleUpdateCommittees = (formik, committees) => {
@@ -159,6 +179,7 @@ const RequisitionForm = ({ requisition }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.values.items);
                 return (
                     <Form>
                         {isLoading && <div className="text-center"><Loading /></div>}
