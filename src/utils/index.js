@@ -155,7 +155,6 @@ export const sortObjectByDate = (a, b, type='ASC') => {
 }
 
 export const removeItemWithFlag = (items, id, isNew) => {
-    console.log(items, id, isNew);
     if (isNew) {
         return items.filter(item => item.id !== id);
     } else {

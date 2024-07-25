@@ -38,8 +38,8 @@ const requisitionSchema = Yup.object().shape({
     requester_id: Yup.string().required('กรุณาเลือกผู้ขอ/เจ้าของโครงการ'),
     division_id: Yup.string().required('กรุณาเลือกหน่วยงาน'),
     reason: Yup.string().required('กรุณาระบุเหตุผลที่ขอ'),
-    items: Yup.mixed().test('Items Count', 'ไม่พบการระบุรายการสินค้า', val => val.length > 0),
-    committees: Yup.mixed().test('Committees Count', 'ไม่พบการระบุผู้ตรวจรับ', val => val.length > 0),
+    items: Yup.mixed().test('Items Count', 'ไม่พบการระบุรายการสินค้า', val => val.filter(item => !item.removed).length > 0),
+    committees: Yup.mixed().test('Committees Count', 'ไม่พบการระบุผู้ตรวจรับ', val => val.filter(comm => !comm.removed).length > 0),
 });
 
 const initialFormData = {
@@ -132,6 +132,7 @@ const RequisitionForm = ({ requisition }) => {
 
     const handleUpdateCommittees = (formik, committees) => {
         formik.setFieldValue('committees', committees);
+        console.log(committees);
     };
 
     const handleSubmit = (values, formik) => {
