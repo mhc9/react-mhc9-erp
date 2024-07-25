@@ -50,11 +50,9 @@ export const update = createAsyncThunk("requisition/update", async ({ id, data }
     }
 });
 
-export const destroy = createAsyncThunk("requisition/destroy", async ({ id }, { dispatch, rejectWithValue }) => {
+export const destroy = createAsyncThunk("requisition/destroy", async (id, { dispatch, rejectWithValue }) => {
     try {
         const res = await api.post(`/api/requisitions/${id}/delete`);
-
-        dispatch(getRequisitions({ url: '/api/requisitions' }));
 
         return res.data;
     } catch (error) {

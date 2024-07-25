@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { getRequisitions } from '../../../features/slices/requisition/requisitionSlice'
+import { getRequisitions, destroy } from '../../../features/slices/requisition/requisitionSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import DetailList from './DetailList'
 import Loading from '../../../components/Loading'
@@ -39,7 +39,9 @@ const RequisitionList = () => {
     };
 
     const handleDelete = (id) => {
-        console.log(id);
+        if (window.confirm(`คุณต้องการลบรายการคำขอรหัส ${id} ใช่หรือไม่?`)) {
+            dispatch(destroy(id));
+        }
     };
 
     return (
