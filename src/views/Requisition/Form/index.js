@@ -4,10 +4,10 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, Row } from 'react-bootstrap'
 import { FaSearch } from 'react-icons/fa'
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import { DatePicker } from '@material-ui/pickers'
+import { toast } from 'react-toastify'
 import moment from 'moment'
-import { calculateNetTotal, currency, getFormDataItem } from '../../../utils'
-import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
+import { calculateNetTotal, currency, getFormDataItem, isExisted } from '../../../utils'
 import { useGetInitialFormDataQuery } from '../../../features/services/requisition/requisitionApi'
 import { store } from '../../../features/slices/requisition/requisitionSlice'
 import AddItem from './AddItem'
@@ -47,7 +47,7 @@ const RequisitionForm = ({ requisition }) => {
     const dispatch = useDispatch();
     const [budget, setBudget] = useState(null);
     const [requester, setRequester] = useState(null);
-    const [edittedItem, setEdittedItem] = useState(null);
+    const [edittingItem, setEdittingItem] = useState(null);
     const [selectedDate, setSelectedDate] = useState(moment());
     const [selectedYear, setSelectedYear] = useState(moment());
     const [filteredTypes, setFilteredTypes] = useState([]);
@@ -73,6 +73,11 @@ const RequisitionForm = ({ requisition }) => {
     }, [requisition]);
 
     const handleAddItem = (formik, item) => {
+        if (isExisted(formik.values.items, item.item_id)) {
+            toast.error("ไม่สามารถเลือกรายการซ้ำได้!!");
+            return;
+        }
+
         const newItems = [...formik.values.items, item];
 
         formik.setFieldValue('items', newItems);
@@ -81,7 +86,7 @@ const RequisitionForm = ({ requisition }) => {
     };
 
     const handleEditItem = (data) => {
-        setEdittedItem(data);
+        setEdittingItem(data);
     };
 
     const handleUpdateItem = (formik, id, data) => {
@@ -91,7 +96,7 @@ const RequisitionForm = ({ requisition }) => {
             return item;
         });
 
-        setEdittedItem(null);
+        setEdittingItem(null);
         formik.setFieldValue('items', updatedItems);
         formik.setFieldValue('item_count', updatedItems.length);
         formik.setFieldValue('net_total', currency.format(calculateNetTotal(updatedItems)));
@@ -204,13 +209,6 @@ const RequisitionForm = ({ requisition }) => {
                                                 }}
                                                 variant="outlined"
                                             />
-                                            {/* <input
-                                                type="text"
-                                                name="pr_date"
-                                                value={formik.values.pr_date}
-                                                onChange={formik.handleChange}
-                                                className="form-control text-sm"
-                                            /> */}
                                         </div>
                                         {(formik.errors.pr_date && formik.touched.pr_date) && (
                                             <span className="text-red-500 text-sm">{formik.errors.pr_date}</span>
@@ -426,10 +424,11 @@ const RequisitionForm = ({ requisition }) => {
                                         <div className="flex flex-col border p-2 rounded-md">
                                             <h1 className="font-bold text-lg mb-1">รายการสินค้า/บริการ</h1>
                                             <AddItem
-                                                data={edittedItem}
+                                                item={edittingItem}
                                                 filteredCategory={formik.values.category_id}
                                                 onAddItem={(item) => handleAddItem(formik, item)}
                                                 onUpdateItem={(id, item) => handleUpdateItem(formik, id, item)}
+                                                onCancel={() => setEdittingItem(null)}
                                             />
                                             <ItemList
                                                 items={formik.values.items}

@@ -29,7 +29,7 @@ const ItemList = ({ items, showButtons=true, onEditItem, onRemoveItem }) => {
                         </td>
                         <td className="text-center">{currency.format(data.price)}</td>
                         <td className="text-center">{currency.format(data.amount)}</td>
-                        <td className="text-center">{data.item.unit?.name}</td>
+                        <td className="text-center">{data.unit?.name}</td>
                         <td className="text-right">{currency.format(data.total)}</td>
                         {showButtons && (
                             <td className="text-center">
