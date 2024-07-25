@@ -12,7 +12,7 @@ const Committee = ({ defaultValue, onUpdate }) => {
     }, [defaultValue]);
 
     const handleSelect = (employee) => {
-        if (committees.find(committee => committee.employee_id === employee.id)) {
+        if (committees.filter(comm => !comm.removed).find(committee => committee.employee_id === employee.id)) {
             window.alert('คุณเลือกรายการซ้ำ กรณาเลือกใหม่!!');
             return;
         }
@@ -39,7 +39,7 @@ const Committee = ({ defaultValue, onUpdate }) => {
 
             <h3 className="font-bold text-lg mb-1">ผู้ตรวจรับ</h3>
             <ul className="flex flex-col text-sm ml-2">
-                {committees.length > 0
+                {(committees.filter(comm => !comm.removed).length > 0)
                     ? committees.map((committee, index) => (
                         <Fragment key={committee.id}>
                             {!committee.removed && (
