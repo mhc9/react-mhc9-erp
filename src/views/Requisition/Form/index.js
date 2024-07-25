@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 import moment from 'moment'
 import { calculateNetTotal, currency, getFormDataItem, isExisted } from '../../../utils'
 import { useGetInitialFormDataQuery } from '../../../features/services/requisition/requisitionApi'
-import { store } from '../../../features/slices/requisition/requisitionSlice'
+import { store, update } from '../../../features/slices/requisition/requisitionSlice'
 import AddItem from './AddItem'
 import ItemList from './ItemList'
 import Committee from './Committee'
@@ -115,7 +115,11 @@ const RequisitionForm = ({ requisition }) => {
     };
 
     const handleSubmit = (values, formik) => {
-        dispatch(store(values));
+        if (requisition) {
+            dispatch(update({ id: requisition.id, data: values }));
+        } else {
+            dispatch(store(values));
+        }
 
         formik.resetForm();
 
@@ -472,8 +476,8 @@ const RequisitionForm = ({ requisition }) => {
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <button type="submit" className="btn btn-outline-primary float-right">
-                                            บันทึก
+                                        <button type="submit" className={`btn ${requisition ? 'btn-outline-secondary' : 'btn-outline-primary'} float-right`}>
+                                            {requisition ? 'บันทึกการแก้ไข' : 'บันทึก'}
                                         </button>
                                     </Col>
                                 </Row>
