@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { getRequisitions, destroy } from '../../../features/slices/requisition/requisitionSlice'
+import { toast } from 'react-toastify'
+import { getRequisitions, destroy, resetDeleted } from '../../../features/slices/requisition/requisitionSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import DetailList from './DetailList'
 import Loading from '../../../components/Loading'
@@ -20,9 +21,19 @@ const initialFilters = {
 
 const RequisitionList = () => {
     const dispatch = useDispatch();
-    const { requisitions, pager, isLoading } = useSelector(state => state.requisition);
+    const { requisitions, pager, isLoading, isDeleted } = useSelector(state => state.requisition);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
+
+    useEffect(() => {
+        if (isDeleted) {
+            dispatch(resetDeleted());
+
+            toast.success('ลบข้อมูลคำขอสำเร็จ!!');
+
+            setApiEndpoint(prev => prev === '' ? `/api/requisitions/search?page=` : '');
+        }
+    }, [isDeleted]);
 
     useEffect(() => {
         if (apiEndpoint === '') {
