@@ -7,6 +7,7 @@ const initialState = {
     pager: null,
     isLoading: false,
     isSuccess: false,
+    isDeleted: false,
     error: null
 };
 
@@ -66,6 +67,9 @@ export const requisitionSlice = createSlice({
     reducers: {
         resetSuccess: (state) => {
             state.isSuccess = false;
+        },
+        resetDeleted: (state) => {
+            state.isDeleted = false;
         },
         updateApprovals: (state, { payload }) => {
             const updatedRequisition = { ...state.requisition, approvals: [payload] };
@@ -135,15 +139,19 @@ export const requisitionSlice = createSlice({
             state.error = payload;
         },
         [destroy.pending]: (state) => {
-            state.isSuccess = false;
+            state.isDeleted = false;
             state.error = null;
         },
         [destroy.fulfilled]: (state, { payload }) => {
-            console.log(payload);
-            state.isSuccess = true;
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isDeleted = true;
+            } else {
+                state.error = { message };
+            }
         },
         [destroy.rejected]: (state, { payload }) => {
-            console.log(payload);
             state.error = payload;
         },
     }
@@ -151,4 +159,4 @@ export const requisitionSlice = createSlice({
 
 export default requisitionSlice.reducer;
 
-export const { resetSuccess, updateApprovals } = requisitionSlice.actions;
+export const { resetSuccess, resetDeleted, updateApprovals } = requisitionSlice.actions;
