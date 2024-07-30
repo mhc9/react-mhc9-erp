@@ -26,7 +26,8 @@ const ConsiderationDetail = ({ approval }) => {
             <Col md={12} className="mt-2">
                 <label htmlFor="">ผู้ขาย/ผู้จัดจำหน่าย</label>
                 <div className="text-sm font-thin">
-                    {approval.supplier?.name}
+                    <span>{approval.supplier?.name}</span>
+                    <span className="ml-2"><b>เลขประจำตัวผู้เสียภาษี</b> <span className=" text-blue-600">{approval.supplier?.tax_no}</span></span>
                 </div>
             </Col>
             {/* <Col md={3} className="mt-2">
