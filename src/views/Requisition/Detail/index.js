@@ -39,8 +39,8 @@ const RequisitionDetail = () => {
     
     /** เซตโชว์ฟอร์มบันทึกรายงานผลการพิจารณา ถ้ายังไม่ได้บันทึกข้อมูลรายงานผลการพิจารณา */
     useEffect(() => {
-        if (requisition) {
-            setShowConsiderForm(requisition.approvals.length > 0 && requisition.approvals[0].consider_no === '');
+        if (requisition && requisition.approvals.length > 0) {
+            setShowConsiderForm((requisition.approvals[0].consider_no === null || requisition.approvals[0].consider_no === ''));
         }
     }, [requisition]);
 
@@ -250,7 +250,9 @@ const RequisitionDetail = () => {
                                                     </button>
                                                 )}
                                                 
-                                                {(showConsiderForm && requisition.approvals[0].consider_no !== '') &&<span class="badge rounded-pill bg-warning text-dark">แก้ไขรายงาน</span>}
+                                                {(showConsiderForm && (requisition.approvals[0].consider_no && requisition.approvals[0].consider_no !== '')) && (
+                                                    <span class="badge rounded-pill bg-warning text-dark">แก้ไขรายงาน</span>
+                                                )}
                                             </div>
 
                                             {!showConsiderForm
@@ -258,7 +260,7 @@ const RequisitionDetail = () => {
                                                     <ConsiderationDetail approval={requisition.approvals[0]} />
                                                 ) : (
                                                     <ConsiderationForm
-                                                        approval={requisition.approvals[0].consider_no !== '' ? null : requisition.approvals[0]}
+                                                        approval={(requisition.approvals[0].consider_no && requisition.approvals[0].consider_no !== '') ? requisition.approvals[0] : null}
                                                         requisition={requisition}
                                                         onSubmitted={() => setShowConsiderForm(false)}
                                                     />

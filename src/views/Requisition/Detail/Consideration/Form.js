@@ -185,7 +185,7 @@ const ConsiderationForm = ({ approval, requisition, onSubmitted }) => {
                                     <i className="fas fa-save mr-1"></i>
                                     บันทึก
                                 </button>
-                                {approval.consider_no && (
+                                {approval?.consider_no && (
                                     <button type="submit" className="btn btn-outline-danger btn-sm ml-2">
                                         <i className="fas fa-times mr-1"></i>
                                         ยกเลิก
