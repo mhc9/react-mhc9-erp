@@ -26,7 +26,7 @@ const approvalSchema = Yup.object().shape({
     //         return moment(val).toDate() > moment(this.parent.notice_date).toDate()
     //     },
     // }).required('กรุณาเลือกวันที่ส่งมอบ'),
-    deliver_days: Yup.number().min(1, "ส่งมอบภายในต้องมากกว่า 0 (วัน)").required('กรุณาระบุเลขที่รายงาน'),
+    // deliver_days: Yup.number().min(1, "ส่งมอบภายในต้องมากกว่า 0 (วัน)").required('กรุณาระบุเลขที่รายงาน'),
 });
 
 const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
@@ -87,6 +87,33 @@ const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
                                         {(formik.errors.procuring_id && formik.touched.procuring_id) && (
                                             <span className="text-red-500 text-sm">{formik.errors.procuring_id}</span>
                                         )}
+                                    </Col>
+                                    <Col className="mt-2">
+                                        <div className="flex flex-col">
+                                            <label htmlFor="">วันที่ส่งมอบ</label>
+                                            <DatePicker
+                                                variant="outlined"
+                                                format="DD/MM/YYYY"
+                                                value={selectedDeliverDate}
+                                                onChange={(date) => {
+                                                    setSelectedDeliverDate(date);
+                                                    formik.setFieldValue('deliver_date', date.format('YYYY-MM-DD'));
+                                                    setTimeout(() => formik.setFieldTouched('deliver_date', true), 300);
+
+                                                    /** คำนวณวันกำหนดส่งมอบภายใน (วัน) */
+                                                    // if (moment(date).toDate() <= moment(formik.values.notice_date).toDate()) {
+                                                    //     toast.error('วันที่ส่งมอบต้องหลังวันที่ประกาศผู้ชนะได้!!');
+
+                                                    //     formik.setFieldValue('deliver_days', 0);
+                                                    // } else {
+                                                    //     formik.setFieldValue('deliver_days', moment(date).diff(moment(formik.values.notice_date), "day"));
+                                                    // }
+                                                }}
+                                            />
+                                            {(formik.errors.deliver_date && formik.touched.deliver_date) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.deliver_date}</span>
+                                            )}
+                                        </div>
                                     </Col>
                                 </Row>
                                 <Row className="mb-2">
@@ -151,34 +178,7 @@ const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
                                         </div>
                                     </Col>
                                 </Row>
-                                <Row className="mb-2">
-                                    <Col className="mt-2">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="">วันที่ส่งมอบ</label>
-                                            <DatePicker
-                                                variant="outlined"
-                                                format="DD/MM/YYYY"
-                                                value={selectedDeliverDate}
-                                                onChange={(date) => {
-                                                    setSelectedDeliverDate(date);
-                                                    formik.setFieldValue('deliver_date', date.format('YYYY-MM-DD'));
-                                                    setTimeout(() => formik.setFieldTouched('deliver_date', true), 300);
-
-                                                    /** คำนวณวันกำหนดส่งมอบภายใน (วัน) */
-                                                    // if (moment(date).toDate() <= moment(formik.values.notice_date).toDate()) {
-                                                    //     toast.error('วันที่ส่งมอบต้องหลังวันที่ประกาศผู้ชนะได้!!');
-
-                                                    //     formik.setFieldValue('deliver_days', 0);
-                                                    // } else {
-                                                    //     formik.setFieldValue('deliver_days', moment(date).diff(moment(formik.values.notice_date), "day"));
-                                                    // }
-                                                }}
-                                            />
-                                            {(formik.errors.deliver_date && formik.touched.deliver_date) && (
-                                                <span className="text-red-500 text-sm">{formik.errors.deliver_date}</span>
-                                            )}
-                                        </div>
-                                    </Col>
+                                {/* <Row className="mb-2">
                                     <Col className="mt-2">
                                         <label htmlFor="">ส่งมอบภายใน</label>
                                         <div className="form-control min-h-[34px] text-sm text-center bg-gray-100">
@@ -188,7 +188,7 @@ const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
                                             <span className="text-red-500 text-sm">{formik.errors.deliver_days}</span>
                                         )}
                                     </Col>
-                                </Row>
+                                </Row> */}
                             </Modal.Body>
                             <Modal.Footer className="py-1">
                                 <button type="submit" className="btn btn-outline-primary btn-sm">
