@@ -23,13 +23,13 @@ const ConsiderationDetail = ({ approval }) => {
                     {toShortTHDate(approval.notice_date)}
                 </div>
             </Col>
-            <Col md={5} className="mt-2">
+            <Col md={12} className="mt-2">
                 <label htmlFor="">ผู้ขาย/ผู้จัดจำหน่าย</label>
                 <div className="text-sm font-thin">
                     {approval.supplier?.name}
                 </div>
             </Col>
-            <Col md={3} className="mt-2">
+            {/* <Col md={3} className="mt-2">
                 <label htmlFor="">วันที่ส่งมอบ</label>
                 <div className="text-sm font-thin">
                     {toShortTHDate(approval.deliver_date)}
@@ -40,7 +40,7 @@ const ConsiderationDetail = ({ approval }) => {
                 <div className="text-sm font-thin">
                     {approval.deliver_days} วัน
                 </div>
-            </Col>
+            </Col> */}
         </Row>
     )
 }

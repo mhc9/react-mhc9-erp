@@ -14,16 +14,7 @@ const approvalSchema = Yup.object().shape({
     consider_no: Yup.string().required('กรุณาระบุเลขที่รายงาน'),
     consider_date: Yup.string().required('กรุณาเลือกวันที่รายงาน'),
     notice_date: Yup.string().required('กรุณาเลือกวันที่ประกาศผู้ชน'),
-    supplier_id: Yup.string().required('กรุณาเลือกผู้ขาย/ผู้จัดจำหน่าย'),
-    deliver_date: Yup.mixed().test({
-        name: 'cannotLessThanNoticeDate',
-        exclusive: true,
-        message: 'ไม่สามารถกำหนดวันที่ส่งมอบก่อนวันที่ประกาศผู้ชนะได้',
-        test: function (val) {
-            return moment(val).toDate() > moment(this.parent.notice_date).toDate()
-        },
-    }).required('กรุณาเลือกวันที่ส่งมอบ'),
-    deliver_days: Yup.number().min(1, "ส่งมอบภายในต้องมากกว่า 0 (วัน)").required('กรุณาระบุเลขที่รายงาน'),
+    supplier_id: Yup.string().required('กรุณาเลือกผู้ขาย/ผู้จัดจำหน่าย')
 });
 
 const ConsiderationForm = ({ approval, requisition, onSubmitted }) => {
@@ -32,14 +23,12 @@ const ConsiderationForm = ({ approval, requisition, onSubmitted }) => {
     const [selectedSupplier, setSelectedSupplier] = useState(null);
     const [selectedConsiderDate, setSelectedConsiderDate] = useState(moment());
     const [selectedNoticeDate, setSelectedNoticeDate] = useState(moment());
-    const [selectedDeliverDate, setSelectedDeliverDate] = useState(moment());
 
     useEffect(() => {
         if (approval && approval.consider_no !== '') {
             setSelectedSupplier(approval.supplier);
             setSelectedConsiderDate(moment(approval.consider_date));
             setSelectedNoticeDate(moment(approval.notice_date));
-            setSelectedDeliverDate(moment(approval.deliver_date));
         }
     }, []);
 
@@ -124,7 +113,7 @@ const ConsiderationForm = ({ approval, requisition, onSubmitted }) => {
                                     <span className="text-red-500 text-sm">{formik.errors.notice_date}</span>
                                 )}
                             </Col>
-                            <Col md={5} className="mt-2">
+                            <Col md={11} className="mt-2">
                                 <label htmlFor="">ผู้ขาย/ผู้จัดจำหน่าย</label>
                                 <div className="input-group">
                                     <div className="min-h-[34px] form-control font-thin text-sm bg-gray-100">
@@ -142,42 +131,6 @@ const ConsiderationForm = ({ approval, requisition, onSubmitted }) => {
                                 </div>
                                 {(formik.errors.supplier_id && formik.touched.supplier_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.supplier_id}</span>
-                                )}
-                            </Col>
-                            <Col md={3} className="mt-2">
-                                <div className="flex flex-col">
-                                    <label htmlFor="">วันที่ส่งมอบ</label>
-                                    <DatePicker
-                                        variant="outlined"
-                                        format="DD/MM/YYYY"
-                                        value={selectedDeliverDate}
-                                        onChange={(date) => {
-                                            setSelectedDeliverDate(date);
-                                            formik.setFieldValue('deliver_date', date.format('YYYY-MM-DD'));
-                                            setTimeout(() => formik.setFieldTouched('deliver_date', true), 300);
-
-                                            /** คำนวณวันกำหนดส่งมอบภายใน (วัน) */
-                                            if (moment(date).toDate() <= moment(formik.values.notice_date).toDate()) {
-                                                toast.error('วันที่ส่งมอบต้องหลังวันที่ประกาศผู้ชนะได้!!');
-
-                                                formik.setFieldValue('deliver_days', 0);
-                                            } else {
-                                                formik.setFieldValue('deliver_days', moment(date).diff(moment(formik.values.notice_date), "day"));
-                                            }
-                                        }}
-                                    />
-                                    {(formik.errors.deliver_date && formik.touched.deliver_date) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.deliver_date}</span>
-                                    )}
-                                </div>
-                            </Col>
-                            <Col md={3} className="mt-2">
-                                <label htmlFor="">ส่งมอบภายใน</label>
-                                <div className="form-control min-h-[34px] text-sm text-center bg-gray-100">
-                                    {formik.values.deliver_days} วัน
-                                </div>
-                                {(formik.errors.deliver_days && formik.touched.deliver_days) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.deliver_days}</span>
                                 )}
                             </Col>
                             <Col md={12} className="text-center mt-3">
