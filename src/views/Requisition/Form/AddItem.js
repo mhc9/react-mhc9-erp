@@ -55,7 +55,7 @@ const AddItem = ({ item, filteredCategory, onAddItem, onUpdateItem, onCancel }) 
     };
 
     const handleCalculateTotal = (formik, price, amount) => {
-        formik.setFieldValue('total', calculateTotal(price, amount));
+        formik.setFieldValue('total', calculateTotal(price, amount).toFixed(2));
         formik.setFieldTouched('total', true);
     };
 
