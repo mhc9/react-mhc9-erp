@@ -33,7 +33,10 @@ const ConsiderationForm = ({ approval, requisition, onSubmitted }) => {
     }, []);
 
     const handleSubmit = (values, formik) => {
-        dispatch(consider({ id: approval.id, data: values }));
+        dispatch(consider({
+            id: approval ? approval.id : requisition.approvals[0].id,
+            data: values
+        }));
 
         onSubmitted();
     };
@@ -47,8 +50,6 @@ const ConsiderationForm = ({ approval, requisition, onSubmitted }) => {
                 notice_date: (approval && approval.notice_date) ? approval.notice_date : '',
                 supplier_id: (approval && approval.supplier_id) ? approval.supplier_id : '',
                 supplier: (approval && approval.supplier) ? approval.supplier : null,
-                deliver_date: (approval && approval.deliver_date) ? approval.deliver_date : '',
-                deliver_days: (approval && approval.deliver_days) ? approval.deliver_days : 0,
             }}
             validationSchema={approvalSchema}
             onSubmit={handleSubmit}
@@ -62,6 +63,7 @@ const ConsiderationForm = ({ approval, requisition, onSubmitted }) => {
                             onSelect={(supplier) => {
                                 setSelectedSupplier(supplier);
                                 formik.setFieldValue('supplier_id', supplier.id);
+                                formik.setFieldValue('supplier', supplier);
                             }}
                         />
 
@@ -139,7 +141,7 @@ const ConsiderationForm = ({ approval, requisition, onSubmitted }) => {
                                     บันทึก
                                 </button>
                                 {approval?.consider_no && (
-                                    <button type="submit" className="btn btn-outline-danger btn-sm ml-2">
+                                    <button type="button" className="btn btn-outline-danger btn-sm ml-2">
                                         <i className="fas fa-times mr-1"></i>
                                         ยกเลิก
                                     </button>
