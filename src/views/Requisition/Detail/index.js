@@ -8,7 +8,7 @@ import { currency, toShortTHDate } from '../../../utils'
 import { getRequisition, updateApprovals } from '../../../features/slices/requisition/requisitionSlice'
 import { resetSuccess } from '../../../features/slices/approval/approvalSlice'
 import ItemList from '../Form/ItemList'
-import ModalApprovalForm from '../Approval/Form'
+import ModalApprovalForm from './Approval/Form'
 import Loading from '../../../components/Loading'
 import DropdownButton from '../../../components/FormControls/DropdownButton'
 import DropdownItem from '../../../components/FormControls/DropdownButton/DropdownItem'
@@ -72,7 +72,8 @@ const RequisitionDetail = () => {
                             <ModalApprovalForm
                                 isShow={showApprovalForm}
                                 onHide={() => setShowApprovalForm(false)}
-                                requisitionId={id}
+                                approval={(requisition.approvals && requisition.approvals.length > 0) ? requisition.approvals[0] : null}
+                                requisition={requisition}
                             />
 
                             <Row className="mb-2">
@@ -182,7 +183,7 @@ const RequisitionDetail = () => {
                                 <div className="border w-full py-2 px-3 mb-2 rounded-md relative">
                                     <div className="absolute top-1 right-1">
                                         <button type="button" className="btn btn-light float-right">
-                                            <FaEdit className="text-warning" onClick={() => setShowConsiderForm(true)} />
+                                            <FaEdit className="text-warning" onClick={() => setShowApprovalForm(true)} />
                                         </button>
                                     </div>
                                     <Row className="mb-2">

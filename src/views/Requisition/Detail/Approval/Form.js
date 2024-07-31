@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Col, Modal, Row } from 'react-bootstrap';
@@ -7,8 +7,8 @@ import * as Yup from 'yup'
 import { DatePicker } from '@material-ui/pickers'
 import { toast } from 'react-toastify';
 import moment from 'moment';
-import { useGetInitialFormDataQuery } from '../../../features/services/approval/approvalApi'
-import { store } from '../../../features/slices/approval/approvalSlice'
+import { useGetInitialFormDataQuery } from '../../../../features/services/approval/approvalApi'
+import { store, update } from '../../../../features/slices/approval/approvalSlice'
 
 const approvalSchema = Yup.object().shape({
     procuring_id: Yup.string().required('กรุณาเลือกวิธีการจัดหา'),
@@ -29,15 +29,27 @@ const approvalSchema = Yup.object().shape({
     // deliver_days: Yup.number().min(1, "ส่งมอบภายในต้องมากกว่า 0 (วัน)").required('กรุณาระบุเลขที่รายงาน'),
 });
 
-const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
+const ModalApprovalForm = ({ isShow, onHide, approval, requisition }) => {
     const dispatch = useDispatch();
     const [selectedReportDate, setSelectedReportDate] = useState(moment());
     const [selectedDirectiveDate, setSelectedDirectiveDate] = useState(moment());
     const [selectedDeliverDate, setSelectedDeliverDate] = useState(moment());
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
+    useEffect(() => {
+        if (approval) {
+            setSelectedReportDate(moment(approval.report_date));
+            setSelectedDirectiveDate(moment(approval.directive_date));
+            setSelectedDeliverDate(moment(approval.deliver_date));
+        }
+    }, [approval]);
+
     const handleSubmit = (values, formik) => {
-        dispatch(store(values));
+        if (approval) {
+            dispatch(update({ id: approval.id, data: values }));
+        } else {
+            dispatch(store(values));
+        }
 
         formik.resetForm();
         onHide();
@@ -51,14 +63,14 @@ const ModalApprovalForm = ({ isShow, onHide, requisitionId }) => {
         >
             <Formik
                 initialValues={{
-                    requisition_id: requisitionId,
-                    procuring_id: '1',
-                    report_no: '',
-                    report_date: '',
-                    directive_no: '',
-                    directive_date: '',
-                    deliver_date: '',
-                    deliver_days: ''
+                    requisition_id: requisition.id,
+                    procuring_id: approval ? approval.procuring_id : '1',
+                    report_no: approval ? approval.report_no : '',
+                    report_date: approval ? approval.report_date : '',
+                    directive_no: approval ? approval.directive_no : '',
+                    directive_date: approval ? approval.directive_date : '',
+                    deliver_date: approval ? approval.deliver_date : '',
+                    deliver_days: (approval && approval.deliver_days) ? approval.deliver_days : ''
                 }}
                 validationSchema={approvalSchema}
                 onSubmit={handleSubmit}
