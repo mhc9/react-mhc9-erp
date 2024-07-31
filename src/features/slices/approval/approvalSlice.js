@@ -137,7 +137,15 @@ export const approvalSlice = createSlice({
             state.error = null;
         },
         [update.fulfilled]: (state, { payload }) => {
-            state.isSuccess = true;
+            const { status, message, approval } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.approval = approval;
+            } else {
+                state.isSuccess = false;
+                state.error = { message };
+            }
         },
         [update.rejected]: (state, { payload }) => {
             state.error = payload;
