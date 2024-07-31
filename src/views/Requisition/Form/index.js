@@ -79,7 +79,7 @@ const RequisitionForm = ({ requisition }) => {
     }, [requisition]);
 
     const handleAddItem = (formik, item) => {
-        if (isExisted(formik.values.items, item.item_id)) {
+        if (isExisted(formik.values.items.filter(item => !item.removed), item.item_id)) {
             toast.error("ไม่สามารถเลือกรายการซ้ำได้!!");
             return;
         }
@@ -88,7 +88,7 @@ const RequisitionForm = ({ requisition }) => {
 
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_count', newItems.length);
-        formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems)));
+        formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems, (isRemove) => isRemove)));
     };
 
     const handleEditItem = (data) => {
@@ -180,6 +180,7 @@ const RequisitionForm = ({ requisition }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.values.items);
                 return (
                     <Form>
                         {isLoading && <div className="text-center"><Loading /></div>}
@@ -456,7 +457,7 @@ const RequisitionForm = ({ requisition }) => {
                                                 onCancel={() => setEdittingItem(null)}
                                             />
                                             <ItemList
-                                                items={formik.values.items}
+                                                items={formik.values.items.filter(item => !item.removed)}
                                                 onEditItem={(data) => handleEditItem(data)}
                                                 onRemoveItem={(id) => handleRemoveItem(formik, id)}
                                             />

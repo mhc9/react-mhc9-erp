@@ -3,6 +3,7 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
 import { FaSearch } from 'react-icons/fa'
+import { v4 as uuid } from 'uuid'
 import { calculateTotal, getFormDataItem } from '../../../utils'
 import { useGetInitialFormDataQuery } from '../../../features/services/item/itemApi'
 import ModalItemList from '../../../components/Modals/ItemList'
@@ -40,7 +41,7 @@ const AddItem = ({ item, filteredCategory, onAddItem, onUpdateItem, onCancel }) 
     };
 
     const handleSelect = (formik, item) => {
-        if (!data || data.id === '') formik.setFieldValue('id', item?.id);
+        if (!data || data.id === '') formik.setFieldValue('id', uuid());
 
         formik.setFieldValue('item_id', item?.id);
         formik.setFieldValue('item', item);
