@@ -103,7 +103,7 @@ const RequisitionForm = ({ requisition }) => {
      */
     const handleUpdateItem = (formik, id, data) => {
         const updatedItems = formik.values.items.map(item => {
-            if (item.item_id === id) return { ...data, updated: true };
+            if (item.id === id) return { ...data, updated: true };
 
             return item;
         });

@@ -62,7 +62,7 @@ const AddItem = ({ item, defaultCategory, onAddItem, onUpdateItem, onCancel }) =
 
     const handleSubmit = (values, formik) => {
         if (item) {
-            onUpdateItem(values.item_id, { ...values })
+            onUpdateItem(values.id, { ...values })
         } else {
             onAddItem({ ...values });
         }
