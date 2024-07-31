@@ -11,6 +11,7 @@ import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
 import RequisitionFilteringInputs from '../../../components/Requisition/FilteringInputs'
 import EmployeeCard from '../../../components/Employee/Card'
+import StatusBadge from '../StatusBadge'
 
 const initialFilters = {
     pr_no: '',
@@ -113,17 +114,8 @@ const RequisitionList = () => {
 
                                         <DetailList items={requisition.details} />
                                     </td>
-                                    <td className="text-sm">
-                                        <EmployeeCard employee={requisition.requester} />
-                                    </td>
-                                    <td className="text-center">
-                                        {requisition.status === 1 && <span className="badge rounded-pill text-bg-secondary">รอดำเนินการ</span>}
-                                        {requisition.status === 2 && <span className="badge rounded-pill text-bg-primary">แต่งตั้ง ผตร.</span>}
-                                        {requisition.status === 3 && <span className="badge rounded-pill text-bg-info">ประกาศผู้ชนะ</span>}
-                                        {requisition.status === 4 && <span className="badge rounded-pill text-bg-danger">จัดซื้อแล้ว</span>}
-                                        {requisition.status === 5 && <span className="badge rounded-pill text-bg-success">ตรวจรับแล้ว</span>}
-                                        {requisition.status === 9 && <span className="badge rounded-pill text-bg-dark">ยกเลิก</span>}
-                                    </td>
+                                    <td className="text-sm"><EmployeeCard employee={requisition.requester} /></td>
+                                    <td className="text-center"><StatusBadge status={requisition.status} /></td>
                                     <td className="text-center p-1">
                                         <Link to={`/requisition/${requisition.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />

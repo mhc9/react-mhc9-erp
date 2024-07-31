@@ -14,6 +14,7 @@ import DropdownButton from '../../../components/FormControls/DropdownButton'
 import DropdownItem from '../../../components/FormControls/DropdownButton/DropdownItem'
 import ConsiderationForm from './Consideration/Form'
 import ConsiderationDetail from './Consideration/Detail'
+import StatusBadge from '../StatusBadge'
 
 const RequisitionDetail = () => {
     const { id } = useParams();
@@ -55,7 +56,13 @@ const RequisitionDetail = () => {
             </Breadcrumb>
         
             <div className="content">
-                <h2 className="text-xl">รายละเอียดคำขอ (ID #{id})</h2>
+                <div className="flex flex-row justify-between items-center">
+                    <h2 className="text-xl">รายละเอียดคำขอ (#{id})</h2>
+                    <div className="flex flex-row items-center">
+                        <span className="mr-2">สถานะ :</span>
+                        <StatusBadge status={requisition?.status} />
+                    </div>
+                </div>
 
                 <div className="my-2 border p-3 rounded-md">
                     {isLoading && <div className="text-center"><Loading /></div>}
