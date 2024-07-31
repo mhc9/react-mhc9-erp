@@ -56,9 +56,10 @@ import Unit from './views/Unit'
 /** Viewer */
 import WordViewer from './components/ReportViewer/WordViewer';
 /** Report */
-import Requisition from './components/Preview/Requisition';
-import RequisitionReport from './components/Preview/RequisitionReport';
-import RequisitionCommittee from './components/Preview/RequisitionCommittee';
+import RequisitionForm from './components/Preview/Requisition/Form';
+import RequisitionReport from './components/Preview/Requisition/Report';
+import RequisitionCommittee from './components/Preview/Requisition/Committee';
+import RequisitionConsideration from './components/Preview/Requisition/Consideration';
 import Inspection from './components/Preview/Inspection';
 import FormLoan from './components/Preview/FormLoan';
 import FormLoanContract from './components/Preview/FormLoanContract';
@@ -199,9 +200,10 @@ function App() {
             {/* Report Viewer */}
             <Route path="report-viewer" element={<GuardRoute><WordViewer /></GuardRoute>} />
             {/* Preview */}
-            <Route path="/preview/:id/requisition" element={<Requisition />} />
+            <Route path="/preview/:id/requisition" element={<RequisitionForm />} />
             <Route path="/preview/:id/requisition/report" element={<RequisitionReport />} />
             <Route path="/preview/:id/requisition/committee" element={<RequisitionCommittee />} />
+            <Route path="/preview/:id/requisition/consideration" element={<RequisitionConsideration />} />
             <Route path="/preview/:id/inspection" element={<Inspection />} />
             <Route path="/preview/:id/loan/form" element={<FormLoan />} />
             <Route path="/preview/:id/loan-contract/form" element={<FormLoanContract />} />

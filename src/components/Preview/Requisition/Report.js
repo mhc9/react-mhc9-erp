@@ -2,10 +2,10 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import moment from 'moment'
-import { getRequisition } from '../../features/slices/requisition/requisitionSlice'
-import { toLongTHDate, currency } from '../../utils'
-import { ThaiNumberToText } from '../../utils/currencyText'
-import './Preview.css'
+import { getRequisition } from '../../../features/slices/requisition/requisitionSlice'
+import { toLongTHDate, currency } from '../../../utils'
+import { ThaiNumberToText } from '../../../utils/currencyText'
+import '../Preview.css'
 
 const RequisitionReport = () => {
     const { id } = useParams();
