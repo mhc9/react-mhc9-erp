@@ -180,7 +180,6 @@ const RequisitionForm = ({ requisition }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik.values.items);
                 return (
                     <Form>
                         {isLoading && <div className="text-center"><Loading /></div>}
@@ -459,7 +458,7 @@ const RequisitionForm = ({ requisition }) => {
                                             <ItemList
                                                 items={formik.values.items.filter(item => !item.removed)}
                                                 onEditItem={(data) => handleEditItem(data)}
-                                                onRemoveItem={(id) => handleRemoveItem(formik, id)}
+                                                onRemoveItem={(id, isNewItem = false) => handleRemoveItem(formik, id, isNewItem)}
                                             />
 
                                             <div className="flex flex-row justify-end items-center">
