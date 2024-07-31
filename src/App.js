@@ -60,6 +60,7 @@ import RequisitionForm from './components/Preview/Requisition/Form';
 import RequisitionReport from './components/Preview/Requisition/Report';
 import RequisitionCommittee from './components/Preview/Requisition/Committee';
 import RequisitionConsideration from './components/Preview/Requisition/Consideration';
+import RequisitionNotice from './components/Preview/Requisition/Notice';
 import Inspection from './components/Preview/Inspection';
 import FormLoan from './components/Preview/FormLoan';
 import FormLoanContract from './components/Preview/FormLoanContract';
@@ -204,6 +205,7 @@ function App() {
             <Route path="/preview/:id/requisition/report" element={<RequisitionReport />} />
             <Route path="/preview/:id/requisition/committee" element={<RequisitionCommittee />} />
             <Route path="/preview/:id/requisition/consider" element={<RequisitionConsideration />} />
+            <Route path="/preview/:id/requisition/notice" element={<RequisitionNotice />} />
             <Route path="/preview/:id/inspection" element={<Inspection />} />
             <Route path="/preview/:id/loan/form" element={<FormLoan />} />
             <Route path="/preview/:id/loan-contract/form" element={<FormLoanContract />} />
