@@ -18,11 +18,7 @@ const initialFormData = {
 };
 
 const ModalItemList = ({ isShow, onHide, onSelect, defaultCategory }) => {
-    const initialFilters = { 
-        name: '',
-        category: defaultCategory || ''
-    };
-
+    const initialFilters = { name: '', category: defaultCategory || '' };
     const dispatch = useDispatch();
     const { items, pager, loading } = useSelector(state => state.item);
     const [isListMode, setIsListMode] = useState(false);
@@ -39,7 +35,8 @@ const ModalItemList = ({ isShow, onHide, onSelect, defaultCategory }) => {
     }, [apiEndpoint]);
 
     useEffect(() => {
-        setParams(generateQueryString({ name: '', category: defaultCategory }))
+        setParams(generateQueryString({ name: '', category: defaultCategory }));
+        setApiEndpoint(prev => prev === '' ? '/api/items/search?page=&limit=12' : '');
     }, [defaultCategory]);
 
     return (
