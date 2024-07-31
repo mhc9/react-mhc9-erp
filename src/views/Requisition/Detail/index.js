@@ -322,13 +322,13 @@ const RequisitionDetail = () => {
                                                     <>
                                                         <DropdownButton title="รายงานผลการพิจารณา" btnColor="primary" cssClass="mr-1">
                                                             <DropdownItem>
-                                                                <Link to={`/preview/${id}/requisition/report`} target="_blank" className="text-success">
+                                                                <Link to={`/preview/${id}/requisition/consider`} target="_blank" className="text-success">
                                                                     <i className="fas fa-print mr-1"></i>
                                                                     พิมพ์รายงานผลการพิจารณา
                                                                 </Link>
                                                             </DropdownItem>
                                                             <DropdownItem>
-                                                                <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/document`} target="_blank" className="text-primary">
+                                                                <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/consider`} target="_blank" className="text-primary">
                                                                     <i className="far fa-file-word mr-1"></i>
                                                                     ดาวน์โหลดรายงานผลการพิจารณา
                                                                 </a>
@@ -336,13 +336,13 @@ const RequisitionDetail = () => {
                                                         </DropdownButton>
                                                         <DropdownButton title="ประกาศผลผู้ชนะ" btnColor="primary" cssClass="mr-1">
                                                             <DropdownItem>
-                                                                <Link to={`/preview/${id}/requisition/committee`} target="_blank" className="text-success">
+                                                                <Link to={`/preview/${id}/requisition/notice`} target="_blank" className="text-success">
                                                                     <i className="fas fa-print mr-1"></i>
                                                                     พิมพ์ประกาศผลผู้ชนะ
                                                                 </Link>
                                                             </DropdownItem>
                                                             <DropdownItem>
-                                                                <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/document`} target="_blank" className="text-primary">
+                                                                <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/notice`} target="_blank" className="text-primary">
                                                                     <i className="far fa-file-word mr-1"></i>
                                                                     ดาวน์โหลดประกาศผลผู้ชนะ
                                                                 </a>

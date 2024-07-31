@@ -203,7 +203,7 @@ function App() {
             <Route path="/preview/:id/requisition" element={<RequisitionForm />} />
             <Route path="/preview/:id/requisition/report" element={<RequisitionReport />} />
             <Route path="/preview/:id/requisition/committee" element={<RequisitionCommittee />} />
-            <Route path="/preview/:id/requisition/consideration" element={<RequisitionConsideration />} />
+            <Route path="/preview/:id/requisition/consider" element={<RequisitionConsideration />} />
             <Route path="/preview/:id/inspection" element={<Inspection />} />
             <Route path="/preview/:id/loan/form" element={<FormLoan />} />
             <Route path="/preview/:id/loan-contract/form" element={<FormLoanContract />} />
