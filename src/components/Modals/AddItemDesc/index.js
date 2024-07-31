@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 
-const ModalAddItemDesc = ({ isShow, onHide, onConfirm }) => {
-    const [description, setDescription] = useState('');
+const ModalAddItemDesc = ({ isShow, onHide, value, onSetValue }) => {
+    const [description, setDescription] = useState(value || '');
+
+    useEffect(() => {
+        setDescription(value);
+    }, [value]);
 
     return (
         <Modal
@@ -28,7 +32,7 @@ const ModalAddItemDesc = ({ isShow, onHide, onConfirm }) => {
                         type="button"
                         className="btn btn-outline-primary float-right"
                         onClick={() => {
-                            onConfirm(description);
+                            onSetValue(description);
                             onHide();
                         }}>
                         ตกลง

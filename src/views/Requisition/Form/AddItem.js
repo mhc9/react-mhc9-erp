@@ -101,7 +101,8 @@ const AddItem = ({ item, filteredCategory, onAddItem, onUpdateItem, onCancel }) 
                         <ModalAddItemDesc
                             isShow={showModalAddItemDesc}
                             onHide={() => setShowModalAddItemDesc(false)}
-                            onConfirm={(desc) => formik.setFieldValue('description', desc)}
+                            value={formik.values.description}
+                            onSetValue={(desc) => formik.setFieldValue('description', desc)}
                         />
 
                         <div className="flex flex-row gap-1 mb-2">
