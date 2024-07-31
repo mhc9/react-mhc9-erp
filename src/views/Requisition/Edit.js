@@ -2,18 +2,28 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
+import { toast } from 'react-toastify'
+import { getRequisition, resetSuccess } from '../../features/slices/requisition/requisitionSlice'
 import RequisitionForm from './Form'
-import { getRequisition } from '../../features/slices/requisition/requisitionSlice'
 import Loading from '../../components/Loading'
 
 const EditRequisition = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { requisition, isLoading } = useSelector(state => state.requisition);
+    const { requisition, isLoading, isSuccess } = useSelector(state => state.requisition);
 
     useEffect(() => {
         if (id) dispatch(getRequisition({ id }));
     }, [dispatch, id]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('บันทึกการแก้ไขข้อมูลสำเร็จ!!');
+
+            dispatch(resetSuccess());
+            dispatch(getRequisition({ id }));
+        }
+    }, [isSuccess]);
 
     return (
         <div className="content-wrapper">
