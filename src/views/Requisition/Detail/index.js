@@ -318,7 +318,7 @@ const RequisitionDetail = () => {
                                                         </a>
                                                     </DropdownItem>
                                                 </DropdownButton>
-                                                {requisition.approvals[0].consider_no !== '' && (
+                                                {(requisition.approvals[0].consider_no && requisition.approvals[0].consider_no !== '') && (
                                                     <>
                                                         <DropdownButton title="รายงานผลการพิจารณา" btnColor="primary" cssClass="mr-1">
                                                             <DropdownItem>

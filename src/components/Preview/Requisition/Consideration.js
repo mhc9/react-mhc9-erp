@@ -33,28 +33,27 @@ const RequisitionConsideration = () => {
                                 <div className="memo-header-text">
                                     <h3>ส่วนราชการ</h3>
                                     <div className="memo-header-value">
-                                        <span>{requisition.division?.department?.name} ศูนย์สุขภาพจิตที่ ๙ โทร o ๔๔๒๕ ๖๗๒๙</span>
-                                        {/* requisition.division?.name+ ' '+ */}
+                                        <span>งานพัสดุ กลุ่มงานอำนวยการ ศูนย์สุขภาพจิตที่ ๙ โทร o ๔๔๒๕ ๖๗๒๙</span>
                                     </div>
                                 </div>
                                 <div className="memo-header-text">
                                     <div>
                                         <h3>ที่</h3>
                                         <div className="memo-header-value">
-                                            <span>{requisition.pr_no}</span>
+                                            <span>{requisition.approvals[0].consider_no}</span>
                                         </div>
                                     </div>
                                     <div>
                                         <h3>วันที่</h3>
                                         <div className="memo-header-value">
-                                            <span>{toLongTHDate(moment(requisition.pr_date).toDate())}</span>
+                                            <span>{toLongTHDate(moment(requisition.approvals[0].consider_date).toDate())}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="memo-header-text">
                                     <h3>เรื่อง</h3>
                                     <div className="memo-header-value">
-                                        <span>{requisition.topic} โดยวิธีเฉพาะเจาะจง</span>
+                                        <span>รายงานผลการพิจารณาและ{requisition.topic} โดยวิธีเฉพาะเจาะจง</span>
                                     </div>
                                 </div>
                                 <div className="memo-header-text">
@@ -64,73 +63,43 @@ const RequisitionConsideration = () => {
                             </div>
                             <div className="memo-content">
                                 <div className="memo-paragraph">
-                                    ด้วย {requisition.division?.name+ ' '+requisition.division?.department?.name}
-                                    <span className="ml-1">มีความประสงค์จะ{requisition.order_type_id === 1 ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc}</span>
-                                    <span className="ml-1">จำนวน {requisition.item_count} รายการ</span>
-                                    <span className="ml-1">{requisition.reason ? requisition.reason : 'เพื่อใช้ในการดำเนินงานภายในศูนย์สุขภาพจิตที่ 9'}</span>
-                                    <span className="ml-1">โดยใช้เงินงบประมาณปี {requisition.year} ตาม{requisition.budget?.project?.plan?.name} {requisition.budget?.project?.name} {requisition.budget?.name}</span>
-                                    <span className="ml-1">รวมจำนวนเงินทั้งสิ้น {currency.format(requisition.net_total)} บาท ({ThaiNumberToText(requisition.net_total)}) รายละเอียดตามเอกสารแนบ</span>
+                                    <span className="ml-1">ขอรายงานผลการพิจารณา{requisition.order_type_id === 1 ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc}</span>
+                                    <span className="ml-1">จำนวน {requisition.item_count} รายการ โดยวิธีเฉพาะเจาะจง ซึ่งมีรายละเอียดดังนี้</span>
                                 </div>
                                 <div className="memo-paragraph">
-                                    <div className="mb-2">
-                                        เหตุผลและความจำเป็นที่ต้องจัดซื้อจัดจ้าง
-                                        <p>
-                                            <span>{requisition.reason ? requisition.reason : 'เพื่อใช้ในการดำเนินงานภายในศูนย์สุขภาพจิตที่ 9'}</span>
-                                            <span className="ml-1">{requisition.order_type_id === 1 ? requisition.category?.name : requisition.contract_desc}</span>
-                                            <span className="ml-1">จำนวน {requisition.item_count} รายการ</span>
-                                            <span className="ml-1">ปีงบประมาณ {requisition.year}</span>
-                                            <span className="ml-1">พร้อมทั้งขอเสนอชื่อแต่งตั้งผู้รับผิดชอบ หรือคณะกรรมการตรวจรับพัสดุ (กรณีวงเงินไม่เกิน ๑oo,ooo บาท) ดังต่อไปนี้</span>
-                                        </p>
-                                    </div>
-                                    <div className="indent-[2.5cm] mb-2">
-                                        ผู้กำหนดรายละเอียดขอบเขตของงานหรือรายละเอียดคุณลักษณะเฉพาะ
-                                        <p className="indent-[3cm]">
-                                            {requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname}
-                                            {' '}ตำแหน่ง {requisition.requester.position?.name}{requisition.requester.level?.name}
-                                        </p>
-                                    </div>
-                                    <div className="indent-[2.5cm]">
-                                        ผู้ตรวจรับพัสดุ
-                                        {requisition.committees.map((com, index) => (
-                                            <p key={com.id} className="indent-[3cm]">
-                                                {requisition.committees.length > 1 && <span>{index+1}. </span>}
-                                                {com.employee.prefix.name+com.employee.firstname+ ' ' +com.employee.lastname}
-                                                {' '}ตำแหน่ง {com.employee.position?.name}{com.employee.level?.name}
-                                            </p>
-                                        ))}
-                                    </div>
+                                <table className="w-full border-collapse border border-slate-400 mb-2">
+                                    <tr className="text-[14pt]">
+                                        <th className="w-[5%] border border-slate-300 text-center">ลำดับ</th>
+                                        <th className="border border-slate-300 text-center">รายการพิจารณา</th>
+                                        <th className="w-[12%] border border-slate-300 text-center">จำนวน</th>
+                                        <th className="w-[30%] border border-slate-300 text-center">รายชื่อผู้ยื่นข้อเสนอ</th>
+                                        <th className="w-[12%] border border-slate-300 text-center">ราคาที่เสนอ*</th>
+                                        <th className="w-[12%] border border-slate-300 text-center">ราคาที่ตกลงซื้อหรือจ้าง*</th>
+                                    </tr>
+                                        <tr>
+                                            <td className="border border-slate-300 text-center">1</td>
+                                            <td className="border border-slate-300 text-left pl-1">
+                                                {requisition.order_type_id === 1 ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc}
+                                            </td>
+                                            <td className="border border-slate-300 text-center">{requisition.item_count} รายการ</td>
+                                            <td className="border border-slate-300 text-left pl-1">{requisition.approvals[0].supplier?.name}</td>
+                                            <td className="border border-slate-300 text-right">{currency.format(requisition.net_total)}</td>
+                                            <td className="border border-slate-300 text-right">{currency.format(requisition.net_total)}</td>
+                                        </tr>
+                                    <tr>
+                                        <td className="text-center" colSpan={5}>รวมเป็นเงินทั้งสิ้น ({ThaiNumberToText(requisition.net_total)})</td>
+                                        <td className="text-right">{currency.format(requisition.net_total)}</td>
+                                    </tr>
+                                </table>
                                 </div>
                                 <div className="memo-paragraph">
-                                    <span className="with-compressed-2x">จึงเรียนมาเพื่อโปรดพิจารณา หากเห็นชอบขอได้โปรดอนุมัติหลักการและขออนุมัติงบประมาณ</span>
-                                    <span>ให้จัดซื้อจัดจ้างพัสดุตามรายการดังกล่าวข้างต้น และแต่งตั้งกรรมการดำเนินการตามที่เสนอ</span>
+                                    <span className="with-compressed-2x">จึงเรียนมาเพื่อโปรดพิจารณา หากเห็นชอบขอได้โปรด</span>
+                                    <div className="indent-0">
+                                        <p className="indent-[3.5cm]">1. อนุมัติให้ดำเนินการ ตามรายละเอียดในรายงานขอซื้อดังกล่าวข้างต้น</p>
+                                        <p className="indent-[3.5cm]">2. ลงนามในประกาศผู้ชนะการเสนอราคา</p>
+                                    </div>
                                 </div>
                                 <div className="memo-approvement">
-                                    <div className="memo-row">
-                                        <div style={{ width: '40%' }}>&nbsp;</div>
-                                        <div style={{ width: '60%' }}>
-                                            <div style={{ textAlign: 'center', width: '100%' }}>
-                                                <div className="pt-[40px] flex flex-col items-center justify-center">
-                                                    <p className="w-[200px] border-dashed border-b mb-1"></p>
-                                                    <div className="signature">
-                                                        <p>({requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname})</p>
-                                                        <p>{requisition.requester.position?.name}{requisition.requester.level?.name}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="memo-row">
-                                        <div style={{ width: '100%' }}>
-                                            <div style={{ width: '100%', padding: '1pt 0 1pt' }}>
-                                                <div>
-                                                    <p>เรียน อธิบดีกรมสุขภาพจิต</p>
-                                                    <p style={{ textIndent: '1cm' }}>งานพัสดุ ได้ตรวจสอบความถูกต้องของเอกสารเรียบร้อยแล้ว จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติ</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div className="memo-row">
                                         <div style={{ width: '40%' }}>&nbsp;</div>
                                         <div style={{ width: '60%' }}>
