@@ -4,11 +4,12 @@ import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import RequisitionForm from './Form'
 import { getRequisition } from '../../features/slices/requisition/requisitionSlice'
+import Loading from '../../components/Loading'
 
 const EditRequisition = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { requisition } = useSelector(state => state.requisition);
+    const { requisition, isLoading } = useSelector(state => state.requisition);
 
     useEffect(() => {
         if (id) dispatch(getRequisition({ id }));
@@ -28,7 +29,9 @@ const EditRequisition = () => {
                 <h2 className="text-xl">แก้ไขรายการคำขอ (ID #{id})</h2>
 
                 <div className="my-2 border p-4 rounded-md">
-                    <RequisitionForm requisition={requisition} />
+                    {isLoading && <div className="text-center"><Loading /></div>}
+                    
+                    {!isLoading && <RequisitionForm requisition={requisition} />}
                 </div>
             </div>
         </div>
