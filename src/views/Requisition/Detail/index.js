@@ -312,7 +312,7 @@ const RequisitionDetail = () => {
                                                         </Link>
                                                     </DropdownItem>
                                                     <DropdownItem>
-                                                        <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/document`} target="_blank" className="text-primary">
+                                                        <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/directive`} target="_blank" className="text-primary">
                                                             <i className="far fa-file-word mr-1"></i>
                                                             ดาวน์โหลดคำสั่ง
                                                         </a>
