@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Col, FormGroup, Row } from 'react-bootstrap'
 import { generateQueryString } from '../../utils';
 
-const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
+const FilteringInputs = ({ initialFilters, formData, onFilter }) => {
     const [filters, setFilters] = useState(initialFilters);
 
     const handleInputChange = (e) => {

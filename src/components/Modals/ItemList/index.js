@@ -1,31 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Pagination } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
+import { generateQueryString } from '../../../utils';
 import { getItems } from '../../../features/slices/item/itemSlice';
+import { useGetInitialFormDataQuery } from '../../../features/services/item/itemApi';
 import Loading from '../../Loading';
 import FilteringInputs from '../../Item/FilteringInputs';
 import CardList from './CardList';
 import TableList from './TableList';
 import ControlButtons from './ControlButtons';
-import { useGetInitialFormDataQuery } from '../../../features/services/item/itemApi';
-
-const initialFilters = {
-    name: '',
-    category: ''
-};
+import Pagination from '../../Pagination';
 
 const initialFormData = {
     units: [],
     categories: [],
 };
 
-const ModalItemList = ({ isShow, onHide, onSelect }) => {
+const ModalItemList = ({ isShow, onHide, onSelect, defaultCategory }) => {
+    const initialFilters = { 
+        name: '',
+        category: defaultCategory || ''
+    };
+
     const dispatch = useDispatch();
     const { items, pager, loading } = useSelector(state => state.item);
     const [isListMode, setIsListMode] = useState(false);
-    const [params, setParams] = useState('');
     const [apiEndpoint, setApiEndpoint] = useState('');
+    const [params, setParams] = useState(generateQueryString(initialFilters));
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
 
     useEffect(() => {
@@ -34,16 +36,11 @@ const ModalItemList = ({ isShow, onHide, onSelect }) => {
         } else {
             dispatch(getItems({ url: `${apiEndpoint}${params}` }));
         }
-    }, [dispatch, apiEndpoint, params]);
+    }, [apiEndpoint]);
 
-    const handlePageClick = (url) => {
-        setApiEndpoint(`${url}&limit=12`);
-    };
-
-    const handleFilter = (queryStr) => {
-        setParams(queryStr);
-        setApiEndpoint(`/api/items/search?page=&limit=12`);
-    };
+    useEffect(() => {
+        setParams(generateQueryString({ name: '', category: defaultCategory }))
+    }, [defaultCategory]);
 
     return (
         <Modal
@@ -63,7 +60,10 @@ const ModalItemList = ({ isShow, onHide, onSelect }) => {
             <Modal.Body>
                 <FilteringInputs
                     initialFilters={initialFilters}
-                    onFilter={handleFilter}
+                    onFilter={(queryStr) => {
+                        setParams(queryStr);
+                        setApiEndpoint(prev => prev === '' ? '/api/items/search?page=&limit=12' : '');
+                    }}
                     formData={formData}
                 />
 
@@ -89,30 +89,10 @@ const ModalItemList = ({ isShow, onHide, onSelect }) => {
                 )}
 
                 {(pager && pager.last_page > 1) && (
-                    <div className="flex flex-row items-center justify-between gap-4">
-                        <div className="text-sm font-thin flex flex-row items-center justify-between gap-4 w-3/5">
-                            <span>หน้าที่ {pager.current_page}/{pager.last_page}</span>
-                            <span>จำนวนทั้งสิ้น {pager.total} รายการ</span>
-                        </div>
-
-                        <Pagination className="float-right">
-                            <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
-                            <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
-                            {/* <Pagination.Item>{1}</Pagination.Item>
-                            <Pagination.Ellipsis />
-
-                            <Pagination.Item>{10}</Pagination.Item>
-                            <Pagination.Item>{11}</Pagination.Item>
-                            <Pagination.Item active>{12}</Pagination.Item>
-                            <Pagination.Item>{13}</Pagination.Item>
-                            <Pagination.Item disabled>{14}</Pagination.Item>
-
-                            <Pagination.Ellipsis />
-                            <Pagination.Item>{20}</Pagination.Item> */}
-                            <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
-                            <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
-                        </Pagination>
-                    </div>
+                    <Pagination
+                        pager={pager}
+                        onPageClick={(url) =>setApiEndpoint(`${url}&limit=12`)}
+                    />
                 )}
             </Modal.Body>
         </Modal>
