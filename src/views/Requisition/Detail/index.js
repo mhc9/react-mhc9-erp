@@ -64,7 +64,7 @@ const RequisitionDetail = () => {
                     </div>
                 </div>
 
-                <div className="my-2 border p-3 rounded-md">
+                <div>
                     {isLoading && <div className="text-center"><Loading /></div>}
 
                     {(!isLoading && requisition) && (
@@ -76,106 +76,74 @@ const RequisitionDetail = () => {
                             />
 
                             <Row className="mb-2">
-                                <Col md={9}>
-                                    <Row className="text-sm">
-                                        <Col md={3} className="pb-1">
-                                            <label htmlFor="">เลขที่เอกสาร</label>
-                                            <div className="text-sm font-thin">{requisition.pr_no}</div>
-                                        </Col>
-                                        <Col md={3} className="pb-1">
-                                            <div className="flex flex-col">
-                                                <label htmlFor="">วันที่เอกสาร</label>
-                                                <div className="text-sm font-thin">
-                                                    {toShortTHDate(requisition.pr_date)}
+                                <Col md={9} className="pr-1">
+                                    <div className="border py-2 px-3 mt-2 rounded-md min-h-[225px]">
+                                        <Row className="text-sm">
+                                            <Col md={3} className="pb-1">
+                                                <label htmlFor="">เลขที่เอกสาร</label>
+                                                <div className="text-sm font-thin">{requisition.pr_no}</div>
+                                            </Col>
+                                            <Col md={3} className="pb-1">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="">วันที่เอกสาร</label>
+                                                    <div className="text-sm font-thin">
+                                                        {toShortTHDate(requisition.pr_date)}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Col>
-                                        <Col md={3} className="pb-1">
-                                            <label>ประเภท (ซื้อ/จ้าง)</label>
-                                            <div className="text-sm font-thin">
-                                                {requisition.order_type_id === 1 ? 'ซื้อ' : 'จ้าง'}
-                                            </div>
-                                        </Col>
-                                        <Col md={3} className="pb-1">
-                                            <label htmlFor="">ประเภทสินค้า</label>
-                                            <div className="text-sm font-thin">
-                                                {requisition.category?.name}
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col className="pb-1">
-                                            <label htmlFor="">เรื่อง</label>
-                                            <div className="text-sm font-thin">
-                                                {requisition.topic} จำนวน {requisition.item_count} รายการ
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col md={9} className="pb-1">
-                                            <label htmlFor="">งบประมาณ</label>
-                                            <div className="input-group">
+                                            </Col>
+                                            <Col md={3} className="pb-1">
+                                                <label>ประเภท (ซื้อ/จ้าง)</label>
                                                 <div className="text-sm font-thin">
-                                                    {requisition.budget?.name}
+                                                    {requisition.order_type_id === 1 ? 'ซื้อ' : 'จ้าง'}
                                                 </div>
-                                            </div>
-                                        </Col>
-                                        <Col className="pb-1">
-                                            <label htmlFor="">ปีงบ</label>
-                                            <div className="text-sm font-thin">
-                                                {requisition.year}
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                    <Row className="mb-2">
-                                        <Col className="pb-1">
-                                            <label htmlFor="">เหตุผลที่ขอ</label>
-                                            <div className="text-sm font-thin">{requisition.reason}</div>
-                                        </Col>
-                                        <Col md={6} className="pb-1">
-                                            <label htmlFor="">โครงการ</label>
-                                            <div className="text-sm font-thin">
-                                                {requisition.project ? requisition.project?.name : '-'}
-                                            </div>
-                                        </Col>
-                                    </Row>
-
-                                    {/* Report and directive */}
-                                    {(requisition.approvals && requisition.approvals.length > 0) && (
-                                        <>
-                                            <Row className="mb-2">
-                                                <Col md={4}>
-                                                    <label htmlFor="">เลขที่รายงานขอซื้อ/จ้าง</label>
-                                                    <div className="text-sm font-thin">{requisition.approvals[0].report_no}</div>
-                                                </Col>
-                                                <Col md={4}>
-                                                    <label htmlFor="">วันที่รายงานขอซื้อ/จ้าง</label>
-                                                    <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].report_date)}</div>
-                                                </Col>
-                                                <Col md={4}>
-                                                    <label htmlFor="">วิธีการจัดหา</label>
-                                                    <div className="text-sm font-thin">{requisition.approvals[0].procuring?.name}</div>
-                                                </Col>
-                                            </Row>
-                                            <Row className="mb-2">
-                                                <Col md={4}>
-                                                    <label htmlFor="">วันที่กำหนดส่งมอบ</label>
-                                                    <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].deliver_date)}</div>
-                                                </Col>
-                                                <Col md={4}>
-                                                    <label htmlFor="">เลขที่คำสั่งแต่งตั้งผู้ตรวจรับ</label>
-                                                    <div className="text-sm font-thin">{requisition.approvals[0].directive_no}</div>
-                                                </Col>
-                                                <Col md={4}>
-                                                    <label htmlFor="">เลขที่คำสั่งแต่งตั้งผู้ตรวจรับ</label>
-                                                    <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].directive_date)}</div>
-                                                </Col>
-                                            </Row>
-                                        </>
-                                    )}
+                                            </Col>
+                                            <Col md={3} className="pb-1">
+                                                <label htmlFor="">ประเภทสินค้า</label>
+                                                <div className="text-sm font-thin">
+                                                    {requisition.category?.name}
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col className="pb-1">
+                                                <label htmlFor="">เรื่อง</label>
+                                                <div className="text-sm font-thin">
+                                                    {requisition.topic} จำนวน {requisition.item_count} รายการ
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col md={9} className="pb-1">
+                                                <label htmlFor="">งบประมาณ</label>
+                                                <div className="input-group">
+                                                    <div className="text-sm font-thin">
+                                                        {requisition.budget?.name}
+                                                    </div>
+                                                </div>
+                                            </Col>
+                                            <Col className="pb-1">
+                                                <label htmlFor="">ปีงบ</label>
+                                                <div className="text-sm font-thin">
+                                                    {requisition.year}
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                        <Row className="mb-2">
+                                            <Col className="pb-1">
+                                                <label htmlFor="">เหตุผลที่ขอ</label>
+                                                <div className="text-sm font-thin">{requisition.reason}</div>
+                                            </Col>
+                                            <Col md={6} className="pb-1">
+                                                <label htmlFor="">โครงการ</label>
+                                                <div className="text-sm font-thin">
+                                                    {requisition.project ? requisition.project?.name : '-'}
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                    </div>
                                 </Col>
-                                <Col>
-                                    <div className="flex flex-col items-center border rounded-md p-3 mb-2">
+                                <Col className="pl-1">
+                                    <div className="flex flex-col items-center border rounded-md p-3 mt-2 min-h-[225px]">
                                         <div className={`border-4 border-gray-200 rounded-full w-[60px] h-[60px] overflow-hidden object-cover object-center mb-2`}>
                                             {requisition.requester?.avatar_url
                                                 ? <img src={`${process.env.REACT_APP_API_URL}/uploads/${requisition.requester?.avatar_url}`} alt="requester-pic" />
@@ -208,6 +176,46 @@ const RequisitionDetail = () => {
                                     </div>
                                 </Col>
                             </Row>
+
+                            {/* Report and directive */}
+                            {(requisition.approvals && requisition.approvals.length > 0) && (
+                                <div className="border w-full py-2 px-3 mb-2 rounded-md relative">
+                                    <div className="absolute top-1 right-1">
+                                        <button type="button" className="btn btn-light float-right">
+                                            <FaEdit className="text-warning" onClick={() => setShowConsiderForm(true)} />
+                                        </button>
+                                    </div>
+                                    <Row className="mb-2">
+                                        <Col md={4}>
+                                            <label htmlFor="">เลขที่รายงานขอซื้อ/จ้าง</label>
+                                            <div className="text-sm font-thin">{requisition.approvals[0].report_no}</div>
+                                        </Col>
+                                        <Col md={4}>
+                                            <label htmlFor="">วันที่รายงานขอซื้อ/จ้าง</label>
+                                            <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].report_date)}</div>
+                                        </Col>
+                                        <Col md={4}>
+                                            <label htmlFor="">วิธีการจัดหา</label>
+                                            <div className="text-sm font-thin">{requisition.approvals[0].procuring?.name}</div>
+                                        </Col>
+                                    </Row>
+                                    <Row className="mb-2">
+                                        <Col md={4}>
+                                            <label htmlFor="">วันที่กำหนดส่งมอบ</label>
+                                            <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].deliver_date)}</div>
+                                        </Col>
+                                        <Col md={4}>
+                                            <label htmlFor="">เลขที่คำสั่งแต่งตั้งผู้ตรวจรับ</label>
+                                            <div className="text-sm font-thin">{requisition.approvals[0].directive_no}</div>
+                                        </Col>
+                                        <Col md={4}>
+                                            <label htmlFor="">เลขที่คำสั่งแต่งตั้งผู้ตรวจรับ</label>
+                                            <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].directive_date)}</div>
+                                        </Col>
+                                    </Row>
+                                </div>
+                            )}
+
                             <Row className="mb-2">
                                 <Col>
                                     <div className="flex flex-col border p-2 rounded-md">
