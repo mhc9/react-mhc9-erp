@@ -29,7 +29,7 @@ const OrderItems = ({ items = [], showButtons = false }) => {
                                 {item.description && <p className="text-xs text-red-500">{item.description}</p>}
                             </td>
                             <td className="text-right">{currency.format(item.price)}</td>
-                            <td className="text-center">{currency.format(item.amount)}</td>
+                            <td className="text-center">{currency.format(item.amount)} {item.unit?.name}</td>
                             <td className="text-right">{currency.format(item.total)}</td>
                             {showButtons && (
                                 <td className="text-center">
