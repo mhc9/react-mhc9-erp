@@ -21,14 +21,14 @@ import ModalRequisitionList from '../../../components/Modals/Requisition';
 import ModalSupplierList from '../../../components/Modals/Supplier';
 
 const orderSchema = Yup.object().shape({
-    po_no: Yup.string().required(),
-    po_date: Yup.string().required(),
-    requisition_id: Yup.string().required(),
-    year: Yup.string().required(),
-    total: Yup.string().required(),
-    vat_rate: Yup.string().required(),
-    vat: Yup.string().required(),
-    net_total: Yup.string().required(),
+    po_no: Yup.string().required('กรุณาระุบเลขที่ใบสั่งซื้อ'),
+    po_date: Yup.string().required('กรุณาเลือกวันที่ใบสั่งซื้อ'),
+    requisition_id: Yup.string().required('กรุณาเลือกรายการคำขอ'),
+    year: Yup.string().required('กรุณาเลือกปีงบประมาณ'),
+    total: Yup.string().required('กรุณาระบุยอดรวมเป็นเงิน'),
+    vat_rate: Yup.string().required('กรุณาระุบอัตราภาษีฯ'),
+    vat: Yup.string().required('กรุณาระุบยอดภาษีฯ'),
+    net_total: Yup.string().required('กรุณาระุบยอดยอดสุทธิ'),
     items: Yup.mixed().test('Items Count', 'ไม่พบการรายการสินค้า/บริการ', val => val.filter(item => !item.removed).length > 0),
 });
 
@@ -59,9 +59,10 @@ const OrderForm = () => {
         
         /** คำนวณฐานภาษีและภาษีมูลค่าเพิ่ม */
         calcTotal(formik, netTotal, parseInt(formik.values.vat_rate, 10));
-
-        /** เซต selectedSupplier local state จากข้อมูล requisition */
+        
+        /** เซต supplier_id และ selectedSupplier local state จากข้อมูล requisition */
         setSelectedSupplier(requisition.approvals[0].supplier);
+        formik.setFieldValue('supplier_id', requisition.approvals[0].supplier_id);
     };
 
     const handleSelectSupplier = (formik, supplier) => {
@@ -147,13 +148,14 @@ const OrderForm = () => {
                         </Col>
                         <Col md={3}>
                             <div className="flex flex-col">
-                                <label htmlFor="">วันที่เอกสาร</label>
+                                <label htmlFor="">วันที่ใบสั่งซื้อ</label>
                                 <DatePicker
                                     format="DD/MM/YYYY"
                                     value={selectedDate}
                                     onChange={(date) => {
                                         setSelectedDate(date);
                                         formik.setFieldValue('po_date', date.format('YYYY-MM-DD'));
+                                        setTimeout(() => formik.setFieldTouched('po_date', true), 600);
 
                                         calcDeliverDate(formik, date.format('YYYY-MM-DD'), formik.values.deliver_days);
                                     }}
@@ -165,30 +167,46 @@ const OrderForm = () => {
                             )}
                         </Col>
                     </Row>
-                    {selectedRequisition && <Row className="mb-2">
-                        <Col>
-                            <div className="border rounded-md text-sm font-thin px-3 py-2 bg-gray-100">
-                                <h4 className="font-bold underline mb-1">รายละเอียดคำขอซื้อ</h4>
-                                <p>
-                                    {selectedRequisition.requester?.prefix?.name}{selectedRequisition.requester?.firstname} {selectedRequisition.requester?.lastname}
-                                    {' ' + selectedRequisition.topic} จำนวน {currency.format(selectedRequisition.item_count)} รายการ 
-                                    รวมเป็นเงิน <b>{currency.format(selectedRequisition.net_total)}</b> บาท
-                                </p>
-                                <p className="text-sm text-blue-600">
-                                    ตาม{selectedRequisition.budget?.project?.plan?.name} {selectedRequisition.budget?.project?.name}
-                                    <p>{selectedRequisition.budget?.name}</p>
-                                </p>
-
-                                <h4 className="font-bold underline mb-1 mt-2">ผู้จัดจำหน่าย</h4>
-                                {selectedSupplier && (
-                                    <div className="mb-1">
-                                        {selectedSupplier.name}<b className="ml-2">ผู้ประจำตัวผู้เสียภาษี</b> {selectedSupplier.tax_no}
-                                        <b className="ml-2">โทร.</b> {selectedSupplier.tel}
-                                    </div>
-                                )}
-                            </div>
-                        </Col>
-                    </Row>}
+                    {selectedRequisition && (
+                        <Row className="mb-2">
+                            <Col>
+                                <Row>
+                                    <Col md={8}>
+                                        <div className="border rounded-md text-sm font-thin px-3 py-2 bg-orange-200 min-h-[160px]">
+                                            <h4 className="font-bold underline mb-1">รายละเอียดคำขอซื้อ</h4>
+                                            <p>
+                                                <b>เรื่อง</b> {selectedRequisition.topic} จำนวน {currency.format(selectedRequisition.item_count)} รายการ
+                                                <b className="ml-2">รวมเป็นเงิน</b> {currency.format(selectedRequisition.net_total)} บาท
+                                            </p>
+                                            <p>
+                                                <b>ผู้ขอ</b> {selectedRequisition.requester?.prefix?.name}{selectedRequisition.requester?.firstname} {selectedRequisition.requester?.lastname}
+                                                <b className="ml-2">ตำแหน่ง</b> {selectedRequisition.requester?.position?.name}{selectedRequisition.requester?.level && selectedRequisition.requester?.level?.name}
+                                                <b className="ml-2">หน่วยงาน</b> {selectedRequisition.division?.name}
+                                            </p>
+                                            <p><b>เหตุผลที่ขอ</b> {selectedRequisition.reason}</p>
+                                            <p className="text-sm text-blue-600">
+                                                <b>ตาม</b> {selectedRequisition.budget?.project?.plan?.name} {selectedRequisition.budget?.project?.name}
+                                                <span className="ml-2">{selectedRequisition.budget?.name}</span>
+                                            </p>
+                                        </div>
+                                    </Col>
+                                    <Col md={4}>
+                                        <div className="border rounded-md text-sm font-thin px-3 py-2 bg-green-300 min-h-[160px]">
+                                            <h4 className="font-bold underline mb-1">ผู้จัดจำหน่าย</h4>
+                                            {selectedSupplier && (
+                                                <div className="mb-1">
+                                                    {selectedSupplier.name}
+                                                    <p><b>ผู้ประจำตัวผู้เสียภาษี</b> {selectedSupplier.tax_no}</p>
+                                                    <p><b>โทร.</b> {selectedSupplier.tel}</p>
+                                                    <p><b>ที่อยู่</b> -</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    )}
                     <Row className="mb-3">
                         <Col md={4}>
                             <div className="flex flex-col">

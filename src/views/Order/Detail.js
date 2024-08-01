@@ -61,7 +61,7 @@ const OrderDetail = () => {
                                     {/* รายละเอียดคำขอซื้อ */}
                                     <Row>
                                         <Col>
-                                            <div className="form-control min-h-[140px] text-sm font-thin bg-green-300">
+                                            <div className="form-control min-h-[140px] text-sm font-thin bg-gray-100">
                                                 <p>
                                                     <label className="font-bold mr-1">เลขที่คำขอ</label>
                                                     <span className="mr-2">{order.requisition?.pr_no}</span>
@@ -112,7 +112,7 @@ const OrderDetail = () => {
                                     {/* รายละเอียดผู้จัดจำหน่าย */}
                                     <Row>
                                         <Col>
-                                            <div className="form-control min-h-[140px] text-sm font-thin bg-gray-200">
+                                            <div className="form-control min-h-[140px] text-sm font-thin bg-green-300">
                                                 <p>
                                                     <b className="mr-1">ที่อยู่</b>
                                                     {order.supplier?.address} {order.supplier?.moo ? ' หมู่' + order.supplier?.moo : ' หมู่ -'}
