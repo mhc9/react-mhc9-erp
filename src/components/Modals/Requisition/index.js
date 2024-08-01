@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import { getRequisitions } from '../../../features/slices/requisition/requisitionSlice';
 import { useGetInitialFormDataQuery } from '../../../features/services/requisition/requisitionApi';
-import { currency, toShortTHDate } from '../../../utils';
+import { currency, generateQueryString, toShortTHDate } from '../../../utils';
 import Loading from '../../Loading';
 import Pagination from '../../Pagination';
 import FilteringInputs from '../../Requisition/FilteringInputs';
@@ -12,7 +12,8 @@ const initialFilters = {
     pr_no: '',
     pr_date: '',
     division: '',
-    status: '2'
+    status: '3',
+    limit: '5'
 };
 
 const initialFormData = {
@@ -23,25 +24,21 @@ const initialFormData = {
 const ModalRequisitionList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
     const { requisitions, pager, loading } = useSelector(state => state.requisition);
-    const [params, setParams] = useState('');
-    const [apiEndpoint, setApiEndpoint] = useState('');
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
+    const [apiEndpoint, setApiEndpoint] = useState('');
+    const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getRequisitions({ url: `/api/requisitions/search?page=&status=2&limit=5` }));
+            dispatch(getRequisitions({ url: `/api/requisitions/search?page=${params}` }));
         } else {
             dispatch(getRequisitions({ url: `${apiEndpoint}${params}` }));
         }
     }, [dispatch, apiEndpoint, params]);
 
-    const handlePageClick = (url) => {
-        setApiEndpoint(`${url}&status=0`);
-    };
-
     const handleFilter = (queryStr) => {
         setParams(queryStr);
-        setApiEndpoint(`/api/requisitions/search?page=&status=2&limit=5`);
+        setApiEndpoint(`/api/requisitions/search?page=${params}`);
     };
 
     return (
@@ -116,7 +113,7 @@ const ModalRequisitionList = ({ isShow, onHide, onSelect }) => {
             <Modal.Footer className="py-1 px-2">
                 <Pagination
                     pager={pager}
-                    onPageClick={(url) => handlePageClick(url)}
+                    onPageClick={(url) => setApiEndpoint(url)}
                 />
             </Modal.Footer>
         </Modal>
