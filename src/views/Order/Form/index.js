@@ -247,15 +247,15 @@ const OrderForm = () => {
                                 )}
 
                                 <div className="flex items-center justify-end p-0 mt-1">
-                                    <span className="mr-2">รวมเป็นเงิน</span>
+                                    <span className="mr-2 font-bold">รวมเป็นเงิน</span>
                                     <input
                                         type="text"
                                         name="total"
                                         value={formik.values.total}
                                         onChange={formik.handleChange}
-                                        className="form-control font-thin text-sm w-[12%] text-right"
+                                        className="form-control font-bold text-sm w-[12%] text-right"
                                     />
-                                    <div className="w-[11%]"></div>
+                                    {/* <div className="w-[11%]"></div> */}
                                 </div>
                                 <div className="flex items-center justify-end p-0 mt-1">
                                     <span className="mr-2">ภาษีมูลค่าเพิ่ม</span>
@@ -279,18 +279,18 @@ const OrderForm = () => {
                                         onChange={formik.handleChange}
                                         className="form-control font-thin text-sm w-[12%] text-right"
                                     />
-                                    <div className="w-[11%]"></div>
+                                    {/* <div className="w-[11%]"></div> */}
                                 </div>
                                 <div className="flex items-center justify-end p-0 mt-1">
-                                    <span className="mr-2">ยอดสิทธิ</span>
+                                    <span className="mr-2 text-lg font-bold">ยอดสิทธิ</span>
                                     <input
                                         type="text"
                                         name="net_total"
                                         value={formik.values.net_total}
                                         onChange={formik.handleChange}
-                                        className="form-control font-thin text-sm w-[12%] text-right"
+                                        className="form-control text-green-600 text-lg font-bold w-[12%] text-right"
                                     />
-                                    <div className="w-[11%]"></div>
+                                    {/* <div className="w-[11%]"></div> */}
                                 </div>
                             </div>
                         </Col>
