@@ -211,7 +211,7 @@ const OrderForm = () => {
                                             {selectedSupplier && (
                                                 <div className="mb-1">
                                                     {selectedSupplier.name}
-                                                    <p><b>ผู้ประจำตัวผู้เสียภาษี</b> {selectedSupplier.tax_no}</p>
+                                                    <p><b>เลขประจำตัวผู้เสียภาษี</b> {selectedSupplier.tax_no}</p>
                                                     <p><b>โทร.</b> {selectedSupplier.tel}</p>
                                                     <p><b>ที่อยู่</b> -</p>
                                                 </div>
