@@ -37,31 +37,32 @@ const OrderDetail = () => {
                     {!isLoading && order && (
                         <>
                             <Row className="mb-2">
+                                <Col md={3}>
+                                    <label htmlFor="">เลขที่ใบสั่ง{order.requisition?.order_type_id === 1 ? 'ซื้อ' : 'จ้าง'}</label>
+                                    <div className="form-control text-sm font-thin bg-gray-100">{order.po_no}</div>
+                                </Col>
+                                <Col md={3}>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="">วันที่ใบสั่ง{order.requisition?.order_type_id === 1 ? 'ซื้อ' : 'จ้าง'}</label>
+                                        <div className="form-control text-sm font-thin bg-gray-100">
+                                            {toShortTHDate(order.po_date)}
+                                        </div>
+                                    </div>
+                                </Col>
+                                <Col md={6}>
+                                    <label htmlFor="">ประเภทสินค้า</label>
+                                    <div className="form-control min-h-[34px] text-sm font-thin bg-gray-100">
+                                        {order.requisition?.category?.name}
+                                    </div>
+                                </Col>
+                            </Row>
+                            <Row className="mb-2">
                                 <Col md={8}>
-                                    <Row className="mb-2">
-                                        <Col md={3}>
-                                            <label htmlFor="">เลขที่ใบสั่ง{order.requisition?.order_type_id === 1 ? 'ซื้อ' : 'จ้าง'}</label>
-                                            <div className="form-control text-sm font-thin">{order.po_no}</div>
-                                        </Col>
-                                        <Col md={3}>
-                                            <div className="flex flex-col">
-                                                <label htmlFor="">วันที่ใบสั่ง{order.requisition?.order_type_id === 1 ? 'ซื้อ' : 'จ้าง'}</label>
-                                                <div className="form-control text-sm font-thin">
-                                                    {toShortTHDate(order.po_date)}
-                                                </div>
-                                            </div>
-                                        </Col>
-                                        <Col md={6}>
-                                            <label htmlFor="">ประเภทสินค้า</label>
-                                            <div className="form-control min-h-[34px] text-sm font-thin">
-                                                {order.requisition?.category?.name}
-                                            </div>
-                                        </Col>
-                                    </Row>
                                     {/* รายละเอียดคำขอซื้อ */}
                                     <Row>
                                         <Col>
                                             <div className="form-control min-h-[140px] text-sm font-thin bg-gray-100">
+                                                <h4 className="font-bold underline mb-1">รายละเอียดคำขอซื้อ</h4>
                                                 <p>
                                                     <label className="font-bold mr-1">เลขที่คำขอ</label>
                                                     <span className="mr-2">{order.requisition?.pr_no}</span>
@@ -101,18 +102,12 @@ const OrderDetail = () => {
                                     </Row>
                                 </Col>
                                 <Col md={4}>
-                                    <Row className="mb-2">
-                                        <Col>
-                                            <label htmlFor="">ผู้จัดจำหน่าย</label>
-                                            <div className="form-control min-h-[34px] text-sm font-thin">
-                                                {order.supplier?.name}
-                                            </div>
-                                        </Col>
-                                    </Row>
                                     {/* รายละเอียดผู้จัดจำหน่าย */}
                                     <Row>
                                         <Col>
                                             <div className="form-control min-h-[140px] text-sm font-thin bg-green-300">
+                                                <h4 className="font-bold underline mb-1">ผู้จัดจำหน่าย</h4>
+                                                <p>{order.supplier?.name}</p>
                                                 <p>
                                                     <b className="mr-1">ที่อยู่</b>
                                                     {order.supplier?.address} {order.supplier?.moo ? ' หมู่' + order.supplier?.moo : ' หมู่ -'}
@@ -148,17 +143,17 @@ const OrderDetail = () => {
                                         <Row>
                                             <Col md={4}>
                                                 <div className="flex flex-row justify-end items-center mb-2">
-                                                    <span className="mr-2">ปีงบ</span>
+                                                    <span className="mr-2">ปีงบประมาณ</span>
                                                     <div className="w-[40%]">
-                                                        <div className="form-control text-sm float-right text-center">
-                                                            {order.year}
+                                                        <div className="form-control text-sm float-right text-center bg-gray-100">
+                                                            {order.year ? order.year+543 : ''}
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div className="flex flex-row justify-end items-center mb-2">
                                                     <span className="mr-2">กำหนดส่งมอบ</span>
                                                     <div className="w-[40%]">
-                                                        <div className="form-control text-sm min-h-[34px] float-right text-center">
+                                                        <div className="form-control text-sm min-h-[34px] float-right text-center bg-gray-100">
                                                             {currency.format(order.deliver_days)} วัน
                                                         </div>
                                                     </div>
@@ -166,7 +161,7 @@ const OrderDetail = () => {
                                                 <div className="flex flex-row justify-end items-center mb-2">
                                                     <span className="mr-2">ครบกำหนดวันที่</span>
                                                     <div className="w-[40%]">
-                                                        <div className="form-control text-sm min-h-[34px] float-right text-center">
+                                                        <div className="form-control text-sm min-h-[34px] float-right text-center bg-gray-100">
                                                             {toShortTHDate(order.deliver_date)}
                                                         </div>
                                                     </div>
@@ -174,28 +169,28 @@ const OrderDetail = () => {
                                             </Col>
                                             <Col md={8}>
                                                 <div className="flex flex-row justify-end items-center mb-2">
-                                                    <span className="mr-2">รวมเป็นเงิน</span>
-                                                    <div className="w-[25%]">
-                                                        <div className="form-control text-sm float-right text-right">
+                                                    <span className="mr-2 text-sm font-bold">รวมเป็นเงิน</span>
+                                                    <div className="w-[18%]">
+                                                        <div className="form-control font-bold float-right text-sm text-right bg-gray-100">
                                                             {currency.format(order.total)}
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div className="flex flex-row justify-end items-center mb-2">
                                                     <span className="mr-2">ภาษีมูลค่าเพิ่ม</span>
-                                                    <div className="form-control text-sm float-right text-right w-10 mr-1">
+                                                    <div className="form-control text-sm float-right text-right w-10 mr-1 bg-gray-100">
                                                         {currency.format(order.vat_rate)}%
                                                     </div>
-                                                    <div className="w-[25%]">
-                                                        <div className="form-control text-sm float-right text-right">
+                                                    <div className="w-[18%]">
+                                                        <div className="form-control text-sm float-right text-right bg-gray-100">
                                                             {currency.format(order.vat)}
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div className="flex flex-row justify-end items-center">
-                                                    <span className="mr-2">ยอดสุทธิ</span>
-                                                    <div className="w-[25%]">
-                                                        <div className="form-control text-sm text-right float-right">
+                                                    <span className="mr-2 text-lg font-bold">ยอดสุทธิ</span>
+                                                    <div className="w-[18%]">
+                                                        <div className="form-control font-bold text-lg text-green-600 text-right float-right bg-gray-100">
                                                             {currency.format(order.net_total)}
                                                         </div>
                                                     </div>
