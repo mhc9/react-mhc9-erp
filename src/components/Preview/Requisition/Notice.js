@@ -30,8 +30,8 @@ const RequisitionNotice = () => {
                     {requisition && (
                         <div className="memo-box">
                             <div className="flex flex-col justify-center items-center">
-                                <h3>ประกาศ ศูนย์สุขภาพจิตที่ ๙ กรมสุขภาพจิต</h3>
-                                <div className="flex justify-center items-center">
+                                <h3>ประกาศศูนย์สุขภาพจิตที่ ๙ กรมสุขภาพจิต</h3>
+                                <div className="flex justify-center items-start leading-none text-center">
                                     <span className="m-0">เรื่อง</span>
                                     <span className="ml-2">
                                         ประกาศผู้ชนะการเสนอราคา {((requisition.order_type_id == 1) ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc)}&nbsp;

@@ -30,12 +30,12 @@ const RequisitionCommittee = () => {
                     {requisition && (
                         <div className="memo-box">
                             <div className="flex flex-col justify-center items-center">
-                                <h3>คำสั่ง ศูนย์สุขภาพจิตที่ ๙ กรมสุขภาพจิต</h3>
+                                <h3>คำสั่งศูนย์สุขภาพจิตที่ ๙ กรมสุขภาพจิต</h3>
                                 <div className="flex justify-center items-center">
                                     <span className="m-0">ที่</span>
                                     <span className="ml-2">{requisition.approvals[0]?.directive_no}</span>
                                 </div>
-                                <div className="flex justify-center items-center">
+                                <div className="flex justify-center items-start leading-none text-center">
                                     <span className="m-0">เรื่อง</span>
                                     <span className="ml-2">
                                         แต่งตั้งผู้ตรวจรับพัสดุสำหรับการ {((requisition.order_type_id == 1) ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc)}&nbsp;
@@ -51,18 +51,23 @@ const RequisitionCommittee = () => {
                                     และเพื่อให้เป็นไปตามระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. ๒๕๖๐ จึงขอแต่งตั้งรายชื่อต่อไปนี้เป็น ผู้ตรวจรับพัสดุสำหรับการ
                                     {((requisition.order_type_id == 1) ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc)} จำนวน {requisition.item_count} รายการ โดย{requisition.approvals[0]?.procuring?.name}
                                 </div>
-                                <div className="memo-paragraph mt-[2.5cm]">
+                                <div className="memo-paragraph">
                                     ผู้ตรวจรับพัสดุ
-                                    {requisition.committees.map((com, index) => (
-                                        <span key={com.id} className="flex text-left">
-                                            {requisition.committees.length > 1 && <span>{index+1}. </span>}
-                                            {com.employee.prefix.name+com.employee.firstname+ ' ' +com.employee.lastname}
-                                            <span className="indent-0 ml-2">
-                                                {com.employee.position?.name}{com.employee.level?.name}
-                                            </span>
-                                            <span className="indent-0 ml-2">ประธานกรรรมการฯ</span>
-                                        </span>
-                                    ))}
+                                    <table className="indent-[2.5cm] w-full">
+                                        {requisition.committees.map((com, index) => (
+                                            <tr key={com.id}>
+                                                <td>
+                                                    {requisition.committees.length > 1 && <span>{index+1}.</span>}{com.employee.prefix.name+com.employee.firstname+ ' ' +com.employee.lastname}
+                                                </td>
+                                                <td className="indent-0 w-[35%]">{com.employee.position?.name}{com.employee.level?.name}</td>
+                                                <td className="indent-0 w-[20%]">
+                                                    {requisition.committees.length === 1 && <>ผู้ตรวจรับพัสดุ</>}
+                                                    {(requisition.committees.length > 1 && index === 0) && <>ประธานกรรรมการฯ</>}
+                                                    {(requisition.committees.length > 1 && index > 0) && <>กรรรมการฯ</>}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </table>
                                 </div>
                                 <div className="memo-paragraph">
                                     อำนาจและหน้าที่
