@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Col, Row } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
+import { DatePicker } from '@material-ui/pickers';
 import moment from 'moment';
 import {
     currency,
@@ -14,11 +14,11 @@ import {
     calculateVat,
     toShortTHDate
 } from '../../../utils';
-import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
 import { store } from '../../../features/slices/order/orderSlice';
 import OrderItems from './OrderItems';
 import ModalRequisitionList from '../../../components/Modals/Requisition';
 import ModalSupplierList from '../../../components/Modals/Supplier';
+import { createTheme, makeStyles } from '@material-ui/core';
 
 const orderSchema = Yup.object().shape({
     po_no: Yup.string().required('กรุณาระุบเลขที่ใบสั่งซื้อ'),
@@ -32,7 +32,22 @@ const orderSchema = Yup.object().shape({
     items: Yup.mixed().test('Items Count', 'ไม่พบการรายการสินค้า/บริการ', val => val.filter(item => !item.removed).length > 0),
 });
 
+const useStyles = makeStyles({
+    input: {
+        border: '1px solid #dee2e6',
+        borderRadius: '0.375rem',
+        "& .MuiInput-underline:before": {
+            borderBottom: '0'
+        },
+        "& .MuiInput-underline .MuiInputBase-input": {
+            textAlign: 'center',
+            paddingBottom: '0.375rem',
+        },
+    }
+});
+
 const OrderForm = () => {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const [selectedDate, setSelectedDate] = useState(moment());
     const [selectedYear, setSelectedYear] = useState(moment());
@@ -98,7 +113,7 @@ const OrderForm = () => {
                 net_total: '',
                 deliver_days: '30',
                 deliver_date: '',
-                year: '',
+                year: moment().format('YYYY'),
                 items: []
             }}
             validationSchema={orderSchema}
@@ -159,7 +174,7 @@ const OrderForm = () => {
 
                                         calcDeliverDate(formik, date.format('YYYY-MM-DD'), formik.values.deliver_days);
                                     }}
-                                    variant="outlined"
+                                    className={classes.input}
                                 />
                             </div>
                             {(formik.errors.po_date && formik.touched.po_date) && (
@@ -171,7 +186,7 @@ const OrderForm = () => {
                         <Row className="mb-2">
                             <Col>
                                 <Row>
-                                    <Col md={8}>
+                                    <Col md={8} className="pr-2">
                                         <div className="border rounded-md text-sm font-thin px-3 py-2 bg-orange-200 min-h-[160px]">
                                             <h4 className="font-bold underline mb-1">รายละเอียดคำขอซื้อ</h4>
                                             <p>
@@ -190,7 +205,7 @@ const OrderForm = () => {
                                             </p>
                                         </div>
                                     </Col>
-                                    <Col md={4}>
+                                    <Col md={4} className="pl-2">
                                         <div className="border rounded-md text-sm font-thin px-3 py-2 bg-green-300 min-h-[160px]">
                                             <h4 className="font-bold underline mb-1">ผู้จัดจำหน่าย</h4>
                                             {selectedSupplier && (
@@ -207,56 +222,10 @@ const OrderForm = () => {
                             </Col>
                         </Row>
                     )}
-                    <Row className="mb-3">
-                        <Col md={4}>
-                            <div className="flex flex-col">
-                                <label htmlFor="">ปีงบประมาณ</label>
-                                <DatePicker
-                                    format="YYYY"
-                                    views={['year']}
-                                    value={selectedYear}
-                                    onChange={(date) => {
-                                        setSelectedYear(date);
-                                        formik.setFieldValue('year', date.year());
-                                    }}
-                                />
-                            </div>
-                            {(formik.errors.year && formik.touched.year) && (
-                                <span className="text-red-500 text-sm">{formik.errors.year}</span>
-                            )}
-                        </Col>
-                        <Col md={4}>
-                            <label htmlFor="">กำหนดส่งมอบ</label>
-                            <div className="flex justify-center items-center gap-2">
-                                <input
-                                    type="number"
-                                    name="deliver_days"
-                                    value={formik.values.deliver_days}
-                                    onChange={(e) => {
-                                        formik.handleChange(e);
-                                        calcDeliverDate(formik, formik.values.po_date, e.target.value);
-                                    }}
-                                    className="form-control text-sm text-center min-h-[34px]"
-                                />
-                                <span>วัน</span>
-                            </div>
-                        </Col>
-                        <Col md={4}>
-                            <label htmlFor="">ครบกำหนดวันที่</label>
-                            <input
-                                type="text"
-                                name="deliver_date"
-                                value={formik.values.deliver_date}
-                                onChange={formik.handleChange}
-                                className="form-control text-sm text-center min-h-[34px] bg-gray-100"
-                            />
-                        </Col>
-                    </Row>
                     <Row className="mb-2 text-sm">
                         <Col>
                             <div className="flex flex-col border p-2 rounded-md">
-                                
-                                <h3 className="mb-2">รายการสินค้า/บริการ</h3>
+                                <h1 className="font-bold text-lg mb-1">รายการสินค้า/บริการ</h1>
 
                                 <OrderItems items={formik.values.items} />
 
@@ -264,52 +233,104 @@ const OrderForm = () => {
                                     <span className="text-red-500 text-sm">{formik.errors.items}</span>
                                 )}
 
-                                <div className="flex items-center justify-end p-0 mt-1">
-                                    <span className="mr-2 font-bold">รวมเป็นเงิน</span>
-                                    <input
-                                        type="text"
-                                        name="total"
-                                        value={formik.values.total}
-                                        onChange={formik.handleChange}
-                                        className="form-control font-bold text-sm w-[12%] text-right"
-                                    />
-                                    {/* <div className="w-[11%]"></div> */}
-                                </div>
-                                <div className="flex items-center justify-end p-0 mt-1">
-                                    <span className="mr-2">ภาษีมูลค่าเพิ่ม</span>
-                                    <select
-                                        name="vat_rate"
-                                        value={formik.values.vat_rate}
-                                        onChange={(e) => {
-                                            formik.handleChange(e);
-                                            calcTotal(formik, formik.values.net_total, e.target.value)
-                                        }}
-                                        className="form-control font-thin text-sm w-[8%] text-center mr-1"
-                                    >
-                                        <option value="1">1%</option>
-                                        <option value="7">7%</option>
-                                        <option value="10">10%</option>
-                                    </select>
-                                    <input
-                                        type="text"
-                                        name="vat"
-                                        value={formik.values.vat}
-                                        onChange={formik.handleChange}
-                                        className="form-control font-thin text-sm w-[12%] text-right"
-                                    />
-                                    {/* <div className="w-[11%]"></div> */}
-                                </div>
-                                <div className="flex items-center justify-end p-0 mt-1">
-                                    <span className="mr-2 text-lg font-bold">ยอดสิทธิ</span>
-                                    <input
-                                        type="text"
-                                        name="net_total"
-                                        value={formik.values.net_total}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-green-600 text-lg font-bold w-[12%] text-right"
-                                    />
-                                    {/* <div className="w-[11%]"></div> */}
-                                </div>
+                                <Row className="mb-3">
+                                    <Col md={4}>
+                                        <div className="flex items-center justify-end p-0 mt-1">
+                                            <label htmlFor="" className="mr-2">ปีงบประมาณ</label>
+                                            <div className="w-[40%]">
+                                                <DatePicker
+                                                    format="YYYY"
+                                                    views={['year']}
+                                                    value={selectedYear}
+                                                    onChange={(date) => {
+                                                        setSelectedYear(date);
+                                                        formik.setFieldValue('year', date.year());
+                                                    }}
+                                                    className={classes.input}
+                                                />
+                                                {(formik.errors.year && formik.touched.year) && (
+                                                    <span className="text-red-500 text-sm">{formik.errors.year}</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-end p-0 mt-1">
+                                            <label htmlFor="" className="mr-2">กำหนดส่งมอบ</label>
+                                            <div className="flex justify-center items-center gap-2 w-[40%]">
+                                                <input
+                                                    type="number"
+                                                    name="deliver_days"
+                                                    value={formik.values.deliver_days}
+                                                    onChange={(e) => {
+                                                        formik.handleChange(e);
+                                                        formik.values.po_date && calcDeliverDate(formik, formik.values.po_date, e.target.value);
+                                                    }}
+                                                    className="form-control text-sm text-center min-h-[34px]"
+                                                />
+                                                <span>วัน</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-end p-0 mt-1">
+                                            <label htmlFor="" className="mr-2">ครบกำหนดวันที่</label>
+                                            <div className="w-[40%]">
+                                                <input
+                                                    type="text"
+                                                    name="deliver_date"
+                                                    value={formik.values.deliver_date}
+                                                    onChange={formik.handleChange}
+                                                    className="form-control text-sm text-center min-h-[34px] bg-gray-100"
+                                                />
+                                            </div>
+                                        </div>
+                                    </Col>
+                                    <Col md={8}>
+                                        <div className="flex items-center justify-end p-0 mt-1">
+                                            <span className="mr-2 font-bold">รวมเป็นเงิน</span>
+                                            <input
+                                                type="text"
+                                                name="total"
+                                                value={formik.values.total}
+                                                onChange={formik.handleChange}
+                                                className="form-control font-bold text-sm w-[18%] text-right"
+                                            />
+                                            {/* <div className="w-[11%]"></div> */}
+                                        </div>
+                                        <div className="flex items-center justify-end p-0 mt-1">
+                                            <span className="mr-2">ภาษีมูลค่าเพิ่ม</span>
+                                            <select
+                                                name="vat_rate"
+                                                value={formik.values.vat_rate}
+                                                onChange={(e) => {
+                                                    formik.handleChange(e);
+                                                    calcTotal(formik, formik.values.net_total, e.target.value)
+                                                }}
+                                                className="form-control font-thin text-sm w-[8%] text-center mr-1"
+                                            >
+                                                <option value="1">1%</option>
+                                                <option value="7">7%</option>
+                                                <option value="10">10%</option>
+                                            </select>
+                                            <input
+                                                type="text"
+                                                name="vat"
+                                                value={formik.values.vat}
+                                                onChange={formik.handleChange}
+                                                className="form-control font-thin text-sm w-[18%] text-right"
+                                            />
+                                            {/* <div className="w-[11%]"></div> */}
+                                        </div>
+                                        <div className="flex items-center justify-end p-0 mt-1">
+                                            <span className="mr-2 text-lg font-bold">ยอดสิทธิ</span>
+                                            <input
+                                                type="text"
+                                                name="net_total"
+                                                value={formik.values.net_total}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-green-600 text-lg font-bold w-[18%] text-right"
+                                            />
+                                            {/* <div className="w-[11%]"></div> */}
+                                        </div>
+                                    </Col>
+                                </Row>
                             </div>
                         </Col>
                     </Row>
