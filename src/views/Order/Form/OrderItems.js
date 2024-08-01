@@ -1,7 +1,7 @@
 import React from 'react'
 import { currency } from '../../../utils';
 
-const OrderItems = ({ items = [] }) => {
+const OrderItems = ({ items = [], showButtons = false }) => {
     return (
         <div>
             <table className="table table-bordered text-sm mb-2">
@@ -12,7 +12,7 @@ const OrderItems = ({ items = [] }) => {
                         <th className="text-center w-[12%]">ราคาต่อหน่วย</th>
                         <th className="text-center w-[8%]">จำนวน</th>
                         <th className="text-center w-[12%]">รวมเป็นเงิน</th>
-                        <th className="text-center w-[11%]">Actions</th>
+                        {showButtons && <th className="text-center w-[11%]">Actions</th>}
                     </tr>
                 </thead>
                 <tbody>
@@ -31,9 +31,11 @@ const OrderItems = ({ items = [] }) => {
                             <td className="text-right">{currency.format(item.price)}</td>
                             <td className="text-center">{currency.format(item.amount)}</td>
                             <td className="text-right">{currency.format(item.total)}</td>
-                            <td className="text-center">
+                            {showButtons && (
+                                <td className="text-center">
 
-                            </td>
+                                </td>
+                            )}
                         </tr>
                     ))}
                 </tbody>
