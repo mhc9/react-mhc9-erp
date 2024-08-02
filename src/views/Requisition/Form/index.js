@@ -16,6 +16,7 @@ import {
 } from '../../../utils'
 import { useGetInitialFormDataQuery } from '../../../features/services/requisition/requisitionApi'
 import { store, update } from '../../../features/slices/requisition/requisitionSlice'
+import { useStyles } from '../../../hooks/useStyles'
 import AddItem from './AddItem'
 import ItemList from './ItemList'
 import Committee from './Committee'
@@ -38,6 +39,7 @@ const requisitionSchema = Yup.object().shape({
     requester_id: Yup.string().required('กรุณาเลือกผู้ขอ/เจ้าของโครงการ'),
     division_id: Yup.string().required('กรุณาเลือกหน่วยงาน'),
     reason: Yup.string().required('กรุณาระบุเหตุผลที่ขอ'),
+    desired_date: Yup.string().required('กรุณาระบุเหตุผลที่ขอ'),
     items: Yup.mixed().test('Items Count', 'ไม่พบการระบุรายการสินค้า', val => val.filter(item => !item.removed).length > 0),
     committees: Yup.mixed().test('Committees Count', 'ไม่พบการระบุผู้ตรวจรับ', val => val.filter(comm => !comm.removed).length > 0),
 });
@@ -50,12 +52,14 @@ const initialFormData = {
 };
 
 const RequisitionForm = ({ requisition }) => {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const [budget, setBudget] = useState(null);
     const [requester, setRequester] = useState(null);
     const [edittingItem, setEdittingItem] = useState(null);
     const [selectedDate, setSelectedDate] = useState(moment());
     const [selectedYear, setSelectedYear] = useState(moment());
+    const [selectedDesiredDate, setSelectedDesiredDate] = useState(moment());
     const [filteredTypes, setFilteredTypes] = useState([]);
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [showBudgetModal, setShowBudgetModal] = useState(false);
@@ -171,6 +175,7 @@ const RequisitionForm = ({ requisition }) => {
                 division_id: (requisition && requisition.division_id) ? requisition.division_id : '',
                 requester_id: requisition ? requisition.requester_id : '',
                 reason: requisition ? requisition.reason : '',
+                desired_date: requisition ? requisition.desired_date : '',
                 item_count: requisition ? requisition.item_count : 0,
                 net_total: requisition ? requisition.net_total : '',
                 items: requisition ? requisition.details : [],
@@ -455,33 +460,57 @@ const RequisitionForm = ({ requisition }) => {
                                                 onUpdateItem={(id, item) => handleUpdateItem(formik, id, item)}
                                                 onCancel={() => setEdittingItem(null)}
                                             />
+
                                             <ItemList
                                                 items={formik.values.items.filter(item => !item.removed)}
                                                 onEditItem={(data) => handleEditItem(data)}
                                                 onRemoveItem={(id, isNewItem = false) => handleRemoveItem(formik, id, isNewItem)}
                                             />
+                                            {(formik.errors.items && formik.touched.items) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.items}</span>
+                                            )}
 
-                                            <div className="flex flex-row justify-end items-center">
-                                                <div className="pr-1">รวมเป็นเงินทั้งสิ้น :</div>
-                                                <div className="w-[15%]">
-                                                    <input
-                                                        type="text"
-                                                        name="net_total"
-                                                        value={formik.values.net_total}
-                                                        onChange={formik.handleChange}
-                                                        placeholder="รวมเป็นเงินทั้งสิ้น"
-                                                        className="form-control text-sm float-right text-right"
-                                                    />
-                                                    {(formik.errors.net_total && formik.touched.net_total) && (
-                                                        <span className="text-red-500 text-sm">{formik.errors.net_total}</span>
-                                                    )}
-                                                </div>
-                                                <div className="w-[10%] pl-1">บาท</div>
-                                            </div>
+                                            <Row>
+                                                <Col md={4}>
+                                                    <div className="row">
+                                                        <label htmlFor="" className="col-4 text-right pr-1">วันที่ต้องการใช้</label>
+                                                        <div className="col-8 w-[40%] pl-1">
+                                                            <DatePicker
+                                                                format="DD/MM/YYYY"
+                                                                value={selectedDesiredDate}
+                                                                onChange={(date) => {
+                                                                    setSelectedDesiredDate(date);
+                                                                    formik.setFieldValue('desired_date', date.format('YYYY-MM-DD'));
+                                                                }}
+                                                                className={classes.muiTextFieldInput}
+                                                            />
+                                                            {(formik.errors.desired_date && formik.touched.desired_date) && (
+                                                                <span className="text-red-500 text-sm">{formik.errors.desired_date}</span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </Col>
+                                                <Col md={8}>
+                                                    <div className="flex flex-row justify-end items-center gap-1">
+                                                        <div className="pr-1">รวมเป็นเงินทั้งสิ้น</div>
+                                                        <div className="w-[22%]">
+                                                            <input
+                                                                type="text"
+                                                                name="net_total"
+                                                                value={formik.values.net_total}
+                                                                onChange={formik.handleChange}
+                                                                placeholder="รวมเป็นเงินทั้งสิ้น"
+                                                                className="form-control text-sm float-right text-right"
+                                                            />
+                                                            {(formik.errors.net_total && formik.touched.net_total) && (
+                                                                <span className="text-red-500 text-sm">{formik.errors.net_total}</span>
+                                                            )}
+                                                        </div>
+                                                        <div className="w-[15%] pl-1">บาท</div>
+                                                    </div>
+                                                </Col>
+                                            </Row>
                                         </div>
-                                        {(formik.errors.items && formik.touched.items) && (
-                                            <span className="text-red-500 text-sm">{formik.errors.items}</span>
-                                        )}
                                     </Col>
                                 </Row>
                                 <Row className="mb-2">
