@@ -131,9 +131,10 @@ const LoanForm = ({ loan }) => {
 
     const handleAddBudget = (formik, budget) => {
         const newBudgets = [...formik.values.budgets, budget];
+        const budgetTotal = calculateNetTotal(newBudgets, (isRemoved) => isRemoved);
 
         formik.setFieldValue('budgets', newBudgets);
-        formik.setFieldValue('budget_total', currency.format(calculateNetTotal(newBudgets)));
+        formik.setFieldValue('budget_total', currency.format(budgetTotal));
     };
 
     const handleRemoveBudget = (formik, id, isNewLoan = false) => {
@@ -358,7 +359,7 @@ const LoanForm = ({ loan }) => {
                                     <h1 className="font-bold text-lg mb-1">รายละเอียดโครงการ</h1>
                                     <Row className="mb-2">
                                         <Col md={2}>
-                                            <label htmlFor="">เลขที่ขออนุมติ</label>
+                                            <label htmlFor="">เลขที่ขออนุมัติ</label>
                                             <input
                                                 type="text"
                                                 name="project_no"
@@ -372,7 +373,7 @@ const LoanForm = ({ loan }) => {
                                         </Col>
                                         <Col md={2}>
                                             <div className="flex flex-col">
-                                                <label htmlFor="">วันที่ขออนุมติ</label>
+                                                <label htmlFor="">วันที่ขออนุมัติ</label>
                                                 <DatePicker
                                                     format="DD/MM/YYYY"
                                                     value={selectedProjectDate}
@@ -494,7 +495,7 @@ const LoanForm = ({ loan }) => {
                                     />
 
                                     <BudgetList
-                                        budgets={formik.values.budgets}
+                                        budgets={formik.values.budgets.filter(budget => !budget.removed)}
                                         onRemoveBudget={(id, isNewLoan) => handleRemoveBudget(formik, id, isNewLoan)}
                                     />
 
