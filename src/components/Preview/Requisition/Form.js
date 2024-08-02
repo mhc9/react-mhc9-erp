@@ -202,7 +202,7 @@ const RequisitionForm = () => {
             {/* PAGE 2 */}
             <div className="paper-container">
                 <div className="px-[1.5cm] py-5 text-center">
-                    <h1 className="text-2xl font-bold mb-2">รายละเอียดที่ขอซื้อ</h1>
+                    <h1 className="text-2xl font-bold mb-2">รายละเอียดขอบเขตของงานหรือรายละเอียดคุณลักษณะเฉพาะ</h1>
 
                     <div className="mt-2 mb-1 pl-[10%] flex flex-col items-start justify-center">
                         1. รายละเอียดของพัสดุที่จะ{(requisition?.order_type_id === 1 ? 'ซื้อ' + requisition?.category?.name : requisition?.contract_desc)} โดยวิธีเฉพาะเจาะจง จำนวน {requisition?.item_count} รายการ
