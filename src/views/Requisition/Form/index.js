@@ -26,20 +26,20 @@ import ModalBudgetList from '../../../components/Modals/BudgetList'
 
 const requisitionSchema = Yup.object().shape({
     pr_no: Yup.string().required('กรุณาระบุเลขที่เอกสาร'),
-    pr_date: Yup.string().required('กรุณาเลือกวันที่เอกสาร'),
-    order_type_id: Yup.string().required('กรุณาเลือกประเภทการจัดซื้อ'),
-    category_id: Yup.string().required('กรุณาเลือกประเภทสินค้า'),
+    pr_date: Yup.string().required('กรุณาระบุวันที่เอกสาร'),
+    order_type_id: Yup.string().required('กรุณาระบุประเภทการจัดซื้อ'),
+    category_id: Yup.string().required('กรุณาระบุประเภทสินค้า'),
     contract_desc: Yup.string().ensure().when('order_type_id', {
         is: (val) => val === '2',
         then: () => Yup.string().required('กรุณาระบุรายละเอียดการจ้าง'),
     }),
     topic: Yup.string().required('กรุณาระบุเรื่อง'),
-    year: Yup.string().required('กรุณาเลือกปีงบ'),
-    budget_id: Yup.string().required('กรุณาเลือกงบประมาณ'),
-    requester_id: Yup.string().required('กรุณาเลือกผู้ขอ/เจ้าของโครงการ'),
-    division_id: Yup.string().required('กรุณาเลือกหน่วยงาน'),
+    year: Yup.string().required('กรุณาระบุปีงบ'),
+    budget_id: Yup.string().required('กรุณาระบุงบประมาณ'),
+    requester_id: Yup.string().required('กรุณาระบุผู้ขอ/เจ้าของโครงการ'),
+    // division_id: Yup.string().required('กรุณาระบุหน่วยงาน'),
     reason: Yup.string().required('กรุณาระบุเหตุผลที่ขอ'),
-    desired_date: Yup.string().required('กรุณาระบุเหตุผลที่ขอ'),
+    desired_date: Yup.string().required('กรุณาระบุวันที่ต้องการใช้'),
     items: Yup.mixed().test('Items Count', 'ไม่พบการระบุรายการสินค้า', val => val.filter(item => !item.removed).length > 0),
     committees: Yup.mixed().test('Committees Count', 'ไม่พบการระบุผู้ตรวจรับ', val => val.filter(comm => !comm.removed).length > 0),
 });
@@ -93,6 +93,7 @@ const RequisitionForm = ({ requisition }) => {
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_count', newItems.length);
         formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems, (isRemove) => isRemove)));
+        setTimeout(() => formik.setFieldTouched('items', true), 300);
     };
 
     const handleEditItem = (data) => {
@@ -172,6 +173,7 @@ const RequisitionForm = ({ requisition }) => {
                 year: requisition ? requisition.year : moment().year() + 543,
                 budget_id: requisition ? requisition.budget_id : '',
                 project_id: (requisition && requisition.project_id) ? requisition.project_id : '',
+                project_name: (requisition && requisition.project_name) ? requisition.project_name : '',
                 division_id: (requisition && requisition.division_id) ? requisition.division_id : '',
                 requester_id: requisition ? requisition.requester_id : '',
                 reason: requisition ? requisition.reason : '',
@@ -237,7 +239,7 @@ const RequisitionForm = ({ requisition }) => {
                                                     setSelectedDate(date);
                                                     formik.setFieldValue('pr_date', date.format('YYYY-MM-DD'));
                                                 }}
-                                                variant="outlined"
+                                                className={classes.muiTextFieldInput}
                                             />
                                         </div>
                                         {(formik.errors.pr_date && formik.touched.pr_date) && (
@@ -330,6 +332,22 @@ const RequisitionForm = ({ requisition }) => {
                                             <span className="text-red-500 text-sm">{formik.errors.topic}</span>
                                         )}
                                     </Col>
+                                    <Col md={2}>
+                                        <label htmlFor="">ปีงบประมาณ</label>
+                                        <DatePicker
+                                            format="YYYY"
+                                            views={['year']}
+                                            value={selectedYear}
+                                            onChange={(date) => {
+                                                setSelectedYear(date);
+                                                formik.setFieldValue('year', date.year() + 543);
+                                            }}
+                                            className={classes.muiTextFieldInput}
+                                        />
+                                        {(formik.errors.year && formik.touched.year) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.year}</span>
+                                        )}
+                                    </Col>
                                 </Row>
                                 <Row className="mb-2">
                                     <Col md={6}>
@@ -353,43 +371,7 @@ const RequisitionForm = ({ requisition }) => {
                                             <span className="text-red-500 text-sm">{formik.errors.budget_id}</span>
                                         )}
                                     </Col>
-                                    <Col md={6}>
-                                        <label htmlFor="">โครงการ</label>
-                                        <select
-                                            name="project_id"
-                                            value={formik.values.project_id}
-                                            onChange={formik.handleChange}
-                                            className="form-control text-sm"
-                                        >
-                                            <option value="">-- โครงการ --</option>
-                                            {formData.projects && formData.projects.map(project => (
-                                                <option value={project.id} key={project.id}>
-                                                    {project.name}
-                                                </option>
-                                            ))}
-                                        </select>
-                                        {(formik.errors.project_id && formik.touched.project_id) && (
-                                            <span className="text-red-500 text-sm">{formik.errors.project_id}</span>
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row className="mb-2">
-                                    <Col md={2}>
-                                        <label htmlFor="">ปีงบ</label>
-                                        <DatePicker
-                                            format="YYYY"
-                                            views={['year']}
-                                            value={selectedYear}
-                                            onChange={(date) => {
-                                                setSelectedYear(date);
-                                                formik.setFieldValue('year', date.year() + 543);
-                                            }}
-                                        />
-                                        {(formik.errors.year && formik.touched.year) && (
-                                            <span className="text-red-500 text-sm">{formik.errors.year}</span>
-                                        )}
-                                    </Col>
-                                    <Col md={6}>
+                                    <Col md={3}>
                                         <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
                                         <div className="input-group">
                                             <div className="form-control h-[34px] text-sm">
@@ -410,7 +392,7 @@ const RequisitionForm = ({ requisition }) => {
                                             <span className="text-red-500 text-sm">{formik.errors.requester_id}</span>
                                         )}
                                     </Col>
-                                    <Col md={4}>
+                                    <Col md={3}>
                                         <label htmlFor="">หน่วยงาน</label>
                                         <select
                                             name="division_id"
@@ -435,6 +417,32 @@ const RequisitionForm = ({ requisition }) => {
                                     </Col>
                                 </Row>
                                 <Row className="mb-2">
+                                    <Col>
+                                        <label htmlFor="">โครงการ (ถ้ามี)</label>
+                                        <textarea
+                                            rows={2}
+                                            name="project_name"
+                                            value={formik.values.project_name}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm"
+                                        ></textarea>
+                                        {/* <select
+                                            name="project_id"
+                                            value={formik.values.project_id}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm"
+                                        >
+                                            <option value="">-- โครงการ --</option>
+                                            {formData.projects && formData.projects.map(project => (
+                                                <option value={project.id} key={project.id}>
+                                                    {project.name}
+                                                </option>
+                                            ))}
+                                        </select> */}
+                                        {(formik.errors.project_id && formik.touched.project_id) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.project_id}</span>
+                                        )}
+                                    </Col>
                                     <Col>
                                         <label htmlFor="">เหตุผลที่ขอ</label>
                                         <textarea
@@ -474,7 +482,7 @@ const RequisitionForm = ({ requisition }) => {
                                                 <Col md={4}>
                                                     <div className="row">
                                                         <label htmlFor="" className="col-4 text-right pr-1">วันที่ต้องการใช้</label>
-                                                        <div className="col-8 w-[40%] pl-1">
+                                                        <div className="col-8 w-[50%] pl-1">
                                                             <DatePicker
                                                                 format="DD/MM/YYYY"
                                                                 value={selectedDesiredDate}
