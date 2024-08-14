@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { getTasks, destroy } from '../../features/slices/task/taskSlice'
+import { getTasks, destroy, resetDeleted } from '../../features/slices/task/taskSlice'
 import { getPriority, toShortTHDate, generateQueryString } from '../../utils'
 import Loading from '../../components/Loading'
 import Pagination from '../../components/Pagination'
 import TaskStatusBadge from '../../components/Task/StatusBadge'
 import TaskFilteringInputs from '../../components/Task/FilteringInputs'
+import { toast } from 'react-toastify'
 
 const initialFilters = {
     date: '',
@@ -19,9 +20,18 @@ const initialFilters = {
 
 const TaskList = () => {
     const dispatch = useDispatch();
-    const { tasks, pager, loading } = useSelector(state => state.task);
+    const { tasks, pager, isLoading, isDeleted } = useSelector(state => state.task);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
+
+    useEffect(() => {
+        if (isDeleted) {
+            dispatch(resetDeleted());
+            toast.success('ลบข้อมูลสำเร็จ!!');
+
+            setApiEndpoint(prev => prev !== '' ? '' : `/api/tasks/search?page=`);
+        }
+    }, [isDeleted]);
 
     useEffect(() => {
         if (apiEndpoint === '') {
@@ -73,12 +83,12 @@ const TaskList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {loading && (
+                            {isLoading && (
                                 <tr>
                                     <td colSpan={6} className="text-center"><Loading /></td>
                                 </tr>
                             )}
-                            {tasks && tasks.map((task, index) => (
+                            {(!isLoading && tasks) && tasks.map((task, index) => (
                                 <tr key={task.id} className="font-thin">
                                     <td className="text-center">{ pager && pager.from + index}</td>
                                     <td className="text-center">

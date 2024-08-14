@@ -61,7 +61,7 @@ export const update = createAsyncThunk("task/update", async ({ id, data }, { rej
     }
 });
 
-export const destroy = createAsyncThunk("task/destroy", async ({ id }, { rejectWithValue }) => {
+export const destroy = createAsyncThunk("task/destroy", async (id, { rejectWithValue }) => {
     try {
         const res = await api.post(`/api/tasks/${id}/delete`);
 
@@ -77,6 +77,9 @@ export const taskSlice = createSlice({
     reducers: {
         resetSuccess(state) {
             state.isSuccess = false;
+        },
+        resetDeleted(state) {
+            state.isDeleted = false;
         }
     },
     extraReducers: {
@@ -184,4 +187,4 @@ export const taskSlice = createSlice({
 
 export default taskSlice.reducer;
 
-export const { resetSuccess } = taskSlice.actions;
+export const { resetSuccess, resetDeleted } = taskSlice.actions;
