@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { getTasks } from '../../features/slices/task/taskSlice'
+import { getTasks, destroy } from '../../features/slices/task/taskSlice'
 import { getPriority, toShortTHDate, generateQueryString } from '../../utils'
 import Loading from '../../components/Loading'
 import Pagination from '../../components/Pagination'
@@ -35,6 +35,12 @@ const TaskList = () => {
         setParams(queryStr);
 
         setApiEndpoint(`/api/tasks/search?page=`);
+    };
+
+    const handleDelete = (id) => {
+        if (window.confirm(`คุณต้องการลบข้อมูลแจ้งปัญหารหัส ${id} ใช่หรือไม่?`)) {
+            dispatch(destroy(id));
+        }
     };
 
     return (
@@ -112,7 +118,7 @@ const TaskList = () => {
                                         <Link to={`/task/${task.id}/edit`} className="btn btn-sm btn-warning mr-1">
                                             <FaPencilAlt size={'12px'} />
                                         </Link>
-                                        <button className="btn btn-sm btn-danger">
+                                        <button className="btn btn-sm btn-danger" onClick={() => handleDelete(task.id)}>
                                             <FaTrash size={'12px'} />
                                         </button>
                                     </td>
