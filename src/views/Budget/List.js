@@ -1,23 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Breadcrumb } from 'react-bootstrap'
+import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getBudgets } from '../../features/slices/budget/budgetSlice'
 import Pagination from '../../components/Pagination'
+import FilteringInputs from './FilteringInputs'
+
+const initialFilters = {
+    plan: '',
+    project: '',
+    name: ''
+};
 
 const BudgetList = () => {
     const dispatch = useDispatch();
     const { budgets, pager, isLoading } = useSelector(state => state.budget);
     const [apiEndpoint, setApiEndpoint] = useState('');
+    const [params, setParams] = useState('');
 
     useEffect(() => {
         if (apiEndpoint === '') {
             dispatch(getBudgets({ url: `/api/budgets/search?page=` }));
         } else {
-            dispatch(getBudgets({ url: apiEndpoint }));
+            dispatch(getBudgets({ url: `${apiEndpoint}${params}` }));
         }
-    }, [apiEndpoint]);
+    }, [apiEndpoint, params]);
+
+    const handleFilter = (queryStr) => {
+        setParams(queryStr);
+
+        setApiEndpoint(`/api/budgets/search?page=`);
+    };
 
     const handleDelete = (id) => {
 
@@ -37,6 +51,11 @@ const BudgetList = () => {
                     <Link to="add" className="btn btn-primary">เพิ่มรายการ</Link>
                 </div>
 
+                <FilteringInputs
+                    initialFilters={initialFilters}
+                    onFilter={handleFilter}
+                />
+
                 <div>
                     <table className="table table-bordered text-sm mb-2">
                         <thead>
@@ -54,9 +73,9 @@ const BudgetList = () => {
                                 <tr className="font-thin" key={budget.id}>
                                     <td className="text-center">{pager && pager.from+index}</td>
                                     <td>
+                                        <p className="font-semibold text-primary">{budget.project?.plan?.name}</p>
+                                        <p className="">{budget.project?.name}</p>
                                         <p className="font-bold">{budget.name}</p>
-                                        <p>{budget.project?.name}</p>
-                                        <p className="badge rounded-pill bg-primary">{budget.project?.plan?.name}</p>
                                     </td>
                                     <td className="text-center">{budget.gfmis_id}</td>
                                     <td className="text-center">{budget.main_gfmis_id}</td>
