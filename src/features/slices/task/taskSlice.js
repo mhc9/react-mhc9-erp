@@ -7,6 +7,7 @@ const initialState = {
     pager: null,
     isLoading: false,
     isSuccess: false,
+    isDeleted: false,
     error: null,
 };
 
@@ -163,15 +164,15 @@ export const taskSlice = createSlice({
             state.error = payload;
         },
         [destroy.pending]: (state) => {
-            state.isSuccess = false;
+            state.isDeleted = false;
         },
         [destroy.fulfilled]: (state, { payload }) => {
             const { status, message } = payload;
 
             if (status === 1) {
-                state.isSuccess = true;
+                state.isDeleted = true;
             } else {
-                state.isSuccess = false;
+                state.isDeleted = false;
                 state.error = { message };
             }
         },
