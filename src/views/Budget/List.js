@@ -6,6 +6,7 @@ import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getBudgets } from '../../features/slices/budget/budgetSlice'
 import Pagination from '../../components/Pagination'
 import FilteringInputs from './FilteringInputs'
+import PlanDropdown from './PlanDropdown'
 
 const initialFilters = {
     plan: '',
@@ -40,7 +41,7 @@ const BudgetList = () => {
     return (
         <div className="content-wrapper">
             <Breadcrumb>
-                <Breadcrumb.Item href="/">หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>งบประมาณ</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการงบประมาณ</Breadcrumb.Item>
             </Breadcrumb>
@@ -48,7 +49,10 @@ const BudgetList = () => {
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการงบประมาณ</h2>
-                    <Link to="add" className="btn btn-primary">เพิ่มรายการ</Link>
+                    <div className="flex flex-row gap-1">
+                        <PlanDropdown />
+                        <Link to="add" className="btn btn-primary">เพิ่มรายการ</Link>
+                    </div>
                 </div>
 
                 <FilteringInputs
