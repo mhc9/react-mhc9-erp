@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import moment from 'moment';
 import { DatePicker } from '@material-ui/pickers';
 import { useStyles } from '../../../hooks/useStyles';
+import { useGetInitialFormDataQuery } from '../../../features/services/budgetPlan/budgetPlanApi'
 
 const budgetPlanSchema = Yup.object().shape({
     plan_no: Yup.string().required(),
@@ -15,6 +16,7 @@ const budgetPlanSchema = Yup.object().shape({
 const BudgetPlanForm = () => {
     const classes = useStyles();
     const [selectedYear, setSelectedYear] = useState(moment());
+    const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     const handleSubmit = (values, formik) => {
         console.log(values);
@@ -90,11 +92,14 @@ const BudgetPlanForm = () => {
                                 <div className="col-6">
                                     <select
                                         name="plan_type_id"
-                                        value={1}
+                                        value={formik.values.plan_type_id}
                                         onChange={formik.handleChange}
                                         className="form-control text-sm"
                                     >
                                         <option value="">-- เลือกประเภท --</option>
+                                        {formData && formData.types.map(type => (
+                                            <option value={type.id} key={type.id}>{type.name}</option>
+                                        ))}
                                     </select>
                                     {(formik.errors.plan_type_id && formik.touched.plan_type_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.plan_type_id}</span>
