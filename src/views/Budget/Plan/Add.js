@@ -9,7 +9,7 @@ const AddBudgetPlan = () => {
             <Breadcrumb>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget' }}>งบประมาณ</Breadcrumb.Item>
-                <Breadcrumb.Item  linkAs={Link} linkProps={{ to: '/budget-plan' }}>แผนงาน</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-plan' }}>แผนงาน</Breadcrumb.Item>
                 <Breadcrumb.Item active>เพิ่มแผนงาน</Breadcrumb.Item>
             </Breadcrumb>
 

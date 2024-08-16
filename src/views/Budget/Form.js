@@ -27,7 +27,6 @@ const BudgetForm = () => {
             initialValues={{
                 name: '',
                 gfmis_id: '',
-                main_gfmis_id: '',
                 type_id: '',
                 plan_id: '',
                 project_id: ''
@@ -38,8 +37,8 @@ const BudgetForm = () => {
                 return (
                     <Form>
                         <Row className="mb-2">
-                            <label htmlFor="" className="col-3 col-form-label">แผน</label>
-                            <Col>
+                            <label htmlFor="" className="col-3 col-form-label text-right">แผน :</label>
+                            <Col md={6}>
                                 <select
                                     name="plan_id"
                                     value={formik.values.plan_id}
@@ -52,15 +51,15 @@ const BudgetForm = () => {
                                     <option value="">-- แผน --</option>
                                     {formData && formData?.plans.map(plan => (
                                         <option value={plan.id} key={plan.id}>
-                                            {plan.name}
+                                            {plan.plan_no} {plan.name}
                                         </option>
                                     ))}
                                 </select>
                             </Col>
                         </Row>
                         <Row className="mb-2">
-                            <label htmlFor="" className="col-3 col-form-label">โครงการ/ผลผลิต</label>
-                            <Col>
+                            <label htmlFor="" className="col-3 col-form-label text-right">โครงการ/ผลผลิต :</label>
+                            <Col md={6}>
                                 <select
                                     name="project_id"
                                     value={formik.values.project_id}
@@ -77,8 +76,8 @@ const BudgetForm = () => {
                             </Col>
                         </Row>
                         <Row className="mb-2">
-                            <label htmlFor="" className="col-3 col-form-label">ประเภทงบประมาณ</label>
-                            <Col>
+                            <label htmlFor="" className="col-3 col-form-label text-right">ประเภทงบประมาณ :</label>
+                            <Col md={6}>
                                 <select
                                     name="type_id"
                                     value={formik.values.type_id}
@@ -95,8 +94,8 @@ const BudgetForm = () => {
                             </Col>
                         </Row>
                         <Row className="mb-2">
-                            <label htmlFor="" className="col-3 col-form-label">ชื่องบประมาณ</label>
-                            <Col>
+                            <label htmlFor="" className="col-3 col-form-label text-right">ชื่องบประมาณ :</label>
+                            <Col md={6}>
                                 <input
                                     type="text"
                                     name="name"
@@ -108,8 +107,8 @@ const BudgetForm = () => {
                             </Col>
                         </Row>
                         <Row className="mb-2">
-                            <label htmlFor="" className="col-3 col-form-label">รหัส New GFMIS</label>
-                            <Col>
+                            <label htmlFor="" className="col-3 col-form-label text-right">รหัส New GFMIS :</label>
+                            <Col md={6}>
                                 <input
                                     type="text"
                                     name="gfmis_id"
@@ -117,19 +116,6 @@ const BudgetForm = () => {
                                     onChange={formik.handleChange}
                                     className="form-control text-sm"
                                     placeholder="ระบุรหัส New GFMIS"
-                                />
-                            </Col>
-                        </Row>
-                        <Row className="mb-3">
-                            <label htmlFor="" className="col-3 col-form-label">กิจกรรมหลัก New GFMIS</label>
-                            <Col>
-                                <input
-                                    type="text"
-                                    name="main_gfmis_id"
-                                    value={formik.values.main_gfmis_id}
-                                    onChange={formik.handleChange}
-                                    className="form-control text-sm"
-                                    placeholder="ระบุกิจกรรมหลัก New GFMIS"
                                 />
                             </Col>
                         </Row>
