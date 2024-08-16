@@ -29,6 +29,7 @@ const BudgetPlanList = () => {
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">แผนงาน</h2>
+                    <Link to="add" className="btn btn-primary">เพิ่มรายการ</Link>
                 </div>
 
                 <div>
@@ -37,19 +38,21 @@ const BudgetPlanList = () => {
                             <tr>
                                 <th className="w-[5%] text-center">#</th>
                                 <th>แผนงาน</th>
+                                <th className="w-[10%] text-center">ปีงบประมาณ</th>
                                 <th className="w-[10%] text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {isLoading && (
                                 <tr>
-                                    <td colSpan={3} className="text-center"><Loading /></td>
+                                    <td colSpan={4} className="text-center"><Loading /></td>
                                 </tr>
                             )}
                             {!isLoading && plans.map((plan, index) => (
                                 <tr>
                                     <td className="text-center">{index+1}</td>
                                     <td>{plan.name}</td>
+                                    <td className="text-center">{plan.year}</td>
                                     <td className="text-center p-1">
                                         <Link to={`/budget-plan/${plan.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
