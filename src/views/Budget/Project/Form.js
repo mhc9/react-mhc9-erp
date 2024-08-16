@@ -5,6 +5,8 @@ import * as Yup from 'yup'
 import moment from 'moment'
 import { useStyles } from '../../../hooks/useStyles'
 import { useGetInitialFormDataQuery } from '../../../features/services/budgetProject/budgetProjectApi'
+import { store, update } from '../../../features/slices/budget-project/budgetProjectSlice'
+import { useDispatch } from 'react-redux'
 
 const budgetProjectSchema = Yup.object().shape({
     name: Yup.string().required(),
@@ -13,24 +15,31 @@ const budgetProjectSchema = Yup.object().shape({
     year: Yup.string().required(),
 });
 
-const BudgetProjectForm = () => {
+const BudgetProjectForm = ({ project }) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [selectedYear, setSelectedYear] = useState(moment());
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     const handleSubmit = (values, formik) => {
+        if (project) {
+            dispatch(update({ id: project.id, data: values }));
+        } else {
+            dispatch(store(values));
+        }
+
         console.log(values);
     };
 
     return (
         <Formik
             initialValues={{
-                name: '',
-                plan_id: '',
-                project_type_id: 1,
-                year: moment().format('YYYY'),
-                gfmis_id: '',
-                status: ''
+                name: project ? project.name : '',
+                plan_id: project ? project.plan_id : '',
+                project_type_id: project ? project.project_type_id : 1,
+                year: project ? project.year : moment().format('YYYY'),
+                gfmis_id: project ? project.gfmis_id : '',
+                status: project ? project.status : ''
             }}
             onSubmit={handleSubmit}
             validationSchema={budgetProjectSchema}
