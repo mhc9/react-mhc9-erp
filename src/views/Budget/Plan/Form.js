@@ -37,7 +37,7 @@ const BudgetPlanForm = ({ plan }) => {
                 initialValues={{
                     plan_no: plan ? plan.plan_no : '',
                     name: plan ? plan.name : '',
-                    year: plan ? plan.year : '',
+                    year: plan ? plan.year : moment().format('YYYY'),
                     plan_type_id: plan ? plan.plan_type_id : ''
                 }}
                 validationSchema={budgetPlanSchema}
@@ -115,7 +115,7 @@ const BudgetPlanForm = ({ plan }) => {
                                     )}
                                 </div>
                             </div>
-                            <div class="row">
+                            <div className="row">
                                 <div className="offset-3">
                                     <button className="btn btn-outline-primary">บันทึก</button>
                                 </div>
