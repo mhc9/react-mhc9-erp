@@ -28,7 +28,7 @@ const BudgetProjectList = () => {
         <div className="content-wrapper">
             <Breadcrumb>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
-                <Breadcrumb.Item active>งบประมาณ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget' }}>งบประมาณ</Breadcrumb.Item>
                 <Breadcrumb.Item active>โครงการ/ผลผลิต</Breadcrumb.Item>
             </Breadcrumb>
 
@@ -58,7 +58,10 @@ const BudgetProjectList = () => {
                             {!isLoading && projects.map((project, index) => (
                                 <tr>
                                     <td className="text-center">{index+1}</td>
-                                    <td>{project.name}</td>
+                                    <td>
+                                        <p className="badge rounded-pill bg-success">{project.gfmis_id}</p>
+                                        <p>{project.name}</p>
+                                    </td>
                                     <td>{project.plan?.plan_no} {project.plan?.name}</td>
                                     <td className="text-center">{project.year && project.year + 543}</td>
                                     <td className="text-center p-1">
