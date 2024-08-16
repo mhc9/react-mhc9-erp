@@ -42,6 +42,7 @@ import { assetTypeApi } from "./services/asset-type/assetTypeApi"
 import { approvalApi } from "./services/approval/approvalApi";
 import { loanApi } from "./services/loan/loanApi";
 import { budgetApi } from "./services/budget/budgetApi";
+import { budgetPlanApi } from "./services/budgetPlan/budgetPlanApi";
 import { projectApi } from "./services/project/projectApi";
 import { placeApi } from "./services/place/placeApi";
 import { comsetApi } from "./services/comset/comsetApi";
@@ -63,6 +64,7 @@ export default configureStore({
         [approvalApi.reducerPath]: approvalApi.reducer,
         [loanApi.reducerPath]: loanApi.reducer,
         [budgetApi.reducerPath]: budgetApi.reducer,
+        [budgetPlanApi.reducerPath]: budgetPlanApi.reducer,
         [projectApi.reducerPath]: projectApi.reducer,
         [placeApi.reducerPath]: placeApi.reducer,
         [comsetApi.reducerPath]: comsetApi.reducer,
@@ -113,6 +115,7 @@ export default configureStore({
             comsetApi.middleware,
             loanApi.middleware,
             budgetApi.middleware,
+            budgetPlanApi.middleware,
             projectApi.middleware,
             placeApi.middleware,
         ),
