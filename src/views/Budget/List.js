@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Breadcrumb, Col, Row } from 'react-bootstrap'
-import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
+import { Breadcrumb } from 'react-bootstrap'
+import { FaPencilAlt, FaSearch, FaTrash, FaRegEye, FaRegEyeSlash   } from 'react-icons/fa'
 import { getBudgets } from '../../features/slices/budget/budgetSlice'
 import Pagination from '../../components/Pagination'
 import FilteringInputs from './FilteringInputs'
@@ -67,6 +67,7 @@ const BudgetList = () => {
                                 <th className="text-center w-[5%]">#</th>
                                 <th>รายการ</th>
                                 <th className="text-center w-[18%]">รหัส New GFMIS</th>
+                                <th className="text-center w-[6%]">ปีงบประมาณ</th>
                                 <th className="text-center w-[6%]">สถานะ</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
@@ -83,7 +84,15 @@ const BudgetList = () => {
                                         <p className="font-bold">{budget.name}</p>
                                     </td>
                                     <td className="text-center">{budget.gfmis_id}</td>
-                                    <td className="text-center">{budget.status}</td>
+                                    <td className="text-center">{budget.year && budget.year + 543}</td>
+                                    <td className="text-center">
+                                        <div className="flex justify-center">
+                                            {budget.status === 0
+                                                ? <FaRegEyeSlash size={20} color='gray' />
+                                                : <FaRegEye size={20} color='green' />
+                                            }
+                                        </div>
+                                    </td>
                                     <td className="text-center p-1">
                                         <Link to={`/budget/${budget.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
