@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment';
 import { DatePicker } from '@material-ui/pickers';
 import { useStyles } from '../../../hooks/useStyles';
+import { store, update } from '../../../features/slices/budget-plan/budgetPlanSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/budgetPlan/budgetPlanApi'
 
 const budgetPlanSchema = Yup.object().shape({
@@ -13,12 +15,19 @@ const budgetPlanSchema = Yup.object().shape({
     plan_type_id: Yup.string().required(),
 });
 
-const BudgetPlanForm = () => {
+const BudgetPlanForm = ({ plan }) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [selectedYear, setSelectedYear] = useState(moment());
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     const handleSubmit = (values, formik) => {
+        if (plan) {
+            dispatch(update({ id: plan.id, data: values }));
+        } else {
+            dispatch(store(values));
+        }
+
         console.log(values);
     };
 
@@ -26,10 +35,10 @@ const BudgetPlanForm = () => {
         <div className="border rounded-md py-5">
             <Formik
                 initialValues={{
-                    plan_no: '',
-                    name: '',
-                    year: '',
-                    plan_type_id: ''
+                    plan_no: plan ? plan.plan_no : '',
+                    name: plan ? plan.name : '',
+                    year: plan ? plan.year : '',
+                    plan_type_id: plan ? plan.plan_type_id : ''
                 }}
                 validationSchema={budgetPlanSchema}
                 onSubmit={handleSubmit}
