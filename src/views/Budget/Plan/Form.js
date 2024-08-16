@@ -117,7 +117,7 @@ const BudgetPlanForm = ({ plan }) => {
                             </div>
                             <div className="row">
                                 <div className="offset-3">
-                                    <button className="btn btn-outline-primary">บันทึก</button>
+                                    <button type="submit" className="btn btn-outline-primary">บันทึก</button>
                                 </div>
                             </div>
                         </Form>
