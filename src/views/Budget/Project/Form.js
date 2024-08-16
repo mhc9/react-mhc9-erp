@@ -4,6 +4,7 @@ import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
 import { useStyles } from '../../../hooks/useStyles'
+import { useGetInitialFormDataQuery } from '../../../features/services/budgetProject/budgetProjectApi'
 
 const budgetProjectSchema = Yup.object().shape({
     name: Yup.string().required(),
@@ -15,6 +16,7 @@ const budgetProjectSchema = Yup.object().shape({
 const BudgetProjectForm = () => {
     const classes = useStyles();
     const [selectedYear, setSelectedYear] = useState(moment());
+    const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     const handleSubmit = (values, formik) => {
         console.log(values);
@@ -42,6 +44,8 @@ const BudgetProjectForm = () => {
                                 <input
                                     type="text"
                                     name="name"
+                                    value={formik.values.name}
+                                    onChange={formik.handleChange}
                                     className="form-control text-sm"
                                 />
                                 {(formik.errors.name && formik.touched.name) && (
@@ -54,9 +58,16 @@ const BudgetProjectForm = () => {
                             <div className="col-6">
                                 <select
                                     name="plan_id"
+                                    value={formik.values.plan_id}
+                                    onChange={formik.handleChange}
                                     className="form-control text-sm"
                                 >
                                     <option value="">-- เลือกแผนงาน --</option>
+                                    {formData && formData.plans.map(plan => (
+                                        <option value={plan.id} key={plan.id}>
+                                            {plan.name}
+                                        </option>
+                                    ))}
                                 </select>
                                 {(formik.errors.plan_id && formik.touched.plan_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.plan_id}</span>
@@ -92,6 +103,7 @@ const BudgetProjectForm = () => {
                                         name="project_type_id"
                                         value={1}
                                         checked={formik.values.project_type_id === 1}
+                                        onChange={() => formik.setFieldValue('project_type_id', 1)}
                                         className="mr-2"
                                     />
                                     โครงการ
@@ -102,6 +114,7 @@ const BudgetProjectForm = () => {
                                         name="project_type_id"
                                         value={2}
                                         checked={formik.values.project_type_id === 2}
+                                        onChange={() => formik.setFieldValue('project_type_id', 2)}
                                         className="mr-2"
                                     />
                                     ผลผลิต
@@ -114,6 +127,8 @@ const BudgetProjectForm = () => {
                                 <input
                                     type="text"
                                     name="gfmis_id"
+                                    value={formik.values.gfmis_id}
+                                    onChange={formik.handleChange}
                                     className="form-control text-sm"
                                 />
                                 {(formik.errors.gfmis_id && formik.touched.gfmis_id) && (

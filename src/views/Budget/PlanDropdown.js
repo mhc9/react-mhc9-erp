@@ -12,7 +12,7 @@ const PlanDropdown = () => {
             </button>
             <ul className={`dropdown-menu ${show ? 'show' : ''}`}>
                 <li><Link to="/budget-plan" className="dropdown-item">แผนงาน</Link></li>
-                <li><Link to="/budget-project" className="dropdown-item" href="#">กิจกรรม/โครงการ</Link></li>
+                <li><Link to="/budget-project" className="dropdown-item" href="#">โครงการ/ผลผลิต</Link></li>
             </ul>
         </div>
     )

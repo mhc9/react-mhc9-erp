@@ -1,12 +1,16 @@
 import React from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 import BudgetProjectForm from './Form'
+import { Link } from 'react-router-dom'
 
 const AddBudgetProject = () => {
     return (
         <div className="content-wrapper">
             <Breadcrumb>
                 <Breadcrumb.Item>หน้าหลัก</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget' }}>งบประมาณ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-project' }}>โครงการ/ผลผลิต</Breadcrumb.Item>
+                <Breadcrumb.Item active>เพิ่มโครงการ/ผลผลิต</Breadcrumb.Item>
             </Breadcrumb>
 
             <div className="content">

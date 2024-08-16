@@ -29,12 +29,12 @@ const BudgetProjectList = () => {
             <Breadcrumb>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>งบประมาณ</Breadcrumb.Item>
-                <Breadcrumb.Item active>กิจกรรม/โครงการ</Breadcrumb.Item>
+                <Breadcrumb.Item active>โครงการ/ผลผลิต</Breadcrumb.Item>
             </Breadcrumb>
 
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-xl">กิจกรรม/โครงการ</h2>
+                    <h2 className="text-xl">โครงการ/ผลผลิต</h2>
                     <Link to="add" className="btn btn-primary">เพิ่มรายการ</Link>
                 </div>
 
@@ -43,7 +43,7 @@ const BudgetProjectList = () => {
                         <thead>
                             <tr>
                                 <th className="w-[5%] text-center">#</th>
-                                <th>กิจกรรม/โครงการ</th>
+                                <th>โครงการ/ผลผลิต</th>
                                 <th className="w-[30%] text-center">แผนงาน</th>
                                 <th className="w-[10%] text-center">ปีงบประมาณ</th>
                                 <th className="w-[10%] text-center">Actions</th>
