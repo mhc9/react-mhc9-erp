@@ -74,7 +74,7 @@ const BudgetProjectForm = ({ project }) => {
                                     <option value="">-- เลือกแผนงาน --</option>
                                     {formData && formData.plans.map(plan => (
                                         <option value={plan.id} key={plan.id}>
-                                            {plan.name}
+                                            {plan.plan_no} {plan.name}
                                         </option>
                                     ))}
                                 </select>
