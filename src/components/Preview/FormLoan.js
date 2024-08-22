@@ -92,6 +92,7 @@ const FormLoan = () => {
                                         มีรายละเอียดดังต่อไปนี้
                                     </span>
 
+                                    {/* รายการขออนุมัติจัดซื้อจัดจ้าง */}
                                     {loan.details && loan.details.some(item => item.expense_group === 2) && (
                                         <div className="indent-0 mt-1">
                                             <p className="indent-[1.3cm] mx-1 font-bold">ขออนุมัติจัดซื้อจัดจ้างตามรายละเอียดดังนี้</p>
@@ -110,10 +111,14 @@ const FormLoan = () => {
                                                     </table>
                                                 )
                                             )}
+                                            <div className="indent-[3cm] font-bold">
+                                                รวมจำนวนเงิน {currency.format(loan.order_total)} บาท ({ThaiNumberToText(loan.order_total)})
+                                            </div>
                                         </div>
                                     )}
 
-                                    <div>
+                                    {/* รายการค่าใช้จ่าย */}
+                                    <div className="mt-4">
                                         {(loan.courses && loan.courses.length > 1)
                                             ? loan.courses.map(course => (
                                                 <div className="mt-2" key={course.id}>
@@ -178,14 +183,19 @@ const FormLoan = () => {
                                                 </div>
                                             ))
                                         }
+                                        
+                                        <div className="indent-[3cm] font-bold">
+                                            รวมจำนวนเงิน {currency.format(loan.item_total)} บาท ({ThaiNumberToText(loan.item_total)})
+                                        </div>
                                         <div className="indent-[1.5cm] font-bold">
                                             รวมจำนวนเงินทั้งสิ้น {currency.format(loan.net_total)} บาท ({ThaiNumberToText(loan.net_total)})
                                         </div>
                                     </div>
-                                    <div className="indent-0 mt-2">
-                                        <span className="underline">หมายเหตุ</span> - ค่าใช้จ่ายแต่ละรายการสามารถถัวเฉลี่ยจ่ายแทนกันได้
-                                    </div>
-                                    {/* ประจำปีงบประมาณปี {loan.year+543}  รายละเอียดตามเอกสารแนบ */}
+                                    {(loan.courses && loan.courses.length > 1) && (
+                                        <div className="indent-0 mt-2">
+                                            <span className="underline">หมายเหตุ</span> - ค่าใช้จ่ายแต่ละรายการสามารถถัวเฉลี่ยจ่ายแทนกันได้
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="memo-paragraph">
                                     จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติต่อไปด้วย จะเป็นพระคุณ
@@ -206,7 +216,7 @@ const FormLoan = () => {
                                         </div>
                                     </div>
 
-                                    <div className="memo-row">
+                                    {/* <div className="memo-row">
                                         <div style={{ width: '40%' }}>
                                             <div style={{ width: '100%', height: '100px' }}>
                                                 <div className="text-center">
@@ -216,9 +226,9 @@ const FormLoan = () => {
                                                     <p className="w-[200px] border-dashed border-b mb-1"></p>
                                                     <div className="signature">
                                                         <p>( นายนิตย์  ทองเพชรศรี )</p>
-                                                        <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
+                                                        <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p> */}
                                                         {/* <p>รักษาราชการแทนผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p> */}
-                                                        <p>ปฏิบัติราชการแทนอธิบดีกรมสุขภาพจิต</p>
+                                                        {/* <p>ปฏิบัติราชการแทนอธิบดีกรมสุขภาพจิต</p>
                                                         <div className="signature-date">
                                                             <p>วันที่</p>
                                                             <div style={{ width: '150px', borderBottom: '1px dashed black' }}></div>
@@ -227,7 +237,7 @@ const FormLoan = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
