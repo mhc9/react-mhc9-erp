@@ -67,7 +67,7 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
                                     <td className="text-center">{index+pager.from}</td>
                                     {/* <td className="text-center">{budget.budget_no}</td> */}
                                     <td>
-                                        <p className="text-gray-400 text-sm">{budget.project?.plan?.name}</p>
+                                        <p className="text-gray-400 text-sm">{budget.project?.plan?.plan_no} {budget.project?.plan?.name}</p>
                                         <p className="text-gray-400 text-sm">{budget.project?.name}</p>
                                         <p className="text-sm">{budget.name}</p>
                                     </td>

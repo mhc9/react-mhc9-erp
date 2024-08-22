@@ -60,7 +60,7 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                             <option value="">-- ประเภท --</option>
                             {formData.plans && formData.plans.map(plan => (
                                 <option value={plan.id} key={plan.id}>
-                                    {plan.name}
+                                    {plan.plan_no} {plan.name}
                                 </option>
                             ))}
                         </select>
