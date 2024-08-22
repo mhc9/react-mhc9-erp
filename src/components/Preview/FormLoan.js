@@ -111,6 +111,7 @@ const FormLoan = () => {
                                                     </table>
                                                 )
                                             )}
+
                                             <div className="indent-[3cm] font-bold">
                                                 รวมจำนวนเงิน {currency.format(loan.order_total)} บาท ({ThaiNumberToText(loan.order_total)})
                                             </div>
@@ -183,7 +184,7 @@ const FormLoan = () => {
                                                 </div>
                                             ))
                                         }
-                                        
+
                                         <div className="indent-[3cm] font-bold">
                                             รวมจำนวนเงิน {currency.format(loan.item_total)} บาท ({ThaiNumberToText(loan.item_total)})
                                         </div>

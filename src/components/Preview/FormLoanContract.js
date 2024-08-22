@@ -114,6 +114,33 @@ const FormLoanContract = () => {
                                         <span className="ml-1">
                                             มีรายละเอียดดังต่อไปนี้
                                         </span>
+
+                                        {/* รายการขออนุมัติจัดซื้อจัดจ้าง */}
+                                        {loan.details && loan.details.some(item => item.expense_group === 2) && (
+                                            <div className="indent-0 mt-1">
+                                                <p className="indent-[1.3cm] mx-1 font-bold">ขออนุมัติจัดซื้อจัดจ้างตามรายละเอียดดังนี้</p>
+                                                {loan.details && loan.details
+                                                    .filter(item => item.expense_group === 2)
+                                                    .map((data, index) => (
+                                                        <table className="w-full indent-[1.4cm]">
+                                                            <tr>
+                                                                <td className="w-[68%]">
+                                                                    <span>-{data.expense?.name}</span>
+                                                                </td>
+                                                                <td className="w-[32%]">
+                                                                    <span className="mr-4">เป็นเงิน</span>{currency.format(data.total)} บาท
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    )
+                                                )}
+                                                <div className="indent-[3cm] font-bold">
+                                                    รวมจำนวนเงิน {currency.format(loan.order_total)} บาท ({ThaiNumberToText(loan.order_total)})
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* รายการค่าใช้จ่าย */}
                                         <div>
                                             {(loan.courses && loan.courses.length > 1)
                                                 ? loan.courses.map(course => (
@@ -176,6 +203,10 @@ const FormLoanContract = () => {
                                                     </div>
                                                 ))
                                             }
+
+                                            <div className="indent-[3cm] font-bold">
+                                                รวมจำนวนเงิน {currency.format(loan.item_total)} บาท ({ThaiNumberToText(loan.item_total)})
+                                            </div>
                                             <div className="indent-[1.5cm] font-bold">
                                                 <table className="w-full indent-[1.4cm]">
                                                     <tr>
