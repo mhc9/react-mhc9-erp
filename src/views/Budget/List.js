@@ -43,7 +43,6 @@ const BudgetList = () => {
             <Breadcrumb>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>งบประมาณ</Breadcrumb.Item>
-                <Breadcrumb.Item active>รายการงบประมาณ</Breadcrumb.Item>
             </Breadcrumb>
 
             <div className="content">
