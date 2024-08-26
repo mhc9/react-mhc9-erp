@@ -6,6 +6,7 @@ const initialState = {
     pager: null,
     isLoading: false,
     isSuccess: false,
+    isDeleted: false,
     error: null
 };
 
@@ -94,14 +95,20 @@ export const comsetSlice = createSlice({
         },
         [store.pending]: (state) => {
             state.isSuccess = false;
+            state.comset = null;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
-            console.log(payload);
-            state.isSuccess = true;
+            const { status, message, comset } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.comset = comset;
+            } else {
+                state.error = { message };
+            }
         },
         [store.rejected]: (state, { payload }) => {
-            console.log(payload);
             state.error = payload;
         },
         [update.pending]: (state) => {
@@ -114,7 +121,7 @@ export const comsetSlice = createSlice({
 
             if (status === 1) {
                 state.isSuccess = true;
-                state.comset = comset
+                state.comset = comset;
             } else {
                 state.error = { message };
             }
