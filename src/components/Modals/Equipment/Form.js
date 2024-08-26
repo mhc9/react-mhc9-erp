@@ -2,6 +2,7 @@ import React from 'react'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup' 
 import { Col, Modal, Row } from 'react-bootstrap'
+import { FaEdit } from "react-icons/fa";
 import { getFormDataItem } from '../../../utils'
 import { useGetInitialFormDataQuery } from '../../../features/services/comset/comsetApi'
 
@@ -10,7 +11,7 @@ const equipmentSchema = Yup.object().shape({
     brand_id: Yup.string().required(),
 });
 
-const ModalEquipmentForm = ({ isShow, onHide, onSubmit }) => {
+const ModalEquipmentForm = ({ isShow, onHide, onSubmit, data }) => {
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     const handleSubmit = (values, formik) => {
@@ -26,20 +27,25 @@ const ModalEquipmentForm = ({ isShow, onHide, onSubmit }) => {
             onHide={onHide}
             size='lg'
         >
-            <Modal.Header>
-                <Modal.Title>เพิ่มอุปกรณ์</Modal.Title>
+            <Modal.Header className="py-1">
+                <Modal.Title className="text-xl">
+                    <div className="flex flex-row items-center gap-1">
+                        <FaEdit />{data ? 'แก้ไขอุปกรณ์' : 'เพิ่มอุปกรณ์'}
+                    </div>
+                </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Formik
                     initialValues={{
-                        equipment_type_id: '',
-                        brand_id: '',
-                        model: '',
-                        capacity: '',
-                        description: '',
-                        price: '',
-                        type: null,
-                        brand: null
+                        ...data,
+                        equipment_type_id: data ? data.equipment_type_id : '',
+                        brand_id: data ? data.brand_id : '',
+                        model: data ? data.model : '',
+                        capacity: data ? data.capacity : '',
+                        description: (data && data.description) ? data.description : '',
+                        price: data ? data.price : '',
+                        type: (data && data.type) ? data.type : null,
+                        brand: (data && data.brand) ? data.brand : null
                     }}
                     validationSchema={equipmentSchema}
                     onSubmit={handleSubmit}
@@ -132,7 +138,7 @@ const ModalEquipmentForm = ({ isShow, onHide, onSubmit }) => {
                                             ></textarea>
                                         </div>
                                     </Col>
-                                    <Col md={12} className="mb-2">
+                                    <Col md={12}>
                                         <div className="flex flex-row items-start">
                                             <label className="w-[20%]"></label>
                                             <button type="submit" className="btn btn-outline-primary text-sm">

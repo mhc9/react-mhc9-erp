@@ -20,6 +20,7 @@ const ComsetForm = ({ comset }) => {
     const [showAssetList, setShowAssetList] = useState(false);
     const [showEquipmentForm, setShowEquipmentForm] = useState(false);
     const [asset, setAsset] = useState(null);
+    const [edittingEquipment, setEdittingEquipment] = useState(null);
 
     useEffect(() => {
         if (comset) {
@@ -71,6 +72,7 @@ const ComsetForm = ({ comset }) => {
                             isShow={showEquipmentForm}
                             onHide={() => setShowEquipmentForm(false)}
                             onSubmit={(equipment) => handleAddEquipment(formik, equipment)}
+                            data={edittingEquipment}
                         />
 
                         <Row className="mb-2">
@@ -189,7 +191,14 @@ const ComsetForm = ({ comset }) => {
                                                     <span>{equipment.capacity}</span>
                                                 </td>
                                                 <td className="text-center">
-                                                    <a href="#" className="btn btn-sm btn-warning px-1 mr-1">
+                                                    <a
+                                                        href="#"
+                                                        className="btn btn-sm btn-warning px-1 mr-1"
+                                                        onClick={() => {
+                                                            setEdittingEquipment(equipment);
+                                                            setShowEquipmentForm(true);
+                                                        }}
+                                                    >
                                                         <FaPencilAlt />
                                                     </a>
                                                     <a href="#" className="btn btn-sm btn-danger px-1">
