@@ -33,8 +33,25 @@ const ComsetForm = ({ comset }) => {
         formik.setFieldValue('asset_id', asset.id);
     };
 
-    const handleAddEquipment = (formik, equipment) => {
-        formik.setFieldValue('equipments', [ ...formik.values.equipments, equipment ]);
+    const handleSubmitEquipmentForm = (formik, equipment) => {
+        if (equipment.comset_id) {
+            const updated = formik.values.equipments.map(eq => {
+                if (eq.id === equipment.id) {
+                    return {
+                        ...equipment,
+                        updated: true
+                    }
+                }
+
+                return eq;
+            });
+
+            console.log(updated);
+            setEdittingEquipment(null);
+            formik.setFieldValue('equipments', updated);
+        } else {
+            formik.setFieldValue('equipments', [ ...formik.values.equipments, equipment ]);
+        }
     };
 
     const handleSubmit = (values, props) => {
@@ -71,7 +88,7 @@ const ComsetForm = ({ comset }) => {
                         <ModalEquipmentForm
                             isShow={showEquipmentForm}
                             onHide={() => setShowEquipmentForm(false)}
-                            onSubmit={(equipment) => handleAddEquipment(formik, equipment)}
+                            onSubmit={(equipment) => handleSubmitEquipmentForm(formik, equipment)}
                             data={edittingEquipment}
                         />
 

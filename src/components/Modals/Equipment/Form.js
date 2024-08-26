@@ -3,6 +3,7 @@ import { Form, Formik } from 'formik'
 import * as Yup from 'yup' 
 import { Col, Modal, Row } from 'react-bootstrap'
 import { FaEdit } from "react-icons/fa";
+import { v4 as uuid } from 'uuid'
 import { getFormDataItem } from '../../../utils'
 import { useGetInitialFormDataQuery } from '../../../features/services/comset/comsetApi'
 
@@ -38,6 +39,7 @@ const ModalEquipmentForm = ({ isShow, onHide, onSubmit, data }) => {
                 <Formik
                     initialValues={{
                         ...data,
+                        id: data ? data.id : uuid(),
                         equipment_type_id: data ? data.equipment_type_id : '',
                         brand_id: data ? data.brand_id : '',
                         model: data ? data.model : '',
