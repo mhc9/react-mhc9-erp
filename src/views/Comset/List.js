@@ -29,7 +29,9 @@ const ComsetList = () => {
     }, [apiEndpoint]);
 
     const joinEquipments = (equipments) => {
-        return equipments.map(eq => `${eq.type?.name} ${eq.brand?.name} ${eq.model} ${eq.capacity ? eq.capacity : '-'}`).join(', ');
+        return equipments
+                .map(eq => `${eq.type?.name} ${eq.brand?.name} ${eq.model} ${eq.capacity ? eq.capacity : '-'}${eq.status !== 1 ? '**' : ''}`)
+                .join(', ');
     };
 
     return (
