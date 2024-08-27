@@ -6,6 +6,7 @@ import { FaEdit } from "react-icons/fa";
 import { v4 as uuid } from 'uuid'
 import { getFormDataItem } from '../../../utils'
 import { useGetInitialFormDataQuery } from '../../../features/services/comset/comsetApi'
+import RadioButtonGroup from '../../FormControls/RadioButtonGroup';
 
 const equipmentSchema = Yup.object().shape({
     equipment_type_id: Yup.string().required(),
@@ -45,7 +46,8 @@ const ModalEquipmentForm = ({ isShow, onHide, onSubmit, data }) => {
                         model: data ? data.model : '',
                         capacity: data ? data.capacity : '',
                         description: (data && data.description) ? data.description : '',
-                        price: data ? data.price : '',
+                        price: (data && data.price) ? data.price : '',
+                        status: data ? data.status : '',
                         type: (data && data.type) ? data.type : null,
                         brand: (data && data.brand) ? data.brand : null
                     }}
@@ -129,6 +131,18 @@ const ModalEquipmentForm = ({ isShow, onHide, onSubmit, data }) => {
                                         </div>
                                     </Col>
                                     <Col md={12} className="mb-2">
+                                        <div className="flex flex-row items-center">
+                                            <label className="w-[25%]">ราคา (บาท)</label>
+                                            <input
+                                                type="text"
+                                                name="price"
+                                                value={formik.values.price}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-sm"
+                                            />
+                                        </div>
+                                    </Col>
+                                    <Col md={12} className="mb-2">
                                         <div className="flex flex-row items-start">
                                             <label className="w-[25%]">รายละเอียด</label>
                                             <textarea
@@ -138,6 +152,24 @@ const ModalEquipmentForm = ({ isShow, onHide, onSubmit, data }) => {
                                                 onChange={formik.handleChange}
                                                 className="form-control text-sm"
                                             ></textarea>
+                                        </div>
+                                    </Col>
+                                    <Col md={12} className="mb-2">
+                                        <div className="flex flex-row items-start">
+                                            <label className="w-[20%]">การติดตั้ง</label>
+                                            <RadioButtonGroup
+                                                items={[
+                                                    { label: 'มาพร้อมเครื่อง', value: 1 },
+                                                    { label: 'ติดตั้งเพิ่ม', value: 2 },
+                                                    { label: 'เปลี่ยนอะไหล่', value: 3 },
+                                                ]}
+                                                defaultValue={1}
+                                                selected={formik.values.status}
+                                                onChange={(val) => {
+                                                    console.log(val);
+                                                    formik.setFieldValue('status', val);
+                                                }}
+                                            />
                                         </div>
                                     </Col>
                                     <Col md={12}>
