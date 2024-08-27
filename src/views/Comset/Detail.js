@@ -82,6 +82,8 @@ const ComsetDetail = () => {
                                             <th className="w-[5%] text-center">#</th>
                                             <th className="w-[20%] text-center">ประเภทอุปกรณ์</th>
                                             <th>รายละเอียด</th>
+                                            <th className="w-[8%] text-center">ราคา</th>
+                                            <th className="w-[12%] text-center">สถานะ</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -93,6 +95,12 @@ const ComsetDetail = () => {
                                                 <span>{equipment.brand?.name}</span>
                                                 <span className="mx-1">{equipment.model}</span>
                                                 <span>{equipment.capacity}</span>
+                                            </td>
+                                            <td className="text-center">{equipment.price}</td>
+                                            <td className="text-center">
+                                                {equipment.status === 1 && <span className="badge rounded-pill text-bg-secondary ml-1">มาพร้อมเครื่อง</span>}
+                                                {equipment.status === 2 && <span className="badge rounded-pill text-bg-primary ml-1">ติดตั้งเพิ่ม</span>}
+                                                {equipment.status === 3 && <span className="badge rounded-pill text-bg-danger ml-1">เปลี่ยนอะไหล่</span>}
                                             </td>
                                         </tr>
                                         ))}
