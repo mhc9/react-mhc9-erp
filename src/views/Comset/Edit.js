@@ -2,19 +2,29 @@ import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
-import { getComset } from '../../features/slices/comset/comsetSlice'
+import { toast } from 'react-toastify'
+import { getComset, resetSuccess } from '../../features/slices/comset/comsetSlice'
 import ComsetForm from './Form'
+import Loading from '../../components/Loading'
 
 const EditComset = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { comset, isLoading } = useSelector(state => state.comset);
+    const { comset, isLoading, isSuccess } = useSelector(state => state.comset);
 
     useEffect(() => {
         if (id) {
             dispatch(getComset(id));
         }
     }, [id]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(resetSuccess());
+
+            toast.success('แก้ไขชุดคอมพิวเตอร์สำเร็จ!!');
+        }
+    }, [isSuccess]);
 
     return (
         <div className="content-wrapper">
@@ -27,10 +37,11 @@ const EditComset = () => {
             </Breadcrumb>
         
             <div className="content">
-                <h2 className="text-xl">แก้ไขชุดคอมพิวเตอร์</h2>
+                <h2 className="text-xl">แก้ไขชุดคอมพิวเตอร์ (#{id})</h2>
 
                 <div className="my-2 border p-4 rounded-md">
-                    <ComsetForm comset={comset} />
+                    {isLoading && <div className="text-center"><Loading /></div>}
+                    {(!isLoading && comset) && <ComsetForm comset={comset} />}
                 </div>
             </div>
         </div>
