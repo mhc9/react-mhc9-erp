@@ -1,9 +1,25 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { resetSuccess } from '../../features/slices/comset/comsetSlice'
 import ComsetForm from './Form'
+import { toast } from 'react-toastify'
 
 const AddComset = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { isSuccess } = useSelector(state => state.comset);
+
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(resetSuccess());
+
+            toast.success('บันทึกชุดคอมพิวเตอร์สำเร็จ!!');
+            navigate('/comset');
+        }
+    }, [isSuccess]);
+
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}

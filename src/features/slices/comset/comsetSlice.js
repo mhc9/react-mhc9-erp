@@ -3,6 +3,7 @@ import api from "../../../api";
 
 const initialState = {
     comsets: [],
+    comset: null,
     pager: null,
     isLoading: false,
     isSuccess: false,
@@ -70,7 +71,6 @@ export const comsetSlice = createSlice({
             state.comsets = [];
             state.pager = null;
             state.isLoading = true;
-            state.isSuccess = false;
             state.error = null;
         },
         [getComsets.fulfilled]: (state, { payload }) => {
@@ -79,11 +79,8 @@ export const comsetSlice = createSlice({
             state.isLoading = false;
             state.comsets = data;
             state.pager = pager;
-            state.isSuccess = true;
         },
         [getComsets.rejected]: (state, { payload }) => {
-            console.log(payload);
-
             state.isLoading = false;
             state.error = payload;
         },
