@@ -6,20 +6,27 @@ import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getComsets } from '../../features/slices/comset/comsetSlice';
 import Loading from '../../components/Loading';
 import Pagination from '../../components/Pagination';
+import FilteringInputs from './FilteringInputs';
+import { generateQueryString } from '../../utils';
+
+const initialFilters = {
+    name: '',
+    status: 1
+};
 
 const ComsetList = () => {
     const dispatch = useDispatch();
-    const { comsets, pager, isLoading, isSuccess } = useSelector(state => state.comset);
+    const { comsets, pager, isLoading } = useSelector(state => state.comset);
     const [apiEndpoint, setApiEndpoint] = useState('');
-    const [params, setParams] = useState('');
+    const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getComsets({ url: `/api/comsets` }));
+            dispatch(getComsets({ url: `/api/comsets/search?page=${params}` }));
         } else {
-            dispatch(getComsets({ url: apiEndpoint }));
+            dispatch(getComsets({ url: `${apiEndpoint}${params}` }));
         }
-    }, [apiEndpoint, params]);
+    }, [apiEndpoint]);
 
     const joinEquipments = (equipments) => {
         return equipments.map(eq => `${eq.type?.name} ${eq.brand?.name} ${eq.model} ${eq.capacity ? eq.capacity : '-'}`).join(', ');
@@ -39,6 +46,14 @@ const ComsetList = () => {
                     <h2 className="text-xl">ชุดคอมพิวเตอร์</h2>
                     <Link to="add" className="btn btn-primary">เพิ่มชุดคอมพิวเตอร์</Link>
                 </div>
+
+                <FilteringInputs
+                    initialFilters={initialFilters}
+                    onFilter={(url) => {
+                        setParams(url);
+                        setApiEndpoint(prev => prev === '' ? `/api/comsets/search?page=` : '');
+                    }}
+                />
 
                 <div>
                     <table className="table table-bordered">

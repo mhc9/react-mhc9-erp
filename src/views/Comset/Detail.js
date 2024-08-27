@@ -38,13 +38,13 @@ const ComsetDetail = () => {
                     <div className="my-2 border p-4 rounded-md">
                         <Row className="mb-4">
                             <Col md={4} className="mb-2">
-                                <label for="">ครุภัณฑ์</label>
+                                <label htmlFor="">ครุภัณฑ์</label>
                                 <div className="text-sm font-thin">
                                     {comset.asset?.asset_no}
                                 </div>
                             </Col>
                             <Col md={8} className="mb-2">
-                                <label for="">รายละเอียดครุภัณฑ์</label>
+                                <label htmlFor="">รายละเอียดครุภัณฑ์</label>
                                 <div className="text-sm font-thin">
                                     {comset.asset?.name}
                                     <span className="ml-1">ยี่ห้อ {comset.asset?.brand?.name}</span>
@@ -52,19 +52,19 @@ const ComsetDetail = () => {
                                 </div>
                             </Col>
                             <Col md={4} className="mb-2">
-                                <label for="">ชื่อชุดคอมพิวเตอร์</label>
+                                <label htmlFor="">ชื่อชุดคอมพิวเตอร์</label>
                                 <div className="text-sm font-thin">
                                     {comset.name}
                                 </div>
                             </Col>
                             <Col md={8} className="mb-2">
-                                <label for="">รายละเอียด</label>
+                                <label htmlFor="">รายละเอียด</label>
                                 <div className="text-sm font-thin">
                                     {comset.description ? comset.description : '-'}
                                 </div>
                             </Col>
                             <Col md={12} className="mb-2">
-                                <label for="">หมายเหตุ</label>
+                                <label htmlFor="">หมายเหตุ</label>
                                 <div className="text-sm">
                                     {comset.remark ? comset.remark : '-'}
                                 </div>
