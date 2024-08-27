@@ -57,7 +57,14 @@ export const update = createAsyncThunk("comset/update", async ({ id, data }, { r
 export const comsetSlice = createSlice({
     name: 'comset',
     initialState,
-    reducers: {},
+    reducers: {
+        resetSuccess: (state) => {
+            state.isSuccess = false;
+        },
+        resetDeleted: (state) => {
+            state.isDeleted = false;
+        },
+    },
     extraReducers: {
         [getComsets.pending]: (state) => {
             state.comsets = [];
@@ -133,3 +140,5 @@ export const comsetSlice = createSlice({
 });
 
 export default comsetSlice.reducer;
+
+export const { resetDeleted, resetSuccess } = comsetSlice.actions;
