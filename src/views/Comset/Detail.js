@@ -28,7 +28,7 @@ const ComsetDetail = () => {
             </Breadcrumb>
         
             <div className="content">
-                <h2 className="text-xl">รายละเอียดชุดคอมพิวเตอร์</h2>
+                <h2 className="text-xl">รายละเอียดชุดคอมพิวเตอร์ (#{id})</h2>
 
                 {isLoading && (
                     <div className="text-center"><Loading /></div>
@@ -39,13 +39,13 @@ const ComsetDetail = () => {
                         <Row className="mb-4">
                             <Col md={4} className="mb-2">
                                 <label for="">ครุภัณฑ์</label>
-                                <div className="form-control min-h-[34px] text-sm">
+                                <div className="text-sm font-thin">
                                     {comset.asset?.asset_no}
                                 </div>
                             </Col>
                             <Col md={8} className="mb-2">
                                 <label for="">รายละเอียดครุภัณฑ์</label>
-                                <div className="form-control min-h-[34px] text-sm">
+                                <div className="text-sm font-thin">
                                     {comset.asset?.name}
                                     <span className="ml-1">ยี่ห้อ {comset.asset?.brand?.name}</span>
                                     <span className="ml-1">รุ่น {comset.asset?.model ? comset.asset?.model : '-'}</span>
@@ -53,20 +53,20 @@ const ComsetDetail = () => {
                             </Col>
                             <Col md={4} className="mb-2">
                                 <label for="">ชื่อชุดคอมพิวเตอร์</label>
-                                <div className="form-control min-h-[34px] text-sm">
+                                <div className="text-sm font-thin">
                                     {comset.name}
                                 </div>
                             </Col>
                             <Col md={8} className="mb-2">
                                 <label for="">รายละเอียด</label>
-                                <div className="form-control min-h-[34px] text-sm">
-                                    {comset.description}
+                                <div className="text-sm font-thin">
+                                    {comset.description ? comset.description : '-'}
                                 </div>
                             </Col>
                             <Col md={12} className="mb-2">
                                 <label for="">หมายเหตุ</label>
-                                <div className="form-control min-h-[68px] text-sm">
-                                    {comset.remark}
+                                <div className="text-sm">
+                                    {comset.remark ? comset.remark : '-'}
                                 </div>
                             </Col>
                         </Row>
@@ -74,12 +74,6 @@ const ComsetDetail = () => {
                             <Col>
                                 <div className="flex flex-row items-center justify-between mb-2">
                                     <h4 className="text-lg font-bold">อุปกรณ์ภายใน</h4>
-                                    
-                                    <div className="flex flex-row">
-                                        <button type="button" className="btn btn-outline-primary btn-sm text-sm">
-                                            เพิ่มอุปกรณ์
-                                        </button>
-                                    </div>
                                 </div>
 
                                 <table className="table table-bordered text-sm">
@@ -88,7 +82,6 @@ const ComsetDetail = () => {
                                             <th className="w-[5%] text-center">#</th>
                                             <th className="w-[20%] text-center">ประเภทอุปกรณ์</th>
                                             <th>รายละเอียด</th>
-                                            <th className="w-[8%] text-center">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -101,14 +94,6 @@ const ComsetDetail = () => {
                                                 <span className="mx-1">{equipment.model}</span>
                                                 <span>{equipment.capacity}</span>
                                             </td>
-                                            <td className="text-center">
-                                                <a href="#" className="btn btn-sm btn-warning px-1 mr-1">
-                                                    <FaPencilAlt />
-                                                </a>
-                                                <a href="#" className="btn btn-sm btn-danger px-1">
-                                                    <FaTrash />
-                                                </a>
-                                            </td>
                                         </tr>
                                         ))}
                                     </tbody>
@@ -119,12 +104,6 @@ const ComsetDetail = () => {
                             <Col>
                                 <div className="flex flex-row items-center justify-between mb-2">
                                     <h4 className="text-lg font-bold">อุปกรณ์ต่อพ่วง</h4>
-                                    
-                                    <div className="flex flex-row">
-                                        <button type="button" className="btn btn-outline-primary btn-sm text-sm">
-                                            เพิ่มอุปกรณ์
-                                        </button>
-                                    </div>
                                 </div>
 
                                 <table className="table table-bordered">
@@ -133,9 +112,15 @@ const ComsetDetail = () => {
                                             <th className="w-[5%] text-center">#</th>
                                             <th className="w-[20%] text-center">ประเภทอุปกรณ์</th>
                                             <th>รายละเอียด</th>
-                                            <th className="w-[8%] text-center">Actions</th>
                                         </tr>
                                     </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </Col>
                         </Row>
