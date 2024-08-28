@@ -103,6 +103,16 @@ export const deposit = createAsyncThunk("loan-contract/deposit", async ({ id, da
     }
 });
 
+export const cancel = createAsyncThunk("loan-contract/cancel", async ({ id, data }, { dispatch, rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/loan-contracts/${id}/cancel`, data);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const loanContractSlice = createSlice({
     name: 'loanContract',
     initialState,
@@ -244,6 +254,23 @@ export const loanContractSlice = createSlice({
             }
         },
         [deposit.rejected]: (state, { payload }) => {
+            state.error = payload;
+        },
+        [cancel.pending]: (state) => {
+            state.isSuccess = false;
+            state.error = null;
+        },
+        [cancel.fulfilled]: (state, { payload }) => {
+            const { status, message, contract } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.contract = contract;
+            } else {
+                state.error = { message };
+            }
+        },
+        [cancel.rejected]: (state, { payload }) => {
             state.error = payload;
         },
     }
