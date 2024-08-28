@@ -592,7 +592,10 @@ const LoanForm = ({ loan }) => {
                                     </Tabs>
 
                                     <div className="flex flex-row justify-start items-center mt-2 px-[10px]">
-                                        <div className="w-[75%] text-right text-lg font-bold mr-2">รวมเป็นเงินทั้งสิ้น</div>
+                                        <div className="w-[75%] text-right text-lg mr-2">
+                                            <span className="text-lg font-bold">รวมเป็นเงินทั้งสิ้น</span>
+                                            <span className="ml-1">(ค่าใช้จ่าย {currency.format(formik.values.item_total)} บาท + จัดซื้อจัดจ้าง {currency.format(formik.values.order_total)} บาท) =</span>
+                                        </div>
                                         <div className="w-[15%]">
                                             <div className="form-control text-lg float-right text-right text-green-800 font-bold">
                                                 {currency.format(formik.values.net_total)}
