@@ -4,6 +4,7 @@ import { Modal, Pagination } from 'react-bootstrap'
 import { getLoans } from '../../../features/slices/loan/loanSlice';
 import { currency, toShortTHDate } from '../../../utils'
 import Loading from '../../Loading';
+import EmployeeCard from '../../Employee/Card';
 
 const ModalLoanList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
@@ -34,13 +35,14 @@ const ModalLoanList = ({ isShow, onHide, onSelect }) => {
                                 <th className="text-center w-[5%]">#</th>
                                 <th className="text-center w-[15%]">เอกสาร</th>
                                 <th>รายการคำขอ</th>
-                                <th className="text-center w-[10%]">เลือก</th>
+                                <th className="text-center w-[25%]">ผู้ขอ</th>
+                                <th className="text-center w-[8%]">เลือก</th>
                             </tr>
                         </thead>
                         <tbody>
                             {isLoading && (
                                 <tr>
-                                    <td colSpan={4} className="text-center">
+                                    <td colSpan={5} className="text-center">
                                         <Loading />
                                     </td>
                                 </tr>
@@ -63,6 +65,9 @@ const ModalLoanList = ({ isShow, onHide, onSelect }) => {
                                             <span className="ml-1"><b>ระหว่างวันที่</b> {toShortTHDate(loan?.project_sdate)} - {toShortTHDate(loan?.project_edate)}</span>
                                             <span className="ml-2"><b>ยอดเงินยืม</b><span className="font-bold text-red-600 mx-1">{currency.format(loan?.net_total)}</span>บาท</span>
                                         </p>
+                                    </td>
+                                    <td className="text-sm">
+                                        <EmployeeCard employee={loan?.employee} />
                                     </td>
                                     <td className="text-center">
                                         <button
