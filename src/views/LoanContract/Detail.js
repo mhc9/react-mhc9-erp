@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb, Col, Row, Tab, Tabs } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import moment from 'moment'
-import { getContract, resetSuccess } from '../../features/slices/loan-contract/loanContractSlice'
+import { getContract, resetSuccess, cancel } from '../../features/slices/loan-contract/loanContractSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi'
 import {
     currency,
@@ -43,7 +43,7 @@ const LoanContractDetail = () => {
 
     const handleCancelDeposit = (id) => {
         if (window.confirm('คุณต้องการยกเลิกเงินเข้าใช่หรือไม่?')) {
-            console.log(id);
+            dispatch(cancel({ id, data: {} }));
         }
     };
 
