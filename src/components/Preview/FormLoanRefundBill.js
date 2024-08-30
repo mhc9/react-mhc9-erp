@@ -133,11 +133,11 @@ const FormLoanRefundBill = () => {
                                             <div className="flex flex-row">
                                                 <span className="pr-1">ตามใบเสร็จรับเงินเลขที่</span>
                                                 <div className="border-b-[1px] border-dashed w-[120px] text-center">
-                                                    {refund.receipt_no}
+                                                    {/* {refund.receipt_no} */}
                                                 </div>
                                                 <span className="px-1">ลงวันที่</span>
                                                 <div className="border-b-[1px] border-dashed w-[200px] text-center">
-                                                    {toLongTHDate(moment(refund.receipt_date).toDate())}
+                                                    {/* {toLongTHDate(moment(refund.receipt_date).toDate())} */}
                                                 </div>
                                             </div>
                                         </div>
