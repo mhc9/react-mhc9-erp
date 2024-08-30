@@ -73,6 +73,16 @@ export const approve = createAsyncThunk("loan-refund/approve", async ({ id, data
     }
 });
 
+export const receipt = createAsyncThunk("loan-refund/receipt", async ({ id, data }, { dispatch, rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/loan-refunds/${id}/receipt`, data);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const loanRefundSlice = createSlice({
     name: 'loanRefund',
     initialState,
@@ -181,6 +191,25 @@ export const loanRefundSlice = createSlice({
             }
         },
         [approve.rejected]: (state, { payload }) => {
+            state.error = payload;
+        },
+        [receipt.pending]: (state) => {
+            state.refund = null;
+            state.isSuccess = false;
+            state.error = null;
+        },
+        [receipt.fulfilled]: (state, { payload }) => {
+            const { status, message, refund } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.refund = refund;
+            } else {
+                state.isSuccess = false;
+                state.error = { message };
+            }
+        },
+        [receipt.rejected]: (state, { payload }) => {
             state.error = payload;
         },
     }
