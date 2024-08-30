@@ -193,7 +193,7 @@ const FormLoan = () => {
                                             รวมจำนวนเงินทั้งสิ้น {currency.format(loan.net_total)} บาท ({ThaiNumberToText(loan.net_total)})
                                         </div>
                                     </div>
-                                    {(loan.courses && loan.courses.length > 1) && (
+                                    {loan.details.length > 1 && (
                                         <div className="indent-0 mt-2">
                                             <span className="underline">หมายเหตุ</span> - ค่าใช้จ่ายแต่ละรายการสามารถถัวเฉลี่ยจ่ายแทนกันได้
                                         </div>

@@ -88,9 +88,9 @@ const FormLoanContract = () => {
                                             ? <span className="ml-1">เพื่อเป็นค่าใช้จ่ายใน{loan.project_name}</span>
                                             : (
                                                 <span className="ml-1">
-                                                    ตามหนังสือ {loan.department?.name} ที่ {loan.project_no} ลงวันที่ {toLongTHDate(moment(loan.project_date).toDate())}
-                                                    <span className="ml-1">เรื่อง ขออนุมัติเดินทางไปราชการเพื่อเข้าร่วม{loan.project_name}</span>
-                                                    <span className="ml-1">เพื่อเป็นค่าใช้จ่ายในการเดินทางไปราชการดังกล่าว</span>
+                                                    ตามหนังสือ {loan.department?.name} ที่ {loan.doc_no} ลงวันที่ {toLongTHDate(moment(loan.doc_date).toDate())}
+                                                    <span className="ml-1">เรื่อง ขออนุมัติยืมเงินราชการ</span>
+                                                    <span className="ml-1">เพื่อเป็นค่าใช้จ่ายในการเดินทางไปราชการเข้าร่วม{loan.project_name}</span>
                                                 </span>
                                             )
                                         }
@@ -218,9 +218,11 @@ const FormLoanContract = () => {
                                                 </table>
                                             </div>
                                         </div>
-                                        <div className="indent-0 mt-1">
-                                            <span className="underline">หมายเหตุ</span> - ค่าใช้จ่ายแต่ละรายการสามารถถัวเฉลี่ยจ่ายแทนกันได้
-                                        </div>
+                                        {loan.details.length > 1 && (
+                                            <div className="indent-0 mt-1">
+                                                <span className="underline">หมายเหตุ</span> - ค่าใช้จ่ายแต่ละรายการสามารถถัวเฉลี่ยจ่ายแทนกันได้
+                                            </div>
+                                        )}
                                     </div>
 
                                     <div className="memo-paragraph">
