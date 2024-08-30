@@ -4,8 +4,9 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { DatePicker } from '@material-ui/pickers'
 import { Col, Modal, Row } from 'react-bootstrap'
-import { approve } from '../../../../features/slices/loan-refund/loanRefundSlice'
 import moment from 'moment'
+import { approve } from '../../../../features/slices/loan-refund/loanRefundSlice'
+import { useStyles } from '../../../../hooks/useStyles'
 
 const approvalSchema = Yup.object().shape({
     contract_id: Yup.string().required(),
@@ -15,7 +16,8 @@ const approvalSchema = Yup.object().shape({
 });
 
 const ModalApprovalForm = ({ isShow, onHide, refund }) => {
-    const dispatch = useDispatch()
+    const classes = useStyles();
+    const dispatch = useDispatch();
     const [selectedApprovedDate, setSelectedApprovedDate] = useState(moment());
     const [selectedBillDate, setSelectedBillDate] = useState(moment());
 
@@ -69,7 +71,7 @@ const ModalApprovalForm = ({ isShow, onHide, refund }) => {
                                                     setSelectedApprovedDate(date);
                                                     formik.setFieldValue('approved_date', date.format('YYYY-MM-DD'));
                                                 }}
-                                                variant="outlined"
+                                                className={classes.muiTextFieldInput}
                                             />
                                         </div>
                                         {(formik.errors.approved_date && formik.touched.approved_date) && (
@@ -85,7 +87,7 @@ const ModalApprovalForm = ({ isShow, onHide, refund }) => {
                                                 name="bill_no"
                                                 value={formik.values.bill_no}
                                                 onChange={formik.handleChange}
-                                                className="form-control w-[45%]"
+                                                className="form-control text-sm w-[45%]"
                                                 placeholder="ระบุเลขที่ใบสำคัญ"
                                             />
                                         </div>
@@ -105,7 +107,7 @@ const ModalApprovalForm = ({ isShow, onHide, refund }) => {
                                                     setSelectedBillDate(date);
                                                     formik.setFieldValue('bill_date', date.format('YYYY-MM-DD'));
                                                 }}
-                                                variant="outlined"
+                                                className={classes.muiTextFieldInput}
                                             />
                                         </div>
                                         {(formik.errors.bill_date && formik.touched.bill_date) && (
@@ -116,7 +118,7 @@ const ModalApprovalForm = ({ isShow, onHide, refund }) => {
                                 <Row>
                                     <Col>
                                         <div className="flex flex-row items-center">
-                                            <p className="w-[35%]"></p>
+                                            <p className="w-[45%]"></p>
                                             <button type="submit" className="btn btn-outline-primary float-right">
                                                 บันทึก
                                             </button>

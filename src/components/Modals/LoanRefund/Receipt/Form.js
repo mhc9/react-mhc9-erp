@@ -4,8 +4,9 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { DatePicker } from '@material-ui/pickers'
 import { Col, Modal, Row } from 'react-bootstrap'
-import { receipt } from '../../../../features/slices/loan-refund/loanRefundSlice'
 import moment from 'moment'
+import { receipt } from '../../../../features/slices/loan-refund/loanRefundSlice'
+import { useStyles } from '../../../../hooks/useStyles'
 
 const approvalSchema = Yup.object().shape({
     contract_id: Yup.string().required(),
@@ -14,7 +15,8 @@ const approvalSchema = Yup.object().shape({
 });
 
 const ModalReceiptForm = ({ isShow, onHide, refund }) => {
-    const dispatch = useDispatch()
+    const classes = useStyles();
+    const dispatch = useDispatch();
     const [selectedReceiptDate, setSelectedReceiptDate] = useState(moment());
 
     const handleSubmit = (values, formik) => {
@@ -30,7 +32,7 @@ const ModalReceiptForm = ({ isShow, onHide, refund }) => {
             size='md'
         >
             <Modal.Header closeButton>
-                <Modal.Title>บันทึกเคลียร์เงินยืม</Modal.Title>
+                <Modal.Title>บันทึกใบเสร็จ</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Formik
@@ -63,7 +65,7 @@ const ModalReceiptForm = ({ isShow, onHide, refund }) => {
                                                 name="receipt_no"
                                                 value={formik.values.receipt_no}
                                                 onChange={formik.handleChange}
-                                                className="form-control w-[45%]"
+                                                className="form-control text-sm w-[45%]"
                                                 placeholder="ระบุเลขที่ใบเสร็จ"
                                             />
                                         </div>
@@ -83,7 +85,7 @@ const ModalReceiptForm = ({ isShow, onHide, refund }) => {
                                                     setSelectedReceiptDate(date);
                                                     formik.setFieldValue('receipt_date', date.format('YYYY-MM-DD'));
                                                 }}
-                                                variant="outlined"
+                                                className={classes.muiTextFieldInput}
                                             />
                                         </div>
                                         {(formik.errors.receipt_date && formik.touched.receipt_date) && (
@@ -94,7 +96,7 @@ const ModalReceiptForm = ({ isShow, onHide, refund }) => {
                                 <Row>
                                     <Col>
                                         <div className="flex flex-row items-center">
-                                            <p className="w-[35%]"></p>
+                                            <p className="w-[45%]"></p>
                                             <button type="submit" className="btn btn-outline-primary float-right">
                                                 บันทึก
                                             </button>
