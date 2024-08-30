@@ -10,6 +10,8 @@ import Loading from '../../components/Loading'
 import BudgetList from './Form/BudgetList'
 import OrderList from './Form/OrderList'
 import ExpenseList from '../../components/Expense/ExpenseList'
+import DropdownButton from '../../components/FormControls/DropdownButton'
+import DropdownItem from '../../components/FormControls/DropdownButton/DropdownItem'
 
 const LoanDetail = () => {
     const { id } = useParams();
@@ -229,10 +231,34 @@ const LoanDetail = () => {
                         </Row>
                         <Row className="mb-2 mt-4">
                             <Col className="flex justify-center">
-                                <Link to={`/preview/${id}/loan/form`} target="_blank" className="btn btn-primary mr-2">
-                                    <i className="fas fa-print mr-1"></i>
-                                    พิมพ์คำขอ
-                                </Link>
+                                <DropdownButton title="คำขอยืมเงิน" btnColor="primary" cssClass="mr-1">
+                                    <DropdownItem>
+                                        <Link to={`/preview/${id}/loan/form`} target="_blank" className="text-success">
+                                            <i className="fas fa-print mr-1"></i>
+                                            พิมพ์คำขอ
+                                        </Link>
+                                    </DropdownItem>
+                                    <DropdownItem>
+                                        <a href={`${process.env.REACT_APP_API_URL}/loans/${id}/form`} target="_blank" className="text-primary">
+                                            <i className="far fa-file-word mr-1"></i>
+                                            ดาวน์โหลดคำขอ
+                                        </a>
+                                    </DropdownItem>
+                                </DropdownButton>
+                                <DropdownButton title="สัญญาเงินยืม" btnColor="primary" cssClass="mr-1">
+                                    <DropdownItem>
+                                        <Link to={`/preview/${id}/loan-contract/form`} target="_blank" className="text-success">
+                                            <i className="fas fa-print mr-1"></i>
+                                            พิมพ์สัญญาเงินยืม
+                                        </Link>
+                                    </DropdownItem>
+                                    <DropdownItem>
+                                        <a href={`${process.env.REACT_APP_API_URL}/loans/${id}/contract`} target="_blank" className="text-primary">
+                                            <i className="far fa-file-word mr-1"></i>
+                                            ดาวน์โหลดสัญญา
+                                        </a>
+                                    </DropdownItem>
+                                </DropdownButton>
                                 {/* <Link to={`/preview/${id}/project/verify`} target="_blank" className="btn btn-secondary mr-2">
                                     <i className="fas fa-print mr-1"></i>
                                     พิมพ์บันทึกทวนสอบ
@@ -241,10 +267,6 @@ const LoanDetail = () => {
                                     <i className="fas fa-print mr-1"></i>
                                     พิมพ์บันทึกทบทวน
                                 </Link> */}
-                                <Link to={`/preview/${id}/loan-contract/form`} target="_blank" className="btn btn-danger mr-2">
-                                    <i className="fas fa-print mr-1"></i>
-                                    พิมพ์สัญญาเงินยืม
-                                </Link>
                             </Col>
                         </Row>
                     </>
