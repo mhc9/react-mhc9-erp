@@ -100,11 +100,11 @@ const FormLoanRefund = () => {
                                         <span className="ml-1">
                                             และคืนเงินยืม จำนวนเงิน {currency.format(refund.balance)} บาท ({ThaiNumberToText(refund.balance)})
                                         </span>
-                                    ) : (
+                                    ) : refund.refund_type_id === 2 ? (
                                         <span className="ml-1">
                                             และเบิกเงินเพิ่ม จำนวนเงิน {currency.format(refund.balance)} บาท ({ThaiNumberToText(refund.balance)})
                                         </span>
-                                    )}
+                                    ) : null}
                                     <span className="ml-1">
                                         มีรายละเอียดดังต่อไปนี้
                                     </span>
