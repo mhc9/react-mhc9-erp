@@ -18,6 +18,8 @@ import ExpenseList from './Form/ExpenseList'
 import Loading from '../../components/Loading'
 import ModalApprovalForm from '../../components/Modals/LoanRefund/Approval/Form'
 import ModalReceiptForm from '../../components/Modals/LoanRefund/Receipt/Form';
+import DropdownButton from '../../components/FormControls/DropdownButton'
+import DropdownItem from '../../components/FormControls/DropdownButton/DropdownItem'
 
 const LoanRefundDetail = () => {
     const { id } = useParams();
@@ -273,27 +275,38 @@ const LoanRefundDetail = () => {
                         </Row>
                         <Row className="mb-2 mt-4">
                             <Col className="flex justify-center">
-                                <Link to={`/preview/${id}/loan-refund/form`} target="_blank" className="btn btn-success mr-1">
-                                    พิมพ์บันทึกหักล้างเงินยืม
-                                </Link>
-                                <Link to={`/preview/${id}/loan-refund/bill`} target="_blank" className="btn btn-success mr-1">
+                                <DropdownButton title="บันทึกหักล้างเงินยืม" btnColor="primary" cssClass="mr-1">
+                                    <DropdownItem>
+                                        <Link to={`/preview/${id}/loan-refund/form`} target="_blank" className="text-success">
+                                            <i className="fas fa-print mr-1"></i>
+                                            พิมพ์คำขอ
+                                        </Link>
+                                    </DropdownItem>
+                                    <DropdownItem>
+                                        <a href={`${process.env.REACT_APP_API_URL}/loan-refunds/${id}/form`} target="_blank" className="text-primary">
+                                            <i className="far fa-file-word mr-1"></i>
+                                            ดาวน์โหลดบันทึก
+                                        </a>
+                                    </DropdownItem>
+                                </DropdownButton>
+                                <Link to={`/preview/${id}/loan-refund/bill`} target="_blank" className="btn btn-success btn-sm mr-1">
                                     พิมพ์ใบรับใบสำคัญ
                                 </Link>
 
                                 {refund?.is_over20 === 1 && (
-                                    <Link to={`/preview/${id}/loan-refund/over20-form`} className="btn btn-danger mr-1">
+                                    <Link to={`/preview/${id}/loan-refund/over20-form`} className="btn btn-danger btn-sm mr-1">
                                         พิมพ์บันทึกขอคืนเงินยืมเกิน 20%
                                     </Link>
                                 )}
 
                                 {refund?.status === 'N' && (
-                                    <a href="#" className="btn btn-primary" onClick={() => setShowApprovalForm(true)}>
+                                    <a href="#" className="btn btn-primary btn-sm" onClick={() => setShowApprovalForm(true)}>
                                         เคลียร์เงินยืม
                                     </a>
                                 )}
 
                                 {(refund?.status === 'Y' && !refund?.receipt_no) && (
-                                    <a href="#" className="btn btn-primary" onClick={() => setShowReceiptForm(true)}>
+                                    <a href="#" className="btn btn-primary btn-sm" onClick={() => setShowReceiptForm(true)}>
                                         บันทึกใบเสร็จ
                                     </a>
                                 )}
