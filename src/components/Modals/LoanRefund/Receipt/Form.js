@@ -4,23 +4,21 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { DatePicker } from '@material-ui/pickers'
 import { Col, Modal, Row } from 'react-bootstrap'
-import { approve } from '../../../../features/slices/loan-refund/loanRefundSlice'
+import { receipt } from '../../../../features/slices/loan-refund/loanRefundSlice'
 import moment from 'moment'
 
 const approvalSchema = Yup.object().shape({
     contract_id: Yup.string().required(),
-    approved_date: Yup.string().required('กรุณาเลือกวันที่เคลียร์'),
-    bill_no: Yup.string().required('กรุณาระบุเลขที่ใบรับใบสำคัญ'),
-    bill_date: Yup.string().required('กรุณาระบุวันที่ใบรับใบสำคัญ'),
+    receipt_no: Yup.string().required('กรุณาระบุเลขที่ใบเสร็จ'),
+    receipt_date: Yup.string().required('กรุณาระบุวันที่ใบเสร็จ'),
 });
 
-const ModalApprovalForm = ({ isShow, onHide, refund }) => {
+const ModalReceiptForm = ({ isShow, onHide, refund }) => {
     const dispatch = useDispatch()
-    const [selectedApprovedDate, setSelectedApprovedDate] = useState(moment());
-    const [selectedBillDate, setSelectedBillDate] = useState(moment());
+    const [selectedReceiptDate, setSelectedReceiptDate] = useState(moment());
 
     const handleSubmit = (values, formik) => {
-        dispatch(approve({ id: refund?.id, data: values }));
+        dispatch(receipt({ id: refund?.id, data: values }));
 
         onHide();
     };
@@ -38,9 +36,8 @@ const ModalApprovalForm = ({ isShow, onHide, refund }) => {
                 <Formik
                     initialValues={{
                         contract_id: refund ? refund?.contract?.id : '',
-                        approved_date: '',
-                        bill_no: '',
-                        bill_date: '',
+                        receipt_no: '',
+                        receipt_date: '',
                     }}
                     validationSchema={approvalSchema}
                     onSubmit={handleSubmit}
@@ -61,55 +58,36 @@ const ModalApprovalForm = ({ isShow, onHide, refund }) => {
                                 <Row className="mb-3">
                                     <Col md={12}>
                                         <div className="flex flex-row items-center">
-                                            <label htmlFor="" className="w-[45%]">วันที่เคลียร์ (ผอ.อนุมัติ) :</label>
-                                            <DatePicker
-                                                format="DD/MM/YYYY"
-                                                value={selectedApprovedDate}
-                                                onChange={(date) => {
-                                                    setSelectedApprovedDate(date);
-                                                    formik.setFieldValue('approved_date', date.format('YYYY-MM-DD'));
-                                                }}
-                                                variant="outlined"
-                                            />
-                                        </div>
-                                        {(formik.errors.approved_date && formik.touched.approved_date) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.approved_date}</span>
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row className="mb-3">
-                                    <Col md={12}>
-                                        <div className="flex flex-row items-center">
-                                            <label htmlFor="" className="w-[45%]">เลขที่ใบรับใบสำคัญ :</label>
+                                            <label htmlFor="" className="w-[45%]">เลขที่ใบเสร็จ :</label>
                                             <input
-                                                name="bill_no"
-                                                value={formik.values.bill_no}
+                                                name="receipt_no"
+                                                value={formik.values.receipt_no}
                                                 onChange={formik.handleChange}
                                                 className="form-control w-[45%]"
-                                                placeholder="ระบุเลขที่ใบสำคัญ"
+                                                placeholder="ระบุเลขที่ใบเสร็จ (ถ้ามี)"
                                             />
                                         </div>
-                                        {(formik.errors.bill_no && formik.touched.bill_no) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.bill_no}</span>
+                                        {(formik.errors.receipt_no && formik.touched.receipt_no) && (
+                                            <span className="text-red-500 text-xs">{formik.errors.receipt_no}</span>
                                         )}
                                     </Col>
                                 </Row>
                                 <Row className="mb-3">
                                     <Col md={12}>
                                         <div className="flex flex-row items-center">
-                                            <label htmlFor="" className="w-[45%]">วันที่ใบรับใบสำคัญ :</label>
+                                            <label htmlFor="" className="w-[45%]">วันที่ใบเสร็จ :</label>
                                             <DatePicker
                                                 format="DD/MM/YYYY"
-                                                value={selectedBillDate}
+                                                value={selectedReceiptDate}
                                                 onChange={(date) => {
-                                                    setSelectedBillDate(date);
-                                                    formik.setFieldValue('bill_date', date.format('YYYY-MM-DD'));
+                                                    setSelectedReceiptDate(date);
+                                                    formik.setFieldValue('receipt_date', date.format('YYYY-MM-DD'));
                                                 }}
                                                 variant="outlined"
                                             />
                                         </div>
-                                        {(formik.errors.bill_date && formik.touched.bill_date) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.bill_date}</span>
+                                        {(formik.errors.receipt_date && formik.touched.receipt_date) && (
+                                            <span className="text-red-500 text-xs">{formik.errors.receipt_date}</span>
                                         )}
                                     </Col>
                                 </Row>
@@ -132,4 +110,4 @@ const ModalApprovalForm = ({ isShow, onHide, refund }) => {
     )
 }
 
-export default ModalApprovalForm
+export default ModalReceiptForm
