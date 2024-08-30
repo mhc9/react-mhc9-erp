@@ -296,7 +296,7 @@ const FormLoanContract = () => {
 
                                     <div className="memo-row">
                                         <div className="w-[100%] flex flex-col">
-                                            <p style={{ textIndent: '1cm' }}>อนุมัติให้ยืมเงินตามเงื่อนไขข้างต้นได้ เป็นเงิน {currency.format(loan.net_total)} บาท ({ThaiNumberToText(loan.net_total)})</p>
+                                            <p>อนุมัติให้ยืมเงินตามเงื่อนไขข้างต้นได้ เป็นเงิน {currency.format(loan.net_total)} บาท ({ThaiNumberToText(loan.net_total)})</p>
                                             <div className="w-[100%] flex flex-row">
                                                 <div className="w-[50%]">
                                                     <div className="w-[100%]">
@@ -331,7 +331,7 @@ const FormLoanContract = () => {
 
                                     <div className="memo-row">
                                         <div className="w-[100%] flex flex-col">
-                                            <p style={{ textIndent: '1cm' }}>ได้รับเงินยืม จำนวน {currency.format(loan.net_total)} บาท ({ThaiNumberToText(loan.net_total)})</p>
+                                            <p>ได้รับเงินยืม จำนวน {currency.format(loan.net_total)} บาท ({ThaiNumberToText(loan.net_total)})</p>
                                             <div className="w-[100%] flex flex-row">
                                                 <div className="w-[50%]">
                                                     <div className="w-[100%] mb-2">
