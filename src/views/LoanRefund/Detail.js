@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { FaCheckSquare, FaRegSquare } from 'react-icons/fa'
+import { toast } from 'react-toastify';
 import moment from 'moment';
 import {
     currency,
@@ -16,7 +17,7 @@ import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi
 import ExpenseList from './Form/ExpenseList'
 import Loading from '../../components/Loading'
 import ModalApprovalForm from '../../components/Modals/LoanRefund/Approval/Form'
-import { toast } from 'react-toastify';
+import ModalReceiptForm from '../../components/Modals/LoanRefund/Receipt/Form';
 
 const LoanRefundDetail = () => {
     const { id } = useParams();
@@ -24,6 +25,7 @@ const LoanRefundDetail = () => {
     const { refund, isLoading, isSuccess } = useSelector(state => state.loanRefund);
     const { data: formData } = useGetInitialFormDataQuery();
     const [showApprovalForm, setShowApprovalForm] = useState(false);
+    const [showReceiptForm, setShowReceiptForm] = useState(false);
 
     useEffect(() => {
         if (id) dispatch(getRefund(id));
@@ -55,6 +57,12 @@ const LoanRefundDetail = () => {
                         <ModalApprovalForm
                             isShow={showApprovalForm}
                             onHide={() => setShowApprovalForm(false)}
+                            refund={refund}
+                        />
+
+                        <ModalReceiptForm
+                            isShow={showReceiptForm}
+                            onHide={() => setShowReceiptForm(false)}
                             refund={refund}
                         />
 
@@ -281,6 +289,12 @@ const LoanRefundDetail = () => {
                                 {refund?.status === 'N' && (
                                     <a href="#" className="btn btn-primary" onClick={() => setShowApprovalForm(true)}>
                                         เคลียร์เงินยืม
+                                    </a>
+                                )}
+
+                                {(refund?.status === 'Y' && !refund?.receipt_no) && (
+                                    <a href="#" className="btn btn-primary" onClick={() => setShowReceiptForm(true)}>
+                                        บันทึกใบเสร็จ
                                     </a>
                                 )}
                             </Col>

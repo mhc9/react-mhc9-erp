@@ -64,7 +64,7 @@ const ModalReceiptForm = ({ isShow, onHide, refund }) => {
                                                 value={formik.values.receipt_no}
                                                 onChange={formik.handleChange}
                                                 className="form-control w-[45%]"
-                                                placeholder="ระบุเลขที่ใบเสร็จ (ถ้ามี)"
+                                                placeholder="ระบุเลขที่ใบเสร็จ"
                                             />
                                         </div>
                                         {(formik.errors.receipt_no && formik.touched.receipt_no) && (
