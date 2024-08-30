@@ -118,8 +118,7 @@ const LoanRefundForm = ({ refund }) => {
     };
 
     const setRefundType = (formik, balance) => {
-        console.log(balance);
-        formik.setFieldValue('refund_type_id', balance >= 0 ? '1' : '2');
+        formik.setFieldValue('refund_type_id', balance === 0 ? '3' : (balance > 0 ? '1' : '2'));
     };
 
     return (
