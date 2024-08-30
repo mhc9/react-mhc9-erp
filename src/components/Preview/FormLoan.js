@@ -79,7 +79,8 @@ const FormLoan = () => {
                                     ))} นั้น
                                 </div>
                                 <div className="memo-paragraph">
-                                    {loan.department?.name} ขออนุมัติยืมเงินงบประมาณศูนย์สุขภาพจิตที่ 9
+                                    ข้าพเจ้า<span className="mx-1">{loan.employee.prefix.name+loan.employee.firstname+ ' ' +loan.employee.lastname}</span>
+                                    ตำแหน่ง<span className="mx-1">{loan.employee.position?.name}{loan.employee.level?.name}</span> ขออนุมัติยืมเงินงบประมาณศูนย์สุขภาพจิตที่ 9
                                     {loan.budgets && loan.budgets.map((data, index) => (
                                         <span className="ml-1" key={data.budget_id}>
                                             ตาม{data.budget?.project?.plan?.name} {data.budget?.project?.name} {data.budget?.name}
