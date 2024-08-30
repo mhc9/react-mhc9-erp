@@ -41,13 +41,13 @@ const FormLoanRefund = () => {
                                     <div>
                                         <h3>ที่</h3>
                                         <div className="memo-header-value">
-                                            <span>{refund.contract?.loan?.doc_no}</span>
+                                            <span>{refund.doc_no}</span>
                                         </div>
                                     </div>
                                     <div>
                                         <h3>วันที่</h3>
                                         <div className="memo-header-value">
-                                            <span>{toLongTHDate(moment(refund.contract?.loan?.doc_date).toDate())}</span>
+                                            <span>{toLongTHDate(moment(refund.doc_date).toDate())}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -64,7 +64,7 @@ const FormLoanRefund = () => {
                             </div>
                             <div className="memo-content">
                                 <div className="memo-paragraph">
-                                    ตามหนังสือ {refund.contract?.loan?.department?.name} ที่ {refund.contract?.loan?.project_no} ลงวันที่ {toLongTHDate(moment(refund.contract?.loan?.project_date).toDate())}
+                                    ตามหนังสือ {refund.contract?.loan?.department?.name} ที่ {refund.contract?.loan?.doc_no} ลงวันที่ {toLongTHDate(moment(refund.contract?.loan?.doc_date).toDate())}
                                     {refund.contract?.loan?.loan_type_id === 1 
                                         ? <span className="ml-1">ได้ขออนุมัติยืมเงินราชการในการจัด{refund.contract?.loan?.project_name}</span>
                                         : <span className="ml-1">เรื่อง ขออนุมัติยืมเงินราชการ เพื่อเป็นค่าใช้จ่ายในการเดินทางไปราชการเข้าร่วม{refund.contract?.loan?.project_name}</span>
@@ -92,7 +92,7 @@ const FormLoanRefund = () => {
                                     ในการนี้ ข้าพเจ้า{refund.contract?.loan.employee.prefix.name+refund.contract?.loan.employee.firstname+ ' ' +refund.contract?.loan.employee.lastname}
                                     <span className="ml-1">{refund.contract?.loan.employee.position?.name}{refund.contract?.loan.employee.level?.name}</span>
                                     <span className="ml-1">
-                                        {refund.contract?.loan?.loan_type_id === 1 && 'ได้ดำนเนิาการจัดโครงการฯ เสร็จสิ้นแล้ว '}จึงขอส่งหลักฐานเงินยืมราชการ</span>
+                                        {refund.contract?.loan?.loan_type_id === 1 && 'ได้ดำเนินการจัดโครงการฯ เสร็จสิ้นแล้ว '}จึงขอส่งหลักฐานเงินยืมราชการ</span>
                                     <span className="ml-1">
                                         เป็นจำนวนเงิน {currency.format(refund.net_total)} บาท ({ThaiNumberToText(refund.net_total)})
                                     </span>
