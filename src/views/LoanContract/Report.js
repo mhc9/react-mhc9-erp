@@ -61,6 +61,11 @@ const LoanContractReport = () => {
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h1 className="text-xl font-bold">ทะเบียนคุม</h1>
+
+                    <a href={`${process.env.REACT_APP_API_URL}/loan-contracts/export`} target="_blank" className="btn btn-success btn-sm">
+                        <i className="far fa-file-excel mr-1"></i>
+                        Export
+                    </a>
                 </div>
 
                 <div>
