@@ -86,6 +86,9 @@ const FormLoanOver20 = () => {
                                     รวมจำนวนเงินทั้งสิ้น {currency.format(refund.contract?.loan?.budget_total)} บาท ({ThaiNumberToText(refund.contract?.loan?.budget_total)})
                                 </span>
                                 <span className="ml-1">
+                                    โดยเป็นค่าใช้จ่ายโครงการ เป็นจำนวนเงินทั้งสิ้น {currency.format(refund.net_total)} บาท ({ThaiNumberToText(refund.net_total)})
+                                </span>
+                                <span className="ml-1">
                                     {refund.over20_reason}
                                 </span> นั้น
                             </div>
