@@ -4,8 +4,8 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { DatePicker } from '@material-ui/pickers'
 import { Col, Modal, Row } from 'react-bootstrap'
-import { deposit } from '../../../../features/slices/loan-contract/loanContractSlice'
 import moment from 'moment'
+import { deposit } from '../../../../features/slices/loan-contract/loanContractSlice'
 
 const depositSchema = Yup.object().shape({
     contract_id: Yup.string().required(),
@@ -59,13 +59,22 @@ const ModalDepositForm = ({ isShow, onHide, onSubmit, contract }) => {
                                                 onChange={(date) => {
                                                     setSelectedDepositDate(date);
                                                     formik.setFieldValue('deposited_date', date.format('YYYY-MM-DD'));
-                                                    
+
                                                     /** คำนวณวันที่กำหนดคืนเงินจาก contract.refund_days */
-                                                    const refundDate = moment(date).add(contract.refund_days - 1, "days");
+                                                    let refundDate = moment();
+                                                    if (contract.loan?.loan_type_id === 1) {
+                                                        /** กรณีเงินยืมโครงการ นับจากวันที่เงินเข้าเป็นวันที่ 1 */
+                                                        refundDate = moment(date).add(contract.refund_days - 1, "days");
+                                                    } else {
+                                                        /** กรณียืมเงินไปราชการ นับจากวันที่กลับมากจากราชการเป็นวันที่ 1 */
+                                                        const backedDate = moment(contract.loan?.project_edate).add(1, "days");
+
+                                                        refundDate = backedDate.add(contract.refund_days - 1, "days");
+                                                    }
+
                                                     setSelectedRefundDate(refundDate);
                                                     formik.setFieldValue('refund_date', refundDate.format('YYYY-MM-DD'));
                                                 }}
-                                                variant="outlined"
                                             />
                                         </div>
                                         {(formik.errors.deposited_date && formik.touched.deposited_date) && (
@@ -84,7 +93,6 @@ const ModalDepositForm = ({ isShow, onHide, onSubmit, contract }) => {
                                                     setSelectedRefundDate(date);
                                                     formik.setFieldValue('refund_date', date.format('YYYY-MM-DD'));
                                                 }}
-                                                variant="outlined"
                                             />
                                         </div>
                                         {(formik.errors.refund_date && formik.touched.refund_date) && (
