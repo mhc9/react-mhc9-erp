@@ -65,6 +65,7 @@ import Inspection from './components/Preview/Inspection';
 import FormLoan from './components/Preview/FormLoan';
 import FormLoanContract from './components/Preview/FormLoanContract';
 import FormLoanRefund from './components/Preview/FormLoanRefund';
+import FormLoanOver20 from './components/Preview/FormLoanOver20';
 import FormLoanRefundBill from './components/Preview/FormLoanRefundBill';
 import FormProjectVerify from './components/Preview/FormProjectVerify';
 import FormProjectReview from './components/Preview/FormProjectReview';
@@ -214,6 +215,7 @@ function App() {
             <Route path="/preview/:id/loan/form" element={<FormLoan />} />
             <Route path="/preview/:id/loan-contract/form" element={<FormLoanContract />} />
             <Route path="/preview/:id/loan-refund/form" element={<FormLoanRefund />} />
+            <Route path="/preview/:id/loan-refund/over20" element={<FormLoanOver20 />} />
             <Route path="/preview/:id/loan-refund/bill" element={<FormLoanRefundBill />} />
             <Route path="/preview/:id/project/verify" element={<FormProjectVerify />} />
             <Route path="/preview/:id/project/review" element={<FormProjectReview />} />

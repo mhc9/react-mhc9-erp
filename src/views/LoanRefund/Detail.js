@@ -289,15 +289,23 @@ const LoanRefundDetail = () => {
                                         </a>
                                     </DropdownItem>
                                 </DropdownButton>
+                                <DropdownButton title="บันทึกขอคืนเงินยืมเกิน 20%" btnColor="primary" cssClass="mr-1">
+                                    <DropdownItem>
+                                        <Link to={`/preview/${id}/loan-refund/over20`} target="_blank" className="text-success">
+                                            <i className="fas fa-print mr-1"></i>
+                                            พิมพ์บันทึก
+                                        </Link>
+                                    </DropdownItem>
+                                    <DropdownItem>
+                                        <a href={`${process.env.REACT_APP_API_URL}/loan-refunds/${id}/over20`} target="_blank" className="text-primary">
+                                            <i className="far fa-file-word mr-1"></i>
+                                            ดาวน์โหลดบันทึก
+                                        </a>
+                                    </DropdownItem>
+                                </DropdownButton>
                                 <Link to={`/preview/${id}/loan-refund/bill`} target="_blank" className="btn btn-success btn-sm mr-1">
                                     พิมพ์ใบรับใบสำคัญ
                                 </Link>
-
-                                {refund?.is_over20 === 1 && (
-                                    <Link to={`/preview/${id}/loan-refund/over20-form`} className="btn btn-danger btn-sm mr-1">
-                                        พิมพ์บันทึกขอคืนเงินยืมเกิน 20%
-                                    </Link>
-                                )}
 
                                 {refund?.status === 'N' && (
                                     <a href="#" className="btn btn-primary btn-sm" onClick={() => setShowApprovalForm(true)}>
