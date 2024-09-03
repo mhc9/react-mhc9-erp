@@ -22,14 +22,22 @@ import AddOrder from './AddOrder';
 import OrderList from './OrderList';
 
 const loanSchema = Yup.object().shape({
-    doc_no: Yup.string().required(),
-    doc_date: Yup.string().required(),
-    loan_type_id: Yup.string().required(),
-    money_type_id: Yup.string().required(),
-    year: Yup.string().required(),
-    department_id: Yup.string().required(),
-    employee_id: Yup.string().required(),
-    net_total: Yup.string().required(),
+    doc_no: Yup.string().required('กรุณาระบุเลขที่เอกสาร'),
+    doc_date: Yup.string().required('กรุณาเลือกวันที่เอกสาร'),
+    loan_type_id: Yup.string().required('กรุณาเลือกประเภทการยืม'),
+    money_type_id: Yup.string().required('กรุณาเลือกประเภทเงินยืม'),
+    year: Yup.string().required('กรุณาเลือกปีงบประมาณ'),
+    department_id: Yup.string().required('กรุณาเลือกหน่วยงาน'),
+    employee_id: Yup.string().required('กรุณาเลือกผู้ขอ/เจ้าของโครงการ'),
+    project_no: Yup.string().required('กรุณาระบุเลขที่ขออนุมัติโครงการ'),
+    project_date: Yup.string().required('กรุณาเลือกวันที่ขออนุมัติโครงการ'),
+    project_name: Yup.string().required('กรุณาระบุชื่อโครงการ'),
+    project_sdate: Yup.string().required('กรุณาเลือกวันที่เริ่มโครงการ'),
+    project_edate: Yup.string().required('กรุณาเลือกวันที่สิ้นสุดโครงการ'),
+    net_total: Yup.string().required('กรุณาระบุรวมเป็นเงินทั้งสิ้น'),
+    budgets: Yup.mixed().test('budgetsCount', 'ไม่พบรายการงบประมาณ', val => val.length > 0),
+    items: Yup.mixed().test('itemsCount', 'ไม่พบรายการค่าใช้จ่าย/รายการจัดซื้อจัดจ้าง', val => val.length > 0),
+    courses: Yup.mixed().test('coursesCount', 'ไม่พบรายการรุ่นโครงการ', val => val.length > 0),
 });
 
 const LoanForm = ({ loan }) => {
@@ -479,10 +487,10 @@ const LoanForm = ({ loan }) => {
                                             onRemoveCourse={(id) => handleRemoveCourse(formik, id)}
                                         />
                                     </div>
+                                    {(formik.errors.courses && formik.touched.courses) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.courses}</span>
+                                    )}
                                 </div>
-                                {/* {(formik.errors.courses && formik.touched.courses) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.courses}</span>
-                                )} */}
                             </Col>
                         </Row>
                         <Row className="mb-2">
@@ -517,6 +525,9 @@ const LoanForm = ({ loan }) => {
                                         <div className="w-[10%]"></div>
                                     </div>
                                 </div>
+                                {(formik.errors.budgets && formik.touched.budgets) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.budgets}</span>
+                                )}
                             </Col>
                         </Row>
                         <Row className="mb-2">
