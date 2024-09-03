@@ -65,7 +65,8 @@ const ModalReceiptForm = ({ isShow, onHide, refund }) => {
                                                 name="receipt_no"
                                                 value={formik.values.receipt_no}
                                                 onChange={formik.handleChange}
-                                                className="form-control text-sm w-[45%]"
+                                                className="form-control text-sm text-center w-[45%]"
+                                                
                                                 placeholder="ระบุเลขที่ใบเสร็จ"
                                             />
                                         </div>

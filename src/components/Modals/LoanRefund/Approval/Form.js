@@ -87,7 +87,7 @@ const ModalApprovalForm = ({ isShow, onHide, refund }) => {
                                                 name="bill_no"
                                                 value={formik.values.bill_no}
                                                 onChange={formik.handleChange}
-                                                className="form-control text-sm w-[45%]"
+                                                className="form-control text-sm text-center w-[45%]"
                                                 placeholder="ระบุเลขที่ใบสำคัญ"
                                             />
                                         </div>
