@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Col, Row, Tabs, Tab } from 'react-bootstrap'
 import { Formik, Form } from 'formik'
-import { FaSearch } from 'react-icons/fa'
+import { FaCheckSquare, FaSearch } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
 import { toast } from 'react-toastify'
 import * as Yup from 'yup'
@@ -39,6 +39,7 @@ const refundSchema = Yup.object().shape({
 const LoanRefundForm = ({ refund }) => {
     const dispatch = useDispatch();
     const [selectedDocDate, setSelectedDocDate] = useState(moment());
+    const [selectedOver20Date, setSelectedOver20Date] = useState(moment());
     const [showLoanModal, setShowLoanModal] = useState(false);
     // const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [contract, setContract] = useState(null);
@@ -69,8 +70,12 @@ const LoanRefundForm = ({ refund }) => {
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_total', itemTotal);
         formik.setFieldValue('net_total', netTotal);
-        formik.setFieldValue('balance', contract?.net_total - netTotal);
-        setRefundType(formik, contract?.net_total - netTotal);
+
+        /** คำนวณยอดคงเหลือและยอดคืนเกิน 20% หรือไม่ */
+        const balance = contract?.net_total - netTotal;
+        formik.setFieldValue('balance', balance);
+        formik.setFieldValue('is_over20', (balance * 100) / contract?.loan?.budget_total >= 20);
+        setRefundType(formik, balance);
 
         setTimeout(() => formik.setFieldTouched('items', true));
     };
@@ -128,10 +133,14 @@ const LoanRefundForm = ({ refund }) => {
                 doc_date:  refund ? moment(refund.doc_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 contract_id: refund ? refund.contract_id : '',
                 refund_type_id: refund ? refund.refund_type_id : '1',
-                item_total: '0',
-                order_total: '0',
-                net_total: refund ? refund.net_total : '',
-                balance: refund ? refund.balance : '',
+                item_total: 0,
+                order_total: 0,
+                net_total: refund ? refund.net_total : 0,
+                balance: refund ? refund.balance : 0,
+                is_over20: false,
+                over20_no: '',
+                over20_date: '',
+                over20_reason: '',
                 items: refund ? refund.details : [],
             }}
             validationSchema={refundSchema}
@@ -337,6 +346,59 @@ const LoanRefundForm = ({ refund }) => {
                                             <span className="text-red-500 text-xs">{formik.errors.net_total}</span>
                                         )}
                                     </Col>
+                                    {formik.values.is_over20 && (
+                                        <Row className="my-2">
+                                            <Col md={12} className="mt-2">
+                                                <div className="flex flex-row items-center gap-1">
+                                                    <FaCheckSquare /> คืนเกิน 20%
+                                                </div>
+                                            </Col>
+                                            <Col md={6} className="mt-2">
+                                                <label htmlFor="">เลขที่เอกสาร</label>
+                                                <input
+                                                    type="text"
+                                                    name="over20_no"
+                                                    value={formik.values.over20_no}
+                                                    onChange={formik.handleChange}
+                                                    className="form-control text-sm"
+                                                />
+                                                {(formik.errors.over20_no && formik.touched.over20_no) && (
+                                                    <span className="text-red-500 text-xs">{formik.errors.over20_no}</span>
+                                                )}
+                                            </Col>
+                                            <Col md={6} className="mt-2">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="">วันที่เอกสาร</label>
+                                                    <DatePicker
+                                                        format="DD/MM/YYYY"
+                                                        value={selectedOver20Date}
+                                                        onChange={(date) => {
+                                                            setSelectedOver20Date(date);
+                                                            formik.setFieldValue('over20_date', date.format('YYYY-MM-DD'));
+                                                        }}
+                                                    />
+                                                </div>
+                                                {(formik.errors.over20_date && formik.touched.over20_date) && (
+                                                    <span className="text-red-500 text-xs">{formik.errors.over20_date}</span>
+                                                )}
+                                            </Col>
+                                            <Col md={12} className="mt-2">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="">เหตุผล</label>
+                                                    <textarea
+                                                        rows={3}
+                                                        name="over20_reason"
+                                                        value={formik.values.over20_reason}
+                                                        onChange={formik.handleChange}
+                                                        className="form-control text-sm"
+                                                    ></textarea>
+                                                </div>
+                                                {(formik.errors.over20_reason && formik.touched.over20_reason) && (
+                                                    <span className="text-red-500 text-xs">{formik.errors.over20_reason}</span>
+                                                )}
+                                            </Col>
+                                        </Row>
+                                    )}
                                 </Row>
                             </Col>
                         </Row>
