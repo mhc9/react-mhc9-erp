@@ -40,13 +40,13 @@ const FormLoanOver20 = () => {
                                 <div>
                                     <h3>ที่</h3>
                                     <div className="memo-header-value">
-                                        <span>{refund.doc_no}</span>
+                                        <span>{refund.over20_no}</span>
                                     </div>
                                 </div>
                                 <div>
                                     <h3>วันที่</h3>
                                     <div className="memo-header-value">
-                                        <span>{toLongTHDate(moment(refund.doc_date).toDate())}</span>
+                                        <span>{toLongTHDate(moment(refund.over20_date).toDate())}</span>
                                     </div>
                                 </div>
                             </div>
