@@ -26,7 +26,7 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
         } else {
             dispatch(getBudgets({ url: `${apiEndpoint}&limit=5${params}` }));
         }
-    }, [apiEndpoint, params]);
+    }, [apiEndpoint]);
 
     return (
         <Modal
@@ -40,7 +40,10 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
             <Modal.Body>
                 <FilteringInputs
                     initialFilters={initialFilters}
-                    onFilter={(queryStr) => setParams(queryStr)}
+                    onFilter={(queryStr) => {
+                        setParams(queryStr);
+                        setApiEndpoint(prev => prev === '' ? `/api/budgets/search?page=` : '');
+                    }}
                     formData={formData}
                 />
 
