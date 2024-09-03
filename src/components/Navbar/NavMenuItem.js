@@ -12,8 +12,8 @@ const NavMenuItem = ({ text, submenus, userRole }) => {
             </button>
             <NavDropdownMenu
                 isShow={showDropdown}
-                submenus={submenus}
                 hide={() => setShowDropsown(false)}
+                submenus={submenus}
                 userRole={userRole}
             />
         </li>

@@ -26,29 +26,30 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                         <NavMenuItem
                             text="บริการ"
                             submenus={[
-                                {type: 'menu', text: 'รายการแจ้งปัญหา', link: '/task'},
-                                {type: 'menu', text: 'แจ้งปัญหา', link: '/task/add'},
-                                {type: 'menu', text: 'รายการส่งซ่อม', link: '/repairation'},
+                                {type: 'menu', text: 'รายการแจ้งปัญหา', link: '/task', allowed_users: [1]},
+                                {type: 'menu', text: 'แจ้งปัญหา', link: '/task/add', allowed_users: [1]},
+                                {type: 'menu', text: 'รายการส่งซ่อม', link: '/repairation', allowed_users: [1]},
                             ]}
+                            userRole={user?.permissions[0]?.role_id}
                         />
                     )}
 
                     <NavMenuItem
                         text="จัดซื้อจัดจ้าง"
                         submenus={[
-                            {type: 'menu', text: 'คำขอซื้อ/จ้าง', link: '/requisition', user: []},
-                            {type: 'menu', text: 'ใบสั่งซื้อ/จ้าง', link: '/order', user: [1, 3]},
-                            {type: 'menu', text: 'ตรวจรับพัสดุ', link: '/inspection', user: [1, 3]},
+                            {type: 'menu', text: 'คำขอซื้อ/จ้าง', link: '/requisition', allowed_users: []},
+                            {type: 'menu', text: 'ใบสั่งซื้อ/จ้าง', link: '/order', allowed_users: [1, 3]},
+                            {type: 'menu', text: 'ตรวจรับพัสดุ', link: '/inspection', allowed_users: [1, 3]},
                         ]}
                         userRole={user?.permissions[0]?.role_id}
                     />
                     <NavMenuItem
                         text="ยืมเงินราชการ"
                         submenus={[
-                            {type: 'menu', text: 'คำขอยืมเงิน', link: '/loan', user: []},
-                            {type: 'menu', text: 'สัญญายืมเงิน', link: '/loan-contract', user: [1, 4]},
-                            {type: 'menu', text: 'หักล้างเงินยืม', link: '/loan-refund', user: []},
-                            {type: 'menu', text: 'ทะเบียนคุม', link: '/loan-report', user: [1, 4]},
+                            {type: 'menu', text: 'คำขอยืมเงิน', link: '/loan', allowed_users: []},
+                            {type: 'menu', text: 'สัญญายืมเงิน', link: '/loan-contract', allowed_users: [1, 4]},
+                            {type: 'menu', text: 'หักล้างเงินยืม', link: '/loan-refund', allowed_users: []},
+                            {type: 'menu', text: 'ทะเบียนคุม', link: '/loan-report', allowed_users: [1, 4]},
                         ]}
                         userRole={user?.permissions[0]?.role_id}
                     />
@@ -57,21 +58,21 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                         <NavMenuItem
                             text="ข้อมูลพื้ฐาน"
                             submenus={[
-                                {type: 'menu', text: 'ครุภัณฑ์', link: '/asset', user: [1, 3]},
-                                {type: 'menu', text: 'ชุดคอมพิวเตอร์', link: '/comset', user: [1, 3]},
-                                {type: 'menu', text: 'วัสดุ', link: '/material', user: [1, 3]},
-                                {type: 'menu', text: 'ประเภทพัสดุ', link: '/asset-type', user: [1, 3]},
-                                {type: 'menu', text: 'ชนิดพัสดุ', link: '/asset-category', user: [1, 3]},
+                                {type: 'menu', text: 'ครุภัณฑ์', link: '/asset', allowed_users: [1, 3]},
+                                {type: 'menu', text: 'ชุดคอมพิวเตอร์', link: '/comset', allowed_users: [1, 3]},
+                                {type: 'menu', text: 'วัสดุ', link: '/material', allowed_users: [1, 3]},
+                                {type: 'menu', text: 'ประเภทพัสดุ', link: '/asset-type', allowed_users: [1, 3]},
+                                {type: 'menu', text: 'ชนิดพัสดุ', link: '/asset-category', allowed_users: [1, 3]},
                                 {type: 'divided'},
-                                {type: 'menu', text: 'บุคลากร', link: '/employee', user: [1]},
-                                {type: 'menu', text: 'กลุ่มงาน', link: '/department', user: [1]},
-                                {type: 'menu', text: 'งาน', link: '/division', user: [1]},
+                                {type: 'menu', text: 'บุคลากร', link: '/employee', allowed_users: [1]},
+                                {type: 'menu', text: 'กลุ่มงาน', link: '/department', allowed_users: [1]},
+                                {type: 'menu', text: 'งาน', link: '/division', allowed_users: [1]},
                                 {type: 'divided'},
-                                {type: 'menu', text: 'สินค้า/บริการ', link: '/item', user: [1, 3]},
-                                {type: 'menu', text: 'หน่วยนับ', link: '/unit', user: [1, 3]},
-                                {type: 'menu', text: 'ผู้จัดจำหน่าย', link: '/supplier', user: [1, 3]},
+                                {type: 'menu', text: 'สินค้า/บริการ', link: '/item', allowed_users: [1, 3]},
+                                {type: 'menu', text: 'หน่วยนับ', link: '/unit', allowed_users: [1, 3]},
+                                {type: 'menu', text: 'ผู้จัดจำหน่าย', link: '/supplier', allowed_users: [1, 3]},
                                 {type: 'divided'},
-                                {type: 'menu', text: 'งบประมาณ', link: '/budget', user: [1, 3]},
+                                {type: 'menu', text: 'งบประมาณ', link: '/budget', allowed_users: [1, 3]},
                             ]}
                             userRole={user?.permissions[0]?.role_id}
                         />
