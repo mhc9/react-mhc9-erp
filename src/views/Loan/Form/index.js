@@ -420,6 +420,10 @@ const LoanForm = ({ loan }) => {
                                                     onChange={(date) => {
                                                         setSelectedStartDate(date);
                                                         formik.setFieldValue('project_sdate', date.format('YYYY-MM-DD'));
+
+                                                        /** เซตค่าเริ่มของวันที่สิ้นสุดโครงการ */
+                                                        setSelectedEndDate(date);
+                                                        formik.setFieldValue('project_edate', date.format('YYYY-MM-DD'));
                                                     }}
                                                     variant="outlined"
                                                 />
@@ -430,7 +434,7 @@ const LoanForm = ({ loan }) => {
                                         </Col>
                                         <Col md={3}>
                                             <div className="flex flex-col">
-                                                <label htmlFor="">ถึงวันที่</label>
+                                                <label htmlFor="">วันที่สิ้นสุด</label>
                                                 <DatePicker
                                                     format="DD/MM/YYYY"
                                                     value={selectedEndDate}
