@@ -200,7 +200,7 @@ const LoanRefundDetail = () => {
                                         <Col md={6} className="mt-2">
                                             <label htmlFor="">ประเภท</label>
                                             <div className="form-control text-sm">
-                                                {refund?.refund_type_id === 1 ? 'คืนเงิน' : 'เบิกเพิ่ม'}
+                                                {refund?.refund_type_id === 1 ? 'คืนเงิน' : (refund?.refund_type_id === 2 ? 'เบิกเพิ่ม' : 'พอดี')}
                                             </div>
                                         </Col>                                        
                                         <Col md={6} className="mt-2">
