@@ -321,6 +321,7 @@ const LoanRefundForm = ({ refund }) => {
                                             <option value="">-- เลือกประเภท --</option>
                                             <option value="1">คืนเงิน</option>
                                             <option value="2">เบิกเพิ่ม</option>
+                                            <option value="3">พอดี</option>
                                         </select>
                                         {(formik.errors.refund_type_id && formik.touched.refund_type_id) && (
                                             <span className="text-red-500 text-xs">{formik.errors.refund_type_id}</span>
