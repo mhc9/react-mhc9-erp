@@ -105,13 +105,14 @@ const LoanContractForm = ({ contract }) => {
     return (
         <Formik
             initialValues={{
-                loan_id: contract ? contract.loan_id : '',
                 contract_no: contract ? contract.contract_no : '',
+                year: contract ? contract.year : '',
+                loan_id: contract ? contract.loan_id : '',
+                employee_id: contract ? contract.employee_id : '',
                 sent_date: contract ? contract.sent_date : '',
                 approved_date: contract ? contract.approved_date : '',
                 bill_no: contract ? contract.bill_no : '',
                 bk02_date: contract ? contract.bk02_date : '',
-                year: contract ? contract.year : '',
                 refund_days: contract ? contract.refund_days : '',
                 item_total: contract ? contract.item_total : '0',
                 order_total: contract ? contract.order_total : '0',
@@ -131,8 +132,9 @@ const LoanContractForm = ({ contract }) => {
                             onSelect={(loan) => {
                                 setLoan(loan);
 
-                                formik.setFieldValue('loan_id', loan.id);
                                 formik.setFieldValue('year', loan.year);
+                                formik.setFieldValue('loan_id', loan.id);
+                                formik.setFieldValue('employee_id', loan.employee_id);
                                 formik.setFieldValue('refund_days', loan.loan_type_id === 1 ? 30 : 15);
                                 formik.setFieldValue('item_total', loan.item_total);
                                 formik.setFieldValue('order_total', loan.order_total);
