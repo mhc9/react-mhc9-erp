@@ -14,11 +14,9 @@ import Pagination from '../../../components/Pagination'
 import EmployeeCard from '../../../components/Employee/Card'
 
 const initialFilters = {
-    pr_no: '',
-    pr_date: '',
-    division: '',
-    status: '',
     year: moment().year(),
+    employee: '',
+    status: '',
 };
 
 const LoanContractList = () => {
@@ -45,12 +43,6 @@ const LoanContractList = () => {
         }
     }, [dispatch, apiEndpoint, params])
 
-    const handleFilter = (queryStr) => {
-        setParams(queryStr);
-
-        setApiEndpoint(`/api/loan-contracts/search?page=`);
-    };
-
     const handleDelete = (id) => {
         if (window.confirm(`คุณต้องการลบสัญญาเงินยืมรหัส ${id} ใช่หรือไม่`)) {
             dispatch(destroy(id));
@@ -75,7 +67,11 @@ const LoanContractList = () => {
                 <div>
                     <FilteringInputs
                         initialFilters={initialFilters}
-                        onFilter={handleFilter}
+                        onFilter={(queryStr) => {
+                            console.log(queryStr);
+                            setParams(queryStr);
+                            setApiEndpoint(`/api/loan-contracts/search?page=`);
+                        }}
                     />
 
                     <table className="table table-bordered mb-2">
