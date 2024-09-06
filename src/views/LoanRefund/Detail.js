@@ -25,6 +25,7 @@ const LoanRefundDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { refund, isLoading, isSuccess } = useSelector(state => state.loanRefund);
+    const { loggedInUser } = useSelector(state => state.auth);
     const { data: formData } = useGetInitialFormDataQuery();
     const [showApprovalForm, setShowApprovalForm] = useState(false);
     const [showReceiptForm, setShowReceiptForm] = useState(false);
@@ -311,13 +312,13 @@ const LoanRefundDetail = () => {
                                     พิมพ์ใบรับใบสำคัญ
                                 </Link>
 
-                                {(refund?.status === 'N') && (
+                                {([1,4].includes(loggedInUser?.permissions[0].role_id) && refund?.status === 'N') && (
                                     <a href="#" className="btn btn-primary btn-sm" onClick={() => setShowApprovalForm(true)}>
                                         เคลียร์เงินยืม
                                     </a>
                                 )}
 
-                                {(refund?.status === 'Y' && !refund?.receipt_no) && (
+                                {([1,4].includes(loggedInUser?.permissions[0].role_id) && refund?.status === 'Y' && !refund?.receipt_no) && (
                                     <a href="#" className="btn btn-primary btn-sm" onClick={() => setShowReceiptForm(true)}>
                                         บันทึกใบเสร็จ
                                     </a>

@@ -1,25 +1,8 @@
 import React, { useEffect } from 'react'
 import { FaInfoCircle } from 'react-icons/fa'
 import { Breadcrumb } from 'react-bootstrap'
-import { setLoggedInUser } from '../../features/slices/auth/authSlice'
-import { useGetUserDetailsQuery } from '../../features/services/auth/authApi'
-import { useDispatch } from 'react-redux'
 
 const Home = () => {
-    const dispatch = useDispatch();
-    const { data: user } = useGetUserDetailsQuery('userDetails', {
-        pollingInterval: 900000,
-        refetchOnMountOrArgChange: true,
-    });
-
-    useEffect(() => {
-        if (user) {
-            console.log('on home loaded...');
-
-            dispatch(setLoggedInUser(user));
-        }
-    }, [user]);
-
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}
@@ -32,9 +15,9 @@ const Home = () => {
                 <FaInfoCircle size={'50px'} />
                 <div className="flex flex-col">
                     <h1 className="font-bold text-2xl">Welcome to MHC9 ERP System</h1>
-                    <p className="">
+                    {/* <p className="">
                         {user && user.name}
-                    </p>
+                    </p> */}
                 </div>
             </div>
 
