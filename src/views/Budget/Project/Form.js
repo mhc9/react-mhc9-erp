@@ -4,7 +4,7 @@ import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
 import { useStyles } from '../../../hooks/useStyles'
-import { useGetInitialFormDataQuery } from '../../../features/services/budgetProject/budgetProjectApi'
+import { useGetInitialFormDataQuery } from '../../../features/services/budget-project/budgetProjectApi'
 import { store, update } from '../../../features/slices/budget-project/budgetProjectSlice'
 import { useDispatch } from 'react-redux'
 

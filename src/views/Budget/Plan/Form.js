@@ -6,7 +6,7 @@ import moment from 'moment';
 import { DatePicker } from '@material-ui/pickers';
 import { useStyles } from '../../../hooks/useStyles';
 import { store, update } from '../../../features/slices/budget-plan/budgetPlanSlice'
-import { useGetInitialFormDataQuery } from '../../../features/services/budgetPlan/budgetPlanApi'
+import { useGetInitialFormDataQuery } from '../../../features/services/budget-plan/budgetPlanApi'
 
 const budgetPlanSchema = Yup.object().shape({
     plan_no: Yup.string().required(),

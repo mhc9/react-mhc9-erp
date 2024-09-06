@@ -17,10 +17,6 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
         setFilters(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleFilter = () => {
-        onFilter(generateQueryString(filters));
-    };
-
     return (
         <div className="border rounded-md py-2 px-3 mb-2">
             <div className="flex flex-row items-center gap-2">
@@ -62,13 +58,22 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                         </select>
                     </div>
                 </div>
-                <button type="button" className="btn btn-outline-primary btn-sm" onClick={handleFilter}>
+                <button
+                    type="button"
+                    className="btn btn-outline-primary btn-sm"
+                    onClick={() => onFilter(generateQueryString(filters))}
+                >
                     ค้นหา
                 </button>
-                <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => {
-                    setFilters(initialFilters);
-                    handleFilter()
-                }}>
+                <button
+                    type="button"
+                    className="btn btn-outline-danger btn-sm"
+                    onClick={() => {
+                        setFilters(initialFilters);
+                        setSelectedYear(moment());
+                        onFilter(generateQueryString(initialFilters));
+                    }}
+                >
                     เคลียร์
                 </button>
             </div>
