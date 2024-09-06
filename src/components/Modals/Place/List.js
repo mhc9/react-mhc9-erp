@@ -34,7 +34,7 @@ const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
             onHide={onHide}
             size='xl'
         >
-            <Modal.Header closeButton>
+            <Modal.Header closeButton className="py-1">
                 <Modal.Title>รายการสถานที่</Modal.Title>
             </Modal.Header>
             <Modal.Body>

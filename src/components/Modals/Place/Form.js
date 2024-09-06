@@ -47,8 +47,8 @@ const ModalPlaceForm = ({ isShow, onHide, onSubmit }) => {
             onHide={onHide}
             size='lg'
         >
-            <Modal.Header closeButton>
-                <Modal.Title>เพิ่มโครงการ</Modal.Title>
+            <Modal.Header closeButton className="py-1">
+                <Modal.Title>เพิ่มสถานที่</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Formik
