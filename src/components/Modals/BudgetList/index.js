@@ -78,8 +78,9 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
                                         <button
                                             className="btn btn-primary btn-sm"
                                             onClick={() => {
-                                                onHide();
+                                                setApiEndpoint('');
                                                 onSelect(budget);
+                                                onHide();
                                             }}
                                         >
                                             เลือก
