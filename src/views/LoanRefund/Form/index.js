@@ -133,6 +133,8 @@ const LoanRefundForm = ({ refund }) => {
                 doc_date:  refund ? moment(refund.doc_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 contract_id: refund ? refund.contract_id : '',
                 refund_type_id: refund ? refund.refund_type_id : '1',
+                employee_id: refund ? refund.employee_id : '',
+                year: refund ? refund.year : '',
                 item_total: 0,
                 order_total: 0,
                 net_total: refund ? refund.net_total : 0,
@@ -155,6 +157,10 @@ const LoanRefundForm = ({ refund }) => {
                             onSelect={(contract) => {
                                 setContract(contract);
                                 formik.setFieldValue('contract_id', contract?.id);
+                                formik.setFieldValue('employee_id', contract?.employee_id);
+                                formik.setFieldValue('year', contract?.year);
+
+                                /** หน่วงเวลา */
                                 setTimeout(() => formik.setFieldTouched('contract_id', true));
                             }}
                         />
