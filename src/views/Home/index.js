@@ -1,13 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FaInfoCircle } from 'react-icons/fa'
 import { Breadcrumb } from 'react-bootstrap'
+import { setLoggedInUser } from '../../features/slices/auth/authSlice'
 import { useGetUserDetailsQuery } from '../../features/services/auth/authApi'
+import { useDispatch } from 'react-redux'
 
 const Home = () => {
+    const dispatch = useDispatch();
     const { data: user } = useGetUserDetailsQuery('userDetails', {
         pollingInterval: 900000,
         refetchOnMountOrArgChange: true,
     });
+
+    useEffect(() => {
+        if (user) {
+            console.log('on home loaded...');
+
+            dispatch(setLoggedInUser(user));
+        }
+    }, [user]);
 
     return (
         <div className="content-wrapper">

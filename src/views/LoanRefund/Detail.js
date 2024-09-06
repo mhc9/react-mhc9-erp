@@ -311,7 +311,7 @@ const LoanRefundDetail = () => {
                                     พิมพ์ใบรับใบสำคัญ
                                 </Link>
 
-                                {refund?.status === 'N' && (
+                                {(refund?.status === 'N') && (
                                     <a href="#" className="btn btn-primary btn-sm" onClick={() => setShowApprovalForm(true)}>
                                         เคลียร์เงินยืม
                                     </a>

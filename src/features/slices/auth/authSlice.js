@@ -29,6 +29,9 @@ export const authSlice = createSlice({
         resetSuccess: (state) => {
             state.success = false;
         },
+        setLoggedInUser: (state, { payload }) => {
+            state.loggedInUser = payload;
+        },
         logout: (state) => {
             state.loggedInUser = null;
             state.isLoggedIn = false;
@@ -65,4 +68,4 @@ export const authSlice = createSlice({
 
 export default authSlice.reducer;
 
-export const { resetSuccess, logout } = authSlice.actions;
+export const { resetSuccess, setLoggedInUser, logout } = authSlice.actions;
