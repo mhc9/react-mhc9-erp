@@ -109,12 +109,16 @@ const LoanList = () => {
                                         <Link to={`/loan/${loan.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
                                         </Link>
-                                        <Link to={`/loan/${loan.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
-                                            <FaPencilAlt />
-                                        </Link>
-                                        <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(loan.id)}>
-                                            <FaTrash />
-                                        </button>
+                                        {![4,5,9].includes(loan.status) && (
+                                            <>
+                                                <Link to={`/loan/${loan.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
+                                                    <FaPencilAlt />
+                                                </Link>
+                                                <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(loan.id)}>
+                                                    <FaTrash />
+                                                </button>
+                                            </>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
