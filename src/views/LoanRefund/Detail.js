@@ -186,21 +186,21 @@ const LoanRefundDetail = () => {
                                     <Row className="mb-2">
                                         <Col md={10} className="mt-2">
                                             <label htmlFor="">เลขที่เอกสาร</label>
-                                            <div className="form-control text-sm">
+                                            <div className="form-control text-sm min-h-[34px]">
                                                 {refund?.doc_no}
                                             </div>
                                         </Col>
                                         <Col md={10} className="mt-2">
                                             <div className="flex flex-col">
                                                 <label htmlFor="">วันที่เอกสาร</label>
-                                                <div className="form-control text-sm">
+                                                <div className="form-control text-sm min-h-[34px]">
                                                     {toLongTHDate(moment(refund?.doc_date).toDate())}
                                                 </div>
                                             </div>
                                         </Col>
                                         <Col md={6} className="mt-2">
                                             <label htmlFor="">ประเภท</label>
-                                            <div className="form-control text-sm">
+                                            <div className="form-control text-sm min-h-[34px]">
                                                 {refund?.refund_type_id === 1 ? 'คืนเงิน' : (refund?.refund_type_id === 2 ? 'เบิกเพิ่ม' : 'พอดี')}
                                             </div>
                                         </Col>                                        
@@ -212,7 +212,7 @@ const LoanRefundDetail = () => {
                                         </Col>
                                         <Col md={10} className="mt-2">
                                             <label htmlFor="">ยอดเงิน{refund?.balance >= 0 ? 'คืน' : 'เบิกเพิ่ม'}</label>
-                                            <div className="form-control">
+                                            <div className="form-control min-h-[34px]">
                                                 {refund?.balance < 0 && (
                                                     <span className="text-red-600 font-bold">
                                                         {currency.format(refund?.balance)}
