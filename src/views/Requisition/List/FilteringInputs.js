@@ -3,7 +3,7 @@ import { DatePicker } from '@material-ui/pickers'
 import moment from 'moment'
 import { generateQueryString } from '../../../utils'
 import { useStyles } from '../../../hooks/useStyles'
-import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi';
+import { useGetInitialFormDataQuery } from '../../../features/services/requisition/requisitionApi';
 
 const FilteringInputs = ({ initialFilters, onFilter }) => {
     const classes = useStyles();
@@ -27,7 +27,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                     value={selectedYear}
                     onChange={(date) => {
                         setSelectedYear(date);
-                        setFilters(prev => ({ ...prev, ['year']: moment(date).year() }));
+                        setFilters(prev => ({ ...prev, ['year']: moment(date).year() + 543 }));
                     }}
                     className={classes.muiTextFieldInput}
                 />

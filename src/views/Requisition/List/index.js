@@ -4,20 +4,22 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { toast } from 'react-toastify'
+import moment from 'moment'
 import { getRequisitions, destroy, resetDeleted } from '../../../features/slices/requisition/requisitionSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import DetailList from './DetailList'
-import Loading from '../../../components/Loading'
-import Pagination from '../../../components/Pagination'
-import RequisitionFilteringInputs from '../../../components/Requisition/FilteringInputs'
-import EmployeeCard from '../../../components/Employee/Card'
 import StatusBadge from '../StatusBadge'
+import FilteringInputs from './FilteringInputs'
+import Pagination from '../../../components/Pagination'
+import Loading from '../../../components/Loading'
+import EmployeeCard from '../../../components/Employee/Card'
 
 const initialFilters = {
     pr_no: '',
     pr_date: '',
     division: '',
-    status: ''
+    status: '',
+    year: moment().year() + 543,
 };
 
 const RequisitionList = () => {
@@ -38,17 +40,11 @@ const RequisitionList = () => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getRequisitions({ url: `/api/requisitions/search?page=` }));
+            dispatch(getRequisitions({ url: `/api/requisitions/search?page=${params}` }));
         } else {
             dispatch(getRequisitions({ url: `${apiEndpoint}${params}` }));
         }
-    }, [dispatch, apiEndpoint, params])
-
-    const handleFilter = (queryStr) => {
-        setParams(queryStr);
-
-        setApiEndpoint(`/api/requisitions/search?page=`);
-    };
+    }, [apiEndpoint])
 
     const handleDelete = (id) => {
         if (window.confirm(`คุณต้องการลบรายการคำขอรหัส ${id} ใช่หรือไม่?`)) {
@@ -72,9 +68,12 @@ const RequisitionList = () => {
                 </div>
 
                 <div>
-                    <RequisitionFilteringInputs
+                    <FilteringInputs
                         initialFilters={initialFilters}
-                        onFilter={handleFilter}
+                        onFilter={(queryStr) => {
+                            setParams(queryStr);
+                            setApiEndpoint(prev => prev === '' ? `/api/requisitions/search?page=` : '');
+                        }}
                     />
 
                     <table className="table table-bordered mb-2">

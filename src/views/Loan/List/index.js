@@ -13,9 +13,8 @@ import EmployeeCard from '../../../components/Employee/Card'
 import FilteringInputs from './FilteringInputs'
 
 const initialFilters = {
-    pr_no: '',
-    pr_date: '',
-    division: '',
+    doc_no: '',
+    doc_date: '',
     status: '',
     year: moment().year(),
 };
