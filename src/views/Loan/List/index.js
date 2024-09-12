@@ -3,19 +3,21 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
+import moment from 'moment'
 import { getLoans, destroy } from '../../../features/slices/loan/loanSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import LoanListDetail from './ListDetail'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
 import EmployeeCard from '../../../components/Employee/Card'
-// import LoanFilteringInputs from '../../../components/loan/FilteringInputs'
+import FilteringInputs from './FilteringInputs'
 
 const initialFilters = {
     pr_no: '',
     pr_date: '',
     division: '',
-    status: ''
+    status: '',
+    year: moment().year(),
 };
 
 const LoanList = () => {
@@ -26,17 +28,11 @@ const LoanList = () => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getLoans({ url: `/api/loans/search?page=&status=` }));
+            dispatch(getLoans({ url: `/api/loans/search?page=${params}` }));
         } else {
             dispatch(getLoans({ url: `${apiEndpoint}${params}` }));
         }
-    }, [dispatch, apiEndpoint, params])
-
-    const handleFilter = (queryStr) => {
-        setParams(queryStr);
-
-        setApiEndpoint(`/api/loans/search?page=`);
-    };
+    }, [apiEndpoint])
 
     const handleDelete = (id) => {
         if (window.confirm(`คุณต้องการลบรายการรหัส ${id} ใช่หรือไม่`)) {
@@ -60,10 +56,13 @@ const LoanList = () => {
                 </div>
 
                 <div>
-                    {/* <LoanFilteringInputs
+                    <FilteringInputs
                         initialFilters={initialFilters}
-                        onFilter={handleFilter}
-                    /> */}
+                        onFilter={(queryStr) => {
+                            setParams(queryStr);
+                            setApiEndpoint(prev => prev === '' ? `/api/loans/search?page=` : '');
+                        }}
+                    />
 
                     <table className="table table-bordered mb-2">
                         <thead>

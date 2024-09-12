@@ -41,7 +41,7 @@ const LoanContractList = () => {
         } else {
             dispatch(getContracts({ url: `${apiEndpoint}${params}` }));
         }
-    }, [dispatch, apiEndpoint, params])
+    }, [apiEndpoint])
 
     const handleDelete = (id) => {
         if (window.confirm(`คุณต้องการลบสัญญาเงินยืมรหัส ${id} ใช่หรือไม่`)) {
@@ -68,9 +68,8 @@ const LoanContractList = () => {
                     <FilteringInputs
                         initialFilters={initialFilters}
                         onFilter={(queryStr) => {
-                            console.log(queryStr);
                             setParams(queryStr);
-                            setApiEndpoint(`/api/loan-contracts/search?page=`);
+                            setApiEndpoint(prev => prev === '' ? `/api/loan-contracts/search?page=${params}` : '');
                         }}
                     />
 
