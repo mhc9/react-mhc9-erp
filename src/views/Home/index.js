@@ -23,7 +23,7 @@ const Home = () => {
 
             {/* content */}
             <div className="content min-h-[70vh] mt-3 border rounded-md p-2">
-                <h2 className="text-xl">สถิติการแจ้งซ่อม</h2>
+                <h2 className="text-xl">รายงาน</h2>
 
                 <div>
                     {/* // content here... */}
