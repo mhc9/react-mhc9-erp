@@ -54,15 +54,15 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                         userRole={user?.permissions[0]?.role_id}
                     />
 
-                    {[1,3].includes(user?.permissions[0]?.role_id) && (
+                    {[1,3,4].includes(user?.permissions[0]?.role_id) && (
                         <NavMenuItem
                             text="ข้อมูลพื้ฐาน"
                             submenus={[
                                 {type: 'menu', text: 'ครุภัณฑ์', link: '/asset', allowed_users: [1, 3]},
-                                {type: 'menu', text: 'ชุดคอมพิวเตอร์', link: '/comset', allowed_users: [1, 3]},
-                                {type: 'menu', text: 'วัสดุ', link: '/material', allowed_users: [1, 3]},
-                                {type: 'menu', text: 'ประเภทพัสดุ', link: '/asset-type', allowed_users: [1, 3]},
-                                {type: 'menu', text: 'ชนิดพัสดุ', link: '/asset-category', allowed_users: [1, 3]},
+                                {type: 'menu', text: 'ชุดคอมพิวเตอร์', link: '/comset', allowed_users: [1]},
+                                {type: 'menu', text: 'วัสดุ', link: '/material', allowed_users: [1]},
+                                {type: 'menu', text: 'ประเภทพัสดุ', link: '/asset-type', allowed_users: [1]},
+                                {type: 'menu', text: 'ชนิดพัสดุ', link: '/asset-category', allowed_users: [1]},
                                 {type: 'divided'},
                                 {type: 'menu', text: 'บุคลากร', link: '/employee', allowed_users: [1]},
                                 {type: 'menu', text: 'กลุ่มงาน', link: '/department', allowed_users: [1]},
@@ -72,7 +72,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 {type: 'menu', text: 'หน่วยนับ', link: '/unit', allowed_users: [1, 3]},
                                 {type: 'menu', text: 'ผู้จัดจำหน่าย', link: '/supplier', allowed_users: [1, 3]},
                                 {type: 'divided'},
-                                {type: 'menu', text: 'งบประมาณ', link: '/budget', allowed_users: [1, 3]},
+                                {type: 'menu', text: 'งบประมาณ', link: '/budget', allowed_users: [1, 4]},
                             ]}
                             userRole={user?.permissions[0]?.role_id}
                         />
