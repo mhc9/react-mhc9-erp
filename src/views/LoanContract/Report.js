@@ -2,40 +2,35 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
+import { DatePicker } from '@material-ui/pickers'
 import moment from 'moment'
+import { useStyles } from '../../hooks/useStyles'
 import { getReport } from '../../features/slices/loan-contract/loanContractSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../utils'
 import Loading from '../../components/Loading'
 import Pagination from '../../components/Pagination'
 import EmployeeCard from '../../components/Employee/Card'
-// import LoanFilteringInputs from '../../../components/loan/FilteringInputs'
 
 const initialFilters = {
-    pr_no: '',
-    pr_date: '',
-    division: '',
+    contract_no: '',
     status: ''
 };
 
 const LoanContractReport = () => {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const { contracts, pager, isLoading } = useSelector(state => state.loanContract);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
+    const [year, setYear] = useState(moment());
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getReport(2024));
+            dispatch(getReport({ url: `/api/loan-contracts/report/${year}?page=` }));
         } else {
-            dispatch(getReport(2024));
+            dispatch(getReport({ url: `${apiEndpoint}${params}` }));
         }
-    }, [dispatch, apiEndpoint, params])
-
-    const handleFilter = (queryStr) => {
-        setParams(queryStr);
-
-        setApiEndpoint(`/api/loan-contracts/search?page=`);
-    };
+    }, [apiEndpoint])
 
     const renderRefundTotal = (type, balance) => {
         return (
@@ -69,10 +64,25 @@ const LoanContractReport = () => {
                 </div>
 
                 <div>
-                    {/* <LoanFilteringInputs
-                        initialFilters={initialFilters}
-                        onFilter={handleFilter}
-                    /> */}
+                    {/* ======================== Filtering ======================== */}
+                    <div className="border rounded-md py-2 px-3 mb-2">
+                        <div className="flex items-center gap-2">
+                            <label htmlFor="">ปีงบ :</label>
+                            <DatePicker
+                                format="YYYY"
+                                views={['year']}
+                                value={year}
+                                onChange={(date) => {
+                                    setYear(date);
+                                    console.log(date.year());
+                                    // setParams(queryStr);
+                                    setApiEndpoint(prev => prev === '' ? `/api/loan-contracts/report/${date.year()}?page=` : '');
+                                }}
+                                className={classes.muiTextFieldInput}
+                                />
+                        </div>
+                    </div>
+                    {/* ======================== Filtering ======================== */}
 
                     <table className="table table-bordered table-striped table-hover text-xs mb-2">
                         <thead>

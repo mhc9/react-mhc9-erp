@@ -31,9 +31,9 @@ export const getContract = createAsyncThunk("loan-contract/getContract", async (
     }
 });
 
-export const getReport = createAsyncThunk("loan-contract/getReport", async (year, { rejectWithValue }) => {
+export const getReport = createAsyncThunk("loan-contract/getReport", async ({ url }, { rejectWithValue }) => {
     try {
-        const res = await api.get(`/api/loan-contracts/report/${year}`);
+        const res = await api.get(url);
 
         return res.data;
     } catch (error) {
