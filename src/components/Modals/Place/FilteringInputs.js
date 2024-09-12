@@ -52,8 +52,8 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                         <option value="99">อื่นๆ</option>
                     </select>
                 </div>
-                <button type="button" className="btn btn-outline-primary btn-sm" onClick={handleFilter}>
-                    ตกลง
+                <button type="button" className="btn btn-outline-secondary btn-sm" onClick={handleFilter}>
+                    ค้นหา
                 </button>
                 <button type="button" className="btn btn-outline-danger btn-sm" onClick={handleClearInputs}>
                     เคลียร์
