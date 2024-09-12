@@ -25,18 +25,17 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
     };
 
     return (
-        <div className="border rounded-md p-2">
-            <Row className="mb-2">
-                <Col>
-                    <label htmlFor="">ชื่อสถานที่</label>
+        <div className="border rounded-md py-2 px-3 mb-2 flex items-center gap-1">
+                <div className="flex items-center w-[30%]">
+                    <label htmlFor="" className="w-[35%]">ชื่อสถานที่ :</label>
                     <input
                         name="name"
                         value={filters.name}
                         onChange={handleInputChange}
                         className="form-control text-sm" />
-                </Col>
-                <Col>
-                    <label htmlFor="">ประเภท</label>
+                </div>
+                <div className="flex items-center w-[30%] ml-1">
+                    <label htmlFor="" className="w-[25%]">ประเภท :</label>
                     <select
                         name="place_type_id"
                         value={filters.place_type_id}
@@ -52,18 +51,13 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                         <option value="6">บริษัท/เอกชน</option>
                         <option value="99">อื่นๆ</option>
                     </select>
-                </Col>
-            </Row>
-            <Row>
-                <Col className="flex flex-row justify-center">
-                    <button type="button" className="btn btn-outline-primary btn-sm mr-1" onClick={handleFilter}>
-                        ตกลง
-                    </button>
-                    <button type="button" className="btn btn-outline-danger btn-sm" onClick={handleClearInputs}>
-                        เคลียร์
-                    </button>
-                </Col>
-            </Row>
+                </div>
+                <button type="button" className="btn btn-outline-primary btn-sm" onClick={handleFilter}>
+                    ตกลง
+                </button>
+                <button type="button" className="btn btn-outline-danger btn-sm" onClick={handleClearInputs}>
+                    เคลียร์
+                </button>
         </div>
     )
 }

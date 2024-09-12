@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Pagination } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import { getPlaces } from '../../../features/slices/place/placeSlice';
 import Loading from '../../Loading';
 import FilteringInputs from './FilteringInputs';
+import Pagination from '../../Pagination'
 
 const initialFilters = {
     name: '',
@@ -34,7 +35,7 @@ const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
             onHide={onHide}
             size='xl'
         >
-            <Modal.Header closeButton className="py-1">
+            <Modal.Header closeButton className="py-1 px-2">
                 <Modal.Title>รายการสถานที่</Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -44,7 +45,7 @@ const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
                 />
 
                 <div className="mt-2">
-                    <table className="table table-bordered text-sm">
+                    <table className="table table-bordered text-sm mb-2">
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
@@ -88,23 +89,10 @@ const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
                 </div>
 
                 {pager && (
-                    <Pagination>
-                        <Pagination.First disabled={pager.current_page === 1} onClick={() => setApiEndpoint(pager.first_page_url)} />
-                        <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => setApiEndpoint(pager.prev_page_url)} />
-                        {/* <Pagination.Item>{1}</Pagination.Item>
-                        <Pagination.Ellipsis />
-
-                        <Pagination.Item>{10}</Pagination.Item>
-                        <Pagination.Item>{11}</Pagination.Item>
-                        <Pagination.Item active>{12}</Pagination.Item>
-                        <Pagination.Item>{13}</Pagination.Item>
-                        <Pagination.Item disabled>{14}</Pagination.Item>
-
-                        <Pagination.Ellipsis />
-                        <Pagination.Item>{20}</Pagination.Item> */}
-                        <Pagination.Next disabled={!pager.next_page_url} onClick={() => setApiEndpoint(pager.next_page_url)} />
-                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => setApiEndpoint(pager.last_page_url)} />
-                    </Pagination>
+                    <Pagination
+                        pager={pager}
+                        onPageClick={(url) => setApiEndpoint(url)}
+                    />
                 )}
             </Modal.Body>
         </Modal>
