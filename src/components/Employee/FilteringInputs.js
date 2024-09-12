@@ -26,7 +26,7 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                             value={filters.name}
                             onChange={handleInputChange}
                             placeholder="ระบุชื่อ"
-                            className="form-control"
+                            className="form-control text-sm"
                         />
                     </FormGroup>
                     <FormGroup>
@@ -34,7 +34,7 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                             name="department"
                             value={filters.department}
                             onChange={handleInputChange}
-                            className="form-control"
+                            className="form-control text-sm"
                         >
                             <option value="">-- หน่วยงาน --</option>
                             {formData.departments && formData.departments.map(department => (
@@ -60,8 +60,8 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                         </select>
                     </FormGroup> */}
                     <FormGroup>
-                        <button type="button" className="btn btn-outline-secondary" onClick={handleFilter}>
-                            ตกลง
+                        <button type="button" className="btn btn-outline-secondary btn-sm mt-[1px]" onClick={handleFilter}>
+                            ค้นหา
                         </button>
                     </FormGroup>
                 </div>
