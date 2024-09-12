@@ -20,13 +20,13 @@ const LoanContractReport = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { contracts, pager, isLoading } = useSelector(state => state.loanContract);
+    const [selectedYear, setSelectedYear] = useState(moment());
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
-    const [year, setYear] = useState(moment());
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getReport({ url: `/api/loan-contracts/report/${year}?page=` }));
+            dispatch(getReport({ url: `/api/loan-contracts/report/${selectedYear.year()}?page=` }));
         } else {
             dispatch(getReport({ url: `${apiEndpoint}${params}` }));
         }
@@ -71,10 +71,9 @@ const LoanContractReport = () => {
                             <DatePicker
                                 format="YYYY"
                                 views={['year']}
-                                value={year}
+                                value={selectedYear}
                                 onChange={(date) => {
-                                    setYear(date);
-                                    console.log(date.year());
+                                    setSelectedYear(date);
                                     // setParams(queryStr);
                                     setApiEndpoint(prev => prev === '' ? `/api/loan-contracts/report/${date.year()}?page=` : '');
                                 }}
