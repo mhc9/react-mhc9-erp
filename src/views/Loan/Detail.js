@@ -35,129 +35,131 @@ const LoanDetail = () => {
             </Breadcrumb>
 
             <div className="content">
+                <h1 className="text-xl font-bold mb-1">รายละเอียดคำขอ (ID: {id})</h1>
+
                 {isLoading && <div className="text-center"><Loading /></div>}
                 {!isLoading && (
                     <>
-                        <Row className="mb-2">
-                            <Col md={3}>
-                                <label htmlFor="">เลขที่เอกสาร</label>
-                                <div className="form-control text-sm">
-                                    {loan?.doc_no}
-                                </div>
-                            </Col>
-                            <Col md={3}>
-                                <div className="flex flex-col">
-                                    <label htmlFor="">วันที่เอกสาร</label>
-                                    <div className="form-control text-sm">
-                                        {toLongTHDate(moment(loan?.doc_date).toDate())}
+                        <div className="flex flex-col border rounded-md py-2 px-3 mb-2">
+                            <Row className="mb-2">
+                                <Col md={3}>
+                                    <label htmlFor="">เลขที่เอกสาร</label>
+                                    <div className="text-sm font-thin">
+                                        {loan?.doc_no}
                                     </div>
-                                </div>
-                            </Col>
-                            <Col md={3}>
-                                <label>ประเภทการยืม</label>
-                                <div className="form-control text-sm">
-                                    {getFormDataItem(formData, 'loanTypes', loan?.loan_type_id)?.name}
-                                </div>
-                            </Col>
-                            <Col md={3}>
-                                <label htmlFor="">ประเภทเงินยืม</label>
-                                <div className="form-control text-sm">
-                                    {getFormDataItem(formData, 'moneyTypes', loan?.money_type_id)?.name}
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row className="mb-2">
-                            <Col md={4}>
-                                <label htmlFor="">หน่วยงาน</label>
-                                <div className="form-control text-sm">
-                                    {loan?.department?.name}
-                                </div>
-                            </Col>
-                            <Col md={6}>
-                                <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
-                                <div className="form-control text-sm">
-                                    {loan?.employee?.firstname} {loan?.employee?.lastname}
-                                </div>
-                            </Col>
-                            <Col md={2}>
-                                <label htmlFor="">ปีงบ</label>
-                                <div className="form-control text-sm">
-                                    {loan?.year && loan?.year+543}
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row className="mb-2">
-                            <Col md={12}>
-                                <div className="flex flex-col border p-2 rounded-md">
-                                    <h1 className="font-bold text-lg mb-1">รายละเอียดโครงการ</h1>
+                                </Col>
+                                <Col md={3}>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="">วันที่เอกสาร</label>
+                                        <div className="text-sm font-thin">
+                                            {toLongTHDate(moment(loan?.doc_date).toDate())}
+                                        </div>
+                                    </div>
+                                </Col>
+                                <Col md={3}>
+                                    <label>ประเภทการยืม</label>
+                                    <div className="text-sm font-thin">
+                                        {getFormDataItem(formData, 'loanTypes', loan?.loan_type_id)?.name}
+                                    </div>
+                                </Col>
+                                <Col md={3}>
+                                    <label htmlFor="">ประเภทเงินยืม</label>
+                                    <div className="text-sm font-thin">
+                                        {getFormDataItem(formData, 'moneyTypes', loan?.money_type_id)?.name}
+                                    </div>
+                                </Col>
+                            </Row>
+                            <Row className="mb-2">
+                                <Col md={3}>
+                                    <label htmlFor="">หน่วยงาน</label>
+                                    <div className="text-sm font-thin">
+                                        {loan?.department?.name}
+                                    </div>
+                                </Col>
+                                <Col md={3}>
+                                    <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
+                                    <div className="text-sm font-thin">
+                                        {loan?.employee?.firstname} {loan?.employee?.lastname}
+                                    </div>
+                                </Col>
+                                <Col md={3}>
+                                    <label htmlFor="">ปีงบ</label>
+                                    <div className="text-sm font-thin">
+                                        {loan?.year && loan?.year+543}
+                                    </div>
+                                </Col>
+                            </Row>
+                        </div>
 
-                                    <Row className="mb-2">
-                                        <Col md={2}>
-                                            <label htmlFor="">เลขที่ขออนุมติ</label>
-                                            <div className="form-control text-sm">
-                                                {loan?.project_no}
-                                            </div>
-                                        </Col>
-                                        <Col md={2}>
-                                            <label htmlFor="">วันที่ขออนุมติ</label>
-                                            <div className="form-control text-sm">
-                                                {toLongTHDate(moment(loan?.project_date).toDate())}
-                                            </div>
-                                        </Col>
-                                        <Col>
-                                            <label htmlFor="">ชื่อโครงการ</label>
-                                            <div className="form-control text-xs">
-                                                {loan?.project_name}
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                    <Row className="mb-2">
-                                        <Col>
-                                            <label htmlFor="">วันที่จัด</label>
-                                            <div className="form-control text-sm">
-                                                {toLongTHDate(moment(loan?.project_sdate).toDate())}
-                                            </div>
-                                        </Col>
-                                        <Col>
-                                            <label htmlFor="">ถึงวันที่</label>
-                                            <div className="form-control text-sm">
-                                                {toLongTHDate(moment(loan?.project_edate).toDate())}
-                                            </div>
-                                        </Col>
-                                        <Col>
-                                            <label htmlFor="">การคิดค่าใช้จ่าย</label>
-                                            <div className="form-control text-sm">
-                                                {loan?.expense_calc === 1 && <span className="badge rounded-pill bg-success">คิดค่าใช้จ่ายรวม</span>}
-                                                {loan?.expense_calc === 2 && <span className="badge rounded-pill bg-danger">คิดค่าใช้จ่ายแยกวันที่</span>}
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col>
-                                            <div className="alert alert-primary py-1 px-1 mb-0">
-                                                <h3 className="text-blue-900 ml-1 underline">รายการรุ่น</h3>
+                        <div className="flex flex-col border rounded-md py-2 px-3 mb-2">
+                            <h1 className="font-bold text-lg mb-1">รายละเอียดโครงการ</h1>
 
-                                                <ul className="text-sm font-thin">
-                                                    {loan && [...loan?.courses]
-                                                        .sort((a, b) => sortObjectByDate(a.course_date, b.course_date))
-                                                        .map((course, index) => (
-                                                            <li key={index} className="hover:bg-blue-300 py-1 px-2 rounded-md">
-                                                                {/* - รุ่นที่ {course.seq_no} */}
-                                                                {++index}.{course?.course_date && <span className="ml-1">วันที่ {toLongTHDate(moment(course?.course_date).toDate())}</span>} 
-                                                                <span className="ml-1">
-                                                                    ณ {course?.room && <span className="mr-1">{course.room}</span>}
-                                                                    {course?.place?.name} จ.{course?.place?.changwat?.name}
-                                                                </span>
-                                                            </li>
-                                                        )
-                                                    )}
-                                                </ul>
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </Col>
-                        </Row>
+                            <Row className="mb-2">
+                                <Col md={2}>
+                                    <label htmlFor="">เลขที่ขออนุมัติ</label>
+                                    <div className="text-sm font-thin">
+                                        {loan?.project_no}
+                                    </div>
+                                </Col>
+                                <Col md={2}>
+                                    <label htmlFor="">วันที่ขออนุมัติ</label>
+                                    <div className="text-sm font-thin">
+                                        {toLongTHDate(moment(loan?.project_date).toDate())}
+                                    </div>
+                                </Col>
+                                <Col>
+                                    <label htmlFor="">ชื่อโครงการ</label>
+                                    <div className="text-sm font-thin">
+                                        {loan?.project_name}
+                                    </div>
+                                </Col>
+                            </Row>
+                            <Row className="mb-2">
+                                <Col md={2}>
+                                    <label htmlFor="">วันที่จัด</label>
+                                    <div className="text-sm font-thin">
+                                        {toLongTHDate(moment(loan?.project_sdate).toDate())}
+                                    </div>
+                                </Col>
+                                <Col md={2}>
+                                    <label htmlFor="">วันที่สิ้นสุด</label>
+                                    <div className="text-sm font-thin">
+                                        {toLongTHDate(moment(loan?.project_edate).toDate())}
+                                    </div>
+                                </Col>
+                                <Col>
+                                    <label htmlFor="">การคิดค่าใช้จ่าย</label>
+                                    <div className="text-sm font-thin">
+                                        {loan?.expense_calc === 1 && <span className="badge rounded-pill bg-success">คิดค่าใช้จ่ายรวม</span>}
+                                        {loan?.expense_calc === 2 && <span className="badge rounded-pill bg-danger">คิดค่าใช้จ่ายแยกวันที่</span>}
+                                    </div>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <div className="alert alert-primary py-1 px-1 mb-0">
+                                        <h3 className="text-blue-900 ml-1 underline">รายการรุ่น</h3>
+
+                                        <ul className="text-sm font-thin">
+                                            {loan && [...loan?.courses]
+                                                .sort((a, b) => sortObjectByDate(a.course_date, b.course_date))
+                                                .map((course, index) => (
+                                                    <li key={index} className="hover:bg-blue-300 py-1 px-2 rounded-md">
+                                                        {/* - รุ่นที่ {course.seq_no} */}
+                                                        {++index}.{course?.course_date && <span className="ml-1">วันที่ {toLongTHDate(moment(course?.course_date).toDate())}</span>} 
+                                                        <span className="ml-1">
+                                                            ณ {course?.room && <span className="mr-1">{course.room}</span>}
+                                                            {course?.place?.name} จ.{course?.place?.changwat?.name}
+                                                        </span>
+                                                    </li>
+                                                )
+                                            )}
+                                        </ul>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </div>
+
                         <Row className="mb-2">
                             <Col md={12}>
                                 <div className="flex flex-col border p-2 rounded-md">
