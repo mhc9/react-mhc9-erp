@@ -51,7 +51,8 @@ const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
                                 <th className="text-center w-[5%]">#</th>
                                 {/* <th className="text-center w-[15%]">เลขที่พัสดุ</th> */}
                                 <th>สถานที่</th>
-                                <th className="text-center w-[10%]">เลือก</th>
+                                <th className="text-center w-[35%]">ที่อยู่</th>
+                                <th className="text-center w-[8%]">เลือก</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,11 +66,9 @@ const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
                             {places && places.map((place, index) => (
                                 <tr key={place?.id} className="font-thin">
                                     <td className="text-center">{index+pager.from}</td>
-                                    <td>
-                                        <p className="font-bold">{place?.name}</p>
-                                        <p className="font-thin text-sm">อ.{place?.amphur?.name} จ.{place?.changwat?.name}</p>
-                                    </td>
-                                    <td className="text-center">
+                                    <td><p className="font-bold">{place?.name}</p></td>
+                                    <td>อ.{place?.amphur?.name} จ.{place?.changwat?.name}</td>
+                                    <td className="text-center py-1">
                                         <button
                                             className="btn btn-primary btn-sm"
                                             onClick={() => {
