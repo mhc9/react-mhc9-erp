@@ -8,17 +8,19 @@ import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
 import FilteringInputs from './FilteringInputs'
 import moment from 'moment'
+import { generateQueryString } from '../../../utils'
 
 const BudgetProjectList = () => {
     const dispatch = useDispatch();
     const { projects, pager, isLoading } = useSelector(state => state.budgetProject);
     const [endpoint, setEndpoint] = useState('');
+    const [params, setParams] = useState(generateQueryString({ year: moment().year(), plan: '' }));
 
     useEffect(() => {
         if (endpoint === '') {
-            dispatch(getBudgetProjects({ url: `/api/budget-projects/search` }));
+            dispatch(getBudgetProjects({ url: `/api/budget-projects/search?page=${params}` }));
         } else {
-            dispatch(getBudgetProjects({ url: `${endpoint}` }));
+            dispatch(getBudgetProjects({ url: `${endpoint}${params}` }));
         }
     }, [endpoint]);
 
@@ -43,7 +45,8 @@ const BudgetProjectList = () => {
                 <FilteringInputs
                     initialFilters={{ year: moment().year(), plan: '' }}
                     onFilter={(queryStr) => {
-                        console.log(queryStr);
+                        setParams(queryStr);
+                        setEndpoint(prev => prev === '' ? `/api/budget-projects/search?page=` : '');
                     }}
                 />
                 <div>

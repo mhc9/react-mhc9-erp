@@ -35,14 +35,16 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
             <div className="flex max-md:flex-col items-center min-md:gap-2 ml-2 w-[30%]">
                 <label htmlFor="" className="w-[35%] max-md:w-[100%]">แผนงาน :</label>
                 <select
-                    name="status"
-                    value={filters.status}
+                    name="plan"
+                    value={filters.plan}
                     onChange={handleInputChange}
                     className="form-control text-sm"
                 >
                     <option value="">-- แผนงานทั้งหมด --</option>
                     {formData && formData.plans.map(plan => (
-                        <option value={plan.id} key={plan.id}>{plan.name}</option>
+                        <option value={plan.id} key={plan.id}>
+                            {plan.plan_no} {plan.name}
+                        </option>
                     ))}
                 </select>
             </div>
