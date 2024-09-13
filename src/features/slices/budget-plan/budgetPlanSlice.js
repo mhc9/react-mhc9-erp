@@ -20,7 +20,7 @@ export const getBudgetPlans = createAsyncThunk("budgetPaln/getBudgetPlans", asyn
     }
 });
 
-export const getBudgetPlan = createAsyncThunk("budgetPaln/getBudgetPlan", async ({ id }, { rejectWithValue }) => {
+export const getBudgetPlan = createAsyncThunk("budgetPaln/getBudgetPlan", async (id, { rejectWithValue }) => {
     try {
         const res = await api.get(`/api/budget-plans/${id}`);
 

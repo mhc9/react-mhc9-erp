@@ -91,12 +91,13 @@ import LoanRefundDetail from './views/LoanRefund/Detail';
 import BudgetList from './views/Budget/List';
 import AddBudget from './views/Budget/Add';
 import BudgetPlanList from './views/Budget/Plan/List';
-import BudgetProjectList from './views/Budget/Project/List';
-/** Help */
-import Advice from './views/Advice';
 import AddBudgetPlan from './views/Budget/Plan/Add';
+import EditBudgetPlan from './views/Budget/Plan/Edit';
+import BudgetProjectList from './views/Budget/Project/List';
 import AddBudgetProject from './views/Budget/Project/Add';
 import EditBudgetProject from './views/Budget/Project/Edit';
+/** Help */
+import Advice from './views/Advice';
 
 function App() {
     return (
@@ -191,6 +192,7 @@ function App() {
                 <Route path="budget/add" element={<GuardRoute><AddBudget /></GuardRoute>} />
                 <Route path="budget-plan" element={<GuardRoute><BudgetPlanList /></GuardRoute>} />
                 <Route path="budget-plan/add" element={<GuardRoute><AddBudgetPlan /></GuardRoute>} />
+                <Route path="budget-plan/:id/edit" element={<GuardRoute><EditBudgetPlan /></GuardRoute>} />
                 <Route path="budget-project" element={<GuardRoute><BudgetProjectList /></GuardRoute>} />
                 <Route path="budget-project/add" element={<GuardRoute><AddBudgetProject /></GuardRoute>} />
                 <Route path="budget-project/:id/edit" element={<GuardRoute><EditBudgetProject /></GuardRoute>} />
