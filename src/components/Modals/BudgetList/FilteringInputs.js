@@ -58,7 +58,7 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                             className="form-control text-sm"
                         >
                             <option value="">-- ประเภท --</option>
-                            {formData.plans && formData.plans.map(plan => (
+                            {formData && formData.plans.map(plan => (
                                 <option value={plan.id} key={plan.id}>
                                     {plan.plan_no} {plan.name}
                                 </option>
@@ -67,7 +67,7 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                     </FormGroup>
                     <FormGroup>
                         <button type="button" className="btn btn-outline-secondary btn-sm mr-1" onClick={() => handleFilter()}>
-                            ตกลง
+                            ค้นหา
                         </button>
                         <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => handleClear()}>
                             เคลียร์
