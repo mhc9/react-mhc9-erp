@@ -3,36 +3,34 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash, FaRegEye, FaRegEyeSlash   } from 'react-icons/fa'
+import moment from 'moment'
+import { generateQueryString } from '../../utils'
 import { getBudgets } from '../../features/slices/budget/budgetSlice'
-import Pagination from '../../components/Pagination'
 import FilteringInputs from './FilteringInputs'
 import PlanDropdown from './PlanDropdown'
+import Pagination from '../../components/Pagination'
+import Loading from '../../components/Loading'
 
 const initialFilters = {
+    year: moment().year(),
+    name: '',
     plan: '',
     project: '',
-    name: ''
 };
 
 const BudgetList = () => {
     const dispatch = useDispatch();
     const { budgets, pager, isLoading } = useSelector(state => state.budget);
     const [apiEndpoint, setApiEndpoint] = useState('');
-    const [params, setParams] = useState('');
+    const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getBudgets({ url: `/api/budgets/search?page=` }));
+            dispatch(getBudgets({ url: `/api/budgets/search?page=${params}` }));
         } else {
             dispatch(getBudgets({ url: `${apiEndpoint}${params}` }));
         }
-    }, [apiEndpoint, params]);
-
-    const handleFilter = (queryStr) => {
-        setParams(queryStr);
-
-        setApiEndpoint(`/api/budgets/search?page=`);
-    };
+    }, [apiEndpoint]);
 
     const handleDelete = (id) => {
 
@@ -56,7 +54,10 @@ const BudgetList = () => {
 
                 <FilteringInputs
                     initialFilters={initialFilters}
-                    onFilter={handleFilter}
+                    onFilter={(queryStr) => {
+                        setParams(queryStr);
+                        setApiEndpoint(prev => prev === '' ? `/api/budgets/search?page=` : '');
+                    }}
                 />
 
                 <div>
@@ -72,6 +73,7 @@ const BudgetList = () => {
                             </tr>
                         </thead>
                         <tbody>
+                            {isLoading && <tr><td className="text-center" colSpan={6}><Loading /></td></tr>}
                             {!isLoading && budgets?.map((budget, index) => (
                                 <tr className="font-thin" key={budget.id}>
                                     <td className="text-center">{pager && pager.from+index}</td>
@@ -79,10 +81,10 @@ const BudgetList = () => {
                                         <p className="font-semibold text-primary">
                                             {budget.project?.plan?.plan_no} {budget.project?.plan?.name}
                                         </p>
-                                        <p className="">{budget.project?.name}</p>
+                                        <p>{budget.project?.name} <span className="text-xs">({budget.project?.gfmis_id})</span></p>
                                         <p className="font-bold">{budget.name}</p>
                                     </td>
-                                    <td className="text-center">{budget.gfmis_id}</td>
+                                    <td className="text-center font-bold">{budget.gfmis_id}</td>
                                     <td className="text-center">{budget.year && budget.year + 543}</td>
                                     <td className="text-center">
                                         <div className="flex justify-center">

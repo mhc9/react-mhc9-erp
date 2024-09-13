@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
 import { FaSlidersH } from 'react-icons/fa'
+import { Col, Row } from 'react-bootstrap'
+import { DatePicker } from '@material-ui/pickers'
 import { generateQueryString} from '../../utils'
+import { useStyles } from '../../hooks/useStyles'
 import { useGetInitialFormDataQuery } from '../../features/services/budget/budgetApi'
 import Loading from '../../components/Loading'
+import moment from 'moment'
 
 const FilteringInputs = ({ initialFilters, onFilter }) => {
+    const classes = useStyles();
     const [collapse, setCollapse] = useState(true);
     const [filters, setFilters] = useState(initialFilters);
+    const [selectedYear, setSelectedYear] = useState(moment())
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     const handleInputChange = (e) => {
@@ -38,7 +44,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                     placeholder="ค้นหาด้วยชื้อ"
                 />
 
-                <button className="btn btn-outline-primary btn-sm" onClick={handleFilter}>
+                <button className="btn btn-outline-secondary btn-sm" onClick={handleFilter}>
                     ค้นหา
                 </button>
                 <button className="btn btn-outline-danger btn-sm" onClick={handleClearInput}>
@@ -51,24 +57,44 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
             <div className="accordion accordion-flush">
                 <div className="accordion-item">
                     <div className={`accordion-collapse ${collapse ? 'collapse' : 'show'}`}>
-                    <div className="accordion-body px-0 pb-0">
-                        {isLoading && <div className="form-control text-sm"><Loading /></div>}
-                        {(!isLoading && formData) && (
-                            <select
-                                name="plan"
-                                value={filters?.plan}
-                                onChange={handleInputChange}
-                                className="form-control text-sm"
-                            >
-                                <option value="">--เลือกแผน--</option>
-                                {formData.plans.map(plan => (
-                                    <option value={plan.id} key={plan.id}>
-                                        {plan.plan_no} {plan.name}
-                                    </option>
-                                ))}
-                            </select>
-                        )}
-                    </div>
+                        <div className="accordion-body px-4 pb-0">
+                            <Row>
+                                <Col md={3}>
+                                    <label htmlFor="">ปีงบ :</label>
+                                    <div>
+                                        <DatePicker
+                                            format="YYYY"
+                                            views={['year']}
+                                            value={selectedYear}
+                                            onChange={(date) => {
+                                                setSelectedYear(date);
+                                                setFilters(prev => ({ ...prev, ['year']: moment(date).year() }));
+                                            }}
+                                            className={classes.muiTextFieldInput}
+                                        />
+                                    </div>
+                                </Col>
+                                <Col>
+                                    <label htmlFor="">แผนงาน :</label>
+                                    {isLoading && <div className="form-control text-sm"><Loading /></div>}
+                                    {(!isLoading && formData) && (
+                                        <select
+                                            name="plan"
+                                            value={filters?.plan}
+                                            onChange={handleInputChange}
+                                            className="form-control text-sm"
+                                        >
+                                            <option value="">--เลือกแผน--</option>
+                                            {formData.plans.map(plan => (
+                                                <option value={plan.id} key={plan.id}>
+                                                    {plan.plan_no} {plan.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    )}
+                                </Col>
+                            </Row>
+                        </div>
                     </div>
                 </div>
             </div>
