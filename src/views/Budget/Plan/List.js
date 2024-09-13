@@ -1,20 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
+import moment from 'moment'
+import { generateQueryString } from '../../../utils'
 import { getBudgetPlans } from '../../../features/slices/budget-plan/budgetPlanSlice'
 import Loading from '../../../components/Loading'
 import FilteringInputs from './FilteringInputs'
-import moment from 'moment'
 
 const BudgetPlanList = () => {
     const dispatch = useDispatch();
     const { plans, pager, isLoading } = useSelector(state => state.budgetPlan);
+    const [endpoint, setEndpoint] = useState('');
+    const [params, setParams] = useState(generateQueryString({ year: moment().year() }))
 
     useEffect(() => {
-        dispatch(getBudgetPlans({ url: `/api/budget-plans/search` }));
-    }, []);
+        if (endpoint === '') {
+            dispatch(getBudgetPlans({ url: `/api/budget-plans/search?page=${params}` }));
+        } else {
+            dispatch(getBudgetPlans({ url: `${endpoint}${params}` }));
+        }
+    }, [endpoint]);
 
     const handleDelete = (id) => {
 
@@ -37,7 +44,8 @@ const BudgetPlanList = () => {
                 <FilteringInputs
                     initialFilters={{ year: moment().year() }}
                     onFilter={(queryStr) => {
-                        console.log(queryStr);
+                        setParams(queryStr);
+                        setEndpoint(prev => prev === '' ? `/api/budget-plans/search?page=` : '');
                     }}
                 />
 
