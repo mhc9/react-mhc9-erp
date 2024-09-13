@@ -96,6 +96,7 @@ import BudgetProjectList from './views/Budget/Project/List';
 import Advice from './views/Advice';
 import AddBudgetPlan from './views/Budget/Plan/Add';
 import AddBudgetProject from './views/Budget/Project/Add';
+import EditBudgetProject from './views/Budget/Project/Edit';
 
 function App() {
     return (
@@ -192,6 +193,7 @@ function App() {
                 <Route path="budget-plan/add" element={<GuardRoute><AddBudgetPlan /></GuardRoute>} />
                 <Route path="budget-project" element={<GuardRoute><BudgetProjectList /></GuardRoute>} />
                 <Route path="budget-project/add" element={<GuardRoute><AddBudgetProject /></GuardRoute>} />
+                <Route path="budget-project/:id/edit" element={<GuardRoute><EditBudgetProject /></GuardRoute>} />
 
                 {/* ============================= Help ============================= */}
                 {/* Advice */}

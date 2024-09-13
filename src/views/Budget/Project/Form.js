@@ -27,8 +27,6 @@ const BudgetProjectForm = ({ project }) => {
         } else {
             dispatch(store(values));
         }
-
-        console.log(values);
     };
 
     return (
@@ -147,7 +145,9 @@ const BudgetProjectForm = ({ project }) => {
                         </div>
                         <div className="row">
                             <div className="offset-3">
-                                <button type="submit" className="btn btn-outline-primary">บันทึก</button>
+                                <button type="submit" className={`btn ${project ? 'btn-outline-secondary' : 'btn-outline-primary'} btn-sm`}>
+                                    {project ? 'บันทึกการแก้ไข' : 'บันทึก'}
+                                </button>
                             </div>
                         </div>
                     </Form>
