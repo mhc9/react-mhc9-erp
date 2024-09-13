@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getBudgetPlans } from '../../../features/slices/budget-plan/budgetPlanSlice'
 import Loading from '../../../components/Loading'
+import FilteringInputs from './FilteringInputs'
+import moment from 'moment'
 
 const BudgetPlanList = () => {
     const dispatch = useDispatch();
@@ -31,6 +33,13 @@ const BudgetPlanList = () => {
                     <h2 className="text-xl">แผนงาน</h2>
                     <Link to="add" className="btn btn-primary">เพิ่มรายการ</Link>
                 </div>
+
+                <FilteringInputs
+                    initialFilters={{ year: moment().year() }}
+                    onFilter={(queryStr) => {
+                        console.log(queryStr);
+                    }}
+                />
 
                 <div>
                     <table className="table table-bordered table-striped table-hover">

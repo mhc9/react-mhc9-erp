@@ -6,6 +6,8 @@ import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getBudgetProjects } from '../../../features/slices/budget-project/budgetProjectSlice'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
+import FilteringInputs from './FilteringInputs'
+import moment from 'moment'
 
 const BudgetProjectList = () => {
     const dispatch = useDispatch();
@@ -38,6 +40,12 @@ const BudgetProjectList = () => {
                     <Link to="add" className="btn btn-primary">เพิ่มรายการ</Link>
                 </div>
 
+                <FilteringInputs
+                    initialFilters={{ year: moment().year(), plan: '' }}
+                    onFilter={(queryStr) => {
+                        console.log(queryStr);
+                    }}
+                />
                 <div>
                     <table className="table table-bordered table-striped table-hover text-sm">
                         <thead>
