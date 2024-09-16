@@ -3,12 +3,13 @@ import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
+import { toast } from 'react-toastify'
 import moment from 'moment'
 import { generateQueryString } from '../../../utils'
 import { getBudgetPlans, resetDeleted, destroy } from '../../../features/slices/budget-plan/budgetPlanSlice'
-import Loading from '../../../components/Loading'
 import FilteringInputs from './FilteringInputs'
-import { toast } from 'react-toastify'
+import Loading from '../../../components/Loading'
+import Pagination from '../../../components/Pagination'
 
 const BudgetPlanList = () => {
     const dispatch = useDispatch();
@@ -96,6 +97,13 @@ const BudgetPlanList = () => {
                             ))}
                         </tbody>
                     </table>
+
+                    {(pager && pager.last_page > 1) && (
+                        <Pagination
+                            pager={pager}
+                            onPageClick={(url) => setEndpoint(url)}
+                        />
+                    )}
                 </div>
             </div>
         </div>
