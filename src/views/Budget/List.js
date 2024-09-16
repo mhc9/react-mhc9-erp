@@ -22,16 +22,16 @@ const initialFilters = {
 const BudgetList = () => {
     const dispatch = useDispatch();
     const { budgets, pager, isLoading, isSuccess, isDeleted } = useSelector(state => state.budget);
-    const [apiEndpoint, setApiEndpoint] = useState('');
+    const [endpoint, setEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
-        if (apiEndpoint === '') {
+        if (endpoint === '') {
             dispatch(getBudgets({ url: `/api/budgets/search?page=${params}` }));
         } else {
-            dispatch(getBudgets({ url: `${apiEndpoint}${params}` }));
+            dispatch(getBudgets({ url: `${endpoint}${params}` }));
         }
-    }, [apiEndpoint]);
+    }, [endpoint]);
 
     useEffect(() => {
         if (isSuccess) {
@@ -44,6 +44,7 @@ const BudgetList = () => {
         if (isDeleted) {
             toast.success('ลบรายการงบประมาณสำเร็จ!!');
             dispatch(resetDeleted());
+            setEndpoint(prev => prev === '' ? '/api/budgets/search?page=' : '');
         }
     }, [isDeleted]);
 
@@ -79,7 +80,7 @@ const BudgetList = () => {
                     initialFilters={initialFilters}
                     onFilter={(queryStr) => {
                         setParams(queryStr);
-                        setApiEndpoint(prev => prev === '' ? `/api/budgets/search?page=` : '');
+                        setEndpoint(prev => prev === '' ? `/api/budgets/search?page=` : '');
                     }}
                 />
 
@@ -136,7 +137,7 @@ const BudgetList = () => {
 
                 <Pagination
                     pager={pager}
-                    onPageClick={(url) => setApiEndpoint(url)}
+                    onPageClick={(url) => setEndpoint(url)}
                 />
             </div>
         </div>

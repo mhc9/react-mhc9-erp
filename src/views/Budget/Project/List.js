@@ -3,16 +3,17 @@ import { Link } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { getBudgetProjects } from '../../../features/slices/budget-project/budgetProjectSlice'
-import Loading from '../../../components/Loading'
-import Pagination from '../../../components/Pagination'
-import FilteringInputs from './FilteringInputs'
+import { toast } from 'react-toastify'
 import moment from 'moment'
 import { generateQueryString } from '../../../utils'
+import { getBudgetProjects, resetDeleted, destroy } from '../../../features/slices/budget-project/budgetProjectSlice'
+import FilteringInputs from './FilteringInputs'
+import Loading from '../../../components/Loading'
+import Pagination from '../../../components/Pagination'
 
 const BudgetProjectList = () => {
     const dispatch = useDispatch();
-    const { projects, pager, isLoading } = useSelector(state => state.budgetProject);
+    const { projects, pager, isLoading, isDeleted } = useSelector(state => state.budgetProject);
     const [endpoint, setEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString({ year: moment().year(), plan: '' }));
 
@@ -24,8 +25,18 @@ const BudgetProjectList = () => {
         }
     }, [endpoint]);
 
-    const handleDelete = (id) => {
+    useEffect(() => {
+        if (isDeleted) {
+            toast.success('ลบรายการโครงการ/ผลผลิตสำเร็จ!!');
+            dispatch(resetDeleted());
+            setEndpoint(prev => prev === '' ? '`/api/budget-projects/search?page=' : '');
+        }
+    }, [isDeleted]);
 
+    const handleDelete = (id) => {
+        if (window.confirm(`คุณต้องการลบรายการโครงการ/ผลผลิต รหัส ${id} ใช่หรือไม่?`)) {
+            dispatch(destroy(id));
+        }
     };
 
     return (
