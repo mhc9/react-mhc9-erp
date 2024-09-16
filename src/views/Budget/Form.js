@@ -1,19 +1,33 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { DatePicker } from '@material-ui/pickers'
 import { Form, Formik } from 'formik'
+import * as Yup from 'yup'
 import moment from 'moment'
 import { useGetInitialFormDataQuery } from '../../features/services/budget/budgetApi'
 import { useStyles } from '../../hooks/useStyles'
-import { store } from '../../features/slices/budget/budgetSlice'
+import { store, update } from '../../features/slices/budget/budgetSlice'
 
-const BudgetForm = () => {
+const budgetSchema = Yup.object().shape({
+    name: Yup.string().required('กรุณาเลือกแผนงาน'),
+    plan_id: Yup.string().required('กรุณาระบุชื่อกิจกรรม'),
+    project_id: Yup.string().required('กรุณาเลือกโครงการ/ผลผลิต'),
+    year: Yup.string().required('กรุณาเลือกปีงบประมาณ'),
+});
+
+const BudgetForm = ({ budget }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
     const [filteredProject, setFilteredProject] = useState([]);
     const [selectedYear, setSelectedYear] = useState(moment());
+
+    useEffect(() => {
+        if (budget) {
+            handleFilterProject(budget?.project.plan_id);
+        }
+    }, [budget]);
 
     const handleFilterProject = (planId) => {
         const newProjects = formData?.projects.filter(project => project.plan_id === parseInt(planId, 10));
@@ -22,22 +36,25 @@ const BudgetForm = () => {
     };
 
     const handleSubmit = (values, formik) => {
-        console.log(values);
-
-        dispatch(store(values));
-    }
+        if (budget) {
+            dispatch(update({ id: budget.id, data: values }));
+        } else {
+            dispatch(store(values));
+        }
+    };
 
     return (
         <Formik
             initialValues={{
-                name: '',
-                gfmis_id: '',
-                type_id: '',
-                plan_id: '',
-                project_id: '',
-                year: moment().format('YYYY')
+                name: budget ? budget.name : '',
+                gfmis_id: budget ? budget.gfmis_id : '',
+                type_id: budget ? budget.type_id : '',
+                plan_id: (budget && budget.project) ? budget.project.plan_id : '',
+                project_id: budget ? budget.project_id : '',
+                year: budget ? budget.year : moment().format('YYYY')
             }}
             onSubmit={handleSubmit}
+            validationSchema={budgetSchema}
         >
             {(formik) => {
                 return (
@@ -61,6 +78,9 @@ const BudgetForm = () => {
                                         </option>
                                     ))}
                                 </select>
+                                {(formik.errors.plan_id && formik.touched.plan_id) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.plan_id}</span>
+                                )}
                             </Col>
                         </Row>
                         <Row className="mb-2">
@@ -79,6 +99,9 @@ const BudgetForm = () => {
                                         </option>
                                     ))}
                                 </select>
+                                {(formik.errors.project_id && formik.touched.project_id) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.project_id}</span>
+                                )}
                             </Col>
                         </Row>
                         <Row className="mb-2">
@@ -92,6 +115,9 @@ const BudgetForm = () => {
                                     className="form-control text-sm"
                                     placeholder="ระบุชื่อกิจกรรม"
                                 />
+                                {(formik.errors.name && formik.touched.name) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.name}</span>
+                                )}
                             </Col>
                         </Row>
                         <Row className="mb-2">
@@ -110,6 +136,9 @@ const BudgetForm = () => {
                                         </option>
                                     ))}
                                 </select>
+                                {(formik.errors.type_id && formik.touched.type_id) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.type_id}</span>
+                                )}
                             </Col>
                         </Row>
                         <Row className="mb-2">
@@ -143,12 +172,15 @@ const BudgetForm = () => {
                                     className="form-control text-sm"
                                     placeholder="ระบุรหัส New GFMIS"
                                 />
+                                {(formik.errors.gfmis_id && formik.touched.gfmis_id) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.gfmis_id}</span>
+                                )}
                             </Col>
                         </Row>
                         <Row>
                             <div className="col-3 offset-md-3">
-                                <button type="submit" className="btn btn-outline-primary text-sm">
-                                    บันทึก
+                                <button type="submit" className={`btn ${budget ? 'btn-outline-secondary' : 'btn-outline-primary'} btn-sm`}>
+                                    {budget ? 'บันทึกการแก้ไข' : 'บันทึก'}
                                 </button>
                             </div>
                         </Row>
