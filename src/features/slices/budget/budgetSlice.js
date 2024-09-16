@@ -65,6 +65,8 @@ export const toggle = createAsyncThunk("budget/toggle", async ({ id, data }, { d
     try {
         const res = await api.post(`/api/budgets/${id}/toggle`, data);
 
+        dispatch(updateBudgets({ id, budget: res.data.budget }));
+
         return res.data;
     } catch (error) {
         rejectWithValue(error);
@@ -80,6 +82,15 @@ export const budgetSlice = createSlice({
         },
         resetDeleted: (state) => {
             state.isDeleted = false;
+        },
+        updateBudgets: (state, { payload }) => {
+            const newBudgets = state.budgets.map(budget => {
+                if (payload.id === budget.id) return payload.budget;
+
+                return budget;
+            });
+
+            state.budgets = newBudgets;
         },
     },
     extraReducers: {
@@ -188,4 +199,4 @@ export const budgetSlice = createSlice({
 
 export default budgetSlice.reducer;
 
-export const { resetSuccess, resetDeleted } = budgetSlice.actions;
+export const { resetSuccess, resetDeleted, updateBudgets } = budgetSlice.actions;
