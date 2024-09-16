@@ -7,6 +7,7 @@ const initialState = {
     pager: null,
     isLoading: false,
     isSuccess: false,
+    isDeleted: false,
     error: null
 };
 
@@ -66,7 +67,10 @@ export const budgetProjectSlice = createSlice({
     reducers: {
         resetSuccess: (state) => {
             state.isSuccess = false;
-        }
+        },
+        resetDeleted: (state) => {
+            state.isDeleted = false;
+        },
     },
     extraReducers: {
         [getBudgetProjects.pending]: (state) => {
@@ -101,10 +105,18 @@ export const budgetProjectSlice = createSlice({
         },
         [store.pending]: (state) => {
             state.isSuccess = false;
+            state.project = null;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
-            state.isSuccess = true;
+            const { status, message, project } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.project = project;
+            } else {
+                state.error = { message };
+            }
         },
         [store.rejected]: (state, { payload }) => {
             state.error = payload;
@@ -128,11 +140,17 @@ export const budgetProjectSlice = createSlice({
             state.error = payload;
         },
         [destroy.pending]: (state) => {
-            state.isSuccess = false;
+            state.isDeleted = false;
             state.error = null;
         },
         [destroy.fulfilled]: (state, { payload }) => {
-            state.isSuccess = true;
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isDeleted = true;
+            } else {
+                state.error = { message };
+            }
         },
         [destroy.rejected]: (state, { payload }) => {
             state.error = payload;
@@ -142,4 +160,4 @@ export const budgetProjectSlice = createSlice({
 
 export default budgetProjectSlice.reducer;
 
-export const { resetSuccess } = budgetProjectSlice.actions;
+export const { resetSuccess, resetDeleted } = budgetProjectSlice.actions;
