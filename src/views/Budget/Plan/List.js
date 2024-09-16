@@ -5,13 +5,14 @@ import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import moment from 'moment'
 import { generateQueryString } from '../../../utils'
-import { getBudgetPlans } from '../../../features/slices/budget-plan/budgetPlanSlice'
+import { getBudgetPlans, resetDeleted, destroy } from '../../../features/slices/budget-plan/budgetPlanSlice'
 import Loading from '../../../components/Loading'
 import FilteringInputs from './FilteringInputs'
+import { toast } from 'react-toastify'
 
 const BudgetPlanList = () => {
     const dispatch = useDispatch();
-    const { plans, pager, isLoading } = useSelector(state => state.budgetPlan);
+    const { plans, pager, isLoading, isDeleted } = useSelector(state => state.budgetPlan);
     const [endpoint, setEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString({ year: moment().year() }))
 
@@ -23,8 +24,18 @@ const BudgetPlanList = () => {
         }
     }, [endpoint]);
 
-    const handleDelete = (id) => {
+    useEffect(() => {
+        if (isDeleted) {
+            toast.success('ลบรายการแผนงานสำเร็จ!!');
+            dispatch(resetDeleted());
+            setEndpoint(prev => prev === '' ? '/api/budget-plans/search?page=' : '');
+        }
+    }, [isDeleted]);
 
+    const handleDelete = (id) => {
+        if (window.confirm(`คุณต้องการลบรายการแผนงาน รหัส ${id} ใช่หรือไม่?`)) {
+            dispatch(destroy(id))
+        }
     };
 
     return (
