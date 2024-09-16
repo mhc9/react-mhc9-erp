@@ -40,8 +40,17 @@ const BudgetList = () => {
         }
     }, [isSuccess]);
 
-    const handleDelete = (id) => {
+    useEffect(() => {
+        if (isDeleted) {
+            toast.success('ลบรายการงบประมาณสำเร็จ!!');
+            dispatch(resetDeleted());
+        }
+    }, [isDeleted]);
 
+    const handleDelete = (id) => {
+        if (window.confirm(`คุณต้องการลบรายการงบประมาณ รหัส ${id} ใช่หรือไม่?`)) {
+            dispatch(destroy(id));
+        }
     };
 
     const handleToggleActive = (id, status) => {
