@@ -7,6 +7,7 @@ const initialState = {
     pager: null,
     isLoading: false,
     isSuccess: false,
+    isDeleted: false,
     error: null
 };
 
@@ -42,9 +43,7 @@ export const store = createAsyncThunk("budgetPaln/store", async (data, { rejectW
 
 export const update = createAsyncThunk("budgetPaln/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/budget-plans/${id}`, data);
-
-        dispatch(getBudgetPlans({ url: '/api/budget-plans' }));
+        const res = await api.post(`/api/budget-plans/${id}/update`, data);
 
         return res.data;
     } catch (error) {
@@ -52,11 +51,9 @@ export const update = createAsyncThunk("budgetPaln/update", async ({ id, data },
     }
 });
 
-export const destroy = createAsyncThunk("budgetPaln/destroy", async ({ id }, { dispatch, rejectWithValue }) => {
+export const destroy = createAsyncThunk("budgetPaln/destroy", async (id, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.delete(`/api/budget-plans/${id}`);
-
-        dispatch(getBudgetPlans({ url: '/api/budget-plans' }));
+        const res = await api.post(`/api/budget-plans/${id}/delete`, {});
 
         return res.data;
     } catch (error) {
@@ -70,14 +67,16 @@ export const budgetPlanSlice = createSlice({
     reducers: {
         resetSuccess: (state) => {
             state.isSuccess = false;
-        }
+        },
+        resetDeleted: (state) => {
+            state.isDeleted = false;
+        },
     },
     extraReducers: {
         [getBudgetPlans.pending]: (state) => {
             state.plans = [];
             state.pager = null;
             state.isLoading = true;
-            // state.isSuccess = false;
             state.error = null;
         },
         [getBudgetPlans.fulfilled]: (state, { payload }) => {
@@ -85,8 +84,7 @@ export const budgetPlanSlice = createSlice({
 
             state.plans = data;
             state.pager = pager;
-            state.isLoading = false
-            // state.isSuccess = true;
+            state.isLoading = false;
         },
         [getBudgetPlans.rejected]: (state, { payload }) => {
             state.isLoading = false;
@@ -95,55 +93,66 @@ export const budgetPlanSlice = createSlice({
         [getBudgetPlan.pending]: (state) => {
             state.plan = null;
             state.isLoading = true;
-            // state.isSuccess = false;
             state.error = null;
         },
         [getBudgetPlan.fulfilled]: (state, { payload }) => {
             state.plan = payload;
-            state.isLoading = false
-            // state.isSuccess = true;
+            state.isLoading = false;
         },
         [getBudgetPlan.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },
         [store.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
+            state.plan = null;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
-            state.isSuccess = true;
+            const { status, message, plan } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.plan = plan;
+            } else {
+                state.error = { message };
+            }
         },
         [store.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [update.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
+            state.plan = null;
             state.error = null;
         },
         [update.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
-            state.isSuccess = true;
+            const { status, message, plan } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.plan = plan;
+            } else {
+                state.error = { message };
+            }
         },
         [update.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [destroy.pending]: (state) => {
-            state.isLoading = true;
-            state.isSuccess = false;
+            state.isDeleted = false;
             state.error = null;
         },
         [destroy.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
-            state.isSuccess = true;
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isDeleted = true;
+            } else {
+                state.error = { message };
+            }
         },
         [destroy.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
     }
@@ -151,4 +160,4 @@ export const budgetPlanSlice = createSlice({
 
 export default budgetPlanSlice.reducer;
 
-export const { resetSuccess } = budgetPlanSlice.actions;
+export const { resetSuccess, resetDeleted } = budgetPlanSlice.actions;
