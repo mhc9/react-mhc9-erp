@@ -90,6 +90,7 @@ import LoanRefundDetail from './views/LoanRefund/Detail';
 /** Budget */
 import BudgetList from './views/Budget/List';
 import AddBudget from './views/Budget/Add';
+import EditBudget from './views/Budget/Edit';
 import BudgetPlanList from './views/Budget/Plan/List';
 import AddBudgetPlan from './views/Budget/Plan/Add';
 import EditBudgetPlan from './views/Budget/Plan/Edit';
@@ -190,6 +191,7 @@ function App() {
                 {/* Budgets */}
                 <Route path="budget" element={<GuardRoute><BudgetList /></GuardRoute>} />
                 <Route path="budget/add" element={<GuardRoute><AddBudget /></GuardRoute>} />
+                <Route path="budget/:id/edit" element={<GuardRoute><EditBudget /></GuardRoute>} />
                 <Route path="budget-plan" element={<GuardRoute><BudgetPlanList /></GuardRoute>} />
                 <Route path="budget-plan/add" element={<GuardRoute><AddBudgetPlan /></GuardRoute>} />
                 <Route path="budget-plan/:id/edit" element={<GuardRoute><EditBudgetPlan /></GuardRoute>} />
