@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash, FaRegEye, FaRegEyeSlash   } from 'react-icons/fa'
+import { toast } from 'react-toastify'
 import moment from 'moment'
 import { generateQueryString } from '../../utils'
-import { getBudgets } from '../../features/slices/budget/budgetSlice'
+import { getBudgets, destroy, toggle, resetDeleted, resetSuccess } from '../../features/slices/budget/budgetSlice'
 import FilteringInputs from './FilteringInputs'
 import PlanDropdown from './PlanDropdown'
 import Pagination from '../../components/Pagination'
@@ -20,7 +21,7 @@ const initialFilters = {
 
 const BudgetList = () => {
     const dispatch = useDispatch();
-    const { budgets, pager, isLoading } = useSelector(state => state.budget);
+    const { budgets, pager, isLoading, isSuccess, isDeleted } = useSelector(state => state.budget);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
 
@@ -32,8 +33,21 @@ const BudgetList = () => {
         }
     }, [apiEndpoint]);
 
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('บันทึกข้อมูลงบประมาณสำเร็จ!!');
+            dispatch(resetSuccess());
+        }
+    }, [isSuccess]);
+
     const handleDelete = (id) => {
 
+    };
+
+    const handleToggleActive = (id, status) => {
+        if (window.confirm(`คุณต้องการแก้ไขสถานะงบประมาณ รหัส ${id} ใช่หรือไม่?`)) {
+            dispatch(toggle({ id, data: {status: status === 1 ? 0 : 1 } }));
+        }
     };
 
     return (
@@ -87,7 +101,7 @@ const BudgetList = () => {
                                     <td className="text-center font-bold">{budget.gfmis_id}</td>
                                     <td className="text-center">{budget.year && budget.year + 543}</td>
                                     <td className="text-center">
-                                        <div className="flex justify-center">
+                                        <div className="flex justify-center cursor-pointer" onClick={() => handleToggleActive(budget.id, budget.status)}>
                                             {budget.status === 0
                                                 ? <FaRegEyeSlash size={20} color='gray' />
                                                 : <FaRegEye size={20} color='green' />

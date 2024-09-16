@@ -61,9 +61,9 @@ export const destroy = createAsyncThunk("budget/destroy", async (id, { dispatch,
     }
 });
 
-export const status = createAsyncThunk("budget/status", async ({ id, data }, { dispatch, rejectWithValue }) => {
+export const toggle = createAsyncThunk("budget/toggle", async ({ id, data }, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.post(`/api/budgets/${id}/status`, data);
+        const res = await api.post(`/api/budgets/${id}/toggle`, data);
 
         return res.data;
     } catch (error) {
@@ -165,12 +165,12 @@ export const budgetSlice = createSlice({
         [destroy.rejected]: (state, { payload }) => {
             state.error = payload;
         },
-        [status.pending]: (state) => {
+        [toggle.pending]: (state) => {
             state.isSuccess = false;
             state.budget = null;
             state.error = null;
         },
-        [status.fulfilled]: (state, { payload }) => {
+        [toggle.fulfilled]: (state, { payload }) => {
             const { status, message, budget } = payload;
 
             if (status === 1) {
@@ -180,7 +180,7 @@ export const budgetSlice = createSlice({
                 state.error = { message };
             }
         },
-        [status.rejected]: (state, { payload }) => {
+        [toggle.rejected]: (state, { payload }) => {
             state.error = payload;
         },
     }
