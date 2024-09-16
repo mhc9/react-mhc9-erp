@@ -101,13 +101,13 @@ const BudgetList = () => {
                                 <tr className="font-thin" key={budget.id}>
                                     <td className="text-center">{pager && pager.from+index}</td>
                                     <td>
-                                        <p className="font-semibold text-primary">
+                                        <p className="font-normal">
                                             {budget.project?.plan?.plan_no} {budget.project?.plan?.name}
                                         </p>
                                         <p>{budget.project?.name} <span className="text-xs">({budget.project?.gfmis_id})</span></p>
-                                        <p className="font-bold">{budget.name}</p>
+                                        <p className="font-bold text-primary">{budget.name}</p>
                                     </td>
-                                    <td className="text-center font-bold">{budget.gfmis_id}</td>
+                                    <td className="text-center font-bold text-primary">{budget.gfmis_id}</td>
                                     <td className="text-center">{budget.year && budget.year + 543}</td>
                                     <td className="text-center">
                                         <div className="flex justify-center cursor-pointer" onClick={() => handleToggleActive(budget.id, budget.status)}>
