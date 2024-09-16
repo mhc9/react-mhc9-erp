@@ -28,12 +28,12 @@ const EditBudget = () => {
             <Breadcrumb>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget' }}>งบประมาณ</Breadcrumb.Item>
-                <Breadcrumb.Item active>เพิ่มงบประมาณ</Breadcrumb.Item>
+                <Breadcrumb.Item active>แก้ไขงบประมาณ</Breadcrumb.Item>
             </Breadcrumb>
 
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-xl">เพิ่มงบประมาณ</h2>
+                    <h2 className="text-xl">แก้ไขงบประมาณ (#{id})</h2>
                 </div>
 
                 <div className="border rounded-md py-5">
