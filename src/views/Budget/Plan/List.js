@@ -80,7 +80,7 @@ const BudgetPlanList = () => {
                             {!isLoading && plans.map((plan, index) => (
                                 <tr key={plan.id}>
                                     <td className="text-center">{index+1}</td>
-                                    <td>{plan.plan_no} {plan.name}</td>
+                                    <td><Link to="/budget-project">{plan.plan_no} {plan.name}</Link></td>
                                     <td className="text-center">{plan.year && plan.year+543}</td>
                                     <td className="text-center p-1">
                                         <Link to={`/budget-plan/${plan.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
