@@ -72,7 +72,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 {type: 'menu', text: 'หน่วยนับ', link: '/unit', allowed_users: [1, 3]},
                                 {type: 'menu', text: 'ผู้จัดจำหน่าย', link: '/supplier', allowed_users: [1, 3]},
                                 {type: 'divided'},
-                                {type: 'menu', text: 'งบประมาณ', link: '/budget', allowed_users: [1, 4]},
+                                {type: 'menu', text: 'งบประมาณ', link: '/budget-plan', allowed_users: [1, 4]},
                             ]}
                             userRole={user?.permissions[0]?.role_id}
                         />

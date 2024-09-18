@@ -147,6 +147,9 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                                         <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                             <Link to="/unit"><p className="w-full">หน่วย</p></Link>
                                         </li>
+                                        <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                            <Link to="/budget-plan"><p className="w-full">งบประมาณ</p></Link>
+                                        </li>
                                     </ul>
                                 </div>
                             </>
