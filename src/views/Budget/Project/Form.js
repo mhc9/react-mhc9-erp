@@ -46,18 +46,23 @@ const BudgetProjectForm = ({ project }) => {
                 return (
                     <Form>
                         <div className="form-group row mb-2">
-                            <label htmlFor="" className="col-3 text-right">ชื่อโครงการ/ผลผลิต :</label>
+                            <label htmlFor="" className="col-3 text-right">ปีงบประมาณ :</label>
                             <div className="col-6">
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formik.values.name}
-                                    onChange={formik.handleChange}
-                                    className="form-control text-sm"
-                                />
-                                {(formik.errors.name && formik.touched.name) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.name}</span>
-                                )}
+                                <div className="flex flex-col w-[40%]">
+                                    <DatePicker
+                                        format="YYYY"
+                                        views={['year']}
+                                        value={selectedYear}
+                                        onChange={(date) => {
+                                            setSelectedYear(date);
+                                            formik.setFieldValue('year', date.year());
+                                        }}
+                                        className={classes.muiTextFieldInput}
+                                    />
+                                    {(formik.errors.year && formik.touched.year) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.year}</span>
+                                    )}
+                                </div>
                             </div>
                         </div>
                         <div className="form-group row mb-2">
@@ -79,26 +84,6 @@ const BudgetProjectForm = ({ project }) => {
                                 {(formik.errors.plan_id && formik.touched.plan_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.plan_id}</span>
                                 )}
-                            </div>
-                        </div>
-                        <div className="form-group row mb-2">
-                            <label htmlFor="" className="col-3 text-right">ปีงบประมาณ :</label>
-                            <div className="col-6">
-                                <div className="flex flex-col w-[40%]">
-                                    <DatePicker
-                                        format="YYYY"
-                                        views={['year']}
-                                        value={selectedYear}
-                                        onChange={(date) => {
-                                            setSelectedYear(date);
-                                            formik.setFieldValue('year', date.year());
-                                        }}
-                                        className={classes.muiTextFieldInput}
-                                    />
-                                    {(formik.errors.year && formik.touched.year) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.year}</span>
-                                    )}
-                                </div>
                             </div>
                         </div>
                         <div className="form-group row mb-2">
@@ -126,6 +111,21 @@ const BudgetProjectForm = ({ project }) => {
                                     />
                                     ผลผลิต
                                 </label>
+                            </div>
+                        </div>
+                        <div className="form-group row mb-2">
+                            <label htmlFor="" className="col-3 text-right">ชื่อโครงการ/ผลผลิต :</label>
+                            <div className="col-6">
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={formik.values.name}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm"
+                                />
+                                {(formik.errors.name && formik.touched.name) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.name}</span>
+                                )}
                             </div>
                         </div>
                         <div className="form-group row mb-2">
