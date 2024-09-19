@@ -180,8 +180,8 @@ const BudgetForm = ({ budget }) => {
                         </Row>
                         <Row>
                             <Col className="px-5">
-                                <div className="border py-2 px-3 mb-2">
-                                    <h3 className="text-xl font-bold mb-2">รายงานประเภทงบประมาณ</h3>
+                                <div className="border rounded-md py-2 px-3 mb-2">
+                                    <h3 className="text-xl font-bold mb-2">รายการประเภทงบประมาณ</h3>
 
                                     <AddBudgetType
                                         data={null}
