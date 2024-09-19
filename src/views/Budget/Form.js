@@ -55,6 +55,14 @@ const BudgetForm = ({ budget }) => {
         formik.setFieldValue('budget_types', newBudgetTypes);
     };
 
+    const handleRemoveBudgetType = (formik, id, isNewItem) => {
+        console.log(id, isNewItem);
+        if (window.confirm('คุณต้องการลบรายการประเภทงบประมาณใช้หรือไม่?')) {
+            const updatedBudgetTypes = formik.values.budget_types.filter(item => item.id !== id);
+            formik.setFieldValue('budget_types', updatedBudgetTypes);
+        }
+    };
+
     const handleSubmit = (values, formik) => {
         if (budget) {
             dispatch(update({ id: budget.id, data: values }));
@@ -77,8 +85,6 @@ const BudgetForm = ({ budget }) => {
             validationSchema={budgetSchema}
         >
             {(formik) => {
-                console.log(formik.values.budget_types);
-                
                 return (
                     <Form>
                         <Row className="mb-2">
@@ -188,7 +194,10 @@ const BudgetForm = ({ budget }) => {
                                         onSubmit={(data) => handleAddBudgetType(formik, data)}
                                     />
 
-                                    <BudgetTypeList data={formik.values.budget_types} />
+                                    <BudgetTypeList
+                                        data={formik.values.budget_types}
+                                        onRemoveItem={(id, isNewItem) => handleRemoveBudgetType(formik, id, isNewItem)}
+                                    />
                                 </div>
                             </Col>
                         </Row>

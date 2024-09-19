@@ -20,13 +20,13 @@ const BudgetTypeList = ({ data, onEditItem, onRemoveItem }) => {
                             <td className="text-center">{item.budget_type?.name}</td>
                             <td className="text-center">{item.total}</td>
                             <td className="text-center">
-                                <button type="button" className="btn btn-outline-warning btn-sm px-1 mr-1" onClick={() => onEditItem(data)}>
+                                <button type="button" className="btn btn-outline-warning btn-sm px-1 mr-1" onClick={() => onEditItem(item)}>
                                     <FaPencilAlt />
                                 </button>
                                 <button
                                     type="button"
                                     className="btn btn-outline-danger btn-sm px-1"
-                                    onClick={() => onRemoveItem(data.id, !data.requisition_id)}
+                                    onClick={() => onRemoveItem(item.id, !item.budget_id)}
                                 >
                                     <FaTrash />
                                 </button>
