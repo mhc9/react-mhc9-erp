@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { DatePicker } from '@material-ui/pickers'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
 import { useStyles } from '../../../hooks/useStyles'
-import { useGetInitialFormDataQuery } from '../../../features/services/budget-project/budgetProjectApi'
+import { getAllBudgetPlans } from '../../../features/slices/budget-plan/budgetPlanSlice'
 import { store, update } from '../../../features/slices/budget-project/budgetProjectSlice'
-import { useDispatch } from 'react-redux'
+import Loading from '../../../components/Loading'
 
 const budgetProjectSchema = Yup.object().shape({
     name: Yup.string().required(),
@@ -18,8 +19,12 @@ const budgetProjectSchema = Yup.object().shape({
 const BudgetProjectForm = ({ project }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const { plans, isLoading } = useSelector(state => state.budgetPlan);
     const [selectedYear, setSelectedYear] = useState(moment());
-    const { data: formData, isLoading } = useGetInitialFormDataQuery();
+
+    useEffect(() => {
+        dispatch(getAllBudgetPlans({ url: `/api/budget-plans?year=${selectedYear.year()}` }));
+    }, [selectedYear]);
 
     const handleSubmit = (values, formik) => {
         if (project) {
@@ -68,19 +73,20 @@ const BudgetProjectForm = ({ project }) => {
                         <div className="form-group row mb-2">
                             <label htmlFor="" className="col-3 text-right">แผนงาน :</label>
                             <div className="col-6">
-                                <select
+                                {isLoading && <div className="form-control text-sm"><Loading /></div>}
+                                {!isLoading && <select
                                     name="plan_id"
                                     value={formik.values.plan_id}
                                     onChange={formik.handleChange}
                                     className="form-control text-sm"
                                 >
                                     <option value="">-- เลือกแผนงาน --</option>
-                                    {formData && formData.plans.map(plan => (
+                                    {plans && plans.map(plan => (
                                         <option value={plan.id} key={plan.id}>
                                             {plan.plan_no} {plan.name}
                                         </option>
                                     ))}
-                                </select>
+                                </select>}
                                 {(formik.errors.plan_id && formik.touched.plan_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.plan_id}</span>
                                 )}
