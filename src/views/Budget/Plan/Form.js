@@ -47,36 +47,6 @@ const BudgetPlanForm = ({ plan }) => {
                     return (
                         <Form>
                             <div className="form-group row mb-2">
-                                <label htmlFor="" className="col-3 text-right">เลขที่แผนงาน :</label>
-                                <div className="col-6">
-                                    <input
-                                        type="text"
-                                        name="plan_no"
-                                        value={formik.values.plan_no}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm w-[40%]"
-                                    />
-                                    {(formik.errors.plan_no && formik.touched.plan_no) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.plan_no}</span>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="form-group row mb-2">
-                                <label htmlFor="" className="col-3 text-right">ชื่อแผนงาน :</label>
-                                <div className="col-6">
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        value={formik.values.name}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm"
-                                    />
-                                    {(formik.errors.name && formik.touched.name) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.name}</span>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="form-group row mb-2">
                                 <label htmlFor="" className="col-3 text-right">ปีงบประมาณ :</label>
                                 <div className="col-6">
                                     <div className="flex flex-col w-[40%]">
@@ -112,6 +82,36 @@ const BudgetPlanForm = ({ plan }) => {
                                     </select>
                                     {(formik.errors.plan_type_id && formik.touched.plan_type_id) && (
                                         <span className="text-red-500 text-sm">{formik.errors.plan_type_id}</span>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="form-group row mb-2">
+                                <label htmlFor="" className="col-3 text-right">เลขที่แผนงาน :</label>
+                                <div className="col-6">
+                                    <input
+                                        type="text"
+                                        name="plan_no"
+                                        value={formik.values.plan_no}
+                                        onChange={formik.handleChange}
+                                        className="form-control text-sm w-[40%]"
+                                    />
+                                    {(formik.errors.plan_no && formik.touched.plan_no) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.plan_no}</span>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="form-group row mb-2">
+                                <label htmlFor="" className="col-3 text-right">ชื่อแผนงาน :</label>
+                                <div className="col-6">
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={formik.values.name}
+                                        onChange={formik.handleChange}
+                                        className="form-control text-sm"
+                                    />
+                                    {(formik.errors.name && formik.touched.name) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.name}</span>
                                     )}
                                 </div>
                             </div>
