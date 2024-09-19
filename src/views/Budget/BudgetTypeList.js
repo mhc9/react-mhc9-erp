@@ -4,7 +4,7 @@ import { currency } from '../../utils'
 
 const BudgetTypeList = ({ data, onEditItem, onRemoveItem }) => {
     return (
-        <div className="border">
+        <div className="wrapper">
             <table className="table table-bordered table-hover table-striped text-sm">
                 <thead>
                     <tr>

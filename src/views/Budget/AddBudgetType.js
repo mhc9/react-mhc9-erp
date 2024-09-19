@@ -1,10 +1,10 @@
 import React from 'react'
-import { Col, Row } from 'react-bootstrap'
+import { Col, FormGroup, Modal, Row } from 'react-bootstrap'
 import { Formik } from 'formik';
 import { v4 as uuid } from 'uuid'
 import { useGetInitialFormDataQuery } from '../../features/services/budget/budgetApi'
 
-const AddBudgetType = ({ data, onSubmit }) => {
+const AddBudgetType = ({ isShow, hide, data, onSubmit }) => {
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     const getBudgetType = (id) => {
@@ -13,71 +13,80 @@ const AddBudgetType = ({ data, onSubmit }) => {
 
     const handleSubmit = (values, formik) => {
         onSubmit(values)
+
+        hide()
     };
 
     return (
-        <Formik
-            initialValues={{
-                id: data ? data.id : uuid(),
-                budget_id: '',
-                budget_type_id: '',
-                budget_type: null,
-                total: 0
-            }}
-            onSubmit={handleSubmit}
+        <Modal
+            show={isShow}
+            onHide={hide}
         >
-            {(formik) => {
-                return (
-                    <Row className="mb-2">
-                        <Col md={5}>
-                            <div className="form-group">
-                                <label htmlFor="">ประเภทงบประมาณ :</label>
-                                <select
-                                    name="budget_type_id"
-                                    value={formik?.values.budget_type_id}
-                                    onChange={(e) => {
-                                        formik?.handleChange(e);
-                                        formik.setFieldValue('budget_type', getBudgetType(e.target.value));
-                                    }}
-                                    className="form-control text-sm"
-                                >
-                                    <option value="">-- ประเภทงบประมาณ --</option>
-                                    {formData && formData?.types.map(type => (
-                                        <option value={type.id} key={type.id}>
-                                            {type.name}
-                                        </option>
-                                    ))}
-                                </select>
-                                {(formik?.errors.budget_type_id && formik?.touched.budget_type_id) && (
-                                    <span className="text-red-500 text-sm">{formik?.errors.budget_type_id}</span>
-                                )}
-                            </div>
-                        </Col>
-                        <Col md={5} className="pl-0">
-                            <div className="form-group">
-                                <label htmlFor="">ยอดจัดสรร (บาท) :</label>
-                                <input
-                                    type="text"
-                                    name="total"
-                                    value={formik?.values.total}
-                                    onChange={formik?.handleChange}
-                                    className="form-control text-sm"
-                                    placeholder="ยอดจัดสรร"
-                                />
-                                {(formik?.errors.total && formik?.touched.total) && (
-                                    <span className="text-red-500 text-sm">{formik?.errors.total}</span>
-                                )}
-                            </div>
-                        </Col>
-                        <Col className="pl-0">
-                            <button type="button" className="btn btn-outline-primary btn-sm mt-4" onClick={formik.submitForm}>
-                                เพิ่ม
-                            </button>
-                        </Col>
-                    </Row>
-                )
-            }}
-        </Formik>
+            <Modal.Header closeButton className="py-1">
+                <Modal.Title>เพิ่มประเภทงบประมาณ</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="py-4">
+                <Formik
+                    initialValues={{
+                        id: data ? data.id : uuid(),
+                        budget_id: '',
+                        budget_type_id: '',
+                        budget_type: null,
+                        total: 0
+                    }}
+                    onSubmit={handleSubmit}
+                >
+                    {(formik) => {
+                        return (
+                            <Row className="mb-2">
+                                <label htmlFor="" className="col-4">ประเภทงบประมาณ :</label>
+                                <Col md={6} className="mb-2">
+                                        <select
+                                            name="budget_type_id"
+                                            value={formik?.values.budget_type_id}
+                                            onChange={(e) => {
+                                                formik?.handleChange(e);
+                                                formik.setFieldValue('budget_type', getBudgetType(e.target.value));
+                                            }}
+                                            className="form-control text-sm"
+                                        >
+                                            <option value="">-- ประเภทงบประมาณ --</option>
+                                            {formData && formData?.types.map(type => (
+                                                <option value={type.id} key={type.id}>
+                                                    {type.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        {(formik?.errors.budget_type_id && formik?.touched.budget_type_id) && (
+                                            <span className="text-red-500 text-sm">{formik?.errors.budget_type_id}</span>
+                                        )}
+                                </Col>
+
+                                <label htmlFor="" className="col-4">ยอดจัดสรร (บาท) :</label>
+                                <Col md={6} className="mb-2">
+                                        <input
+                                            type="text"
+                                            name="total"
+                                            value={formik?.values.total}
+                                            onChange={formik?.handleChange}
+                                            className="form-control text-sm"
+                                            placeholder="ยอดจัดสรร"
+                                        />
+                                        {(formik?.errors.total && formik?.touched.total) && (
+                                            <span className="text-red-500 text-sm">{formik?.errors.total}</span>
+                                        )}
+                                </Col>
+                                <div className="offset-md-4">
+                                    <button type="button" className="btn btn-outline-primary btn-sm" onClick={formik.submitForm}>
+                                        บันทึก
+                                    </button>
+                                </div>
+                            </Row>
+                        )
+                    }}
+                </Formik>
+            </Modal.Body>
+        </Modal>
     )
 }
 

@@ -27,6 +27,7 @@ const BudgetForm = ({ budget }) => {
     const { projects, isLoading: isProjectLoading } = useSelector(state => state.budgetProject);
     const [filteredProject, setFilteredProject] = useState([]);
     const [selectedYear, setSelectedYear] = useState(moment());
+    const [showBudgetTypeForm, setShowBudgetTypeForm] = useState(false);
 
     useEffect(() => {
         dispatch(getAllBudgetPlans({ url: `/api/budget-plans?year=${selectedYear.year()}` }));
@@ -184,21 +185,24 @@ const BudgetForm = ({ budget }) => {
                                 )}
                             </Col>
                         </Row>
-                        <Row>
-                            <Col className="px-5">
-                                <div className="border rounded-md py-2 px-3 mb-2">
-                                    <h3 className="text-xl font-bold mb-2">รายการประเภทงบประมาณ</h3>
+                        <Row className="mb-2">
+                            <label htmlFor="" className="col-3 col-form-label text-right">รายการประเภทงบ :</label>
+                            <Col md={7} className="pr-1">
+                                <BudgetTypeList
+                                    data={formik.values.budget_types}
+                                    onRemoveItem={(id, isNewItem) => handleRemoveBudgetType(formik, id, isNewItem)}
+                                />
 
-                                    <AddBudgetType
-                                        data={null}
-                                        onSubmit={(data) => handleAddBudgetType(formik, data)}
-                                    />
-
-                                    <BudgetTypeList
-                                        data={formik.values.budget_types}
-                                        onRemoveItem={(id, isNewItem) => handleRemoveBudgetType(formik, id, isNewItem)}
-                                    />
-                                </div>
+                                <AddBudgetType
+                                    isShow={showBudgetTypeForm}
+                                    hide={() => setShowBudgetTypeForm(false)}
+                                    onSubmit={(data) => handleAddBudgetType(formik, data)}
+                                />
+                            </Col>
+                            <Col className="pl-0">
+                                <button type="button" className="btn btn-outline-primary btn-sm" onClick={() => setShowBudgetTypeForm(true)}>
+                                    เพิ่ม
+                                </button>
                             </Col>
                         </Row>
                         <Row>
