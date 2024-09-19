@@ -1,17 +1,30 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { useGetInitialFormDataQuery } from '../../features/services/budget/budgetApi'
 import { Formik } from 'formik';
+import { v4 as uuid } from 'uuid'
+import { useGetInitialFormDataQuery } from '../../features/services/budget/budgetApi'
 
 const AddBudgetType = ({ data, onSubmit }) => {
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
+    const getBudgetType = (id) => {
+        return formData ? formData.types.find(type => type.id === parseInt(id, 10)) : null; 
+    };
+
+    const handleSubmit = (values, formik) => {
+        onSubmit(values)
+    };
+
     return (
         <Formik
             initialValues={{
-                type_id: '',
-                total: ''
+                id: data ? data.id : uuid(),
+                budget_id: '',
+                budget_type_id: '',
+                budget_type: null,
+                total: 0
             }}
+            onSubmit={handleSubmit}
         >
             {(formik) => {
                 return (
@@ -20,9 +33,12 @@ const AddBudgetType = ({ data, onSubmit }) => {
                             <div className="form-group">
                                 <label htmlFor="">ประเภทงบประมาณ :</label>
                                 <select
-                                    name="type_id"
-                                    value={formik?.values.type_id}
-                                    onChange={formik?.handleChange}
+                                    name="budget_type_id"
+                                    value={formik?.values.budget_type_id}
+                                    onChange={(e) => {
+                                        formik?.handleChange(e);
+                                        formik.setFieldValue('budget_type', getBudgetType(e.target.value));
+                                    }}
                                     className="form-control text-sm"
                                 >
                                     <option value="">-- ประเภทงบประมาณ --</option>
@@ -32,8 +48,8 @@ const AddBudgetType = ({ data, onSubmit }) => {
                                         </option>
                                     ))}
                                 </select>
-                                {(formik?.errors.type_id && formik?.touched.type_id) && (
-                                    <span className="text-red-500 text-sm">{formik?.errors.type_id}</span>
+                                {(formik?.errors.budget_type_id && formik?.touched.budget_type_id) && (
+                                    <span className="text-red-500 text-sm">{formik?.errors.budget_type_id}</span>
                                 )}
                             </div>
                         </Col>
@@ -54,7 +70,7 @@ const AddBudgetType = ({ data, onSubmit }) => {
                             </div>
                         </Col>
                         <Col className="pl-0">
-                            <button type="button" className="btn btn-outline-primary btn-sm mt-4">
+                            <button type="button" className="btn btn-outline-primary btn-sm mt-4" onClick={formik.submitForm}>
                                 เพิ่ม
                             </button>
                         </Col>

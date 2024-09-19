@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { DatePicker } from '@material-ui/pickers'
+import { toast } from 'react-toastify'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
@@ -44,6 +45,16 @@ const BudgetForm = ({ budget }) => {
         setFilteredProject(newProjects);
     };
 
+    const handleAddBudgetType = (formik, data) => {
+        if (formik.values.budget_types.some(type => type.budget_type_id === data.budget_type_id)) {
+            toast.error("ไม่สามารถระบุรายการซ้ำได้!!");
+            return;
+        }
+
+        const newBudgetTypes = [...formik.values.budget_types, data];
+        formik.setFieldValue('budget_types', newBudgetTypes);
+    };
+
     const handleSubmit = (values, formik) => {
         if (budget) {
             dispatch(update({ id: budget.id, data: values }));
@@ -66,6 +77,8 @@ const BudgetForm = ({ budget }) => {
             validationSchema={budgetSchema}
         >
             {(formik) => {
+                console.log(formik.values.budget_types);
+                
                 return (
                     <Form>
                         <Row className="mb-2">
@@ -171,8 +184,8 @@ const BudgetForm = ({ budget }) => {
                                     <h3 className="text-xl font-bold mb-2">รายงานประเภทงบประมาณ</h3>
 
                                     <AddBudgetType
-                                        data={formik.values.budget_types}
-                                        onSubmit={(data) => console.log(data)}
+                                        data={null}
+                                        onSubmit={(data) => handleAddBudgetType(formik, data)}
                                     />
 
                                     <BudgetTypeList data={formik.values.budget_types} />
