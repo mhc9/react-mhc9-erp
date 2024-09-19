@@ -9,7 +9,8 @@ import { useStyles } from '../../hooks/useStyles'
 import { store, update } from '../../features/slices/budget/budgetSlice'
 import { getAllBudgetPlans } from '../../features/slices/budget-plan/budgetPlanSlice'
 import { getAllBudgetProjects } from '../../features/slices/budget-project/budgetProjectSlice'
-import { useGetInitialFormDataQuery } from '../../features/services/budget/budgetApi'
+import AddBudgetType from './AddBudgetType'
+import BudgetTypeList from './BudgetTypeList'
 
 const budgetSchema = Yup.object().shape({
     name: Yup.string().required('กรุณาเลือกแผนงาน'),
@@ -23,7 +24,6 @@ const BudgetForm = ({ budget }) => {
     const dispatch = useDispatch();
     const { plans, isLoading: isPlanLoading } = useSelector(state => state.budgetPlan);
     const { projects, isLoading: isProjectLoading } = useSelector(state => state.budgetProject);
-    const { data: formData, isLoading } = useGetInitialFormDataQuery();
     const [filteredProject, setFilteredProject] = useState([]);
     const [selectedYear, setSelectedYear] = useState(moment());
 
@@ -56,11 +56,11 @@ const BudgetForm = ({ budget }) => {
         <Formik
             initialValues={{
                 name: budget ? budget.name : '',
+                year: budget ? budget.year : moment().format('YYYY'),
                 gfmis_id: budget ? budget.gfmis_id : '',
-                type_id: budget ? budget.type_id : '',
                 plan_id: (budget && budget.project) ? budget.project.plan_id : '',
                 project_id: budget ? budget.project_id : '',
-                year: budget ? budget.year : moment().format('YYYY')
+                budget_types: []
             }}
             onSubmit={handleSubmit}
             validationSchema={budgetSchema}
@@ -150,27 +150,6 @@ const BudgetForm = ({ budget }) => {
                             </Col>
                         </Row>
                         <Row className="mb-2">
-                            <label htmlFor="" className="col-3 col-form-label text-right">ประเภทงบ :</label>
-                            <Col md={6}>
-                                <select
-                                    name="type_id"
-                                    value={formik.values.type_id}
-                                    onChange={formik.handleChange}
-                                    className="form-control text-sm"
-                                >
-                                    <option value="">-- ประเภทงบประมาณ --</option>
-                                    {formData && formData?.types.map(type => (
-                                        <option value={type.id} key={type.id}>
-                                            {type.name}
-                                        </option>
-                                    ))}
-                                </select>
-                                {(formik.errors.type_id && formik.touched.type_id) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.type_id}</span>
-                                )}
-                            </Col>
-                        </Row>
-                        <Row className="mb-2">
                             <label htmlFor="" className="col-3 col-form-label text-right">รหัส New GFMIS :</label>
                             <Col md={6}>
                                 <input
@@ -184,6 +163,20 @@ const BudgetForm = ({ budget }) => {
                                 {(formik.errors.gfmis_id && formik.touched.gfmis_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.gfmis_id}</span>
                                 )}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col className="px-5">
+                                <div className="border py-2 px-3 mb-2">
+                                    <h3 className="text-xl font-bold mb-2">รายงานประเภทงบประมาณ</h3>
+
+                                    <AddBudgetType
+                                        data={formik.values.budget_types}
+                                        onSubmit={(data) => console.log(data)}
+                                    />
+
+                                    <BudgetTypeList data={formik.values.budget_types} />
+                                </div>
                             </Col>
                         </Row>
                         <Row>
