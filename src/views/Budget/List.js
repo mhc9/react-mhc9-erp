@@ -72,14 +72,16 @@ const BudgetList = () => {
         <div className="content-wrapper">
             <Breadcrumb>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '' }}>หน้าหลัก</Breadcrumb.Item>
-                <Breadcrumb.Item active>งบประมาณ</Breadcrumb.Item>
+                <Breadcrumb.Item>งบประมาณ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-plan' }}>แผนงาน</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-project' }}>โครงการ/ผลผลิต</Breadcrumb.Item>
+                <Breadcrumb.Item active>กิจกรรม</Breadcrumb.Item>
             </Breadcrumb>
 
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-xl">รายการงบประมาณ</h2>
+                    <h2 className="text-xl">รายการกิจกรรม</h2>
                     <div className="flex flex-row gap-1">
-                        <PlanDropdown />
                         <Link to="add" className="btn btn-primary">เพิ่มรายการ</Link>
                     </div>
                 </div>
@@ -97,7 +99,7 @@ const BudgetList = () => {
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
-                                <th>รายการ</th>
+                                <th>รายการกิจกรรม</th>
                                 <th className="text-center w-[18%]">รหัส New GFMIS</th>
                                 <th className="text-center w-[6%]">ปีงบประมาณ</th>
                                 <th className="text-center w-[6%]">สถานะ</th>
