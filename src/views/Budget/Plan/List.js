@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
+import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import moment from 'moment'
 import { generateQueryString } from '../../../utils'
@@ -83,9 +83,6 @@ const BudgetPlanList = () => {
                                     <td className="hover:text-purple-500"><Link to="/budget-project">{plan.plan_no} {plan.name}</Link></td>
                                     <td className="text-center">{plan.year && plan.year+543}</td>
                                     <td className="text-center p-1">
-                                        <Link to={`/budget-plan/${plan.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
-                                            <FaSearch />
-                                        </Link>
                                         <Link to={`/budget-plan/${plan.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />
                                         </Link>

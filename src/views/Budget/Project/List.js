@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
+import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import moment from 'moment'
 import { generateQueryString } from '../../../utils'
@@ -90,9 +90,6 @@ const BudgetProjectList = () => {
                                     <td className="text-center font-bold">{project.gfmis_id}</td>
                                     <td className="text-center">{project.year && project.year + 543}</td>
                                     <td className="text-center p-1">
-                                        <Link to={`/budget-project/${project.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
-                                            <FaSearch />
-                                        </Link>
                                         <Link to={`/budget-project/${project.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />
                                         </Link>
