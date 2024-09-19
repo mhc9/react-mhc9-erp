@@ -31,7 +31,7 @@ const AddBudgetType = ({ isShow, hide, data, onSubmit }) => {
                         id: data ? data.id : uuid(),
                         budget_id: '',
                         budget_type_id: '',
-                        budget_type: null,
+                        type: null,
                         total: ''
                     }}
                     onSubmit={handleSubmit}
@@ -46,7 +46,7 @@ const AddBudgetType = ({ isShow, hide, data, onSubmit }) => {
                                             value={formik?.values.budget_type_id}
                                             onChange={(e) => {
                                                 formik?.handleChange(e);
-                                                formik.setFieldValue('budget_type', getBudgetType(e.target.value));
+                                                formik.setFieldValue('type', getBudgetType(e.target.value));
                                             }}
                                             className="form-control text-sm"
                                         >

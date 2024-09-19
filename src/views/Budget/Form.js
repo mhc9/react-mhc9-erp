@@ -80,7 +80,7 @@ const BudgetForm = ({ budget }) => {
                 gfmis_id: budget ? budget.gfmis_id : '',
                 plan_id: (budget && budget.project) ? budget.project.plan_id : '',
                 project_id: budget ? budget.project_id : '',
-                budget_types: []
+                budget_types: budget ? budget.details : []
             }}
             onSubmit={handleSubmit}
             validationSchema={budgetSchema}
