@@ -32,7 +32,7 @@ const AddBudgetType = ({ isShow, hide, data, onSubmit }) => {
                         budget_id: '',
                         budget_type_id: '',
                         budget_type: null,
-                        total: 0
+                        total: ''
                     }}
                     onSubmit={handleSubmit}
                 >
