@@ -2,10 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
-import { FaPencilAlt, FaSearch, FaTrash, FaRegEye, FaRegEyeSlash   } from 'react-icons/fa'
+import {
+    FaPencilAlt,
+    FaRandom,
+    FaRegEye,
+    FaRegEyeSlash,
+    FaRegUser,
+    FaSearch,
+    FaTrash,
+} from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import moment from 'moment'
-import { generateQueryString } from '../../utils'
+import { currency, generateQueryString } from '../../utils'
 import { getBudgets, destroy, toggle, resetDeleted, resetSuccess } from '../../features/slices/budget/budgetSlice'
 import FilteringInputs from './FilteringInputs'
 import PlanDropdown from './PlanDropdown'
@@ -107,6 +115,7 @@ const BudgetList = () => {
                                         </p>
                                         <p>{budget.project?.name} <span className="text-xs">({budget.project?.gfmis_id})</span></p>
                                         <p className="font-bold text-primary">{budget.name}</p>
+                                        <BudgetTypes data={budget.details} />
                                     </td>
                                     <td className="text-center font-bold text-primary">{budget.gfmis_id}</td>
                                     <td className="text-center">{budget.year && budget.year + 543}</td>
@@ -145,3 +154,16 @@ const BudgetList = () => {
 }
 
 export default BudgetList
+
+const BudgetTypes = ({ data }) => {
+    return (
+        <ul className="flex flex-row items-center text-xs">
+            {data && data.map(item => (
+                <li className="flex flex-row items-center gap-1 mr-2">
+                    {item.budget_type_id === 1 ? <FaRegUser /> : <FaRandom />}
+                    <b>{item.type?.name}</b> ({currency.format(item.total)} บาท)
+                </li>
+            ))}
+        </ul>
+    );
+}
