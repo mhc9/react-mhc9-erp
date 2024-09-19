@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
+import { currency } from '../../utils'
 
 const BudgetTypeList = ({ data, onEditItem, onRemoveItem }) => {
     return (
@@ -18,7 +19,7 @@ const BudgetTypeList = ({ data, onEditItem, onRemoveItem }) => {
                         <tr>
                             <td className="text-center">{++index}</td>
                             <td className="text-center">{item.budget_type?.name}</td>
-                            <td className="text-center">{item.total}</td>
+                            <td className="text-center">{currency.format(item.total)}</td>
                             <td className="text-center">
                                 <button type="button" className="btn btn-outline-warning btn-sm px-1 mr-1" onClick={() => onEditItem(item)}>
                                     <FaPencilAlt />
