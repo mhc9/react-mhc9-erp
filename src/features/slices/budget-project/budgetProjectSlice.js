@@ -21,6 +21,16 @@ export const getBudgetProjects = createAsyncThunk("budgetProject/getBudgetProjec
     }
 });
 
+export const getAllBudgetProjects = createAsyncThunk("budgetProject/getAllBudgetProjects", async ({ url }, { rejectWithValue }) => {
+    try {
+        const res = await api.get(url);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const getBudgetProject = createAsyncThunk("budgetProject/getBudgetProject", async (id, { rejectWithValue }) => {
     try {
         const res = await api.get(`/api/budget-projects/${id}`);
@@ -87,6 +97,19 @@ export const budgetProjectSlice = createSlice({
             state.isLoading = false;
         },
         [getBudgetProjects.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [getAllBudgetProjects.pending]: (state) => {
+            state.projects = [];
+            state.isLoading = true;
+            state.error = null;
+        },
+        [getAllBudgetProjects.fulfilled]: (state, { payload }) => {
+            state.projects = payload;
+            state.isLoading = false;
+        },
+        [getAllBudgetProjects.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },

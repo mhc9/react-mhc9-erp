@@ -106,8 +106,6 @@ export const budgetPlanSlice = createSlice({
             state.error = null;
         },
         [getAllBudgetPlans.fulfilled]: (state, { payload }) => {
-            console.log(payload);
-            
             state.plans = payload;
             state.isLoading = false;
         },

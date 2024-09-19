@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { DatePicker } from '@material-ui/pickers'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
-import { useGetInitialFormDataQuery } from '../../features/services/budget/budgetApi'
 import { useStyles } from '../../hooks/useStyles'
 import { store, update } from '../../features/slices/budget/budgetSlice'
+import { getAllBudgetPlans } from '../../features/slices/budget-plan/budgetPlanSlice'
+import { getAllBudgetProjects } from '../../features/slices/budget-project/budgetProjectSlice'
+import { useGetInitialFormDataQuery } from '../../features/services/budget/budgetApi'
 
 const budgetSchema = Yup.object().shape({
     name: Yup.string().required('กรุณาเลือกแผนงาน'),
@@ -19,9 +21,16 @@ const budgetSchema = Yup.object().shape({
 const BudgetForm = ({ budget }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const { plans, isLoading: isPlanLoading } = useSelector(state => state.budgetPlan);
+    const { projects, isLoading: isProjectLoading } = useSelector(state => state.budgetProject);
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
     const [filteredProject, setFilteredProject] = useState([]);
     const [selectedYear, setSelectedYear] = useState(moment());
+
+    useEffect(() => {
+        dispatch(getAllBudgetPlans({ url: `/api/budget-plans?year=${selectedYear.year()}` }));
+        dispatch(getAllBudgetProjects({ url: `/api/budget-projects?year=${selectedYear.year()}` }));
+    }, [selectedYear]);
 
     useEffect(() => {
         if (budget) {
@@ -30,7 +39,7 @@ const BudgetForm = ({ budget }) => {
     }, [budget]);
 
     const handleFilterProject = (planId) => {
-        const newProjects = formData?.projects.filter(project => project.plan_id === parseInt(planId, 10));
+        const newProjects = projects.filter(project => project.plan_id === parseInt(planId, 10));
 
         setFilteredProject(newProjects);
     };
@@ -60,7 +69,27 @@ const BudgetForm = ({ budget }) => {
                 return (
                     <Form>
                         <Row className="mb-2">
-                            <label htmlFor="" className="col-3 col-form-label text-right">แผน :</label>
+                            <label htmlFor="" className="col-3 col-form-label text-right">ปีงบประมาณ :</label>
+                            <Col md={6}>
+                                <div className="flex flex-col w-[40%]">
+                                    <DatePicker
+                                        format="YYYY"
+                                        views={['year']}
+                                        value={selectedYear}
+                                        onChange={(date) => {
+                                            setSelectedYear(date);
+                                            formik.setFieldValue('year', date.year());
+                                        }}
+                                        className={classes.muiTextFieldInput}
+                                    />
+                                    {(formik.errors.year && formik.touched.year) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.year}</span>
+                                    )}
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <label htmlFor="" className="col-3 col-form-label text-right">แผนงาน :</label>
                             <Col md={6}>
                                 <select
                                     name="plan_id"
@@ -71,8 +100,8 @@ const BudgetForm = ({ budget }) => {
                                     }}
                                     className="form-control text-sm"
                                 >
-                                    <option value="">-- แผน --</option>
-                                    {formData && formData?.plans.map(plan => (
+                                    <option value="">-- แผนงาน --</option>
+                                    {plans && plans.map(plan => (
                                         <option value={plan.id} key={plan.id}>
                                             {plan.plan_no} {plan.name}
                                         </option>
@@ -139,26 +168,6 @@ const BudgetForm = ({ budget }) => {
                                 {(formik.errors.type_id && formik.touched.type_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.type_id}</span>
                                 )}
-                            </Col>
-                        </Row>
-                        <Row className="mb-2">
-                            <label htmlFor="" className="col-3 col-form-label text-right">ปีงบประมาณ :</label>
-                            <Col md={6}>
-                                <div className="flex flex-col w-[40%]">
-                                    <DatePicker
-                                        format="YYYY"
-                                        views={['year']}
-                                        value={selectedYear}
-                                        onChange={(date) => {
-                                            setSelectedYear(date);
-                                            formik.setFieldValue('year', date.year());
-                                        }}
-                                        className={classes.muiTextFieldInput}
-                                    />
-                                    {(formik.errors.year && formik.touched.year) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.year}</span>
-                                    )}
-                                </div>
                             </Col>
                         </Row>
                         <Row className="mb-2">
