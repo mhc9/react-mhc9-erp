@@ -43,7 +43,8 @@ const BudgetProjectList = () => {
         <div className="content-wrapper">
             <Breadcrumb>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
-                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget' }}>งบประมาณ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-plan' }}>งบประมาณ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-plan' }}>แผนงาน</Breadcrumb.Item>
                 <Breadcrumb.Item active>โครงการ/ผลผลิต</Breadcrumb.Item>
             </Breadcrumb>
 
@@ -82,7 +83,9 @@ const BudgetProjectList = () => {
                                     <td className="text-center">{index+1}</td>
                                     <td>
                                         <p className="font-thin">{project.plan?.plan_no} {project.plan?.name}</p>
-                                        <p className="font-bold">{project.name}</p>
+                                        <p className="font-bold hover:text-purple-500">
+                                            <Link to="/budget">{project.name}</Link>
+                                        </p>
                                     </td>
                                     <td className="text-center font-bold">{project.gfmis_id}</td>
                                     <td className="text-center">{project.year && project.year + 543}</td>
