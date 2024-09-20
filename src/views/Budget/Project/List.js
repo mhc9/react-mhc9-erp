@@ -53,11 +53,11 @@ const BudgetProjectList = () => {
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">โครงการ/ผลผลิต</h2>
-                    <Link to="add" className="btn btn-primary">เพิ่มรายการ</Link>
+                    <Link to="/budget-project/add" className="btn btn-primary">เพิ่มรายการ</Link>
                 </div>
 
                 <FilteringInputs
-                    initialFilters={{ year: year ? year : moment().year(), plan: '' }}
+                    initialFilters={{ year: year !== '' ? year : moment().year(), plan: '' }}
                     onFilter={(queryStr) => {
                         setParams(queryStr);
                         setEndpoint(prev => prev === '' ? `/api/budget-projects/search?page=` : '');

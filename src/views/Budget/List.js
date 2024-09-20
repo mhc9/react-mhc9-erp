@@ -83,7 +83,7 @@ const BudgetList = () => {
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการกิจกรรม</h2>
                     <div className="flex flex-row gap-1">
-                        <Link to="add" className="btn btn-primary">เพิ่มรายการ</Link>
+                        <Link to="/budget/add" className="btn btn-primary">เพิ่มรายการ</Link>
                     </div>
                 </div>
 
