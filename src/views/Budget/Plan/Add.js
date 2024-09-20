@@ -1,9 +1,24 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
+import { resetSuccess } from '../../../features/slices/budget-plan/budgetPlanSlice'
 import BudgetPlanForm from './Form'
+import { toast } from 'react-toastify'
 
 const AddBudgetPlan = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { isSuccess } = useSelector(state => state.budgetPlan);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("บันทึกข้อมูลแผนงานสำเร็จ!!");
+            dispatch(resetSuccess());
+            navigate('/budget-plan');
+        }
+    }, [isSuccess]);
+
     return (
         <div className="content-wrapper">
             <Breadcrumb>
