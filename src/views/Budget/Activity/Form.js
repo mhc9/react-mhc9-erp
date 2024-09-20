@@ -10,8 +10,8 @@ import { useStyles } from '../../../hooks/useStyles'
 import { store, update } from '../../../features/slices/budget/budgetSlice'
 import { getAllBudgetPlans } from '../../../features/slices/budget-plan/budgetPlanSlice'
 import { getAllBudgetProjects } from '../../../features/slices/budget-project/budgetProjectSlice'
-import AddBudgetType from './AddBudgetType'
-import BudgetTypeList from './BudgetTypeList'
+import AddBudgetType from './AddBudget'
+import BudgetTypeList from './BudgetList'
 import Loading from '../../../components/Loading'
 
 const budgetSchema = Yup.object().shape({
@@ -21,14 +21,14 @@ const budgetSchema = Yup.object().shape({
     year: Yup.string().required('กรุณาเลือกปีงบประมาณ'),
 });
 
-const BudgetActivityForm = ({ budget }) => {
+const BudgetActivityForm = ({ activity }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { plans, isLoading: isPlanLoading } = useSelector(state => state.budgetPlan);
     const { projects, isLoading: isProjectLoading } = useSelector(state => state.budgetProject);
     const [filteredProject, setFilteredProject] = useState([]);
     const [selectedYear, setSelectedYear] = useState(moment());
-    const [showBudgetTypeForm, setShowBudgetTypeForm] = useState(false);
+    const [showBudgetForm, setShowBudgetForm] = useState(false);
 
     useEffect(() => {
         dispatch(getAllBudgetPlans({ url: `/api/budget-plans?year=${selectedYear.year()}` }));
@@ -36,10 +36,10 @@ const BudgetActivityForm = ({ budget }) => {
     }, [selectedYear]);
 
     useEffect(() => {
-        if (budget) {
-            handleFilterProject(budget?.project.plan_id);
+        if (activity) {
+            handleFilterProject(activity?.project.plan_id);
         }
-    }, [budget]);
+    }, [activity]);
 
     const handleFilterProject = (planId) => {
         const newProjects = projects.filter(project => project.plan_id === parseInt(planId, 10));
@@ -47,27 +47,27 @@ const BudgetActivityForm = ({ budget }) => {
         setFilteredProject(newProjects);
     };
 
-    const handleAddBudgetType = (formik, data) => {
-        if (formik.values.budget_types.some(type => type.budget_type_id === data.budget_type_id)) {
+    const handleAddBudget = (formik, data) => {
+        if (formik.values.budgets.some(type => type.budget_type_id === data.budget_type_id)) {
             toast.error("ไม่สามารถระบุรายการซ้ำได้!!");
             return;
         }
 
-        const newBudgetTypes = [...formik.values.budget_types, data];
-        formik.setFieldValue('budget_types', newBudgetTypes);
+        const newBudgets = [...formik.values.budgets, data];
+        formik.setFieldValue('budgets', newBudgets);
     };
 
-    const handleRemoveBudgetType = (formik, id, isNewItem) => {
+    const handleRemoveBudget = (formik, id, isNewItem) => {
         console.log(id, isNewItem);
         if (window.confirm('คุณต้องการลบรายการประเภทงบประมาณใช้หรือไม่?')) {
-            const updatedBudgetTypes = formik.values.budget_types.filter(item => item.id !== id);
-            formik.setFieldValue('budget_types', updatedBudgetTypes);
+            const updatedBudgets = formik.values.budgets.filter(item => item.id !== id);
+            formik.setFieldValue('budgets', updatedBudgets);
         }
     };
 
     const handleSubmit = (values, formik) => {
-        if (budget) {
-            dispatch(update({ id: budget.id, data: values }));
+        if (activity) {
+            dispatch(update({ id: activity.id, data: values }));
         } else {
             dispatch(store(values));
         }
@@ -76,13 +76,13 @@ const BudgetActivityForm = ({ budget }) => {
     return (
         <Formik
             initialValues={{
-                name: budget ? budget.name : '',
-                budget_no: budget ? budget.budget_no : '',
-                year: budget ? budget.year : moment().format('YYYY'),
-                gfmis_id: budget ? budget.gfmis_id : '',
-                plan_id: (budget && budget.project) ? budget.project.plan_id : '',
-                project_id: budget ? budget.project_id : '',
-                budget_types: budget ? budget.details : []
+                name: activity ? activity.name : '',
+                activity_no: activity ? activity.activity_no : '',
+                year: activity ? activity.year : moment().format('YYYY'),
+                gfmis_id: activity ? activity.gfmis_id : '',
+                plan_id: (activity && activity.project) ? activity.project.plan_id : '',
+                project_id: activity ? activity.project_id : '',
+                budgets: activity ? activity.budgets : []
             }}
             onSubmit={handleSubmit}
             validationSchema={budgetSchema}
@@ -208,27 +208,27 @@ const BudgetActivityForm = ({ budget }) => {
                         <Row className="mb-2">
                             <label htmlFor="" className="col-3 col-form-label text-right">รายการประเภทงบ :</label>
                             <Col md={7} className="pr-1">
-                                <BudgetTypeList
-                                    data={formik.values.budget_types}
-                                    onRemoveItem={(id, isNewItem) => handleRemoveBudgetType(formik, id, isNewItem)}
+                                <BudgetList
+                                    data={formik.values.budgets}
+                                    onRemoveItem={(id, isNewItem) => handleRemoveBudget(formik, id, isNewItem)}
                                 />
 
-                                <AddBudgetType
-                                    isShow={showBudgetTypeForm}
-                                    hide={() => setShowBudgetTypeForm(false)}
-                                    onSubmit={(data) => handleAddBudgetType(formik, data)}
+                                <AddBudget
+                                    isShow={showBudgetForm}
+                                    hide={() => setShowBudgetForm(false)}
+                                    onSubmit={(data) => handleAddBudget(formik, data)}
                                 />
                             </Col>
                             <Col className="pl-0">
-                                <button type="button" className="btn btn-outline-primary btn-sm" onClick={() => setShowBudgetTypeForm(true)}>
+                                <button type="button" className="btn btn-outline-primary btn-sm" onClick={() => setShowBudgetForm(true)}>
                                     เพิ่ม
                                 </button>
                             </Col>
                         </Row>
                         <Row>
                             <div className="col-3 offset-md-3">
-                                <button type="submit" className={`btn ${budget ? 'btn-outline-secondary' : 'btn-outline-primary'} btn-sm`}>
-                                    {budget ? 'บันทึกการแก้ไข' : 'บันทึก'}
+                                <button type="submit" className={`btn ${activity ? 'btn-outline-secondary' : 'btn-outline-primary'} btn-sm`}>
+                                    {activity ? 'บันทึกการแก้ไข' : 'บันทึก'}
                                 </button>
                             </div>
                         </Row>
