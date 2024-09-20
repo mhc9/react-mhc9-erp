@@ -30,7 +30,7 @@ const EditBudgetActivity = () => {
                 <Breadcrumb.Item>งบประมาณ</Breadcrumb.Item>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-plan' }}>แผนงาน</Breadcrumb.Item>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-project' }}>โครงการ/ผลผลิต</Breadcrumb.Item>
-                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget' }}>กิจกรรม</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-activity' }}>กิจกรรม</Breadcrumb.Item>
                 <Breadcrumb.Item active>แก้ไขกิจกรรม</Breadcrumb.Item>
             </Breadcrumb>
 
