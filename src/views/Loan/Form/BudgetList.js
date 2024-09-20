@@ -21,8 +21,9 @@ const BudgetList = ({ budgets, showButtons=true, onRemoveBudget, onEditBudget })
                                 <tr className="font-thin">
                                     <td className="text-center">{index+1}</td>
                                     <td>
-                                        <p className="text-sm">{data.budget?.name}</p>
-                                        <p className="font-thin text-xs">{data.budget?.project?.plan?.name}/{data.budget?.project?.name}</p>
+                                        <p className="font-thin text-xs">{data.budget?.activity?.project?.plan?.name}</p>
+                                        <p className="text-xs font-semibold">{data.budget?.activity?.project?.name}</p>
+                                        <p className="text-sm text-blue-500 font-semibold">{data.budget?.activity?.name}</p>
                                         </td>
                                     <td className="text-right">{currency.format(data.total)}</td>
                                     {showButtons && (
