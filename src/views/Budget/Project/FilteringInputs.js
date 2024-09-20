@@ -8,7 +8,7 @@ import { useGetInitialFormDataQuery } from '../../../features/services/budget-pr
 const FilteringInputs = ({ initialFilters, onFilter }) => {
     const classes = useStyles();
     const [filters, setFilters] = useState(initialFilters);
-    const [selectedYear, setSelectedYear] = useState(initialFilters ? moment(initialFilters.year) : moment());
+    const [selectedYear, setSelectedYear] = useState(initialFilters ? moment(`${initialFilters.year}-01-01`) : moment());
     const { data: formData } = useGetInitialFormDataQuery();
 
     const handleInputChange = (e) => {
