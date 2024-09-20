@@ -6,13 +6,13 @@ import { toast } from 'react-toastify'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
-import { useStyles } from '../../hooks/useStyles'
-import { store, update } from '../../features/slices/budget/budgetSlice'
-import { getAllBudgetPlans } from '../../features/slices/budget-plan/budgetPlanSlice'
-import { getAllBudgetProjects } from '../../features/slices/budget-project/budgetProjectSlice'
+import { useStyles } from '../../../hooks/useStyles'
+import { store, update } from '../../../features/slices/budget/budgetSlice'
+import { getAllBudgetPlans } from '../../../features/slices/budget-plan/budgetPlanSlice'
+import { getAllBudgetProjects } from '../../../features/slices/budget-project/budgetProjectSlice'
 import AddBudgetType from './AddBudgetType'
 import BudgetTypeList from './BudgetTypeList'
-import Loading from '../../components/Loading'
+import Loading from '../../../components/Loading'
 
 const budgetSchema = Yup.object().shape({
     name: Yup.string().required('กรุณาเลือกแผนงาน'),
@@ -21,7 +21,7 @@ const budgetSchema = Yup.object().shape({
     year: Yup.string().required('กรุณาเลือกปีงบประมาณ'),
 });
 
-const BudgetForm = ({ budget }) => {
+const BudgetActivityForm = ({ budget }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { plans, isLoading: isPlanLoading } = useSelector(state => state.budgetPlan);
@@ -239,4 +239,4 @@ const BudgetForm = ({ budget }) => {
     )
 }
 
-export default BudgetForm
+export default BudgetActivityForm

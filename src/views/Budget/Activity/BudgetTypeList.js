@@ -1,6 +1,6 @@
 import React from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { currency } from '../../utils'
+import { currency } from '../../../utils'
 
 const BudgetTypeList = ({ data, onEditItem, onRemoveItem }) => {
     return (

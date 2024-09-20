@@ -2,7 +2,7 @@ import React from 'react'
 import { Col, FormGroup, Modal, Row } from 'react-bootstrap'
 import { Formik } from 'formik';
 import { v4 as uuid } from 'uuid'
-import { useGetInitialFormDataQuery } from '../../features/services/budget/budgetApi'
+import { useGetInitialFormDataQuery } from '../../../features/services/budget/budgetApi'
 
 const AddBudgetType = ({ isShow, hide, data, onSubmit }) => {
     const { data: formData, isLoading } = useGetInitialFormDataQuery();

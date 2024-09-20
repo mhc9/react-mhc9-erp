@@ -1,21 +1,25 @@
 import React, { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
+import { getBudget, resetSuccess } from '../../../features/slices/budget/budgetSlice'
+import BudgetActivityForm from './Form'
+import Loading from '../../../components/Loading'
 import { toast } from 'react-toastify'
-import { resetSuccess } from '../../features/slices/budget/budgetSlice'
-import BudgetForm from './Form'
 
-const AddBudget = () => {
-    const navigate =useNavigate();
+const EditBudgetActivity = () => {
+    const { id } = useParams();
     const dispatch = useDispatch();
-    const { isSuccess } = useSelector(state => state.budget);
+    const { budget, isLoading, isSuccess } = useSelector(state => state.budget);
+
+    useEffect(() => {
+        if (id) dispatch(getBudget(id));
+    }, [id]);
 
     useEffect(() => {
         if (isSuccess) {
-            toast.success("บันทึกข้อมูลกิจกรรมสำเร็จ!!");
+            toast.success("บันทึกการแก้ไขงบประมาณสำเร็จ!!")
             dispatch(resetSuccess());
-            navigate("/budget");
         }
     }, [isSuccess]);
 
@@ -27,20 +31,21 @@ const AddBudget = () => {
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-plan' }}>แผนงาน</Breadcrumb.Item>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-project' }}>โครงการ/ผลผลิต</Breadcrumb.Item>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget' }}>กิจกรรม</Breadcrumb.Item>
-                <Breadcrumb.Item active>เพิ่มกิจกรรม</Breadcrumb.Item>
+                <Breadcrumb.Item active>แก้ไขกิจกรรม</Breadcrumb.Item>
             </Breadcrumb>
 
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-xl">เพิ่มกิจกรรม</h2>
+                    <h2 className="text-xl">แก้ไขกิจกรรม (#{id})</h2>
                 </div>
 
                 <div className="border rounded-md py-5">
-                    <BudgetForm />
+                    {isLoading && <div className="text-center"><Loading /></div>}
+                    {(!isLoading && budget) && <BudgetActivityForm budget={budget} />}
                 </div>
             </div>
         </div>
     )
 }
 
-export default AddBudget
+export default EditBudgetActivity

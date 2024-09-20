@@ -13,14 +13,14 @@ import {
 } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import moment from 'moment'
-import { currency, generateQueryString } from '../../utils'
-import { getBudgets, destroy, toggle, resetDeleted, resetSuccess } from '../../features/slices/budget/budgetSlice'
+import { currency, generateQueryString } from '../../../utils'
+import { getBudgets, destroy, toggle, resetDeleted, resetSuccess } from '../../../features/slices/budget/budgetSlice'
 import FilteringInputs from './FilteringInputs'
 import PlanDropdown from './PlanDropdown'
-import Pagination from '../../components/Pagination'
-import Loading from '../../components/Loading'
+import Pagination from '../../../components/Pagination'
+import Loading from '../../../components/Loading'
 
-const BudgetList = () => {
+const BudgetActivityList = () => {
     const { year: _year } = useParams();
     const dispatch = useDispatch();
     const { budgets, pager, isLoading, isSuccess, isDeleted } = useSelector(state => state.budget);
@@ -161,7 +161,7 @@ const BudgetList = () => {
     )
 }
 
-export default BudgetList
+export default BudgetActivityList
 
 const BudgetTypes = ({ data }) => {
     return (

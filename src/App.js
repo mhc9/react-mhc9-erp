@@ -88,9 +88,9 @@ import LoanRefundList from './views/LoanRefund/List';
 import AddLoanRefund from './views/LoanRefund/Add';
 import LoanRefundDetail from './views/LoanRefund/Detail';
 /** Budget */
-import BudgetList from './views/Budget/List';
-import AddBudget from './views/Budget/Add';
-import EditBudget from './views/Budget/Edit';
+import BudgetActivityList from './views/Budget/Activity/List';
+import AddBudgetActivity from './views/Budget/Activity/Add';
+import EditBudgetActivity from './views/Budget/Activity/Edit';
 import BudgetPlanList from './views/Budget/Plan/List';
 import AddBudgetPlan from './views/Budget/Plan/Add';
 import EditBudgetPlan from './views/Budget/Plan/Edit';
@@ -195,9 +195,9 @@ function App() {
                 <Route path="budget-project/:year?" element={<GuardRoute><BudgetProjectList /></GuardRoute>} />
                 <Route path="budget-project/add" element={<GuardRoute><AddBudgetProject /></GuardRoute>} />
                 <Route path="budget-project/:id/edit" element={<GuardRoute><EditBudgetProject /></GuardRoute>} />
-                <Route path="budget/:year?" element={<GuardRoute><BudgetList /></GuardRoute>} />
-                <Route path="budget/add" element={<GuardRoute><AddBudget /></GuardRoute>} />
-                <Route path="budget/:id/edit" element={<GuardRoute><EditBudget /></GuardRoute>} />
+                <Route path="budget-activity/:year?" element={<GuardRoute><BudgetActivityList /></GuardRoute>} />
+                <Route path="budget-activity/add" element={<GuardRoute><AddBudgetActivity /></GuardRoute>} />
+                <Route path="budget-activity/:id/edit" element={<GuardRoute><EditBudgetActivity /></GuardRoute>} />
 
                 {/* ============================= Help ============================= */}
                 {/* Advice */}
