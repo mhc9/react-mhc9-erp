@@ -2,7 +2,8 @@ import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
-import { getBudgetPlan } from '../../../features/slices/budget-plan/budgetPlanSlice'
+import { toast } from 'react-toastify'
+import { getBudgetPlan, resetSuccess } from '../../../features/slices/budget-plan/budgetPlanSlice'
 import BudgetPlanForm from './Form'
 import Loading from '../../../components/Loading'
 
@@ -14,6 +15,13 @@ const EditBudgetPlan = () => {
     useEffect(() => {
         if (id) dispatch(getBudgetPlan(id));
     }, [id]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("บันทึกการแก้ไขแผนงานสำเร็จ!!");
+            dispatch(resetSuccess());
+        }
+    }, [isSuccess]);
 
     return (
         <div className="content-wrapper">
