@@ -14,6 +14,7 @@ import itemReducer from "./slices/item/itemSlice";
 import budgetReducer from "./slices/budget/budgetSlice";
 import budgetPlanReducer from "./slices/budget-plan/budgetPlanSlice";
 import budgetProjectReducer from "./slices/budget-project/budgetProjectSlice";
+import budgetActivityReducer from "./slices/budget-activity/budgetActivitySlice";
 import requisitionReducer from "./slices/requisition/requisitionSlice";
 import unitReducer from './slices/unit/unitSlice';
 import memberReducer from "./slices/member/memberSlice";
@@ -45,6 +46,7 @@ import { loanContractApi } from './services/loan-contract/loanContractApi'
 import { budgetApi } from "./services/budget/budgetApi";
 import { budgetPlanApi } from "./services/budget-plan/budgetPlanApi";
 import { budgetProjectApi } from "./services/budget-project/budgetProjectApi";
+import { budgetActivityApi } from './services/budget-activity/budgetActivityApi'
 import { projectApi } from "./services/project/projectApi";
 import { placeApi } from "./services/place/placeApi";
 import { comsetApi } from "./services/comset/comsetApi";
@@ -69,6 +71,7 @@ export default configureStore({
         [budgetApi.reducerPath]: budgetApi.reducer,
         [budgetPlanApi.reducerPath]: budgetPlanApi.reducer,
         [budgetProjectApi.reducerPath]: budgetProjectApi.reducer,
+        [budgetActivityApi.reducerPath]: budgetActivityApi.reducer,
         [projectApi.reducerPath]: projectApi.reducer,
         [placeApi.reducerPath]: placeApi.reducer,
         [comsetApi.reducerPath]: comsetApi.reducer,
@@ -98,6 +101,7 @@ export default configureStore({
         loanRefund: loanRefundReducer,
         budgetPlan: budgetPlanReducer,
         budgetProject: budgetProjectReducer,
+        budgetActivity: budgetActivityReducer,
         project: projectReducer,
         place: placeReducer,
     },
@@ -122,6 +126,7 @@ export default configureStore({
             budgetApi.middleware,
             budgetPlanApi.middleware,
             budgetProjectApi.middleware,
+            budgetActivityApi.middleware,
             projectApi.middleware,
             placeApi.middleware,
         ),
