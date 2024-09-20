@@ -32,99 +32,99 @@ const BudgetPlanForm = ({ plan }) => {
     };
 
     return (
-        <div className="border rounded-md py-5">
-            <Formik
-                initialValues={{
-                    plan_no: plan ? plan.plan_no : '',
-                    name: plan ? plan.name : '',
-                    year: plan ? plan.year : moment().format('YYYY'),
-                    plan_type_id: plan ? plan.plan_type_id : ''
-                }}
-                validationSchema={budgetPlanSchema}
-                onSubmit={handleSubmit}
-            >
-                {(formik) => {
-                    return (
-                        <Form>
-                            <div className="form-group row mb-2">
-                                <label htmlFor="" className="col-3 text-right">ปีงบประมาณ :</label>
-                                <div className="col-6">
-                                    <div className="flex flex-col w-[40%]">
-                                        <DatePicker
-                                            format="YYYY"
-                                            views={['year']}
-                                            value={selectedYear}
-                                            onChange={(date) => {
-                                                setSelectedYear(date);
-                                                formik.setFieldValue('year', date.year());
-                                            }}
-                                            className={classes.muiTextFieldInput}
-                                        />
-                                        {(formik.errors.year && formik.touched.year) && (
-                                            <span className="text-red-500 text-sm">{formik.errors.year}</span>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="form-group row mb-2">
-                                <label htmlFor="" className="col-3 text-right">ประเภทแผนงาน :</label>
-                                <div className="col-6">
-                                    <select
-                                        name="plan_type_id"
-                                        value={formik.values.plan_type_id}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm"
-                                    >
-                                        <option value="">-- เลือกประเภท --</option>
-                                        {formData && formData.types.map(type => (
-                                            <option value={type.id} key={type.id}>{type.name}</option>
-                                        ))}
-                                    </select>
-                                    {(formik.errors.plan_type_id && formik.touched.plan_type_id) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.plan_type_id}</span>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="form-group row mb-2">
-                                <label htmlFor="" className="col-3 text-right">เลขที่แผนงาน :</label>
-                                <div className="col-6">
-                                    <input
-                                        type="text"
-                                        name="plan_no"
-                                        value={formik.values.plan_no}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm w-[40%]"
+        <Formik
+            initialValues={{
+                plan_no: plan ? plan.plan_no : '',
+                name: plan ? plan.name : '',
+                year: plan ? plan.year : moment().format('YYYY'),
+                plan_type_id: plan ? plan.plan_type_id : ''
+            }}
+            validationSchema={budgetPlanSchema}
+            onSubmit={handleSubmit}
+        >
+            {(formik) => {
+                return (
+                    <Form>
+                        <div className="form-group row mb-2">
+                            <label htmlFor="" className="col-3 text-right">ปีงบประมาณ :</label>
+                            <div className="col-6">
+                                <div className="flex flex-col w-[40%]">
+                                    <DatePicker
+                                        format="YYYY"
+                                        views={['year']}
+                                        value={selectedYear}
+                                        onChange={(date) => {
+                                            setSelectedYear(date);
+                                            formik.setFieldValue('year', date.year());
+                                        }}
+                                        className={classes.muiTextFieldInput}
                                     />
-                                    {(formik.errors.plan_no && formik.touched.plan_no) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.plan_no}</span>
+                                    {(formik.errors.year && formik.touched.year) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.year}</span>
                                     )}
                                 </div>
                             </div>
-                            <div className="form-group row mb-2">
-                                <label htmlFor="" className="col-3 text-right">ชื่อแผนงาน :</label>
-                                <div className="col-6">
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        value={formik.values.name}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm"
-                                    />
-                                    {(formik.errors.name && formik.touched.name) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.name}</span>
-                                    )}
-                                </div>
+                        </div>
+                        <div className="form-group row mb-2">
+                            <label htmlFor="" className="col-3 text-right">ประเภทแผนงาน :</label>
+                            <div className="col-6">
+                                <select
+                                    name="plan_type_id"
+                                    value={formik.values.plan_type_id}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm"
+                                >
+                                    <option value="">-- เลือกประเภท --</option>
+                                    {formData && formData.types.map(type => (
+                                        <option value={type.id} key={type.id}>{type.name}</option>
+                                    ))}
+                                </select>
+                                {(formik.errors.plan_type_id && formik.touched.plan_type_id) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.plan_type_id}</span>
+                                )}
                             </div>
-                            <div className="row">
-                                <div className="offset-3">
-                                    <button type="submit" className="btn btn-outline-primary btn-sm">บันทึก</button>
-                                </div>
+                        </div>
+                        <div className="form-group row mb-2">
+                            <label htmlFor="" className="col-3 text-right">เลขที่แผนงาน :</label>
+                            <div className="col-6">
+                                <input
+                                    type="text"
+                                    name="plan_no"
+                                    value={formik.values.plan_no}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm w-[40%]"
+                                />
+                                {(formik.errors.plan_no && formik.touched.plan_no) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.plan_no}</span>
+                                )}
                             </div>
-                        </Form>
-                    )
-                }}
-            </Formik>
-        </div>
+                        </div>
+                        <div className="form-group row mb-2">
+                            <label htmlFor="" className="col-3 text-right">ชื่อแผนงาน :</label>
+                            <div className="col-6">
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={formik.values.name}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm"
+                                />
+                                {(formik.errors.name && formik.touched.name) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.name}</span>
+                                )}
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="offset-3">
+                                <button type="submit" className={`btn ${plan ? 'btn-outline-secondary' : 'btn-outline-primary'} btn-sm`}>
+                                    {plan ? 'บันทึกการแก้ไข' : 'บันทึก'}
+                                </button>
+                            </div>
+                        </div>
+                    </Form>
+                )
+            }}
+        </Formik>
     )
 }
 
