@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import moment from 'moment'
-import { generateQueryString } from '../../../utils'
+import { generateQueryString, getUrlParam } from '../../../utils'
 import { getBudgetPlans, resetDeleted, destroy } from '../../../features/slices/budget-plan/budgetPlanSlice'
 import FilteringInputs from './FilteringInputs'
 import Loading from '../../../components/Loading'
@@ -16,6 +16,7 @@ const BudgetPlanList = () => {
     const { plans, pager, isLoading, isDeleted } = useSelector(state => state.budgetPlan);
     const [endpoint, setEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString({ year: moment().year() }))
+    const [year, setYear] = useState('');
 
     useEffect(() => {
         if (endpoint === '') {
@@ -58,6 +59,7 @@ const BudgetPlanList = () => {
                     onFilter={(queryStr) => {
                         setParams(queryStr);
                         setEndpoint(prev => prev === '' ? `/api/budget-plans/search?page=` : '');
+                        setYear(getUrlParam(queryStr, 'year'));
                     }}
                 />
 
@@ -80,7 +82,11 @@ const BudgetPlanList = () => {
                             {!isLoading && plans.map((plan, index) => (
                                 <tr key={plan.id}>
                                     <td className="text-center">{index+1}</td>
-                                    <td className="hover:text-purple-500"><Link to="/budget-project">{plan.plan_no} {plan.name}</Link></td>
+                                    <td className="hover:text-purple-500">
+                                        <Link to={`/budget-project${year !== '' ? '/' +year : ''}`}>
+                                            {plan.plan_no} {plan.name}
+                                        </Link>
+                                    </td>
                                     <td className="text-center">{plan.year && plan.year+543}</td>
                                     <td className="text-center p-1">
                                         <Link to={`/budget-plan/${plan.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">

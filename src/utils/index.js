@@ -166,3 +166,9 @@ export const removeItemWithFlag = (items, id, isNew) => {
         });
     }
 };
+
+export const getUrlParam = (url, paramName) => {
+    const params = new URLSearchParams(url);
+
+    return params.get(paramName);
+};
