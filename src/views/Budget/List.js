@@ -27,7 +27,7 @@ const BudgetList = () => {
     const [endpoint, setEndpoint] = useState('');
     const [params, setParams] = useState(
         generateQueryString({
-            year: _year !== '' ? _year : moment().year(),
+            year: (_year !== '' && _year !== undefined) ? _year : moment().year(),
             name: '',
             plan: '',
             project: '',
@@ -89,7 +89,7 @@ const BudgetList = () => {
 
                 <FilteringInputs
                     initialFilters={{
-                        year: _year !== '' ? _year : moment().year(),
+                        year: (_year !== '' && _year !== undefined) ? _year : moment().year(),
                         name: '',
                         plan: '',
                         project: '',
@@ -167,7 +167,7 @@ const BudgetTypes = ({ data }) => {
     return (
         <ul className="flex flex-row items-center text-xs">
             {data && data.map(item => (
-                <li className="flex flex-row items-center gap-1 mr-2">
+                <li className="flex flex-row items-center gap-1 mr-2" key={item.id}>
                     {item.budget_type_id === 1 ? <FaRegUser /> : <FaRandom />}
                     <b>{item.type?.name}</b> ({currency.format(item.total)} บาท)
                 </li>
