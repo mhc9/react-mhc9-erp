@@ -76,6 +76,7 @@ const BudgetForm = ({ budget }) => {
         <Formik
             initialValues={{
                 name: budget ? budget.name : '',
+                budget_no: budget ? budget.budget_no : '',
                 year: budget ? budget.year : moment().format('YYYY'),
                 gfmis_id: budget ? budget.gfmis_id : '',
                 plan_id: (budget && budget.project) ? budget.project.plan_id : '',
@@ -150,6 +151,22 @@ const BudgetForm = ({ budget }) => {
                                 </select>
                                 {(formik.errors.project_id && formik.touched.project_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.project_id}</span>
+                                )}
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <label htmlFor="" className="col-3 col-form-label text-right">เลขที่กิจกรรม :</label>
+                            <Col md={6}>
+                                <input
+                                    type="text"
+                                    name="budget_no"
+                                    value={formik.values.budget_no}
+                                    onChange={formik.handleChange}
+                                    className="form-control text-sm"
+                                    placeholder="ระบุเลขที่กิจกรรม"
+                                />
+                                {(formik.errors.budget_no && formik.touched.budget_no) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.budget_no}</span>
                                 )}
                             </Col>
                         </Row>
