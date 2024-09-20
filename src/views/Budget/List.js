@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import {
@@ -20,18 +20,19 @@ import PlanDropdown from './PlanDropdown'
 import Pagination from '../../components/Pagination'
 import Loading from '../../components/Loading'
 
-const initialFilters = {
-    year: moment().year(),
-    name: '',
-    plan: '',
-    project: '',
-};
-
 const BudgetList = () => {
+    const { year: _year } = useParams();
     const dispatch = useDispatch();
     const { budgets, pager, isLoading, isSuccess, isDeleted } = useSelector(state => state.budget);
     const [endpoint, setEndpoint] = useState('');
-    const [params, setParams] = useState(generateQueryString(initialFilters));
+    const [params, setParams] = useState(
+        generateQueryString({
+            year: _year !== '' ? _year : moment().year(),
+            name: '',
+            plan: '',
+            project: '',
+        })
+    );
 
     useEffect(() => {
         if (endpoint === '') {
@@ -87,7 +88,12 @@ const BudgetList = () => {
                 </div>
 
                 <FilteringInputs
-                    initialFilters={initialFilters}
+                    initialFilters={{
+                        year: _year !== '' ? _year : moment().year(),
+                        name: '',
+                        plan: '',
+                        project: '',
+                    }}
                     onFilter={(queryStr) => {
                         setParams(queryStr);
                         setEndpoint(prev => prev === '' ? `/api/budgets/search?page=` : '');
