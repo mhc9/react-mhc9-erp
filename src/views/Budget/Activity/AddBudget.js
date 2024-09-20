@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, FormGroup, Modal, Row } from 'react-bootstrap'
+import { Col, Modal, Row } from 'react-bootstrap'
 import { Formik } from 'formik';
 import { v4 as uuid } from 'uuid'
 import { useGetInitialFormDataQuery } from '../../../features/services/budget/budgetApi'
@@ -29,10 +29,10 @@ const AddBudgetType = ({ isShow, hide, data, onSubmit }) => {
                 <Formik
                     initialValues={{
                         id: data ? data.id : uuid(),
-                        budget_id: '',
-                        budget_type_id: '',
-                        type: null,
-                        total: ''
+                        activity_id: data ? data.activity_id : '',
+                        budget_type_id: data ? data.budget_type_id : '',
+                        total: data ? data.total : '',
+                        type: (data && data.type) ? data.type : null,
                     }}
                     onSubmit={handleSubmit}
                 >
