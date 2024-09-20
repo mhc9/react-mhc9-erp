@@ -16,7 +16,7 @@ const BudgetTypeList = ({ data, onEditItem, onRemoveItem }) => {
                 </thead>
                 <tbody>
                     {data && data.map((item, index) => (
-                        <tr>
+                        <tr key={item.id}>
                             <td className="text-center">{++index}</td>
                             <td className="text-left">{item.type?.name}</td>
                             <td className="text-right">{currency.format(item.total)}</td>
