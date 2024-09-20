@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import moment from 'moment'
-import { generateQueryString } from '../../../utils'
+import { generateQueryString, getUrlParam } from '../../../utils'
 import { getBudgetProjects, resetDeleted, destroy } from '../../../features/slices/budget-project/budgetProjectSlice'
 import FilteringInputs from './FilteringInputs'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
 
 const BudgetProjectList = () => {
+    const { year: _year } = useParams();
     const dispatch = useDispatch();
     const { projects, pager, isLoading, isDeleted } = useSelector(state => state.budgetProject);
+    const [year, setYear] = useState(_year || '');
     const [endpoint, setEndpoint] = useState('');
-    const [params, setParams] = useState(generateQueryString({ year: moment().year(), plan: '' }));
-
+    const [params, setParams] = useState(generateQueryString({ year: year ? year : moment().year(), plan: '' }));
+    
     useEffect(() => {
         if (endpoint === '') {
             dispatch(getBudgetProjects({ url: `/api/budget-projects/search?page=${params}` }));
@@ -55,10 +57,11 @@ const BudgetProjectList = () => {
                 </div>
 
                 <FilteringInputs
-                    initialFilters={{ year: moment().year(), plan: '' }}
+                    initialFilters={{ year: year ? year : moment().year(), plan: '' }}
                     onFilter={(queryStr) => {
                         setParams(queryStr);
                         setEndpoint(prev => prev === '' ? `/api/budget-projects/search?page=` : '');
+                        setYear(getUrlParam(queryStr, 'year'));
                     }}
                 />
                 <div>
@@ -84,7 +87,7 @@ const BudgetProjectList = () => {
                                     <td>
                                         <p className="font-thin">{project.plan?.plan_no} {project.plan?.name}</p>
                                         <p className="font-bold hover:text-purple-500">
-                                            <Link to="/budget">{project.name}</Link>
+                                            <Link to={`/budget${year !== '' ? '/' +year : ''}`}>{project.name}</Link>
                                         </p>
                                     </td>
                                     <td className="text-center font-bold">{project.gfmis_id}</td>
