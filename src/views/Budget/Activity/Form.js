@@ -37,7 +37,7 @@ const BudgetActivityForm = ({ activity }) => {
 
     useEffect(() => {
         if (activity) {
-            handleFilterProject(activity?.project.plan_id);
+            handleFilterProject(activity?.project?.plan_id);
         }
     }, [activity]);
 
@@ -162,14 +162,14 @@ const BudgetActivityForm = ({ activity }) => {
                             <Col md={6}>
                                 <input
                                     type="text"
-                                    name="budget_no"
-                                    value={formik.values.budget_no}
+                                    name="activity_no"
+                                    value={formik.values.activity_no}
                                     onChange={formik.handleChange}
                                     className="form-control text-sm"
                                     placeholder="ระบุเลขที่กิจกรรม"
                                 />
-                                {(formik.errors.budget_no && formik.touched.budget_no) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.budget_no}</span>
+                                {(formik.errors.activity_no && formik.touched.activity_no) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.activity_no}</span>
                                 )}
                             </Col>
                         </Row>

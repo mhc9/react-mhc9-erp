@@ -4,7 +4,7 @@ import { Col, Row } from 'react-bootstrap'
 import { DatePicker } from '@material-ui/pickers'
 import { generateQueryString} from '../../../utils'
 import { useStyles } from '../../../hooks/useStyles'
-import { useGetInitialFormDataQuery } from '../../../features/services/budget/budgetApi'
+import { useGetInitialFormDataQuery } from '../../../features/services/budget-activity/budgetActivityApi'
 import Loading from '../../../components/Loading'
 import moment from 'moment'
 
