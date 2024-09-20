@@ -18,9 +18,8 @@ const EditBudgetProject = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            dispatch(resetSuccess());
-
             toast.success('บันทึกการแก้ไขสำเร็จ!!');
+            dispatch(resetSuccess());
         }
     })
 
