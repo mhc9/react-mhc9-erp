@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
-import { getBudget, resetSuccess } from '../../../features/slices/budget/budgetSlice'
+import { getActivity, resetSuccess } from '../../../features/slices/budget-activity/budgetActivitySlice'
 import BudgetActivityForm from './Form'
 import Loading from '../../../components/Loading'
 import { toast } from 'react-toastify'
@@ -10,10 +10,10 @@ import { toast } from 'react-toastify'
 const EditBudgetActivity = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { budget, isLoading, isSuccess } = useSelector(state => state.budget);
+    const { activity, isLoading, isSuccess } = useSelector(state => state.budgetActivity);
 
     useEffect(() => {
-        if (id) dispatch(getBudget(id));
+        if (id) dispatch(getActivity(id));
     }, [id]);
 
     useEffect(() => {
@@ -41,7 +41,7 @@ const EditBudgetActivity = () => {
 
                 <div className="border rounded-md py-5">
                     {isLoading && <div className="text-center"><Loading /></div>}
-                    {(!isLoading && budget) && <BudgetActivityForm budget={budget} />}
+                    {(!isLoading && activity) && <BudgetActivityForm activity={activity} />}
                 </div>
             </div>
         </div>
