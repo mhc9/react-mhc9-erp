@@ -12,6 +12,7 @@ import { getAllBudgetPlans } from '../../features/slices/budget-plan/budgetPlanS
 import { getAllBudgetProjects } from '../../features/slices/budget-project/budgetProjectSlice'
 import AddBudgetType from './AddBudgetType'
 import BudgetTypeList from './BudgetTypeList'
+import Loading from '../../components/Loading'
 
 const budgetSchema = Yup.object().shape({
     name: Yup.string().required('กรุณาเลือกแผนงาน'),
@@ -112,7 +113,8 @@ const BudgetForm = ({ budget }) => {
                         <Row className="mb-2">
                             <label htmlFor="" className="col-3 col-form-label text-right">แผนงาน :</label>
                             <Col md={6}>
-                                <select
+                                {isPlanLoading && <div className="form-control"><Loading /></div>}
+                                {!isPlanLoading && <select
                                     name="plan_id"
                                     value={formik.values.plan_id}
                                     onChange={(e) => {
@@ -127,7 +129,7 @@ const BudgetForm = ({ budget }) => {
                                             {plan.plan_no} {plan.name}
                                         </option>
                                     ))}
-                                </select>
+                                </select>}
                                 {(formik.errors.plan_id && formik.touched.plan_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.plan_id}</span>
                                 )}
@@ -136,7 +138,8 @@ const BudgetForm = ({ budget }) => {
                         <Row className="mb-2">
                             <label htmlFor="" className="col-3 col-form-label text-right">โครงการ/ผลผลิต :</label>
                             <Col md={6}>
-                                <select
+                                {isProjectLoading && <div className="form-control"><Loading /></div>}
+                                {!isProjectLoading && <select
                                     name="project_id"
                                     value={formik.values.project_id}
                                     onChange={formik.handleChange}
@@ -148,7 +151,7 @@ const BudgetForm = ({ budget }) => {
                                             {project.name}
                                         </option>
                                     ))}
-                                </select>
+                                </select>}
                                 {(formik.errors.project_id && formik.touched.project_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.project_id}</span>
                                 )}
