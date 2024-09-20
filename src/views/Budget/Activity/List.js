@@ -14,16 +14,15 @@ import {
 import { toast } from 'react-toastify'
 import moment from 'moment'
 import { currency, generateQueryString } from '../../../utils'
-import { getBudgets, destroy, toggle, resetDeleted, resetSuccess } from '../../../features/slices/budget/budgetSlice'
+import { getActivities, destroy, toggle, resetDeleted, resetSuccess } from '../../../features/slices/budget-activity/budgetActivitySlice'
 import FilteringInputs from './FilteringInputs'
-import PlanDropdown from './PlanDropdown'
 import Pagination from '../../../components/Pagination'
 import Loading from '../../../components/Loading'
 
 const BudgetActivityList = () => {
     const { year: _year } = useParams();
     const dispatch = useDispatch();
-    const { budgets, pager, isLoading, isSuccess, isDeleted } = useSelector(state => state.budget);
+    const { activities, pager, isLoading, isSuccess, isDeleted } = useSelector(state => state.budgetActivity);
     const [endpoint, setEndpoint] = useState('');
     const [params, setParams] = useState(
         generateQueryString({
@@ -36,9 +35,9 @@ const BudgetActivityList = () => {
 
     useEffect(() => {
         if (endpoint === '') {
-            dispatch(getBudgets({ url: `/api/budgets/search?page=${params}` }));
+            dispatch(getActivities({ url: `/api/budget-activities/search?page=${params}` }));
         } else {
-            dispatch(getBudgets({ url: `${endpoint}${params}` }));
+            dispatch(getActivities({ url: `${endpoint}${params}` }));
         }
     }, [endpoint]);
 
@@ -53,7 +52,7 @@ const BudgetActivityList = () => {
         if (isDeleted) {
             toast.success('ลบรายการงบประมาณสำเร็จ!!');
             dispatch(resetDeleted());
-            setEndpoint(prev => prev === '' ? '/api/budgets/search?page=' : '');
+            setEndpoint(prev => prev === '' ? '/api/budget-activities/search?page=' : '');
         }
     }, [isDeleted]);
 
@@ -83,7 +82,7 @@ const BudgetActivityList = () => {
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการกิจกรรม</h2>
                     <div className="flex flex-row gap-1">
-                        <Link to="/budget/add" className="btn btn-primary">เพิ่มรายการ</Link>
+                        <Link to="/budget-activity/add" className="btn btn-primary">เพิ่มรายการ</Link>
                     </div>
                 </div>
 
@@ -96,7 +95,7 @@ const BudgetActivityList = () => {
                     }}
                     onFilter={(queryStr) => {
                         setParams(queryStr);
-                        setEndpoint(prev => prev === '' ? `/api/budgets/search?page=` : '');
+                        setEndpoint(prev => prev === '' ? `/api/budget-activities/search?page=` : '');
                     }}
                 />
 
@@ -114,35 +113,35 @@ const BudgetActivityList = () => {
                         </thead>
                         <tbody>
                             {isLoading && <tr><td className="text-center" colSpan={6}><Loading /></td></tr>}
-                            {!isLoading && budgets?.map((budget, index) => (
-                                <tr className="font-thin" key={budget.id}>
+                            {!isLoading && activities?.map((activity, index) => (
+                                <tr className="font-thin" key={activity.id}>
                                     <td className="text-center">{pager && pager.from+index}</td>
                                     <td>
                                         <p className="font-normal">
-                                            {budget.project?.plan?.plan_no} {budget.project?.plan?.name}
+                                            {activity.project?.plan?.plan_no} {activity.project?.plan?.name}
                                         </p>
-                                        <p>{budget.project?.name} <span className="text-xs">({budget.project?.gfmis_id})</span></p>
-                                        <p className="font-bold text-primary">{budget.name}</p>
-                                        <BudgetTypes data={budget.details} />
+                                        <p>{activity.project?.name} <span className="text-xs">({activity.project?.gfmis_id})</span></p>
+                                        <p className="font-bold text-primary">{activity.name}</p>
+                                        <BudgetTypes data={activity.budgets} />
                                     </td>
-                                    <td className="text-center font-bold text-primary">{budget.gfmis_id}</td>
-                                    <td className="text-center">{budget.year && budget.year + 543}</td>
+                                    <td className="text-center font-bold text-primary">{activity.gfmis_id}</td>
+                                    <td className="text-center">{activity.year && activity.year + 543}</td>
                                     <td className="text-center">
-                                        <div className="flex justify-center cursor-pointer" onClick={() => handleToggleActive(budget.id, budget.status)}>
-                                            {budget.status === 0
+                                        <div className="flex justify-center cursor-pointer" onClick={() => handleToggleActive(activity.id, activity.status)}>
+                                            {activity.status === 0
                                                 ? <FaRegEyeSlash size={20} color='gray' />
                                                 : <FaRegEye size={20} color='green' />
                                             }
                                         </div>
                                     </td>
                                     <td className="text-center p-1">
-                                        <Link to={`/budget/${budget.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
+                                        <Link to={`/budget-activity/${activity.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
                                         </Link>
-                                        <Link to={`/budget/${budget.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
+                                        <Link to={`/budget-activity/${activity.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />
                                         </Link>
-                                        <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(budget.id)}>
+                                        <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(activity.id)}>
                                             <FaTrash />
                                         </button>
                                     </td>

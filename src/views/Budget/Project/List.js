@@ -87,7 +87,7 @@ const BudgetProjectList = () => {
                                     <td>
                                         <p className="font-thin">{project.plan?.plan_no} {project.plan?.name}</p>
                                         <p className="font-bold hover:text-purple-500">
-                                            <Link to={`/budget${year !== '' ? '/' +year : ''}`}>{project.name}</Link>
+                                            <Link to={`/budget-activity${year !== '' ? '/' +year : ''}`}>{project.name}</Link>
                                         </p>
                                     </td>
                                     <td className="text-center font-bold">{project.gfmis_id}</td>
