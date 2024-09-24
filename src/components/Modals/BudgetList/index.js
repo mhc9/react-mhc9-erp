@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import moment from 'moment';
-import { generateQueryString } from '../../../utils';
+import { generateQueryString, getUrlParam } from '../../../utils';
 import { getBudgets } from '../../../features/slices/budget/budgetSlice';
 import { useGetInitialFormDataQuery } from '../../../features/services/budget/budgetApi';
 import FilteringInputs from './FilteringInputs';
@@ -19,9 +19,10 @@ const initialFilters = {
 const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
     const { budgets, pager, isLoading } = useSelector(state => state.budget);
-    const { data: formData } = useGetInitialFormDataQuery();
+    const [year, setYear] = useState(moment().year())
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
+    const { data: formData } = useGetInitialFormDataQuery({ year });
 
     useEffect(() => {
         if (apiEndpoint === '') {
@@ -46,6 +47,7 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
                     onFilter={(queryStr) => {
                         setParams(queryStr);
                         setApiEndpoint(prev => prev === '' ? `/api/budgets/search?page=` : '');
+                        setYear(getUrlParam(queryStr));
                     }}
                     formData={formData}
                 />
