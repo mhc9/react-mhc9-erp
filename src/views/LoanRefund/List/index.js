@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
+import moment from 'moment'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getRefunds, destroy, resetSuccess } from '../../../features/slices/loan-refund/loanRefundSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
+import FilteringInputs from './FilteringInputs'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
 import EmployeeCard from '../../../components/Employee/Card'
-// import LoanFilteringInputs from '../../../components/loan/FilteringInputs'
 
 const initialFilters = {
-    pr_no: '',
-    pr_date: '',
-    division: '',
-    status: '1'
+    type: '',
+    year: moment().year(),
+    status: '',
 };
 
 const LoanRefundList = () => {
@@ -30,13 +30,13 @@ const LoanRefundList = () => {
             toast.success('ลบรายการหักล้างเงินยืมสำเร็จ!!');
 
             /** Reset ค่าของ apiEndpoint เพื่่อ re-render page */
-            setApiEndpoint(prev => prev === '' ? `/api/loan-refunds/search?page=&status=1` : '')
+            setApiEndpoint(prev => prev === '' ? `/api/loan-refunds/search?page=` : '')
         }
     }, [isSuccess]);
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getRefunds({ url: `/api/loan-refunds/search?page=&status=1` }));
+            dispatch(getRefunds({ url: `/api/loan-refunds/search?page=${params}` }));
         } else {
             dispatch(getRefunds({ url: `${apiEndpoint}${params}` }));
         }
@@ -70,10 +70,10 @@ const LoanRefundList = () => {
                 </div>
 
                 <div>
-                    {/* <LoanFilteringInputs
+                    <FilteringInputs
                         initialFilters={initialFilters}
                         onFilter={handleFilter}
-                    /> */}
+                    />
 
                     <table className="table table-bordered mb-2">
                         <thead>
