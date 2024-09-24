@@ -3,6 +3,7 @@ import { Formik, Form } from 'formik'
 import { FormGroup } from 'react-bootstrap'
 import { FaSearch, FaPlus, FaTimes } from 'react-icons/fa'
 import ModalBudgetList from '../../../components/Modals/BudgetList'
+import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
 
 const AddBudget = ({ data, formData, onAddBudget }) => {
     const [budget, setBudget] = useState(null);
@@ -12,9 +13,7 @@ const AddBudget = ({ data, formData, onAddBudget }) => {
         if (data) {
             // onUpdateItem(values.item_id, { ...values, item })
         } else {
-            const budget = formData.find(bud => bud.id === parseInt(values.budget_id, 10));
-
-            onAddBudget({ ...values, budget: budget });
+            onAddBudget(values);
         }
 
         formik.resetForm();
@@ -25,7 +24,8 @@ const AddBudget = ({ data, formData, onAddBudget }) => {
         <Formik
             initialValues={{
                 budget_id: '',
-                total: ''
+                budget: null,
+                total: '',
             }}
             onSubmit={handleSubmit}
         >
@@ -38,6 +38,7 @@ const AddBudget = ({ data, formData, onAddBudget }) => {
                             onSelect={(budget) => {
                                 setBudget(budget);
                                 formik.setFieldValue('budget_id', budget.id);
+                                formik.setFieldValue('budget', budget);
                             }}
                         />
 
@@ -47,8 +48,10 @@ const AddBudget = ({ data, formData, onAddBudget }) => {
                                     <div className="form-control min-h-[34px] bg-gray-100">
                                         {budget && (
                                             <>
-                                                <p className="text-sm">{budget?.name}</p>
-                                                {/* <p className="font-thin text-xs">{budget?.project?.plan?.name}/{budget?.project?.name}</p> */}
+                                                <p className="text-sm">
+                                                    {budget?.activity?.name}
+                                                    <BudgetTypeBadge type={budget.type} />
+                                                </p>
                                             </>
                                         )}
                                     </div>
