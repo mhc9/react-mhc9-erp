@@ -47,7 +47,7 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
                     onFilter={(queryStr) => {
                         setParams(queryStr);
                         setApiEndpoint(prev => prev === '' ? `/api/budgets/search?page=` : '');
-                        setYear(getUrlParam(queryStr));
+                        setYear(getUrlParam(queryStr, 'year'));
                     }}
                     formData={formData}
                 />
@@ -60,7 +60,7 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
                                 {/* <th className="text-center w-[15%]">เลขที่พัสดุ</th> */}
                                 <th>รายการงบประมาณ</th>
                                 <th className="text-center w-[10%]">ปีงบประมาณ</th>
-                                <th className="text-center w-[10%]">เลือก</th>
+                                <th className="text-center w-[8%]">เลือก</th>
                             </tr>
                         </thead>
                         <tbody>
