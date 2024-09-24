@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { Modal } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Modal } from 'react-bootstrap';
+import moment from 'moment';
+import { generateQueryString } from '../../../utils';
 import { getBudgets } from '../../../features/slices/budget/budgetSlice';
-import { useGetInitialFormDataQuery } from '../../../features/services/budget/budgetApi'
-import Loading from '../../Loading';
+import { useGetInitialFormDataQuery } from '../../../features/services/budget/budgetApi';
 import FilteringInputs from './FilteringInputs';
-import Pagination from '../../../components/Pagination'
+import Loading from '../../Loading';
+import Pagination from '../../Pagination';
 
 const initialFilters = {
     name: '',
     type: '',
     plan: '',
+    year: moment().year(),
 };
 
 const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
@@ -18,7 +21,7 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
     const { budgets, pager, isLoading } = useSelector(state => state.budget);
     const { data: formData } = useGetInitialFormDataQuery();
     const [apiEndpoint, setApiEndpoint] = useState('');
-    const [params, setParams] = useState('');
+    const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
         if (apiEndpoint === '') {
@@ -54,6 +57,7 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
                                 <th className="text-center w-[5%]">#</th>
                                 {/* <th className="text-center w-[15%]">เลขที่พัสดุ</th> */}
                                 <th>รายการงบประมาณ</th>
+                                <th className="text-center w-[10%]">ปีงบประมาณ</th>
                                 <th className="text-center w-[10%]">เลือก</th>
                             </tr>
                         </thead>
@@ -70,10 +74,14 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
                                     <td className="text-center">{index+pager.from}</td>
                                     {/* <td className="text-center">{budget.budget_no}</td> */}
                                     <td>
-                                        <p className="text-gray-400 text-sm">{budget.project?.plan?.plan_no} {budget.project?.plan?.name}</p>
-                                        <p className="text-gray-400 text-sm">{budget.project?.name}</p>
-                                        <p className="text-sm">{budget.name}</p>
+                                        <p className="text-gray-400 text-sm">{budget.activity?.project?.plan?.plan_no} {budget.activity?.project?.plan?.name}</p>
+                                        <p className="text-sm font-semibold">{budget.activity?.project?.name}</p>
+                                        <p className="text-blue-500 text-sm">
+                                            {budget.activity?.name}
+                                            <BudgetTypeBadge type={budget.type}/>
+                                        </p>
                                     </td>
+                                    <td className="text-center">{budget.activity?.year && budget.activity?.year + 543}</td>
                                     <td className="text-center">
                                         <button
                                             className="btn btn-primary btn-sm"
@@ -104,4 +112,14 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
     )
 }
 
-export default ModalBudgetList
+export default ModalBudgetList;
+
+const BudgetTypeBadge = ({ type }) => {
+    return (
+        <span className="ml-1 text-sm">
+            {type.id === 1 && <span className="badge rounded-pill bg-success">{type?.name}</span>}
+            {type.id === 2 && <span className="badge rounded-pill bg-primary">{type?.name}</span>}
+            {type.id === 3 && <span className="badge rounded-pill bg-danger">{type?.name}</span>}
+        </span>
+    )
+}
