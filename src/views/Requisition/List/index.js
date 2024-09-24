@@ -58,12 +58,12 @@ const RequisitionList = () => {
             <Breadcrumb>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>จัดซื้อจัดจ้าง</Breadcrumb.Item>
-                <Breadcrumb.Item active>รายการคำขอ</Breadcrumb.Item>
+                <Breadcrumb.Item active>รายการคำขอซื้อ/จ้าง</Breadcrumb.Item>
             </Breadcrumb>
         
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-xl">รายการคำขอ</h2>
+                    <h2 className="text-xl">รายการคำขอซื้อ/จ้าง</h2>
                     <Link to="add" className="btn btn-primary">เพิ่มคำขอ</Link>
                 </div>
 

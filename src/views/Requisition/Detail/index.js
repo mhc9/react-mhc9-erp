@@ -52,13 +52,13 @@ const RequisitionDetail = () => {
             <Breadcrumb>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>จัดซื้อจัดจ้าง</Breadcrumb.Item>
-                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/requisition' }}>รายการคำขอ</Breadcrumb.Item>
-                <Breadcrumb.Item active>รายละเอียดคำขอ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/requisition' }}>รายการคำขอซื้อ/จ้าง</Breadcrumb.Item>
+                <Breadcrumb.Item active>รายละเอียดคำขอซื้อ/จ้าง</Breadcrumb.Item>
             </Breadcrumb>
         
             <div className="content">
                 <div className="flex flex-row justify-between items-center">
-                    <h2 className="text-xl">รายละเอียดคำขอ (#{id})</h2>
+                    <h2 className="text-xl">รายละเอียดคำขอซื้อ/จ้าง (#{id})</h2>
                     <div className="flex flex-row items-center">
                         <span className="mr-2">สถานะ :</span>
                         <StatusBadge status={requisition?.status} />
