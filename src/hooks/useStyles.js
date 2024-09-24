@@ -11,5 +11,6 @@ export const useStyles = makeStyles({
             textAlign: 'center',
             paddingBottom: '0.375rem',
         },
+        width: '100%',
     }
 });
