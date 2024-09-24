@@ -23,6 +23,7 @@ import Committee from './Committee'
 import Loading from '../../../components/Loading'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import ModalBudgetList from '../../../components/Modals/BudgetList'
+import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
 
 const requisitionSchema = Yup.object().shape({
     pr_no: Yup.string().required('กรุณาระบุเลขที่เอกสาร'),
@@ -353,8 +354,9 @@ const RequisitionForm = ({ requisition }) => {
                                     <Col md={6}>
                                         <label htmlFor="">งบประมาณ</label>
                                         <div className="input-group">
-                                            <div className="form-control h-[34px] text-sm">
-                                                {budget?.name}
+                                            <div className="form-control h-[34px] text-sm bg-gray-200">
+                                                {budget?.activity?.name}
+                                                <BudgetTypeBadge type={budget.type} />
                                             </div>
                                             <input
                                                 type="hidden"
@@ -374,7 +376,7 @@ const RequisitionForm = ({ requisition }) => {
                                     <Col md={3}>
                                         <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
                                         <div className="input-group">
-                                            <div className="form-control h-[34px] text-sm">
+                                            <div className="form-control h-[34px] text-sm bg-gray-200">
                                                 {requester?.firstname} {requester?.lastname}
                                             </div>
                                             <input
