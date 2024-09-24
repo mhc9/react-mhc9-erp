@@ -8,6 +8,7 @@ import { useGetInitialFormDataQuery } from '../../../features/services/budget/bu
 import FilteringInputs from './FilteringInputs';
 import Loading from '../../Loading';
 import Pagination from '../../Pagination';
+import BudgetTypeBadge from '../../Budget/BudgetTypeBadge';
 
 const initialFilters = {
     name: '',
@@ -115,13 +116,3 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
 }
 
 export default ModalBudgetList;
-
-const BudgetTypeBadge = ({ type }) => {
-    return (
-        <span className="ml-1 text-sm">
-            {type.id === 1 && <span className="badge rounded-pill bg-success">{type?.name}</span>}
-            {type.id === 2 && <span className="badge rounded-pill bg-primary">{type?.name}</span>}
-            {type.id === 3 && <span className="badge rounded-pill bg-danger">{type?.name}</span>}
-        </span>
-    )
-}
