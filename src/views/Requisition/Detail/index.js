@@ -8,13 +8,14 @@ import { currency, toShortTHDate } from '../../../utils'
 import { getRequisition, updateApprovals } from '../../../features/slices/requisition/requisitionSlice'
 import { resetSuccess } from '../../../features/slices/approval/approvalSlice'
 import ItemList from '../Form/ItemList'
+import StatusBadge from '../StatusBadge'
 import ModalApprovalForm from './Approval/Form'
+import ConsiderationForm from './Consideration/Form'
+import ConsiderationDetail from './Consideration/Detail'
 import Loading from '../../../components/Loading'
 import DropdownButton from '../../../components/FormControls/DropdownButton'
 import DropdownItem from '../../../components/FormControls/DropdownButton/DropdownItem'
-import ConsiderationForm from './Consideration/Form'
-import ConsiderationDetail from './Consideration/Detail'
-import StatusBadge from '../StatusBadge'
+import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
 
 const RequisitionDetail = () => {
     const { id } = useParams();
@@ -118,12 +119,13 @@ const RequisitionDetail = () => {
                                                 <label htmlFor="">งบประมาณ</label>
                                                 <div className="input-group">
                                                     <div className="text-sm font-thin">
-                                                        {requisition.budget?.name}
+                                                        {requisition.budget?.activity?.name}
+                                                        <BudgetTypeBadge type={requisition.budget?.type}/>
                                                     </div>
                                                 </div>
                                             </Col>
                                             <Col className="pb-1">
-                                                <label htmlFor="">ปีงบ</label>
+                                                <label htmlFor="">ปีงบประมาณ</label>
                                                 <div className="text-sm font-thin">
                                                     {requisition.year}
                                                 </div>
