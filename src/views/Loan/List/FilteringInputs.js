@@ -20,7 +20,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
     return (
         <div className="border rounded-md py-2 px-3 mb-2 flex items-center gap-1">
             <div className="flex max-md:flex-col items-center min-md:gap-2">
-                <label htmlFor="" className="w-[20%] max-md:w-[100%]">ปีงบ :</label>
+                <label htmlFor="" className="w-[25%] max-md:w-[100%]">ปีงบ :</label>
                 <DatePicker
                     format="YYYY"
                     views={['year']}
