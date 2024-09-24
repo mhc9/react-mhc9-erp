@@ -84,8 +84,8 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
                                     <td className="text-center">{index+pager.from}</td>
                                     {/* <td className="text-center">{budget.budget_no}</td> */}
                                     <td>
-                                        <p className="text-gray-400 text-sm">{budget.activity?.project?.plan?.plan_no} {budget.activity?.project?.plan?.name}</p>
-                                        <p className="text-sm font-semibold">{budget.activity?.project?.name}</p>
+                                        <p className="text-gray-400 text-xs">{budget.activity?.project?.plan?.plan_no} {budget.activity?.project?.plan?.name}</p>
+                                        <p className="text-xs font-semibold">{budget.activity?.project?.name}</p>
                                         <p className="text-blue-500 text-sm">
                                             {budget.activity?.name}
                                             <BudgetTypeBadge type={budget.type}/>
