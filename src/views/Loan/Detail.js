@@ -40,56 +40,89 @@ const LoanDetail = () => {
                 {isLoading && <div className="text-center"><Loading /></div>}
                 {!isLoading && (
                     <>
-                        <div className="flex flex-col border rounded-md py-2 px-3 mb-2">
-                            <Row className="mb-2">
-                                <Col md={3}>
-                                    <label htmlFor="">เลขที่เอกสาร</label>
-                                    <div className="text-sm font-thin">
-                                        {loan?.doc_no}
+                        <Row className="mb-2">
+                            <Col md={9} className="pr-1">
+                                <div className="flex flex-col border rounded-md p-3 mt-2 min-h-[198px]">
+                                    <Row className="mb-2">
+                                        <Col md={4}>
+                                            <label htmlFor="">เลขที่เอกสาร</label>
+                                            <div className="text-sm font-thin">
+                                                {loan?.doc_no}
+                                            </div>
+                                        </Col>
+                                        <Col md={8}>
+                                            <div className="flex flex-col">
+                                                <label htmlFor="">วันที่เอกสาร</label>
+                                                <div className="text-sm font-thin">
+                                                    {toLongTHDate(moment(loan?.doc_date).toDate())}
+                                                </div>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <Row className="mb-2">
+                                        <Col md={4}>
+                                            <label>ประเภทการยืม</label>
+                                            <div className="text-sm font-thin">
+                                                {getFormDataItem(formData, 'loanTypes', loan?.loan_type_id)?.name}
+                                            </div>
+                                        </Col>
+                                        <Col md={4}>
+                                            <label htmlFor="">ประเภทเงินยืม</label>
+                                            <div className="text-sm font-thin">
+                                                {getFormDataItem(formData, 'moneyTypes', loan?.money_type_id)?.name}
+                                            </div>
+                                        </Col>
+                                        <Col md={4}>
+                                            <label htmlFor="">ปีงบประมาณ</label>
+                                            <div className="text-sm font-thin">
+                                                {loan?.year && loan?.year+543}
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <label htmlFor="">หมายเหตุ</label>
+                                            <div className="text-sm font-thin">
+                                                {loan?.remark ? loan?.remark : '-'}
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </div>
+                            </Col>
+                            <Col className="pl-1">
+                                <div className="flex flex-col items-center border rounded-md py-1 px-3 mt-2 min-h-[198px]">
+                                    <div className={`border-4 border-gray-200 rounded-full w-[60px] h-[60px] overflow-hidden object-cover object-center mb-2`}>
+                                        {loan?.employee?.avatar_url
+                                            ? <img src={`${process.env.REACT_APP_API_URL}/uploads/${loan?.employee?.avatar_url}`} alt="requester-pic" />
+                                            : <img src="/img/avatar-heroes.png" alt="requester-pic" className="avatar-img" />}
                                     </div>
-                                </Col>
-                                <Col md={3}>
-                                    <div className="flex flex-col">
-                                        <label htmlFor="">วันที่เอกสาร</label>
-                                        <div className="text-sm font-thin">
-                                            {toLongTHDate(moment(loan?.doc_date).toDate())}
+                                    <div className="flex flex-col items-start w-full text-sm">
+                                        <div className="w-full mb-1">
+                                            <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
+                                            <div className="input-group">
+                                                <div className="text-xs font-thin">
+                                                    {loan?.employee?.prefix?.name}{loan?.employee?.firstname} {loan?.employee?.lastname}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="w-full mb-1">
+                                            <label htmlFor="">ตำแหน่ง</label>
+                                            <div className="input-group">
+                                                <div className="text-xs font-thin">
+                                                    {loan?.employee?.position?.name}{loan?.employee?.level?.name}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="w-full mb-1">
+                                            <label htmlFor="">หน่วยงาน</label>
+                                            <div className="text-xs font-thin">
+                                                {loan?.department?.name}
+                                            </div>
                                         </div>
                                     </div>
-                                </Col>
-                                <Col md={3}>
-                                    <label>ประเภทการยืม</label>
-                                    <div className="text-sm font-thin">
-                                        {getFormDataItem(formData, 'loanTypes', loan?.loan_type_id)?.name}
-                                    </div>
-                                </Col>
-                                <Col md={3}>
-                                    <label htmlFor="">ประเภทเงินยืม</label>
-                                    <div className="text-sm font-thin">
-                                        {getFormDataItem(formData, 'moneyTypes', loan?.money_type_id)?.name}
-                                    </div>
-                                </Col>
-                            </Row>
-                            <Row className="mb-2">
-                                <Col md={3}>
-                                    <label htmlFor="">หน่วยงาน</label>
-                                    <div className="text-sm font-thin">
-                                        {loan?.department?.name}
-                                    </div>
-                                </Col>
-                                <Col md={3}>
-                                    <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
-                                    <div className="text-sm font-thin">
-                                        {loan?.employee?.firstname} {loan?.employee?.lastname}
-                                    </div>
-                                </Col>
-                                <Col md={3}>
-                                    <label htmlFor="">ปีงบ</label>
-                                    <div className="text-sm font-thin">
-                                        {loan?.year && loan?.year+543}
-                                    </div>
-                                </Col>
-                            </Row>
-                        </div>
+                                </div>
+                            </Col>
+                        </Row>
 
                         <div className="flex flex-col border rounded-md py-2 px-3 mb-2">
                             <h1 className="font-bold text-lg mb-1">รายละเอียดโครงการ</h1>
@@ -220,14 +253,6 @@ const LoanDetail = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row className="mb-2">
-                            <Col>
-                                <label htmlFor="">หมายเหตุ</label>
-                                <div className="form-control text-sm min-h-[68px]">
-                                    {loan?.remark}
                                 </div>
                             </Col>
                         </Row>
