@@ -356,7 +356,7 @@ const RequisitionForm = ({ requisition }) => {
                                         <div className="input-group">
                                             <div className="form-control h-[34px] text-sm bg-gray-200">
                                                 {budget?.activity?.name}
-                                                <BudgetTypeBadge type={budget.type} />
+                                                {budget && <BudgetTypeBadge type={budget.type} />}
                                             </div>
                                             <input
                                                 type="hidden"
