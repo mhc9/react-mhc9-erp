@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency } from '../../../utils'
+import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
 
 const BudgetList = ({ budgets, showButtons=true, onRemoveBudget, onEditBudget }) => {
     return (
@@ -23,7 +24,10 @@ const BudgetList = ({ budgets, showButtons=true, onRemoveBudget, onEditBudget })
                                     <td>
                                         <p className="font-thin text-xs">{data.budget?.activity?.project?.plan?.name}</p>
                                         <p className="text-xs font-semibold">{data.budget?.activity?.project?.name}</p>
-                                        <p className="text-sm text-blue-500 font-semibold">{data.budget?.activity?.name}</p>
+                                        <p className="text-sm text-blue-500 font-semibold">
+                                            {data.budget?.activity?.name}
+                                            <BudgetTypeBadge type={data.budget.type} />
+                                        </p>
                                         </td>
                                     <td className="text-right">{currency.format(data.total)}</td>
                                     {showButtons && (
