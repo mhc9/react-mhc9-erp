@@ -3,7 +3,7 @@ import { DatePicker } from '@material-ui/pickers'
 import moment from 'moment'
 import { generateQueryString } from '../../../utils'
 import { useStyles } from '../../../hooks/useStyles'
-import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi';
+import { useGetInitialFormDataQuery } from '../../../features/services/loan-refund/loanRefundApi';
 
 const FilteringInputs = ({ initialFilters, onFilter }) => {
     const classes = useStyles();
