@@ -72,7 +72,14 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
                                     </td>
                                 </tr>
                             )}
-                            {budgets && budgets.map((budget, index) => (
+                            {(!isLoading && budgets.length === 0) && (
+                                <tr>
+                                    <td colSpan={4} className="text-center">
+                                        <span className="text-sm text-red-500">-- ไม่มีรายการ --</span>
+                                    </td>
+                                </tr>
+                            )}
+                            {(!isLoading && budgets) && budgets.map((budget, index) => (
                                 <tr key={budget.id}>
                                     <td className="text-center">{index+pager.from}</td>
                                     {/* <td className="text-center">{budget.budget_no}</td> */}
