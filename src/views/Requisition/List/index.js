@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { toast } from 'react-toastify'
+import { ConfirmToast } from 'react-confirm-toast'
 import moment from 'moment'
 import { getRequisitions, destroy, resetDeleted } from '../../../features/slices/requisition/requisitionSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
@@ -27,6 +28,8 @@ const RequisitionList = () => {
     const { requisitions, pager, isLoading, isDeleted } = useSelector(state => state.requisition);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [deletingId, setDeletingId] = useState('');
 
     useEffect(() => {
         if (isDeleted) {
@@ -44,12 +47,11 @@ const RequisitionList = () => {
         } else {
             dispatch(getRequisitions({ url: `${apiEndpoint}${params}` }));
         }
-    }, [apiEndpoint])
+    }, [apiEndpoint]);
 
-    const handleDelete = (id) => {
-        if (window.confirm(`คุณต้องการลบรายการคำขอรหัส ${id} ใช่หรือไม่?`)) {
-            dispatch(destroy(id));
-        }
+    const handleDelete = () => {
+        dispatch(destroy(deletingId));
+        setDeletingId('');
     };
 
     return (
@@ -74,6 +76,15 @@ const RequisitionList = () => {
                             setParams(queryStr);
                             setApiEndpoint(prev => prev === '' ? `/api/requisitions/search?page=` : '');
                         }}
+                    />
+
+                    <ConfirmToast
+                        customFunction={handleDelete}
+                        setShowConfirmToast={setShowConfirm}
+                        showConfirmToast={showConfirm}
+                        toastText={`คุณต้องการลบคำขอซื้อ/จ้าง รหัส ${deletingId} ใช่หรือไม่?`}
+                        buttonNoText='ไม่'
+                        buttonYesText='ใช่'
                     />
 
                     <table className="table table-bordered mb-2">
@@ -124,7 +135,13 @@ const RequisitionList = () => {
                                                 <Link to={`/requisition/${requisition.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                                     <FaPencilAlt />
                                                 </Link>
-                                                <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(requisition.id)}>
+                                                <button
+                                                    className="btn btn-sm btn-danger px-1"
+                                                    onClick={() => {
+                                                        setShowConfirm(true);
+                                                        setDeletingId(requisition.id);
+                                                    }}
+                                                >
                                                     <FaTrash />
                                                 </button>
                                             </>
