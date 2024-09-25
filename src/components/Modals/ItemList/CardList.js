@@ -5,10 +5,10 @@ import ItemDesc from './ItemDesc'
 
 const CardList = ({ items, onHide, onSelect }) => {
     return (
-        <Row className="mb-3">
+        <Row className="mb-0">
             {items && items.map((item, index) => (
-                <Col md={6} lg={4} xl={3} className="mb-2" key={item.id}>
-                    <Card>
+                <Col md={6} lg={4} xl={3} className="my-0" key={item.id}>
+                    <Card className="mb-1">
                         {![3,4].includes(item?.category?.asset_type_id) && (
                             <Card.Img
                                 src={`${process.env.REACT_APP_API_URL}/uploads/${item?.img_url}`}

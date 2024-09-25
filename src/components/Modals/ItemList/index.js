@@ -47,7 +47,7 @@ const ModalItemList = ({ isShow, onHide, onSelect, defaultCategory }) => {
         >
             <Modal.Header className="border py-1 px-2">
                 <div className="flex flex-row items-center justify-between w-full">
-                    <Modal.Title>รายการสินค้า</Modal.Title>
+                    <Modal.Title>รายการสินค้า/บริการ</Modal.Title>
                     <div className="flex flex-row items-center gap-2">
                         <ControlButtons isListMode={isListMode} onIsListModeClick={setIsListMode} />
                         <FaTimes size={'20px'} className="cursor-pointer hover:text-gray-400 text-gray-600" onClick={onHide} />
@@ -84,14 +84,15 @@ const ModalItemList = ({ isShow, onHide, onSelect, defaultCategory }) => {
                         onSelect={onSelect}
                     />
                 )}
-
+            </Modal.Body>
+            <Modal.Footer className="py-1">
                 {(pager && pager.last_page > 1) && (
                     <Pagination
                         pager={pager}
                         onPageClick={(url) =>setApiEndpoint(`${url}&limit=12`)}
                     />
                 )}
-            </Modal.Body>
+            </Modal.Footer>
         </Modal>
     )
 }
