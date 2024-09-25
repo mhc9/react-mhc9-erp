@@ -44,7 +44,7 @@ const Committee = ({ defaultValue, onUpdate }) => {
                         <Fragment key={committee.id}>
                             {!committee.removed && (
                                 <li className="flex flex-row gap-2 w-full p-1">
-                                    <div className="min-w-[50%] flex flex-row">
+                                    <div className="min-w-[50%] max-lg:w-[80%] flex flex-row">
                                         <span className="min-w-[45%]">
                                             {index+1}. {committee.employee?.prefix.name}{committee.employee?.firstname} {committee.employee?.lastname}
                                         </span>
@@ -55,7 +55,7 @@ const Committee = ({ defaultValue, onUpdate }) => {
                                     <button
                                         type="button"
                                         className="btn btn-outline-danger btn-sm px-1"
-                                        onClick={() => handleRemove(committee.id)}
+                                        onClick={() => handleRemove(committee.id, !committee.requisition_id)}
                                     >
                                         <FaMinus size={'12px'} />
                                     </button>
