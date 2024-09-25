@@ -6,10 +6,12 @@ import { useGetInitialFormDataQuery } from '../../../features/services/employee/
 import Loading from '../../Loading';
 import FilteringInputs from '../../Employee/FilteringInputs';
 import Pagination from '../../../components/Pagination'
+import { generateQueryString } from '../../../utils';
 
 const initialFilters = {
     name: '',
-    division: ''
+    division: '',
+    limit: 8,
 };
 
 const initialFormData = {
@@ -19,39 +21,35 @@ const initialFormData = {
 const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
     const { employees, pager, isLoading } = useSelector(state => state.employee)
-    const [apiEndpoint, setApiEndpoint] = useState('');
     const { data: formData = initialFormData } = useGetInitialFormDataQuery();
+    const [endpoint, setEndpoint] = useState('');
+    const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
-        if (apiEndpoint === '') {
-            dispatch(getEmployees({ url: `/api/employees/search` }));
+        if (endpoint === '') {
+            dispatch(getEmployees({ url: `/api/employees/search?page=${params}` }));
         } else {
-            dispatch(getEmployees({ url: apiEndpoint }));
+            dispatch(getEmployees({ url: `${endpoint}${params}` }));
         }
-    }, [apiEndpoint]);
-
-    const handleFilter = (queryStr) => {
-        if (apiEndpoint === '') {
-            setApiEndpoint(`/api/employees/search?page=` + queryStr);
-        } else {
-            setApiEndpoint(apiEndpoint + queryStr);
-        }
-    };
+    }, [endpoint]);
 
     return (
         <Modal
             show={isShow}
             onHide={onHide}
-            size='xl'
+            size='lg'
         >
             <Modal.Header closeButton className="py-1">
                 <Modal.Title>รายการบุคลากร</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <FilteringInputs
-                    initialFilters={initialFilters}
-                    onFilter={handleFilter}
                     formData={formData}
+                    initialFilters={initialFilters}
+                    onFilter={(queryStr) => {
+                        setParams(queryStr)
+                        setEndpoint(prev => prev === '' ? `/api/employees/search?page=` : '');
+                    }}
                 />
 
                 <div>
@@ -60,8 +58,8 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
                                 <th>ชื่อ-สกุล</th>
-                                <th className="text-center w-[30%]">ตำแหน่ง</th>
-                                <th className="text-center w-[10%]">Actions</th>
+                                <th className="text-center w-[40%]">ตำแหน่ง</th>
+                                <th className="text-center w-[8%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -75,12 +73,12 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
                             {employees && employees.map((employee, index) => (
                                 <tr key={employee.id} className="font-thin">
                                     <td className="text-center">{index+pager.from}</td>
-                                    <td>{employee.prefix.name}{employee.firstname} {employee.lastname}</td>
+                                    <td><span className="font-bold">{employee.prefix.name}{employee.firstname} {employee.lastname}</span></td>
                                     <td>{employee.position.name}{employee.level?.name}</td>
                                     <td className="text-center">
                                         <button
                                             type="button"
-                                            className="btn btn-sm btn-outline-primary"
+                                            className="btn btn-outline-primary btn-sm"
                                             onClick={() => {
                                                 onSelect(employee);
                                                 onHide();
@@ -105,7 +103,7 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
             <Modal.Footer className="py-1">
                 <Pagination
                     pager={pager}
-                    onPageClick={(url) => setApiEndpoint(url)}
+                    onPageClick={(url) => setEndpoint(url)}
                 />
             </Modal.Footer>
         </Modal>

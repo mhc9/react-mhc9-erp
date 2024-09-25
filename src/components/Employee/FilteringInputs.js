@@ -16,7 +16,7 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
     };
 
     return (
-        <Row className="mb-3">
+        <Row className="mb-2">
             <Col>
                 <div className="filtering-wrapper border rounded-md flex flex-row gap-2 p-2">
                     <FormGroup>
