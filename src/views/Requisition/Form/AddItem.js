@@ -110,7 +110,7 @@ const AddItem = ({ item, defaultCategory, onAddItem, onUpdateItem, onCancel }) =
                             <FormGroup className="w-[45%]">
                                 <div className="input-group">
                                     <div className="form-control min-h-[34px] text-sm overflow-hidden whitespace-nowrap text-ellipsis bg-gray-100">
-                                        {formik.values.item ? formik.values.item.name : <span className="text-gray-400">รายการสินค้า</span>}
+                                        {formik.values.item ? formik.values.item.name : <span className="text-gray-400">รายการสินค้า/บริการ</span>}
                                     </div>
                                     <button
                                         type="button"
@@ -201,17 +201,17 @@ const AddItem = ({ item, defaultCategory, onAddItem, onUpdateItem, onCancel }) =
                                     <span className="text-red-500 text-xs">{formik.errors.total}</span>
                                 )}
                             </FormGroup>
-                            <FormGroup className="w-[5%]">
+                            <FormGroup>
                                 <button
                                     type="button"
-                                    className={`btn ${data ? 'btn-outline-secondary' : 'btn-outline-primary'} w-full text-sm px-1`}
+                                    className={`btn ${data ? 'btn-outline-secondary px-1' : 'btn-outline-primary'} text-sm`}
                                     onClick={formik.submitForm}
                                 >
                                     {/* <FaPlus /> */}
                                     {data ? 'อัพเดต' : 'เพิ่ม'}
                                 </button>
                             </FormGroup>
-                            <FormGroup className="w-[7%]">
+                            <FormGroup className="w-[6%]">
                                 <button
                                     type="button"
                                     className="btn btn-outline-danger text-sm px-1"
