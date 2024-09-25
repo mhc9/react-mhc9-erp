@@ -37,10 +37,10 @@ const Committee = ({ defaultValue, onUpdate }) => {
                 onSelect={handleSelect}
             />
 
-            <h3 className="font-bold text-lg mb-1">ผู้ตรวจรับ</h3>
+            <h3 className="font-bold text-lg mb-1">ผู้ตรวจรับพัสดุ</h3>
             <ul className="flex flex-col text-sm ml-2">
                 {(committees.filter(comm => !comm.removed).length > 0)
-                    ? committees.map((committee, index) => (
+                    ? committees.filter(comm => !comm.removed).map((committee, index) => (
                         <Fragment key={committee.id}>
                             {!committee.removed && (
                                 <li className="flex flex-row gap-2 w-full p-1">
@@ -59,7 +59,7 @@ const Committee = ({ defaultValue, onUpdate }) => {
                                     >
                                         <FaMinus size={'12px'} />
                                     </button>
-                                    {index === committees.length - 1 && (
+                                    {index === committees.filter(comm => !comm.removed).length - 1 && (
                                         <button type="button" className="btn btn-outline-primary btn-sm px-1" onClick={() => setShowModal(true)}>
                                             <FaPlus size={'12px'} />
                                         </button>
