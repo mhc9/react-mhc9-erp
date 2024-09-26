@@ -7,7 +7,6 @@ import { FaEdit } from "react-icons/fa";
 import { currency, toShortTHDate } from '../../../utils'
 import { getRequisition, updateApprovals } from '../../../features/slices/requisition/requisitionSlice'
 import { resetSuccess } from '../../../features/slices/approval/approvalSlice'
-import { useGetUserDetailsQuery } from '../../../features/services/auth/authApi'
 import ItemList from '../Form/ItemList'
 import StatusBadge from '../StatusBadge'
 import ModalApprovalForm from './Approval/Form'
@@ -23,9 +22,9 @@ const RequisitionDetail = () => {
     const dispatch = useDispatch();
     const { requisition, isLoading } = useSelector(state => state.requisition);
     const { approval, isSuccess } = useSelector(state => state.approval);
+    const { loggedInUser } = useSelector(state => state.auth);
     const [showApprovalForm, setShowApprovalForm] = useState(false);
     const [showConsiderForm, setShowConsiderForm] = useState(false);
-    const { data: user, isFetching } = useGetUserDetailsQuery('userDetails', { pollingInterval: 900000 });
 
     useEffect(() => {
         if (id) dispatch(getRequisition({ id }));
@@ -40,7 +39,6 @@ const RequisitionDetail = () => {
         }
     }, [isSuccess]);
 
-    
     /** เซตโชว์ฟอร์มบันทึกรายงานผลการพิจารณา ถ้ายังไม่ได้บันทึกข้อมูลรายงานผลการพิจารณา */
     useEffect(() => {
         if (requisition && requisition.approvals.length > 0) {
@@ -307,7 +305,7 @@ const RequisitionDetail = () => {
                                             </DropdownItem>
                                         </DropdownButton>
 
-                                        {[1, 3].includes(user?.permissions[0]?.role_id) && (
+                                        {[1, 3].includes(loggedInUser?.permissions[0]?.role_id) && (
                                             <>
                                                 {(requisition.approvals && requisition.approvals.length > 0) ? (
                                                     <>
