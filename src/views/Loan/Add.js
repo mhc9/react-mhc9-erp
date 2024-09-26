@@ -24,12 +24,12 @@ const AddLoan = () => {
             <Breadcrumb>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ยืมเงินราชการ</Breadcrumb.Item>
-                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/loan' }}>รายการคำขอ</Breadcrumb.Item>
-                <Breadcrumb.Item active>เพิ่มคำขอ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/loan' }}>รายการคำขอยืมเงิน</Breadcrumb.Item>
+                <Breadcrumb.Item active>เพิ่มคำขอยืมเงิน</Breadcrumb.Item>
             </Breadcrumb>
 
             <div className="content">
-                <h1 className="text-xl font-bold mb-1">เพิ่มคำขอ</h1>
+                <h1 className="text-xl font-bold mb-1">เพิ่มคำขอยืมเงิน</h1>
 
                 <LoanForm />
 

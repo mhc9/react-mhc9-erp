@@ -30,12 +30,12 @@ const EditLoan = () => {
             <Breadcrumb>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item active>ยืมเงินราชการ</Breadcrumb.Item>
-                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/loan' }}>รายการคำขอ</Breadcrumb.Item>
-                <Breadcrumb.Item active>แก้ไขคำขอ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/loan' }}>รายการคำขอยืมเงิน</Breadcrumb.Item>
+                <Breadcrumb.Item active>แก้ไขคำขอยืมเงิน</Breadcrumb.Item>
             </Breadcrumb>
 
             <div className="content">
-                <h1 className="text-xl font-bold mb-1">แก้ไขคำขอ (ID: {id})</h1>
+                <h1 className="text-xl font-bold mb-1">แก้ไขคำขอยืมเงิน (#{id})</h1>
 
                 {isLoading
                     ? <div className="text-center"><Loading /></div>
