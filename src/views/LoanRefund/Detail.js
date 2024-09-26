@@ -312,17 +312,21 @@ const LoanRefundDetail = () => {
                                     พิมพ์ใบรับใบสำคัญ
                                 </Link>
 
-                                {([1,4].includes(loggedInUser?.permissions[0].role_id) && refund?.status === 'N') && (
-                                    <a href="#" className="btn btn-primary btn-sm" onClick={() => setShowApprovalForm(true)}>
-                                        เคลียร์เงินยืม
-                                    </a>
+                                {[1,4].includes(loggedInUser?.permissions[0].role_id) && (
+                                    <>
+                                        {refund?.status === 'N' && (
+                                            <a href="#" className="btn btn-primary btn-sm" onClick={() => setShowApprovalForm(true)}>
+                                                เคลียร์เงินยืม
+                                            </a>
+                                        )}
+                                        {(refund?.status === 'Y' && !refund?.receipt_no) && (
+                                            <a href="#" className="btn btn-primary btn-sm" onClick={() => setShowReceiptForm(true)}>
+                                                บันทึกใบเสร็จ
+                                            </a>
+                                        )}
+                                    </>
                                 )}
 
-                                {([1,4].includes(loggedInUser?.permissions[0].role_id) && refund?.status === 'Y' && !refund?.receipt_no) && (
-                                    <a href="#" className="btn btn-primary btn-sm" onClick={() => setShowReceiptForm(true)}>
-                                        บันทึกใบเสร็จ
-                                    </a>
-                                )}
                             </Col>
                         </Row>
                     </>

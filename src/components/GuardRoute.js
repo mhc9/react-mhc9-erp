@@ -16,12 +16,12 @@ const GuardRoute = ({ children }) => {
     const decode = token ? jwt(token) : null;
 
     useEffect(() => {
-        if (isLoggedIn && !loggedInUser && user) {
+        if (isLoggedIn && user) {
             console.log('on Guard route loaded...');
 
             dispatch(setLoggedInUser(user));
         }
-    }, [isLoggedIn, loggedInUser, user]);
+    }, [isLoggedIn, user]);
 
     /** Checking token expiration */
     if ((!isLoggedIn && !token) || (decode && ((decode.exp * 1000) < Date.now()))) {
