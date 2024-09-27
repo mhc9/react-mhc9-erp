@@ -605,6 +605,9 @@ const LoanForm = ({ loan }) => {
                                             </div>
                                         </Tab>
                                     </Tabs>
+                                    {(formik.errors.items && formik.touched.items) && (
+                                        <span className="text-red-500 text-sm">{formik.errors.items}</span>
+                                    )}
 
                                     <div className="flex flex-row justify-start items-center mt-2 px-[10px]">
                                         <div className="w-[75%] text-right text-lg mr-2">
@@ -619,9 +622,6 @@ const LoanForm = ({ loan }) => {
                                         <div className="w-[10%]"></div>
                                     </div>
                                 </div>
-                                {(formik.errors.items && formik.touched.items) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.items}</span>
-                                )}
                             </Col>
                         </Row>
                         <Row className="mb-2">
