@@ -12,7 +12,7 @@ import api from '../../api'
 const loginSchema = Yup.object().shape({
     email: Yup.string().required(),
     password: Yup.string().required(),
-    password_confirm: Yup.string().required(),
+    password_confirmation: Yup.string().required(),
 });
 
 const ResetPassword = () => {
@@ -54,7 +54,7 @@ const ResetPassword = () => {
                         initialValues={{
                             email: 'sanyath007@gmail.com',
                             password: '',
-                            password_confirm: ''
+                            password_confirmation: ''
                         }}
                         validationSchema={loginSchema}
                         onSubmit={handleSubmit}
@@ -82,7 +82,7 @@ const ResetPassword = () => {
                                                 value={formik.values.password}
                                                 onChange={formik.handleChange}
                                                 className="form-control"
-                                                placeholder="รหัสผา่น"
+                                                placeholder="รหัสผ่านใหม่"
                                             />
                                         </Col>
                                     </Row>
@@ -90,11 +90,11 @@ const ResetPassword = () => {
                                         <Col>
                                             <input
                                                 type="password"
-                                                name="password_confirm"
-                                                value={formik.values.password_confirm}
+                                                name="password_confirmation"
+                                                value={formik.values.password_confirmation}
                                                 onChange={formik.handleChange}
                                                 className="form-control"
-                                                placeholder="ยืนยันรหัสผา่น"
+                                                placeholder="ยืนยันรหัสผ่าน"
                                             />
                                         </Col>
                                     </Row>
