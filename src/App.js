@@ -6,6 +6,7 @@ import Home from './views/Home';
 import Login from './views/Auth/Login';
 import Register from './views/Auth/Register';
 import ForgotPassword from './views/Auth/ForgotPassword';
+import VerifyEmail from './views/Auth/VerifyEmail';
 import ResetPassword from './views/Auth/ResetPassword';
 /** Task */
 import TaskList from './views/Task/List';
@@ -212,6 +213,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             {/* Report Viewer */}
             <Route path="report-viewer" element={<GuardRoute><WordViewer /></GuardRoute>} />

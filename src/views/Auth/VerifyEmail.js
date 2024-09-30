@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row, Spinner } from 'react-bootstrap'
@@ -11,11 +10,10 @@ import api from '../../api'
 
 const loginSchema = Yup.object().shape({
     email: Yup.string().required(),
-    password: Yup.string().required(),
-    password_confirm: Yup.string().required(),
+    token: Yup.string().required(),
 });
 
-const ResetPassword = () => {
+const VerifyEmail = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { success, loading } = useSelector(state => state.auth);
@@ -31,12 +29,12 @@ const ResetPassword = () => {
     const handleSubmit = async (values, props) => {
         // dispatch(login({ ...values }));
         try {
-            const res = await api.post(`/api/reset-password`, values);
+            const res = await api.post(`/api/verify/pin`, values);
             console.log(res.data);
             
             if (res.data.success) {
-                toast.success('การตั้งรหัสผ่านใหม่สำเร็จ!!');
-                navigate('/login');
+                toast.success('ยืนยันตัวตนสำเร็จ!!');
+                navigate('/reset-password');
             }
         } catch (error) {
             
@@ -48,18 +46,19 @@ const ResetPassword = () => {
     return (
         <div className="container flex flex-col justify-center items-center min-h-[100vh]">
             <div className="login-box bg-white w-[360px] min-h-[360px] rounded-lg px-4 py-4 flex flex-col justify-between items-center">
-                <h1 className="text-3xl font-bold mt-4">ตั้งรหัสผ่านใหม่</h1>
+                <h1 className="text-3xl font-bold mt-4">ยืนยันอีเมล</h1>
                 <div className="w-[100%] my-4">
                     <Formik
                         initialValues={{
                             email: 'sanyath007@gmail.com',
-                            password: '',
-                            password_confirm: ''
+                            token: '',
                         }}
                         validationSchema={loginSchema}
                         onSubmit={handleSubmit}
                     >
                         {(formik) => {
+                            console.log(formik.values);
+                            
                             return (
                                 <Form>
                                     <Row className="mb-2">
@@ -78,23 +77,11 @@ const ResetPassword = () => {
                                         <Col>
                                             <input
                                                 type="password"
-                                                name="password"
-                                                value={formik.values.password}
+                                                name="token"
+                                                value={formik.values.token}
                                                 onChange={formik.handleChange}
                                                 className="form-control"
-                                                placeholder="รหัสผา่น"
-                                            />
-                                        </Col>
-                                    </Row>
-                                    <Row className="mb-4">
-                                        <Col>
-                                            <input
-                                                type="password"
-                                                name="password_confirm"
-                                                value={formik.values.password_confirm}
-                                                onChange={formik.handleChange}
-                                                className="form-control"
-                                                placeholder="ยืนยันรหัสผา่น"
+                                                placeholder="รหัสยืนยันตัวตน 6 หลัก"
                                             />
                                         </Col>
                                     </Row>
@@ -106,14 +93,14 @@ const ResetPassword = () => {
                                                     <span className="visually-hidden">Loading...</span>
                                                 </Spinner>
                                             )}
-                                            บันทึก
+                                            ส่งอีเมล <i className="fas fa-paper-plane"></i>
                                         </button>
                                     </div>
 
-                                    {/* <div className="text-xs flex flex-row items-center gap-1">
+                                    <div className="text-xs flex flex-row items-center gap-1">
                                         <i class="fas fa-info-circle"></i>
                                         <span>ระบบจะส่งรหัสยืนยันตัวตนของท่านไปยังอีเมลที่ลงทะเบียนไว้</span>
-                                    </div> */}
+                                    </div>
                                 </Form>
                             )
                         }}
@@ -128,4 +115,4 @@ const ResetPassword = () => {
     )
 }
 
-export default ResetPassword
+export default VerifyEmail

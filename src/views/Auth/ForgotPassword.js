@@ -33,7 +33,7 @@ const ForgotPassword = () => {
             
             if (res.data.success) {
                 toast.success('ระบบได้ทำการส่งรหัสยืนยันตัวตนไปยังอีเมลของท่านแล้ว!!');
-                navigate('/reset-password');
+                navigate('/verify-email');
             }
         } catch (error) {
             
