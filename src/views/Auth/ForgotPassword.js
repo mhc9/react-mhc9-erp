@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,13 +6,14 @@ import { Col, Row, Spinner } from 'react-bootstrap'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { login, resetSuccess } from '../../features/slices/auth/authSlice'
+import api from '../../api'
+import { toast } from 'react-toastify'
 
 const loginSchema = Yup.object().shape({
-    email: Yup.string().required(),
-    password: Yup.string().required(),
+    email: Yup.string().required()
 });
 
-const Login = () => {
+const ForgotPassword = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { success, loading } = useSelector(state => state.auth);
@@ -23,23 +24,33 @@ const Login = () => {
 
             navigate('/');
         }
-    }, [success])
+    }, [success]);
 
-    const handleSubmit = (values, props) => {
-        dispatch(login({ ...values }));
+    const handleSubmit = async (values, props) => {
+        // dispatch(login({ ...values }));
+        try {
+            const res = await api.post(`/api/forgot-password`, values);
+            console.log(res.data);
+            
+            if (res.data.success) {
+                toast.success('ระบบได้ทำการส่งรหัสยืนยันตัวตนไปยังอีเมลของท่านแล้ว!!');
+                navigate('/reset-password');
+            }
+        } catch (error) {
+            
+        }
 
         props.resetForm();
-    }
+    };
 
     return (
         <div className="container flex flex-col justify-center items-center min-h-[100vh]">
-            <div className="login-box bg-white w-[360px] min-h-[360px] rounded-lg px-4 py-4 flex flex-col justify-center items-center">
+            <div className="login-box bg-white w-[360px] min-h-[360px] rounded-lg px-4 py-4 flex flex-col justify-between items-center">
                 <h1 className="text-3xl font-bold mt-4">ระบบ MHC9 ERP</h1>
                 <div className="w-[100%] my-4">
                     <Formik
                         initialValues={{
-                            email: 'sanyath007@gmail.com',
-                            password: '4621008811'
+                            email: 'sanyath007@gmail.com'
                         }}
                         validationSchema={loginSchema}
                         onSubmit={handleSubmit}
@@ -49,6 +60,7 @@ const Login = () => {
                                 <Form>
                                     <Row className="mb-2">
                                     <Col>
+                                        <label htmlFor="">กรุณากรอกอีเมลของคุณที่ลงทะเบียนไว้</label>
                                         <input
                                             type="text"
                                             name="email"
@@ -56,18 +68,6 @@ const Login = () => {
                                             onChange={formik.handleChange}
                                             className="form-control"
                                             placeholder="Email"
-                                        />
-                                    </Col>
-                                </Row>
-                                <Row className="mb-4">
-                                    <Col>
-                                        <input
-                                            type="password"
-                                            name="password"
-                                            value={formik.values.password}
-                                            onChange={formik.handleChange}
-                                            className="form-control"
-                                            placeholder="Password"
                                         />
                                     </Col>
                                 </Row>
@@ -79,24 +79,13 @@ const Login = () => {
                                                 <span className="visually-hidden">Loading...</span>
                                             </Spinner>
                                         )}
-                                        ล็อกอิน <i className="fas fa-sign-in-alt"></i>
+                                        ส่งอีเมล <i className="fas fa-paper-plane"></i>
                                     </button>
                                 </div>
 
-                                <div className="flex flex-row justify-between mb-4 px-2">
-                                    <div className="flex flex-row items-center gap-1">
-                                        <input type="checkbox" name="" /> จำรหัสผ่าน
-                                    </div>
-
-                                    <Link to="/forgot-password" className="text-primary">ลืมรหัสผ่าน</Link>
-                                </div>
-
-                                <hr />
-
-                                <div className="d-grid mt-4">
-                                    <button type="submit" className="btn btn-outline-secondary">
-                                        <i className="fas fa-user-plus"></i> ลงทะเบียน
-                                    </button>
+                                <div className="text-xs flex flex-row items-center gap-1">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>ระบบจะส่งรหัสยืนยันตัวตนของท่านไปยังอีเมลที่ลงทะเบียนไว้</span>
                                 </div>
                             </Form>
                         )
@@ -112,4 +101,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default ForgotPassword

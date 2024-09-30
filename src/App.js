@@ -5,6 +5,8 @@ import Home from './views/Home';
 /** Auth */
 import Login from './views/Auth/Login';
 import Register from './views/Auth/Register';
+import ForgotPassword from './views/Auth/ForgotPassword';
+import ResetPassword from './views/Auth/ResetPassword';
 /** Task */
 import TaskList from './views/Task/List';
 import AddTask from './views/Task/Add';
@@ -209,6 +211,8 @@ function App() {
             {/* Authentication */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             {/* Report Viewer */}
             <Route path="report-viewer" element={<GuardRoute><WordViewer /></GuardRoute>} />
             {/* Preview */}
