@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row, Spinner } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { login, resetSuccess } from '../../features/slices/auth/authSlice'
 import api from '../../api'
-import { toast } from 'react-toastify'
 
 const loginSchema = Yup.object().shape({
     email: Yup.string().required()
@@ -46,7 +45,7 @@ const ForgotPassword = () => {
     return (
         <div className="container flex flex-col justify-center items-center min-h-[100vh]">
             <div className="login-box bg-white w-[360px] min-h-[360px] rounded-lg px-4 py-4 flex flex-col justify-between items-center">
-                <h1 className="text-3xl font-bold mt-4">ระบบ MHC9 ERP</h1>
+                <h1 className="text-3xl font-bold mt-4">ลืมรหัสผ่าน</h1>
                 <div className="w-[100%] my-4">
                     <Formik
                         initialValues={{
