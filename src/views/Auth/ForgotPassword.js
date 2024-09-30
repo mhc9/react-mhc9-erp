@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { createSearchParams, useNavigate } from 'react-router-dom'
+import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row, Spinner } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { FaInfoCircle  } from "react-icons/fa";
+import { FaInfoCircle, FaArrowCircleLeft } from "react-icons/fa";
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { login, resetSuccess } from '../../features/slices/auth/authSlice'
@@ -56,7 +56,7 @@ const ForgotPassword = () => {
                 <div className="w-[100%] my-4">
                     <Formik
                         initialValues={{
-                            email: 'sanyath007@gmail.com'
+                            email: ''
                         }}
                         validationSchema={loginSchema}
                         onSubmit={handleSubmit}
@@ -72,7 +72,7 @@ const ForgotPassword = () => {
                                                 value={formik.values.email}
                                                 onChange={formik.handleChange}
                                                 className="form-control"
-                                                placeholder="Email"
+                                                placeholder="อีเมล"
                                             />
                                         </Col>
                                     </Row>
@@ -91,6 +91,12 @@ const ForgotPassword = () => {
                                     <div className="text-xs flex flex-row items-center gap-1">
                                         <i class="fas fa-info-circle"></i>
                                         <span>ระบบจะส่งรหัสยืนยันตัวตนของท่านไปยังอีเมลที่ลงทะเบียนไว้</span>
+                                    </div>
+
+                                    <div className="text-center mt-4">
+                                        <Link to="/login" className="flex flex-row gap-1 items-center justify-center hover:text-purple-600">
+                                            <FaArrowCircleLeft size={"16px"} /> กลับหน้าล็อกอิน
+                                        </Link>
                                     </div>
                                 </Form>
                             )
