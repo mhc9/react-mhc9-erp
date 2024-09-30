@@ -33,7 +33,7 @@ const ForgotPassword = () => {
             console.log(res.data);
             
             if (res.data.success) {
-                toast.success('ระบบได้ทำการส่งรหัสยืนยันตัวตนไปยังอีเมลของท่านแล้ว!!');
+                toast.success('ระบบได้ทำการส่งรหัสยืนยันตัวตนไปยังอีเมลของคุณแล้ว!!');
                 navigate({ pathname: '/verify-email', search: createSearchParams({ email: values.email }).toString()});
             }
         } catch (error) {
@@ -45,12 +45,12 @@ const ForgotPassword = () => {
 
     return (
         <div className="container flex flex-col justify-center items-center min-h-[100vh]">
-            <div className="login-box bg-white w-[380px] min-h-[360px] rounded-lg px-4 py-4 flex flex-col justify-around items-center">
-                <h1 className="text-3xl font-bold mt-4">ลืมรหัสผ่าน</h1>
+            <div className="login-box bg-white w-[380px] min-h-[400px] rounded-lg px-4 py-4 flex flex-col justify-around items-center">
+                <h1 className="text-3xl font-bold mt-4 mb-2">ลืมรหัสผ่าน</h1>
 
                 <div className="alert alert-info text-sm mb-4 w-full flex flex-row items-center gap-1">
                     <FaInfoCircle size={"20px"}  />
-                    กรุณากรอกอีเมลของคุณที่ลงทะเบียนไว้
+                    กรุณากรอกอีเมลที่คุณลงทะเบียนไว้
                 </div>
 
                 <div className="w-[100%] my-4">
