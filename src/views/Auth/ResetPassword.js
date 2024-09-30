@@ -47,7 +47,7 @@ const ResetPassword = () => {
 
     return (
         <div className="container flex flex-col justify-center items-center min-h-[100vh]">
-            <div className="login-box bg-white w-[360px] min-h-[360px] rounded-lg px-4 py-4 flex flex-col justify-between items-center">
+            <div className="login-box bg-white w-[380px] min-h-[360px] rounded-lg px-4 py-4 flex flex-col justify-between items-center">
                 <h1 className="text-3xl font-bold mt-4">ตั้งรหัสผ่านใหม่</h1>
                 <div className="w-[100%] my-4">
                     <Formik

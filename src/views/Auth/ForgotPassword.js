@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row, Spinner } from 'react-bootstrap'
 import { toast } from 'react-toastify'
+import { FaInfoCircle  } from "react-icons/fa";
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { login, resetSuccess } from '../../features/slices/auth/authSlice'
@@ -44,8 +45,13 @@ const ForgotPassword = () => {
 
     return (
         <div className="container flex flex-col justify-center items-center min-h-[100vh]">
-            <div className="login-box bg-white w-[360px] min-h-[360px] rounded-lg px-4 py-4 flex flex-col justify-between items-center">
+            <div className="login-box bg-white w-[380px] min-h-[360px] rounded-lg px-4 py-4 flex flex-col justify-around items-center">
                 <h1 className="text-3xl font-bold mt-4">ลืมรหัสผ่าน</h1>
+                <div className="alert alert-info text-sm mb-4 w-full flex flex-row items-center gap-1">
+                    <FaInfoCircle size={"20px"}  />
+                    กรุณากรอกอีเมลของคุณที่ลงทะเบียนไว้
+                </div>
+
                 <div className="w-[100%] my-4">
                     <Formik
                         initialValues={{
@@ -58,37 +64,36 @@ const ForgotPassword = () => {
                             return (
                                 <Form>
                                     <Row className="mb-2">
-                                    <Col>
-                                        <label htmlFor="">กรุณากรอกอีเมลของคุณที่ลงทะเบียนไว้</label>
-                                        <input
-                                            type="text"
-                                            name="email"
-                                            value={formik.values.email}
-                                            onChange={formik.handleChange}
-                                            className="form-control"
-                                            placeholder="Email"
-                                        />
-                                    </Col>
-                                </Row>
+                                        <Col>
+                                            <input
+                                                type="text"
+                                                name="email"
+                                                value={formik.values.email}
+                                                onChange={formik.handleChange}
+                                                className="form-control"
+                                                placeholder="Email"
+                                            />
+                                        </Col>
+                                    </Row>
 
-                                <div className="d-grid mb-2">
-                                    <button type="submit" className="btn btn-outline-primary">
-                                        {loading && (
-                                            <Spinner animation="border" role="status" size="sm" style={{ marginRight: '2px' }}>
-                                                <span className="visually-hidden">Loading...</span>
-                                            </Spinner>
-                                        )}
-                                        ส่งอีเมล <i className="fas fa-paper-plane"></i>
-                                    </button>
-                                </div>
+                                    <div className="d-grid mb-2">
+                                        <button type="submit" className="btn btn-outline-primary">
+                                            {loading && (
+                                                <Spinner animation="border" role="status" size="sm" style={{ marginRight: '2px' }}>
+                                                    <span className="visually-hidden">Loading...</span>
+                                                </Spinner>
+                                            )}
+                                            ส่งอีเมล <i className="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
 
-                                <div className="text-xs flex flex-row items-center gap-1">
-                                    <i class="fas fa-info-circle"></i>
-                                    <span>ระบบจะส่งรหัสยืนยันตัวตนของท่านไปยังอีเมลที่ลงทะเบียนไว้</span>
-                                </div>
-                            </Form>
-                        )
-                    }}
+                                    <div className="text-xs flex flex-row items-center gap-1">
+                                        <i class="fas fa-info-circle"></i>
+                                        <span>ระบบจะส่งรหัสยืนยันตัวตนของท่านไปยังอีเมลที่ลงทะเบียนไว้</span>
+                                    </div>
+                                </Form>
+                            )
+                        }}
                     </Formik>
                 </div>
             </div>
