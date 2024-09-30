@@ -25,6 +25,7 @@ body {
   overflow-x: hidden;
   font-family: 'Poppins', sans-serif;
   font-family: 'Prompt', sans-serif;
+  background: #F5F5F5;
 }
 
 /* Scrollbar */
@@ -67,4 +68,8 @@ a {
 
 .nav-tabs {
   margin-bottom: 0;
+}
+
+.login-box {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px;
 }
