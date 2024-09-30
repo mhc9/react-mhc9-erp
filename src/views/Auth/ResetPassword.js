@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row, Spinner } from 'react-bootstrap'
-import { FaInfoCircle } from 'react-icons/fa'
+import { FaInfoCircle, FaArrowCircleLeft } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
@@ -49,7 +49,7 @@ const ResetPassword = () => {
 
     return (
         <div className="container flex flex-col justify-center items-center min-h-[100vh]">
-            <div className="login-box bg-white w-[380px] min-h-[360px] rounded-lg px-4 py-4 flex flex-col justify-around items-center">
+            <div className="login-box bg-white w-[380px] min-h-[400px] rounded-lg px-4 py-3 flex flex-col justify-around items-center">
                 <h1 className="text-3xl font-bold mt-4 mb-2">ตั้งรหัสผ่านใหม่</h1>
 
                 <div className="alert alert-info text-sm mb-4 w-full flex flex-row items-center gap-1">
@@ -118,10 +118,11 @@ const ResetPassword = () => {
                                         </button>
                                     </div>
 
-                                    {/* <div className="text-xs flex flex-row items-center gap-1">
-                                        <i class="fas fa-info-circle"></i>
-                                        <span>ระบบจะส่งรหัสยืนยันตัวตนของท่านไปยังอีเมลที่ลงทะเบียนไว้</span>
-                                    </div> */}
+                                    <div className="text-center mt-4">
+                                        <Link to="/login" className="flex flex-row gap-1 items-center justify-center hover:text-purple-600">
+                                            <FaArrowCircleLeft size={"14px"} /> กลับหน้าล็อกอิน
+                                        </Link>
+                                    </div>
                                 </Form>
                             )
                         }}

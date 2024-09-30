@@ -95,7 +95,7 @@ const ForgotPassword = () => {
 
                                     <div className="text-center mt-4">
                                         <Link to="/login" className="flex flex-row gap-1 items-center justify-center hover:text-purple-600">
-                                            <FaArrowCircleLeft size={"16px"} /> กลับหน้าล็อกอิน
+                                            <FaArrowCircleLeft size={"14px"} /> กลับหน้าล็อกอิน
                                         </Link>
                                     </div>
                                 </Form>
