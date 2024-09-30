@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row, Spinner } from 'react-bootstrap'
+import { FaInfoCircle } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
@@ -19,6 +20,7 @@ const ResetPassword = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { success, loading } = useSelector(state => state.auth);
+    const [searchParams] = useSearchParams();
 
     useEffect(() => {
         if (success) {
@@ -47,12 +49,18 @@ const ResetPassword = () => {
 
     return (
         <div className="container flex flex-col justify-center items-center min-h-[100vh]">
-            <div className="login-box bg-white w-[380px] min-h-[360px] rounded-lg px-4 py-4 flex flex-col justify-between items-center">
-                <h1 className="text-3xl font-bold mt-4">ตั้งรหัสผ่านใหม่</h1>
+            <div className="login-box bg-white w-[380px] min-h-[360px] rounded-lg px-4 py-4 flex flex-col justify-around items-center">
+                <h1 className="text-3xl font-bold mt-4 mb-2">ตั้งรหัสผ่านใหม่</h1>
+
+                <div className="alert alert-info text-sm mb-4 w-full flex flex-row items-center gap-1">
+                    <FaInfoCircle size={"20px"}  />
+                    กรุณาตั้งรหัสผ่านใหม่ของคุณ
+                </div>
+
                 <div className="w-[100%] my-4">
                     <Formik
                         initialValues={{
-                            email: 'sanyath007@gmail.com',
+                            email: searchParams ? searchParams.get('email') : '',
                             password: '',
                             password_confirmation: ''
                         }}
@@ -69,7 +77,7 @@ const ResetPassword = () => {
                                                 name="email"
                                                 value={formik.values.email}
                                                 onChange={formik.handleChange}
-                                                className="form-control"
+                                                className="form-control bg-gray-100"
                                                 placeholder="Email"
                                             />
                                         </Col>

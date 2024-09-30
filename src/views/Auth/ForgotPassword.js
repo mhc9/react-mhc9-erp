@@ -47,6 +47,7 @@ const ForgotPassword = () => {
         <div className="container flex flex-col justify-center items-center min-h-[100vh]">
             <div className="login-box bg-white w-[380px] min-h-[360px] rounded-lg px-4 py-4 flex flex-col justify-around items-center">
                 <h1 className="text-3xl font-bold mt-4">ลืมรหัสผ่าน</h1>
+
                 <div className="alert alert-info text-sm mb-4 w-full flex flex-row items-center gap-1">
                     <FaInfoCircle size={"20px"}  />
                     กรุณากรอกอีเมลของคุณที่ลงทะเบียนไว้
