@@ -20,7 +20,7 @@ const ChangePassword = ({ currentUser }) => {
 
     const handleSubmit = async (values, formik) => {
         try {
-            const res = await api.post('/api/reset-password', values);
+            const res = await api.post('/api/change-password', values);
 
             if (res.data.success) {
                 toast.success('เปลี่ยนรหัสผ่านสำเร็จ!!');
