@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { createSearchParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row, Spinner } from 'react-bootstrap'
 import { toast } from 'react-toastify'
@@ -34,7 +34,7 @@ const ForgotPassword = () => {
             
             if (res.data.success) {
                 toast.success('ระบบได้ทำการส่งรหัสยืนยันตัวตนไปยังอีเมลของท่านแล้ว!!');
-                navigate('/verify-email');
+                navigate({ pathname: '/verify-email', search: createSearchParams({ email: values.email }).toString()});
             }
         } catch (error) {
             
