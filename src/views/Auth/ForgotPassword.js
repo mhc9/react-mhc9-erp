@@ -89,7 +89,7 @@ const ForgotPassword = () => {
                                     </div>
 
                                     <div className="text-xs flex flex-row items-center gap-1">
-                                        <i class="fas fa-info-circle"></i>
+                                        <i className="fas fa-info-circle"></i>
                                         <span>ระบบจะส่งรหัสยืนยันตัวตนของท่านไปยังอีเมลที่ลงทะเบียนไว้</span>
                                     </div>
 
