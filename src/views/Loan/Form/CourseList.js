@@ -24,7 +24,7 @@ const CourseList = ({ courses, onRemoveCourse }) => {
                                         <button
                                             type="button"
                                             className="btn btn-outline-danger text-sm rounded-full p-0 ml-2"
-                                            onClick={() => onRemoveCourse(course.id)}
+                                            onClick={() => onRemoveCourse(course.id, !course.loan_id)}
                                         >
                                             <FaTimes />
                                         </button>

@@ -118,7 +118,7 @@ const LoanForm = ({ loan }) => {
     };
 
     const handleRemoveCourse = (formik, id, isNewLoan = false) => {
-        if (formik.values.items.some(item => (item.course_id === id && !item.removed))) {
+        if (formik.values.items.some(item => parseInt(item.course_id, 10) === id && !item.removed)) {
             toast.error('ไม่สามารถลบรายการได้ เนื่องจากโครงการรุ่นนี้มีรายการค่าใช้จ่ายอยู่!!');
             return;
         }
@@ -487,8 +487,8 @@ const LoanForm = ({ loan }) => {
                                         />
 
                                         <CourseList
-                                            courses={formik.values.courses}
-                                            onRemoveCourse={(id) => handleRemoveCourse(formik, id)}
+                                            courses={formik.values.courses.filter(course => !course.removed)}
+                                            onRemoveCourse={(id, isNewLoan) => handleRemoveCourse(formik, id, isNewLoan)}
                                         />
                                     </div>
                                     {(formik.errors.courses && formik.touched.courses) && (
