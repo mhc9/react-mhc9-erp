@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
+import { ConfirmToast } from 'react-confirm-toast'
 import moment from 'moment'
 import { getLoans, destroy } from '../../../features/slices/loan/loanSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
@@ -24,6 +25,8 @@ const LoanList = () => {
     const { loans, pager, isLoading } = useSelector(state => state.loan);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [deletingId, setDeletingId] = useState('');
 
     useEffect(() => {
         if (apiEndpoint === '') {
@@ -33,10 +36,9 @@ const LoanList = () => {
         }
     }, [apiEndpoint])
 
-    const handleDelete = (id) => {
-        if (window.confirm(`คุณต้องการลบรายการรหัส ${id} ใช่หรือไม่`)) {
-            dispatch(destroy(id));
-        }
+    const handleDelete = () => {
+        dispatch(destroy(deletingId));
+        setDeletingId('');
     };
 
     return (
@@ -55,6 +57,15 @@ const LoanList = () => {
                 </div>
 
                 <div>
+                    <ConfirmToast
+                        customFunction={handleDelete}
+                        setShowConfirmToast={setShowConfirm}
+                        showConfirmToast={showConfirm}
+                        toastText={`คุณต้องการลบคำขอยืมเงิน รหัส ${deletingId} ใช่หรือไม่?`}
+                        buttonNoText='ไม่'
+                        buttonYesText='ใช่'
+                    />
+
                     <FilteringInputs
                         initialFilters={initialFilters}
                         onFilter={(queryStr) => {
@@ -115,7 +126,13 @@ const LoanList = () => {
                                             </Link>
                                         )}
                                         {![3,4,5,9].includes(loan.status) && (
-                                            <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(loan.id)}>
+                                            <button
+                                                className="btn btn-sm btn-danger px-1"
+                                                onClick={() => {
+                                                    setShowConfirm(true);
+                                                    setDeletingId(loan.id);
+                                                }}
+                                            >
                                                 <FaTrash />
                                             </button>
                                         )}
