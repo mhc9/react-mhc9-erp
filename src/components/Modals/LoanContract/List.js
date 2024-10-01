@@ -1,22 +1,25 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Pagination } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import { getContracts } from '../../../features/slices/loan-contract/loanContractSlice';
 import { currency, toShortTHDate } from '../../../utils'
 import Loading from '../../Loading';
+import Pagination from '../../Pagination';
 import EmployeeCard from '../../Employee/Card';
 
 const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
     const { contracts, pager, isLoading } = useSelector(state => state.loanContract);
+    const [endpoint, setEndpoint] = useState('');
+    const [params, setParams] = useState('');
 
     useEffect(() => {
-        dispatch(getContracts({ url: '/api/loan-contracts/search?page=&status=2' }))
-    }, []);
-
-    const handlePageClick = (url) => {
-
-    };
+        if (endpoint === '') {
+            dispatch(getContracts({ url: '/api/loan-contracts/search?page=&status=2' }));
+        } else {
+            dispatch(getContracts({ url: `${endpoint}&status=2${params}` }));
+        }
+    }, [endpoint]);
 
     return (
         <Modal
@@ -24,19 +27,19 @@ const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
             onHide={onHide}
             size='xl'
         >
-            <Modal.Header closeButton>
+            <Modal.Header closeButton className="py-1">
                 <Modal.Title>รายการสัญญายืมเงิน</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div>
-                    <table className="table table-bordered text-sm">
+                    <table className="table table-bordered table-striped table-hover text-sm mb-0">
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
-                                <th className="text-center w-[15%]">เอกสาร</th>
+                                <th className="text-center w-[20%]">เอกสาร</th>
                                 <th>รายการ</th>
                                 <th className="text-center w-[25%]">ผู้ขอ</th>
-                                <th className="text-center w-[10%]">Actions</th>
+                                <th className="text-center w-[8%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -91,27 +94,15 @@ const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
                         </tbody>
                     </table>
                 </div>
-
-                {pager && (
-                    <Pagination>
-                        <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
-                        <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
-                        {/* <Pagination.Item>{1}</Pagination.Item>
-                        <Pagination.Ellipsis />
-
-                        <Pagination.Item>{10}</Pagination.Item>
-                        <Pagination.Item>{11}</Pagination.Item>
-                        <Pagination.Item active>{12}</Pagination.Item>
-                        <Pagination.Item>{13}</Pagination.Item>
-                        <Pagination.Item disabled>{14}</Pagination.Item>
-
-                        <Pagination.Ellipsis />
-                        <Pagination.Item>{20}</Pagination.Item> */}
-                        <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
-                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
-                    </Pagination>
-                )}
             </Modal.Body>
+            <Modal.Footer className="py-1">
+                {pager && (
+                    <Pagination
+                        pager={pager}
+                        onPageClick={(url) => setEndpoint(url)}
+                    />
+                )}
+            </Modal.Footer>
         </Modal>
     )
 }
