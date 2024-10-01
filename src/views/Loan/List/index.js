@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { ConfirmToast } from 'react-confirm-toast'
+import { toast } from 'react-toastify'
 import moment from 'moment'
-import { getLoans, destroy } from '../../../features/slices/loan/loanSlice'
+import { getLoans, destroy, resetDeleted } from '../../../features/slices/loan/loanSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import LoanListDetail from './ListDetail'
 import Loading from '../../../components/Loading'
@@ -22,11 +23,19 @@ const initialFilters = {
 
 const LoanList = () => {
     const dispatch = useDispatch();
-    const { loans, pager, isLoading } = useSelector(state => state.loan);
+    const { loans, pager, isLoading, isDeleted } = useSelector(state => state.loan);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
     const [showConfirm, setShowConfirm] = useState(false);
     const [deletingId, setDeletingId] = useState('');
+
+    useEffect(() => {
+        if (isDeleted) {
+            toast.success('ลบคำขอยืมเงินสำเร็จ!!');
+            dispatch(resetDeleted());
+            setApiEndpoint(prev => prev === '' ? `/api/loans/search?page=` : '');
+        }
+    }, [isDeleted]);
 
     useEffect(() => {
         if (apiEndpoint === '') {

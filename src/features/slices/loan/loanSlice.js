@@ -46,8 +46,6 @@ export const update = createAsyncThunk("loan/update", async ({ id, data }, { dis
     try {
         const res = await api.post(`/api/loans/${id}/update`, data);
 
-        dispatch(getLoans({ url: '/api/loans' }));
-
         return res.data;
     } catch (error) {
         rejectWithValue(error);
@@ -56,9 +54,7 @@ export const update = createAsyncThunk("loan/update", async ({ id, data }, { dis
 
 export const destroy = createAsyncThunk("loan/destroy", async (id, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.post(`/api/loans/${id}/delete`);
-
-        dispatch(getLoans({ url: '/api/loans' }));
+        const res = await api.post(`/api/loans/${id}/delete`, {});
 
         return res.data;
     } catch (error) {
@@ -100,7 +96,6 @@ export const loanSlice = createSlice({
             state.loans = [];
             state.pager = null;
             state.isLoading = true;
-            // state.isSuccess = false;
             state.error = null;
         },
         [getLoans.fulfilled]: (state, { payload }) => {
@@ -109,7 +104,6 @@ export const loanSlice = createSlice({
             state.loans = data;
             state.pager = pager;
             state.isLoading = false
-            // state.isSuccess = true;
         },
         [getLoans.rejected]: (state, { payload }) => {
             state.isLoading = false;
@@ -118,13 +112,11 @@ export const loanSlice = createSlice({
         [getLoan.pending]: (state) => {
             state.loan = null;
             state.isLoading = true;
-            // state.isSuccess = false;
             state.error = null;
         },
         [getLoan.fulfilled]: (state, { payload }) => {
             state.loan = payload;
             state.isLoading = false
-            // state.isSuccess = true;
         },
         [getLoan.rejected]: (state, { payload }) => {
             state.isLoading = false;
