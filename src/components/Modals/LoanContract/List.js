@@ -4,6 +4,7 @@ import { Modal, Pagination } from 'react-bootstrap'
 import { getContracts } from '../../../features/slices/loan-contract/loanContractSlice';
 import { currency, toShortTHDate } from '../../../utils'
 import Loading from '../../Loading';
+import EmployeeCard from '../../Employee/Card';
 
 const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
@@ -34,13 +35,14 @@ const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
                                 <th className="text-center w-[5%]">#</th>
                                 <th className="text-center w-[15%]">เอกสาร</th>
                                 <th>รายการ</th>
-                                <th className="text-center w-[10%]">เลือก</th>
+                                <th className="text-center w-[25%]">ผู้ขอ</th>
+                                <th className="text-center w-[10%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {isLoading && (
                                 <tr>
-                                    <td colSpan={4} className="text-center">
+                                    <td colSpan={5} className="text-center">
                                         <Loading />
                                     </td>
                                 </tr>
@@ -64,6 +66,9 @@ const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
                                             <span className="ml-2"><b>ยอดเงินยืม</b><span className="font-bold text-red-600 mx-1">{currency.format(contract.loan?.net_total)}</span>บาท</span>
                                         </p>
                                     </td>
+                                    <td className="text-sm">
+                                        <EmployeeCard employee={contract?.loan?.employee} />
+                                    </td>
                                     <td className="text-center">
                                         <button
                                             className="btn btn-primary btn-sm"
@@ -78,7 +83,7 @@ const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
                                 </tr>
                             )) : !isLoading && (
                                 <tr>
-                                    <td colSpan={4} className="text-center">
+                                    <td colSpan={5} className="text-center">
                                         <span className="text-red-500 text-sm font-thin">-- ไม่มีรายการ --</span>
                                     </td>
                                 </tr>
