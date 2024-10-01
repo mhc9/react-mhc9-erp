@@ -6,9 +6,9 @@ import { calculateTotalFromDescription, getPatternOfExpense, toShortTHDate, getF
 // import ModalAddItemDesc from '../Modals/AddItemDesc'
 
 const itemSchema = Yup.object().shape({
-    course_id: Yup.string().required(),
-    expense_id: Yup.string().required(),
-    total: Yup.string().required(),
+    course_id: Yup.string().required('กรุณาเลือกรุ่นโครงการก่อน'),
+    expense_id: Yup.string().required('กรุณาเลือกค่าใช้จ่ายก่อน'),
+    total: Yup.string().required('กรุณาระบุรวมเป็นเงินก่อน'),
 });
 
 const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear }) => {
@@ -57,7 +57,7 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                 return (
                     <>
                         <div className="flex flex-row gap-2 mb-2">
-                            <FormGroup className="w-[10%]">
+                            <FormGroup className="w-[15%]">
                                 <select
                                     name="course_id"
                                     value={formik.values.course_id}
@@ -77,7 +77,7 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                                     <span className="text-red-500 text-sm">{formik.errors.course_id}</span>
                                 )}
                             </FormGroup>
-                            <FormGroup className="w-[35%]">
+                            <FormGroup className="w-[30%]">
                                 <select
                                     name="expense_id"
                                     value={formik.values.expense_id}
@@ -142,7 +142,7 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                                     </button>
                                     <button
                                         type="button"
-                                        className="btn btn-outline-danger text-xs min-[1285px]:text-sm  max-[1285px]:px-1 min-[1285px]:px-2"
+                                        className="btn btn-outline-danger text-sm min-[1285px]:text-sm  max-[1285px]:px-1 min-[1285px]:px-2"
                                         onClick={() => handleClear(formik)}
                                     >
                                         {/* <FaTimes /> */}
