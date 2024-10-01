@@ -24,7 +24,7 @@ const ChangePassword = ({ currentUser }) => {
 
             if (res.data.success) {
                 toast.success('เปลี่ยนรหัสผ่านสำเร็จ!!');
-                navigate('/home');
+                navigate('/');
             }
         } catch (error) {
             toast.error('พบข้อผิดพลาด ไม่สามารถเปลี่ยนรหัสผ่านได้!!');
