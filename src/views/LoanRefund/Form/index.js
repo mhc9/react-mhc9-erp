@@ -44,6 +44,7 @@ const LoanRefundForm = ({ refund }) => {
     // const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [contract, setContract] = useState(null);
     const [edittingItem, setEdittingItem] = useState(null);
+    const [contractItems, setContractItems] = useState([]);
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     useEffect(() => {
@@ -66,6 +67,9 @@ const LoanRefundForm = ({ refund }) => {
         const newItems = [...formik.values.items, contractDetail];
         const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1));
         const netTotal = parseFloat(formik.values.order_total) + itemTotal;
+
+        /** Filter contractItems for AddExpense'expese prop */
+        setContractItems(contractItems.filter(item => item.id !== parseInt(contractDetail.contract_detail_id, 10)));
 
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_total', itemTotal);
@@ -97,10 +101,19 @@ const LoanRefundForm = ({ refund }) => {
     };
 
     const handleRemoveItem = (formik, id) => {
+        /** Create new items array */
         const newItems = formik.values.items.filter(item => item.contract_detail_id !== id);
         const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1));
         const netTotal = parseFloat(formik.values.order_total) + itemTotal;
 
+        /** Filter contractItems for AddExpense'expese prop */
+        setContractItems(
+            contract?.details
+                    .filter(item => item.expense_group === 1)
+                    .filter(item => !newItems.some(it => parseInt(it.contract_detail_id, 10) === item.id))
+        );
+
+        /** คำนวณยอดคงเหลือและยอดคืนเกิน 20% หรือไม่ */
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_total', itemTotal);
         formik.setFieldValue('net_total', netTotal);
@@ -156,6 +169,8 @@ const LoanRefundForm = ({ refund }) => {
                             onHide={() => setShowLoanModal(false)}
                             onSelect={(contract) => {
                                 setContract(contract);
+                                setContractItems(contract?.details.filter(item => item.expense_group === 1));
+
                                 formik.setFieldValue('contract_id', contract?.id);
                                 formik.setFieldValue('employee_id', contract?.employee_id);
                                 formik.setFieldValue('year', contract?.year);
@@ -418,7 +433,7 @@ const LoanRefundForm = ({ refund }) => {
                                     >
                                         <Tab eventKey="expenses" title="รายการค่าใช้จ่ายจริง">
                                             <AddExpense
-                                                expenses={contract?.details.filter(item => item.expense_group === 1)}
+                                                expenses={contractItems}
                                                 courses={contract && [...contract?.loan?.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date))}
                                                 refundType={formik.values.refund_type_id}
                                                 onAddItem={(data) => handleAddItem(formik, data)}
