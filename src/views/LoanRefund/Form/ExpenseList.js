@@ -66,7 +66,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                                                 {(!edittingItem || edittingItem?.expense_id !== data.expense_id) && (
                                                     <button
                                                         type="button"
-                                                        className="btn btn-sm btn-outline-warning mr-1"
+                                                        className="btn btn-sm btn-outline-warning p-1 mr-1"
                                                         onClick={() => onEditItem(data)}
                                                     >
                                                         <FaPencilAlt />
@@ -74,7 +74,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                                                 )}
                                                 <button
                                                     type="button"
-                                                    className="btn btn-sm btn-outline-danger"
+                                                    className="btn btn-sm btn-outline-danger p-1"
                                                     onClick={() => onRemoveItem(data.contract_detail_id)}
                                                 >
                                                     <FaTrash />
@@ -126,7 +126,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                                             {(!edittingItem || edittingItem?.expense_id !== data.expense_id) && (
                                                 <button
                                                     type="button"
-                                                    className="btn btn-sm btn-outline-warning mr-1"
+                                                    className="btn btn-outline-warning btn-sm p-1 mr-1"
                                                     onClick={() => onEditItem(data)}
                                                 >
                                                     <FaPencilAlt />
@@ -134,7 +134,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                                             )}
                                             <button
                                                 type="button"
-                                                className="btn btn-sm btn-outline-danger"
+                                                className="btn btn-outline-danger btn-sm p-1"
                                                 onClick={() => onRemoveItem(data.contract_detail_id)}
                                             >
                                                 <FaTrash />
