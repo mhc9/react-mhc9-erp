@@ -7,7 +7,7 @@ const initialState = {
     pager: null,
     isLoading: false,
     isSuccess: false,
-    isUploaded: false,
+    isDeleted: false,
     error: null
 };
 
@@ -44,8 +44,6 @@ export const store = createAsyncThunk("loan-refund/store", async (data, { reject
 export const update = createAsyncThunk("loan-refund/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
     try {
         const res = await api.post(`/api/loan-refunds/${id}/update`, data);
-
-        dispatch(getRefunds({ url: '/api/loan-refunds' }));
 
         return res.data;
     } catch (error) {
@@ -90,8 +88,8 @@ export const loanRefundSlice = createSlice({
         resetSuccess: (state) => {
             state.isSuccess = false;
         },
-        resetUploaded: (state) => {
-            state.isUploaded = false;
+        resetDeleted: (state) => {
+            state.isDeleted = false;
         },
         updateImage: (state, { payload }) => {
             state.refund = { ...state.refund, img_url: payload };
@@ -102,7 +100,6 @@ export const loanRefundSlice = createSlice({
             state.refunds = [];
             state.pager = null;
             state.isLoading = true;
-            // state.isSuccess = false;
             state.error = null;
         },
         [getRefunds.fulfilled]: (state, { payload }) => {
@@ -110,8 +107,7 @@ export const loanRefundSlice = createSlice({
 
             state.refunds = data;
             state.pager = pager;
-            state.isLoading = false
-            // state.isSuccess = true;
+            state.isLoading = false;
         },
         [getRefunds.rejected]: (state, { payload }) => {
             state.isLoading = false;
@@ -120,63 +116,71 @@ export const loanRefundSlice = createSlice({
         [getRefund.pending]: (state) => {
             state.refund = null;
             state.isLoading = true;
-            // state.isSuccess = false;
             state.error = null;
         },
         [getRefund.fulfilled]: (state, { payload }) => {
             state.refund = payload;
-            state.isLoading = false
-            // state.isSuccess = true;
+            state.isLoading = false;
         },
         [getRefund.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },
         [store.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
+            state.refund = null;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
-            state.isSuccess = true;
+            const { status, message, refund } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.refund = refund;
+            } else {
+                state.error = { message };
+            }
         },
         [store.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [update.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
+            state.refund = null;
             state.error = null;
         },
         [update.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
-            state.isSuccess = true;
+            const { status, message, refund } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.refund = refund;
+            } else {
+                state.error = { message };
+            }
         },
         [update.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [destroy.pending]: (state) => {
-            state.isSuccess = false;
+            state.isDeleted = false;
             state.error = null;
         },
         [destroy.fulfilled]: (state, { payload }) => {
             const { status, message } = payload;
 
             if(status === 1) {
-                state.isSuccess = true;
+                state.isDeleted = true;
             } else {
-                state.error = payload;
+                state.error = { message };
             }
         },
         [destroy.rejected]: (state, { payload }) => {
             state.error = payload;
         },
         [approve.pending]: (state) => {
-            state.refund = null;
             state.isSuccess = false;
+            state.refund = null;
             state.error = null;
         },
         [approve.fulfilled]: (state, { payload }) => {
@@ -194,8 +198,8 @@ export const loanRefundSlice = createSlice({
             state.error = payload;
         },
         [receipt.pending]: (state) => {
-            state.refund = null;
             state.isSuccess = false;
+            state.refund = null;
             state.error = null;
         },
         [receipt.fulfilled]: (state, { payload }) => {
@@ -217,4 +221,4 @@ export const loanRefundSlice = createSlice({
 
 export default loanRefundSlice.reducer;
 
-export const { resetSuccess, resetUploaded, updateImage } = loanRefundSlice.actions;
+export const { resetSuccess, resetDeleted, updateImage } = loanRefundSlice.actions;
