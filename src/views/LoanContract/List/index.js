@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
+import { ConfirmToast } from 'react-confirm-toast'
 import { toast } from 'react-toastify'
 import moment from 'moment'
 import { getContracts, destroy, resetSuccess } from '../../../features/slices/loan-contract/loanContractSlice'
@@ -24,6 +25,8 @@ const LoanContractList = () => {
     const { contracts, pager, isLoading, isSuccess } = useSelector(state => state.loanContract);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [deletingId, setDeletingId] = useState('');
 
     useEffect(() => {
         if (isSuccess) {
@@ -44,9 +47,8 @@ const LoanContractList = () => {
     }, [apiEndpoint])
 
     const handleDelete = (id) => {
-        if (window.confirm(`คุณต้องการลบสัญญาเงินยืมรหัส ${id} ใช่หรือไม่`)) {
-            dispatch(destroy(id));
-        }
+        dispatch(destroy(deletingId));
+        setDeletingId('');
     };
 
     return (
@@ -65,6 +67,15 @@ const LoanContractList = () => {
                 </div>
 
                 <div>
+                    <ConfirmToast
+                        customFunction={handleDelete}
+                        setShowConfirmToast={setShowConfirm}
+                        showConfirmToast={showConfirm}
+                        toastText={`คุณต้องการลบสัญญายืมเงิน รหัส ${deletingId} ใช่หรือไม่?`}
+                        buttonNoText='ไม่'
+                        buttonYesText='ใช่'
+                    />
+
                     <FilteringInputs
                         initialFilters={initialFilters}
                         onFilter={(queryStr) => {
@@ -123,7 +134,10 @@ const LoanContractList = () => {
                                                 <Link to={`/loan-contract/${contract.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                                     <FaPencilAlt />
                                                 </Link>
-                                                <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(contract.id)}>
+                                                <button className="btn btn-sm btn-danger px-1" onClick={() => {
+                                                    setDeletingId(contract.id);
+                                                    setShowConfirm(true);
+                                                }}>
                                                     <FaTrash />
                                                 </button>
                                             </>

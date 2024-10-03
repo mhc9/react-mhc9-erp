@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
+import { ConfirmToast } from 'react-confirm-toast'
 import { toast } from 'react-toastify'
 import moment from 'moment'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { getRefunds, destroy, resetSuccess } from '../../../features/slices/loan-refund/loanRefundSlice'
+import { getRefunds, destroy, resetDeleted } from '../../../features/slices/loan-refund/loanRefundSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import FilteringInputs from './FilteringInputs'
 import Loading from '../../../components/Loading'
@@ -20,19 +21,21 @@ const initialFilters = {
 
 const LoanRefundList = () => {
     const dispatch = useDispatch();
-    const { refunds, pager, isLoading, isSuccess } = useSelector(state => state.loanRefund);
+    const { refunds, pager, isLoading, isDeleted } = useSelector(state => state.loanRefund);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [deletingId, setDeletingId] = useState('');
 
     useEffect(() => {
-        if (isSuccess) {
-            dispatch(resetSuccess());
+        if (isDeleted) {
+            dispatch(resetDeleted());
             toast.success('ลบรายการหักล้างเงินยืมสำเร็จ!!');
 
             /** Reset ค่าของ apiEndpoint เพื่่อ re-render page */
             setApiEndpoint(prev => prev === '' ? `/api/loan-refunds/search?page=` : '')
         }
-    }, [isSuccess]);
+    }, [isDeleted]);
 
     useEffect(() => {
         if (apiEndpoint === '') {
@@ -48,10 +51,9 @@ const LoanRefundList = () => {
         setApiEndpoint(`/api/loan-refunds/search?page=`);
     };
 
-    const handleDelete = (id) => {
-        if (window.confirm(`คุณต้องการลบสัญญาเงินยืมรหัส ${id} ใช่หรือไม่`)) {
-            dispatch(destroy(id));
-        }
+    const handleDelete = () => {
+        dispatch(destroy(deletingId));
+        setDeletingId('');
     };
 
     return (
@@ -70,6 +72,15 @@ const LoanRefundList = () => {
                 </div>
 
                 <div>
+                    <ConfirmToast
+                        customFunction={handleDelete}
+                        setShowConfirmToast={setShowConfirm}
+                        showConfirmToast={showConfirm}
+                        toastText={`คุณต้องการลบรายการหักล้างเงินยืม รหัส ${deletingId} ใช่หรือไม่?`}
+                        buttonNoText='ไม่'
+                        buttonYesText='ใช่'
+                    />
+
                     <FilteringInputs
                         initialFilters={initialFilters}
                         onFilter={handleFilter}
@@ -134,7 +145,10 @@ const LoanRefundList = () => {
                                                 <Link to={`/loan-refund/${refund.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                                     <FaPencilAlt />
                                                 </Link>
-                                                <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(refund.id)}>
+                                                <button className="btn btn-sm btn-danger px-1" onClick={() => {
+                                                    setDeletingId(refund.id);
+                                                    setShowConfirm(true);
+                                                }}>
                                                     <FaTrash />
                                                 </button>
                                             </>
