@@ -277,15 +277,13 @@ const LoanRefundForm = ({ refund }) => {
                                                     <ul key={item.id}>
                                                         <li>
                                                             <span className="mr-1">{index+1}.</span>
-                                                            {item.budget?.name}
+                                                            {item.budget?.activity?.name}
+                                                            {/* <span className="ml-1">
+                                                                {item.budget?.activity?.project?.plan?.name} / {item.budget?.activity?.project?.name}
+                                                            </span> */}
                                                             <span className="ml-1">
-                                                                {item.budget?.project?.plan?.name} / {item.budget?.project?.name}
+                                                                <b>งบประมาณ</b> {currency.format(item?.total)} บาท
                                                             </span>
-                                                            {contract?.loan?.budgets.length > 1 && (
-                                                                <span className="ml-1">
-                                                                    <b>งบประมาณ</b> {currency.format(item?.total)} บาท
-                                                                </span>
-                                                            )}
                                                         </li>
                                                     </ul>
                                                 ))}
