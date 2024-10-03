@@ -60,7 +60,7 @@ const AddExpense = ({ data, expenses, courses, refundType, onAddItem, onUpdateIt
             {(formik) => (
                 <>
                     <div className="flex flex-row gap-2 mb-2">
-                        <FormGroup className="w-[70%]">
+                        <FormGroup className="w-[40%]">
                             <select
                                 name="contract_detail_id"
                                 value={formik.values.contract_detail_id}

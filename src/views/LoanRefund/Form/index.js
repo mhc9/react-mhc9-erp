@@ -450,7 +450,7 @@ const LoanRefundForm = ({ refund }) => {
 
                                             <div className="flex flex-row justify-end items-center gap-2">
                                                 รวมค่าใช้จ่ายทั้งสิ้น
-                                                <div className="w-[10%]">
+                                                <div className="w-[9.5%]">
                                                     <div className="form-control min-h-[34px] text-right text-sm font-bold">
                                                         {currency.format(formik.values.item_total)}
                                                     </div>
@@ -460,7 +460,7 @@ const LoanRefundForm = ({ refund }) => {
                                                         {contract ? currency.format(contract?.item_total - parseFloat(formik.values.item_total)) : '0'}
                                                     </div>
                                                 </div>
-                                                <div className="w-[9%]"></div>
+                                                <div className="w-[9.5%]"></div>
                                             </div>
                                         </Tab>
                                         <Tab eventKey="orders" title="รายการจัดซื้อจัดจ้าง">
@@ -504,7 +504,7 @@ const LoanRefundForm = ({ refund }) => {
 
                                             <div className="flex flex-row justify-end items-center gap-2">
                                                 รวมจัดซื้อจัดทั้งสิ้น
-                                                <div className="w-[10%]">
+                                                <div className="w-[9.5%]">
                                                     <div className="form-control min-h-[34px] text-right text-sm font-bold">
                                                         {currency.format(formik.values.order_total)}
                                                     </div>
@@ -514,14 +514,14 @@ const LoanRefundForm = ({ refund }) => {
                                                         {contract ? currency.format(contract?.order_total - parseFloat(formik.values.order_total)) : '0'}
                                                     </div>
                                                 </div>
-                                                <div className="w-[9%]"></div>
+                                                <div className="w-[9.5%]"></div>
                                             </div>
                                         </Tab>
                                     </Tabs>
 
                                     <div className="flex flex-row justify-end items-center gap-2 p-2">
                                         ยอดใช้จริงทั้งสิ้น
-                                        <div className="w-[10%]">
+                                        <div className="w-[9.5%]">
                                             <div className="form-control font-bold text-lg text-right float-right min-h-[34px]">
                                                 {contract?.net_total < parseFloat(formik.values.net_total) && (
                                                     <span className="text-red-600">
@@ -549,11 +549,13 @@ const LoanRefundForm = ({ refund }) => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="w-[9%]"></div>
+                                        <div className="w-[9.5%]"></div>
                                     </div>
                                 </div>
                                 {(formik.errors.items && formik.touched.items) && (
-                                    <span className="text-red-500 text-xs">{formik.errors.items}</span>
+                                    <span className="text-red-500 text-xs">
+                                        {formik.errors.items}
+                                    </span>
                                 )}
                             </Col>
                         </Row>

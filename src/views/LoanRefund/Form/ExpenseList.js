@@ -63,7 +63,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                                         </td>
                                         {showButtons && (
                                             <td className="text-center">
-                                                {(!edittingItem || edittingItem?.expense_id !== data.expense_id) && (
+                                                {/* {(!edittingItem || edittingItem?.expense_id !== data.expense_id) && (
                                                     <button
                                                         type="button"
                                                         className="btn btn-sm btn-outline-warning p-1 mr-1"
@@ -71,7 +71,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                                                     >
                                                         <FaPencilAlt />
                                                     </button>
-                                                )}
+                                                )} */}
                                                 <button
                                                     type="button"
                                                     className="btn btn-sm btn-outline-danger p-1"
@@ -123,7 +123,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                                     </td>
                                     {showButtons && (
                                         <td className="text-center">
-                                            {(!edittingItem || edittingItem?.expense_id !== data.expense_id) && (
+                                            {/* {(!edittingItem || edittingItem?.expense_id !== data.expense_id) && (
                                                 <button
                                                     type="button"
                                                     className="btn btn-outline-warning btn-sm p-1 mr-1"
@@ -131,7 +131,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                                                 >
                                                     <FaPencilAlt />
                                                 </button>
-                                            )}
+                                            )} */}
                                             <button
                                                 type="button"
                                                 className="btn btn-outline-danger btn-sm p-1"

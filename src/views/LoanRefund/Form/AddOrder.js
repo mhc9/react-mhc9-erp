@@ -60,7 +60,7 @@ const AddOrder = ({ data, formData, onAdd, onUpdate, onClear }) => {
                 return (
                     <>
                         <div className="flex flex-row gap-2 mb-2">
-                            <FormGroup className="w-[35%]">
+                            <FormGroup className="w-[40%]">
                                 <select
                                     name="contract_detail_id"
                                     value={formik.values.contract_detail_id}
@@ -83,7 +83,7 @@ const AddOrder = ({ data, formData, onAdd, onUpdate, onClear }) => {
                                     <span className="text-red-500 text-sm">{formik.errors.contract_detail_id}</span>
                                 )}
                             </FormGroup>
-                            <FormGroup className="w-[40%]">
+                            <FormGroup className="w-[30%]">
                                 <input
                                     type="text"
                                     name="description"
@@ -102,7 +102,7 @@ const AddOrder = ({ data, formData, onAdd, onUpdate, onClear }) => {
                                     <span className="text-red-500 text-sm">{formik.errors.description}</span>
                                 )}
                             </FormGroup>
-                            <FormGroup className="w-[15%]">
+                            <FormGroup className="w-[20%]">
                                 <input
                                     type="text"
                                     name="total"
