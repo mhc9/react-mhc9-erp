@@ -219,7 +219,7 @@ const LoanRefundDetail = () => {
                                             </div>
                                         </Col>
                                     </Row>
-                                    {refund?.is_over20 === 0 && (
+                                    {refund?.is_over20 === 1 && (
                                         <Row className="my-2">
                                             <Col md={12} className="mt-1">
                                                 <div className="flex flex-row items-center gap-1">
@@ -341,7 +341,7 @@ const LoanRefundDetail = () => {
                         </Row>
                         <Row className="mb-2 mt-4">
                             <Col className="flex justify-center">
-                                <DropdownButton title="บันทึกหักล้างเงินยืม" btnColor="primary" cssClass="mr-1">
+                                <DropdownButton title="เอกสารหักล้างเงินยืม" btnColor="primary" cssClass="mr-1">
                                     <DropdownItem>
                                         <Link to={`/preview/${id}/loan-refund/form`} target="_blank" className="text-success">
                                             <i className="fas fa-print mr-1"></i>
@@ -357,7 +357,7 @@ const LoanRefundDetail = () => {
                                 </DropdownButton>
 
                                 {refund?.is_over20 === 1 && (
-                                    <DropdownButton title="บันทึกขอคืนเงินยืมเกิน 20%" btnColor="primary" cssClass="mr-1">
+                                    <DropdownButton title="เอกสารคืนเงินยืมเกิน 20%" btnColor="primary" cssClass="mr-1">
                                         <DropdownItem>
                                             <Link to={`/preview/${id}/loan-refund/over20`} target="_blank" className="text-success">
                                                 <i className="fas fa-print mr-1"></i>
@@ -373,12 +373,12 @@ const LoanRefundDetail = () => {
                                     </DropdownButton>
                                 )}
 
-                                <Link to={`/preview/${id}/loan-refund/bill`} target="_blank" className="btn btn-success btn-sm mr-1">
-                                    พิมพ์ใบรับใบสำคัญ
-                                </Link>
-
                                 {[1,4].includes(loggedInUser?.permissions[0].role_id) && (
                                     <>
+                                        <Link to={`/preview/${id}/loan-refund/bill`} target="_blank" className="btn btn-success btn-sm mr-1">
+                                            พิมพ์ใบรับใบสำคัญ
+                                        </Link>
+
                                         {refund?.status === 'N' && (
                                             <a href="#" className="btn btn-primary btn-sm" onClick={() => setShowApprovalForm(true)}>
                                                 เคลียร์เงินยืม
