@@ -196,9 +196,9 @@ const LoanRefundForm = ({ refund }) => {
                                                     <div className="form-control text-sm h-[34px] bg-gray-100">
                                                         {contract && <span className="mr-4"><b className="mr-1">เลขที่</b> {contract?.contract_no}</span>}
                                                     </div>
-                                                    <button type="button" className="btn btn-outline-secondary" onClick={() => setShowLoanModal(true)}>
+                                                    {!refund && <button type="button" className="btn btn-outline-secondary" onClick={() => setShowLoanModal(true)}>
                                                         <FaSearch />
-                                                    </button>
+                                                    </button>}
                                                 </div>
                                                 {(formik.errors.contract_id && formik.touched.contract_id) && (
                                                     <span className="text-red-500 text-xs">{formik.errors.contract_id}</span>
