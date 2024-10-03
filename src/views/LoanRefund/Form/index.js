@@ -185,8 +185,8 @@ const LoanRefundForm = ({ refund }) => {
                         />
 
                         <Row className="mb-3">
-                            <Col md={8}>
-                                <div className="border rounded-md py-2 px-3 bg-[#EAD9D5] text-sm min-h-[260px]">
+                            <Col md={8} className="pr-1">
+                                <div className="border rounded-md py-2 px-3 bg-[#EAD9D5] text-sm min-h-[315px]">
                                     <h1 className="font-bold text-lg mb-2">สัญญายืมเงิน</h1>
                                     <Row className="mb-3">
                                         <Col md={8} className="flex flex-row items-start">
@@ -297,133 +297,135 @@ const LoanRefundForm = ({ refund }) => {
                                     </Row>
                                 </div>
                             </Col>
-                            <Col md={4}>
-                                <h1 className="font-bold text-lg mb-2">เอกสารหักล้างเงินยืม</h1>
-                                <Row className="mb-2">
-                                    <Col md={6} className="max-[768px]:mt-2">
-                                        <label htmlFor="">เลขที่เอกสาร</label>
-                                        <input
-                                            type="text"
-                                            name="doc_no"
-                                            value={formik.values.doc_no}
-                                            onChange={formik.handleChange}
-                                            className="form-control text-sm"
-                                        />
-                                        {(formik.errors.doc_no && formik.touched.doc_no) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.doc_no}</span>
-                                        )}
-                                    </Col>
-                                    <Col md={6} className="max-[768px]:mt-2">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="">วันที่เอกสาร</label>
-                                            <DatePicker
-                                                format="DD/MM/YYYY"
-                                                value={selectedDocDate}
-                                                onChange={(date) => {
-                                                    setSelectedDocDate(date);
-                                                    formik.setFieldValue('doc_date', date.format('YYYY-MM-DD'));
-                                                }}
-                                                variant="outlined"
-                                            />
-                                        </div>
-                                        {(formik.errors.doc_date && formik.touched.doc_date) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.doc_date}</span>
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row className="mb-2">
-                                    <Col md={6} className="max-[768px]:mt-2">
-                                        <label htmlFor="">ประเภท</label>
-                                        <select
-                                            type="text"
-                                            name="refund_type_id"
-                                            value={formik.values.refund_type_id}
-                                            onChange={formik.handleChange}
-                                            className="form-control text-sm"
-                                        >
-                                            <option value="">-- เลือกประเภท --</option>
-                                            <option value="1">คืนเงิน</option>
-                                            <option value="2">เบิกเพิ่ม</option>
-                                            <option value="3">พอดี</option>
-                                        </select>
-                                        {(formik.errors.refund_type_id && formik.touched.refund_type_id) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.refund_type_id}</span>
-                                        )}
-                                    </Col>
-                                    <Col md={6} className="max-[768px]:mt-2">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="">ยอดเงิน{parseFloat(formik.values.balance) >= 0 ? 'คืน' : 'เบิกเพิ่ม'}</label>
-                                            <div className="form-control text-sm font-bold bg-gray-200 min-h-[34px]">
-                                                {parseFloat(formik.values.balance) < 0 && (
-                                                    <span className="text-red-600">
-                                                        {currency.format(formik.values.balance)}
-                                                    </span>
-                                                )}
-                                                {parseFloat(formik.values.balance) >= 0 && (
-                                                    <span className="text-green-600">
-                                                        {currency.format(formik.values.balance)}
-                                                    </span>
-                                                )}
-                                            </div>
-                                        </div>
-                                        {(formik.errors.net_total && formik.touched.net_total) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.net_total}</span>
-                                        )}
-                                    </Col>
-                                </Row>
-                                {formik.values.is_over20 && (
-                                    <Row className="my-2">
-                                        <Col md={12} className="mt-2">
-                                            <div className="flex flex-row items-center gap-1">
-                                                <FaCheckSquare /> คืนเกิน 20%
-                                            </div>
-                                        </Col>
-                                        <Col md={6} className="mt-2">
+                            <Col md={4} className="pl-1">
+                                <div className="border rounded-md py-2 px-4 text-sm min-h-[315px]">
+                                    <h1 className="font-bold text-lg mb-2">เอกสารหักล้างเงินยืม</h1>
+                                    <Row className="mb-2">
+                                        <Col md={6} className="max-[768px]:mt-2">
                                             <label htmlFor="">เลขที่เอกสาร</label>
                                             <input
                                                 type="text"
-                                                name="over20_no"
-                                                value={formik.values.over20_no}
+                                                name="doc_no"
+                                                value={formik.values.doc_no}
                                                 onChange={formik.handleChange}
                                                 className="form-control text-sm"
                                             />
-                                            {(formik.errors.over20_no && formik.touched.over20_no) && (
-                                                <span className="text-red-500 text-xs">{formik.errors.over20_no}</span>
+                                            {(formik.errors.doc_no && formik.touched.doc_no) && (
+                                                <span className="text-red-500 text-xs">{formik.errors.doc_no}</span>
                                             )}
                                         </Col>
-                                        <Col md={6} className="mt-2">
+                                        <Col md={6} className="max-[768px]:mt-2">
                                             <div className="flex flex-col">
                                                 <label htmlFor="">วันที่เอกสาร</label>
                                                 <DatePicker
                                                     format="DD/MM/YYYY"
-                                                    value={selectedOver20Date}
+                                                    value={selectedDocDate}
                                                     onChange={(date) => {
-                                                        setSelectedOver20Date(date);
-                                                        formik.setFieldValue('over20_date', date.format('YYYY-MM-DD'));
+                                                        setSelectedDocDate(date);
+                                                        formik.setFieldValue('doc_date', date.format('YYYY-MM-DD'));
                                                     }}
+                                                    variant="outlined"
                                                 />
                                             </div>
-                                            {(formik.errors.over20_date && formik.touched.over20_date) && (
-                                                <span className="text-red-500 text-xs">{formik.errors.over20_date}</span>
-                                            )}
-                                        </Col>
-                                        <Col md={12} className="mt-2">
-                                            <div className="flex flex-col">
-                                                <label htmlFor="">เหตุผล</label>
-                                                <textarea
-                                                    rows={3}
-                                                    name="over20_reason"
-                                                    value={formik.values.over20_reason}
-                                                    onChange={formik.handleChange}
-                                                    className="form-control text-sm"
-                                                ></textarea>
-                                            </div>
-                                            {(formik.errors.over20_reason && formik.touched.over20_reason) && (
-                                                <span className="text-red-500 text-xs">{formik.errors.over20_reason}</span>
+                                            {(formik.errors.doc_date && formik.touched.doc_date) && (
+                                                <span className="text-red-500 text-xs">{formik.errors.doc_date}</span>
                                             )}
                                         </Col>
                                     </Row>
-                                )}
+                                    <Row className="mb-2">
+                                        <Col md={6} className="max-[768px]:mt-2">
+                                            <label htmlFor="">ประเภท</label>
+                                            <select
+                                                type="text"
+                                                name="refund_type_id"
+                                                value={formik.values.refund_type_id}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-sm"
+                                            >
+                                                <option value="">-- เลือกประเภท --</option>
+                                                <option value="1">คืนเงิน</option>
+                                                <option value="2">เบิกเพิ่ม</option>
+                                                <option value="3">พอดี</option>
+                                            </select>
+                                            {(formik.errors.refund_type_id && formik.touched.refund_type_id) && (
+                                                <span className="text-red-500 text-xs">{formik.errors.refund_type_id}</span>
+                                            )}
+                                        </Col>
+                                        <Col md={6} className="max-[768px]:mt-2">
+                                            <div className="flex flex-col">
+                                                <label htmlFor="">ยอดเงิน{parseFloat(formik.values.balance) >= 0 ? 'คืน' : 'เบิกเพิ่ม'}</label>
+                                                <div className="form-control text-sm font-bold bg-gray-200 min-h-[34px]">
+                                                    {parseFloat(formik.values.balance) < 0 && (
+                                                        <span className="text-red-600">
+                                                            {currency.format(formik.values.balance)}
+                                                        </span>
+                                                    )}
+                                                    {parseFloat(formik.values.balance) >= 0 && (
+                                                        <span className="text-green-600">
+                                                            {currency.format(formik.values.balance)}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            {(formik.errors.net_total && formik.touched.net_total) && (
+                                                <span className="text-red-500 text-xs">{formik.errors.net_total}</span>
+                                            )}
+                                        </Col>
+                                    </Row>
+                                    {formik.values.is_over20 && (
+                                        <Row className="my-2">
+                                            <Col md={12} className="mt-1">
+                                                <div className="flex flex-row items-center gap-1">
+                                                    <FaCheckSquare /> คืนเกิน 20%
+                                                </div>
+                                            </Col>
+                                            <Col md={6} className="mt-2">
+                                                <label htmlFor="">เลขที่เอกสาร</label>
+                                                <input
+                                                    type="text"
+                                                    name="over20_no"
+                                                    value={formik.values.over20_no}
+                                                    onChange={formik.handleChange}
+                                                    className="form-control text-sm"
+                                                />
+                                                {(formik.errors.over20_no && formik.touched.over20_no) && (
+                                                    <span className="text-red-500 text-xs">{formik.errors.over20_no}</span>
+                                                )}
+                                            </Col>
+                                            <Col md={6} className="mt-2">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="">วันที่เอกสาร</label>
+                                                    <DatePicker
+                                                        format="DD/MM/YYYY"
+                                                        value={selectedOver20Date}
+                                                        onChange={(date) => {
+                                                            setSelectedOver20Date(date);
+                                                            formik.setFieldValue('over20_date', date.format('YYYY-MM-DD'));
+                                                        }}
+                                                    />
+                                                </div>
+                                                {(formik.errors.over20_date && formik.touched.over20_date) && (
+                                                    <span className="text-red-500 text-xs">{formik.errors.over20_date}</span>
+                                                )}
+                                            </Col>
+                                            <Col md={12} className="mt-2">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="">เหตุผล</label>
+                                                    <textarea
+                                                        rows={2}
+                                                        name="over20_reason"
+                                                        value={formik.values.over20_reason}
+                                                        onChange={formik.handleChange}
+                                                        className="form-control text-sm"
+                                                    ></textarea>
+                                                </div>
+                                                {(formik.errors.over20_reason && formik.touched.over20_reason) && (
+                                                    <span className="text-red-500 text-xs">{formik.errors.over20_reason}</span>
+                                                )}
+                                            </Col>
+                                        </Row>
+                                    )}
+                                </div>
                             </Col>
                         </Row>
                         <Row className="mb-2">

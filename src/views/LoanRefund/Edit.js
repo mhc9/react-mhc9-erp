@@ -34,7 +34,7 @@ const EditLoanRefund = () => {
             </Breadcrumb>
 
             <div className="content">
-                <h1 className="text-xl font-bold mb-1">แก้ไขรายการหักล้างเงินยืม</h1>
+                <h1 className="text-xl font-bold mb-1">แก้ไขรายการหักล้างเงินยืม (#{id})</h1>
 
                 {isLoading && <div className="text-center"><Loading /></div>}
                 {(!isLoading && refund) && <LoanRefundForm refund={refund} />}
