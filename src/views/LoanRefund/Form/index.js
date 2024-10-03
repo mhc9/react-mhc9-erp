@@ -41,7 +41,6 @@ const LoanRefundForm = ({ refund }) => {
     const [selectedDocDate, setSelectedDocDate] = useState(moment());
     const [selectedOver20Date, setSelectedOver20Date] = useState(moment());
     const [showLoanModal, setShowLoanModal] = useState(false);
-    // const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [contract, setContract] = useState(null);
     const [edittingItem, setEdittingItem] = useState(null);
     const [contractItems, setContractItems] = useState([]);
@@ -49,10 +48,15 @@ const LoanRefundForm = ({ refund }) => {
 
     useEffect(() => {
         if (refund) {
+            setContract(refund.contract);
             setSelectedDocDate(moment(refund.doc_date));
 
-            setContract(refund.loan);
-            // setEmployee(contract?.employee);
+            /** Filter contractItems for AddExpense'expese prop */
+            setContractItems(
+                refund.contract?.details
+                        .filter(item => item.expense_group === 1)
+                        .filter(item => !refund.details.some(it => it.contract_detail_id === item.id))
+            );
         }
     }, [refund]);
 
@@ -148,14 +152,14 @@ const LoanRefundForm = ({ refund }) => {
                 refund_type_id: refund ? refund.refund_type_id : '1',
                 employee_id: refund ? refund.employee_id : '',
                 year: refund ? refund.year : '',
-                item_total: 0,
-                order_total: 0,
+                item_total: refund ? refund.item_total : 0,
+                order_total: refund ? refund.order_total : 0,
                 net_total: refund ? refund.net_total : 0,
                 balance: refund ? refund.balance : 0,
-                is_over20: false,
-                over20_no: '',
-                over20_date: '',
-                over20_reason: '',
+                is_over20: refund ? (refund.is_over20 === 0 ? false : true) : false,
+                over20_no: (refund && refund.over20_no) ? refund.over20_no : '',
+                over20_date: (refund && refund.over20_date) ? refund.over20_date : '',
+                over20_reason: (refund && refund.over20_reason) ? refund.over20_reason : '',
                 items: refund ? refund.details : [],
             }}
             validationSchema={refundSchema}
