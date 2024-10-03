@@ -518,7 +518,10 @@ const LoanRefundForm = ({ refund }) => {
                                     </Tabs>
 
                                     <div className="flex flex-row justify-end items-center gap-2 p-2">
-                                        ยอดใช้จริงทั้งสิ้น
+                                        <div>
+                                            <span className="text-lg font-bold">ยอดใช้จริงทั้งสิ้น</span>
+                                            <span className="ml-1">(ค่าใช้จ่าย {currency.format(formik.values.item_total)} บาท + จัดซื้อจัดจ้าง {currency.format(formik.values.order_total)} บาท) =</span>
+                                        </div>
                                         <div className="w-[9.5%]">
                                             <div className="form-control font-bold text-lg text-right float-right min-h-[34px]">
                                                 {contract?.net_total < parseFloat(formik.values.net_total) && (
