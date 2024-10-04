@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 import { FaInfoCircle } from 'react-icons/fa'
 import { FormGroup } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import api from '../../api'
+import { setLoggedInUser } from '../../features/slices/auth/authSlice'
 
 const changeSchema = Yup.object().shape({
     email: Yup.string().required(),
@@ -21,6 +22,7 @@ const changeSchema = Yup.object().shape({
 
 const ChangePassword = ({ currentUser }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSubmit = async (values, formik) => {
         try {
@@ -28,6 +30,7 @@ const ChangePassword = ({ currentUser }) => {
 
             if (res.data.success) {
                 toast.success('เปลี่ยนรหัสผ่านสำเร็จ!!');
+                dispatch(setLoggedInUser(res.data.user));
                 navigate('/');
             }
         } catch (error) {
