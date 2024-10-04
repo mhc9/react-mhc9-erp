@@ -7,7 +7,7 @@ import { FaInfoCircle, FaArrowCircleLeft } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import { login, resetSuccess } from '../../features/slices/auth/authSlice'
+// import { login, resetSuccess } from '../../features/slices/auth/authSlice'
 import api from '../../api'
 
 const resetSchema = Yup.object().shape({
@@ -23,26 +23,26 @@ const resetSchema = Yup.object().shape({
 
 const ResetPassword = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const { success, loading } = useSelector(state => state.auth);
+    // const dispatch = useDispatch();
+    const { isSuccess, isLoading } = useSelector(state => state.auth);
     const [searchParams] = useSearchParams();
 
-    useEffect(() => {
-        if (success) {
-            dispatch(resetSuccess());
+    // useEffect(() => {
+    //     if (success) {
+    //         dispatch(resetSuccess());
 
-            navigate('/');
-        }
-    }, [success]);
+    //         navigate('/');
+    //     }
+    // }, [success]);
 
     const handleSubmit = async (values, props) => {
-        // dispatch(login({ ...values }));
         try {
             const res = await api.post(`/api/reset-password`, values);
-            console.log(res.data);
-            
+
             if (res.data.success) {
                 toast.success('การตั้งรหัสผ่านใหม่สำเร็จ!!');
+                /** Try ro Login with email and new password */
+                // dispatch(login({ email: values.email, password: values.password }));
                 navigate('/login');
             }
         } catch (error) {
@@ -129,7 +129,7 @@ const ResetPassword = () => {
 
                                     <div className="d-grid mb-2">
                                         <button type="submit" className="btn btn-outline-primary">
-                                            {loading && (
+                                            {isLoading && (
                                                 <Spinner animation="border" role="status" size="sm" style={{ marginRight: '2px' }}>
                                                     <span className="visually-hidden">Loading...</span>
                                                 </Spinner>
