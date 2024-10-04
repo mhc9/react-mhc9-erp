@@ -77,7 +77,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                             userRole={user?.permissions[0]?.role_id}
                         />
                     )}
-                    <li><Link to="/advice" className="hover:text-gray-400">แนะนำการใช้งาน</Link></li>
+                    <li><a href={`${process.env.REACT_APP_API_URL}/manual-user`} target="_blank" className="hover:text-gray-400">แนะนำการใช้งาน</a></li>
                 </ul>
                 
                 <UserProfile
