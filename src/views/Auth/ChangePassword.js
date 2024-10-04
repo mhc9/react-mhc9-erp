@@ -1,18 +1,22 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { FaInfoCircle } from 'react-icons/fa'
-import { Breadcrumb, FormGroup } from 'react-bootstrap'
+import { FormGroup } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import moment from 'moment'
 import api from '../../api'
-import { toast } from 'react-toastify'
 
 const changeSchema = Yup.object().shape({
     email: Yup.string().required(),
-    password: Yup.string().required('กรุณากรอกรหัสผ่านใหม่ก่อน'),
-    password_confirmation: Yup.string().required('กรุณากรอกยืนยันรหัสผ่านใหม่ก่อน'),
+    password: Yup.string()
+                .min(8, "กรุณาระบุรหัสผ่านอย่างน้อย 8 ตัวอักษร")
+                .required('กรุณากรอกรหัสผ่านใหม่ก่อน'),
+    password_confirmation: Yup.string()
+                            .min(8, "กรุณาระบุรหัสผ่านอย่างน้อย 8 ตัวอักษร")
+                            .required('กรุณากรอกยืนยันรหัสผ่านใหม่ก่อน')
+                            .oneOf([Yup.ref('password'), null], 'กรุณากรอกยืนยันรหัสผ่านใหม่ให้ตรงกับรหัสผ่านใหม่')
 });
 
 const ChangePassword = ({ currentUser }) => {
@@ -86,6 +90,12 @@ const ChangePassword = ({ currentUser }) => {
                                             <span className="text-red-500 text-sm">{formik.errors.password_confirmation}</span>
                                         )}
                                     </FormGroup>
+
+                                    <ul className="alert alert-danger text-sm">
+                                        <li>ต้องมีความยาวอย่างน้อย 8 ตัวอักษร</li>
+                                        <li>สามารถมีตัวอักษร a-z หรือ A-Z หรือ 0-9 ได้</li>
+                                        <li>สามารถมีตัวอักขระพิเศษ {'@ # $ % ^ & * _ ! + –'} ได้</li>
+                                    </ul>
 
                                     <button type="submit" className="btn btn-outline-primary btn-sm">
                                         บันทึก
