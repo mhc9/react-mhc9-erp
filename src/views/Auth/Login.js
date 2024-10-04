@@ -15,15 +15,15 @@ const loginSchema = Yup.object().shape({
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { success, loading } = useSelector(state => state.auth);
+    const { isSuccess, isLoading } = useSelector(state => state.auth);
 
     useEffect(() => {
-        if (success) {
+        if (isSuccess) {
             dispatch(resetSuccess());
 
             navigate('/');
         }
-    }, [success])
+    }, [isSuccess])
 
     const handleSubmit = (values, props) => {
         dispatch(login({ ...values }));
@@ -39,7 +39,7 @@ const Login = () => {
                     <Formik
                         initialValues={{
                             email: 'sanyath007@gmail.com',
-                            password: '4621008811'
+                            password: '12345678'
                         }}
                         validationSchema={loginSchema}
                         onSubmit={handleSubmit}
@@ -74,7 +74,7 @@ const Login = () => {
 
                                 <div className="d-grid mb-2">
                                     <button type="submit" className="btn btn-outline-primary">
-                                        {loading && (
+                                        {isLoading && (
                                             <Spinner animation="border" role="status" size="sm" style={{ marginRight: '2px' }}>
                                                 <span className="visually-hidden">Loading...</span>
                                             </Spinner>
