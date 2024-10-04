@@ -10,10 +10,15 @@ import * as Yup from 'yup'
 import { login, resetSuccess } from '../../features/slices/auth/authSlice'
 import api from '../../api'
 
-const loginSchema = Yup.object().shape({
+const resetSchema = Yup.object().shape({
     email: Yup.string().required(),
-    password: Yup.string().required(),
-    password_confirmation: Yup.string().required(),
+    password: Yup.string()
+                .min(8, "กรุณาระบุรหัสผ่านอย่างน้อย 8 ตัวอักษร")
+                .required('กรุณากรอกรหัสผ่านใหม่ก่อน'),
+    password_confirmation: Yup.string()
+                            .min(8, "กรุณาระบุรหัสผ่านอย่างน้อย 8 ตัวอักษร")
+                            .required('กรุณากรอกยืนยันรหัสผ่านใหม่ก่อน')
+                            .oneOf([Yup.ref('password'), null], 'กรุณากรอกยืนยันรหัสผ่านใหม่ให้ตรงกับรหัสผ่านใหม่')
 });
 
 const ResetPassword = () => {
@@ -49,7 +54,7 @@ const ResetPassword = () => {
 
     return (
         <div className="container flex flex-col justify-center items-center min-h-[100vh]">
-            <div className="login-box bg-white w-[380px] min-h-[400px] rounded-lg px-4 py-3 flex flex-col justify-around items-center">
+            <div className="login-box bg-white w-[440px] min-h-[400px] rounded-lg px-4 py-2 flex flex-col justify-around items-center">
                 <h1 className="text-3xl font-bold mt-4 mb-2">ตั้งรหัสผ่านใหม่</h1>
 
                 <div className="alert alert-info text-sm mb-4 w-full flex flex-row items-center gap-1">
@@ -64,7 +69,7 @@ const ResetPassword = () => {
                             password: '',
                             password_confirmation: ''
                         }}
-                        validationSchema={loginSchema}
+                        validationSchema={resetSchema}
                         onSubmit={handleSubmit}
                     >
                         {(formik) => {
@@ -80,6 +85,9 @@ const ResetPassword = () => {
                                                 className="form-control bg-gray-100"
                                                 placeholder="Email"
                                             />
+                                            {(formik.errors.email && formik.touched.email) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.email}</span>
+                                            )}
                                         </Col>
                                     </Row>
                                     <Row className="mb-2">
@@ -92,9 +100,12 @@ const ResetPassword = () => {
                                                 className="form-control"
                                                 placeholder="รหัสผ่านใหม่"
                                             />
+                                            {(formik.errors.password && formik.touched.password) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.password}</span>
+                                            )}
                                         </Col>
                                     </Row>
-                                    <Row className="mb-4">
+                                    <Row className="mb-2">
                                         <Col>
                                             <input
                                                 type="password"
@@ -104,8 +115,17 @@ const ResetPassword = () => {
                                                 className="form-control"
                                                 placeholder="ยืนยันรหัสผ่าน"
                                             />
+                                            {(formik.errors.password_confirmation && formik.touched.password_confirmation) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.password_confirmation}</span>
+                                            )}
                                         </Col>
                                     </Row>
+
+                                    <ul className="alert alert-danger py-2 text-sm">
+                                        <li>ต้องมีความยาวอย่างน้อย 8 ตัวอักษร</li>
+                                        <li>สามารถมีตัวอักษร a-z หรือ A-Z หรือ 0-9 ได้</li>
+                                        <li>สามารถมีตัวอักขระพิเศษ {'@ # $ % ^ & * _ ! + –'} ได้</li>
+                                    </ul>
 
                                     <div className="d-grid mb-2">
                                         <button type="submit" className="btn btn-outline-primary">
