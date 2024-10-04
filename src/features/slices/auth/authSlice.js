@@ -7,8 +7,8 @@ const accessToken = localStorage.getItem("access_token");
 const initialState = {
     loggedInUser: null,
     isLoggedIn: accessToken ? true : false,
-    loading: false,
-    success: false,
+    isLoading: false,
+    isSuccess: false,
     error: null
 };
 
@@ -27,7 +27,7 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         resetSuccess: (state) => {
-            state.success = false;
+            state.isSuccess = false;
         },
         setLoggedInUser: (state, { payload }) => {
             state.loggedInUser = payload;
@@ -41,8 +41,8 @@ export const authSlice = createSlice({
         [login.pending]: (state) => {
             state.loggedInUser = null;
             state.isLoggedIn = false;
-            state.loading = true;
-            state.success = false;
+            state.isLoading = true;
+            state.isSuccess = false;
             state.error = null;
         },
         [login.fulfilled]: (state, { payload }) => {
@@ -54,14 +54,14 @@ export const authSlice = createSlice({
 
                 // state.loggedInUser = decode.sub;
                 state.isLoggedIn = true;
-                state.success = true;
+                state.isSuccess = true;
             }
 
-            state.loading = false;
+            state.isLoading = false;
         },
         [login.rejected]: (state, { payload }) => {
             state.error = payload;
-            state.loading = false;
+            state.isLoading = false;
         },
     }
 });
