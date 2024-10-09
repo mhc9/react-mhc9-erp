@@ -27,6 +27,7 @@
     "react-bootstrap": "^2.7.4",
     "react-chartjs-2": "^5.2.0",
     "react-confirm-toast": "^2.0.2",
+    "react-cookie": "^7.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-icons": "^4.9.0",

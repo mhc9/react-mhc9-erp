@@ -7,13 +7,7 @@ import { useStyles } from '../../../hooks/useStyles'
 const FilteringInputs = ({ initialFilters, onFilter }) => {
     const classes = useStyles();
     const [filters, setFilters] = useState(initialFilters);
-    const [selectedYear, setSelectedYear] = useState(moment());
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-
-        setFilters(prev => ({ ...prev, [name]: value }));
-    };
+    const [selectedYear, setSelectedYear] = useState(moment(`${filters.year}-01-01`));
 
     return (
         <div className="border rounded-md py-2 px-3 mb-2 flex items-center gap-1">

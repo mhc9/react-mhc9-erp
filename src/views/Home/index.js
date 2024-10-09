@@ -1,8 +1,15 @@
 import React, { useEffect } from 'react'
+import { useCookies } from 'react-cookie'
 import { FaInfoCircle } from 'react-icons/fa'
 import { Breadcrumb } from 'react-bootstrap'
 
 const Home = () => {
+    const [cookies, setCookie] = useCookies(['budgetYear']);
+
+    useEffect(() => {
+        setCookie('budgetYear', 2025);
+    }, []);
+
     return (
         <div className="content-wrapper">
             {/* breadcrumb */}
@@ -14,7 +21,7 @@ const Home = () => {
             <div className="flex items-center gap-3 border border-green-900 bg-green-300 rounded-md p-4 text-green-800">
                 <FaInfoCircle size={'50px'} />
                 <div className="flex flex-col">
-                    <h1 className="font-bold text-2xl">Welcome to MHC9 ERP System</h1>
+                    <h1 className="font-bold text-2xl">Welcome to MHC9 ERP System ปีงบประมาณ {cookies.budgetYear}</h1>
                     {/* <p className="">
                         {user && user.name}
                     </p> */}

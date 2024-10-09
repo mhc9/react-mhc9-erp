@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { useCookies } from 'react-cookie'
 import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { toast } from 'react-toastify'
@@ -12,11 +13,12 @@ import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
 
 const BudgetPlanList = () => {
+    const [cookies] = useCookies();
     const dispatch = useDispatch();
     const { plans, pager, isLoading, isDeleted } = useSelector(state => state.budgetPlan);
+    const [year, setYear] = useState(cookies.budgetYear);
     const [endpoint, setEndpoint] = useState('');
-    const [params, setParams] = useState(generateQueryString({ year: moment().year() }))
-    const [year, setYear] = useState(moment().year());
+    const [params, setParams] = useState(generateQueryString({ year: year }))
 
     useEffect(() => {
         if (endpoint === '') {
@@ -55,7 +57,7 @@ const BudgetPlanList = () => {
                 </div>
 
                 <FilteringInputs
-                    initialFilters={{ year: moment().year() }}
+                    initialFilters={{ year: year }}
                     onFilter={(queryStr) => {
                         setParams(queryStr);
                         setEndpoint(prev => prev === '' ? `/api/budget-plans/search?page=` : '');
