@@ -5,7 +5,7 @@ import { v4 as uuid } from 'uuid'
 import { useGetInitialFormDataQuery } from '../../../features/services/budget/budgetApi'
 
 const AddBudgetType = ({ isShow, hide, data, onSubmit }) => {
-    const { data: formData, isLoading } = useGetInitialFormDataQuery();
+    const { data: formData, isLoading } = useGetInitialFormDataQuery({ year: '' });
 
     const getBudgetType = (id) => {
         return formData ? formData.types.find(type => type.id === parseInt(id, 10)) : null; 
