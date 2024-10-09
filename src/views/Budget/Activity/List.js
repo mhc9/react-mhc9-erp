@@ -91,7 +91,7 @@ const BudgetActivityList = () => {
                         year: (_year !== '' && _year !== undefined) ? _year : moment().year(),
                         name: '',
                         plan: '',
-                        project: '',
+                        project: project ? project : '',
                     }}
                     onFilter={(queryStr) => {
                         setParams(queryStr);

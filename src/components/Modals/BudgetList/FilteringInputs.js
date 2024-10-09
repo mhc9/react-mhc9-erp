@@ -67,7 +67,7 @@ const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
                                     className="form-control text-sm"
                                 >
                                     <option value="">-- ประเภท --</option>
-                                    {formData.types && formData.types.map(type => (
+                                    {formData && formData.types.map(type => (
                                         <option value={type.id} key={type.id}>
                                             {type.name}
                                         </option>

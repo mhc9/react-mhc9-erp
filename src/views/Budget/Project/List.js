@@ -82,7 +82,7 @@ const BudgetProjectList = () => {
                                 </tr>
                             )}
                             {!isLoading && projects.map((project, index) => (
-                                <tr>
+                                <tr key={project.id}>
                                     <td className="text-center">{index+1}</td>
                                     <td>
                                         <p className="font-thin">{project.plan?.plan_no} {project.plan?.name}</p>
