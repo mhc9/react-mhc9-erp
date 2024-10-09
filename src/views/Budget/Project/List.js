@@ -17,7 +17,7 @@ const BudgetProjectList = () => {
     const { projects, pager, isLoading, isDeleted } = useSelector(state => state.budgetProject);
     const [year, setYear] = useState(_year || moment().year());
     const [endpoint, setEndpoint] = useState('');
-    const [params, setParams] = useState(generateQueryString({ year: year ? year : moment().year(), plan: plan }));
+    const [params, setParams] = useState(generateQueryString({ year: year ? year : moment().year(), plan: plan ? plan : '' }));
 
     useEffect(() => {
         if (endpoint === '') {
@@ -87,7 +87,9 @@ const BudgetProjectList = () => {
                                     <td>
                                         <p className="font-thin">{project.plan?.plan_no} {project.plan?.name}</p>
                                         <p className="font-bold hover:text-purple-500">
-                                            <Link to={`/budget-activity${year !== '' ? '/' +year : ''}`}>{project.name}</Link>
+                                            <Link to={`/budget-activity${year !== '' ? '/' +year : ''}/${project.id}`}>
+                                                {project.name}
+                                            </Link>
                                         </p>
                                     </td>
                                     <td className="text-center font-bold">{project.gfmis_id}</td>

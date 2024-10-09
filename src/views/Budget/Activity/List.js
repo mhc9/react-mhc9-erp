@@ -20,7 +20,7 @@ import Pagination from '../../../components/Pagination'
 import Loading from '../../../components/Loading'
 
 const BudgetActivityList = () => {
-    const { year: _year } = useParams();
+    const { year: _year, project } = useParams();
     const dispatch = useDispatch();
     const { activities, pager, isLoading, isSuccess, isDeleted } = useSelector(state => state.budgetActivity);
     const [endpoint, setEndpoint] = useState('');
@@ -29,7 +29,7 @@ const BudgetActivityList = () => {
             year: (_year !== '' && _year !== undefined) ? _year : moment().year(),
             name: '',
             plan: '',
-            project: '',
+            project: project ? project : '',
         })
     );
 
