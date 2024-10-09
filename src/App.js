@@ -197,10 +197,10 @@ function App() {
                 <Route path="budget-plan" element={<GuardRoute><BudgetPlanList /></GuardRoute>} />
                 <Route path="budget-plan/add" element={<GuardRoute><AddBudgetPlan /></GuardRoute>} />
                 <Route path="budget-plan/:id/edit" element={<GuardRoute><EditBudgetPlan /></GuardRoute>} />
-                <Route path="budget-project/:year?" element={<GuardRoute><BudgetProjectList /></GuardRoute>} />
+                <Route path="budget-project/:year?/:plan?" element={<GuardRoute><BudgetProjectList /></GuardRoute>} />
                 <Route path="budget-project/add" element={<GuardRoute><AddBudgetProject /></GuardRoute>} />
                 <Route path="budget-project/:id/edit" element={<GuardRoute><EditBudgetProject /></GuardRoute>} />
-                <Route path="budget-activity/:year?" element={<GuardRoute><BudgetActivityList /></GuardRoute>} />
+                <Route path="budget-activity/:year?/:project?" element={<GuardRoute><BudgetActivityList /></GuardRoute>} />
                 <Route path="budget-activity/add" element={<GuardRoute><AddBudgetActivity /></GuardRoute>} />
                 <Route path="budget-activity/:id/edit" element={<GuardRoute><EditBudgetActivity /></GuardRoute>} />
 
