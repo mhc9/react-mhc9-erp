@@ -16,7 +16,7 @@ const BudgetPlanList = () => {
     const { plans, pager, isLoading, isDeleted } = useSelector(state => state.budgetPlan);
     const [endpoint, setEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString({ year: moment().year() }))
-    const [year, setYear] = useState('');
+    const [year, setYear] = useState(moment().year());
 
     useEffect(() => {
         if (endpoint === '') {
@@ -83,7 +83,7 @@ const BudgetPlanList = () => {
                                 <tr key={plan.id}>
                                     <td className="text-center">{index+1}</td>
                                     <td className="hover:text-purple-500">
-                                        <Link to={`/budget-project${year !== '' ? '/' +year : ''}`}>
+                                        <Link to={`/budget-project${year !== '' ? '/' +year : ''}/${plan.id}`}>
                                             {plan.plan_no} {plan.name}
                                         </Link>
                                     </td>

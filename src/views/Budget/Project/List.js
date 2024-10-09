@@ -12,13 +12,13 @@ import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
 
 const BudgetProjectList = () => {
-    const { year: _year } = useParams();
+    const { year: _year, plan } = useParams();
     const dispatch = useDispatch();
     const { projects, pager, isLoading, isDeleted } = useSelector(state => state.budgetProject);
-    const [year, setYear] = useState(_year || '');
+    const [year, setYear] = useState(_year || moment().year());
     const [endpoint, setEndpoint] = useState('');
-    const [params, setParams] = useState(generateQueryString({ year: year ? year : moment().year(), plan: '' }));
-    
+    const [params, setParams] = useState(generateQueryString({ year: year ? year : moment().year(), plan: plan }));
+
     useEffect(() => {
         if (endpoint === '') {
             dispatch(getBudgetProjects({ url: `/api/budget-projects/search?page=${params}` }));
