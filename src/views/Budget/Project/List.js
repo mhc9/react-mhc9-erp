@@ -57,7 +57,7 @@ const BudgetProjectList = () => {
                 </div>
 
                 <FilteringInputs
-                    initialFilters={{ year: year !== '' ? year : moment().year(), plan: '' }}
+                    initialFilters={{ year: year !== '' ? year : moment().year(), plan: plan ? plan : '' }}
                     onFilter={(queryStr) => {
                         setParams(queryStr);
                         setEndpoint(prev => prev === '' ? `/api/budget-projects/search?page=` : '');
