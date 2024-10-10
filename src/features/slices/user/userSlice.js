@@ -45,9 +45,7 @@ export const store = createAsyncThunk("user/store", async (data, { dispatch, rej
 
 export const update = createAsyncThunk("user/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/users/${id}`, data);
-
-        dispatch(getUsers({ url: `/api/users` }));
+        const res = await api.post(`/api/users/${id}/update`, data);
 
         return res.data;
     } catch (error) {
@@ -55,11 +53,19 @@ export const update = createAsyncThunk("user/update", async ({ id, data }, { dis
     }
 });
 
-export const destroy = createAsyncThunk("user/destroy", async ({ id, data }, { dispatch, rejectWithValue }) => {
+export const destroy = createAsyncThunk("user/destroy", async (id, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/users/${id}`, data);
+        const res = await api.post(`/api/users/${id}/delete`, {});
 
-        dispatch(getUsers({ url: `/api/users` }));
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const activate = createAsyncThunk("user/activate", async ({ id, data }, { dispatch, rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/users/${id}/send-mail`, data);
 
         return res.data;
     } catch (error) {
@@ -70,7 +76,14 @@ export const destroy = createAsyncThunk("user/destroy", async ({ id, data }, { d
 export const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+        resetSuccess: (state) => {
+            state.isSuccess = false;
+        },
+        resetDeleted: (state) => {
+            state.isDeleted = false;
+        },
+    },
     extraReducers: {
         [getUsers.pending]: (state) => {
             state.users = [];
@@ -120,7 +133,7 @@ export const userSlice = createSlice({
         },
         [update.pending]: (state) => {
             state.isSuccess = false;
-            state.users = null;
+            state.user = null;
             state.error = null;
         },
         [update.fulfilled]: (state, { payload }) => {
@@ -152,7 +165,27 @@ export const userSlice = createSlice({
         [destroy.rejected]: (state, { payload }) => {
             state.error = payload;
         },
+        [activate.pending]: (state) => {
+            state.isSuccess = false;
+            state.user = null;
+            state.error = null;
+        },
+        [activate.fulfilled]: (state, { payload }) => {
+            const {status, message, user } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.user = user;
+            } else {
+                state.error = { message };
+            }
+        },
+        [activate.rejected]: (state, { payload }) => {
+            state.error = payload;
+        },
     }
 });
 
 export default userSlice.reducer;
+
+export const { resetSuccess, resetDeleted } = userSlice.actions;
