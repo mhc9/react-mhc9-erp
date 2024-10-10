@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useCookies } from 'react-cookie'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Col, Row } from 'react-bootstrap'
@@ -54,12 +55,13 @@ const initialFormData = {
 
 const RequisitionForm = ({ requisition }) => {
     const classes = useStyles();
+    const [cookies] = useCookies();
     const dispatch = useDispatch();
     const [budget, setBudget] = useState(null);
     const [requester, setRequester] = useState(null);
     const [edittingItem, setEdittingItem] = useState(null);
     const [selectedDate, setSelectedDate] = useState(moment());
-    const [selectedYear, setSelectedYear] = useState(moment());
+    const [selectedYear, setSelectedYear] = useState(moment(`${cookies.budgetYear}-01-01`));
     const [selectedDesiredDate, setSelectedDesiredDate] = useState(moment());
     const [filteredTypes, setFilteredTypes] = useState([]);
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
@@ -77,7 +79,7 @@ const RequisitionForm = ({ requisition }) => {
             setBudget(requisition.budget);
             setRequester(requisition.requester);
             setSelectedDate(requisition.pr_date);
-            setSelectedYear(moment(`${requisition.year - 543}-09-01`));
+            setSelectedYear(moment(`${requisition.year}-09-01`));
 
             handleTypeChange(requisition.order_type_id || 1);
         }
@@ -154,7 +156,7 @@ const RequisitionForm = ({ requisition }) => {
         setBudget(null);
         setRequester(null);
         setSelectedDate(moment());
-        setSelectedYear(moment());
+        setSelectedYear(moment(`${cookies.budgetYear}-01-01`));
     };
 
     const handleTypeChange = (typeId) => {
@@ -171,7 +173,7 @@ const RequisitionForm = ({ requisition }) => {
                 category_id: requisition ? requisition.category_id : '',
                 contract_desc: (requisition && requisition.contract_desc) ? requisition.contract_desc : '',
                 topic: requisition ? requisition.topic : 'ขออนุมัติซื้อ',
-                year: requisition ? requisition.year : moment().year() + 543,
+                year: requisition ? requisition.year : cookies.budgetYear,
                 budget_id: requisition ? requisition.budget_id : '',
                 project_id: (requisition && requisition.project_id) ? requisition.project_id : '',
                 project_name: (requisition && requisition.project_name) ? requisition.project_name : '',
@@ -188,6 +190,8 @@ const RequisitionForm = ({ requisition }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.values);
+                
                 return (
                     <Form>
                         {isLoading && <div className="text-center"><Loading /></div>}
@@ -341,7 +345,7 @@ const RequisitionForm = ({ requisition }) => {
                                             value={selectedYear}
                                             onChange={(date) => {
                                                 setSelectedYear(date);
-                                                formik.setFieldValue('year', date.year() + 543);
+                                                formik.setFieldValue('year', date.year());
                                             }}
                                             className={classes.muiTextFieldInput}
                                         />
