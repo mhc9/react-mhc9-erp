@@ -44,6 +44,7 @@ const loanSchema = Yup.object().shape({
 const LoanForm = ({ loan }) => {
     const [cookies] = useCookies()
     const dispatch = useDispatch();
+    const { loggedInUser } = useSelector(state => state.auth);
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
     const [selectedDocDate, setSelectedDocDate] = useState(moment());
     const [selectedProjectDate, setSelectedProjectDate] = useState(moment());
@@ -53,6 +54,12 @@ const LoanForm = ({ loan }) => {
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [employee, setEmployee] = useState(null);
     const [edittingItem, setEdittingItem] = useState(null);
+
+    useEffect(() => {
+        if (loggedInUser) {
+            setEmployee(loggedInUser.employee);
+        }
+    }, [loggedInUser]);
 
     useEffect(() => {
         if (loan) {
@@ -196,6 +203,7 @@ const LoanForm = ({ loan }) => {
 
     return (
         <Formik
+            enableReinitialize
             initialValues={{
                 doc_no: loan ? loan.doc_no : '',
                 doc_date: loan ? moment(loan.doc_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
@@ -203,7 +211,7 @@ const LoanForm = ({ loan }) => {
                 money_type_id: loan ? loan.money_type_id : '',
                 year: loan ? moment(`${loan.year}`).year() : cookies.budgetYear,
                 department_id: loan ? loan.department_id : '',
-                employee_id: loan ? loan.employee_id : '',
+                employee_id: loan ? loan.employee_id : employee?.id,
                 project_no:  loan ? loan.project_no : '',
                 project_date: loan ? moment(loan.project_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 project_name: loan ? loan.project_name : '',
@@ -330,13 +338,6 @@ const LoanForm = ({ loan }) => {
                                     <div className="form-control text-sm h-[34px] bg-gray-100">
                                         {employee?.firstname} {employee?.lastname}
                                     </div>
-                                    <input
-                                        type="hidden"
-                                        name="employee_id"
-                                        value={formik.values.employee_id}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm"
-                                    />
                                     <button type="button" className="btn btn-outline-secondary" onClick={() => setShowEmployeeModal(true)}>
                                         <FaSearch />
                                     </button>
