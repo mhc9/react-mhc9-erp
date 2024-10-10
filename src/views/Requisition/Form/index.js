@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useCookies } from 'react-cookie'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
@@ -57,6 +57,7 @@ const RequisitionForm = ({ requisition }) => {
     const classes = useStyles();
     const [cookies] = useCookies();
     const dispatch = useDispatch();
+    const { loggedInUser } = useSelector(state => state.auth);
     const [budget, setBudget] = useState(null);
     const [requester, setRequester] = useState(null);
     const [edittingItem, setEdittingItem] = useState(null);
@@ -72,6 +73,10 @@ const RequisitionForm = ({ requisition }) => {
         /** Initial filteredType state with order_type_id is 1 */
         handleTypeChange(1);
     }, []);
+
+    useEffect(() => {
+        if (loggedInUser) setRequester(loggedInUser.employee);
+    }, [loggedInUser]);
 
     /** On editting mode set default value to requester, budget, selectedDate and selectedYear local states */
     useEffect(() => {
@@ -178,7 +183,7 @@ const RequisitionForm = ({ requisition }) => {
                 project_id: (requisition && requisition.project_id) ? requisition.project_id : '',
                 project_name: (requisition && requisition.project_name) ? requisition.project_name : '',
                 division_id: (requisition && requisition.division_id) ? requisition.division_id : '',
-                requester_id: requisition ? requisition.requester_id : '',
+                requester_id: requisition ? requisition.requester_id : requester?.id,
                 reason: requisition ? requisition.reason : '',
                 desired_date: requisition ? requisition.desired_date : '',
                 item_count: requisition ? requisition.item_count : 0,
@@ -381,13 +386,6 @@ const RequisitionForm = ({ requisition }) => {
                                             <div className="form-control h-[34px] text-sm bg-gray-200">
                                                 {requester?.firstname} {requester?.lastname}
                                             </div>
-                                            <input
-                                                type="hidden"
-                                                name="requester_id"
-                                                value={formik.values.requester_id}
-                                                onChange={formik.handleChange}
-                                                className="form-control text-sm"
-                                            />
                                             <button type="button" className="btn btn-outline-secondary" onClick={() => setShowEmployeeModal(true)}>
                                                 <FaSearch />
                                             </button>
