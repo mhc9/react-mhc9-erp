@@ -11,6 +11,7 @@ import { generateQueryString } from '../../../utils';
 const initialFilters = {
     name: '',
     division: '',
+    status: '1',
     limit: 8,
 };
 
@@ -53,7 +54,7 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
                 />
 
                 <div>
-                    <table className="table table-bordered mb-0 text-sm">
+                    <table className="table table-bordered table-striped table-hover text-sm mb-0">
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
