@@ -13,7 +13,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
         <nav className="navbar h-[60px] border bg-slate-700 flex justify-between items-center px-5 text-white">
             <div className="flex justify-between w-full">
                 <div className="sm:w-3/12 md:w-1/2 lg:w-4/12">
-                    <h1 className="max-md:hidden text-lg">ระบบวางแผนทรัพยากร</h1>
+                    <h1 className="max-md:hidden text-lg">ระบบจัดการทรัพยากร</h1>
                     <h1 className="md:hidden text-lg">MHC9 ERP</h1>
                     <p className="max-md:hidden text-sm text-gray-300">MHC9 ERP</p>
                 </div>
