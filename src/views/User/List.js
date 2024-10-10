@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 import { FaEnvelope, FaEnvelopeOpenText, FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { destroy, getUsers } from '../../features/slices/user/userSlice'
+import { activate, destroy, getUsers, resetSuccess } from '../../features/slices/user/userSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/user/userApi'
 import { generateQueryString } from '../../utils'
 import Loading from '../../components/Loading'
@@ -22,7 +23,7 @@ const initialFormData = {
 
 const UserList = () => {
     const dispatch = useDispatch();
-    const { users, pager, isLoading } = useSelector(state => state.user);
+    const { users, pager, isLoading, isDeleted, isSuccess } = useSelector(state => state.user);
     const { data: formData = initialFormData } = useGetInitialFormDataQuery();
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
@@ -33,7 +34,15 @@ const UserList = () => {
         } else {
             dispatch(getUsers({ url: `${apiEndpoint}${params}` }));
         }
-    }, [dispatch, apiEndpoint, params]);
+    }, [apiEndpoint]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('เปิดใช้งานผู้ใช้งานสำเร็จ ระบบได้ส่งอีเมลไปยังผู้ใช่งานแล้ว!!');
+            dispatch(resetSuccess());
+            setApiEndpoint(prev => prev === '' ? `/api/users/search?page=` : '');
+        }
+    }, [isSuccess]);
 
     const handleFilter = (queryStr) => {
         setParams(queryStr);
@@ -41,8 +50,14 @@ const UserList = () => {
     };
 
     const handleDelete = (id) => {
-        if (window.confirm(`คุณต้องการลบรายการบุคลากรรหัส ${id} ใช่หรือไม่?`)) {
+        if (window.confirm(`คุณต้องการลบผู้ใช้งาน รหัส ${id} ใช่หรือไม่?`)) {
             dispatch(destroy(id));
+        }
+    };
+
+    const handleActivate = (id) => {
+        if (window.confirm(`คุณต้องการเปิดใช้งานผู้ใช้งาน รหัส ${id} ใช่หรือไม่?`)) {
+            dispatch(activate({ id, data: {} }));
         }
     };
 
@@ -113,7 +128,9 @@ const UserList = () => {
                                     <td className="text-center">{user.permissions[0].role?.name}</td>
                                     <td className="text-center">
                                         <div className="flex justify-center">
-                                            {user.is_activated === 1 ? <FaEnvelopeOpenText size={'20px'} /> : <FaEnvelope size={'20px'} />}
+                                            {user.is_activated === 1
+                                                ? <FaEnvelopeOpenText size={'20px'} className="hover:text-gray-500" />
+                                                : <FaEnvelope size={'20px'} className="cursor-pointer hover:text-gray-500" onClick={() => handleActivate(user.id)} />}
                                         </div>
                                     </td>
                                     <td className="text-center p-1">
