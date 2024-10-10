@@ -27,7 +27,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                     value={selectedYear}
                     onChange={(date) => {
                         setSelectedYear(date);
-                        setFilters(prev => ({ ...prev, ['year']: moment(date).year() + 543 }));
+                        setFilters(prev => ({ ...prev, ['year']: moment(date).year() }));
                     }}
                     className={classes.muiTextFieldInput}
                 />
