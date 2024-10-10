@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useCookies } from 'react-cookie';
 import { Col, Row, Tab, Tabs } from 'react-bootstrap'
 import { FaSearch, FaPlus, FaTimes } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
@@ -41,13 +42,14 @@ const loanSchema = Yup.object().shape({
 });
 
 const LoanForm = ({ loan }) => {
+    const [cookies] = useCookies()
     const dispatch = useDispatch();
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
     const [selectedDocDate, setSelectedDocDate] = useState(moment());
     const [selectedProjectDate, setSelectedProjectDate] = useState(moment());
     const [selectedStartDate, setSelectedStartDate] = useState(moment());
     const [selectedEndDate, setSelectedEndDate] = useState(moment());
-    const [selectedYear, setSelectedYear] = useState(moment());
+    const [selectedYear, setSelectedYear] = useState(moment(`${cookies.budgetYear}-01-01`));
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [employee, setEmployee] = useState(null);
     const [edittingItem, setEdittingItem] = useState(null);
@@ -199,7 +201,7 @@ const LoanForm = ({ loan }) => {
                 doc_date: loan ? moment(loan.doc_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 loan_type_id: loan ? loan.loan_type_id : '',
                 money_type_id: loan ? loan.money_type_id : '',
-                year: loan ? moment(`${loan.year}`).year() : moment().year(),
+                year: loan ? moment(`${loan.year}`).year() : cookies.budgetYear,
                 department_id: loan ? loan.department_id : '',
                 employee_id: loan ? loan.employee_id : '',
                 project_no:  loan ? loan.project_no : '',
