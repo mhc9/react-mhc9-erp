@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useCookies } from 'react-cookie'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { ConfirmToast } from 'react-confirm-toast'
-import moment from 'moment'
 import { getRequisitions, destroy, resetDeleted } from '../../../features/slices/requisition/requisitionSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import DetailList from './DetailList'
@@ -15,15 +15,16 @@ import Pagination from '../../../components/Pagination'
 import Loading from '../../../components/Loading'
 import EmployeeCard from '../../../components/Employee/Card'
 
-const initialFilters = {
-    pr_no: '',
-    pr_date: '',
-    division: '',
-    status: '',
-    year: moment().year() + 543,
-};
 
 const RequisitionList = () => {
+    const [cookies] = useCookies();
+    const initialFilters = {
+        pr_no: '',
+        pr_date: '',
+        division: '',
+        status: '',
+        year: cookies.budgetYear,
+    };
     const dispatch = useDispatch();
     const { requisitions, pager, isLoading, isDeleted } = useSelector(state => state.requisition);
     const [apiEndpoint, setApiEndpoint] = useState('');
