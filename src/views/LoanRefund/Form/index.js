@@ -23,6 +23,7 @@ import AddOrder from './AddOrder';
 import OrderList from './OrderList';
 import Loading from '../../../components/Loading'
 import ModalLoanContractList from '../../../components/Modals/LoanContract/List'
+import BudgetBullet from '../../../components/Budget/BudgetBullet'
 
 const refundSchema = Yup.object().shape({
     doc_no: Yup.string().required('กรุณาระบุเลขที่สัญญา'),
@@ -276,23 +277,10 @@ const LoanRefundForm = ({ refund }) => {
                                     <Row className="mb-2">
                                         <Col md={12} className="flex flex-row items-start">
                                             <label htmlFor="" className="w-[12%]">งบประมาณ :</label>
-                                            <div className="font-thin ml-1 w-[88%]">
-                                                {contract?.loan?.budgets && contract?.loan?.budgets.map((item, index) => (
-                                                    <ul key={item.id}>
-                                                        <li>
-                                                            <span className="mr-1">{index+1}.</span>
-                                                            {item.budget?.activity?.name}
-                                                            {/* <span className="ml-1">
-                                                                {item.budget?.activity?.project?.plan?.name} / {item.budget?.activity?.project?.name}
-                                                            </span> */}
-                                                            <span className="ml-1">
-                                                                <b>งบประมาณ</b> {currency.format(item?.total)} บาท
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                ))}
-                                                <p><b>รวมงบประมาณทั้งสิ้น</b> {currency.format(contract?.loan?.budget_total)} บาท</p>
-                                            </div>
+                                            <BudgetBullet
+                                                budgets={contract?.loan?.budgets}
+                                                total={contract?.loan?.budget_total}
+                                            />
                                         </Col>
                                     </Row>
                                 </div>

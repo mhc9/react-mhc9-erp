@@ -20,6 +20,7 @@ import Loading from '../../../components/Loading'
 import ExpenseList from '../../../components/Expense/ExpenseList'
 import OrderList from '../../Loan/Form/OrderList'
 import ModalLoanList from '../../../components/Modals/Loan/List'
+import BudgetBullet from '../../../components/Budget/BudgetBullet'
 
 const contractSchema = Yup.object().shape({
     loan_id: Yup.string().required('กรุณาระบุเลือกรายการคำขอ'),
@@ -225,25 +226,10 @@ const LoanContractForm = ({ contract }) => {
                                     <Row className="mb-2">
                                         <Col md={12} className="flex flex-row items-start">
                                             <label htmlFor="" className="w-[12%]">งบประมาณ :</label>
-                                            <div className="font-thin ml-1 w-[88%]">
-                                                {loan?.budgets && loan?.budgets.map((item, index) => (
-                                                    <ul key={item.id}>
-                                                        <li>
-                                                            <span className="mr-1">{index+1}.</span>
-                                                            {item.budget?.name}
-                                                            <span className="ml-1">
-                                                                {item.budget?.project?.plan?.name} / {item.budget?.project?.name}
-                                                            </span>
-                                                            {loan?.budgets.length > 1 && (
-                                                                <span className="ml-1">
-                                                                    <b>งบประมาณ</b> {currency.format(item?.total)} บาท
-                                                                </span>
-                                                            )}
-                                                        </li>
-                                                    </ul>
-                                                ))}
-                                                <p><b>รวมงบประมาณทั้งสิ้น</b> {currency.format(loan?.budget_total)} บาท</p>
-                                            </div>
+                                            <BudgetBullet
+                                                budgets={loan?.budgets}
+                                                total={loan?.budget_total}
+                                            />
                                         </Col>
                                     </Row>
                                 </div>
