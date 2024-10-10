@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { useCookies } from 'react-cookie';
 import { Modal } from 'react-bootstrap'
 import { getContracts } from '../../../features/slices/loan-contract/loanContractSlice';
-import { currency, toShortTHDate } from '../../../utils'
+import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import Loading from '../../Loading';
 import Pagination from '../../Pagination';
 import EmployeeCard from '../../Employee/Card';
 
 const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
+    const [cookies] = useCookies();
+    const initialFilters = {
+        year: cookies.budgetYear,
+        status: 2,
+    }
     const dispatch = useDispatch();
     const { contracts, pager, isLoading } = useSelector(state => state.loanContract);
     const [endpoint, setEndpoint] = useState('');
-    const [params, setParams] = useState('');
+    const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
         if (endpoint === '') {
-            dispatch(getContracts({ url: '/api/loan-contracts/search?page=&status=2' }));
+            dispatch(getContracts({ url: `/api/loan-contracts/search?page=${params}` }));
         } else {
-            dispatch(getContracts({ url: `${endpoint}&status=2${params}` }));
+            dispatch(getContracts({ url: `${endpoint}${params}` }));
         }
     }, [endpoint]);
 

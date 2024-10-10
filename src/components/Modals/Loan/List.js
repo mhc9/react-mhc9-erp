@@ -1,22 +1,32 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Pagination } from 'react-bootstrap'
+import { useCookies } from 'react-cookie';
+import { Modal } from 'react-bootstrap'
 import { getLoans } from '../../../features/slices/loan/loanSlice';
-import { currency, toShortTHDate } from '../../../utils'
+import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import Loading from '../../Loading';
 import EmployeeCard from '../../Employee/Card';
+import Pagination from '../../Pagination';
+import FilteringInputs from './FilteringInputs';
 
 const ModalLoanList = ({ isShow, onHide, onSelect }) => {
+    const [cookies] = useCookies();
+    const initialFilters = {
+        year: cookies.budgetYear,
+        status: 1,
+    }
     const dispatch = useDispatch();
     const { loans, pager, isLoading } = useSelector(state => state.loan);
+    const [endpoint, setEndpoint] = useState('');
+    const [params, setParams] = useState(generateQueryString(initialFilters));
 
     useEffect(() => {
-        dispatch(getLoans({ url: '/api/loans/search?page=&status=1' }))
-    }, []);
-
-    const handlePageClick = (url) => {
-
-    };
+        if (endpoint === '') {
+            dispatch(getLoans({ url: `/api/loans/search?page=${params}` }));
+        } else {
+            dispatch(getLoans({ url: `${endpoint}${params}` }));
+        }
+    }, [endpoint]);
 
     return (
         <Modal
@@ -24,12 +34,21 @@ const ModalLoanList = ({ isShow, onHide, onSelect }) => {
             onHide={onHide}
             size='xl'
         >
-            <Modal.Header closeButton>
+            <Modal.Header closeButton className="py-1">
                 <Modal.Title>รายการคำขอยืมเงิน</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                <FilteringInputs
+                    initialFilters={initialFilters}
+                    onFilter={(queryStr) => {
+                        console.log(queryStr);
+                        setParams(queryStr);
+                        setEndpoint(prev => prev === '' ? `/api/loans/search?page=` : '');
+                    }}
+                />
+
                 <div>
-                    <table className="table table-bordered text-sm">
+                    <table className="table table-bordered table-striped table-hover text-sm mb-0">
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
@@ -83,7 +102,7 @@ const ModalLoanList = ({ isShow, onHide, onSelect }) => {
                                 </tr>
                             )) : !isLoading && (
                                 <tr>
-                                    <td colSpan={4} className="text-center">
+                                    <td colSpan={5} className="text-center">
                                         <span className="text-red-500 text-sm font-thin">-- ไม่มีรายการ --</span>
                                     </td>
                                 </tr>
@@ -91,27 +110,15 @@ const ModalLoanList = ({ isShow, onHide, onSelect }) => {
                         </tbody>
                     </table>
                 </div>
-
-                {pager && (
-                    <Pagination>
-                        <Pagination.First disabled={pager.current_page === 1} onClick={() => handlePageClick(pager.first_page_url)} />
-                        <Pagination.Prev disabled={!pager.prev_page_url} onClick={() => handlePageClick(pager.prev_page_url)} />
-                        {/* <Pagination.Item>{1}</Pagination.Item>
-                        <Pagination.Ellipsis />
-
-                        <Pagination.Item>{10}</Pagination.Item>
-                        <Pagination.Item>{11}</Pagination.Item>
-                        <Pagination.Item active>{12}</Pagination.Item>
-                        <Pagination.Item>{13}</Pagination.Item>
-                        <Pagination.Item disabled>{14}</Pagination.Item>
-
-                        <Pagination.Ellipsis />
-                        <Pagination.Item>{20}</Pagination.Item> */}
-                        <Pagination.Next disabled={!pager.next_page_url} onClick={() => handlePageClick(pager.next_page_url)} />
-                        <Pagination.Last disabled={pager.current_page === pager.last_page} onClick={() => handlePageClick(pager.last_page_url)} />
-                    </Pagination>
-                )}
             </Modal.Body>
+            <Modal.Footer className="py-1">
+                {pager && (
+                    <Pagination
+                        pager={pager}
+                        onPageClick={(url) => setEndpoint(url)}
+                    />
+                )}
+            </Modal.Footer>
         </Modal>
     )
 }
