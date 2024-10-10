@@ -28,6 +28,7 @@ import loanContactReducer from "./slices/loan-contract/loanContractSlice";
 import loanRefundReducer from "./slices/loan-refund/loanRefundSlice";
 import projectReducer from "./slices/project/projectSlice";
 import placeReducer from "./slices/place/placeSlice";
+import userReducer from './slices/user/userSlice';
 import { systemApi } from "./services/system/systemApi";
 import { authApi } from "./services/auth/authApi";
 import { requisitionApi } from "./services/requisition/requisitionApi";
@@ -52,6 +53,7 @@ import { budgetActivityApi } from './services/budget-activity/budgetActivityApi'
 import { projectApi } from "./services/project/projectApi";
 import { placeApi } from "./services/place/placeApi";
 import { comsetApi } from "./services/comset/comsetApi";
+import { userApi } from "./services/user/userApi";
 
 export default configureStore({
     reducer: {
@@ -79,6 +81,7 @@ export default configureStore({
         [projectApi.reducerPath]: projectApi.reducer,
         [placeApi.reducerPath]: placeApi.reducer,
         [comsetApi.reducerPath]: comsetApi.reducer,
+        [userApi.reducerPath]: userApi.reducer,
         auth: authReducer,
         asset: asssetReducer,
         assetType: assetTypeReducer,
@@ -108,6 +111,7 @@ export default configureStore({
         budgetActivity: budgetActivityReducer,
         project: projectReducer,
         place: placeReducer,
+        user: userReducer,
     },
     middleware: (getDefaultMiddleware) => 
         getDefaultMiddleware().concat(
@@ -135,5 +139,6 @@ export default configureStore({
             budgetActivityApi.middleware,
             projectApi.middleware,
             placeApi.middleware,
+            userApi.middleware,
         ),
 });
