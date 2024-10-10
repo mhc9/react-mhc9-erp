@@ -8,7 +8,7 @@ import { useGetInitialFormDataQuery } from '../../../features/services/loan/loan
 const FilteringInputs = ({ initialFilters, onFilter }) => {
     const classes = useStyles();
     const [filters, setFilters] = useState(initialFilters);
-    const [selectedYear, setSelectedYear] = useState(moment());
+    const [selectedYear, setSelectedYear] = useState(moment(`${filters.year}-01-01`));
     const { data: formData } = useGetInitialFormDataQuery();
 
     const handleInputChange = (e) => {
@@ -33,7 +33,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                 />
             </div>
             <div className="flex max-md:flex-col items-center min-md:gap-2 ml-2 w-[30%]">
-                <label htmlFor="" className="w-[20%] max-md:w-[100%]">สถานะ :</label>
+                <label htmlFor="" className="w-[30%] max-md:w-[100%]">สถานะ :</label>
                 <select
                     name="status"
                     value={filters.status}
