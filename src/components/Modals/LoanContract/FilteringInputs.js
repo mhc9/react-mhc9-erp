@@ -33,7 +33,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                         className={classes.muiTextFieldInput}
                     />
                 </div>
-                <div className="flex max-md:flex-col items-center min-md:gap-2 ml-2 w-[35%]">
+                {/* <div className="flex max-md:flex-col items-center min-md:gap-2 ml-2 w-[35%]">
                     <label htmlFor="" className="w-[25%] max-md:w-[100%]">ผู้ยืม :</label>
                     <select
                         name="employee"
@@ -53,7 +53,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                             </Fragment>
                         ))}
                     </select>
-                </div>
+                </div> */}
                 <button
                     type="button"
                     className="btn btn-outline-primary btn-sm max-md:mt-6"

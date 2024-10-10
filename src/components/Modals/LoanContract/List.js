@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 import { Modal } from 'react-bootstrap'
 import { getContracts } from '../../../features/slices/loan-contract/loanContractSlice';
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
+import FilteringInputs from './FilteringInputs';
 import Loading from '../../Loading';
 import Pagination from '../../Pagination';
 import EmployeeCard from '../../Employee/Card';
@@ -37,6 +38,14 @@ const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
                 <Modal.Title>รายการสัญญายืมเงิน</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                <FilteringInputs
+                    initialFilters={initialFilters}
+                    onFilter={(queryStr) => {
+                        setParams(queryStr);
+                        setEndpoint(prev => prev === '' ? `/api/loan-contracts/search?page=` : '');
+                    }}
+                />
+
                 <div>
                     <table className="table table-bordered table-striped table-hover text-sm mb-0">
                         <thead>
