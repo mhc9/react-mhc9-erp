@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useCookies } from 'react-cookie'
 import { Breadcrumb } from 'react-bootstrap'
 import { DatePicker } from '@material-ui/pickers'
 import moment from 'moment'
@@ -18,9 +19,10 @@ const initialFilters = {
 
 const LoanContractReport = () => {
     const classes = useStyles();
+    const [cookies] = useCookies()
     const dispatch = useDispatch();
     const { contracts, pager, isLoading } = useSelector(state => state.loanContract);
-    const [selectedYear, setSelectedYear] = useState(moment());
+    const [selectedYear, setSelectedYear] = useState(moment(`${cookies.budgetYear}-01-01`));
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
 
@@ -68,17 +70,19 @@ const LoanContractReport = () => {
                     <div className="border rounded-md py-2 px-3 mb-2">
                         <div className="flex items-center gap-2">
                             <label htmlFor="">ปีงบ :</label>
-                            <DatePicker
-                                format="YYYY"
-                                views={['year']}
-                                value={selectedYear}
-                                onChange={(date) => {
-                                    setSelectedYear(date);
-                                    // setParams(queryStr);
-                                    setApiEndpoint(prev => prev === '' ? `/api/loan-contracts/report/${date.year()}?page=` : '');
-                                }}
-                                className={classes.muiTextFieldInput}
-                                />
+                            <div>
+                                <DatePicker
+                                    format="YYYY"
+                                    views={['year']}
+                                    value={selectedYear}
+                                    onChange={(date) => {
+                                        setSelectedYear(date);
+                                        // setParams(queryStr);
+                                        setApiEndpoint(prev => prev === '' ? `/api/loan-contracts/report/${date.year()}?page=` : '');
+                                    }}
+                                    className={classes.muiTextFieldInput}
+                                    />
+                            </div>
                         </div>
                     </div>
                     {/* ======================== Filtering ======================== */}

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useCookies } from 'react-cookie'
 import { Breadcrumb } from 'react-bootstrap'
 import { ConfirmToast } from 'react-confirm-toast'
 import { toast } from 'react-toastify'
-import moment from 'moment'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getRefunds, destroy, resetDeleted } from '../../../features/slices/loan-refund/loanRefundSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
@@ -13,13 +13,13 @@ import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
 import EmployeeCard from '../../../components/Employee/Card'
 
-const initialFilters = {
-    type: '',
-    year: moment().year(),
-    status: '',
-};
-
 const LoanRefundList = () => {
+    const [cookies] = useCookies();
+    const initialFilters = {
+        type: '',
+        year: cookies.budgetYear,
+        status: '',
+    };
     const dispatch = useDispatch();
     const { refunds, pager, isLoading, isDeleted } = useSelector(state => state.loanRefund);
     const [apiEndpoint, setApiEndpoint] = useState('');

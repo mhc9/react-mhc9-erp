@@ -8,7 +8,7 @@ import { generateQueryString } from '../../../utils'
 const FilteringInputs = ({ initialFilters, onFilter }) => {
     const classes = useStyles();
     const [filters, setFilters] = useState(initialFilters);
-    const [selectedYear, setSelectedYear] = useState(moment());
+    const [selectedYear, setSelectedYear] = useState(moment(`${filters.year}-01-01`));
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     const handleInputChange = (e) => {
@@ -20,54 +20,50 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
     return (
         <div className="border rounded-md py-2 px-3 mb-2">
             <div className="flex flex-row items-center gap-2">
-                <div className="flex flex-row items-center gap-1">
-                    <label htmlFor="">ปีงบ :</label>
-                    <div className="w-[60%]">
-                        <DatePicker
-                            format="YYYY"
-                            views={['year']}
-                            value={selectedYear}
-                            onChange={(date) => {
-                                setSelectedYear(date);
-                                setFilters(prev => ({ ...prev, ['year']: moment(date).year() }));
-                            }}
-                            className={classes.muiTextFieldInput}
-                        />
-                    </div>
+                <div className="flex max-md:flex-col items-center min-md:gap-2">
+                    <label htmlFor="" className="w-[25%] max-md:w-[100%]">ปีงบ :</label>
+                    <DatePicker
+                        format="YYYY"
+                        views={['year']}
+                        value={selectedYear}
+                        onChange={(date) => {
+                            setSelectedYear(date);
+                            setFilters(prev => ({ ...prev, ['year']: moment(date).year() }));
+                        }}
+                        className={classes.muiTextFieldInput}
+                    />
                 </div>
-                <div className="flex flex-row items-center gap-1 w-[35%]">
-                    <label htmlFor="">ผู้ยืม :</label>
-                    <div className="w-[80%]">
-                        <select
-                            name="employee"
-                            value={filters.employee}
-                            onChange={handleInputChange}
-                            className="form-control text-sm"
-                        >
-                            <option value="">-- ผู้ยืมทั้งหมด --</option>
-                            {formData && formData.departments.map(dep => (
-                                <Fragment key={dep.id}>
-                                    <optgroup label={dep.name} />
-                                    {formData && formData.employees.filter(emp => emp.member_of[0]?.department_id === dep.id).map(employee => (
-                                        <option value={employee.id} key={employee.id}>
-                                            {employee.prefix?.name}{employee.firstname} {employee.lastname}
-                                        </option>
-                                    ))}
-                                </Fragment>
-                            ))}
-                        </select>
-                    </div>
+                <div className="flex max-md:flex-col items-center min-md:gap-2 ml-2 w-[35%]">
+                    <label htmlFor="" className="w-[25%] max-md:w-[100%]">ผู้ยืม :</label>
+                    <select
+                        name="employee"
+                        value={filters.employee}
+                        onChange={handleInputChange}
+                        className="form-control text-sm"
+                    >
+                        <option value="">-- ผู้ยืมทั้งหมด --</option>
+                        {formData && formData.departments.map(dep => (
+                            <Fragment key={dep.id}>
+                                <optgroup label={dep.name} />
+                                {formData && formData.employees.filter(emp => emp.member_of[0]?.department_id === dep.id).map(employee => (
+                                    <option value={employee.id} key={employee.id}>
+                                        {employee.prefix?.name}{employee.firstname} {employee.lastname}
+                                    </option>
+                                ))}
+                            </Fragment>
+                        ))}
+                    </select>
                 </div>
                 <button
                     type="button"
-                    className="btn btn-outline-primary btn-sm"
+                    className="btn btn-outline-primary btn-sm max-md:mt-6"
                     onClick={() => onFilter(generateQueryString(filters))}
                 >
                     ค้นหา
                 </button>
                 <button
                     type="button"
-                    className="btn btn-outline-danger btn-sm"
+                    className="btn btn-outline-danger btn-sm max-md:mt-6"
                     onClick={() => {
                         setFilters(initialFilters);
                         setSelectedYear(moment());

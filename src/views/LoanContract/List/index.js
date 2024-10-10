@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useCookies } from 'react-cookie'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { ConfirmToast } from 'react-confirm-toast'
 import { toast } from 'react-toastify'
-import moment from 'moment'
 import { getContracts, destroy, resetSuccess } from '../../../features/slices/loan-contract/loanContractSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import LoanListDetail from './ListDetail'
@@ -14,13 +14,13 @@ import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
 import EmployeeCard from '../../../components/Employee/Card'
 
-const initialFilters = {
-    year: moment().year(),
-    employee: '',
-    status: '',
-};
-
 const LoanContractList = () => {
+    const [cookies] = useCookies();
+    const initialFilters = {
+        year: cookies.budgetYear,
+        employee: '',
+        status: '',
+    };
     const dispatch = useDispatch();
     const { contracts, pager, isLoading, isSuccess } = useSelector(state => state.loanContract);
     const [apiEndpoint, setApiEndpoint] = useState('');
