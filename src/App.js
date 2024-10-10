@@ -101,6 +101,8 @@ import EditBudgetPlan from './views/Budget/Plan/Edit';
 import BudgetProjectList from './views/Budget/Project/List';
 import AddBudgetProject from './views/Budget/Project/Add';
 import EditBudgetProject from './views/Budget/Project/Edit';
+/** User */
+import UserList from './views/User/List';
 /** Help */
 import Advice from './views/Advice';
 
@@ -203,6 +205,9 @@ function App() {
                 <Route path="budget-activity/:year?/:project?" element={<GuardRoute><BudgetActivityList /></GuardRoute>} />
                 <Route path="budget-activity/add" element={<GuardRoute><AddBudgetActivity /></GuardRoute>} />
                 <Route path="budget-activity/:id/edit" element={<GuardRoute><EditBudgetActivity /></GuardRoute>} />
+
+                {/* Users */}
+                <Route path="user" element={<GuardRoute><UserList /></GuardRoute>} />
 
                 {/* ============================= Help ============================= */}
                 {/* Advice */}
