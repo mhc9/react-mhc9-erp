@@ -28,6 +28,7 @@ import loanContactReducer from "./slices/loan-contract/loanContractSlice";
 import loanRefundReducer from "./slices/loan-refund/loanRefundSlice";
 import projectReducer from "./slices/project/projectSlice";
 import placeReducer from "./slices/place/placeSlice";
+import { systemApi } from "./services/system/systemApi";
 import { authApi } from "./services/auth/authApi";
 import { requisitionApi } from "./services/requisition/requisitionApi";
 import { employeeApi } from "./services/employee/employeeApi";
@@ -54,6 +55,7 @@ import { comsetApi } from "./services/comset/comsetApi";
 
 export default configureStore({
     reducer: {
+        [systemApi.reducerPath]: systemApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
         [requisitionApi.reducerPath]: requisitionApi.reducer,
         [employeeApi.reducerPath]: employeeApi.reducer,
@@ -109,6 +111,7 @@ export default configureStore({
     },
     middleware: (getDefaultMiddleware) => 
         getDefaultMiddleware().concat(
+            systemApi.middleware,
             authApi.middleware,
             requisitionApi.middleware,
             employeeApi.middleware,
