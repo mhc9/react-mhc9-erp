@@ -8,7 +8,7 @@ import { generateQueryString } from '../../../utils';
 const FilteringInputs = ({ initialFilters, onFilter, formData }) => {
     const classes = useStyles();
     const [filters, setFilters] = useState(initialFilters);
-    const [selectedYear, setSelectedYear] = useState(moment());
+    const [selectedYear, setSelectedYear] = useState(moment(`${filters.year}-01-01`));
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

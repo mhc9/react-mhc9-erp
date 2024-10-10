@@ -9,15 +9,17 @@ import FilteringInputs from './FilteringInputs';
 import Loading from '../../Loading';
 import Pagination from '../../Pagination';
 import BudgetTypeBadge from '../../Budget/BudgetTypeBadge';
+import { useCookies } from 'react-cookie';
 
-const initialFilters = {
-    name: '',
-    type: '',
-    plan: '',
-    year: moment().year(),
-};
 
 const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
+    const [cookies] = useCookies();
+    const initialFilters = {
+        name: '',
+        type: '',
+        plan: '',
+        year: cookies.budgetYear,
+    };
     const dispatch = useDispatch();
     const { budgets, pager, isLoading } = useSelector(state => state.budget);
     const [year, setYear] = useState(moment().year())
