@@ -16,7 +16,6 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <CookiesProvider>
-            {/* On production mode add basename="/erp" prop to Router */}
             <Router>
                 <Provider store={store}>
                     <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
