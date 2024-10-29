@@ -65,7 +65,7 @@ const BudgetPlanList = () => {
                     }}
                 />
 
-                <BudgetSummary />
+                <BudgetSummary year={year} />
 
                 <div>
                     <table className="table table-bordered table-striped table-hover">
