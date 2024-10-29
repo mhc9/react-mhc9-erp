@@ -12,7 +12,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
     const classes = useStyles();
     const [filters, setFilters] = useState(initialFilters);
     const [selectedYear, setSelectedYear] = useState(initialFilters ? moment(`${initialFilters.year}-01-01`) : moment())
-    const { data: formData, isLoading } = useGetInitialFormDataQuery({ year: filters.year });
+    const { data: formData, isFetching } = useGetInitialFormDataQuery({ year: filters.year });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -55,7 +55,11 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                                     value={selectedYear}
                                     onChange={(date) => {
                                         setSelectedYear(date);
-                                        setFilters(prev => ({ ...prev, ['year']: moment(date).year() }));
+                                        setFilters(prev => ({
+                                            ...prev,
+                                            project: '',
+                                            year: moment(date).year()
+                                        }));
                                     }}
                                     className={classes.muiTextFieldInput}
                                 />
@@ -97,8 +101,8 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                         </Col> */}
                         <Col className="px-1 max-lg:mb-2" md={6}>
                             <FormGroup>
-                                {isLoading && <div className="form-control text-sm"><Loading /></div>}
-                                {(!isLoading && formData) && (
+                                {isFetching && <div className="form-control text-sm"><Loading /></div>}
+                                {(!isFetching && formData) && (
                                     <select
                                         name="project"
                                         value={filters?.project}
