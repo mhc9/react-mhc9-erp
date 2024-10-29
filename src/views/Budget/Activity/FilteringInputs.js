@@ -13,7 +13,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
     const [collapse, setCollapse] = useState(true);
     const [filters, setFilters] = useState(initialFilters);
     const [selectedYear, setSelectedYear] = useState(initialFilters ? moment(`${initialFilters.year}-01-01`) : moment())
-    const { data: formData, isLoading } = useGetInitialFormDataQuery();
+    const { data: formData, isLoading } = useGetInitialFormDataQuery({ year: filters.year });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
