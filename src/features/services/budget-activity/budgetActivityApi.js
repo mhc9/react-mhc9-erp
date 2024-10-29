@@ -16,9 +16,14 @@ export const budgetActivityApi = createApi({
     }),
     endpoints: (builder) => ({
         getInitialFormData: builder.query({
-            query: () => ({
-                url: '/api/budget-activities/init/form'
-            }),
+            query: (args) => {
+                const { year } = args;
+
+                return {
+                    url: '/api/budget-activities/init/form',
+                    params: { year },
+                };
+            },
         }),
     }),
 });

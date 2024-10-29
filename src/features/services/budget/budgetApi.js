@@ -22,7 +22,7 @@ export const budgetApi = createApi({
                 return {
                     url: '/api/budgets/init/form',
                     params: { year },
-                }
+                };
             },
         }),
     }),
