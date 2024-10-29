@@ -10,6 +10,7 @@ import { getBudgetPlans, resetDeleted, destroy } from '../../../features/slices/
 import FilteringInputs from './FilteringInputs'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
+import BudgetSummary from '../BudgetSummary'
 
 const BudgetPlanList = () => {
     const [cookies] = useCookies();
@@ -63,6 +64,8 @@ const BudgetPlanList = () => {
                         setYear(getUrlParam(queryStr, 'year'));
                     }}
                 />
+
+                <BudgetSummary />
 
                 <div>
                     <table className="table table-bordered table-striped table-hover">
