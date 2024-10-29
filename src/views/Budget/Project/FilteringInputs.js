@@ -9,7 +9,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
     const classes = useStyles();
     const [filters, setFilters] = useState(initialFilters);
     const [selectedYear, setSelectedYear] = useState(initialFilters ? moment(`${initialFilters.year}-01-01`) : moment());
-    const { data: formData } = useGetInitialFormDataQuery();
+    const { data: formData } = useGetInitialFormDataQuery({ year: filters.year });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
