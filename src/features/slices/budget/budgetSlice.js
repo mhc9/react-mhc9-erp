@@ -31,6 +31,16 @@ export const getBudget = createAsyncThunk("budget/getBudget", async (id, { rejec
     }
 });
 
+export const getAllBudgetsOfYear = createAsyncThunk("budget/getAllBudgetsOfYear", async ({ url }, { rejectWithValue }) => {
+    try {
+        const res = await api.get(url);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const store = createAsyncThunk("budget/store", async (data, { rejectWithValue }) => {
     try {
         const res = await api.post(`/api/budgets`, data);
@@ -121,6 +131,19 @@ export const budgetSlice = createSlice({
             state.isLoading = false;
         },
         [getBudget.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [getAllBudgetsOfYear.pending]: (state) => {
+            state.budgets = [];
+            state.isLoading = true;
+            state.error = null;
+        },
+        [getAllBudgetsOfYear.fulfilled]: (state, { payload }) => {
+            state.budgets = payload;
+            state.isLoading = false;
+        },
+        [getAllBudgetsOfYear.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },
