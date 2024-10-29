@@ -10,7 +10,6 @@ import moment from 'moment'
 
 const FilteringInputs = ({ initialFilters, onFilter }) => {
     const classes = useStyles();
-    const [collapse, setCollapse] = useState(true);
     const [filters, setFilters] = useState(initialFilters);
     const [selectedYear, setSelectedYear] = useState(initialFilters ? moment(`${initialFilters.year}-01-01`) : moment())
     const { data: formData, isLoading } = useGetInitialFormDataQuery({ year: filters.year });
@@ -23,13 +22,11 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
 
     const handleFilter = () => {
         onFilter(generateQueryString(filters));
-        setCollapse(true);
     };
     
     const handleClear = () => {
         setFilters(initialFilters);
         onFilter(generateQueryString(initialFilters));
-        setCollapse(true);
     };
 
     return (
