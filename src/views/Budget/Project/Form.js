@@ -16,11 +16,11 @@ const budgetProjectSchema = Yup.object().shape({
     year: Yup.string().required(),
 });
 
-const BudgetProjectForm = ({ project }) => {
+const BudgetProjectForm = ({ project, defaultYear, defaultPlan }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { plans, isLoading } = useSelector(state => state.budgetPlan);
-    const [selectedYear, setSelectedYear] = useState(project ? moment(`${project.year}-01-01`) : moment());
+    const [selectedYear, setSelectedYear] = useState(project ? moment(`${project.year}-01-01`) : (defaultYear ? moment(`${defaultYear}-01-01`) : moment()));
 
     useEffect(() => {
         dispatch(getAllBudgetPlans({ url: `/api/budget-plans?year=${selectedYear.year()}` }));
