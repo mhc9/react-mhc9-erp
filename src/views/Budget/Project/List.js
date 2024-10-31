@@ -53,7 +53,9 @@ const BudgetProjectList = () => {
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">โครงการ/ผลผลิต</h2>
-                    <Link to="/budget-project/add" className="btn btn-primary">เพิ่มรายการ</Link>
+                    <Link to={`/budget-project/add${_year !== '' ? '/' + _year + '/' + plan : ''}`} className="btn btn-primary">
+                        เพิ่มรายการ
+                    </Link>
                 </div>
 
                 <FilteringInputs
