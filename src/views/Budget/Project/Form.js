@@ -20,7 +20,7 @@ const BudgetProjectForm = ({ project }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { plans, isLoading } = useSelector(state => state.budgetPlan);
-    const [selectedYear, setSelectedYear] = useState(moment());
+    const [selectedYear, setSelectedYear] = useState(project ? moment(`${project.year}-01-01`) : moment());
 
     useEffect(() => {
         dispatch(getAllBudgetPlans({ url: `/api/budget-plans?year=${selectedYear.year()}` }));
