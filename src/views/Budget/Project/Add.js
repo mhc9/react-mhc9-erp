@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { Breadcrumb } from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { resetSuccess } from '../../../features/slices/budget-project/budgetProjectSlice'
 import BudgetProjectForm from './Form'
 
 const AddBudgetProject = () => {
+    const { year, plan } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { isSuccess } = useSelector(state => state.budgetProject);
@@ -35,7 +36,10 @@ const AddBudgetProject = () => {
                     </div>
 
                     <div className="border rounded-md py-5">
-                        <BudgetProjectForm />
+                        <BudgetProjectForm
+                            defaultYear={year}
+                            defaultPlan={plan}
+                        />
                     </div>
             </div>
         </div>
