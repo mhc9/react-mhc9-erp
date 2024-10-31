@@ -30,6 +30,7 @@ const BudgetActivityForm = ({ activity, defaultYear, defaultProject }) => {
     const [filteredProject, setFilteredProject] = useState([]);
     const [selectedYear, setSelectedYear] = useState(activity? moment(`${activity.year}-01-01`) : (defaultYear ? moment(`${defaultYear}-01-01`) : moment()));
     const [showBudgetForm, setShowBudgetForm] = useState(false);
+    const [editingItem, setEdittingItem] = useState(null);
     const [planId, setPlanId] = useState('');
 
     useEffect(() => {
@@ -65,6 +66,22 @@ const BudgetActivityForm = ({ activity, defaultYear, defaultProject }) => {
 
         const newBudgets = [...formik.values.budgets, data];
         formik.setFieldValue('budgets', newBudgets);
+    };
+
+    const handleUpdateBudget = (formik, id, data) => {
+        console.log(id, data);
+        const updatedBudgets = formik.values.budgets.map(budget => {
+            if (budget.id === id) {
+                return {
+                    ...data,
+                    updated: true,
+                }
+            }
+
+            return budget;
+        });
+
+        formik.setFieldValue('budgets', updatedBudgets);
     };
 
     const handleRemoveBudget = (formik, id, isNewItem) => {
@@ -221,12 +238,24 @@ const BudgetActivityForm = ({ activity, defaultYear, defaultProject }) => {
                                 <BudgetList
                                     data={formik.values.budgets.filter(budget => !budget.removed)}
                                     onRemoveItem={(id, isNewItem) => handleRemoveBudget(formik, id, isNewItem)}
+                                    onEditItem={(item) => {
+                                        setEdittingItem(item);
+                                        setShowBudgetForm(true);
+                                    }}
                                 />
 
                                 <AddBudget
                                     isShow={showBudgetForm}
                                     hide={() => setShowBudgetForm(false)}
-                                    onSubmit={(data) => handleAddBudget(formik, data)}
+                                    data={editingItem}
+                                    onSubmit={(data) => {
+                                        if (editingItem) {
+                                            handleUpdateBudget(formik, editingItem.id, data);
+                                            setEdittingItem(null);
+                                        } else {
+                                            handleAddBudget(formik, data);
+                                        }
+                                    }}
                                 />
                             </Col>
                             <Col className="pl-0">

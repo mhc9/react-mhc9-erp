@@ -23,7 +23,7 @@ const AddBudgetType = ({ isShow, hide, data, onSubmit }) => {
             onHide={hide}
         >
             <Modal.Header closeButton className="py-1">
-                <Modal.Title>เพิ่มประเภทงบประมาณ</Modal.Title>
+                <Modal.Title>{data ? 'แก้ไขประเภทงบประมาณ' : 'เพิ่มประเภทงบประมาณ'}</Modal.Title>
             </Modal.Header>
             <Modal.Body className="py-4">
                 <Formik
@@ -77,7 +77,7 @@ const AddBudgetType = ({ isShow, hide, data, onSubmit }) => {
                                         )}
                                 </Col>
                                 <div className="offset-md-4">
-                                    <button type="button" className="btn btn-outline-primary btn-sm" onClick={formik.submitForm}>
+                                    <button type="button" className={`btn ${data ? 'btn-outline-secondary' : 'btn-outline-primary'} btn-sm`} onClick={formik.submitForm}>
                                         บันทึก
                                     </button>
                                 </div>
