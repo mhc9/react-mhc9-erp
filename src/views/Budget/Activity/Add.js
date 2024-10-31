@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { resetSuccess } from '../../../features/slices/budget/budgetSlice'
+import { resetSuccess } from '../../../features/slices/budget-activity/budgetActivitySlice'
 import BudgetActivityForm from './Form'
 
 const AddBudgetActivity = () => {
@@ -27,7 +27,7 @@ const AddBudgetActivity = () => {
                 <Breadcrumb.Item>งบประมาณ</Breadcrumb.Item>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-plan' }}>แผนงาน</Breadcrumb.Item>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-project' }}>โครงการ/ผลผลิต</Breadcrumb.Item>
-                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-activity' }}>กิจกรรม</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: `/budget-activity${year !== '' ? '/' + year + '/' + project : ''}` }}>กิจกรรม</Breadcrumb.Item>
                 <Breadcrumb.Item active>เพิ่มกิจกรรม</Breadcrumb.Item>
             </Breadcrumb>
 
