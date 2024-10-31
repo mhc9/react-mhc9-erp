@@ -27,7 +27,7 @@ const BudgetTypeList = ({ data, onEditItem, onRemoveItem }) => {
                                 <button
                                     type="button"
                                     className="btn btn-outline-danger btn-sm px-1"
-                                    onClick={() => onRemoveItem(item.id, !item.budget_id)}
+                                    onClick={() => onRemoveItem(item.id, !item.activity_id)}
                                 >
                                     <FaTrash />
                                 </button>

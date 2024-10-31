@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
+import { removeItemWithFlag } from '../../../utils'
 import { useStyles } from '../../../hooks/useStyles'
 import { store, update } from '../../../features/slices/budget-activity/budgetActivitySlice'
 import { getAllBudgetPlans } from '../../../features/slices/budget-plan/budgetPlanSlice'
@@ -58,9 +59,8 @@ const BudgetActivityForm = ({ activity }) => {
     };
 
     const handleRemoveBudget = (formik, id, isNewItem) => {
-        console.log(id, isNewItem);
         if (window.confirm('คุณต้องการลบรายการประเภทงบประมาณใช้หรือไม่?')) {
-            const updatedBudgets = formik.values.budgets.filter(item => item.id !== id);
+            const updatedBudgets = removeItemWithFlag(formik.values.budgets, id, isNewItem);
             formik.setFieldValue('budgets', updatedBudgets);
         }
     };
@@ -209,7 +209,7 @@ const BudgetActivityForm = ({ activity }) => {
                             <label htmlFor="" className="col-3 col-form-label text-right">รายการประเภทงบ :</label>
                             <Col md={7} className="pr-1">
                                 <BudgetList
-                                    data={formik.values.budgets}
+                                    data={formik.values.budgets.filter(budget => !budget.removed)}
                                     onRemoveItem={(id, isNewItem) => handleRemoveBudget(formik, id, isNewItem)}
                                 />
 
