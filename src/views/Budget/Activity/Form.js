@@ -69,7 +69,6 @@ const BudgetActivityForm = ({ activity, defaultYear, defaultProject }) => {
     };
 
     const handleUpdateBudget = (formik, id, data) => {
-        console.log(id, data);
         const updatedBudgets = formik.values.budgets.map(budget => {
             if (budget.id === id) {
                 return {
@@ -96,6 +95,7 @@ const BudgetActivityForm = ({ activity, defaultYear, defaultProject }) => {
             dispatch(update({ id: activity.id, data: values }));
         } else {
             dispatch(store(values));
+            setPlanId('');
         }
     };
 
