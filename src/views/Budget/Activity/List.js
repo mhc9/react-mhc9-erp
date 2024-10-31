@@ -14,7 +14,7 @@ import {
 import { toast } from 'react-toastify'
 import moment from 'moment'
 import { currency, generateQueryString } from '../../../utils'
-import { getActivities, destroy, toggle, resetDeleted, resetSuccess } from '../../../features/slices/budget-activity/budgetActivitySlice'
+import { getActivities, destroy, toggle, resetDeleted } from '../../../features/slices/budget-activity/budgetActivitySlice'
 import FilteringInputs from './FilteringInputs'
 import Pagination from '../../../components/Pagination'
 import Loading from '../../../components/Loading'
@@ -22,7 +22,7 @@ import Loading from '../../../components/Loading'
 const BudgetActivityList = () => {
     const { year: _year, project } = useParams();
     const dispatch = useDispatch();
-    const { activities, pager, isLoading, isSuccess, isDeleted } = useSelector(state => state.budgetActivity);
+    const { activities, pager, isLoading, isDeleted } = useSelector(state => state.budgetActivity);
     const [endpoint, setEndpoint] = useState('');
     const [params, setParams] = useState(
         generateQueryString({
