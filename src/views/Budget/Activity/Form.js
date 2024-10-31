@@ -22,14 +22,15 @@ const budgetSchema = Yup.object().shape({
     year: Yup.string().required('กรุณาเลือกปีงบประมาณ'),
 });
 
-const BudgetActivityForm = ({ activity }) => {
+const BudgetActivityForm = ({ activity, defaultYear, defaultProject }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { plans, isLoading: isPlanLoading } = useSelector(state => state.budgetPlan);
     const { projects, isLoading: isProjectLoading } = useSelector(state => state.budgetProject);
     const [filteredProject, setFilteredProject] = useState([]);
-    const [selectedYear, setSelectedYear] = useState(moment());
+    const [selectedYear, setSelectedYear] = useState(defaultYear ? moment(`${defaultYear}-01-01`) : moment());
     const [showBudgetForm, setShowBudgetForm] = useState(false);
+    const [planId, setPlanId] = useState('');
 
     useEffect(() => {
         dispatch(getAllBudgetPlans({ url: `/api/budget-plans?year=${selectedYear.year()}` }));
@@ -41,6 +42,14 @@ const BudgetActivityForm = ({ activity }) => {
             handleFilterProject(activity?.project?.plan_id);
         }
     }, [activity]);
+
+    useEffect(() => {
+        if (projects) {
+            const _project = projects.find(proj => proj.id === parseInt(defaultProject, 10));
+            setPlanId(_project?.plan_id);
+            handleFilterProject(_project?.plan_id);
+        }
+    }, [projects]);
 
     const handleFilterProject = (planId) => {
         const newProjects = projects.filter(project => project.plan_id === parseInt(planId, 10));
@@ -75,13 +84,14 @@ const BudgetActivityForm = ({ activity }) => {
 
     return (
         <Formik
+            enableReinitialize
             initialValues={{
                 name: activity ? activity.name : '',
                 activity_no: activity ? activity.activity_no : '',
-                year: activity ? activity.year : moment().format('YYYY'),
+                year: activity ? activity.year : (defaultYear ? defaultYear : moment().format('YYYY')),
                 gfmis_id: (activity && activity.gfmis_id) ? activity.gfmis_id : '',
-                plan_id: (activity && activity.project) ? activity.project.plan_id : '',
-                project_id: activity ? activity.project_id : '',
+                plan_id: (activity && activity.project) ? activity.project.plan_id : (planId !== '' ? planId : ''),
+                project_id: activity ? activity.project_id : (defaultProject ? defaultProject : ''),
                 budgets: activity ? activity.budgets : []
             }}
             onSubmit={handleSubmit}

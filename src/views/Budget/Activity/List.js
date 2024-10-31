@@ -42,13 +42,6 @@ const BudgetActivityList = () => {
     }, [endpoint]);
 
     useEffect(() => {
-        if (isSuccess) {
-            toast.success('บันทึกข้อมูลงบประมาณสำเร็จ!!');
-            dispatch(resetSuccess());
-        }
-    }, [isSuccess]);
-
-    useEffect(() => {
         if (isDeleted) {
             toast.success('ลบรายการงบประมาณสำเร็จ!!');
             dispatch(resetDeleted());
@@ -82,7 +75,9 @@ const BudgetActivityList = () => {
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการกิจกรรม</h2>
                     <div className="flex flex-row gap-1">
-                        <Link to="/budget-activity/add" className="btn btn-primary">เพิ่มรายการ</Link>
+                        <Link to={`/budget-activity/add${_year !== '' ? '/' + _year + '/' + project : ''}`} className="btn btn-primary">
+                            เพิ่มรายการ
+                        </Link>
                     </div>
                 </div>
 

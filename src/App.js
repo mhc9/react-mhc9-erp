@@ -203,7 +203,7 @@ function App() {
                 <Route path="budget-project/add" element={<GuardRoute><AddBudgetProject /></GuardRoute>} />
                 <Route path="budget-project/:id/edit" element={<GuardRoute><EditBudgetProject /></GuardRoute>} />
                 <Route path="budget-activity/:year?/:project?" element={<GuardRoute><BudgetActivityList /></GuardRoute>} />
-                <Route path="budget-activity/add" element={<GuardRoute><AddBudgetActivity /></GuardRoute>} />
+                <Route path="budget-activity/add/:year?/:project?" element={<GuardRoute><AddBudgetActivity /></GuardRoute>} />
                 <Route path="budget-activity/:id/edit" element={<GuardRoute><EditBudgetActivity /></GuardRoute>} />
 
                 {/* Users */}
