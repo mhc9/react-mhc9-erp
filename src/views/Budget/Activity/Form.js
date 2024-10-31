@@ -44,7 +44,7 @@ const BudgetActivityForm = ({ activity, defaultYear, defaultProject }) => {
     }, [activity]);
 
     useEffect(() => {
-        if (projects) {
+        if (projects && !activity) {
             const _project = projects.find(proj => proj.id === parseInt(defaultProject, 10));
             setPlanId(_project?.plan_id);
             handleFilterProject(_project?.plan_id);
