@@ -79,7 +79,7 @@ const BudgetActivityForm = ({ activity }) => {
                 name: activity ? activity.name : '',
                 activity_no: activity ? activity.activity_no : '',
                 year: activity ? activity.year : moment().format('YYYY'),
-                gfmis_id: activity ? activity.gfmis_id : '',
+                gfmis_id: (activity && activity.gfmis_id) ? activity.gfmis_id : '',
                 plan_id: (activity && activity.project) ? activity.project.plan_id : '',
                 project_id: activity ? activity.project_id : '',
                 budgets: activity ? activity.budgets : []
