@@ -53,7 +53,11 @@ const BudgetPlanList = () => {
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">แผนงาน</h2>
-                    <Link to="add" className="btn btn-primary">เพิ่มรายการ</Link>
+
+                    <div>
+                        <Link to="/allocation" className="btn btn-success mr-2">รับโอนงบ</Link>
+                        <Link to="add" className="btn btn-primary">เพิ่มรายการ</Link>
+                    </div>
                 </div>
 
                 <FilteringInputs
