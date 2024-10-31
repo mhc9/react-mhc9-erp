@@ -28,7 +28,7 @@ const BudgetActivityForm = ({ activity, defaultYear, defaultProject }) => {
     const { plans, isLoading: isPlanLoading } = useSelector(state => state.budgetPlan);
     const { projects, isLoading: isProjectLoading } = useSelector(state => state.budgetProject);
     const [filteredProject, setFilteredProject] = useState([]);
-    const [selectedYear, setSelectedYear] = useState(defaultYear ? moment(`${defaultYear}-01-01`) : moment());
+    const [selectedYear, setSelectedYear] = useState(activity? moment(`${activity.year}-01-01`) : (defaultYear ? moment(`${defaultYear}-01-01`) : moment()));
     const [showBudgetForm, setShowBudgetForm] = useState(false);
     const [planId, setPlanId] = useState('');
 
