@@ -16,7 +16,7 @@ const AddBudgetProject = () => {
         if (isSuccess) {
             toast.success("บันทึกข้อมูลโครงการ/ผลผลิตสำเร็จ!!");
             dispatch(resetSuccess());
-            navigate('/budget-project');
+            navigate(-1);
         }
     }, [isSuccess]);
 
@@ -26,7 +26,7 @@ const AddBudgetProject = () => {
                 <Breadcrumb.Item>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item>งบประมาณ</Breadcrumb.Item>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-plan' }}>แผนงาน</Breadcrumb.Item>
-                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-project' }}>โครงการ/ผลผลิต</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: `/budget-project${year !== '' ? '/' + year + '/' + plan : ''}` }}>โครงการ/ผลผลิต</Breadcrumb.Item>
                 <Breadcrumb.Item active>เพิ่มโครงการ/ผลผลิต</Breadcrumb.Item>
             </Breadcrumb>
 
