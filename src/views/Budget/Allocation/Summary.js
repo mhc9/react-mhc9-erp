@@ -4,20 +4,30 @@ import { Link } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { getBudgets } from '../../../features/slices/budget/budgetSlice'
 import { getAllAllocations } from '../../../features/slices/budget-allocation/budgetAllocationSlice'
-import { currency } from '../../../utils'
+import { currency, getUrlParam } from '../../../utils'
+import FilteringInputs from './FilteringInputs'
 import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
 import Pagination from '../../../components/Pagination'
+import moment from 'moment'
+import { useCookies } from 'react-cookie'
 
 const AllocationSummary = () => {
+    const [cookies] = useCookies();
     const dispatch = useDispatch();
     const { budgets, pager } = useSelector(state => state.budget);
     const { allocations } = useSelector(state => state.budgetAllocation);
+    const [year, setYear] = useState(cookies.budgetYear);
     const [endpoint, setEndpoint] = useState('');
 
     useEffect(() => {
-        dispatch(getBudgets({ url: `/api/budgets/search?page=&year=2025` }));
-        dispatch(getAllAllocations({ url: `/api/budget-allocations?year=2025` }));
-    }, []);
+        if (endpoint === '') {
+            dispatch(getBudgets({ url: `/api/budgets/search?page=&year=${year}` }));
+            dispatch(getAllAllocations({ url: `/api/budget-allocations?year=${year}` }));
+        } else {
+            dispatch(getBudgets({ url: `${endpoint}&year=${year}` }));
+            dispatch(getAllAllocations({ url: `/api/budget-allocations?year=${year}` }));
+        }
+    }, [endpoint]);
 
     const allocationCount = (budgetId) => {
         return allocations && allocations.filter(al => al.budget_id === budgetId).length;
@@ -36,6 +46,14 @@ const AllocationSummary = () => {
                     <h2 className="text-xl">สรุปยอดจัดสรรงบ</h2>
                 </div>
 
+                <FilteringInputs
+                    initialFilters={{ year: year }}
+                    onFilter={(queryStr) => {
+                        setYear(getUrlParam(queryStr, 'year'));
+                        setEndpoint(prev => prev === '' ? `/api/budgets/search?page=` : '');
+                    }}
+                />
+
                 <div>
                     <table className="table table-bordered table-striped table-hover">
                         <thead>
@@ -50,7 +68,7 @@ const AllocationSummary = () => {
                         </thead>
                         <tbody>
                             {budgets && budgets.map((budget, index) => (
-                                <tr>
+                                <tr key={budget.id}>
                                     <td className="text-center">{index+pager?.from}</td>
                                     <td>
                                         <p className="text-sm text-gray-500">{budget.activity?.project?.plan?.name}</p>
