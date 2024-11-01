@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
+import AllocationForm from './Form'
 
 const AddAllocation = () => {
     return (
@@ -16,6 +17,10 @@ const AddAllocation = () => {
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รับโอนงบ</h2>
                 </div>
+            </div>
+
+            <div className="border rounded-md py-3 px-3">
+                <AllocationForm />
             </div>
         </div>
     )
