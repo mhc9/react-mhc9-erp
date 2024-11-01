@@ -82,7 +82,7 @@ const AllocationList = () => {
                         <tbody>
                             {isLoading && <tr><td colSpan={5} className="text-center"><span><Loading /></span></td></tr>}
                             {(!isLoading && allocations && allocations.length > 0) && allocations.map((allocation, index) => (
-                                <tr>
+                                <tr key={allocation.id}>
                                     <td className="text-center">{index+pager?.from}</td>
                                     <td className="text-left">
                                         <p className="font-thin text-sm"><b>เลขที่</b> {allocation.doc_no}</p>
