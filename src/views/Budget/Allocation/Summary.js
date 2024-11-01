@@ -50,7 +50,7 @@ const AllocationSummary = () => {
                                 <tr>
                                     <td className="text-center">{index+pager?.from}</td>
                                     <td>
-                                        <p className="text-sm text-gray-400">{budget.activity?.project?.plan?.name}</p>
+                                        <p className="text-sm text-gray-500">{budget.activity?.project?.plan?.name}</p>
                                         <p className="text-sm font-semibold">{budget.activity?.project?. name}</p>
                                         <p>
                                             <span className="font-bold text-blue-600 mr-1">{budget.activity?.name}</span>

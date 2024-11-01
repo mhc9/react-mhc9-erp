@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
+import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getAllocationsByBudget } from '../../../features/slices/budget-allocation/budgetAllocationSlice'
 import { currency, toShortTHDate } from '../../../utils'
 import Loading from '../../../components/Loading'
+import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
 
 const AllocationList = () => {
     const { id } = useParams();
@@ -20,11 +22,16 @@ const AllocationList = () => {
         }
     }, [endpoint]);
 
+    const handleDelete = (id) => {
+
+    };
+
     return (
         <div className="content-wrapper">
             <Breadcrumb>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '' }}>หน้าหลัก</Breadcrumb.Item>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget-plan' }}>งบประมาณ</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/budget/allocation' }}>สรุปยอดจัดสรรงบ</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการจัดสรรงบ</Breadcrumb.Item>
             </Breadcrumb>
 
@@ -39,6 +46,20 @@ const AllocationList = () => {
                 </div>
 
                 <div>
+                    {/* ======================== Budget Detail ======================== */}
+                    {isLoading && <div className="text-center" colSpan={5}><Loading /></div>}
+
+                    {(!isLoading && allocations) && (
+                        <div className="border rounded-md py-3 px-4 mb-2 leading-6">
+                            <p className="text-gray-500">{allocations[0].budget.activity?.project?.plan?.name}</p>
+                            <p className="font-semibold">{allocations[0].budget.activity?.project?. name}</p>
+                            <p className="font-bold text-blue-600 mr-1">{allocations[0].budget.activity?.name}</p>
+                            <p><b>ประเภท</b> <BudgetTypeBadge type={allocations[0].budget.type} /></p>
+                            <p><b>ยอดจัดสรรแล้ว</b> {currency.format(allocations[0].budget.total)} <b>บาท</b></p>
+                        </div>
+                    )}
+                    {/* ======================== Budget Detail ======================== */}
+
                     <table className="table table-bordered">
                         <thead>
                             <tr>
@@ -50,7 +71,6 @@ const AllocationList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {isLoading && <tr><td className="text-center" colSpan={5}><Loading /></td></tr>}
                             {(!isLoading && allocations) && allocations.map((allocation, index) => (
                                 <tr>
                                     <td className="text-center">{index+pager?.from}</td>
@@ -60,8 +80,13 @@ const AllocationList = () => {
                                     </td>
                                     <td>{allocation.description}</td>
                                     <td className="text-center">{currency.format(allocation.total)}</td>
-                                    <td className="text-center">
-
+                                    <td className="text-center p-1">
+                                        <Link to={`/budget/allocation/budget/${id}/${allocation.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
+                                            <FaPencilAlt />
+                                        </Link>
+                                        <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(allocation.id)}>
+                                            <FaTrash />
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
