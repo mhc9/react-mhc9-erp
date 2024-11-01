@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
@@ -6,11 +6,13 @@ import { getBudgets } from '../../../features/slices/budget/budgetSlice'
 import { getAllocations } from '../../../features/slices/budget-allocation/budgetAllocationSlice'
 import { currency } from '../../../utils'
 import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
+import Pagination from '../../../components/Pagination'
 
 const AllocationSummary = () => {
     const dispatch = useDispatch();
     const { budgets, pager } = useSelector(state => state.budget);
     const { allocations } = useSelector(state => state.budgetAllocation);
+    const [endpoint, setEndpoint] = useState('');
 
     useEffect(() => {
         dispatch(getBudgets({ url: `/api/budgets/search?page=&year=2025` }));
@@ -68,6 +70,13 @@ const AllocationSummary = () => {
                         </tbody>
                     </table>
                 </div>
+
+                {pager && (
+                    <Pagination
+                        pager={pager}
+                        onPageClick={(url) => setEndpoint(url)}
+                    />
+                )}
             </div>
         </div>
     )
