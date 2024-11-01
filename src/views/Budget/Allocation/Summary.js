@@ -61,7 +61,7 @@ const AllocationSummary = () => {
                                     <td className="text-center">{budget.year}</td>
                                     <td className="text-right">{currency.format(budget.total)}</td>
                                     <td className="text-center">
-                                        <Link to={`/budget/allocation/activity/${budget.id}`} className="btn btn-primary btn-sm">
+                                        <Link to={`/budget/allocation/budget/${budget.id}`} className="btn btn-primary btn-sm">
                                             จัดสรร
                                         </Link>
                                     </td>

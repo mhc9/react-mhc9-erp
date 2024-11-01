@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
-import { getAllocationsByActivity } from '../../../features/slices/budget-allocation/budgetAllocationSlice'
+import { getAllocationsByBudget } from '../../../features/slices/budget-allocation/budgetAllocationSlice'
 import { currency, toShortTHDate } from '../../../utils'
 import Loading from '../../../components/Loading'
 
@@ -14,9 +14,9 @@ const AllocationList = () => {
 
     useEffect(() => {
         if (endpoint === '') {
-            dispatch(getAllocationsByActivity(id));
+            dispatch(getAllocationsByBudget(id));
         } else {
-            // dispatch(getAllocationsByActivity({ url: `${endpoint}` }));
+            // dispatch(getAllocationsByBudget({ url: `${endpoint}` }));
         }
     }, [endpoint]);
 
@@ -32,7 +32,7 @@ const AllocationList = () => {
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการจัดสรรงบ</h2>
                     <div className="flex flex-row gap-1">
-                        <Link to={`/budget/allocation/${id}/add`} className="btn btn-primary">
+                        <Link to={`/budget/allocation/budget/${id}/add`} className="btn btn-primary">
                             เพิ่มรายการ
                         </Link>
                     </div>

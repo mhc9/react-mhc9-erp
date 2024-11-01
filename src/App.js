@@ -210,8 +210,8 @@ function App() {
                 <Route path="budget-activity/:id/edit" element={<GuardRoute><EditBudgetActivity /></GuardRoute>} />
                 <Route path="budget">
                     <Route path="allocation" element={<GuardRoute><AllocationSummary /></GuardRoute>} />
-                    <Route path="allocation/activity/:id" element={<GuardRoute><AllocationList /></GuardRoute>} />
-                    <Route path="allocation/activity/:id/add" element={<GuardRoute><AddAllocation /></GuardRoute>} />
+                    <Route path="allocation/budget/:id" element={<GuardRoute><AllocationList /></GuardRoute>} />
+                    <Route path="allocation/budget/:id/add" element={<GuardRoute><AddAllocation /></GuardRoute>} />
                     {/* <Route path="allocation/:id/edit" element={<GuardRoute><EditBudgetActivity /></GuardRoute>} /> */}
                 </Route>
 
