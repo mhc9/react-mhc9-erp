@@ -1,18 +1,31 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { getBudget } from '../../../features/slices/budget/budgetSlice'
+import { resetSuccess } from '../../../features/slices/budget-allocation/budgetAllocationSlice'
 import AllocationForm from './Form'
+import Loading from '../../../components/Loading'
+import { toast } from 'react-toastify'
 
 const AddAllocation = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { budget, isLoading } = useSelector(state => state.budget);
+    const { isSuccess } = useSelector(state => state.budgetAllocation);
 
     useEffect(() => {
         if (id) dispatch(getBudget(id))
     }, [id]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('บันทึกรายการรับโอนงบสำเร็จ!!');
+            dispatch(resetSuccess());
+            navigate(-1);
+        }
+    }, [isSuccess]);
 
     return (
         <div className="content-wrapper">
@@ -31,7 +44,8 @@ const AddAllocation = () => {
             </div>
 
             <div className="border rounded-md py-3 px-3">
-                <AllocationForm budget={budget} />
+                {isLoading && <div className="text-center"><Loading /></div>}
+                {(!isLoading && budget) && <AllocationForm budget={budget} />}
             </div>
         </div>
     )

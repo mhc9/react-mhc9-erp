@@ -73,7 +73,7 @@ const AllocationList = () => {
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
-                                <th className="text-center w-[15%]">อ้างอิง</th>
+                                <th className="text-center w-[20%]">อ้างอิง</th>
                                 <th>รายละเอียด</th>
                                 <th className="text-center w-[15%]">ยอดรับโอน</th>
                                 <th className="text-center w-[10%]">Actions</th>
