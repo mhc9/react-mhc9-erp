@@ -21,6 +21,16 @@ export const getAllocations = createAsyncThunk("allocation/getAllocations", asyn
     }
 });
 
+export const getAllAllocations = createAsyncThunk("allocation/getAllAllocations", async ({ url }, { rejectWithValue }) => {
+    try {
+        const res = await api.get(url);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const getAllocation = createAsyncThunk("allocation/getAllocation", async ({ id }, { rejectWithValue }) => {
     try {
         const res = await api.get(`/api/budget-allocations/${id}`);
@@ -116,6 +126,19 @@ export const budgetAllocationSlice = createSlice({
             state.isLoading = false;
         },
         [getAllocations.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [getAllAllocations.pending]: (state) => {
+            state.allocations = [];
+            state.isLoading = true;
+            state.error = null;
+        },
+        [getAllAllocations.fulfilled]: (state, { payload }) => {
+            state.allocations = payload;
+            state.isLoading = false;
+        },
+        [getAllAllocations.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },

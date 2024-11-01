@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { getBudgets } from '../../../features/slices/budget/budgetSlice'
-import { getAllocations } from '../../../features/slices/budget-allocation/budgetAllocationSlice'
+import { getAllAllocations } from '../../../features/slices/budget-allocation/budgetAllocationSlice'
 import { currency } from '../../../utils'
 import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
 import Pagination from '../../../components/Pagination'
@@ -16,9 +16,12 @@ const AllocationSummary = () => {
 
     useEffect(() => {
         dispatch(getBudgets({ url: `/api/budgets/search?page=&year=2025` }));
-        dispatch(getAllocations({ url: `/api/budget-allocations/search` }));
+        dispatch(getAllAllocations({ url: `/api/budget-allocations?year=2025` }));
     }, []);
-    console.log(allocations);
+
+    const allocationCount = (budgetId) => {
+        return allocations && allocations.filter(al => al.budget_id === budgetId).length;
+    };
 
     return (
         <div className="content-wrapper">
@@ -58,7 +61,7 @@ const AllocationSummary = () => {
                                         </p>
                                     </td>
                                     <td className="text-center">{budget.activity && budget.activity?.year+543}</td>
-                                    <td className="text-center">{budget.year}</td>
+                                    <td className="text-center">{allocationCount(budget.id)}</td>
                                     <td className="text-right">{currency.format(budget.total)}</td>
                                     <td className="text-center">
                                         <Link to={`/budget/allocation/budget/${budget.id}`} className="btn btn-primary btn-sm">
