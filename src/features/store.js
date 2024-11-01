@@ -15,6 +15,7 @@ import budgetReducer from "./slices/budget/budgetSlice";
 import budgetPlanReducer from "./slices/budget-plan/budgetPlanSlice";
 import budgetProjectReducer from "./slices/budget-project/budgetProjectSlice";
 import budgetActivityReducer from "./slices/budget-activity/budgetActivitySlice";
+import budgetAllocationReducer from "./slices/budget-allocation/budgetAllocationSlice"
 import requisitionReducer from "./slices/requisition/requisitionSlice";
 import unitReducer from './slices/unit/unitSlice';
 import memberReducer from "./slices/member/memberSlice";
@@ -109,6 +110,7 @@ export default configureStore({
         budgetPlan: budgetPlanReducer,
         budgetProject: budgetProjectReducer,
         budgetActivity: budgetActivityReducer,
+        budgetAllocation: budgetAllocationReducer,
         project: projectReducer,
         place: placeReducer,
         user: userReducer,
