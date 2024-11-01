@@ -53,8 +53,8 @@ const AllocationForm = ({ budget, allocation }) => {
                                     <p className="font-semibold">{budget?.activity?.project?. name}</p>
                                     <p className="font-bold text-blue-600 mr-1">{budget?.activity?.name}</p>
                                     <p>
+                                        <span className="mr-4"><b>ปีงบประมาณ</b> {budget?.activity && budget?.activity?.year+543}</span>
                                         <span><b>ประเภท</b> {budget?.type && <BudgetTypeBadge type={budget?.type} />}</span>
-                                        <span className="ml-4"><b>ปีงบประมาณ</b> {budget?.activity && budget?.activity?.year+543}</span>
                                     </p>
                                     <p><b>ยอดจัดสรรแล้ว</b> {currency.format(budget?.total)} <b>บาท</b></p>
                                 </div>

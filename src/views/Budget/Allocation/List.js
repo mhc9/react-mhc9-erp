@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getAllocationsByBudget } from '../../../features/slices/budget-allocation/budgetAllocationSlice'
+import { getBudget } from '../../../features/slices/budget/budgetSlice'
 import { currency, toShortTHDate } from '../../../utils'
 import Loading from '../../../components/Loading'
 import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
@@ -12,7 +13,12 @@ const AllocationList = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { allocations, pager, isLoading } = useSelector(state => state.budgetAllocation);
+    const { budget } = useSelector(state => state.budget);
     const [endpoint, setEndpoint] = useState('');
+
+    useEffect(() => {
+        if (id) dispatch(getBudget(id));
+    }, [id]);
 
     useEffect(() => {
         if (endpoint === '') {
@@ -47,15 +53,18 @@ const AllocationList = () => {
 
                 <div>
                     {/* ======================== Budget Detail ======================== */}
-                    {isLoading && <div className="text-center" colSpan={5}><Loading /></div>}
+                    {isLoading && <div className="text-center mb-3"><Loading /></div>}
 
-                    {(!isLoading && allocations) && (
+                    {(!isLoading && budget) && (
                         <div className="border rounded-md py-3 px-4 mb-2 leading-6">
-                            <p className="text-gray-500">{allocations[0].budget.activity?.project?.plan?.name}</p>
-                            <p className="font-semibold">{allocations[0].budget.activity?.project?. name}</p>
-                            <p className="font-bold text-blue-600 mr-1">{allocations[0].budget.activity?.name}</p>
-                            <p><b>ประเภท</b> <BudgetTypeBadge type={allocations[0].budget.type} /></p>
-                            <p><b>ยอดจัดสรรแล้ว</b> {currency.format(allocations[0].budget.total)} <b>บาท</b></p>
+                            <p className="text-gray-500">{budget.activity?.project?.plan?.name}</p>
+                            <p className="font-semibold">{budget.activity?.project?. name}</p>
+                            <p className="font-bold text-blue-600 mr-1">{budget.activity?.name}</p>
+                            <p>
+                                <span className="mr-4"><b>ปีงบประมาณ</b> {budget?.activity && budget?.activity?.year+543}</span>
+                                <span><b>ประเภท</b> {budget?.type && <BudgetTypeBadge type={budget?.type} />}</span>
+                            </p>
+                            <p><b>ยอดจัดสรรแล้ว</b> {currency.format(budget.total)} <b>บาท</b></p>
                         </div>
                     )}
                     {/* ======================== Budget Detail ======================== */}
@@ -71,7 +80,8 @@ const AllocationList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {(!isLoading && allocations) && allocations.map((allocation, index) => (
+                            {isLoading && <tr><td colSpan={5} className="text-center"><span><Loading /></span></td></tr>}
+                            {(!isLoading && allocations && allocations.length > 0) && allocations.map((allocation, index) => (
                                 <tr>
                                     <td className="text-center">{index+pager?.from}</td>
                                     <td className="text-left">
@@ -90,6 +100,13 @@ const AllocationList = () => {
                                     </td>
                                 </tr>
                             ))}
+                            {(!isLoading && allocations.length === 0) && (
+                                <tr>
+                                    <td colSpan={5} className="text-center">
+                                        <span className="text-sm text-red-600 font-thin">-- ไม่มีรายการ --</span>
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
