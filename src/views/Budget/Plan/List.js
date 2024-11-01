@@ -55,7 +55,7 @@ const BudgetPlanList = () => {
                     <h2 className="text-xl">แผนงาน</h2>
 
                     <div>
-                        <Link to="/budget/allocation" className="btn btn-success mr-2">จัดสรรงบ</Link>
+                        <Link to="/budget/allocation" className="btn btn-success mr-2">รับโอนงบ</Link>
                         <Link to="add" className="btn btn-primary">เพิ่มรายการ</Link>
                     </div>
                 </div>
