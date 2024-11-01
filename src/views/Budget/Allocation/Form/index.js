@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Col, Row } from 'react-bootstrap'
 import { FaSearch } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
+import { store, update } from '../../../../features/slices/budget-allocation/budgetAllocationSlice'
 import ModalBudgetList from '../../../../components/Modals/BudgetList'
 
 const allocationSchema = Yup.object().shape({
@@ -15,13 +17,18 @@ const allocationSchema = Yup.object().shape({
     total: Yup.string().required(),
 });
 
-const AllocationForm = () => {
+const AllocationForm = ({ allocation }) => {
+    const dispatch = useDispatch();
     const [showBudgetModal, setShowBudgetModal] = useState(false);
     const [selectedDocDate, setSelectedDocDate] = useState(moment())
     const [budget, setBudget] = useState(null);
 
     const handleSubmit = (data, formik) => {
-
+        if (allocation) {
+            dispatch(update({ id: allocation.id, data }));
+        } else {
+            dispatch(store(data));
+        }
     };
 
     return (
