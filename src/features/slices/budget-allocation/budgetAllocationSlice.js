@@ -31,9 +31,9 @@ export const getAllocation = createAsyncThunk("allocation/getAllocation", async 
     }
 });
 
-export const getAllocationsByActivity = createAsyncThunk("allocation/getAllocationsByActivity", async (id, { rejectWithValue }) => {
+export const getAllocationsByBudget = createAsyncThunk("allocation/getAllocationsByBudget", async (id, { rejectWithValue }) => {
     try {
-        const res = await api.get(`/api/budget-allocations/activity/${id}`);
+        const res = await api.get(`/api/budget-allocations/budget/${id}`);
 
         return res.data;
     } catch (error) {
@@ -132,16 +132,16 @@ export const budgetAllocationSlice = createSlice({
             state.isLoading = false;
             state.error = payload;
         },
-        [getAllocationsByActivity.pending]: (state) => {
+        [getAllocationsByBudget.pending]: (state) => {
             state.allocations = null;
             state.isLoading = true;
             state.error = null;
         },
-        [getAllocationsByActivity.fulfilled]: (state, { payload }) => {
+        [getAllocationsByBudget.fulfilled]: (state, { payload }) => {
             state.allocations = payload;
             state.isLoading = false;
         },
-        [getAllocationsByActivity.rejected]: (state, { payload }) => {
+        [getAllocationsByBudget.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },
