@@ -101,6 +101,8 @@ import EditBudgetPlan from './views/Budget/Plan/Edit';
 import BudgetProjectList from './views/Budget/Project/List';
 import AddBudgetProject from './views/Budget/Project/Add';
 import EditBudgetProject from './views/Budget/Project/Edit';
+import AllocationList from './views/Budget/Allocation/List';
+import AddAllocation from './views/Budget/Allocation/Add';
 /** User */
 import UserList from './views/User/List';
 /** Help */
@@ -205,6 +207,11 @@ function App() {
                 <Route path="budget-activity/:year?/:project?" element={<GuardRoute><BudgetActivityList /></GuardRoute>} />
                 <Route path="budget-activity/add/:year?/:project?" element={<GuardRoute><AddBudgetActivity /></GuardRoute>} />
                 <Route path="budget-activity/:id/edit" element={<GuardRoute><EditBudgetActivity /></GuardRoute>} />
+                <Route path="budget">
+                    <Route path="allocation" element={<GuardRoute><AllocationList /></GuardRoute>} />
+                    <Route path="allocation/add" element={<GuardRoute><AddAllocation /></GuardRoute>} />
+                    {/* <Route path="allocation/:id/edit" element={<GuardRoute><EditBudgetActivity /></GuardRoute>} /> */}
+                </Route>
 
                 {/* Users */}
                 <Route path="user" element={<GuardRoute><UserList /></GuardRoute>} />
