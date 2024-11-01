@@ -6,8 +6,9 @@ import { DatePicker } from '@material-ui/pickers'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
+import { currency } from '../../../../utils'
 import { store, update } from '../../../../features/slices/budget-allocation/budgetAllocationSlice'
-import ModalBudgetList from '../../../../components/Modals/BudgetList'
+import BudgetTypeBadge from '../../../../components/Budget/BudgetTypeBadge'
 
 const allocationSchema = Yup.object().shape({
     budget_id: Yup.string().required(),
@@ -17,11 +18,9 @@ const allocationSchema = Yup.object().shape({
     total: Yup.string().required(),
 });
 
-const AllocationForm = ({ allocation }) => {
+const AllocationForm = ({ budget, allocation }) => {
     const dispatch = useDispatch();
-    const [showBudgetModal, setShowBudgetModal] = useState(false);
-    const [selectedDocDate, setSelectedDocDate] = useState(moment())
-    const [budget, setBudget] = useState(null);
+    const [selectedDocDate, setSelectedDocDate] = useState(moment());
 
     const handleSubmit = (data, formik) => {
         if (allocation) {
@@ -33,9 +32,9 @@ const AllocationForm = ({ allocation }) => {
 
     return (
         <Formik
+            enableReinitialize
             initialValues={{
-                budget_id: '',
-                budget: null,
+                budget_id: budget ? budget.id : '',
                 doc_no: '',
                 doc_date: '',
                 description: '',
@@ -44,52 +43,21 @@ const AllocationForm = ({ allocation }) => {
             validationSchema={allocationSchema}
             onSubmit={handleSubmit}
         >
-            {(formik) => {{
+            {(formik) => {
                 return (
                     <Form>
-                        <ModalBudgetList
-                            isShow={showBudgetModal}
-                            onHide={() => setShowBudgetModal(false)}
-                            onSelect={(budget) => {
-                                setBudget(budget);
-                                formik.setFieldValue('budget_id', budget.id);
-                                formik.setFieldValue('budget', budget);
-
-                                setTimeout(() => formik.setTouched('budget_id', true), 1000);
-                            }}
-                        />
                         <Row>
                             <Col md={12} className="mb-2">
-                                <label htmlFor="">รายการงบประมาณ</label>
-                                <div className="input-group">
-                                    <div className="form-control h-[34px] text-sm bg-gray-200">
-                                        <span className="mr-1">{budget?.activity?.name}</span>
-                                        <span className="badge rounded-pill bg-danger">{budget?.type?.name}</span>
-                                        <span className="ml-1">งบประมาณ {budget?.total} บาท</span>
-                                    </div>
-                                    <input
-                                        type="hidden"
-                                        name="budget_id"
-                                        value={formik.values.budget_id}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm"
-                                    />
-                                    <button type="button" className="btn btn-outline-secondary" onClick={() => setShowBudgetModal(true)}>
-                                        <FaSearch />
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="btn btn-outline-danger btn-sm"
-                                        onClick={() => {
-
-                                        }}
-                                    >
-                                        เคลียร์
-                                    </button>
+                                <div className="border rounded-md py-3 px-4 mb-2 leading-6">
+                                    <p className="text-gray-500">{budget?.activity?.project?.plan?.name}</p>
+                                    <p className="font-semibold">{budget?.activity?.project?. name}</p>
+                                    <p className="font-bold text-blue-600 mr-1">{budget?.activity?.name}</p>
+                                    <p>
+                                        <span><b>ประเภท</b> {budget?.type && <BudgetTypeBadge type={budget?.type} />}</span>
+                                        <span className="ml-4"><b>ปีงบประมาณ</b> {budget?.activity && budget?.activity?.year+543}</span>
+                                    </p>
+                                    <p><b>ยอดจัดสรรแล้ว</b> {currency.format(budget?.total)} <b>บาท</b></p>
                                 </div>
-                                {(formik.errors.budget_id && formik.touched.budget_id) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.budget_id}</span>
-                                )}
                             </Col>
                             <Col md={4} className="mb-2">
                                 <label htmlFor="">เลขที่อ้างอิง</label>
@@ -158,7 +126,7 @@ const AllocationForm = ({ allocation }) => {
                         </div>
                     </Form>
                 )
-            }}}
+            }}
         </Formik>
     )
 }
