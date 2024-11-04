@@ -299,12 +299,14 @@ const LoanContractDetail = () => {
                                         บันทึกเงินเข้า
                                     </a>
                                 )}
-                                {(contract?.status === 2 && isOverRefundDate(contract?.refund_date)) && (
+                                {contract?.status === 2 && (
                                     <>
-                                        <Link to={`/preview/${id}/loan-contract/collection-form`} target="_blank" className="btn btn-success mr-1">
-                                            <i className="fas fa-print mr-1"></i>
-                                            พิมพ์บันทึกทวงหนี้
-                                        </Link>
+                                        {isOverRefundDate(contract?.refund_date)  && (
+                                            <Link to={`/preview/${id}/loan-contract/collection-form`} target="_blank" className="btn btn-success mr-1">
+                                                <i className="fas fa-print mr-1"></i>
+                                                พิมพ์บันทึกทวงหนี้
+                                            </Link>
+                                        )}
                                         <a href="#" className="btn btn-danger" onClick={() => handleCancelDeposit(contract?.id)}>
                                             ยกเลิกเงินเข้า
                                         </a>
