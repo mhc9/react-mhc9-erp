@@ -203,7 +203,6 @@ const LoanForm = ({ loan }) => {
 
     return (
         <Formik
-            enableReinitialize
             initialValues={{
                 doc_no: loan ? loan.doc_no : '',
                 doc_date: loan ? moment(loan.doc_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
@@ -211,7 +210,7 @@ const LoanForm = ({ loan }) => {
                 money_type_id: loan ? loan.money_type_id : '',
                 year: loan ? moment(`${loan.year}`).year() : cookies.budgetYear,
                 department_id: loan ? loan.department_id : '',
-                employee_id: loan ? loan.employee_id : employee?.id,
+                employee_id: loan ? loan.employee_id : loggedInUser.employee?.id,
                 project_no:  loan ? loan.project_no : '',
                 project_date: loan ? moment(loan.project_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 project_name: loan ? loan.project_name : '',
