@@ -9,10 +9,11 @@ import { toast } from 'react-toastify'
 import { getLoans, destroy, resetDeleted } from '../../../features/slices/loan/loanSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import LoanListDetail from './ListDetail'
+import FilteringInputs from './FilteringInputs'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
 import EmployeeCard from '../../../components/Employee/Card'
-import FilteringInputs from './FilteringInputs'
+import LoanStatusBadge from '../../../components/Badges/LoanStatusBadge'
 
 const LoanList = () => {
     const [cookies] = useCookies();
@@ -105,14 +106,7 @@ const LoanList = () => {
                                     <td className="text-sm">
                                         <p>เลขที่ <span className="badge rounded-pill text-bg-primary">{loan.doc_no}</span></p>
                                         <p>วันที่ <span className="badge rounded-pill text-bg-primary">{toShortTHDate(loan.doc_date)}</span></p>
-                                        <div className="text-lg text-center mt-1">
-                                            {loan.status === 1 && <span className="badge rounded-pill text-bg-secondary ml-1">รอดำเนินการ</span>}
-                                            {loan.status === 2 && <span className="badge rounded-pill text-bg-primary ml-1">ส่งสัญญาแล้ว</span>}
-                                            {loan.status === 3 && <span className="badge rounded-pill text-bg-success ml-1">อนุมัติแล้ว</span>}
-                                            {loan.status === 4 && <span className="badge rounded-pill text-bg-warning ml-1">เงินเข้าแล้ว</span>}
-                                            {loan.status === 5 && <span className="badge rounded-pill text-bg-dark ml-1">เคลียร์แล้ว</span>}
-                                            {loan.status === 9 && <span className="badge rounded-pill text-bg-danger ml-1">ยกเลิก</span>}
-                                        </div>
+                                        <LoanStatusBadge status={loan.status} />
                                     </td>
                                     <td className="text-sm">
                                         <div className="text-blue-600">
