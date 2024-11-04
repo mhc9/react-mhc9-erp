@@ -83,7 +83,7 @@ const FormLoan = () => {
                                     ตำแหน่ง<span className="mx-1">{loan.employee.position?.name}{loan.employee.level?.name}</span> ขออนุมัติยืมเงินงบประมาณศูนย์สุขภาพจิตที่ 9
                                     {loan.budgets && loan.budgets.map((data, index) => (
                                         <span className="ml-1" key={data.budget_id}>
-                                            ตาม{data.budget?.project?.plan?.name} {data.budget?.project?.name} {data.budget?.name}
+                                            ตาม{data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name} {data.budget?.activity?.name}
                                         </span>
                                     ))}
                                     <span className="ml-1">

@@ -105,7 +105,7 @@ const FormLoanContract = () => {
                                         <span className="ml-1">โดยใช้งบประมาณ</span>
                                         {loan.budgets && loan.budgets.map((data, index) => (
                                             <span className="ml-0" key={data.budget_id}>
-                                                แผนงาน{data.budget?.project?.plan?.name} {data.budget?.project?.name} {data.budget?.name}
+                                                แผนงาน{data.budget?.activity.project?.plan?.name} {data.budget?.activity.project?.name} {data.budget?.activity.name}
                                             </span>
                                         ))}
                                         <span className="ml-1">
