@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { getAllocationsByBudget } from '../../../features/slices/budget-allocation/budgetAllocationSlice'
+import { getAllocationsByBudget, destroy } from '../../../features/slices/budget-allocation/budgetAllocationSlice'
 import { getBudget } from '../../../features/slices/budget/budgetSlice'
 import { currency, toShortTHDate } from '../../../utils'
 import Loading from '../../../components/Loading'
@@ -29,7 +29,9 @@ const AllocationList = () => {
     }, [endpoint]);
 
     const handleDelete = (id) => {
-
+        if (window.confirm("คุณต้องการลบรายการจัดสรรเงินใช่หรือไม่?")) {
+            dispatch(destroy(id));
+        }
     };
 
     return (
