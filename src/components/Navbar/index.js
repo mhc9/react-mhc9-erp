@@ -56,7 +56,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
 
                     {[1,3,4].includes(user?.permissions[0]?.role_id) && (
                         <NavMenuItem
-                            text="ข้อมูลพื้ฐาน"
+                            text="ข้อมูลพื้นฐาน"
                             submenus={[
                                 {type: 'menu', text: 'ครุภัณฑ์', link: '/asset', allowed_users: [1, 3]},
                                 {type: 'menu', text: 'ชุดคอมพิวเตอร์', link: '/comset', allowed_users: [1]},

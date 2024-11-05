@@ -98,7 +98,7 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                             <>
                                 <div className="menu-link">
                                     <button type="button" className="text-black text-left p-2 hover:bg-blue-500 rounded-md flex flex-row items-center justify-between">
-                                        ข้อมูลพื้ฐาน
+                                        ข้อมูลพื้นฐาน
                                         <FaAngleDown />
                                     </button>
                                     <ul className="sub-menus">
