@@ -30,6 +30,7 @@ import loanRefundReducer from "./slices/loan-refund/loanRefundSlice";
 import projectReducer from "./slices/project/projectSlice";
 import placeReducer from "./slices/place/placeSlice";
 import userReducer from './slices/user/userSlice';
+import agencyReducer from './slices/agency/agencySlice';
 import { systemApi } from "./services/system/systemApi";
 import { authApi } from "./services/auth/authApi";
 import { requisitionApi } from "./services/requisition/requisitionApi";
@@ -114,6 +115,7 @@ export default configureStore({
         project: projectReducer,
         place: placeReducer,
         user: userReducer,
+        agency: agencyReducer,
     },
     middleware: (getDefaultMiddleware) => 
         getDefaultMiddleware().concat(
