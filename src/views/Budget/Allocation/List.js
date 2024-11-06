@@ -77,12 +77,13 @@ const AllocationList = () => {
                                 <th className="text-center w-[5%]">#</th>
                                 <th className="text-center w-[20%]">อ้างอิง</th>
                                 <th>รายละเอียด</th>
+                                <th className="text-center w-[20%]">หน่วยรับ/คืน</th>
                                 <th className="text-center w-[15%]">ยอดรับโอน</th>
                                 <th className="text-center w-[10%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {isLoading && <tr><td colSpan={5} className="text-center"><span><Loading /></span></td></tr>}
+                            {isLoading && <tr><td colSpan={6} className="text-center"><span><Loading /></span></td></tr>}
                             {(!isLoading && allocations && allocations.length > 0) && allocations.map((allocation, index) => (
                                 <tr key={allocation.id}>
                                     <td className="text-center">{++index}</td>
@@ -91,6 +92,7 @@ const AllocationList = () => {
                                         <p className="font-thin text-sm"><b>วันที่</b> {toShortTHDate(allocation.doc_date)}</p>
                                     </td>
                                     <td>{allocation.description}</td>
+                                    <td className="text-center">{allocation.agency?.name}</td>
                                     <td className="text-center">{currency.format(allocation.total)}</td>
                                     <td className="text-center p-1">
                                         <Link to={`/budget/allocation/budget/${id}/${allocation.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
@@ -104,7 +106,7 @@ const AllocationList = () => {
                             ))}
                             {(!isLoading && allocations.length === 0) && (
                                 <tr>
-                                    <td colSpan={5} className="text-center">
+                                    <td colSpan={6} className="text-center">
                                         <span className="text-sm text-red-600 font-thin">-- ไม่มีรายการ --</span>
                                     </td>
                                 </tr>
