@@ -61,7 +61,7 @@ const LoanDetail = () => {
                                         <Col>
                                             <label htmlFor="">หน่วยงาน</label>
                                             <div className="text-xs font-thin">
-                                                {loan?.department?.name}
+                                                {loan.division ? loan.division?.name : loan?.department?.name}
                                             </div>
                                         </Col>
                                     </Row>
