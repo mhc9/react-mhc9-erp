@@ -337,10 +337,9 @@ const FormLoanContract = () => {
                                                     <div className="w-[100%] mb-2">
                                                         <div className="pt-[10px] flex flex-col items-center justify-center">
                                                             <div className="flex flex-row items-end justify-center">
-                                                                ลงชื่อ
-                                                                <p className="w-[200px] border-dashed border-b mb-1"></p>
-                                                                ผู้รับเงิน
+                                                                ลงชื่อ<p className="w-[200px] border-dashed border-b mb-1"></p>ผู้รับเงิน
                                                             </div>
+                                                            <p>({loan.employee.prefix.name+loan.employee.firstname+ ' ' +loan.employee.lastname})</p>
                                                         </div>
                                                     </div>
                                                 </div>
