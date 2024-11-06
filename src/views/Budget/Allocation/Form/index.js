@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Col, Row } from 'react-bootstrap'
 import { FaSearch } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers'
-import { Form, Formik } from 'formik'
+import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
 import { currency } from '../../../../utils'
@@ -21,6 +21,7 @@ const allocationSchema = Yup.object().shape({
 const AllocationForm = ({ budget, allocation }) => {
     const dispatch = useDispatch();
     const [selectedDocDate, setSelectedDocDate] = useState(moment());
+    const [agency, setAgency] = useState(null);
 
     const handleSubmit = (data, formik) => {
         if (allocation) {
@@ -37,6 +38,9 @@ const AllocationForm = ({ budget, allocation }) => {
                 budget_id: budget ? budget.id : '',
                 doc_no: '',
                 doc_date: '',
+                allocate_type_id: 1,
+                agency_id: '',
+                agency: null,
                 description: '',
                 total: '',
             }}
@@ -74,7 +78,7 @@ const AllocationForm = ({ budget, allocation }) => {
                             </Col>
                             <Col md={4} className="mb-2">
                                 <label htmlFor="">ลงวันที่</label>
-                                <div className="w-[100%] border rounded-md">
+                                <div className="w-[100%] border rounded-md px-2">
                                     <DatePicker
                                         format="DD/MM/YYYY"
                                         value={selectedDocDate}
@@ -87,6 +91,43 @@ const AllocationForm = ({ budget, allocation }) => {
                                 </div>
                                 {(formik.errors.doc_date && formik.touched.doc_date) && (
                                     <span className="text-red-500 text-sm">{formik.errors.doc_date}</span>
+                                )}
+                            </Col>
+                            <Col md={4}>
+                                <label htmlFor="">รับ/คืน</label>
+                                <div className="form-control flex justify-around">
+                                    <label className="flex gap-2">
+                                        <Field
+                                            type="radio"
+                                            name="allocate_type_id"
+                                            value="1"
+                                            checked={parseInt(formik.values.allocate_type_id, 10) === 1}
+                                        />
+                                        <label>รับโอน</label>
+                                    </label>
+                                    <label className="flex gap-2">
+                                        <Field
+                                            type="radio"
+                                            name="allocate_type_id"
+                                            value="2"
+                                            checked={parseInt(formik.values.allocate_type_id, 10) === 2}
+                                        />
+                                        <label>โอนคืน</label>
+                                    </label>
+                                </div>
+                            </Col>
+                            <Col md={7} className="mb-2">
+                                <label htmlFor="">หน่วยรับ/คืน</label>
+                                <div className="input-group">
+                                    <div className="form-control text-sm min-h-[34px]">
+                                        {agency?.name}
+                                    </div>
+                                    <button className="btn btn-secondary btn-sm">
+                                        <FaSearch />
+                                    </button>
+                                </div>
+                                {(formik.errors.agency_id && formik.touched.agency_id) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.agency_id}</span>
                                 )}
                             </Col>
                             <Col className="mb-2">
