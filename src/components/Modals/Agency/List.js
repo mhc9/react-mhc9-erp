@@ -14,21 +14,17 @@ const initialFilters = {
 
 const ModalAgencyList = ({ isShow, onHide, onSelect }) => {
     const dispatch = useDispatch();
-    const { agencies, pager, isLoading } = useSelector(state => state.place);
+    const { agencies, pager, isLoading } = useSelector(state => state.agency);
     const [params, setParams] = useState('');
     const [apiEndpoint, setApiEndpoint] = useState('');
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getAgencies({ url: '/api/agency/search?page=' }));
+            dispatch(getAgencies({ url: '/api/agencies/search?page=' }));
         } else {
             dispatch(getAgencies({ url: `${apiEndpoint}${params}` }));
         }
     }, [apiEndpoint]);
-
-    useEffect(() => {
-        dispatch(getAgencies({ url: `/api/agency/search?page=${params}` }));
-    }, [params]);
 
     return (
         <Modal
@@ -40,10 +36,10 @@ const ModalAgencyList = ({ isShow, onHide, onSelect }) => {
                 <Modal.Title>รายการหน่วยงาน</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <FilteringInputs
+                {/* <FilteringInputs
                     initialFilters={initialFilters}
                     onFilter={(params) => setParams(params)}
-                />
+                /> */}
 
                 <div className="mt-2">
                     <table className="table table-bordered text-sm mb-2">
@@ -64,7 +60,7 @@ const ModalAgencyList = ({ isShow, onHide, onSelect }) => {
                                 </tr>
                             )}
                             {agencies && agencies.map((agency, index) => (
-                                <tr key={place?.id} className="font-thin">
+                                <tr key={agency?.id} className="font-thin">
                                     <td className="text-center">{index+pager.from}</td>
                                     <td><p className="font-bold">{agency?.name}</p></td>
                                     {/* <td>อ.{agency?.amphur?.name} จ.{agency?.changwat?.name}</td> */}

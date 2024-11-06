@@ -9,11 +9,14 @@ import moment from 'moment'
 import { currency } from '../../../../utils'
 import { store, update } from '../../../../features/slices/budget-allocation/budgetAllocationSlice'
 import BudgetTypeBadge from '../../../../components/Budget/BudgetTypeBadge'
+import ModalAgencyList from '../../../../components/Modals/Agency/List'
 
 const allocationSchema = Yup.object().shape({
     budget_id: Yup.string().required(),
     doc_no: Yup.string().required(),
     doc_date: Yup.string().required(),
+    allocate_type_id: Yup.string().required(),
+    agency_id: Yup.string().required(),
     // description: Yup.string().required(),
     total: Yup.string().required(),
 });
@@ -21,6 +24,7 @@ const allocationSchema = Yup.object().shape({
 const AllocationForm = ({ budget, allocation }) => {
     const dispatch = useDispatch();
     const [selectedDocDate, setSelectedDocDate] = useState(moment());
+    const [showAgencyModal, setShowAgencyModal] = useState(false);
     const [agency, setAgency] = useState(null);
 
     const handleSubmit = (data, formik) => {
@@ -50,6 +54,18 @@ const AllocationForm = ({ budget, allocation }) => {
             {(formik) => {
                 return (
                     <Form>
+                        <ModalAgencyList
+                            isShow={showAgencyModal}
+                            onHide={() => setShowAgencyModal(false)}
+                            onSelect={(agency) => {
+                                setAgency(agency);
+                                formik.setFieldValue('agency_id', agency.id);
+                                formik.setFieldValue('agency', agency);
+
+                                setTimeout(() => formik.setFieldTouched('agency_id', true), 2000);
+                            }}
+                        />
+
                         <Row>
                             <Col md={12} className="mb-2">
                                 <div className="border rounded-md py-3 px-4 mb-2 leading-6">
@@ -115,6 +131,9 @@ const AllocationForm = ({ budget, allocation }) => {
                                         <label>โอนคืน</label>
                                     </label>
                                 </div>
+                                {(formik.errors.allocate_type_id && formik.touched.allocate_type_id) && (
+                                    <span className="text-red-500 text-sm">{formik.errors.allocate_type_id}</span>
+                                )}
                             </Col>
                             <Col md={7} className="mb-2">
                                 <label htmlFor="">หน่วยรับ/คืน</label>
@@ -122,7 +141,7 @@ const AllocationForm = ({ budget, allocation }) => {
                                     <div className="form-control text-sm min-h-[34px]">
                                         {agency?.name}
                                     </div>
-                                    <button className="btn btn-secondary btn-sm">
+                                    <button type="button" className="btn btn-secondary btn-sm" onClick={() => setShowAgencyModal(true)}>
                                         <FaSearch />
                                     </button>
                                 </div>
