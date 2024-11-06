@@ -33,8 +33,7 @@ const FormLoan = () => {
                                 <div className="memo-header-text">
                                     <h3>ส่วนราชการ</h3>
                                     <div className="memo-header-value">
-                                        <span>{loan.department?.name} ศูนย์สุขภาพจิตที่ ๙ โทร o ๔๔๒๕ ๖๗๒๙</span>
-                                        {/* loan.division?.name+ ' '+ */}
+                                        <span>ศูนย์สุขภาพจิตที่ ๙ {loan.division ? loan.division?.name : loan.department?.name} โทร o ๔๔๒๕ ๖๗๒๙  โทรสาร o ๔๔๒๕ ๖๗๓๐</span>
                                     </div>
                                 </div>
                                 <div className="memo-header-text">
@@ -64,7 +63,7 @@ const FormLoan = () => {
                             </div>
                             <div className="memo-content">
                                 <div className="memo-paragraph">
-                                    ตามหนังสือ {loan.department?.name} ที่ {loan.project_no} ลงวันที่ {toLongTHDate(moment(loan.project_date).toDate())}
+                                    ตามหนังสือ {loan.project_owner} ที่ {loan.project_no} ลงวันที่ {toLongTHDate(moment(loan.project_date).toDate())}
                                     {loan.loan_type_id === 1 
                                         ? <span className="ml-1">กำหนดจัด{loan.project_name}</span>
                                         : <span className="ml-1">เรื่อง ขออนุมัติเดินทางไปราชการเพื่อเข้าร่วม{loan.project_name}</span>
