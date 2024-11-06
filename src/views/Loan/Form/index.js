@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { Fragment, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useCookies } from 'react-cookie';
 import { Col, Row, Tab, Tabs } from 'react-bootstrap'
-import { FaSearch, FaPlus, FaTimes } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
 import { toast } from 'react-toastify';
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment';
-import { calculateNetTotal, currency, sortObjectByDate, toShortTHDate } from '../../../utils'
+import { calculateNetTotal, currency, sortObjectByDate } from '../../../utils'
 import { store, update } from '../../../features/slices/loan/loanSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
 import AddBudget from './AddBudget'
@@ -16,11 +15,11 @@ import BudgetList from './BudgetList'
 import Loading from '../../../components/Loading'
 import AddExpense from '../../../components/Expense/AddExpense'
 import ExpenseList from '../../../components/Expense/ExpenseList'
-import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import AddCourse from './AddCourse';
 import CourseList from './CourseList';
 import AddOrder from './AddOrder';
 import OrderList from './OrderList';
+import EmployeeSelection from '../../../components/FormControls/EmployeeSelection';
 
 const loanSchema = Yup.object().shape({
     doc_no: Yup.string().required('กรุณาระบุเลขที่เอกสาร'),
@@ -32,6 +31,7 @@ const loanSchema = Yup.object().shape({
     employee_id: Yup.string().required('กรุณาเลือกผู้ขอ/เจ้าของโครงการ'),
     project_no: Yup.string().required('กรุณาระบุเลขที่ขออนุมัติโครงการ'),
     project_date: Yup.string().required('กรุณาเลือกวันที่ขออนุมัติโครงการ'),
+    project_owner: Yup.string().required('กรุณาระบุหน่วยงานเจ้าของโครงการ'),
     project_name: Yup.string().required('กรุณาระบุชื่อโครงการ'),
     project_sdate: Yup.string().required('กรุณาเลือกวันที่เริ่มโครงการ'),
     project_edate: Yup.string().required('กรุณาเลือกวันที่สิ้นสุดโครงการ'),
@@ -44,22 +44,14 @@ const loanSchema = Yup.object().shape({
 const LoanForm = ({ loan }) => {
     const [cookies] = useCookies()
     const dispatch = useDispatch();
-    const { loggedInUser } = useSelector(state => state.auth);
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
     const [selectedDocDate, setSelectedDocDate] = useState(moment());
     const [selectedProjectDate, setSelectedProjectDate] = useState(moment());
     const [selectedStartDate, setSelectedStartDate] = useState(moment());
     const [selectedEndDate, setSelectedEndDate] = useState(moment());
     const [selectedYear, setSelectedYear] = useState(moment(`${cookies.budgetYear}-01-01`));
-    const [showEmployeeModal, setShowEmployeeModal] = useState(false);
-    const [employee, setEmployee] = useState(null);
+    const [selectedDep, setSelectedDep] = useState('');
     const [edittingItem, setEdittingItem] = useState(null);
-
-    useEffect(() => {
-        if (loggedInUser) {
-            setEmployee(loggedInUser.employee);
-        }
-    }, [loggedInUser]);
 
     useEffect(() => {
         if (loan) {
@@ -68,9 +60,7 @@ const LoanForm = ({ loan }) => {
             setSelectedStartDate(moment(loan.project_sdate));
             setSelectedEndDate(moment(loan.project_edate));
             setSelectedYear(moment(`${loan.year}`));
-
-            // setBudget(loan.budget);
-            setEmployee(loan.employee);
+            setSelectedDep(`${loan.department_id}${loan.division_id ? '-' + loan.division_id : ''}`);
         }
     }, [loan]);
 
@@ -193,7 +183,6 @@ const LoanForm = ({ loan }) => {
         formik.resetForm();
 
         /** Clear value of local states */
-        setEmployee(null);
         setSelectedDocDate(moment());
         setSelectedProjectDate(moment());
         setSelectedStartDate(moment());
@@ -210,9 +199,11 @@ const LoanForm = ({ loan }) => {
                 money_type_id: loan ? loan.money_type_id : '',
                 year: loan ? moment(`${loan.year}`).year() : cookies.budgetYear,
                 department_id: loan ? loan.department_id : '',
-                employee_id: loan ? loan.employee_id : loggedInUser.employee?.id,
+                division_id: (loan && loan.division_id) ? loan.division_id : '',
+                employee_id: loan ? loan.employee_id : '',
                 project_no:  loan ? loan.project_no : '',
                 project_date: loan ? moment(loan.project_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+                project_owner: (loan && loan.project_owner) ? loan.project_owner : '',
                 project_name: loan ? loan.project_name : '',
                 project_sdate: loan ? moment(loan.project_sdate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 project_edate: loan ? moment(loan.project_edate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
@@ -232,20 +223,6 @@ const LoanForm = ({ loan }) => {
             {(formik) => {
                 return (
                     <Form>
-                        <ModalEmployeeList
-                            isShow={showEmployeeModal}
-                            onHide={() => setShowEmployeeModal(false)}
-                            onSelect={(employee) => {
-                                setEmployee(employee);
-                                formik.setFieldValue('employee_id', employee.id);
-
-                                /** Set default division_id of employee is member */
-                                if (employee.member_of.length > 0) {
-                                    formik.setFieldValue('division_id', employee.member_of[0]?.division_id);
-                                }
-                            }}
-                        />
-
                         <Row className="mb-2">
                             <Col md={2}>
                                 <label htmlFor="">เลขที่เอกสาร</label>
@@ -316,15 +293,37 @@ const LoanForm = ({ loan }) => {
                                 <label htmlFor="">หน่วยงาน</label>
                                 <select
                                     name="department_id"
-                                    value={formik.values.department_id}
-                                    onChange={formik.handleChange}
+                                    value={selectedDep}
+                                    onChange={(e) => {
+                                        const val = e.target.value;
+
+                                        if (val.search(/-/i)) {
+                                            const [department, division] = val.split('-');
+
+                                            formik.setFieldValue('department_id', department);
+                                            formik.setFieldValue('division_id', division);
+                                        } else {
+                                            formik.setFieldValue('department_id', val);
+                                            formik.setFieldValue('division_id', '');
+                                        }
+
+                                        setSelectedDep(val);
+                                        setTimeout(() => formik.setFieldTouched('department_id', true), 300);
+                                    }}
                                     className="form-control text-sm"
                                 >
                                     <option value="">-- หน่วยงาน --</option>
-                                    {formData?.departments && formData.departments.map(dep => (
-                                        <option value={dep.id} key={dep.id}>
-                                            {dep.name}
-                                        </option>
+                                    {formData?.departments && formData.departments.filter(dep => dep.id !== 1).map(dep => (
+                                        <Fragment key={dep.id}>
+                                            <option value={dep.id} className="font-bold">
+                                                {dep.name}
+                                            </option>
+                                            {dep.divisions.length > 0 && dep.divisions.filter(division => division.has_saraban === 1).map(division => (
+                                                <option value={`${dep.id}-${division.id}`} key={`${dep.id}-${division.id}`}>
+                                                    {division.name}
+                                                </option>
+                                            ))}
+                                        </Fragment>
                                     ))}
                                 </select>
                                 {(formik.errors.department_id && formik.touched.department_id) && (
@@ -333,14 +332,7 @@ const LoanForm = ({ loan }) => {
                             </Col>
                             <Col md={6}>
                                 <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
-                                <div className="input-group">
-                                    <div className="form-control text-sm h-[34px] bg-gray-100">
-                                        {employee?.firstname} {employee?.lastname}
-                                    </div>
-                                    <button type="button" className="btn btn-outline-secondary" onClick={() => setShowEmployeeModal(true)}>
-                                        <FaSearch />
-                                    </button>
-                                </div>
+                                <EmployeeSelection loan={loan} />
                                 {(formik.errors.employee_id && formik.touched.employee_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.employee_id}</span>
                                 )}
@@ -368,7 +360,7 @@ const LoanForm = ({ loan }) => {
                                 <div className="flex flex-col border p-2 rounded-md">
                                     <h1 className="font-bold text-lg mb-1">รายละเอียดโครงการ</h1>
                                     <Row className="mb-2">
-                                        <Col md={2}>
+                                        <Col md={3}>
                                             <label htmlFor="">เลขที่ขออนุมัติ</label>
                                             <input
                                                 type="text"
@@ -381,7 +373,7 @@ const LoanForm = ({ loan }) => {
                                                 <span className="text-red-500 text-sm">{formik.errors.project_no}</span>
                                             )}
                                         </Col>
-                                        <Col md={2}>
+                                        <Col md={3}>
                                             <div className="flex flex-col">
                                                 <label htmlFor="">วันที่ขออนุมัติ</label>
                                                 <DatePicker
@@ -398,7 +390,20 @@ const LoanForm = ({ loan }) => {
                                                 <span className="text-red-500 text-sm">{formik.errors.project_date}</span>
                                             )}
                                         </Col>
-                                        <Col md={8}>
+                                        <Col md={6}>
+                                            <label htmlFor="">หน่วยงานเจ้าของโครงการ</label>
+                                            <input
+                                                type="text"
+                                                name="project_owner"
+                                                value={formik.values.project_owner}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-sm"
+                                            />
+                                            {(formik.errors.project_owner && formik.touched.project_owner) && (
+                                                <span className="text-red-500 text-sm">{formik.errors.project_owner}</span>
+                                            )}
+                                        </Col>
+                                        <Col md={12}>
                                             <label htmlFor="">ชื่อโครงการ</label>
                                             <input
                                                 type="text"
