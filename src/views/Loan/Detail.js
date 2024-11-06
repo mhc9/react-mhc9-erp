@@ -50,12 +50,18 @@ const LoanDetail = () => {
                                                 {loan?.doc_no}
                                             </div>
                                         </Col>
-                                        <Col md={8}>
+                                        <Col md={4}>
                                             <div className="flex flex-col">
                                                 <label htmlFor="">วันที่เอกสาร</label>
                                                 <div className="text-sm font-thin">
                                                     {toLongTHDate(moment(loan?.doc_date).toDate())}
                                                 </div>
+                                            </div>
+                                        </Col>
+                                        <Col>
+                                            <label htmlFor="">หน่วยงาน</label>
+                                            <div className="text-xs font-thin">
+                                                {loan?.department?.name}
                                             </div>
                                         </Col>
                                     </Row>
@@ -113,12 +119,6 @@ const LoanDetail = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="w-full mb-1">
-                                            <label htmlFor="">หน่วยงาน</label>
-                                            <div className="text-xs font-thin">
-                                                {loan?.department?.name}
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </Col>
@@ -128,19 +128,27 @@ const LoanDetail = () => {
                             <h1 className="font-bold text-lg mb-1">รายละเอียดโครงการ</h1>
 
                             <Row className="mb-2">
-                                <Col md={2}>
+                                <Col md={3}>
                                     <label htmlFor="">เลขที่ขออนุมัติ</label>
                                     <div className="text-sm font-thin">
                                         {loan?.project_no}
                                     </div>
                                 </Col>
-                                <Col md={2}>
+                                <Col md={3}>
                                     <label htmlFor="">วันที่ขออนุมัติ</label>
                                     <div className="text-sm font-thin">
                                         {toLongTHDate(moment(loan?.project_date).toDate())}
                                     </div>
                                 </Col>
-                                <Col>
+                                <Col md={6}>
+                                    <label htmlFor="">หน่วยงานเจ้าของโครงการ</label>
+                                    <div className="text-sm font-thin">
+                                        {loan?.project_owner}
+                                    </div>
+                                </Col>
+                            </Row>
+                            <Row className="mb-2">
+                                <Col md={12}>
                                     <label htmlFor="">ชื่อโครงการ</label>
                                     <div className="text-sm font-thin">
                                         {loan?.project_name}
