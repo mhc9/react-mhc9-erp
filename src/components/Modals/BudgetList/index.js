@@ -22,7 +22,7 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
     };
     const dispatch = useDispatch();
     const { budgets, pager, isLoading } = useSelector(state => state.budget);
-    const [year, setYear] = useState(moment().year())
+    const [year, setYear] = useState(moment(`${cookies.budgetYear}-01-01`).year())
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
     const { data: formData } = useGetInitialFormDataQuery({ year });
