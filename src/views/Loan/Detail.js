@@ -38,7 +38,7 @@ const LoanDetail = () => {
                 <h1 className="text-xl font-bold mb-1">รายละเอียดคำขอยืมเงิน (#{id})</h1>
 
                 {isLoading && <div className="text-center"><Loading /></div>}
-                {!isLoading && (
+                {(!isLoading && loan) && (
                     <>
                         <Row className="mb-2">
                             <Col md={9} className="pr-1">
