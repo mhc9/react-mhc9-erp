@@ -205,11 +205,13 @@ const FormLoan = () => {
                                             ))
                                         }
 
+                                        {/* ยอดรวมของรายการค่าใช้จ่ายแบบรวม */}
                                         {(loan.courses && loan.courses.length === 1) && (
                                             <div className="indent-[3cm] font-bold">
                                                 รวมจำนวนเงิน {currency.format(loan.item_total)} บาท ({ThaiNumberToText(loan.item_total)})
                                             </div>
                                         )}
+
                                         <div className="indent-[1.5cm] font-bold">
                                             รวมจำนวนเงินทั้งสิ้น {currency.format(loan.net_total)} บาท ({ThaiNumberToText(loan.net_total)})
                                         </div>

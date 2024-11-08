@@ -143,40 +143,57 @@ const FormLoanContract = () => {
                                         {/* รายการค่าใช้จ่าย */}
                                         <div>
                                             {(loan.courses && loan.courses.length > 1)
-                                                ? loan.courses.map(course => (
-                                                    <div className="mt-1" key={course.id}>
-                                                        <p className="indent-[1.3cm]">
-                                                            {course?.course_date && <span className="mx-1 font-bold">วันที่ {toLongTHDate(moment(course?.course_date).toDate())}</span>} 
-                                                            ณ {course?.place?.name} {/* จ.{course?.place?.changwat?.name} */}
-                                                        </p>
-                                                        {loan.details && loan.details.map((data, index) => 
-                                                            <div key={index}>
-                                                                {parseInt(data.course_id, 10) === course.id && (
-                                                                    <table className="w-full indent-[1.4cm]">
-                                                                        <tr>
-                                                                            <td className="w-[68%]">
-                                                                                <span>-{data.expense?.name}</span>
-                                                                                {(data.description && data.expense?.pattern)
-                                                                                    ? (
-                                                                                        <span className="ml-1">
-                                                                                            {replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}
-                                                                                        </span>
-                                                                                    ) : (
-                                                                                        <span className="ml-1">
-                                                                                            {data.description && <span>({data.description})</span>}
-                                                                                        </span>
-                                                                                    )
-                                                                                }
-                                                                            </td>
-                                                                            <td className="w-[32%]">
-                                                                                <span className="mr-4">เป็นเงิน</span>{currency.format(data.total)} บาท
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                )}
+                                                // รายการค่าใช้จ่ายแบบแยกวัน
+                                                ? loan.courses.map(course => {
+                                                    let courseTotal = 0;
+
+                                                    return (
+                                                        <div className="mt-1" key={course.id}>
+                                                            <p className="indent-[1.3cm]">
+                                                                {course?.course_date && <span className="mx-1 font-bold">วันที่ {toLongTHDate(moment(course?.course_date).toDate())}</span>} 
+                                                                ณ {course?.place?.name} {/* จ.{course?.place?.changwat?.name} */}
+                                                            </p>
+                                                            {loan.details && loan.details.map((data, index) => {
+                                                                // คำนวณยอดรวมของแต่ละวัน
+                                                                courseTotal += parseInt(data.course_id, 10) === course.id ? parseFloat(data.total) : 0;
+
+                                                                return (
+                                                                    <div key={index}>
+                                                                        {parseInt(data.course_id, 10) === course.id && (
+                                                                            <table className="w-full indent-[1.4cm]">
+                                                                                <tr>
+                                                                                    <td className="w-[68%]">
+                                                                                        <span>-{data.expense?.name}</span>
+                                                                                        {(data.description && data.expense?.pattern)
+                                                                                            ? (
+                                                                                                <span className="ml-1">
+                                                                                                    {replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}
+                                                                                                </span>
+                                                                                            ) : (
+                                                                                                <span className="ml-1">
+                                                                                                    {data.description && <span>({data.description})</span>}
+                                                                                                </span>
+                                                                                            )
+                                                                                        }
+                                                                                    </td>
+                                                                                    <td className="w-[32%]">
+                                                                                        <span className="mr-4">เป็นเงิน</span>{currency.format(data.total)} บาท
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        )}
+                                                                    </div>
+                                                                )
+                                                            })}
+
+                                                            <div className="indent-[3cm] font-bold">
+                                                                รวมจำนวนเงิน {currency.format(courseTotal)} บาท ({ThaiNumberToText(courseTotal)})
                                                             </div>
-                                                        )}
-                                                    </div>))
+                                                        </div>
+                                                    )
+                                                })
+
+                                                // รายการค่าใช้จ่ายแบบรวม
                                                 : loan.details && loan.details.map((data, index) => (
                                                     <div className="mt-1" key={index}>
                                                         <table className="w-full indent-[1.4cm]">
@@ -204,9 +221,13 @@ const FormLoanContract = () => {
                                                 ))
                                             }
 
-                                            <div className="indent-[3cm] font-bold">
-                                                รวมจำนวนเงิน {currency.format(loan.item_total)} บาท ({ThaiNumberToText(loan.item_total)})
-                                            </div>
+                                            {/* ยอดรวมของรายการค่าใช้จ่ายแบบรวม */}
+                                            {(loan.courses && loan.courses.length === 1) && (
+                                                <div className="indent-[3cm] font-bold">
+                                                    รวมจำนวนเงิน {currency.format(loan.item_total)} บาท ({ThaiNumberToText(loan.item_total)})
+                                                </div>
+                                            )}
+
                                             <div className="indent-[1.5cm] font-bold">
                                                 <table className="w-full indent-[1.4cm]">
                                                     <tr>
