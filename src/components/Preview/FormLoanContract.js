@@ -127,15 +127,24 @@ const FormLoanContract = () => {
                                                                 <td className="w-[68%]">
                                                                     <span>-{data.expense?.name}</span>
                                                                 </td>
-                                                                <td className="w-[32%]">
+                                                                <td className="w-[32%] text-right pr-8">
                                                                     <span className="mr-4">เป็นเงิน</span>{currency.format(data.total)} บาท
                                                                 </td>
                                                             </tr>
                                                         </table>
                                                     )
                                                 )}
-                                                <div className="indent-[3cm] font-bold">
-                                                    รวมจำนวนเงิน {currency.format(loan.order_total)} บาท ({ThaiNumberToText(loan.order_total)})
+
+                                                <div className="font-bold">
+                                                    <table className="w-full indent-[1.4cm]">
+                                                        <tr>
+                                                            <td className="w-[68%]"></td>
+                                                            <td className="w-[32%] text-right pr-8">
+                                                                รวมเป็นเงิน {currency.format(loan.order_total)} บาท 
+                                                                {/* ({ThaiNumberToText(loan.order_total)}) */}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
                                                 </div>
                                             </div>
                                         )}
@@ -176,7 +185,7 @@ const FormLoanContract = () => {
                                                                                             )
                                                                                         }
                                                                                     </td>
-                                                                                    <td className="w-[32%]">
+                                                                                    <td className="w-[32%] text-right pr-8">
                                                                                         <span className="mr-4">เป็นเงิน</span>{currency.format(data.total)} บาท
                                                                                     </td>
                                                                                 </tr>
@@ -186,8 +195,16 @@ const FormLoanContract = () => {
                                                                 )
                                                             })}
 
-                                                            <div className="indent-[3cm] font-bold">
-                                                                รวมจำนวนเงิน {currency.format(courseTotal)} บาท ({ThaiNumberToText(courseTotal)})
+                                                            <div className="font-bold">
+                                                                <table className="w-full indent-[1.4cm]">
+                                                                    <tr>
+                                                                        <td className="w-[68%]"></td>
+                                                                        <td className="w-[32%] text-right pr-8">
+                                                                            รวมเป็นเงิน {currency.format(courseTotal)} บาท 
+                                                                            {/* ({ThaiNumberToText(courseTotal)}) */}
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
                                                             </div>
                                                         </div>
                                                     )
@@ -215,7 +232,7 @@ const FormLoanContract = () => {
                                                                                 )
                                                                             }
                                                                         </td>
-                                                                        <td className="w-[32%]">
+                                                                        <td className="w-[32%] text-right pr-8">
                                                                             <span className="mr-4">เป็นเงิน</span>{currency.format(data.total)} บาท
                                                                         </td>
                                                                     </tr>
@@ -228,22 +245,35 @@ const FormLoanContract = () => {
 
                                             {/* ยอดรวมของรายการค่าใช้จ่ายแบบรวม */}
                                             {(loan.courses && loan.courses.length === 1) && (
-                                                <div className="indent-[3cm] font-bold">
-                                                    รวมจำนวนเงิน {currency.format(loan.item_total)} บาท ({ThaiNumberToText(loan.item_total)})
+                                                <div className="font-bold">
+                                                    <table className="w-full indent-[1.4cm]">
+                                                        <tr>
+                                                            <td className="w-[68%]"></td>
+                                                            <td className="w-[32%] text-right pr-8">
+                                                                รวมเป็นเงิน {currency.format(loan.item_total)} บาท 
+                                                                {/* ({ThaiNumberToText(loan.item_total)}) */}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
                                                 </div>
                                             )}
 
                                             <div className="indent-[1.5cm] font-bold">
-                                                <table className="w-full indent-[1.4cm]">
+                                                <table className="w-full indent-0">
                                                     <tr>
-                                                        <td className="w-[62%] text-center">ตัวอักษร ({ThaiNumberToText(loan.net_total)})</td>
-                                                        <td className="w-[38%]">
-                                                            <span className="mr-4">รวมเป็นเงินทั้งสิ้น</span>{currency.format(loan.net_total)} บาท
+                                                        <td className="w-[68%] text-center">ตัวอักษร ({ThaiNumberToText(loan.net_total)})</td>
+                                                        <td className="w-[32%] text-right pr-8">
+                                                            <span className="mr-2">รวมเป็นเงินทั้งสิ้น</span>{currency.format(loan.net_total)}<span className="ml-2">บาท</span>
                                                         </td>
                                                     </tr>
                                                 </table>
                                             </div>
                                         </div>
+
+                                        <div className="indent-0 font-bold">
+                                            รวม {currency.format(loan.details.length)} รายการ เป็นจำนวนเงินทั้งสิ้น {currency.format(loan.net_total)} บาท ({ThaiNumberToText(loan.net_total)})
+                                        </div>
+
                                         {loan.details.length > 1 && (
                                             <div className="indent-0 mt-1">
                                                 <span className="underline">หมายเหตุ</span> - ค่าใช้จ่ายแต่ละรายการสามารถถัวเฉลี่ยจ่ายแทนกันได้
@@ -387,7 +417,29 @@ const FormLoanContract = () => {
                     </div>
                     <div className="pl-[10px]">
                         <p className="font-bold">เรียน อธิบดีกรมสุขภาพจิต</p>
-                        <div style={{ textIndent: '1cm' }}><p className="font-bold text-[12pt]">ได้ตรวจสอบแล้ว หลักฐานประกอบสัญญายืมครบถ้วน ไม่มีหนี้ผูกพัน และได้ส่งเงินยืมเรียบร้อยแล้ว</p></div>
+                        <div style={{ textIndent: '1cm' }}>
+                            <p className="font-bold text-[12pt]">ได้ตรวจสอบแล้ว หลักฐานประกอบสัญญายืมครบถ้วน ไม่มีหนี้ผูกพัน และได้ส่งเงินยืมเรียบร้อยแล้ว</p>
+                        </div>
+                        <div className="memo-row">
+                            <div  className="w-[50%]">
+                                <div className="w-[100%]">
+                                    <div className="flex flex-col items-center justify-center">
+                                        <div className="flex flex-row items-end justify-center">
+                                            ลายชื่อ
+                                            <p className="w-[200px] border-dashed border-b mb-1"></p>
+                                        </div>
+                                        <div className="flex flex-row">
+                                            (<p className="w-[200px] border-dashed border-b mb-1"></p>)
+                                        </div>
+                                        <div className="flex flex-row">
+                                            <p className="w-[60px] border-dashed border-b mb-1"></p>/
+                                            <p className="w-[80px] border-dashed border-b mb-1"></p>/
+                                            <p className="w-[60px] border-dashed border-b mb-1"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
