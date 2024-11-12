@@ -33,7 +33,7 @@ const RequisitionForm = () => {
                                 <div className="memo-header-text">
                                     <h3>ส่วนราชการ</h3>
                                     <div className="memo-header-value">
-                                        <span>{requisition.division?.department?.name} ศูนย์สุขภาพจิตที่ ๙ โทร o ๔๔๒๕ ๖๗๒๙</span>
+                                        <span>ศูนย์สุขภาพจิตที่ ๙ {requisition.division ? requisition.division?.name : requisition.department?.name} โทร o ๔๔๒๕ ๖๗๒๙  โทรสาร o ๔๔๒๕ ๖๗๓๐</span>
                                         {/* requisition.division?.name+ ' '+ */}
                                     </div>
                                 </div>
@@ -64,11 +64,11 @@ const RequisitionForm = () => {
                             </div>
                             <div className="memo-content">
                                 <div className="memo-paragraph">
-                                    ด้วย {requisition.division?.name+ ' '+requisition.division?.department?.name}
+                                    ด้วย {requisition.division ? requisition.division?.name : requisition.department?.name}
                                     <span className="ml-1">มีความประสงค์จะ{requisition.order_type_id === 1 ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc}</span>
                                     <span className="ml-1">จำนวน {requisition.item_count} รายการ</span>
                                     <span className="ml-1">{requisition.reason ? requisition.reason : 'เพื่อใช้ในการดำเนินงานภายในศูนย์สุขภาพจิตที่ 9'}</span>
-                                    <span className="ml-1">โดยใช้เงินงบประมาณปี {requisition.year} ตาม{requisition.budget?.project?.plan?.name} {requisition.budget?.project?.name} {requisition.budget?.name}</span>
+                                    <span className="ml-1">โดยใช้เงินงบประมาณปี {requisition.year && requisition.year+543} ตาม{requisition.budget?.project?.plan?.name} {requisition.budget?.project?.name} {requisition.budget?.name}</span>
                                     <span className="ml-1">รวมจำนวนเงินทั้งสิ้น {currency.format(requisition.net_total)} บาท ({ThaiNumberToText(requisition.net_total)}) รายละเอียดตามเอกสารแนบ</span>
                                 </div>
                                 <div className="memo-paragraph">
@@ -78,7 +78,7 @@ const RequisitionForm = () => {
                                             <span>{requisition.reason ? requisition.reason : 'เพื่อใช้ในการดำเนินงานภายในศูนย์สุขภาพจิตที่ 9'}</span>
                                             <span className="ml-1">{requisition.order_type_id === 1 ? requisition.category?.name : requisition.contract_desc}</span>
                                             <span className="ml-1">จำนวน {requisition.item_count} รายการ</span>
-                                            <span className="ml-1">ปีงบประมาณ {requisition.year}</span>
+                                            <span className="ml-1">ปีงบประมาณ {requisition.year && requisition.year+543}</span>
                                             <span className="ml-1">พร้อมทั้งขอเสนอชื่อแต่งตั้งผู้รับผิดชอบ หรือคณะกรรมการตรวจรับพัสดุ (กรณีวงเงินไม่เกิน ๑oo,ooo บาท) ดังต่อไปนี้</span>
                                         </p>
                                     </div>
