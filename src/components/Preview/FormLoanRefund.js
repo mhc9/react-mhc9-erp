@@ -33,7 +33,7 @@ const FormLoanRefund = () => {
                                 <div className="memo-header-text">
                                     <h3>ส่วนราชการ</h3>
                                     <div className="memo-header-value">
-                                        <span>{refund.contract?.loan?.department?.name} ศูนย์สุขภาพจิตที่ ๙ โทร o ๔๔๒๕ ๖๗๒๙</span>
+                                        <span>ศูนย์สุขภาพจิตที่ ๙ {refund.contract?.loan.division ? refund.contract?.loan?.division?.name : refund.contract?.loan?.department?.name} โทร o ๔๔๒๕ ๖๗๒๙  โทรสาร o ๔๔๒๕ ๖๗๓๐</span>
                                         {/* refund.contract?.loan?.division?.name+ ' '+ */}
                                     </div>
                                 </div>
@@ -64,7 +64,7 @@ const FormLoanRefund = () => {
                             </div>
                             <div className="memo-content">
                                 <div className="memo-paragraph">
-                                    ตามหนังสือ {refund.contract?.loan?.department?.name} ที่ {refund.contract?.loan?.doc_no} ลงวันที่ {toLongTHDate(moment(refund.contract?.loan?.doc_date).toDate())}
+                                    ตามหนังสือ {refund.contract?.loan.division ? refund.contract?.loan?.division?.name : refund.contract?.loan?.department?.name} ที่ {refund.contract?.loan?.doc_no} ลงวันที่ {toLongTHDate(moment(refund.contract?.loan?.doc_date).toDate())}
                                     {refund.contract?.loan?.loan_type_id === 1 
                                         ? <span className="ml-1">ได้ขออนุมัติยืมเงินราชการในการจัด{refund.contract?.loan?.project_name}</span>
                                         : <span className="ml-1">เรื่อง ขออนุมัติยืมเงินราชการ เพื่อเป็นค่าใช้จ่ายในการเดินทางไปราชการเข้าร่วม{refund.contract?.loan?.project_name}</span>
@@ -80,7 +80,7 @@ const FormLoanRefund = () => {
                                     จากงบประมาณศูนย์สุขภาพจิตที่ 9
                                     {refund.contract?.loan?.budgets && refund.contract?.loan?.budgets.map((data, index) => (
                                         <span className="ml-1" key={data.budget_id}>
-                                            ตามแผนงาน{data.budget?.project?.plan?.name} {data.budget?.project?.name} {data.budget?.name}
+                                            ตามแผนงาน{data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name} {data.budget?.activity?.name}
                                         </span>
                                     ))}
                                     <span className="ml-1">
