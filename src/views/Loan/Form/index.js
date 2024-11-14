@@ -333,7 +333,7 @@ const LoanForm = ({ loan }) => {
                             <Col md={6}>
                                 <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
                                 <EmployeeSelection
-                                    data={loan.employee}
+                                    data={loan?.employee}
                                     fieldName="employee_id"
                                 />
                                 {(formik.errors.employee_id && formik.touched.employee_id) && (

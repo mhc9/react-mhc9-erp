@@ -386,7 +386,7 @@ const RequisitionForm = ({ requisition }) => {
                                     <Col md={3}>
                                         <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
                                         <EmployeeSelection
-                                            data={requisition.requester}
+                                            data={requisition?.requester}
                                             fieldName="requester_id"
                                         />
                                         {(formik.errors.requester_id && formik.touched.requester_id) && (
