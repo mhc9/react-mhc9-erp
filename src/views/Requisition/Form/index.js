@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useCookies } from 'react-cookie'
 import { Formik, Form } from 'formik'
@@ -39,7 +39,7 @@ const requisitionSchema = Yup.object().shape({
     year: Yup.string().required('กรุณาระบุปีงบ'),
     budget_id: Yup.string().required('กรุณาระบุงบประมาณ'),
     requester_id: Yup.string().required('กรุณาระบุผู้ขอ/เจ้าของโครงการ'),
-    // division_id: Yup.string().required('กรุณาระบุหน่วยงาน'),
+    department_id: Yup.string().required('กรุณาระบุหน่วยงาน'),
     reason: Yup.string().required('กรุณาระบุเหตุผลที่ขอ'),
     desired_date: Yup.string().required('กรุณาระบุวันที่ต้องการใช้'),
     items: Yup.mixed().test('Items Count', 'ไม่พบการระบุรายการสินค้า', val => val.filter(item => !item.removed).length > 0),
@@ -64,6 +64,7 @@ const RequisitionForm = ({ requisition }) => {
     const [selectedDate, setSelectedDate] = useState(moment());
     const [selectedYear, setSelectedYear] = useState(moment(`${cookies.budgetYear}-01-01`));
     const [selectedDesiredDate, setSelectedDesiredDate] = useState(moment());
+    const [selectedDep, setSelectedDep] = useState('');
     const [filteredTypes, setFilteredTypes] = useState([]);
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
     const [showBudgetModal, setShowBudgetModal] = useState(false);
@@ -85,6 +86,7 @@ const RequisitionForm = ({ requisition }) => {
             setRequester(requisition.requester);
             setSelectedDate(requisition.pr_date);
             setSelectedYear(moment(`${requisition.year}-09-01`));
+            setSelectedDep(`${requisition.department_id}${requisition.division_id ? '-' + requisition.division_id : ''}`);
 
             handleTypeChange(requisition.order_type_id || 1);
         }
@@ -182,6 +184,7 @@ const RequisitionForm = ({ requisition }) => {
                 budget_id: requisition ? requisition.budget_id : '',
                 project_id: (requisition && requisition.project_id) ? requisition.project_id : '',
                 project_name: (requisition && requisition.project_name) ? requisition.project_name : '',
+                department_id: (requisition && requisition.department_id) ? requisition.division_id : '',
                 division_id: (requisition && requisition.division_id) ? requisition.division_id : '',
                 requester_id: requisition ? requisition.requester_id : requester?.id,
                 reason: requisition ? requisition.reason : '',
@@ -397,24 +400,42 @@ const RequisitionForm = ({ requisition }) => {
                                     <Col md={3}>
                                         <label htmlFor="">หน่วยงาน</label>
                                         <select
-                                            name="division_id"
-                                            value={formik.values.division_id}
-                                            onChange={formik.handleChange}
+                                            name="department_id"
+                                            value={selectedDep}
+                                            onChange={(e) => {
+                                                const val = e.target.value;
+
+                                                if (val.search(/-/i)) {
+                                                    const [department, division] = val.split('-');
+
+                                                    formik.setFieldValue('department_id', department);
+                                                    formik.setFieldValue('division_id', division);
+                                                } else {
+                                                    formik.setFieldValue('department_id', val);
+                                                    formik.setFieldValue('division_id', '');
+                                                }
+
+                                                setSelectedDep(val);
+                                                setTimeout(() => formik.setFieldTouched('department_id', true), 300);
+                                            }}
                                             className="form-control text-sm"
                                         >
                                             <option value="">-- หน่วยงาน --</option>
-                                            {formData?.departments && formData.departments.map(dep => (
-                                                <optgroup key={dep.id} label={dep.name}>
-                                                    {dep.divisions.map(division => (
-                                                        <option value={division.id} key={division.id}>
+                                            {formData?.departments && formData.departments.filter(dep => dep.id !== 1).map(dep => (
+                                                <Fragment key={dep.id}>
+                                                    <option value={dep.id} className="font-bold">
+                                                        {dep.name}
+                                                    </option>
+                                                    {dep.divisions.length > 0 && dep.divisions.filter(division => division.has_saraban === 1).map(division => (
+                                                        <option value={`${dep.id}-${division.id}`} key={`${dep.id}-${division.id}`}>
                                                             {division.name}
                                                         </option>
                                                     ))}
-                                                </optgroup>
+                                                </Fragment>
                                             ))}
                                         </select>
-                                        {(formik.errors.division_id && formik.touched.division_id) && (
-                                            <span className="text-red-500 text-sm">{formik.errors.division_id}</span>
+                                        {(formik.errors.department_id && formik.touched.department_id) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.department_id}</span>
                                         )}
                                     </Col>
                                 </Row>
