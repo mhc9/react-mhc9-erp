@@ -104,7 +104,7 @@ const FormLoan = () => {
                                                             <td className="w-[68%]">
                                                                 <span>-{data.expense?.name}</span>
                                                             </td>
-                                                            <td className="w-[32%]">
+                                                            <td className="w-[32%] indent-0 text-right pr-8">
                                                                 <span className="mr-4">เป็นเงิน</span>{currency.format(data.total)} บาท
                                                             </td>
                                                         </tr>
@@ -112,8 +112,16 @@ const FormLoan = () => {
                                                 )
                                             )}
 
-                                            <div className="indent-[3cm] font-bold">
-                                                รวมจำนวนเงิน {currency.format(loan.order_total)} บาท ({ThaiNumberToText(loan.order_total)})
+                                            <div className="font-bold">
+                                                <table className="w-full indent-[1.4cm]">
+                                                    <tr>
+                                                        <td className="w-[50%]"></td>
+                                                        <td className="w-[50%] indent-0 text-right pr-8">
+                                                            รวมเป็นเงิน {currency.format(loan.order_total)} บาท 
+                                                            {/* ({ThaiNumberToText(loan.order_total)}) */}
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                             </div>
                                         </div>
                                     )}
@@ -160,7 +168,7 @@ const FormLoan = () => {
                                                                                         )
                                                                                     }
                                                                                 </td>
-                                                                                <td className="w-[32%]">
+                                                                                <td className="w-[32%] indent-0 text-right pr-8">
                                                                                     <span className="mr-4">เป็นเงิน</span>{currency.format(data.total)} บาท
                                                                                 </td>
                                                                             </tr>
@@ -170,8 +178,16 @@ const FormLoan = () => {
                                                             )}
                                                         )}
 
-                                                        <div className="indent-[3cm] font-bold">
-                                                            รวมจำนวนเงิน {currency.format(courseTotal)} บาท ({ThaiNumberToText(courseTotal)})
+                                                        <div className="font-bold">
+                                                            <table className="w-full indent-[1.4cm]">
+                                                                <tr>
+                                                                    <td className="w-[50%]"></td>
+                                                                    <td className="w-[50%] indent-0 text-right pr-8">
+                                                                        รวมเป็นเงิน {currency.format(courseTotal)} บาท 
+                                                                        {/* ({ThaiNumberToText(courseTotal)}) */}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
                                                         </div>
                                                     </div>
                                                 )
@@ -212,8 +228,16 @@ const FormLoan = () => {
 
                                         {/* ยอดรวมของรายการค่าใช้จ่ายแบบรวม */}
                                         {(loan.courses && loan.courses.length === 1) && (
-                                            <div className="indent-[3cm] font-bold">
-                                                รวมจำนวนเงิน {currency.format(loan.item_total)} บาท ({ThaiNumberToText(loan.item_total)})
+                                            <div className="font-bold">
+                                                <table className="w-full indent-[1.4cm]">
+                                                    <tr>
+                                                        <td className="w-[50%]"></td>
+                                                        <td className="w-[50%] indent-0 text-right pr-8">
+                                                            รวมเป็นเงิน {currency.format(loan.item_total)} บาท 
+                                                            {/* ({ThaiNumberToText(loan.item_total)}) */}
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                             </div>
                                         )}
 
