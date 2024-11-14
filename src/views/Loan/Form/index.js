@@ -332,7 +332,10 @@ const LoanForm = ({ loan }) => {
                             </Col>
                             <Col md={6}>
                                 <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
-                                <EmployeeSelection loan={loan} />
+                                <EmployeeSelection
+                                    data={loan.employee}
+                                    fieldName="employee_id"
+                                />
                                 {(formik.errors.employee_id && formik.touched.employee_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.employee_id}</span>
                                 )}

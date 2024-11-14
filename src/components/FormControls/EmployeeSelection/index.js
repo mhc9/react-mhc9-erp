@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { FaSearch } from 'react-icons/fa'
 import ModalEmployeeList from '../../Modals/EmployeeList'
 
-const EmployeeSelection = ({ loan }) => {
+const EmployeeSelection = ({ data, fieldName }) => {
     const { setFieldValue } = useFormikContext();
     const { loggedInUser } = useSelector(state => state.auth);
     const [showEmployeeModal, setShowEmployeeModal] = useState(false);
@@ -13,13 +13,13 @@ const EmployeeSelection = ({ loan }) => {
     useEffect(() => {
         if (loggedInUser) {
             setEmployee(loggedInUser.employee);
-            setFieldValue('employee_id', loan ? loan.employee.id : loggedInUser.employee?.id);
+            setFieldValue(fieldName, data ? data?.id : loggedInUser.employee?.id);
         }
     }, [loggedInUser]);
 
     useEffect(() => {
-        if (loan) setEmployee(loan.employee);
-    }, [loan]);
+        if (data) setEmployee(data);
+    }, [data]);
 
     return (
         <>
@@ -28,7 +28,7 @@ const EmployeeSelection = ({ loan }) => {
                 onHide={() => setShowEmployeeModal(false)}
                 onSelect={(employee) => {
                     setEmployee(employee);
-                    setFieldValue('employee_id', employee.id);
+                    setFieldValue(fieldName, employee.id);
                 }}
             />
 

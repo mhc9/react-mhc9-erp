@@ -25,6 +25,7 @@ import Loading from '../../../components/Loading'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import ModalBudgetList from '../../../components/Modals/BudgetList'
 import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
+import EmployeeSelection from '../../../components/FormControls/EmployeeSelection'
 
 const requisitionSchema = Yup.object().shape({
     pr_no: Yup.string().required('กรุณาระบุเลขที่เอกสาร'),
@@ -172,7 +173,6 @@ const RequisitionForm = ({ requisition }) => {
 
     return (
         <Formik
-            enableReinitialize
             initialValues={{
                 pr_no: requisition ? requisition.pr_no : '',
                 pr_date: requisition ? moment(requisition.pr_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
@@ -385,14 +385,10 @@ const RequisitionForm = ({ requisition }) => {
                                     </Col>
                                     <Col md={3}>
                                         <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
-                                        <div className="input-group">
-                                            <div className="form-control h-[34px] text-sm bg-gray-200">
-                                                {requester?.firstname} {requester?.lastname}
-                                            </div>
-                                            <button type="button" className="btn btn-outline-secondary" onClick={() => setShowEmployeeModal(true)}>
-                                                <FaSearch />
-                                            </button>
-                                        </div>
+                                        <EmployeeSelection
+                                            data={requisition.requester}
+                                            fieldName="requester_id"
+                                        />
                                         {(formik.errors.requester_id && formik.touched.requester_id) && (
                                             <span className="text-red-500 text-sm">{formik.errors.requester_id}</span>
                                         )}
