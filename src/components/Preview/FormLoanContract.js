@@ -162,38 +162,41 @@ const FormLoanContract = () => {
                                                                 {course?.course_date && <span className="mx-1 font-bold">วันที่ {toLongTHDate(moment(course?.course_date).toDate())}</span>} 
                                                                 ณ {course?.place?.name} {/* จ.{course?.place?.changwat?.name} */}
                                                             </p>
-                                                            {loan.details && loan.details.map((data, index) => {
-                                                                // คำนวณยอดรวมของแต่ละวัน
-                                                                courseTotal += parseInt(data.course_id, 10) === course.id ? parseFloat(data.total) : 0;
+                                                            {loan.details && loan.details
+                                                                .filter(item => item.expense_group === 1)
+                                                                .map((data, index) => {
+                                                                    // คำนวณยอดรวมของแต่ละวัน
+                                                                    courseTotal += parseInt(data.course_id, 10) === course.id ? parseFloat(data.total) : 0;
 
-                                                                return (
-                                                                    <div key={index}>
-                                                                        {parseInt(data.course_id, 10) === course.id && (
-                                                                            <table className="w-full indent-[1.4cm]">
-                                                                                <tr>
-                                                                                    <td className="w-[68%]">
-                                                                                        <span>-{data.expense?.name}</span>
-                                                                                        {(data.description && data.expense?.pattern)
-                                                                                            ? (
-                                                                                                <span className="ml-1">
-                                                                                                    {replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}
-                                                                                                </span>
-                                                                                            ) : (
-                                                                                                <span className="ml-1">
-                                                                                                    {data.description && <span>({data.description})</span>}
-                                                                                                </span>
-                                                                                            )
-                                                                                        }
-                                                                                    </td>
-                                                                                    <td className="w-[32%] text-right pr-8">
-                                                                                        <span className="mr-4">เป็นเงิน</span>{currency.format(data.total)} บาท
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </table>
-                                                                        )}
-                                                                    </div>
-                                                                )
-                                                            })}
+                                                                    return (
+                                                                        <div key={index}>
+                                                                            {parseInt(data.course_id, 10) === course.id && (
+                                                                                <table className="w-full indent-[1.4cm]">
+                                                                                    <tr>
+                                                                                        <td className="w-[68%]">
+                                                                                            <span>-{data.expense?.name}</span>
+                                                                                            {(data.description && data.expense?.pattern)
+                                                                                                ? (
+                                                                                                    <span className="ml-1">
+                                                                                                        {replaceExpensePatternFromDesc(data.expense?.pattern, data.description)}
+                                                                                                    </span>
+                                                                                                ) : (
+                                                                                                    <span className="ml-1">
+                                                                                                        {data.description && <span>({data.description})</span>}
+                                                                                                    </span>
+                                                                                                )
+                                                                                            }
+                                                                                        </td>
+                                                                                        <td className="w-[32%] text-right pr-8">
+                                                                                            <span className="mr-4">เป็นเงิน</span>{currency.format(data.total)} บาท
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            )}
+                                                                        </div>
+                                                                    )
+                                                                }
+                                                            )}
 
                                                             <div className="font-bold">
                                                                 <table className="w-full indent-[1.4cm]">
