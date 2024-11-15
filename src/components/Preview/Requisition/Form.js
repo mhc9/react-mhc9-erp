@@ -63,7 +63,7 @@ const RequisitionForm = () => {
                                 </div>
                             </div>
                             <div className="memo-content">
-                                <div className="memo-paragraph">
+                                <div className="memo-paragraph leading-6">
                                     ด้วย {requisition.division ? requisition.division?.name : requisition.department?.name}
                                     <span className="ml-1">มีความประสงค์จะ{requisition.order_type_id === 1 ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc}</span>
                                     <span className="ml-1">จำนวน {requisition.item_count} รายการ</span>
@@ -72,7 +72,7 @@ const RequisitionForm = () => {
                                     <span className="ml-1">ตาม{requisition.budget?.activity?.project?.plan?.name} {requisition.budget?.activity?.project?.name} {requisition.budget?.activity?.name}</span>
                                     <span className="ml-1">รวมจำนวนเงินทั้งสิ้น {currency.format(requisition.net_total)} บาท ({ThaiNumberToText(requisition.net_total)}) รายละเอียดตามเอกสารแนบ</span>
                                 </div>
-                                <div className="memo-paragraph">
+                                <div className="memo-paragraph leading-6">
                                     <div className="mb-2">
                                         เหตุผลและความจำเป็นที่ต้องจัดซื้อจัดจ้าง
                                         <p>
@@ -101,7 +101,7 @@ const RequisitionForm = () => {
                                         ))}
                                     </div>
                                 </div>
-                                <div className="memo-paragraph">
+                                <div className="memo-paragraph leading-6">
                                     <span className="with-compressed-2x">จึงเรียนมาเพื่อโปรดพิจารณา หากเห็นชอบขอได้โปรดอนุมัติหลักการและขออนุมัติงบประมาณ</span>
                                     <span>ให้จัดซื้อจัดจ้างพัสดุตามรายการดังกล่าวข้างต้น และแต่งตั้งกรรมการดำเนินการตามที่เสนอ</span>
                                 </div>
@@ -177,7 +177,6 @@ const RequisitionForm = () => {
                                                 <div className="pt-[40px] flex flex-col items-center justify-center">
                                                     <p className="w-[200px] border-dashed border-b mb-1"></p>
                                                     <div className="signature">
-                                                        {/* <p>({requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname})</p> */}
                                                         <p>(นางณัฏฐา ศิริผล)</p>
                                                         <p>หัวหน้าเจ้าหน้าที่</p>
                                                         <div className="signature-date">
@@ -241,7 +240,7 @@ const RequisitionForm = () => {
                             {requisition?.details.map((detail, index) => (
                                 <tr>
                                     <td className="border border-slate-300">{index+1}</td>
-                                    <td className="border border-slate-300 text-left pl-2">
+                                    <td className="border border-slate-300 text-left pl-2 leading-6">
                                         <span>{detail.item?.name}</span>
                                         {detail.description && <span className="ml-1">{detail.description}</span>}
                                     </td>
@@ -259,7 +258,7 @@ const RequisitionForm = () => {
                         </table>
                     </div>
 
-                    <div className="mt-1 pl-[10%] flex flex-col items-start justify-center">
+                    <div className="mt-1 pl-[10%] flex flex-col items-start justify-center leading-6">
                         <p className="text-left">2. กำหนดเวลาที่ต้องการส่งมอบหรือให้งานแล้วเสร็จภายในวันที่ <b>{toLongTHDate(moment(requisition?.desired_date).toDate())}</b> นับตั้งแต่วันถัดจากวันทำข้อตกลงเป็นหนังสือหรือใบสั่งซื้อสั่งจ้างหรือสัญญา</p>
                         <p>3. หลักเกณฑ์การพิจารณาคัดเลือกข้อเสนอ การพิจารณาคัดเลือกข้อเสนอโดยใช้ เกณฑ์ราคา</p>
                         <p>4. สถานที่ส่งมอบพัสดุ <b>{requisition?.details.some(detail => [24].includes(detail.item_id)) ? 'สถานบริการน้ำมันเชื้อเพลิง' : 'ศูนย์สุขภาพจิตที่ 9'}</b></p>
@@ -294,7 +293,7 @@ const RequisitionForm = () => {
                 <div className="memo-wrapper">
                     <div className="memo-box">
                         <div className="memo-header text-center">
-                            <h1 className="text-xl font-bold mb-2">
+                            <h1 className="text-xl font-bold mb-2 leading-6">
                                 แบบแสดงความบริสุทธิ์ใจในการจัดซื้อจัดจ้างทุกวิธีของหน่วยงาน (วงเงินเล็กน้อยไม่เกิน 100,000 บาท)<br />
                                 ในการเปิดเผยข้อมูลความขัดแย้งทางผลประโยชน์<br />
                                 ของหัวหน้าเจ้าหน้าที่พัสดุ เจ้าหน้าที่พัสดุและผู้ตรวจรับพัสดุ<br />
@@ -327,12 +326,12 @@ const RequisitionForm = () => {
                                     </div>
                                 </div>
                                 <div className="memo-paragraph">
-                                    <p className="leading-8">
+                                    <p className=" leading-6">
                                         ขอให้คำรับรองว่าไม่มีความเกี่ยวข้องหรือมีส่วนได้เสียไม่ว่าโดยตรงหรือโดยอ้อมหรือผลประโยชน์ใดๆ ที่ก่อให้เกิดความขัดแย้งทางผลประโยชน์กับผู้ขาย ผู้รับจ้าง ผู้เสนองาน หรือผู้ชนะการประมูล หรือผู้มีส่วนเกี่ยวข้องที่เข้ามามีนิติสัมพันธ์ และวางตัวเป็นกลางในการดำเนินการเกี่ยวกับการพัสดุ ปฏิบัติหน้าที่ด้วยจิตสำนึก ด้วยความโปร่งใส สามารถให้ผู้มีส่วนเกี่ยวข้องตรวจสอบได้ทุกเวลามุ่งประโยชน์ส่วนรวมเป็นสำคัญ ตามที่ระบุไว้ในประกาศกรมสุขภาพจิตว่าด้วยแนวทางปฏิบัติงานเพื่อตรวจสอบบุคลากร ในหน่วยงานด้านการจัดซื้อจัดจ้าง พ.ศ. 2561
                                     </p>
                                 </div>
                                 <div className="memo-paragraph">
-                                    <p className="leading-8">
+                                    <p className=" leading-6">
                                         หากปรากฏว่าเกิดความขัดแย้งทางผลประโยชน์ระหว่างข้าพเจ้ากับผู้ขาย ผู้รับจ้าง ผู้เสนองานหรือผู้ชนะการประมูล หรือผู้มีส่วนเกี่ยวข้องที่เข้ามามีนิติสัมพันธ์ ข้าพเจ้าจะรายงานให้ทราบโดยทันที
                                     </p>
                                 </div>
@@ -365,9 +364,10 @@ const RequisitionForm = () => {
                                         <div className="mt-[35px] text-center w-full">
                                             <div className="flex flex-col items-center justify-center">
                                                 <p className="w-[200px] border-dashed border-b"></p>
-                                                <div className="signature">
+                                                <div className="signature leading-6">
                                                     <p>({requisition?.requester?.prefix?.name+requisition?.requester?.firstname+ ' ' +requisition?.requester?.lastname})</p>
-                                                    <p>{requisition?.requester?.position?.name}{requisition?.requester?.level?.name}</p>
+                                                    {/* <p>{requisition?.requester?.position?.name}{requisition?.requester?.level?.name}</p> */}
+                                                    <p>ผู้ตรวจรับพัสดุ</p>
                                                 </div>
                                             </div>
                                         </div>
