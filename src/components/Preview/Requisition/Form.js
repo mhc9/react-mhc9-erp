@@ -68,7 +68,8 @@ const RequisitionForm = () => {
                                     <span className="ml-1">มีความประสงค์จะ{requisition.order_type_id === 1 ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc}</span>
                                     <span className="ml-1">จำนวน {requisition.item_count} รายการ</span>
                                     <span className="ml-1">{requisition.reason ? requisition.reason : 'เพื่อใช้ในการดำเนินงานภายในศูนย์สุขภาพจิตที่ 9'}</span>
-                                    <span className="ml-1">โดยใช้เงินงบประมาณปี {requisition.year && requisition.year+543} ตาม{requisition.budget?.project?.plan?.name} {requisition.budget?.project?.name} {requisition.budget?.name}</span>
+                                    <span className="ml-1">โดยใช้เงินงบประมาณปี {requisition.year && requisition.year+543}</span>
+                                    <span className="ml-1">ตาม{requisition.budget?.activity?.project?.plan?.name} {requisition.budget?.activity?.project?.name} {requisition.budget?.activity?.name}</span>
                                     <span className="ml-1">รวมจำนวนเงินทั้งสิ้น {currency.format(requisition.net_total)} บาท ({ThaiNumberToText(requisition.net_total)}) รายละเอียดตามเอกสารแนบ</span>
                                 </div>
                                 <div className="memo-paragraph">
@@ -105,6 +106,7 @@ const RequisitionForm = () => {
                                     <span>ให้จัดซื้อจัดจ้างพัสดุตามรายการดังกล่าวข้างต้น และแต่งตั้งกรรมการดำเนินการตามที่เสนอ</span>
                                 </div>
                                 <div className="memo-approvement">
+                                    {/* ผู้ขอ/เจ้าของโครงการ */}
                                     <div className="memo-row">
                                         <div style={{ width: '40%' }}>&nbsp;</div>
                                         <div style={{ width: '60%' }}>
@@ -113,6 +115,23 @@ const RequisitionForm = () => {
                                                     <p className="w-[200px] border-dashed border-b mb-1"></p>
                                                     <div className="signature">
                                                         <p>({requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname})</p>
+                                                        <p>{requisition.requester.position?.name}{requisition.requester.level?.name}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* หัวหน้ากลุ่มงาน */}
+                                    <div className="memo-row">
+                                        <div style={{ width: '40%' }}>&nbsp;</div>
+                                        <div style={{ width: '60%' }}>
+                                            <div style={{ textAlign: 'center', width: '100%' }}>
+                                                <div className="pt-[40px] flex flex-col items-center justify-center">
+                                                    <p className="w-[200px] border-dashed border-b mb-1"></p>
+                                                    <div className="signature">
+                                                        <p>({requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname})</p>
+                                                        <p>{requisition.requester.position?.name}{requisition.requester.level?.name}</p>
                                                         <p>{requisition.requester.position?.name}{requisition.requester.level?.name}</p>
                                                     </div>
                                                 </div>
@@ -334,7 +353,7 @@ const RequisitionForm = () => {
                                             <div className="flex flex-col items-center justify-center">
                                                 <p className="w-[200px] border-dashed border-b"></p>
                                                 <div className="signature">
-                                                    <p>(หัวหน้าเจ้าหน้าที่)</p>
+                                                    <p>(เจ้าหน้าที่)</p>
                                                 </div>
                                             </div>
                                         </div>
