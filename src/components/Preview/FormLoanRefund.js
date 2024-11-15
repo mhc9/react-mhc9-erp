@@ -80,7 +80,7 @@ const FormLoanRefund = () => {
                                     จากงบประมาณศูนย์สุขภาพจิตที่ 9
                                     {refund.contract?.loan?.budgets && refund.contract?.loan?.budgets.map((data, index) => (
                                         <span className="ml-1" key={data.budget_id}>
-                                            ตามแผนงาน{data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name} {data.budget?.activity?.name}
+                                            ตาม{data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name} {data.budget?.activity?.name}
                                         </span>
                                     ))}
                                     <span className="ml-1">
