@@ -5,6 +5,7 @@ const initialState = {
     requisition: null,
     requisitions: [],
     pager: null,
+    headOfDepart: null,
     isLoading: false,
     isSuccess: false,
     isDeleted: false,
@@ -24,6 +25,16 @@ export const getRequisitions = createAsyncThunk("requisition/getRequisitions", a
 export const getRequisition = createAsyncThunk("requisition/getRequisition", async ({ id }, { rejectWithValue }) => {
     try {
         const res = await api.get(`/api/requisitions/${id}`);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const getRequisitionWithHeadOfDepart = createAsyncThunk("requisition/getRequisitionWithHeadOfDepart", async ({ id }, { rejectWithValue }) => {
+    try {
+        const res = await api.get(`/api/requisitions/${id}/with`);
 
         return res.data;
     } catch (error) {
@@ -105,6 +116,23 @@ export const requisitionSlice = createSlice({
             state.isLoading = false;
         },
         [getRequisition.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [getRequisitionWithHeadOfDepart.pending]: (state) => {
+            state.requisition = null;
+            state.headOfDepart = null;
+            state.isLoading = true;
+            state.error = null;
+        },
+        [getRequisitionWithHeadOfDepart.fulfilled]: (state, { payload }) => {
+            const { requisition, head_of_depart } = payload;
+
+            state.requisition = requisition;
+            state.headOfDepart = head_of_depart;
+            state.isLoading = false;
+        },
+        [getRequisitionWithHeadOfDepart.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },
