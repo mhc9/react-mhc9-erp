@@ -127,7 +127,7 @@ const RequisitionDetail = () => {
                                             <Col className="pb-1">
                                                 <label htmlFor="">ปีงบประมาณ</label>
                                                 <div className="text-sm font-thin">
-                                                    {requisition.year}
+                                                    {requisition.year && requisition.year+543}
                                                 </div>
                                             </Col>
                                         </Row>
