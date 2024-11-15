@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import moment from 'moment'
-import { getRequisition } from '../../../features/slices/requisition/requisitionSlice'
+import { getRequisitionWithHeadOfDepart } from '../../../features/slices/requisition/requisitionSlice'
 import { toLongTHDate, currency } from '../../../utils'
 import { ThaiNumberToText } from '../../../utils/currencyText'
 import '../Preview.css'
@@ -10,10 +10,10 @@ import '../Preview.css'
 const RequisitionForm = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { requisition } = useSelector(state => state.requisition);
+    const { requisition, headOfDepart } = useSelector(state => state.requisition);
 
     useEffect(() => {
-        if (id) dispatch(getRequisition({ id }));
+        if (id) dispatch(getRequisitionWithHeadOfDepart({ id }));
     }, [dispatch, id]);
 
     return (
@@ -123,21 +123,23 @@ const RequisitionForm = () => {
                                     </div>
 
                                     {/* หัวหน้ากลุ่มงาน */}
-                                    <div className="memo-row">
-                                        <div style={{ width: '40%' }}>&nbsp;</div>
-                                        <div style={{ width: '60%' }}>
-                                            <div style={{ textAlign: 'center', width: '100%' }}>
-                                                <div className="pt-[40px] flex flex-col items-center justify-center">
-                                                    <p className="w-[200px] border-dashed border-b mb-1"></p>
-                                                    <div className="signature">
-                                                        <p>({requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname})</p>
-                                                        <p>{requisition.requester.position?.name}{requisition.requester.level?.name}</p>
-                                                        <p>{requisition.requester.position?.name}{requisition.requester.level?.name}</p>
+                                    {headOfDepart && (
+                                        <div className="memo-row">
+                                            <div style={{ width: '40%' }}>&nbsp;</div>
+                                            <div style={{ width: '60%' }}>
+                                                <div style={{ textAlign: 'center', width: '100%' }}>
+                                                    <div className="pt-[30px] flex flex-col items-center justify-center">
+                                                        <p className="w-[200px] border-dashed border-b mb-1"></p>
+                                                        <div className="signature">
+                                                            <p>({headOfDepart.prefix.name+headOfDepart.firstname+ ' ' +headOfDepart.lastname})</p>
+                                                            <p>{headOfDepart.position?.name}{headOfDepart.level?.name}</p>
+                                                            <p>{headOfDepart.member_of[0].duty?.display_name}{headOfDepart.member_of[0]?.department?.name}</p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    )}
 
                                     <div className="memo-row">
                                         <div style={{ width: '100%' }}>
@@ -157,7 +159,6 @@ const RequisitionForm = () => {
                                                 <div className="pt-[40px] flex flex-col items-center justify-center">
                                                     <p className="w-[200px] border-dashed border-b mb-1"></p>
                                                     <div className="signature">
-                                                        {/* <p>({requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname})</p> */}
                                                         <p>(นางสาวทิพปภา สีมาธรรมการย์)</p>
                                                         <p>นักวิชาการพัสดุ</p>
                                                     </div>

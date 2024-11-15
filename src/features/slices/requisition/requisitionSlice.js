@@ -126,10 +126,10 @@ export const requisitionSlice = createSlice({
             state.error = null;
         },
         [getRequisitionWithHeadOfDepart.fulfilled]: (state, { payload }) => {
-            const { requisition, head_of_depart } = payload;
+            const { requisition, headOfDepart } = payload;
 
             state.requisition = requisition;
-            state.headOfDepart = head_of_depart;
+            state.headOfDepart = headOfDepart;
             state.isLoading = false;
         },
         [getRequisitionWithHeadOfDepart.rejected]: (state, { payload }) => {
