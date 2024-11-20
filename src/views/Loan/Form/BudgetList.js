@@ -17,7 +17,7 @@ const BudgetList = ({ budgets, showButtons=true, onRemoveBudget, onEditBudget })
                 </thead>
                 <tbody>
                     {budgets && budgets.map((data, index) => (
-                        <Fragment key={data.budget_id}>
+                        <Fragment key={data.id}>
                             {!data.removed && (
                                 <tr className="font-thin">
                                     <td className="text-center">{index+1}</td>
@@ -45,7 +45,7 @@ const BudgetList = ({ budgets, showButtons=true, onRemoveBudget, onEditBudget })
                                                 <button
                                                     type="button"
                                                     className="btn btn-sm btn-outline-danger p-1"
-                                                    onClick={() => onRemoveBudget(data.budget_id, data.loan_id === '')}
+                                                    onClick={() => onRemoveBudget(data.id, !data.loan_id)}
                                                 >
                                                     <FaTrash />
                                                 </button>

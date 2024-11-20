@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Formik, Form } from 'formik'
 import { FormGroup } from 'react-bootstrap'
 import { FaSearch, FaPlus, FaTimes } from 'react-icons/fa'
+import { v4 as uuid } from 'uuid'
 import ModalBudgetList from '../../../components/Modals/BudgetList'
 import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
 
@@ -23,6 +24,7 @@ const AddBudget = ({ data, formData, onAddBudget }) => {
     return (
         <Formik
             initialValues={{
+                id: uuid(),
                 budget_id: '',
                 budget: null,
                 total: '',

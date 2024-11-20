@@ -147,10 +147,10 @@ const LoanForm = ({ loan }) => {
     const handleRemoveBudget = (formik, id, isNewLoan = false) => {
         let newBudgets = [];
         if (isNewLoan) {
-            newBudgets = formik.values.budgets.filter(item => item.budget_id !== id);
+            newBudgets = formik.values.budgets.filter(item => item.id !== id);
         } else {
             newBudgets = formik.values.budgets.map(item => {
-                if (item.budget_id === id) return { ...item, removed: true };
+                if (item.id === id) return { ...item, removed: true };
 
                 return item;
             });
