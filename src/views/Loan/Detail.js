@@ -13,6 +13,8 @@ import ExpenseList from '../../components/Expense/ExpenseList'
 import DropdownButton from '../../components/FormControls/DropdownButton'
 import DropdownItem from '../../components/FormControls/DropdownButton/DropdownItem'
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const LoanDetail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
@@ -294,6 +296,9 @@ const LoanDetail = () => {
                                         </a>
                                     </DropdownItem>
                                 </DropdownButton>
+                                <a href={`${API_URL}/uploads/documents/loan_contract_back.pdf`} target="_blank" className="btn btn-success btn-sm">
+                                    พิมพ์ด้านหลังสัญญา
+                                </a>
                                 {/* <Link to={`/preview/${id}/project/verify`} target="_blank" className="btn btn-secondary mr-2">
                                     <i className="fas fa-print mr-1"></i>
                                     พิมพ์บันทึกทวนสอบ
