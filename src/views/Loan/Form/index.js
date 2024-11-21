@@ -73,10 +73,6 @@ const LoanForm = ({ loan }) => {
         formik.setFieldValue('net_total', parseFloat(formik.values.order_total) + itemTotal);
     };
 
-    const handleEditItem = (data) => {
-        setEdittingItem(data);
-    };
-
     /**
      * 
      * @param formik as Formik
@@ -89,10 +85,12 @@ const LoanForm = ({ loan }) => {
 
             return item;
         });
+        const itemTotal = calculateNetTotal(updatedItems.filter(item => item.expense_group === 1), (isRemoved) => isRemoved);
 
-        setEdittingItem(null);
         formik.setFieldValue('items', updatedItems);
-        formik.setFieldValue('net_total', currency.format(calculateNetTotal(updatedItems)));
+        formik.setFieldValue('item_total', itemTotal);
+        formik.setFieldValue('net_total', parseFloat(formik.values.order_total) + itemTotal);
+        setEdittingItem(null);
     };
 
     /**
@@ -566,7 +564,7 @@ const LoanForm = ({ loan }) => {
                                                 items={formik.values.items.filter(item => item.expense_group === 1)}
                                                 courses={formik.values.courses.filter(course => !course.removed)}
                                                 edittingItem={edittingItem}
-                                                onEditItem={(data) => handleEditItem(data)}
+                                                onEditItem={(data) => setEdittingItem(data)}
                                                 onRemoveItem={(id, isNewLoan) => handleRemoveItem(formik, id, isNewLoan)}
                                             />
 
