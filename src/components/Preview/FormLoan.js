@@ -215,7 +215,7 @@ const FormLoan = () => {
                                                                             )
                                                                         }
                                                                     </td>
-                                                                    <td className="w-[32%]">
+                                                                    <td className="w-[32%] indent-0 text-right pr-8">
                                                                         <span className="mr-4">เป็นเงิน</span>{currency.format(data.total)} บาท
                                                                     </td>
                                                                 </tr>
