@@ -179,7 +179,7 @@ const RequisitionForm = ({ requisition }) => {
                 order_type_id: requisition ? requisition.order_type_id : 1,
                 category_id: requisition ? requisition.category_id : '',
                 contract_desc: (requisition && requisition.contract_desc) ? requisition.contract_desc : '',
-                topic: requisition ? requisition.topic : 'ขออนุมัติซื้อ',
+                topic: requisition ? requisition.topic : 'ขออนุมัติงบประมาณซื้อ',
                 year: requisition ? requisition.year : cookies.budgetYear,
                 budget_id: requisition ? requisition.budget_id : '',
                 project_id: (requisition && requisition.project_id) ? requisition.project_id : '',
@@ -266,7 +266,7 @@ const RequisitionForm = ({ requisition }) => {
                                                 const { value } = e.target;
 
                                                 formik.handleChange(e);
-                                                formik.setFieldValue('topic', value === '1' ? 'ขออนุมัติซื้อ' : 'ขออนุมัติ');
+                                                formik.setFieldValue('topic', value === '1' ? 'ขออนุมัติงบประมาณซื้อ' : 'ขออนุมัติงบประมาณ');
                                                 handleTypeChange(value);
                                             }}
                                             className="form-control text-sm"
@@ -288,7 +288,7 @@ const RequisitionForm = ({ requisition }) => {
                                                 formik.handleChange(e);
 
                                                 if (parseInt(formik.values.order_type_id, 10) === 1) {
-                                                    formik.setFieldValue('topic', 'ขออนุมัติซื้อ' + getFormDataItem(formData, "categories", parseInt(e.target.value))?.name);
+                                                    formik.setFieldValue('topic', 'ขออนุมัติงบประมาณซื้อ' + getFormDataItem(formData, "categories", parseInt(e.target.value))?.name);
                                                 }
                                             }}
                                             className="form-control text-sm"
@@ -319,7 +319,7 @@ const RequisitionForm = ({ requisition }) => {
                                                     value={formik.values.contract_desc}
                                                     onChange={(e) => {
                                                         formik.handleChange(e);
-                                                        formik.setFieldValue('topic', 'ขออนุมัติ' + e.target.value);
+                                                        formik.setFieldValue('topic', 'ขออนุมัติงบประมาณ' + e.target.value);
                                                     }}
                                                     className="form-control text-sm"
                                                 />
