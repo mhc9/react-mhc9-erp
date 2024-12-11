@@ -36,8 +36,8 @@ const LoanContractReport = () => {
 
     const renderRefundTotal = (type, balance) => {
         return (
-            <div className={`${type === 1 ? 'text-green-600' : 'text-red-600'} font-bold`}>
-                {type === 1 ? '+' : '-'}{currency.format(balance)} 
+            <div className={`${(type === 1 || type === 3) ? 'text-green-600' : 'text-red-600'} font-bold`}>
+                {type === 1 ? '+' : (type === 2 ? '-' : '')}{currency.format(balance)} 
             </div>
         )
     }
