@@ -34,7 +34,6 @@ const RequisitionForm = () => {
                                     <h3>ส่วนราชการ</h3>
                                     <div className="memo-header-value">
                                         <span>ศูนย์สุขภาพจิตที่ ๙ {requisition.division ? requisition.division?.name : requisition.department?.name} โทร o ๔๔๒๕ ๖๗๒๙  โทรสาร o ๔๔๒๕ ๖๗๓๐</span>
-                                        {/* requisition.division?.name+ ' '+ */}
                                     </div>
                                 </div>
                                 <div className="memo-header-text">
