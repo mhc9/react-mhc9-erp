@@ -139,7 +139,7 @@ const RequisitionDetail = () => {
                                             <Col md={6} className="pb-1">
                                                 <label htmlFor="">โครงการ</label>
                                                 <div className="text-sm font-thin">
-                                                    {requisition.project ? requisition.project?.name : '-'}
+                                                    {requisition.project_name ? requisition.project_name : '-'}
                                                 </div>
                                             </Col>
                                         </Row>
