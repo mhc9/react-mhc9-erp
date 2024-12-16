@@ -79,7 +79,7 @@ const RequisitionForm = () => {
                                             <span className="ml-1">{requisition.order_type_id === 1 ? requisition.category?.name : requisition.contract_desc}</span>
                                             <span className="ml-1">จำนวน {requisition.item_count} รายการ</span>
                                             <span className="ml-1">ปีงบประมาณ {requisition.year && requisition.year+543}</span>
-                                            <span className="ml-1">พร้อมทั้งขอเสนอชื่อแต่งตั้งผู้รับผิดชอบ หรือคณะกรรมการตรวจรับพัสดุ (กรณีวงเงินไม่เกิน ๑oo,ooo บาท) ดังต่อไปนี้</span>
+                                            <span className="ml-1">พร้อมทั้งขอเสนอชื่อแต่งตั้งผู้รับผิดชอบ หรือคณะกรรมการตรวจรับพัสดุ (กรณีวงเงินไม่เกิน ๑๐๐,๐๐๐ บาท) ดังต่อไปนี้</span>
                                         </p>
                                     </div>
                                     <div className="indent-[2.5cm] mb-2">
