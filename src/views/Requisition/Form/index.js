@@ -184,7 +184,7 @@ const RequisitionForm = ({ requisition }) => {
                 budget_id: requisition ? requisition.budget_id : '',
                 project_id: (requisition && requisition.project_id) ? requisition.project_id : '',
                 project_name: (requisition && requisition.project_name) ? requisition.project_name : '',
-                department_id: (requisition && requisition.department_id) ? requisition.division_id : '',
+                department_id: (requisition && requisition.department_id) ? requisition.department_id : '',
                 division_id: (requisition && requisition.division_id) ? requisition.division_id : '',
                 requester_id: requisition ? requisition.requester_id : requester?.id,
                 reason: requisition ? requisition.reason : '',
