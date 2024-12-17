@@ -11,6 +11,7 @@ import {
     calculateNetTotal,
     currency,
     getFormDataItem,
+    removeItemWithFlag,
     sortObjectByDate,
     toLongTHDate,
     toShortTHDate
@@ -105,9 +106,9 @@ const LoanRefundForm = ({ refund }) => {
         formik.setFieldValue('net_total', currency.format(calculateNetTotal(updatedItems)));
     };
 
-    const handleRemoveItem = (formik, id) => {
+    const handleRemoveItem = (formik, id, isNewRefund = false) => {
         /** Create new items array */
-        const newItems = formik.values.items.filter(item => item.contract_detail_id !== id);
+        const newItems = removeItemWithFlag(formik.values.items, parseInt(id, 10), isNewRefund);
         const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1));
         const netTotal = parseFloat(formik.values.order_total) + itemTotal;
 
@@ -437,7 +438,7 @@ const LoanRefundForm = ({ refund }) => {
                                                 showButtons={true}
                                                 edittingItem={edittingItem}
                                                 onEditItem={(data) => handleEditItem(data)}
-                                                onRemoveItem={(id) => handleRemoveItem(formik, id)}
+                                                onRemoveItem={(id, isNewRefund) => handleRemoveItem(formik, id, isNewRefund)}
                                             />
 
                                             <div className="flex flex-row justify-end items-center gap-2">
