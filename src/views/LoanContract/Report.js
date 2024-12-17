@@ -40,11 +40,11 @@ const LoanContractReport = () => {
                 {type === 1 ? '+' : (type === 2 ? '-' : '')}{currency.format(balance)} 
             </div>
         )
-    }
+    };
 
     const isOverRefund = (refundDate, clearDate) => {
         return moment(clearDate).diff(moment(refundDate), 'days') > 1;
-    }
+    };
 
     return (
         <div className="content-wrapper">
@@ -59,7 +59,7 @@ const LoanContractReport = () => {
                 <div className="flex items-center justify-between mb-2">
                     <h1 className="text-xl font-bold">ทะเบียนคุม</h1>
 
-                    <a href={`${process.env.REACT_APP_API_URL}/loan-contracts/export`} target="_blank" className="btn btn-success btn-sm">
+                    <a href={`${process.env.REACT_APP_API_URL}/loan-contracts/export/${selectedYear.year()}`} target="_blank" className="btn btn-success btn-sm">
                         <i className="far fa-file-excel mr-1"></i>
                         Export
                     </a>
