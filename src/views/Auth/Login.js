@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row, Spinner } from 'react-bootstrap'
+import { FaEnvelope, FaEye, FaEyeSlash } from 'react-icons/fa'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { login, resetSuccess } from '../../features/slices/auth/authSlice'
@@ -16,6 +17,7 @@ const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { isSuccess, isLoading } = useSelector(state => state.auth);
+    const [visible, setVisible] = useState(false);
 
     useEffect(() => {
         if (isSuccess) {
@@ -39,7 +41,7 @@ const Login = () => {
                     <Formik
                         initialValues={{
                             email: 'sanyath007@gmail.com',
-                            password: '12345678'
+                            password: '4621008811'
                         }}
                         validationSchema={loginSchema}
                         onSubmit={handleSubmit}
@@ -49,26 +51,41 @@ const Login = () => {
                                 <Form>
                                     <Row className="mb-2">
                                     <Col>
-                                        <input
-                                            type="text"
-                                            name="email"
-                                            value={formik.values.email}
-                                            onChange={formik.handleChange}
-                                            className="form-control"
-                                            placeholder="Email"
-                                        />
+                                        <div className="form-control flex flex-row justify-between items-center">
+                                            <input
+                                                type="text"
+                                                name="email"
+                                                value={formik.values.email}
+                                                onChange={formik.handleChange}
+                                                className="outline-none w-[90%]"
+                                                placeholder="Email"
+                                            />
+                                            <span className="text-gray-500">
+                                                <FaEnvelope />
+                                            </span>
+                                        </div>
                                     </Col>
                                 </Row>
                                 <Row className="mb-4">
                                     <Col>
-                                        <input
-                                            type="password"
-                                            name="password"
-                                            value={formik.values.password}
-                                            onChange={formik.handleChange}
-                                            className="form-control"
-                                            placeholder="Password"
-                                        />
+                                        <div className="form-control flex flex-row justify-between items-center h-min-[34px]">
+                                            {!visible ? (
+                                            <input
+                                                type="password"
+                                                name="password"
+                                                value={formik.values.password}
+                                                onChange={formik.handleChange}
+                                                className="outline-none w-[90%]"
+                                                placeholder="Password"
+                                            />
+                                            ) : <span>{formik.values.password}</span>}
+                                            <span className="text-gray-500 cursor-pointer">
+                                                {visible
+                                                    ? <FaEye onClick={() => setVisible(!visible)} size={'18px'} />
+                                                    : <FaEyeSlash onClick={() => setVisible(!visible)} size={'18px'} />
+                                                }
+                                            </span>
+                                        </div>
                                     </Col>
                                 </Row>
 
