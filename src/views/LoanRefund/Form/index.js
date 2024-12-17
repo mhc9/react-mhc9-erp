@@ -108,7 +108,7 @@ const LoanRefundForm = ({ refund }) => {
 
     const handleRemoveItem = (formik, id, isNewRefund = false) => {
         /** Create new items array */
-        const newItems = removeItemWithFlag(formik.values.items, parseInt(id, 10), isNewRefund);
+        const newItems = removeItemWithFlag(formik.values.items, id, isNewRefund);
         const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1));
         const netTotal = parseFloat(formik.values.order_total) + itemTotal;
 
@@ -168,6 +168,8 @@ const LoanRefundForm = ({ refund }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.values.items);
+                
                 return (
                     <Form>
                         <ModalLoanContractList

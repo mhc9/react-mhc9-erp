@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
+import { v4 as uuid } from 'uuid'
 import {
     calculateTotalFromDescription,
     currency,
@@ -49,6 +50,7 @@ const AddExpense = ({ data, expenses, courses, refundType, onAddItem, onUpdateIt
         <Formik
             enableReinitialize
             initialValues={{
+                id: uuid(),
                 contract_detail_id: item ? item.contract_detail_id : '',
                 contract_detail: null,
                 description: item ? item.description : '',
