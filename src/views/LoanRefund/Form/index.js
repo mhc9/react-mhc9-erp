@@ -71,7 +71,7 @@ const LoanRefundForm = ({ refund }) => {
 
         /** Create new items array */
         const newItems = [...formik.values.items, contractDetail];
-        const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1));
+        const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1), (isRemoved) => isRemoved);
         const netTotal = parseFloat(formik.values.order_total) + itemTotal;
 
         /** Filter contractItems for AddExpense'expese prop */
@@ -103,20 +103,20 @@ const LoanRefundForm = ({ refund }) => {
 
         setEdittingItem(null);
         formik.setFieldValue('items', updatedItems);
-        formik.setFieldValue('net_total', currency.format(calculateNetTotal(updatedItems)));
+        formik.setFieldValue('net_total', currency.format(calculateNetTotal(updatedItems, (isRemoved) => isRemoved)));
     };
 
     const handleRemoveItem = (formik, id, isNewRefund = false) => {
         /** Create new items array */
         const newItems = removeItemWithFlag(formik.values.items, id, isNewRefund);
-        const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1));
+        const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1), (isRemoved) => isRemoved);
         const netTotal = parseFloat(formik.values.order_total) + itemTotal;
 
         /** Filter contractItems for AddExpense'expese prop */
         setContractItems(
             contract?.details
                     .filter(item => item.expense_group === 1)
-                    .filter(item => !newItems.some(it => parseInt(it.contract_detail_id, 10) === item.id))
+                    .filter(item => !newItems.some(it => (!it.removed && parseInt(it.contract_detail_id, 10) === item.id)))
         );
 
         /** คำนวณยอดคงเหลือและยอดคืนเกิน 20% หรือไม่ */
@@ -168,8 +168,6 @@ const LoanRefundForm = ({ refund }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik.values.items);
-                
                 return (
                     <Form>
                         <ModalLoanContractList
@@ -435,7 +433,11 @@ const LoanRefundForm = ({ refund }) => {
                                             />
 
                                             <ExpenseList
-                                                items={formik.values.items.filter(item => item.contract_detail?.expense_group === 1)}
+                                                items={
+                                                    formik.values.items
+                                                        .filter(item => !item.removed)
+                                                        .filter(item => item.contract_detail?.expense_group === 1)
+                                                }
                                                 courses={contract && [...contract?.loan?.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date))}
                                                 showButtons={true}
                                                 edittingItem={edittingItem}
@@ -471,7 +473,7 @@ const LoanRefundForm = ({ refund }) => {
 
                                                     // /** Create new items array */
                                                     const newItems = [...formik.values.items, order];
-                                                    const orderTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 2));
+                                                    const orderTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 2), (isRemoved) => isRemoved);
                                                     const netTotal = parseFloat(formik.values.item_total) + orderTotal;
 
                                                     formik.setFieldValue('items', newItems);
@@ -486,7 +488,7 @@ const LoanRefundForm = ({ refund }) => {
                                                 orders={formik.values.items.filter(item => item.contract_detail?.expense_group === 2)}
                                                 onRemove={(order) => {
                                                     const newItems = formik.values.items.filter(item => item.contract_detail_id !== order);
-                                                    const orderTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 2));
+                                                    const orderTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 2), (isRemoved) => isRemoved);
                                                     const netTotal = parseFloat(formik.values.item_total) + orderTotal;
 
                                                     formik.setFieldValue('items', newItems);
