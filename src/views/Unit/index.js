@@ -1,15 +1,32 @@
 import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { Breadcrumb } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUnits } from '../../features/slices/unit/unitSlice'
+import { getUnits, resetDeleted, resetSuccess } from '../../features/slices/unit/unitSlice'
 import UnitList from './List'
 import UnitForm from './Form'
 
 const Unit = () => {
     const dispatch = useDispatch();
-    const { units, pager } = useSelector(state => state.unit);
+    const { units, pager, isDeleted, isSuccess } = useSelector(state => state.unit);
     const [unit, setUnit] = useState(null);
     const [apiEndpoint, setApiEndpoint] = useState('');
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('บันทึกข้อมูลหน่วยนับสำเร็จ!!');
+            dispatch(resetSuccess());
+            dispatch(getUnits({ url: `/api/units` }));
+        }
+    }, [isSuccess]);
+
+    useEffect(() => {
+        if (isDeleted) {
+            toast.success('ลบข้อมูลหน่วยนับสำเร็จ!!');
+            dispatch(resetDeleted());
+            dispatch(getUnits({ url: `/api/units` }));
+        }
+    }, [isDeleted]);
 
     useEffect(() => {
         if (apiEndpoint === '') {

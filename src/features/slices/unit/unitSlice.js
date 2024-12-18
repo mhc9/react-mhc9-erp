@@ -35,8 +35,6 @@ export const store = createAsyncThunk("unit/store", async (data, { dispatch, rej
     try {
         const res = await api.post(`/api/units`, data);
 
-        dispatch(getUnits({ url: `/api/units` }));
-
         return res.data;
     } catch (error) {
         rejectWithValue(error);
@@ -162,3 +160,5 @@ export const unitSlice = createSlice({
 });
 
 export default unitSlice.reducer;
+
+export const { resetSuccess, resetDeleted } = unitSlice.actions;
