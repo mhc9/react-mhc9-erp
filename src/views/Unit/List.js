@@ -58,10 +58,10 @@ const UnitList = ({ units, pager, onEditting, onPageClick, onDeleted }) => {
                                 )}
                             </td>
                             <td className="text-center">
-                                <button onClick={() => onEditting(unit)} className="btn btn-sm btn-warning mr-1">
+                                <button className="btn btn-sm btn-warning px-1 mr-1" onClick={() => onEditting(unit)}>
                                     <FaPencilAlt />
                                 </button>
-                                <button className="btn btn-sm btn-danger" onClick={() => handleDelete(unit.id)}>
+                                <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(unit.id)}>
                                     <FaTrash />
                                 </button>
                             </td>

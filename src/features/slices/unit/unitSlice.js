@@ -7,12 +7,23 @@ const initialState = {
     pager: null,
     isLoading: false,
     isSuccess: false,
+    isDeleted: false,
     error: null
 };
 
 export const getUnits = createAsyncThunk("unit/getUnits", async ({ url }, { rejectWithValue }) => {
     try {
         const res = await api.get(url);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const getUnit = createAsyncThunk("unit/getUnit", async (id, { rejectWithValue }) => {
+    try {
+        const res = await api.get(`/api/units/${id}`);
 
         return res.data;
     } catch (error) {
@@ -34,9 +45,7 @@ export const store = createAsyncThunk("unit/store", async (data, { dispatch, rej
 
 export const update = createAsyncThunk("unit/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/units/${id}`, data);
-
-        dispatch(getUnits({ url: `/api/units` }));
+        const res = await api.post(`/api/units/${id}/update`, data);
 
         return res.data;
     } catch (error) {
@@ -44,11 +53,9 @@ export const update = createAsyncThunk("unit/update", async ({ id, data }, { dis
     }
 });
 
-export const destroy = createAsyncThunk("unit/destroy", async ({ id, data }, { dispatch, rejectWithValue }) => {
+export const destroy = createAsyncThunk("unit/destroy", async (id, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/units/${id}`, data);
-
-        dispatch(getUnits({ url: `/api/units` }));
+        const res = await api.post(`/api/units/${id}/delete`, {});
 
         return res.data;
     } catch (error) {
@@ -59,11 +66,19 @@ export const destroy = createAsyncThunk("unit/destroy", async ({ id, data }, { d
 export const unitSlice = createSlice({
     name: 'unit',
     initialState,
-    reducers: {},
+    reducers: {
+        resetSuccess: (state) => {
+            state.isSuccess = false;
+        },
+        resetDeleted: (state) => {
+            state.isDeleted = false;
+        },
+    },
     extraReducers: {
         [getUnits.pending]: (state) => {
             state.units = [];
             state.pager = null;
+            state.error = null;
             state.isLoading = true;
         },
         [getUnits.fulfilled]: (state, { payload }) => {
@@ -77,41 +92,70 @@ export const unitSlice = createSlice({
             state.isLoading = false;
             state.error = payload;
         },
-        [store.pending]: (state) => {
-            state.units = [];
-            state.pager = null;
+        [getUnit.pending]: (state) => {
+            state.unit = null;
+            state.error = null;
             state.isLoading = true;
         },
-        [store.fulfilled]: (state, { payload }) => {
+        [getUnit.fulfilled]: (state, { payload }) => {
+            const { data, ...pager } = payload;
+
+            state.units = data;
+            state.pager = pager;
             state.isLoading = false;
-            state.isSuccess = true;
+        },
+        [getUnit.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [store.pending]: (state) => {
+            state.isSuccess = false;
+            state.error = null;
+        },
+        [store.fulfilled]: (state, { payload }) => {
+            const { status, message, unit } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.unit = unit;
+            } else {
+                state.error = { message };
+            }
         },
         [store.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [update.pending]: (state) => {
-            state.units = [];
-            state.pager = null;
-            state.isLoading = true;
+            state.isSuccess = false;
+            state.error = null;
         },
         [update.fulfilled]: (state, { payload }) => {
-            state.isLoading = false;
-            state.isSuccess = true;
+            const { status, message, unit } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.unit = unit;
+            } else {
+                state.error = { message };
+            }
         },
         [update.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [destroy.pending]: (state) => {
-            state.isLoading = true;
+            state.isDeleted = false;
+            state.error = null;
         },
         [destroy.fulfilled]: (state, { payload }) => {
-            state.isLoading = false;
-            state.isSuccess = true;
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isDeleted = true;
+            } else {
+                state.error = { message };
+            }
         },
         [destroy.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
     }
