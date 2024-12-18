@@ -94,7 +94,7 @@ const RequisitionForm = ({ requisition }) => {
     }, [requisition]);
 
     const handleAddItem = (formik, item) => {
-        if (isExisted(formik.values.items.filter(item => !item.removed), item.item_id)) {
+        if (isExisted(formik.values.items.filter(item => !item.removed), 'item_id', item.item_id)) {
             toast.error("ไม่สามารถเลือกรายการซ้ำได้!!");
             return;
         }
@@ -198,6 +198,8 @@ const RequisitionForm = ({ requisition }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.values.items);
+                
                 return (
                     <Form>
                         {isLoading && <div className="text-center"><Loading /></div>}

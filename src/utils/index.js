@@ -94,8 +94,8 @@ export const generateQueryString = (inputs) => {
     return queryStr;
 };
 
-export const isExisted = (items, id) => {
-    return items.some(item => item.id === id);
+export const isExisted = (items, fieldName = 'id', id) => {
+    return items.some(item => item[fieldName] === id);
 };
 
 export const replaceExpensePattern = (pattern = '', replacement = '') => {
