@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Col, Row } from 'react-bootstrap'
 import moment from 'moment'
 import { getRequisitionWithHeadOfDepart } from '../../../features/slices/requisition/requisitionSlice'
 import { toLongTHDate, currency } from '../../../utils'
@@ -358,39 +359,45 @@ const RequisitionForm = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex mt-[20px]">
-                                    <div className="w-1/2 flex justify-center">
-                                        <div className="mt-[35px] text-center w-full">
-                                            <div className="flex flex-col items-center justify-center">
-                                                <p className="w-[200px] border-dashed border-b"></p>
-                                                <div className="signature leading-6">
-                                                    <p>({requisition?.requester?.prefix?.name+requisition?.requester?.firstname+ ' ' +requisition?.requester?.lastname})</p>
-                                                    {/* <p>{requisition?.requester?.position?.name}{requisition?.requester?.level?.name}</p> */}
-                                                    <p>ผู้ตรวจรับพัสดุ</p>
+                                <div className="memo-row">
+                                    {requisition.committees.length === 1 ? (
+                                        <div className="w-1/2 flex justify-center">
+                                            <div className="mt-[35px] text-center w-full">
+                                                <div className="flex flex-col items-center justify-center">
+                                                    <p className="w-[200px] border-dashed border-b"></p>
+                                                    <div className="signature leading-6">
+                                                        <p>({requisition.committees[0]?.employee?.prefix?.name+requisition.committees[0]?.employee?.firstname+ ' ' +requisition.committees[0]?.employee?.lastname})</p>
+                                                        {/* <p>{requisition.committees[0]?.employee?.position?.name}{requisition.committees[0]?.employee?.level?.name}</p> */}
+                                                        <p>ผู้ตรวจรับพัสดุ</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    ) : (
+                                        <Row>
+                                            {requisition.committees.map((committee, index) => (
+                                                <Col md={requisition.committees.length - 1 === index ? 12 : 6}>
+                                                    <div className="mt-[35px] text-center w-full">
+                                                        <div className="flex flex-col items-center justify-center">
+                                                            <p className="w-[200px] border-dashed border-b"></p>
+                                                            <div className="signature leading-6">
+                                                                <p>({committee?.employee?.prefix?.name+committee?.employee?.firstname+ ' ' +committee?.employee?.lastname})</p>
+                                                                {/* <p>{committee?.employee?.position?.name}{committee?.employee?.level?.name}</p> */}
+                                                                {index === 0 && <p>ประธานกรรมการ</p>}
+                                                                {index === 1 && <p>กรรมการ</p>}
+                                                                {index === 2 && <p>กรรมการและเลขานุการ</p>}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Col>
+                                            ))}
+                                        </Row>
+                                    )}
 
-                                    {/* <div className="w-1/2 flex justify-center">
-                                        <div className="mt-[35px] text-center w-full">
-                                            <div className="mb-5">
-                                                <i className="far fa-square"></i> ทราบ
-                                            </div>
-                                            <div className="flex flex-col items-center justify-center">
-                                                <p className="w-[200px] border-dashed border-b"></p>
-                                                <div className="signature">
-                                                    <p>( นายนิตย์  ทองเพชรศรี )</p>
-                                                    <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
-                                                    <p>ปฏิบัติราชการแทนอธิบดีกรมสุขภาพจิต</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> */}
                                 </div>
 
                                 <div className="mt-5">
-                                    หมายเหตุ  หากเพิ่มเติมคณะกรรมการสามารถดำเนินการภายใต้แบบแสดงความบริสุทธิ์ใจ ฯ นี้ได้โดยอนุโลม
+                                    หมายเหตุ  หากเพิ่มเติมคณะกรรมการสามารถดำเนินการภายใต้แบบแสดงความบริสุทธิ์ใจฯ นี้ได้โดยอนุโลม
                                 </div>
                             </div>
                         )}
