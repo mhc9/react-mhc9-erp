@@ -305,25 +305,30 @@ const RequisitionForm = () => {
                                 <div className="memo-paragraph">
                                     <div className="mb-2 flex flex-row justify-start items-start gap-2">
                                         ข้าพเจ้า
-                                        <p className="w-[320px] indent-0 border-dotted border-b text-center">นางณัฏฐา ศิริผล</p>
+                                        <p className="w-[320px] indent-0 border-dotted border-b pl-2">นางณัฏฐา ศิริผล</p>
                                         <span className="indent-0">(หัวหน้าเจ้าหน้าที่)</span>
                                     </div>
                                 </div>
                                 <div className="memo-paragraph">
                                     <div className="mb-2 flex flex-row justify-start items-start gap-2">
                                         ข้าพเจ้า
-                                        <p className="w-[320px] indent-0 border-dotted border-b text-center">นางสาวทิพปภา สีมาธรรมการย์</p>
+                                        <p className="w-[320px] indent-0 border-dotted border-b pl-2">นางสาวทิพปภา สีมาธรรมการย์</p>
                                         <span className="indent-0">(เจ้าหน้าที่)</span>
                                     </div>
                                 </div>
                                 <div className="memo-paragraph">
-                                    <div className="mb-2 flex flex-row justify-start items-start gap-2">
-                                        ข้าพเจ้า
-                                        <p className="w-[320px] indent-0 border-dotted border-b text-center">
-                                            {requisition?.requester?.prefix?.name+requisition?.requester?.firstname+ ' ' +requisition?.requester?.lastname}
-                                        </p>
-                                        <span className="indent-0">(ผู้ตรวจรับพัสดุ)</span>
-                                    </div>
+                                    {requisition.committees.map((committee, index) => (
+                                        <div className="mb-2 flex flex-row justify-start items-start gap-2">
+                                            ข้าพเจ้า
+                                            <p className="w-[320px] indent-0 border-dotted border-b pl-2">
+                                                {committee?.employee?.prefix?.name+committee?.employee?.firstname+ ' ' +committee?.employee?.lastname}
+                                            </p>
+                                            {requisition.committees.length === 1 && <span className="indent-0">(ผู้ตรวจรับพัสดุ)</span>}
+                                            {(requisition.committees.length > 1 && index === 0) && <span className="indent-0">(ประธานกรรมการ)</span>}
+                                            {(requisition.committees.length > 1 && index === 1) && <span className="indent-0">(กรรมการ)</span>}
+                                            {(requisition.committees.length > 1 && index === 2) && <span className="indent-0">(กรรมการและเลขานุการ)</span>}
+                                        </div>
+                                    ))}
                                 </div>
                                 <div className="memo-paragraph">
                                     <p className=" leading-6">
