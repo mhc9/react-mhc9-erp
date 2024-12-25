@@ -198,8 +198,6 @@ const RequisitionForm = ({ requisition }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik.values.items);
-                
                 return (
                     <Form>
                         {isLoading && <div className="text-center"><Loading /></div>}
@@ -501,8 +499,8 @@ const RequisitionForm = ({ requisition }) => {
 
                                             <Row>
                                                 <Col md={4}>
-                                                    <div className="row">
-                                                        <label htmlFor="" className="col-4 text-right pr-1">วันที่ต้องการใช้</label>
+                                                    <div className="flex flex-row justify-start items-center gap-1 ml-4">
+                                                        <label className="col-4 text-right pr-1">วันที่ต้องการใช้</label>
                                                         <div className="col-8 w-[50%] pl-1">
                                                             <DatePicker
                                                                 format="DD/MM/YYYY"
@@ -521,7 +519,7 @@ const RequisitionForm = ({ requisition }) => {
                                                 </Col>
                                                 <Col md={8}>
                                                     <div className="flex flex-row justify-end items-center gap-1">
-                                                        <div className="pr-1">รวมเป็นเงินทั้งสิ้น</div>
+                                                        <div className="text-right pr-1">รวมเป็นเงินทั้งสิ้น</div>
                                                         <div className="w-[22%]">
                                                             <input
                                                                 type="text"

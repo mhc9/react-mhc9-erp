@@ -108,20 +108,17 @@ const RequisitionDetail = () => {
                                         </Row>
                                         <Row>
                                             <Col className="pb-1">
-                                                <label htmlFor="">เรื่อง</label>
+                                                <label htmlFor="">รายละเอียดการจ้าง</label>
                                                 <div className="text-sm font-thin">
-                                                    {requisition.topic} จำนวน {requisition.item_count} รายการ
+                                                    {requisition.contract_desc}
                                                 </div>
                                             </Col>
                                         </Row>
                                         <Row>
                                             <Col md={9} className="pb-1">
-                                                <label htmlFor="">งบประมาณ</label>
-                                                <div className="input-group">
-                                                    <div className="text-sm font-thin">
-                                                        {requisition.budget?.activity?.name}
-                                                        <BudgetTypeBadge type={requisition.budget?.type}/>
-                                                    </div>
+                                                <label htmlFor="">เรื่อง</label>
+                                                <div className="text-sm font-thin">
+                                                    {requisition.topic} จำนวน {requisition.item_count} รายการ
                                                 </div>
                                             </Col>
                                             <Col className="pb-1">
@@ -131,16 +128,27 @@ const RequisitionDetail = () => {
                                                 </div>
                                             </Col>
                                         </Row>
-                                        <Row className="mb-2">
+                                        <Row>
                                             <Col className="pb-1">
-                                                <label htmlFor="">เหตุผลที่ขอ</label>
-                                                <div className="text-sm font-thin">{requisition.reason}</div>
+                                                <label htmlFor="">งบประมาณ</label>
+                                                <div className="input-group">
+                                                    <div className="text-sm font-thin">
+                                                        {requisition.budget?.activity?.name}
+                                                        <BudgetTypeBadge type={requisition.budget?.type}/>
+                                                    </div>
+                                                </div>
                                             </Col>
+                                        </Row>
+                                        <Row className="mb-2">
                                             <Col md={6} className="pb-1">
-                                                <label htmlFor="">โครงการ</label>
+                                                <label htmlFor="">โครงการ (ถ้ามี)</label>
                                                 <div className="text-sm font-thin">
                                                     {requisition.project_name ? requisition.project_name : '-'}
                                                 </div>
+                                            </Col>
+                                            <Col className="pb-1">
+                                                <label htmlFor="">เหตุผลที่ขอ</label>
+                                                <div className="text-sm font-thin">{requisition.reason}</div>
                                             </Col>
                                         </Row>
                                     </div>
@@ -228,21 +236,33 @@ const RequisitionDetail = () => {
                                             showButtons={false}
                                         />
 
-                                        <div className="flex flex-row justify-end items-center gap-1">
-                                            <div>รวมเป็นเงินทั้งสิ้น :</div>
-                                            <div className="w-[15%]">
-                                                <div className="text-right form-control font-bold">
-                                                    {currency.format(requisition.net_total)}
+                                        <Row>
+                                            <Col md={4}>
+                                                <div className="flex flex-row justify-start items-center gap-1 ml-4">
+                                                    <label className="text-right pr-1">วันที่ต้องการใช้ :</label>
+                                                    <div className="w-[50%] py-1">
+                                                        {toShortTHDate(requisition.desired_date)}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
+                                            </Col>
+                                            <Col md={8}>
+                                                <div className="flex flex-row justify-end items-center gap-1">
+                                                    <div>รวมเป็นเงินทั้งสิ้น :</div>
+                                                    <div className="w-[23%]">
+                                                        <div className="text-right form-control font-bold py-1">
+                                                            {currency.format(requisition.net_total)}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Col>
+                                        </Row>
                                     </div>
                                 </Col>
                             </Row>
                             <Row className="mb-2">
                                 <Col>
                                     <div className="border w-full pt-2 pb-4 px-2 rounded-md">
-                                        <h3 className="font-bold text-lg mb-1">ผู้ตรวจรับ</h3>
+                                        <h3 className="font-bold text-lg mb-1">ผู้ตรวจรับพัสดุ</h3>
                                         {requisition.committees.length > 0 && requisition.committees.map((committee, index) => (
                                             <div className="min-w-[50%] flex flex-row font-thin text-sm ml-4" key={committee.id}>
                                                 <span className="min-w-[45%]">
