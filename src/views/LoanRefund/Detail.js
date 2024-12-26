@@ -383,12 +383,12 @@ const LoanRefundDetail = () => {
                                         )}
                                         {(refund?.status === 'Y' && !refund?.receipt_no) && (
                                             <>
+                                                <Link to={`/preview/${id}/loan-refund/bill`} target="_blank" className="btn btn-success btn-sm mr-1">
+                                                    พิมพ์ใบรับใบสำคัญ
+                                                </Link>
                                                 <a href="#" className="btn btn-primary btn-sm" onClick={() => setShowReceiptForm(true)}>
                                                     บันทึกใบเสร็จ
                                                 </a>
-                                                <Link to={`/preview/${id}/loan-refund/bill`} target="_blank" className="btn btn-success btn-sm ml-1">
-                                                    พิมพ์ใบรับใบสำคัญ
-                                                </Link>
                                             </>
                                         )}
                                     </>
