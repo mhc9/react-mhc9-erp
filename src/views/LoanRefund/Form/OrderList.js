@@ -26,10 +26,18 @@ const OrderList = ({ orders, showButtons=true, edittingItem, onEdit, onRemove })
                                         {order.description && <span>({order.description})</span>}
                                     </span>
                                 )}
+                                <span className="ml-1 font-semibold">งบประมาณที่ยืม {currency.format(order.contract_detail?.total)} บาท</span>
                             </p>
                         </td>
                         <td className="text-right">{currency.format(order.total)}</td>
-                        <td className="text-right">{currency.format(order.total)}</td>
+                        <td className="text-right">
+                            {order.contract_detail?.total - order.total < 0 && <span className="text-red-600 font-bold">
+                                {currency.format(order.contract_detail?.total - order.total)}
+                            </span>}
+                            {order.contract_detail?.total - order.total >= 0 && <span className="text-green-600 font-bold">
+                                {currency.format(order.contract_detail?.total - order.total)}
+                            </span>}
+                        </td>
                         {showButtons && (
                             <td className="text-center">
                                 {(!edittingItem || edittingItem?.id !== order.id) && (

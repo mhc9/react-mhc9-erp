@@ -48,8 +48,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                                                         </>
                                                     )
                                                 }
-
-                                                {/* <span className="ml-1">งบประมาณ {currency.format(data.contract_detail?.total)} บาท</span> */}
+                                                <span className="ml-1 font-semibold">งบประมาณที่ยืม {currency.format(data.contract_detail?.total)} บาท</span>
                                             </p>
                                         </td>
                                         <td className="text-right">{currency.format(data.total)}</td>
@@ -108,8 +107,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                                                     </>
                                                 )
                                             }
-
-                                            {/* <span className="ml-1">งบประมาณ {currency.format(data.contract_detail?.total)} บาท</span> */}
+                                            <span className="ml-1 font-semibold">งบประมาณที่ยืม {currency.format(data.contract_detail?.total)} บาท</span>
                                         </p>
                                     </td>
                                     <td className="text-right">{currency.format(data.total)}</td>

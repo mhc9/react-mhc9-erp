@@ -282,6 +282,7 @@ const LoanRefundDetail = () => {
                                         <Tab eventKey="orders" title="รายการจัดซื้อจัดจ้าง">
                                             <OrderList
                                                 orders={refund?.details.filter(item => item.contract_detail?.expense_group === 2)}
+                                                showButtons={false}
                                             />
 
                                             <div className="flex flex-row justify-end items-center gap-2">
