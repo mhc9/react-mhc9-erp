@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { Col, FormGroup, Row } from 'react-bootstrap'
+import { DatePicker } from '@material-ui/pickers'
+import moment from 'moment'
 import { useGetInitialFormDataQuery } from '../../features/services/order/orderApi'
 import { generateQueryString } from '../../utils';
+import { useStyles } from '../../hooks/useStyles'
 import Loading from '../Loading';
 
 const initialFormData = {
@@ -9,8 +12,10 @@ const initialFormData = {
 };
 
 const OrderFilteringInputs = ({ initialFilters, onFilter }) => {
+    const classes = useStyles();
     const [filters, setFilters] = useState(initialFilters);
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
+    const [selectedYear, setSelectedYear] = useState(moment(`${filters.year}-01-01`));
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -32,6 +37,19 @@ const OrderFilteringInputs = ({ initialFilters, onFilter }) => {
         <Row className="mb-3">
             <Col>
                 <div className="filtering-wrapper border rounded-md flex flex-row gap-2 p-2">
+                    <div className="flex max-md:flex-col items-center min-md:gap-2">
+                        <label htmlFor="" className="w-[25%] max-md:w-[100%]">ปีงบ :</label>
+                        <DatePicker
+                            format="YYYY"
+                            views={['year']}
+                            value={selectedYear}
+                            onChange={(date) => {
+                                setSelectedYear(date);
+                                setFilters(prev => ({ ...prev, ['year']: moment(date).year() }));
+                            }}
+                            className={classes.muiTextFieldInput}
+                        />
+                    </div>
                     <FormGroup>
                         <input
                             type="btn"

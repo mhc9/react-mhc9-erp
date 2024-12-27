@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
@@ -9,14 +10,15 @@ import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
 import OrderFilteringInputs from '../../../components/Order/FilteringInputs'
 
-const initialFilters = {
-    po_no: '',
-    po_date: '',
-    supplier: '',
-    status: '1',
-};
-
 const OrderList = () => {
+    const [cookies] = useCookies();
+    const initialFilters = {
+        year:  cookies.budgetYear,
+        po_no: '',
+        po_date: '',
+        supplier: '',
+        status: '1',
+    };
     const dispatch = useDispatch();
     const { orders, pager, isLoading } = useSelector(state => state.order);
     const [apiEndpoint, setApiEndpoint] = useState('');
@@ -24,7 +26,7 @@ const OrderList = () => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getOrders({ url: '/api/orders/search?page=&status=1' }));
+            dispatch(getOrders({ url: `/api/orders/search?page=${params}` }));
         } else {
             dispatch(getOrders({ url: `${apiEndpoint}${params}` }));
         }
