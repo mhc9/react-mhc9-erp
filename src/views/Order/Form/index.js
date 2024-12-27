@@ -141,7 +141,7 @@ const OrderForm = () => {
                                 <label htmlFor="">เลขที่คำขอ</label>
                                 <div className="input-group">
                                     <div className="min-h-[34px] form-control font-thin text-sm bg-gray-100">
-                                        {selectedRequisition &&  <p>เลขที่ {selectedRequisition.pr_no} วันที่ {toShortTHDate(selectedRequisition.pr_date)}</p>}
+                                        {selectedRequisition && <p><b>เลขที่</b> {selectedRequisition.pr_no}<b className="ml-2">วันที่</b> {toShortTHDate(selectedRequisition.pr_date)}</p>}
                                     </div>
                                     <button type="button" className="btn btn-outline-secondary" onClick={() => setShowRequisitionModal(true)}>
                                         <FaSearch />
@@ -185,6 +185,7 @@ const OrderForm = () => {
                                 )}
                             </Col>
                         </Row>
+
                         {selectedRequisition && (
                             <Row className="mb-2">
                                 <Col>
@@ -193,7 +194,10 @@ const OrderForm = () => {
                                             <div className="border rounded-md text-sm font-thin px-3 py-2 bg-orange-200 min-h-[160px]">
                                                 <h4 className="font-bold underline mb-1">รายละเอียดคำขอซื้อ</h4>
                                                 <p>
-                                                    <b>เรื่อง</b> {selectedRequisition.topic} จำนวน {currency.format(selectedRequisition.item_count)} รายการ
+                                                    <b>เรื่อง</b> {selectedRequisition.topic}
+                                                </p>
+                                                <p>
+                                                    <b>จำนวน</b> {currency.format(selectedRequisition.item_count)} รายการ
                                                     <b className="ml-2">รวมเป็นเงิน</b> {currency.format(selectedRequisition.net_total)} บาท
                                                 </p>
                                                 <p>
@@ -201,10 +205,13 @@ const OrderForm = () => {
                                                     <b className="ml-2">ตำแหน่ง</b> {selectedRequisition.requester?.position?.name}{selectedRequisition.requester?.level && selectedRequisition.requester?.level?.name}
                                                     <b className="ml-2">หน่วยงาน</b> {selectedRequisition.division?.name}
                                                 </p>
-                                                <p><b>เหตุผลที่ขอ</b> {selectedRequisition.reason}</p>
-                                                <p className="text-sm text-blue-600">
-                                                    <b>ตาม</b> {selectedRequisition.budget?.project?.plan?.name} {selectedRequisition.budget?.project?.name}
-                                                    <span className="ml-2">{selectedRequisition.budget?.name}</span>
+                                                <p>
+                                                    <span><b>เหตุผลที่ขอ</b> {selectedRequisition.reason}</span>
+                                                    <span className="text-sm text-blue-600 ml-1">
+                                                        <span>ตาม{selectedRequisition.budget?.activity?.project?.plan?.name}</span>
+                                                        <span className="ml-1">{selectedRequisition.budget?.activity?.project?.name}</span>
+                                                        <span className="ml-1">{selectedRequisition.budget?.activity?.name}</span>
+                                                    </span>
                                                 </p>
                                             </div>
                                         </Col>
@@ -216,7 +223,17 @@ const OrderForm = () => {
                                                         {selectedSupplier.name}
                                                         <p><b>เลขประจำตัวผู้เสียภาษี</b> {selectedSupplier.tax_no}</p>
                                                         <p><b>โทร.</b> {selectedSupplier.tel}</p>
-                                                        <p><b>ที่อยู่</b> -</p>
+                                                        <p>
+                                                            <b>ที่อยู่</b> {selectedSupplier.address}
+                                                            <span className="ml-1">หมู่ {selectedSupplier.moo ? selectedSupplier.moo : '-'}</span>
+                                                            <span className="ml-1">ถนน {selectedSupplier.road ? selectedSupplier.road : '-'}</span>
+                                                            <span className="ml-1">
+                                                                <span className="ml-1">ต. {selectedSupplier.tambon ? selectedSupplier.tambon.name : '-'}</span>
+                                                                <span className="ml-1">อ. {selectedSupplier.amphur ? selectedSupplier.amphur.name : '-'}</span>
+                                                                <span className="ml-1">จ. {selectedSupplier.changwat ? selectedSupplier.changwat.name : '-'}</span>
+                                                            </span>
+                                                            <span className="ml-1">{selectedSupplier.zipcode ? selectedSupplier.zipcode : '-'}</span>
+                                                        </p>
                                                     </div>
                                                 )}
                                             </div>
@@ -225,6 +242,7 @@ const OrderForm = () => {
                                 </Col>
                             </Row>
                         )}
+
                         <Row className="mb-2 text-sm">
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
@@ -236,6 +254,7 @@ const OrderForm = () => {
                                         <span className="text-red-500 text-sm">{formik.errors.items}</span>
                                     )}
 
+                                    {/* Summary */}
                                     <Row className="mb-3">
                                         <Col md={4}>
                                             <div className="flex items-center justify-end p-0 mt-1">
@@ -275,13 +294,9 @@ const OrderForm = () => {
                                             <div className="flex items-center justify-end p-0 mt-1">
                                                 <label htmlFor="" className="mr-2">ครบกำหนดวันที่</label>
                                                 <div className="w-[40%]">
-                                                    <input
-                                                        type="text"
-                                                        name="deliver_date"
-                                                        value={formik.values.deliver_date}
-                                                        onChange={formik.handleChange}
-                                                        className="form-control text-sm text-center min-h-[34px] bg-gray-100"
-                                                    />
+                                                    <div className="form-control text-sm text-center min-h-[34px] bg-gray-100">
+                                                        {formik.values.deliver_date}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </Col>
