@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import { Col, FormGroup, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
+import { currency } from '../../../utils'
 import { store, update } from '../../../features/slices/comset/comsetSlice';
 import Loading from '../../../components/Loading'
 import ModalAssetList from '../../../components/Modals/AssetList';
@@ -214,9 +215,9 @@ const ComsetForm = ({ comset }) => {
                                                 <td className="text-center">{equipment.type?.name}</td>
                                                 <td className="text-center">{equipment.price}</td>
                                                 <td className="text-center">
-                                                    {equipment.status === 1 && <span className="badge rounded-pill text-bg-secondary ml-1">มาพร้อมเครื่อง</span>}
-                                                    {equipment.status === 2 && <span className="badge rounded-pill text-bg-primary ml-1">ติดตั้งเพิ่ม</span>}
-                                                    {equipment.status === 3 && <span className="badge rounded-pill text-bg-danger ml-1">เปลี่ยนอะไหล่</span>}
+                                                    {equipment.status === 1 && <span className="badge rounded-pill text-bg-secondary">มาพร้อมเครื่อง</span>}
+                                                    {equipment.status === 2 && <span className="badge rounded-pill text-bg-primary">ติดตั้งเพิ่ม</span>}
+                                                    {equipment.status === 3 && <span className="badge rounded-pill text-bg-danger">เปลี่ยนอะไหล่</span>}
                                                 </td>
                                                 <td className="text-center">
                                                     <a
@@ -276,7 +277,29 @@ const ComsetForm = ({ comset }) => {
                                         )}
                                         {formik.values.licenses.length > 0 && formik.values.licenses.map((license, index) => (
                                             <tr>
-                                                <td className="text-center"></td>
+                                                <td className="text-center">{index+1}</td>
+                                                <td>{license.description}</td>
+                                                <td className="text-center">{license.license_no}</td>
+                                                <td className="text-center">{currency.format(license.price)}</td>
+                                                <td className="text-center">
+                                                    {license.status === 1 && <span className="badge rounded-pill bg-success">ใช้งานอยู่</span>}
+                                                    {license.status === 2 && <span className="badge rounded-pill bg-secondary">หมดอายุ</span>}
+                                                </td>
+                                                <td className="text-center">
+                                                    <a
+                                                        href="#"
+                                                        className="btn btn-sm btn-warning px-1 mr-1"
+                                                        onClick={() => {
+                                                            setEdittingEquipment(license);
+                                                            setShowEquipmentForm(true);
+                                                        }}
+                                                    >
+                                                        <FaPencilAlt />
+                                                    </a>
+                                                    <a href="#" className="btn btn-sm btn-danger px-1">
+                                                        <FaTrash />
+                                                    </a>
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
