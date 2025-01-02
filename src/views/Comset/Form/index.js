@@ -70,13 +70,16 @@ const ComsetForm = ({ comset }) => {
                 description: (comset && comset.description) ? comset.description : '',
                 asset_id: comset ? comset.asset_id : '',
                 remark: (comset && comset.remark) ? comset.remark : '',
-                equipments: comset ? comset.equipments : [],
-                assets: comset ? comset.assets : []
+                equipments: (comset && comset.equipments) ? comset.equipments : [],
+                assets: (comset && comset.assets) ? comset.assets : [],
+                licenses: (comset && comset.licenses) ? comset.licenses : [],
             }}
             validationSchema={comsetSchema}
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.values);
+                
                 return (
                     <Form>
                         <ModalAssetList
@@ -180,7 +183,7 @@ const ComsetForm = ({ comset }) => {
                                     <div className="flex flex-row">
                                         <button
                                             type="button"
-                                            className="btn btn-outline-primary btn-sm"
+                                            className="btn btn-outline-dark btn-sm"
                                             onClick={() => setShowEquipmentForm(true)}
                                         >
                                             เพิ่มอุปกรณ์
@@ -192,10 +195,10 @@ const ComsetForm = ({ comset }) => {
                                     <thead>
                                         <tr>
                                             <th className="w-[5%] text-center">#</th>
-                                            <th className="w-[20%] text-center">ประเภทอุปกรณ์</th>
                                             <th>รายละเอียด</th>
-                                            <th className="w-[8%] text-center">ราคา</th>
-                                            <th className="w-[12%] text-center">สถานะ</th>
+                                            <th className="w-[20%] text-center">ประเภทอุปกรณ์</th>
+                                            <th className="w-[10%] text-center">ราคา</th>
+                                            <th className="w-[10%] text-center">สถานะ</th>
                                             <th className="w-[8%] text-center">Actions</th>
                                         </tr>
                                     </thead>
@@ -203,12 +206,12 @@ const ComsetForm = ({ comset }) => {
                                         {formik.values.equipments.map((equipment, index) => (
                                             <tr key={equipment.id}>
                                                 <td className="text-center">{index+1}</td>
-                                                <td className="text-center">{equipment.type?.name}</td>
                                                 <td>
                                                     <span>{equipment.brand?.name}</span>
                                                     <span className="mx-1">{equipment.model}</span>
                                                     <span>{equipment.capacity}</span>
                                                 </td>
+                                                <td className="text-center">{equipment.type?.name}</td>
                                                 <td className="text-center">{equipment.price}</td>
                                                 <td className="text-center">
                                                     {equipment.status === 1 && <span className="badge rounded-pill text-bg-secondary ml-1">มาพร้อมเครื่อง</span>}
@@ -230,6 +233,50 @@ const ComsetForm = ({ comset }) => {
                                                         <FaTrash />
                                                     </a>
                                                 </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <div className="flex flex-row items-center justify-between mb-2">
+                                    <h4 className="text-lg font-bold">ไลเซนส์</h4>
+                                    
+                                    <div className="flex flex-row">
+                                        <button
+                                            type="button"
+                                            className="btn btn-outline-dark btn-sm"
+                                            onClick={() => setShowEquipmentForm(true)}
+                                        >
+                                            เพิ่มไลเซนส์
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <table className="table table-bordered text-sm mb-1">
+                                    <thead>
+                                        <tr>
+                                            <th className="w-[5%] text-center">#</th>
+                                            <th>รายละเอียด</th>
+                                            <th className="w-[20%] text-center">ไลเซนส์</th>
+                                            <th className="w-[10%] text-center">ราคา</th>
+                                            <th className="w-[10%] text-center">สถานะ</th>
+                                            <th className="w-[8%] text-center">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {formik.values.licenses.length === 0 && (
+                                            <tr>
+                                                <td colSpan={6} className="text-center">
+                                                    <span className="text-red-600 text-sm">-- ไม่มีรายการ --</span>
+                                                </td>
+                                            </tr>
+                                        )}
+                                        {formik.values.licenses.length > 0 && formik.values.licenses.map((license, index) => (
+                                            <tr>
+                                                <td className="text-center"></td>
                                             </tr>
                                         ))}
                                     </tbody>
