@@ -246,7 +246,7 @@ const ComsetForm = ({ comset }) => {
                                                     <span>{equipment.capacity}</span>
                                                 </td>
                                                 <td className="text-center">{equipment.type?.name}</td>
-                                                <td className="text-center">{equipment.price}</td>
+                                                <td className="text-center">{currency.format(equipment.price)}</td>
                                                 <td className="text-center">
                                                     {equipment.status === 1 && <span className="badge rounded-pill text-bg-secondary">มาพร้อมเครื่อง</span>}
                                                     {equipment.status === 2 && <span className="badge rounded-pill text-bg-primary">ติดตั้งเพิ่ม</span>}
@@ -323,7 +323,7 @@ const ComsetForm = ({ comset }) => {
                                                         href="#"
                                                         className="btn btn-sm btn-warning px-1 mr-1"
                                                         onClick={() => {
-                                                            // setEdittingEquipment(license);
+                                                            setEdittingLicense(license);
                                                             setShowLicenseForm(true);
                                                         }}
                                                     >
