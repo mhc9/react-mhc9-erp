@@ -1,20 +1,27 @@
-import React from 'react'
-import { Form, Formik } from 'formik'
-import * as Yup from 'yup' 
+import React, { useState } from 'react'
 import { Col, Modal, Row } from 'react-bootstrap'
 import { FaEdit } from "react-icons/fa";
+import { DatePicker } from '@material-ui/pickers';
 import { v4 as uuid } from 'uuid'
+import { Form, Formik } from 'formik'
+import * as Yup from 'yup' 
 import { getFormDataItem } from '../../../utils'
+import { useStyles } from '../../../hooks/useStyles'
 import { useGetInitialFormDataQuery } from '../../../features/services/comset/comsetApi'
 import RadioButtonGroup from '../../FormControls/RadioButtonGroup';
+import moment from 'moment';
 
-const equipmentSchema = Yup.object().shape({
-    equipment_type_id: Yup.string().required(),
-    brand_id: Yup.string().required(),
+const licenseSchema = Yup.object().shape({
+    description: Yup.string().required(),
+    purchased_date: Yup.string().required(),
+    license_no: Yup.string().required(),
 });
 
-const ModalEquipmentForm = ({ isShow, onHide, onSubmit, data }) => {
+const ModalLicenseForm = ({ isShow, onHide, onSubmit, data }) => {
+    const classes = useStyles();
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
+    const [selectedPurchasedDate, setSelectedPurchasedDate] = useState(moment())
+    const [selectedRegisteredDate, setSelectedRegisteredDate] = useState(moment())
 
     const handleSubmit = (values, formik) => {
         onSubmit(values);
@@ -32,7 +39,7 @@ const ModalEquipmentForm = ({ isShow, onHide, onSubmit, data }) => {
             <Modal.Header closeButton className="py-1">
                 <Modal.Title className="text-xl">
                     <div className="flex flex-row items-center gap-1">
-                        <FaEdit />{data ? 'แก้ไขอุปกรณ์' : 'เพิ่มอุปกรณ์'}
+                        <FaEdit />{data ? 'แก้ไขไลเซนส์' : 'เพิ่มไลเซนส์'}
                     </div>
                 </Modal.Title>
             </Modal.Header>
@@ -41,17 +48,15 @@ const ModalEquipmentForm = ({ isShow, onHide, onSubmit, data }) => {
                     initialValues={{
                         ...data,
                         id: data ? data.id : uuid(),
-                        equipment_type_id: data ? data.equipment_type_id : '',
-                        brand_id: data ? data.brand_id : '',
-                        model: data ? data.model : '',
-                        capacity: data ? data.capacity : '',
                         description: (data && data.description) ? data.description : '',
+                        purchased_date: data ? data.purchased_date : '',
+                        registered_date: data ? data.registered_date : '',
+                        registered_email: data ? data.registered_email : '',
+                        license_no: data ? data.license_no : '',
                         price: (data && data.price) ? data.price : '',
-                        status: data ? data.status : '',
-                        type: (data && data.type) ? data.type : null,
-                        brand: (data && data.brand) ? data.brand : null
+                        status: data ? data.status : '1',
                     }}
-                    validationSchema={equipmentSchema}
+                    validationSchema={licenseSchema}
                     onSubmit={handleSubmit}
                 >
                     {(formik) => {
@@ -59,76 +64,83 @@ const ModalEquipmentForm = ({ isShow, onHide, onSubmit, data }) => {
                             <Form>
                                 <Row>
                                     <Col md={12} className="mb-2">
-                                        <div className="flex flex-row items-center">
-                                            <label className="w-[25%]">ประเภทอุปกรณ์</label>
-                                            <select
-                                                name="equipment_type_id"
-                                                value={formik.values.equipment_type_id}
-                                                onChange={(e) => {
-                                                    formik.handleChange(e);
-                                                    formik.setFieldValue('type', getFormDataItem(formData, 'types', parseInt(e.target.value, 10)));
-                                                }}
+                                        <div className="flex flex-row items-start">
+                                            <label className="w-[25%]">รายละเอียด</label>
+                                            <textarea
+                                                rows="4"
+                                                name="description"
+                                                value={formik.values.description}
+                                                onChange={formik.handleChange}
                                                 className="form-control text-sm"
-                                            >
-                                                <option value="">-- เลือกประเภทอุปกรณ์ --</option>
-                                                {(formData && formData.types) && formData.types.map(type => (
-                                                    <option value={type.id} key={type.id}>
-                                                        {type.name}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                            ></textarea>
                                         </div>
-                                        {(formik.errors.equipment_type_id && formik.touched.equipment_type_id) && (
-                                            <span className="text-red-500 text-sm">{formik.errors.equipment_type_id}</span>
+                                        {(formik.errors.description && formik.touched.description) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.description}</span>
                                         )}
                                     </Col>
                                     <Col md={12} className="mb-2">
                                         <div className="flex flex-row items-center">
-                                            <label className="w-[25%]">ยี่ห้อ</label>
-                                            <select
-                                                name="brand_id"
-                                                value={formik.values.brand_id}
-                                                onChange={(e) => {
-                                                    formik.handleChange(e);
-                                                    formik.setFieldValue('brand', getFormDataItem(formData, 'brands', parseInt(e.target.value, 10)));
+                                            <label className="w-[25%]">วันที่ซื้อ</label>
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedPurchasedDate}
+                                                onChange={(date) => {
+                                                    setSelectedPurchasedDate(date);
+                                                    formik.setFieldValue('purchased_date', date.format('YYYY-MM-DD'));
                                                 }}
-                                                className="form-control text-sm"
-                                            >
-                                                <option value="">-- เลือกยี่ห้อ --</option>
-                                                {(formData && formData.brands) && formData.brands.map(brand => (
-                                                    <option value={brand.id} key={brand.id}>
-                                                        {brand.name}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                                className={classes.muiTextFieldInput}
+                                            />
                                         </div>
-                                        {(formik.errors.brand_id && formik.touched.brand_id) && (
-                                            <span className="text-red-500 text-sm">{formik.errors.brand_id}</span>
+                                        {(formik.errors.purchased_date && formik.touched.purchased_date) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.purchased_date}</span>
                                         )}
                                     </Col>
                                     <Col md={12} className="mb-2">
                                         <div className="flex flex-row items-center">
-                                            <label className="w-[25%]">รุ่น</label>
-                                            <input
-                                                type="text"
-                                                name="model"
-                                                value={formik.values.model}
-                                                onChange={formik.handleChange}
-                                                className="form-control text-sm"
+                                            <label className="w-[25%]">วันที่ลงทะเบียน</label>
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedRegisteredDate}
+                                                onChange={(date) => {
+                                                    setSelectedRegisteredDate(date);
+                                                    formik.setFieldValue('registered_date', date.format('YYYY-MM-DD'));
+                                                }}
+                                                className={classes.muiTextFieldInput}
                                             />
                                         </div>
+                                        {(formik.errors.registered_date && formik.touched.registered_date) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.registered_date}</span>
+                                        )}
                                     </Col>
                                     <Col md={12} className="mb-2">
                                         <div className="flex flex-row items-center">
-                                            <label className="w-[25%]">ขนาด/ความจุ</label>
+                                            <label className="w-[25%]">อีเมลลงทะเบียน</label>
                                             <input
                                                 type="text"
-                                                name="capacity"
-                                                value={formik.values.capacity}
+                                                name="registered_email"
+                                                value={formik.values.registered_email}
                                                 onChange={formik.handleChange}
                                                 className="form-control text-sm"
                                             />
                                         </div>
+                                        {(formik.errors.registered_email && formik.touched.registered_email) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.registered_email}</span>
+                                        )}
+                                    </Col>
+                                    <Col md={12} className="mb-2">
+                                        <div className="flex flex-row items-center">
+                                            <label className="w-[25%]">ไลเซนส์</label>
+                                            <input
+                                                type="text"
+                                                name="license_no"
+                                                value={formik.values.license_no}
+                                                onChange={formik.handleChange}
+                                                className="form-control text-sm"
+                                            />
+                                        </div>
+                                        {(formik.errors.license_no && formik.touched.license_no) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.license_no}</span>
+                                        )}
                                     </Col>
                                     <Col md={12} className="mb-2">
                                         <div className="flex flex-row items-center">
@@ -141,27 +153,17 @@ const ModalEquipmentForm = ({ isShow, onHide, onSubmit, data }) => {
                                                 className="form-control text-sm"
                                             />
                                         </div>
-                                    </Col>
-                                    <Col md={12} className="mb-2">
-                                        <div className="flex flex-row items-start">
-                                            <label className="w-[25%]">รายละเอียด</label>
-                                            <textarea
-                                                name="description"
-                                                rows="4"
-                                                value={formik.values.description}
-                                                onChange={formik.handleChange}
-                                                className="form-control text-sm"
-                                            ></textarea>
-                                        </div>
+                                        {(formik.errors.price && formik.touched.price) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.price}</span>
+                                        )}
                                     </Col>
                                     <Col md={12} className="mb-2">
                                         <div className="flex flex-row items-start">
                                             <label className="w-[20%]">การติดตั้ง</label>
                                             <RadioButtonGroup
                                                 items={[
-                                                    { label: 'มาพร้อมเครื่อง', value: 1 },
-                                                    { label: 'ติดตั้งเพิ่ม', value: 2 },
-                                                    { label: 'เปลี่ยนอะไหล่', value: 3 },
+                                                    { label: 'ใช้งานอยู่', value: 1 },
+                                                    { label: 'หมดอายุ', value: 2 },
                                                 ]}
                                                 defaultValue={1}
                                                 selected={formik.values.status}
@@ -190,4 +192,4 @@ const ModalEquipmentForm = ({ isShow, onHide, onSubmit, data }) => {
     )
 }
 
-export default ModalEquipmentForm
+export default ModalLicenseForm

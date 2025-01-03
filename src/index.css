@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,800&family=Prompt:wght@200;400;500&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css');
-@import 'bootstrap/dist/css/bootstrap.min.css';
 @import url("../node_modules/devextreme/dist/css/dx.light.css");
 @import url("../node_modules/@devexpress/analytics-core/dist/css/dx-analytics.common.css");
 @import url("../node_modules/@devexpress/analytics-core/dist/css/dx-analytics.light.css");
@@ -48,13 +47,25 @@ a {
   text-decoration: none;
 }
 
+/** ================================= Custom ================================= */
 .login-box {
   box-shadow: 10px 10px 5px 0px rgba(140,136,136,0.75);
+}
+
+.login-box {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px;
 }
 
 .detail__list-container > span:hover i {
   transform: translateX(2px);
   transition: transform 200ms;
+}
+/** ================================= Custom ================================= */
+
+/** ================================= Bootstrap ================================= */
+/** Tabs */
+.nav-tabs {
+  margin-bottom: 0;
 }
 
 .tab-content {
@@ -66,10 +77,12 @@ a {
   padding: 10px;
 }
 
-.nav-tabs {
-  margin-bottom: 0;
+/** Modal */
+.modal-header .btn-close::before {
+  content: "\f00d";
+  visibility: visible;
+  font-family: 'Font Awesome\ 5 Free';
+  font-weight: 900;
+  @apply text-lg;
 }
-
-.login-box {
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px;
-}
+/** ================================= Bootstrap ================================= */

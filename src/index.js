@@ -9,8 +9,9 @@ import OverWriteMomentBE from './utils/OverwriteMomentBE'
 import store from "./features/store";
 import App from './App';
 
+import 'react-toastify/dist/ReactToastify.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import 'react-toastify/dist/ReactToastify.min.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

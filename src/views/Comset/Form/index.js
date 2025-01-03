@@ -9,6 +9,7 @@ import { store, update } from '../../../features/slices/comset/comsetSlice';
 import Loading from '../../../components/Loading'
 import ModalAssetList from '../../../components/Modals/AssetList';
 import ModalEquipmentForm from '../../../components/Modals/Equipment/Form'
+import ModalLicenseForm from '../../../components/Modals/License/Form'
 
 const comsetSchema = Yup.object().shape({
     asset_id: Yup.string().required(),
@@ -18,10 +19,12 @@ const comsetSchema = Yup.object().shape({
 const ComsetForm = ({ comset }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.comset);
+    const [asset, setAsset] = useState(null);
     const [showAssetList, setShowAssetList] = useState(false);
     const [showEquipmentForm, setShowEquipmentForm] = useState(false);
-    const [asset, setAsset] = useState(null);
+    const [showLicenseForm, setShowLicenseForm] = useState(false);
     const [edittingEquipment, setEdittingEquipment] = useState(null);
+    const [edittingLicense, setEdittingLicense] = useState(null);
 
     useEffect(() => {
         if (comset) {
@@ -55,6 +58,29 @@ const ComsetForm = ({ comset }) => {
         }
     };
 
+    const handleSubmitLicenseForm = (formik, license) => {
+        console.log(license);
+        
+        if (license.comset_id) {
+            const updated = formik.values.licenses.map(eq => {
+                if (eq.id === license.id) {
+                    return {
+                        ...license,
+                        updated: true
+                    }
+                }
+
+                return eq;
+            });
+
+            console.log(updated);
+            setEdittingLicense(null);
+            formik.setFieldValue('licenses', updated);
+        } else {
+            formik.setFieldValue('licenses', [ ...formik.values.licenses, license ]);
+        }
+    };
+
     const handleSubmit = (values, props) => {
         if (comset) {
             dispatch(update({ id: comset.id, data: values }));
@@ -80,7 +106,7 @@ const ComsetForm = ({ comset }) => {
         >
             {(formik) => {
                 console.log(formik.values);
-                
+
                 return (
                     <Form>
                         <ModalAssetList
@@ -94,6 +120,13 @@ const ComsetForm = ({ comset }) => {
                             onHide={() => setShowEquipmentForm(false)}
                             onSubmit={(equipment) => handleSubmitEquipmentForm(formik, equipment)}
                             data={edittingEquipment}
+                        />
+
+                        <ModalLicenseForm
+                            isShow={showLicenseForm}
+                            onHide={() => setShowLicenseForm(false)}
+                            onSubmit={(license) => handleSubmitLicenseForm(formik, license)}
+                            data={edittingLicense}
                         />
 
                         <Row className="mb-2">
@@ -249,7 +282,7 @@ const ComsetForm = ({ comset }) => {
                                         <button
                                             type="button"
                                             className="btn btn-outline-dark btn-sm"
-                                            onClick={() => setShowEquipmentForm(true)}
+                                            onClick={() => setShowLicenseForm(true)}
                                         >
                                             เพิ่มไลเซนส์
                                         </button>
@@ -290,8 +323,8 @@ const ComsetForm = ({ comset }) => {
                                                         href="#"
                                                         className="btn btn-sm btn-warning px-1 mr-1"
                                                         onClick={() => {
-                                                            setEdittingEquipment(license);
-                                                            setShowEquipmentForm(true);
+                                                            // setEdittingEquipment(license);
+                                                            setShowLicenseForm(true);
                                                         }}
                                                     >
                                                         <FaPencilAlt />
