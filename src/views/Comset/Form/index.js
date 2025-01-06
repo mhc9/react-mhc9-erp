@@ -343,10 +343,10 @@ const ComsetForm = ({ comset }) => {
                             <Col>
                                 <button
                                     type="submit"
-                                    className="btn btn-outline-primary float-right"
+                                    className={`btn ${comset ? 'btn-outline-secondary' : 'btn-outline-primary'} float-right`}
                                     disabled={formik.isSubmitting}
                                 >
-                                    บันทึก
+                                    {comset ? 'บันทึกการแก้ไข' : 'บันทึก'}
                                 </button>
                             </Col>
                         </Row>
