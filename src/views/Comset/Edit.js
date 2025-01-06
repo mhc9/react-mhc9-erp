@@ -21,6 +21,7 @@ const EditComset = () => {
     useEffect(() => {
         if (isSuccess) {
             dispatch(resetSuccess());
+            dispatch(getComset(id));
 
             toast.success('แก้ไขชุดคอมพิวเตอร์สำเร็จ!!');
         }

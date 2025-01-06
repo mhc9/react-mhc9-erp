@@ -59,8 +59,6 @@ const ComsetForm = ({ comset }) => {
     };
 
     const handleSubmitLicenseForm = (formik, license) => {
-        console.log(license);
-        
         if (license.comset_id) {
             const updated = formik.values.licenses.map(eq => {
                 if (eq.id === license.id) {
@@ -105,8 +103,6 @@ const ComsetForm = ({ comset }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik.values);
-
                 return (
                     <Form>
                         <ModalAssetList
