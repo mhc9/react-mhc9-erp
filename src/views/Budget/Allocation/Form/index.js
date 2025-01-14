@@ -25,7 +25,6 @@ const AllocationForm = ({ budget, allocation }) => {
     const dispatch = useDispatch();
     const [selectedDocDate, setSelectedDocDate] = useState(moment());
     const [showAgencyModal, setShowAgencyModal] = useState(false);
-    const [agency, setAgency] = useState(null);
 
     const handleSubmit = (data, formik) => {
         if (allocation) {
@@ -40,13 +39,13 @@ const AllocationForm = ({ budget, allocation }) => {
             enableReinitialize
             initialValues={{
                 budget_id: budget ? budget.id : '',
-                doc_no: '',
-                doc_date: '',
-                allocate_type_id: 1,
-                agency_id: '',
-                agency: null,
-                description: '',
-                total: '',
+                doc_no: allocation ? allocation.doc_no : '',
+                doc_date: allocation ? allocation.doc_date : '',
+                allocate_type_id: allocation ? allocation.allocate_type_id : 1,
+                agency_id: allocation ? allocation.agency_id : '',
+                agency: allocation ? allocation.agency : null,
+                description: (allocation && allocation.description) ? allocation.description : '',
+                total: allocation ? allocation.total : '',
             }}
             validationSchema={allocationSchema}
             onSubmit={handleSubmit}
@@ -58,7 +57,6 @@ const AllocationForm = ({ budget, allocation }) => {
                             isShow={showAgencyModal}
                             onHide={() => setShowAgencyModal(false)}
                             onSelect={(agency) => {
-                                setAgency(agency);
                                 formik.setFieldValue('agency_id', agency.id);
                                 formik.setFieldValue('agency', agency);
 
@@ -139,9 +137,9 @@ const AllocationForm = ({ budget, allocation }) => {
                                 <label htmlFor="">หน่วยรับ/คืน</label>
                                 <div className="input-group">
                                     <div className="form-control text-sm min-h-[34px]">
-                                        {agency?.name}
+                                        {formik.values.agency?.name}
                                     </div>
-                                    <button type="button" className="btn btn-secondary btn-sm" onClick={() => setShowAgencyModal(true)}>
+                                    <button type="button" className="btn btn-outline-dark btn-sm" onClick={() => setShowAgencyModal(true)}>
                                         <FaSearch />
                                     </button>
                                 </div>
@@ -180,8 +178,8 @@ const AllocationForm = ({ budget, allocation }) => {
                         </Row>
                         
                         <div className="flex justify-end">
-                            <button type="submit" className="btn btn-outline-primary btn-sm">
-                                บันทึก
+                            <button type="submit" className={`btn ${allocation ? 'btn-outline-secondary' : 'btn-outline-primary'} btn-sm`}>
+                                {allocation ? 'บันทึกการแก้ไข' : 'บันทึก'}
                             </button>
                         </div>
                     </Form>
