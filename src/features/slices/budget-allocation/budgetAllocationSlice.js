@@ -31,7 +31,7 @@ export const getAllAllocations = createAsyncThunk("allocation/getAllAllocations"
     }
 });
 
-export const getAllocation = createAsyncThunk("allocation/getAllocation", async ({ id }, { rejectWithValue }) => {
+export const getAllocation = createAsyncThunk("allocation/getAllocation", async (id, { rejectWithValue }) => {
     try {
         const res = await api.get(`/api/budget-allocations/${id}`);
 
@@ -65,19 +65,15 @@ export const update = createAsyncThunk("allocation/update", async ({ id, data },
     try {
         const res = await api.post(`/api/budget-allocations/${id}/update`, data);
 
-        dispatch(getAllocations({ url: '/api/budget-allocations' }));
-
         return res.data;
     } catch (error) {
         rejectWithValue(error);
     }
 });
 
-export const destroy = createAsyncThunk("allocation/destroy", async ({ id }, { dispatch, rejectWithValue }) => {
+export const destroy = createAsyncThunk("allocation/destroy", async (id, { dispatch, rejectWithValue }) => {
     try {
         const res = await api.post(`/api/budget-allocations/${id}/delete`);
-
-        dispatch(getAllocations({ url: '/api/budget-allocations' }));
 
         return res.data;
     } catch (error) {

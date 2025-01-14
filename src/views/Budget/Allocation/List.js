@@ -28,9 +28,10 @@ const AllocationList = () => {
         }
     }, [endpoint]);
 
-    const handleDelete = (id) => {
-        if (window.confirm("คุณต้องการลบรายการจัดสรรเงินใช่หรือไม่?")) {
-            dispatch(destroy(id));
+    const handleDelete = (allocationId) => {
+        if (window.confirm(`คุณต้องการลบรายการจัดสรรเงิน ID: ${allocationId} ใช่หรือไม่?`)) {
+            dispatch(destroy(allocationId));
+            dispatch(getAllocationsByBudget(id));
         }
     };
 
