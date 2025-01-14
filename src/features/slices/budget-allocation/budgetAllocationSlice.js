@@ -7,6 +7,7 @@ const initialState = {
     pager: null,
     isLoading: false,
     isSuccess: false,
+    isDeleted: false,
     isUploaded: false,
     error: null
 };
@@ -100,6 +101,9 @@ export const budgetAllocationSlice = createSlice({
         resetSuccess: (state) => {
             state.isSuccess = false;
         },
+        resetDeleted: (state) => {
+            state.isDeleted = false;
+        },
         resetUploaded: (state) => {
             state.isUploaded = false;
         },
@@ -165,42 +169,51 @@ export const budgetAllocationSlice = createSlice({
             state.error = payload;
         },
         [store.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
-            state.isSuccess = true;
+            const { status, message, id } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+            } else {
+                state.error = { message };
+            }
         },
         [store.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [update.pending]: (state) => {
-            state.isLoading = true;
             state.isSuccess = false;
             state.error = null;
         },
         [update.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
-            state.isSuccess = true;
+            const { status, message, id } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+            } else {
+                state.error = { message };
+            }
         },
         [update.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [destroy.pending]: (state) => {
-            state.isLoading = true;
-            state.isSuccess = false;
+            state.isDeleted = false;
             state.error = null;
         },
         [destroy.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
-            state.isSuccess = true;
+            const { status, message, id } = payload;
+
+            if (status === 1) {
+                state.isDeleted = true;
+            } else {
+                state.error = { message };
+            }
         },
         [destroy.rejected]: (state, { payload }) => {
-            state.isLoading = false;
             state.error = payload;
         },
         [upload.pending]: (state) => {
@@ -213,7 +226,6 @@ export const budgetAllocationSlice = createSlice({
             if (status === 1) {
                 state.isUploaded = true;
             } else {
-                state.isUploaded = false;
                 state.error = { message };
             }
         },
@@ -225,4 +237,4 @@ export const budgetAllocationSlice = createSlice({
 
 export default budgetAllocationSlice.reducer;
 
-export const { resetSuccess, resetUploaded, updateImage } = budgetAllocationSlice.actions;
+export const { resetSuccess, resetDeleted, resetUploaded, updateImage } = budgetAllocationSlice.actions;
