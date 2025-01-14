@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { getAllocationsByBudget, destroy } from '../../../features/slices/budget-allocation/budgetAllocationSlice'
+import { getAllocationsByBudget, destroy, resetDeleted } from '../../../features/slices/budget-allocation/budgetAllocationSlice'
 import { getBudget } from '../../../features/slices/budget/budgetSlice'
 import { currency, toShortTHDate } from '../../../utils'
 import Loading from '../../../components/Loading'
@@ -12,7 +13,7 @@ import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
 const AllocationList = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { allocations, pager, isLoading } = useSelector(state => state.budgetAllocation);
+    const { allocations, pager, isLoading, isDeleted } = useSelector(state => state.budgetAllocation);
     const { budget } = useSelector(state => state.budget);
     const [endpoint, setEndpoint] = useState('');
 
@@ -28,10 +29,20 @@ const AllocationList = () => {
         }
     }, [endpoint]);
 
+    useEffect(() => {
+        if (isDeleted) {
+            toast.success("ลบข้อมูลจัดสรรเงินสำเร็จ!!");
+            dispatch(resetDeleted());
+
+            // re-fetch data
+            dispatch(getBudget(id))
+            dispatch(getAllocationsByBudget(id));
+        }
+    }, [isDeleted]);
+
     const handleDelete = (allocationId) => {
         if (window.confirm(`คุณต้องการลบรายการจัดสรรเงิน ID: ${allocationId} ใช่หรือไม่?`)) {
             dispatch(destroy(allocationId));
-            dispatch(getAllocationsByBudget(id));
         }
     };
 
