@@ -128,7 +128,7 @@ const AllocationForm = ({ budget, allocation }) => {
                                             value="2"
                                             checked={parseInt(formik.values.allocate_type_id, 10) === 2}
                                         />
-                                        <label>โอนคืน</label>
+                                        <label>โอนออก</label>
                                     </label>
                                 </div>
                                 {(formik.errors.allocate_type_id && formik.touched.allocate_type_id) && (
