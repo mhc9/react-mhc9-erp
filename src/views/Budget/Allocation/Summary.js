@@ -61,7 +61,7 @@ const AllocationSummary = () => {
                                 <th className="w-[5%] text-center">#</th>
                                 <th>กิจกรรม</th>
                                 <th className="w-[8%] text-center">ปีงบ</th>
-                                <th className="w-[10%] text-center">จำนวนรับโอน</th>
+                                <th className="w-[10%] text-center">จำนวนการโอน</th>
                                 <th className="w-[10%] text-center">ยอดจัดสรร</th>
                                 <th className="w-[8%] text-center">Actions</th>
                             </tr>
