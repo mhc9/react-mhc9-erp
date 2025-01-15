@@ -148,16 +148,22 @@ const AllocationForm = ({ budget, allocation }) => {
                                 )}
                             </Col>
                             <Col className="mb-2">
-                                <label htmlFor="">ยอดรับโอน</label>
-                                <div className="input-group">
-                                    <input
-                                        type="text"
-                                        name="total"
-                                        value={formik.values.total}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm mr-1"
-                                    /> บาท
-                                </div>
+                                <label htmlFor="">ยอด{formik.values.allocate_type_id === '1' ? 'รับโอน' : 'โอนออก'}</label>
+                                {(!allocation || (allocation && allocation.status === 1)) ? (
+                                    <div className="input-group">
+                                        <input
+                                            type="text"
+                                            name="total"
+                                            value={formik.values.total}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm mr-1"
+                                        /> บาท
+                                    </div>
+                                ) : (
+                                    <div className="form-control text-sm bg-gray-200 cursor-not-allowed">
+                                        {currency.format(formik.values.total)}
+                                    </div>
+                                )}
                                 {(formik.errors.total && formik.touched.total) && (
                                     <span className="text-red-500 text-sm">{formik.errors.total}</span>
                                 )}
