@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { currency, replaceExpensePatternFromDesc, toShortTHDate } from '../../utils'
+import { currency, replaceExpensePatternFromDesc, toLongTHDateRange } from '../../utils'
 
 const ExpenseList = ({ items, courses, showButtons=true, edittingItem, onEditItem, onRemoveItem }) => {
     const renderExpenseRow = (data, index) => {
@@ -68,7 +68,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem, onEditIte
                                 <tr>
                                     <td colSpan={showButtons ? 4 : 3}>
                                         {/* รุ่นที่ {course.seq_no} */}
-                                        {course?.course_date && <span className="mr-1">วันที่ {toShortTHDate(course?.course_date)}</span>} 
+                                        {course?.course_date && <span className="mr-1">วันที่ {toLongTHDateRange(course?.course_date, course?.course_edate)}</span>} 
                                         ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
                                     </td>
                                 </tr>

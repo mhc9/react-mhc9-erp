@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
-import { calculateTotalFromDescription, getPatternOfExpense, toShortTHDate, getFormDataItem } from '../../utils'
+import { calculateTotalFromDescription, getPatternOfExpense, toLongTHDateRange, getFormDataItem } from '../../utils'
 // import ModalAddItemDesc from '../Modals/AddItemDesc'
 
 const itemSchema = Yup.object().shape({
@@ -68,7 +68,7 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                                     {courses && courses.map(course => (
                                         <option value={course.id} key={course.id}>
                                             {/* รุ่นที่ {course.seq_no} */}
-                                            {course?.course_date && <>วันที่ {toShortTHDate(course?.course_date)}</>} 
+                                            {course?.course_date && <>วันที่ {toLongTHDateRange(course?.course_date, course?.course_edate)}</>} 
                                             ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
                                         </option>
                                     ))}
