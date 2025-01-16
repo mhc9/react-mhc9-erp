@@ -83,23 +83,35 @@ const RequisitionForm = () => {
                                             <span className="ml-1">พร้อมทั้งขอเสนอชื่อแต่งตั้งผู้รับผิดชอบ หรือคณะกรรมการตรวจรับพัสดุ (กรณีวงเงินไม่เกิน ๑๐๐,๐๐๐ บาท) ดังต่อไปนี้</span>
                                         </p>
                                     </div>
-                                    <div className="indent-[2.5cm] mb-2">
-                                        ผู้กำหนดรายละเอียดขอบเขตของงานหรือรายละเอียดคุณลักษณะเฉพาะ
-                                        <p className="indent-[3cm]">
-                                            {requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname}
-                                            {' '}ตำแหน่ง {requisition.requester.position?.name}{requisition.requester.level?.name}
-                                        </p>
-                                    </div>
-                                    <div className="indent-[2.5cm]">
-                                        ผู้ตรวจรับพัสดุ
-                                        {requisition.committees.map((com, index) => (
-                                            <p key={com.id} className="indent-[3cm]">
-                                                {requisition.committees.length > 1 && <span>{index+1}. </span>}
-                                                {com.employee.prefix.name+com.employee.firstname+ ' ' +com.employee.lastname}
-                                                {' '}ตำแหน่ง {com.employee.position?.name}{com.employee.level?.name}
+                                    {(requisition.committees.length === 1 && requisition.committees[0].employee_id === requisition.requester.id) ? (
+                                        <div className="indent-[2.5cm] mb-2">
+                                            ผู้กำหนดรายละเอียดขอบเขตของงานหรือรายละเอียดคุณลักษณะเฉพาะ
+                                            <p className="indent-[3cm]">
+                                                {requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname}
+                                                {' '}ตำแหน่ง {requisition.requester.position?.name}{requisition.requester.level?.name}
                                             </p>
-                                        ))}
-                                    </div>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <div className="indent-[2.5cm] mb-2">
+                                                ผู้กำหนดรายละเอียดขอบเขตของงานหรือรายละเอียดคุณลักษณะเฉพาะ/ผู้ตรวจรับพัสดุ
+                                                <p className="indent-[3cm]">
+                                                    {requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname}
+                                                    {' '}ตำแหน่ง {requisition.requester.position?.name}{requisition.requester.level?.name}
+                                                </p>
+                                            </div>
+                                            <div className="indent-[2.5cm]">
+                                                ผู้ตรวจรับพัสดุ
+                                                {requisition.committees.map((com, index) => (
+                                                    <p key={com.id} className="indent-[3cm]">
+                                                        {requisition.committees.length > 1 && <span>{index+1}. </span>}
+                                                        {com.employee.prefix.name+com.employee.firstname+ ' ' +com.employee.lastname}
+                                                        {' '}ตำแหน่ง {com.employee.position?.name}{com.employee.level?.name}
+                                                    </p>
+                                                ))}
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
                                 <div className="memo-paragraph leading-6">
                                     <span className="with-compressed-2x">จึงเรียนมาเพื่อโปรดพิจารณา หากเห็นชอบขอได้โปรดอนุมัติหลักการและขออนุมัติงบประมาณ</span>
@@ -348,7 +360,8 @@ const RequisitionForm = () => {
                                             <div className="flex flex-col items-center justify-center">
                                                 <p className="w-[200px] border-dashed border-b"></p>
                                                 <div className="signature">
-                                                    <p>(หัวหน้าเจ้าหน้าที่)</p>
+                                                    <p>(นางณัฏฐา ศิริผล)</p>
+                                                    <p>หัวหน้าเจ้าหน้าที่</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -358,7 +371,8 @@ const RequisitionForm = () => {
                                             <div className="flex flex-col items-center justify-center">
                                                 <p className="w-[200px] border-dashed border-b"></p>
                                                 <div className="signature">
-                                                    <p>(เจ้าหน้าที่)</p>
+                                                    <p>(นางสาวทิพปภา สีมาธรรมการย์)</p>
+                                                    <p>เจ้าหน้าที่</p>
                                                 </div>
                                             </div>
                                         </div>
