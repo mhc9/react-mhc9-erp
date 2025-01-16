@@ -85,7 +85,7 @@ const RequisitionForm = () => {
                                     </div>
                                     {(requisition.committees.length === 1 && requisition.committees[0].employee_id === requisition.requester.id) ? (
                                         <div className="indent-[2.5cm] mb-2">
-                                            ผู้กำหนดรายละเอียดขอบเขตของงานหรือรายละเอียดคุณลักษณะเฉพาะ
+                                            ผู้กำหนดรายละเอียดขอบเขตของงานหรือรายละเอียดคุณลักษณะเฉพาะ/ผู้ตรวจรับพัสดุ
                                             <p className="indent-[3cm]">
                                                 {requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname}
                                                 {' '}ตำแหน่ง {requisition.requester.position?.name}{requisition.requester.level?.name}
@@ -94,7 +94,7 @@ const RequisitionForm = () => {
                                     ) : (
                                         <>
                                             <div className="indent-[2.5cm] mb-2">
-                                                ผู้กำหนดรายละเอียดขอบเขตของงานหรือรายละเอียดคุณลักษณะเฉพาะ/ผู้ตรวจรับพัสดุ
+                                                ผู้กำหนดรายละเอียดขอบเขตของงานหรือรายละเอียดคุณลักษณะเฉพาะ
                                                 <p className="indent-[3cm]">
                                                     {requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname}
                                                     {' '}ตำแหน่ง {requisition.requester.position?.name}{requisition.requester.level?.name}
