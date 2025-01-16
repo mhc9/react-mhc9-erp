@@ -76,6 +76,42 @@ export const toLongTHDateWithBE = (dateStr) => {
     return `${parseInt(day, 10)} ${MONTH_NAMES[parseInt(month) - 1]} พ.ศ. ${parseInt(year, 10) + 543}`;
 }
 
+export const toShortTHDateRange = (startDate, endDate) => {
+    if (!startDate || startDate === '') return '';
+
+    const [syear, smonth, sday] = startDate.split('-');
+    
+    if (!endDate) {
+        return `${sday}/${smonth}/${parseInt(syear, 10) + 543}`;
+    } else {
+        const [eyear, emonth, eday] = endDate.split('-');
+
+        if (syear === eyear && smonth === emonth) {
+            return `${sday}-${eday}/${smonth}/${parseInt(syear, 10) + 543}`;
+        } else {
+            return `${sday}/${smonth}/${parseInt(syear, 10) + 543}-${eday}/${emonth}/${parseInt(eyear, 10) + 543}`;
+        }
+    }
+};
+
+export const toLongTHDateRange = (startDate, endDate) => {
+    if (!startDate || startDate === '') return '';
+
+    const [syear, smonth, sday] = startDate.split('-');
+    
+    if (!endDate) {
+        return `${sday}/${smonth}/${parseInt(syear, 10) + 543}`;
+    } else {
+        const [eyear, emonth, eday] = endDate.split('-');
+
+        if (syear === eyear && smonth === emonth) {
+            return `${sday}-${eday} ${MONTH_NAMES[parseInt(smonth) - 1]} ${parseInt(syear, 10) + 543}`;
+        } else {
+            return `${sday} ${MONTH_NAMES[parseInt(smonth) - 1]} ${parseInt(syear, 10) + 543}-${eday} ${MONTH_NAMES[parseInt(emonth) - 1]} ${parseInt(eyear, 10) + 543}`;
+        }
+    }
+};
+
 export const filterAmphursByChangwat = (changwat, amphurs = []) => {
     return amphurs.filter(amp => amp.chw_id === changwat);
 };

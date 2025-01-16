@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { FaTimes } from 'react-icons/fa'
-import { toShortTHDate } from '../../../utils'
+import { toShortTHDate, toLongTHDateRange } from '../../../utils'
 
 const CourseList = ({ courses, onRemoveCourse }) => {
     return (
@@ -16,7 +16,7 @@ const CourseList = ({ courses, onRemoveCourse }) => {
                                 {!course.removed && (
                                     <li className="hover:bg-blue-300 py-1 px-2 rounded-md">
                                         {/* - รุ่นที่ {course.seq_no ? course.seq_no : ++index} */}
-                                        {++index}.{course?.course_date && <span className="ml-1">วันที่ {toShortTHDate(course?.course_date)}</span>} 
+                                        {++index}.{course?.course_date && <span className="ml-1">วันที่ {toLongTHDateRange(course?.course_date, course?.course_edate)}</span>} 
                                         <span className="ml-1">
                                             ณ {course?.room && <span className="mr-1">{course.room}</span>}
                                             {course?.place?.name} จ.{course?.place?.changwat?.name}
