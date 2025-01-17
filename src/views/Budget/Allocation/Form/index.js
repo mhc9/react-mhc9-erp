@@ -10,6 +10,7 @@ import { currency } from '../../../../utils'
 import { store, update } from '../../../../features/slices/budget-allocation/budgetAllocationSlice'
 import BudgetTypeBadge from '../../../../components/Budget/BudgetTypeBadge'
 import ModalAgencyList from '../../../../components/Modals/Agency/List'
+import ModalAgencyForm from '../../../../components/Modals/Agency/Form'
 
 const allocationSchema = Yup.object().shape({
     budget_id: Yup.string().required(),
@@ -25,6 +26,7 @@ const AllocationForm = ({ budget, allocation }) => {
     const dispatch = useDispatch();
     const [selectedDocDate, setSelectedDocDate] = useState(moment());
     const [showAgencyModal, setShowAgencyModal] = useState(false);
+    const [showAgencyForm, setShowAgencyForm] = useState(false);
 
     const handleSubmit = (data, formik) => {
         if (allocation) {
@@ -57,6 +59,17 @@ const AllocationForm = ({ budget, allocation }) => {
                             isShow={showAgencyModal}
                             onHide={() => setShowAgencyModal(false)}
                             onSelect={(agency) => {
+                                formik.setFieldValue('agency_id', agency.id);
+                                formik.setFieldValue('agency', agency);
+
+                                setTimeout(() => formik.setFieldTouched('agency_id', true), 2000);
+                            }}
+                        />
+
+                        <ModalAgencyForm
+                            isShow={showAgencyForm}
+                            onHide={() => setShowAgencyForm(false)}
+                            onSubmit={(agency) => {
                                 formik.setFieldValue('agency_id', agency.id);
                                 formik.setFieldValue('agency', agency);
 
@@ -141,6 +154,9 @@ const AllocationForm = ({ budget, allocation }) => {
                                     </div>
                                     <button type="button" className="btn btn-outline-dark btn-sm" onClick={() => setShowAgencyModal(true)}>
                                         <FaSearch />
+                                    </button>
+                                    <button type="button" className="btn btn-outline-primary btn-sm" onClick={() => setShowAgencyForm(true)}>
+                                        เพิ่ม
                                     </button>
                                 </div>
                                 {(formik.errors.agency_id && formik.touched.agency_id) && (
