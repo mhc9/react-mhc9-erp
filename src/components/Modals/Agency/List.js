@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap'
 import { getAgencies } from '../../../features/slices/agency/agencySlice';
 import Loading from '../../Loading';
-// import FilteringInputs from './FilteringInputs';
+import FilteringInputs from './FilteringInputs';
 import Pagination from '../../Pagination'
 
 const initialFilters = {
@@ -20,7 +20,7 @@ const ModalAgencyList = ({ isShow, onHide, onSelect }) => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getAgencies({ url: '/api/agencies/search?page=' }));
+            dispatch(getAgencies({ url: `/api/agencies/search?page=${params}` }));
         } else {
             dispatch(getAgencies({ url: `${apiEndpoint}${params}` }));
         }
@@ -36,10 +36,13 @@ const ModalAgencyList = ({ isShow, onHide, onSelect }) => {
                 <Modal.Title>รายการหน่วยงาน</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {/* <FilteringInputs
+                <FilteringInputs
                     initialFilters={initialFilters}
-                    onFilter={(params) => setParams(params)}
-                /> */}
+                    onFilter={(params) => {
+                        setParams(params);
+                        setApiEndpoint(prev => prev === '' ? '/api/agencies/search?page=' : '');
+                    }}
+                />
 
                 <div className="mt-2">
                     <table className="table table-bordered text-sm mb-2">
