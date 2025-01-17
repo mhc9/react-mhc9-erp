@@ -192,6 +192,7 @@ const RequisitionForm = ({ requisition }) => {
                 item_count: requisition ? requisition.item_count : 0,
                 net_total: requisition ? requisition.net_total : '',
                 items: requisition ? requisition.details : [],
+                budgets: requisition ? requisition.budgets : [],
                 committees: requisition ? requisition.committees : [] 
             }}
             validationSchema={requisitionSchema}
