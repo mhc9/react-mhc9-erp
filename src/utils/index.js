@@ -98,16 +98,17 @@ export const toLongTHDateRange = (startDate, endDate) => {
     if (!startDate || startDate === '') return '';
 
     const [syear, smonth, sday] = startDate.split('-');
-    
-    if (!endDate) {
-        return `${sday}/${smonth}/${parseInt(syear, 10) + 543}`;
+
+    /** ถ้าวันที่สิ้นสุดไม่ได้ระบุ หรือ วันที่เริ่มกับวันที่สิ้นสุดเป็นวันเดียวกัน */
+    if (!endDate || (endDate && moment(endDate).diff(moment(startDate), "day")) === 0) {
+        return `${parseInt(sday, 10)} ${MONTH_NAMES[parseInt(smonth) - 1]} ${parseInt(syear, 10) + 543}`;
     } else {
         const [eyear, emonth, eday] = endDate.split('-');
 
         if (syear === eyear && smonth === emonth) {
-            return `${sday}-${eday} ${MONTH_NAMES[parseInt(smonth) - 1]} ${parseInt(syear, 10) + 543}`;
+            return `${parseInt(sday, 10)}-${parseInt(eday, 10)} ${MONTH_NAMES[parseInt(smonth) - 1]} ${parseInt(syear, 10) + 543}`;
         } else {
-            return `${sday} ${MONTH_NAMES[parseInt(smonth) - 1]} ${parseInt(syear, 10) + 543}-${eday} ${MONTH_NAMES[parseInt(emonth) - 1]} ${parseInt(eyear, 10) + 543}`;
+            return `${parseInt(sday, 10)} ${MONTH_NAMES[parseInt(smonth) - 1]} ${parseInt(syear, 10) + 543}-${parseInt(eday, 10)} ${MONTH_NAMES[parseInt(emonth) - 1]} ${parseInt(eyear, 10) + 543}`;
         }
     }
 };

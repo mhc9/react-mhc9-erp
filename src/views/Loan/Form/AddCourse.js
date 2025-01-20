@@ -100,7 +100,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                                     )}
                                 </Col>
                                 <Col md={2} className="px-1">
-                                    <label htmlFor="">ถึงวันที่</label>
+                                    <label htmlFor="">ถึงวันที่ <span className="text-red-500">(ถ้ามี)</span></label>
                                     <DatePicker
                                         format="DD/MM/YYYY"
                                         value={selectedCourseEDate}
@@ -116,8 +116,8 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                                 </Col>
                             </>
                         )}
-                        <Col md={3} className="px-1">
-                            <label htmlFor="">ชื่อห้องประชุม (ถ้ามี)</label>
+                        <Col md={3} className={`${expenseCalc === 2 ? "px-1" : "pr-1"}`}>
+                            <label htmlFor="">ชื่อห้องประชุม <span className="text-red-500">(ถ้ามี)</span></label>
                             <input
                                 type="text"
                                 name="room"
