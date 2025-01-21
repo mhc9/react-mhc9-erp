@@ -69,8 +69,14 @@ const RequisitionForm = () => {
                                     <span className="ml-1">จำนวน {requisition.item_count} รายการ</span>
                                     <span className="ml-1">{requisition.reason ? requisition.reason : 'เพื่อใช้ในการดำเนินงานภายในศูนย์สุขภาพจิตที่ 9'}</span>
                                     <span className="ml-1">โดยใช้เงินงบประมาณปี {requisition.year && requisition.year+543}</span>
-                                    <span className="ml-1">ตาม{requisition.budget?.activity?.project?.plan?.name} {requisition.budget?.activity?.project?.name} {requisition.budget?.activity?.name}</span>
-                                    <span className="ml-1">รวมจำนวนเงินทั้งสิ้น {currency.format(requisition.net_total)} บาท ({ThaiNumberToText(requisition.net_total)}) รายละเอียดตามเอกสารแนบ</span>
+                                    {requisition.budgets && requisition.budgets.map((data, index) => (
+                                        <span className="ml-1" key={data.budget_id}>
+                                            <span>ตาม{data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name} {data.budget?.activity?.name}</span>
+                                            <span className="ml-1">จำนวนเงิน {currency.format(data.total)} บาท</span>
+                                        </span>
+                                    ))}
+                                    {/* <span className="ml-1">ตาม{requisition.budget?.activity?.project?.plan?.name} {requisition.budget?.activity?.project?.name} {requisition.budget?.activity?.name}</span> */}
+                                    <span className="ml-1">รวมเป็นเงินทั้งสิ้น {currency.format(requisition.net_total)} บาท ({ThaiNumberToText(requisition.net_total)}) รายละเอียดตามเอกสารแนบ</span>
                                 </div>
                                 <div className="memo-paragraph leading-6">
                                     <div className="mb-2">
