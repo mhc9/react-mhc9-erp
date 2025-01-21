@@ -15,7 +15,7 @@ import ConsiderationDetail from './Consideration/Detail'
 import Loading from '../../../components/Loading'
 import DropdownButton from '../../../components/FormControls/DropdownButton'
 import DropdownItem from '../../../components/FormControls/DropdownButton/DropdownItem'
-import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
+import BudgetList from '../../Loan/Form/BudgetList'
 
 const RequisitionDetail = () => {
     const { id } = useParams();
@@ -106,14 +106,18 @@ const RequisitionDetail = () => {
                                                 </div>
                                             </Col>
                                         </Row>
-                                        <Row>
-                                            <Col className="pb-1">
-                                                <label htmlFor="">รายละเอียดการจ้าง</label>
-                                                <div className="text-sm font-thin">
-                                                    {requisition.contract_desc}
-                                                </div>
-                                            </Col>
-                                        </Row>
+
+                                        {requisition.order_type_id === 2 && (
+                                            <Row>
+                                                <Col className="pb-1">
+                                                    <label htmlFor="">รายละเอียดการจ้าง</label>
+                                                    <div className="text-sm font-thin">
+                                                        {requisition.contract_desc}
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                        )}
+
                                         <Row>
                                             <Col md={9} className="pb-1">
                                                 <label htmlFor="">เรื่อง</label>
@@ -125,17 +129,6 @@ const RequisitionDetail = () => {
                                                 <label htmlFor="">ปีงบประมาณ</label>
                                                 <div className="text-sm font-thin">
                                                     {requisition.year && requisition.year+543}
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col className="pb-1">
-                                                <label htmlFor="">งบประมาณ</label>
-                                                <div className="input-group">
-                                                    <div className="text-sm font-thin">
-                                                        {requisition.budget?.activity?.name}
-                                                        <BudgetTypeBadge type={requisition.budget?.type}/>
-                                                    </div>
                                                 </div>
                                             </Col>
                                         </Row>
@@ -180,7 +173,7 @@ const RequisitionDetail = () => {
                                             <div className="w-full mb-1">
                                                 <label htmlFor="">หน่วยงาน</label>
                                                 <div className="text-xs font-thin">
-                                                    {requisition.division?.name}
+                                                    {requisition.division ? requisition.division?.name : requisition.department?.name}
                                                 </div>
                                             </div>
                                         </div>
@@ -226,6 +219,25 @@ const RequisitionDetail = () => {
                                     </Row>
                                 </div>
                             )}
+
+                            <Row className="mb-2">
+                                <Col>
+                                    <div className="flex flex-col border p-2 rounded-md">
+                                        <h1 className="font-bold text-lg mb-1">งบประมาณ</h1>
+
+                                        <BudgetList budgets={requisition?.budgets} showButtons={false} />
+
+                                        <div className="flex flex-row justify-end items-center">
+                                            <div className="mr-2">งบประมาณทั้งสิ้น</div>
+                                            <div className="w-[15%]">
+                                                <div className="form-control font-bold float-right text-right text-green-500">
+                                                    {currency.format(requisition?.budget_total)}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Col>
+                            </Row>
 
                             <Row className="mb-2">
                                 <Col>
@@ -276,6 +288,7 @@ const RequisitionDetail = () => {
                                     </div>
                                 </Col>
                             </Row>
+
                             {(requisition.approvals && requisition.approvals.length > 0) && (
                                 <Row>
                                     <Col>
@@ -307,6 +320,7 @@ const RequisitionDetail = () => {
                                     </Col>
                                 </Row>
                             )}
+
                             <Row className="mt-3">
                                 <Col>
                                     <div className="flex flex-row justify-center">
