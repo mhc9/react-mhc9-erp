@@ -80,13 +80,14 @@ const FormLoan = () => {
                                 <div className="memo-paragraph">
                                     ข้าพเจ้า<span className="mx-1">{loan.employee.prefix.name+loan.employee.firstname+ ' ' +loan.employee.lastname}</span>
                                     ตำแหน่ง<span className="mx-1">{loan.employee.position?.name}{loan.employee.level?.name}</span> ขออนุมัติยืมเงินงบประมาณศูนย์สุขภาพจิตที่ 9
-                                    {loan.budgets && loan.budgets.map((data, index) => (
-                                        <span className="ml-1" key={data.budget_id}>
-                                            ตาม{data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name} {data.budget?.activity?.name}
+                                    ตาม{loan.budgets && loan.budgets.map((data, index) => (
+                                        <span key={data.budget_id}>
+                                            <span>{data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name} {data.budget?.activity?.name}</span>
+                                            {loan.budgets.length > 1 && <span className="mx-1">จำนวนเงิน {currency.format(data.total)} บาท</span>}
                                         </span>
                                     ))}
                                     <span className="ml-1">
-                                        รวมจำนวนเงินทั้งสิ้น {currency.format(loan.budget_total)} บาท ({ThaiNumberToText(loan.budget_total)})
+                                        รวมเป็นเงินทั้งสิ้น {currency.format(loan.budget_total)} บาท ({ThaiNumberToText(loan.budget_total)})
                                     </span>
                                     <span className="ml-1">
                                         มีรายละเอียดดังต่อไปนี้
