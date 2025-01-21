@@ -26,6 +26,8 @@ import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import ModalBudgetList from '../../../components/Modals/BudgetList'
 import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
 import EmployeeSelection from '../../../components/FormControls/EmployeeSelection'
+import AddBudget from '../../Loan/Form/AddBudget'
+import BudgetList from '../../Loan/Form/BudgetList'
 
 const requisitionSchema = Yup.object().shape({
     pr_no: Yup.string().required('กรุณาระบุเลขที่เอกสาร'),
@@ -38,13 +40,14 @@ const requisitionSchema = Yup.object().shape({
     }),
     topic: Yup.string().required('กรุณาระบุเรื่อง'),
     year: Yup.string().required('กรุณาระบุปีงบ'),
-    budget_id: Yup.string().required('กรุณาระบุงบประมาณ'),
+    // budget_id: Yup.string().required('กรุณาระบุงบประมาณ'),
     requester_id: Yup.string().required('กรุณาระบุผู้ขอ/เจ้าของโครงการ'),
     department_id: Yup.string().required('กรุณาระบุหน่วยงาน'),
     reason: Yup.string().required('กรุณาระบุเหตุผลที่ขอ'),
     desired_date: Yup.string().required('กรุณาระบุวันที่ต้องการใช้'),
-    items: Yup.mixed().test('Items Count', 'ไม่พบการระบุรายการสินค้า', val => val.filter(item => !item.removed).length > 0),
-    committees: Yup.mixed().test('Committees Count', 'ไม่พบการระบุผู้ตรวจรับ', val => val.filter(comm => !comm.removed).length > 0),
+    budgets: Yup.mixed().test('Budget count', 'ไม่พบการระบุรายการงบประมาณ', val => val.filter(budget => !budget.removed).length > 0),
+    items: Yup.mixed().test('Items count', 'ไม่พบการระบุรายการสินค้า', val => val.filter(item => !item.removed).length > 0),
+    committees: Yup.mixed().test('Committees count', 'ไม่พบการระบุผู้ตรวจรับ', val => val.filter(comm => !comm.removed).length > 0),
 });
 
 const initialFormData = {
@@ -148,7 +151,6 @@ const RequisitionForm = ({ requisition }) => {
 
     const handleUpdateCommittees = (formik, committees) => {
         formik.setFieldValue('committees', committees);
-        console.log(committees);
     };
 
     const handleSubmit = (values, formik) => {
@@ -191,6 +193,7 @@ const RequisitionForm = ({ requisition }) => {
                 desired_date: requisition ? requisition.desired_date : '',
                 item_count: requisition ? requisition.item_count : 0,
                 net_total: requisition ? requisition.net_total : '',
+                budget_total: requisition ? requisition.budget_total : '',
                 items: requisition ? requisition.details : [],
                 budgets: requisition ? requisition.budgets : [],
                 committees: requisition ? requisition.committees : [] 
@@ -363,28 +366,6 @@ const RequisitionForm = ({ requisition }) => {
                                 </Row>
                                 <Row className="mb-2">
                                     <Col md={6}>
-                                        <label htmlFor="">งบประมาณ</label>
-                                        <div className="input-group">
-                                            <div className="form-control h-[34px] text-sm bg-gray-200">
-                                                {budget?.activity?.name}
-                                                {budget && <BudgetTypeBadge type={budget.type} />}
-                                            </div>
-                                            <input
-                                                type="hidden"
-                                                name="budget_id"
-                                                value={formik.values.budget_id}
-                                                onChange={formik.handleChange}
-                                                className="form-control text-sm"
-                                            />
-                                            <button type="button" className="btn btn-outline-secondary" onClick={() => setShowBudgetModal(true)}>
-                                                <FaSearch />
-                                            </button>
-                                        </div>
-                                        {(formik.errors.budget_id && formik.touched.budget_id) && (
-                                            <span className="text-red-500 text-sm">{formik.errors.budget_id}</span>
-                                        )}
-                                    </Col>
-                                    <Col md={3}>
                                         <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
                                         <EmployeeSelection
                                             data={requisition?.requester}
@@ -394,7 +375,7 @@ const RequisitionForm = ({ requisition }) => {
                                             <span className="text-red-500 text-sm">{formik.errors.requester_id}</span>
                                         )}
                                     </Col>
-                                    <Col md={3}>
+                                    <Col md={6}>
                                         <label htmlFor="">หน่วยงาน</label>
                                         <select
                                             name="department_id"
@@ -440,7 +421,7 @@ const RequisitionForm = ({ requisition }) => {
                                     <Col>
                                         <label htmlFor="">โครงการ (ถ้ามี)</label>
                                         <textarea
-                                            rows={2}
+                                            rows={5}
                                             name="project_name"
                                             value={formik.values.project_name}
                                             onChange={formik.handleChange}
@@ -466,7 +447,7 @@ const RequisitionForm = ({ requisition }) => {
                                     <Col>
                                         <label htmlFor="">เหตุผลที่ขอ</label>
                                         <textarea
-                                            rows={2}
+                                            rows={5}
                                             name="reason"
                                             value={formik.values.reason}
                                             onChange={formik.handleChange}
@@ -474,6 +455,68 @@ const RequisitionForm = ({ requisition }) => {
                                         ></textarea>
                                         {(formik.errors.reason && formik.touched.reason) && (
                                             <span className="text-red-500 text-sm">{formik.errors.reason}</span>
+                                        )}
+                                    </Col>
+                                </Row>
+                                <Row className="mb-2">
+                                    <Col>
+                                        <div className="flex flex-col border p-2 rounded-md mt-1">
+                                            <h1 className="font-bold text-lg mb-1">งบประมาณ</h1>
+
+                                            <AddBudget
+                                                onAddBudget={(budget) => {
+                                                    if (formik.values.budgets.filter(bg => !bg.removed).some(chk => chk.budget_id === budget.budget_id)) {
+                                                        toast.error('คุณเลือกรายการซ้ำ!!');
+                                                        return;
+                                                    }
+
+                                                    const newBudgets = [...formik.values.budgets, budget];
+                                                    const budgetTotal = calculateNetTotal(newBudgets, (isRemoved) => isRemoved);
+                                            
+                                                    formik.setFieldValue('budgets', newBudgets);
+                                                    formik.setFieldValue('budget_total', currency.format(budgetTotal));
+                                                }}
+                                            />
+                                            <BudgetList
+                                                budgets={formik.values.budgets}
+                                                newFlagField="requisition_id"
+                                                onRemoveBudget={(id, isNewRequisition) => {
+                                                    let newBudgets = [];
+                                                    if (isNewRequisition) {
+                                                        newBudgets = formik.values.budgets.filter(item => item.id !== id);
+                                                    } else {
+                                                        newBudgets = formik.values.budgets.map(item => {
+                                                            if (item.id === id) return { ...item, removed: true };
+                                            
+                                                            return item;
+                                                        });
+                                                    }
+                                            
+                                                    formik.setFieldValue('budgets', newBudgets);
+                                                    formik.setFieldValue('budget_total', currency.format(calculateNetTotal(newBudgets, (isRemoved) => isRemoved)));
+                                                }}
+                                            />
+
+                                            <div className="flex flex-row justify-end items-center">
+                                                <div className="mr-2">งบประมาณทั้งสิ้น</div>
+                                                <div className="w-[15%]">
+                                                    <input
+                                                        type="text"
+                                                        name="budget_total"
+                                                        value={formik.values.budget_total}
+                                                        onChange={formik.handleChange}
+                                                        placeholder="งบประมาณทั้งสิ้น"
+                                                        className="form-control text-sm float-right text-right"
+                                                    />
+                                                    {(formik.errors.budget_total && formik.touched.budget_total) && (
+                                                        <span className="text-red-500 text-sm">{formik.errors.budget_total}</span>
+                                                    )}
+                                                </div>
+                                                <div className="w-[10%]"></div>
+                                            </div>
+                                        </div>
+                                        {(formik.errors.budgets && formik.touched.budgets) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.budgets}</span>
                                         )}
                                     </Col>
                                 </Row>

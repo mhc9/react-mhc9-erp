@@ -14,7 +14,7 @@ const AddBudget = ({ data, formData, onAddBudget }) => {
         if (data) {
             // onUpdateItem(values.item_id, { ...values, item })
         } else {
-            onAddBudget(values);
+            onAddBudget({ ...values, id: uuid() });
         }
 
         formik.resetForm();
@@ -24,7 +24,7 @@ const AddBudget = ({ data, formData, onAddBudget }) => {
     return (
         <Formik
             initialValues={{
-                id: uuid(),
+                id: '',
                 budget_id: '',
                 budget: null,
                 total: '',

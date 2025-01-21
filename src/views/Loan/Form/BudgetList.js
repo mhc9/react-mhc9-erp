@@ -3,7 +3,7 @@ import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { currency } from '../../../utils'
 import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
 
-const BudgetList = ({ budgets, showButtons=true, onRemoveBudget, onEditBudget }) => {
+const BudgetList = ({ budgets, showButtons=true, onRemoveBudget, onEditBudget, newFlagField }) => {
     return (
         <>
             <table className="table table-bordered table-striped table-hover text-sm mb-2">
@@ -45,7 +45,7 @@ const BudgetList = ({ budgets, showButtons=true, onRemoveBudget, onEditBudget })
                                                 <button
                                                     type="button"
                                                     className="btn btn-sm btn-outline-danger p-1"
-                                                    onClick={() => onRemoveBudget(data.id, !data.loan_id)}
+                                                    onClick={() => onRemoveBudget(data.id, !data[newFlagField])}
                                                 >
                                                     <FaTrash />
                                                 </button>

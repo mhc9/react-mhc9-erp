@@ -516,6 +516,7 @@ const LoanForm = ({ loan }) => {
 
                                     <BudgetList
                                         budgets={formik.values.budgets.filter(budget => !budget.removed)}
+                                        newFlagField="loan_id"
                                         onRemoveBudget={(id, isNewLoan) => handleRemoveBudget(formik, id, isNewLoan)}
                                     />
 
