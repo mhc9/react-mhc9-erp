@@ -94,12 +94,13 @@ const FormLoanContract = () => {
                                                 </span>
                                             )
                                         }
-                                        <span className="ml-1">
+                                        <span className="mx-1">
                                             ระหว่างวันที่ {toLongTHDate(moment(loan.project_sdate).toDate())} ถึงวันที่ {toLongTHDate(moment(loan.project_edate).toDate())}
                                         </span>
-                                        {loan?.courses.length === 1 && loan?.courses.map((course, index) => (
-                                            <span className="ml-1" key={course.id}>
-                                                ณ {course.place?.name} จ.{course.place?.changwat?.name}
+                                        
+                                        ณ{loan?.courses.length > 0 && loan?.courses.map((course, index) => (
+                                            <span className="mx-1" key={course.id}>
+                                                {index > 0 && 'และ'}{course.place?.name} จ.{course.place?.changwat?.name}
                                             </span>
                                         ))}
                                         <span className="ml-1">โดยใช้งบประมาณ</span>
@@ -110,7 +111,7 @@ const FormLoanContract = () => {
                                             </span>
                                         ))}
                                         <span className="ml-1">
-                                            รวมจำนวนเงินทั้งสิ้น {currency.format(loan.budget_total)} บาท ({ThaiNumberToText(loan.budget_total)})
+                                            รวมเป็นเงินทั้งสิ้น {currency.format(loan.budget_total)} บาท ({ThaiNumberToText(loan.budget_total)})
                                         </span>
                                         <span className="ml-1">
                                             มีรายละเอียดดังต่อไปนี้
