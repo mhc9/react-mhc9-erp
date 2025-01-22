@@ -68,12 +68,12 @@ const FormLoan = () => {
                                         ? <span className="ml-1">กำหนดจัด{loan.project_name}</span>
                                         : <span className="ml-1">เรื่อง ขออนุมัติเดินทางไปราชการเพื่อเข้าร่วม{loan.project_name}</span>
                                     }
-                                    <span className="ml-1">
+                                    <span className="mx-1">
                                         ระหว่างวันที่ {toLongTHDate(moment(loan.project_sdate).toDate())} ถึงวันที่ {toLongTHDate(moment(loan.project_edate).toDate())}
                                     </span>
-                                    {loan?.courses.length === 1 && loan?.courses.map((course, index) => (
+                                    ณ{loan?.courses.length > 0 && loan?.courses.map((course, index) => (
                                         <span className="mx-1" key={course.id}>
-                                            ณ {course.place?.name} จ.{course.place?.changwat?.name}
+                                            {index > 0 && 'และ'}{course.place?.name} จ.{course.place?.changwat?.name}
                                         </span>
                                     ))} นั้น
                                 </div>
