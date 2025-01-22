@@ -74,7 +74,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem,  onEditIt
                                                 <button
                                                     type="button"
                                                     className="btn btn-sm btn-outline-danger p-1"
-                                                    onClick={() => onRemoveItem(data.contract_detail_id)}
+                                                    onClick={() => onRemoveItem(data.id, !data.refund_id)}
                                                 >
                                                     <FaTrash />
                                                 </button>

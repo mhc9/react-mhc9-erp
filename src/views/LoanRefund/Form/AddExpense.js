@@ -35,7 +35,7 @@ const AddExpense = ({ data, expenses, courses, refundType, onAddItem, onUpdateIt
         } else {
             const detail = expenses.find(cd => cd.id === parseInt(values.contract_detail_id, 10));
 
-            onAddItem({ ...values, contract_detail: detail });
+            onAddItem({ ...values, id: uuid(), contract_detail: detail });
         }
 
         formik.resetForm();
@@ -50,7 +50,7 @@ const AddExpense = ({ data, expenses, courses, refundType, onAddItem, onUpdateIt
         <Formik
             enableReinitialize
             initialValues={{
-                id: uuid(),
+                id: '',
                 contract_detail_id: item ? item.contract_detail_id : '',
                 contract_detail: null,
                 description: item ? item.description : '',
