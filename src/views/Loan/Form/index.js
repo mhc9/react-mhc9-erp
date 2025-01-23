@@ -229,10 +229,10 @@ const LoanForm = ({ loan }) => {
                                     name="doc_no"
                                     value={formik.values.doc_no}
                                     onChange={formik.handleChange}
-                                    className="form-control text-sm"
+                                    className={`form-control text-sm ${(formik.errors.doc_no && formik.touched.doc_no) && 'border-red-500'}`}
                                 />
                                 {(formik.errors.doc_no && formik.touched.doc_no) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.doc_no}</span>
+                                    <span className="text-red-500 text-xs">{formik.errors.doc_no}</span>
                                 )}
                             </Col>
                             <Col md={2}>
@@ -249,7 +249,7 @@ const LoanForm = ({ loan }) => {
                                     />
                                 </div>
                                 {(formik.errors.doc_date && formik.touched.doc_date) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.doc_date}</span>
+                                    <span className="text-red-500 text-xs">{formik.errors.doc_date}</span>
                                 )}
                             </Col>
                             <Col md={4}>
@@ -258,14 +258,14 @@ const LoanForm = ({ loan }) => {
                                     name="loan_type_id"
                                     value={formik.values.loan_type_id}
                                     onChange={formik.handleChange}
-                                    className="form-control text-sm"
+                                    className={`form-control text-sm ${(formik.errors.loan_type_id && formik.touched.loan_type_id) && 'border-red-500'}`}
                                 >
                                     <option value="">-- ประเภทการยืม --</option>
                                     <option value="1">ยืมเงินโครงการ</option>
                                     <option value="2">ยืมเงินเดินทางไปราชการ</option>
                                 </select>
                                 {(formik.errors.loan_type_id && formik.touched.loan_type_id) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.loan_type_id}</span>
+                                    <span className="text-red-500 text-xs">{formik.errors.loan_type_id}</span>
                                 )}  
                             </Col>
                             <Col md={4}>
@@ -274,7 +274,7 @@ const LoanForm = ({ loan }) => {
                                     name="money_type_id"
                                     value={formik.values.money_type_id}
                                     onChange={formik.handleChange}
-                                    className="form-control text-sm"
+                                    className={`form-control text-sm ${(formik.errors.money_type_id && formik.touched.money_type_id) && 'border-red-500'}`}
                                 >
                                     <option value="">-- ประเภทเงินยืม --</option>
                                     <option value="1">เงินทดลองราชการ</option>
@@ -282,7 +282,7 @@ const LoanForm = ({ loan }) => {
                                     <option value="3">เงินยืมราชการ	</option>
                                 </select>
                                 {(formik.errors.money_type_id && formik.touched.money_type_id) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.money_type_id}</span>
+                                    <span className="text-red-500 text-xs">{formik.errors.money_type_id}</span>
                                 )}
                             </Col>
                         </Row>
@@ -308,7 +308,7 @@ const LoanForm = ({ loan }) => {
                                         setSelectedDep(val);
                                         setTimeout(() => formik.setFieldTouched('department_id', true), 300);
                                     }}
-                                    className="form-control text-sm"
+                                    className={`form-control text-sm ${(formik.errors.department_id && formik.touched.department_id) && 'border-red-500'}`}
                                 >
                                     <option value="">-- หน่วยงาน --</option>
                                     {formData?.departments && formData.departments.filter(dep => dep.id !== 1).map(dep => (
@@ -325,7 +325,7 @@ const LoanForm = ({ loan }) => {
                                     ))}
                                 </select>
                                 {(formik.errors.department_id && formik.touched.department_id) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.department_id}</span>
+                                    <span className="text-red-500 text-xs">{formik.errors.department_id}</span>
                                 )}
                             </Col>
                             <Col md={6}>
@@ -335,7 +335,7 @@ const LoanForm = ({ loan }) => {
                                     fieldName="employee_id"
                                 />
                                 {(formik.errors.employee_id && formik.touched.employee_id) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.employee_id}</span>
+                                    <span className="text-red-500 text-xs">{formik.errors.employee_id}</span>
                                 )}
                             </Col>
                             <Col md={2}>
@@ -352,7 +352,7 @@ const LoanForm = ({ loan }) => {
                                     />
                                 </div>
                                 {(formik.errors.year && formik.touched.year) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.year}</span>
+                                    <span className="text-red-500 text-xs">{formik.errors.year}</span>
                                 )}
                             </Col>
                         </Row>
@@ -368,10 +368,10 @@ const LoanForm = ({ loan }) => {
                                                 name="project_no"
                                                 value={formik.values.project_no}
                                                 onChange={formik.handleChange}
-                                                className="form-control text-sm"
+                                                className={`form-control text-sm ${(formik.errors.department_id && formik.touched.department_id) && 'border-red-500'}`}
                                             />
                                             {(formik.errors.project_no && formik.touched.project_no) && (
-                                                <span className="text-red-500 text-sm">{formik.errors.project_no}</span>
+                                                <span className="text-red-500 text-xs">{formik.errors.project_no}</span>
                                             )}
                                         </Col>
                                         <Col md={3}>
@@ -398,10 +398,10 @@ const LoanForm = ({ loan }) => {
                                                 name="project_owner"
                                                 value={formik.values.project_owner}
                                                 onChange={formik.handleChange}
-                                                className="form-control text-sm"
+                                                className={`form-control text-sm ${(formik.errors.project_owner && formik.touched.project_owner) && 'border-red-500'}`}
                                             />
                                             {(formik.errors.project_owner && formik.touched.project_owner) && (
-                                                <span className="text-red-500 text-sm">{formik.errors.project_owner}</span>
+                                                <span className="text-red-500 text-xs">{formik.errors.project_owner}</span>
                                             )}
                                         </Col>
                                         <Col md={12}>
@@ -411,10 +411,10 @@ const LoanForm = ({ loan }) => {
                                                 name="project_name"
                                                 value={formik.values.project_name}
                                                 onChange={formik.handleChange}
-                                                className="form-control text-sm"
+                                                className={`form-control text-sm ${(formik.errors.project_name && formik.touched.project_name) && 'border-red-500'}`}
                                             />
                                             {(formik.errors.project_name && formik.touched.project_name) && (
-                                                <span className="text-red-500 text-sm">{formik.errors.project_name}</span>
+                                                <span className="text-red-500 text-xs">{formik.errors.project_name}</span>
                                             )}
                                         </Col>
                                     </Row>
@@ -437,7 +437,7 @@ const LoanForm = ({ loan }) => {
                                                 />
                                             </div>
                                             {(formik.errors.project_sdate && formik.touched.project_sdate) && (
-                                                <span className="text-red-500 text-sm">{formik.errors.project_sdate}</span>
+                                                <span className="text-red-500 text-xs">{formik.errors.project_sdate}</span>
                                             )}
                                         </Col>
                                         <Col md={3}>
@@ -454,7 +454,7 @@ const LoanForm = ({ loan }) => {
                                                 />
                                             </div>
                                             {(formik.errors.project_edate && formik.touched.project_edate) && (
-                                                <span className="text-red-500 text-sm">{formik.errors.project_edate}</span>
+                                                <span className="text-red-500 text-xs">{formik.errors.project_edate}</span>
                                             )}
                                         </Col>
                                         <Col>
@@ -500,14 +500,14 @@ const LoanForm = ({ loan }) => {
                                         />
                                     </div>
                                     {(formik.errors.courses && formik.touched.courses) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.courses}</span>
+                                        <span className="text-red-500 text-xs">{formik.errors.courses}</span>
                                     )}
                                 </div>
                             </Col>
                         </Row>
                         <Row className="mb-2">
                             <Col>
-                                <div className="flex flex-col border p-2 rounded-md mt-2">
+                                <div className={`flex flex-col p-2 rounded-md mt-2 ${(formik.errors.budgets && formik.touched.budgets) ? 'border-[1px] border-red-500' : 'border'}`}>
                                     <h1 className="font-bold text-lg mb-1">งบประมาณ</h1>
                                     <AddBudget
                                         formData={formData?.budgets}
@@ -539,7 +539,7 @@ const LoanForm = ({ loan }) => {
                                     </div>
                                 </div>
                                 {(formik.errors.budgets && formik.touched.budgets) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.budgets}</span>
+                                    <span className="text-red-500 text-xs">{formik.errors.budgets}</span>
                                 )}
                             </Col>
                         </Row>
@@ -615,7 +615,7 @@ const LoanForm = ({ loan }) => {
                                         </Tab>
                                     </Tabs>
                                     {(formik.errors.items && formik.touched.items) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.items}</span>
+                                        <span className="text-red-500 text-xs">{formik.errors.items}</span>
                                     )}
 
                                     <div className="flex flex-row justify-start items-center mt-2 px-[10px]">
