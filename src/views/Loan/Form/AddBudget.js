@@ -96,6 +96,10 @@ const AddBudget = ({ data, formData, onAddBudget }) => {
                                     <button
                                         type="button"
                                         className="btn btn-outline-danger text-xs min-[1285px]:text-sm  max-[1285px]:px-1 min-[1285px]:px-2"
+                                        onClick={() => {
+                                            formik.resetForm();
+                                            setBudget(null);
+                                        }}
                                     >
                                         {/* <FaTimes /> */}
                                         {data ? 'ยกเลิก' : 'เคลียร์'}
