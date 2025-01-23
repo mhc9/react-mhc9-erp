@@ -8,6 +8,10 @@ import { calculateTotalFromDescription, getPatternOfExpense, toLongTHDateRange, 
 const itemSchema = Yup.object().shape({
     course_id: Yup.string().required('กรุณาเลือกรุ่นโครงการก่อน'),
     expense_id: Yup.string().required('กรุณาเลือกค่าใช้จ่ายก่อน'),
+    description: Yup.string().when('expense', {
+        is: (expense) => expense.pattern,
+        then: (schema) => schema.required('กรุณาระบุรายละเอียดค่าใช้จ่าย (ตามรูปแบบในวงเล็บ)'),
+    }),
     total: Yup.string().required('กรุณาระบุรวมเป็นเงินก่อน'),
 });
 
@@ -62,7 +66,7 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                                     name="course_id"
                                     value={formik.values.course_id}
                                     onChange={formik.handleChange}
-                                    className="form-control text-sm"
+                                    className={`form-control text-sm ${(formik.errors.course_id && formik.touched.course_id) && 'border-red-500'}`}
                                 >
                                     <option value="">-- รุ่น --</option>
                                     {courses && courses.map(course => (
@@ -74,7 +78,7 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                                     ))}
                                 </select>
                                 {(formik.errors.course_id && formik.touched.course_id) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.course_id}</span>
+                                    <span className="text-red-500 text-xs">{formik.errors.course_id}</span>
                                 )}
                             </FormGroup>
                             <FormGroup className="w-[30%]">
@@ -85,7 +89,7 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                                         formik.handleChange(e);
                                         formik.setFieldValue('expense', getFormDataItem({ expenses: formData }, 'expenses', parseInt(e.target.value, 10)));
                                     }}
-                                    className="form-control text-sm"
+                                    className={`form-control text-sm ${(formik.errors.expense_id && formik.touched.expense_id) && 'border-red-500'}`}
                                 >
                                     <option value="">-- ค่าใช้จ่าย --</option>
                                     {formData && formData.map(exp => (
@@ -95,7 +99,7 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                                     ))}
                                 </select>
                                 {(formik.errors.expense_id && formik.touched.expense_id) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.expense_id}</span>
+                                    <span className="text-red-500 text-xs">{formik.errors.expense_id}</span>
                                 )}
                             </FormGroup>
                             <FormGroup className="w-[30%]">
@@ -110,11 +114,11 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                                             (getPatternOfExpense(formData, formik.values.expense_id) && e.target.value !== '') ? calculateTotalFromDescription(e.target.value) : ''
                                         )
                                     }}
-                                    className="form-control text-sm"
+                                    className={`form-control text-sm ${(formik.errors.description && formik.touched.description) && 'border-red-500'}`}
                                     placeholder="รายละเอียด"
                                 />
                                 {(formik.errors.description && formik.touched.description) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.description}</span>
+                                    <span className="text-red-500 text-xs">{formik.errors.description}</span>
                                 )}
                             </FormGroup>
                             <FormGroup className="w-[15%]">
@@ -123,11 +127,11 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
                                     name="total"
                                     value={formik.values.total}
                                     onChange={formik.handleChange}
-                                    className="form-control text-sm text-right"
+                                    className={`form-control text-sm text-right ${(formik.errors.total && formik.touched.total) && 'border-red-500'}`}
                                     placeholder="รวมเป็นเงิน"
                                 />
                                 {(formik.errors.total && formik.touched.total) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.total}</span>
+                                    <span className="text-red-500 text-xs">{formik.errors.total}</span>
                                 )}
                             </FormGroup>
                             <FormGroup className="w-[10%]">
