@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 import { Formik, Form } from 'formik'
+import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
 import { FaSearch, FaPlus, FaTimes } from 'react-icons/fa'
 import { v4 as uuid } from 'uuid'
 import ModalBudgetList from '../../../components/Modals/BudgetList'
 import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
+
+const budgetSchema = Yup.object().shape({
+    budget_id: Yup.string().required('กรุณาระบุรายการงบประมาณ'),
+    total: Yup.string().required('กรุณาระบุจำนวนเงิน'),
+});
 
 const AddBudget = ({ data, formData, onAddBudget }) => {
     const [budget, setBudget] = useState(null);
@@ -29,6 +35,7 @@ const AddBudget = ({ data, formData, onAddBudget }) => {
                 budget: null,
                 total: '',
             }}
+            validationSchema={budgetSchema}
             onSubmit={handleSubmit}
         >
             {(formik) => {
@@ -47,29 +54,20 @@ const AddBudget = ({ data, formData, onAddBudget }) => {
                         <div className="flex flex-row gap-2 mb-2">
                             <FormGroup className="w-[75%]">
                                 <div className="input-group">
-                                    <div className="form-control min-h-[34px] bg-gray-100">
+                                    <div className={`form-control min-h-[34px] bg-gray-100 ${(formik.errors.budget_id && formik.touched.budget_id) && 'border-red-500'}`}>
                                         {budget && (
-                                            <>
-                                                <p className="text-sm">
-                                                    {budget?.activity?.name}
-                                                    <BudgetTypeBadge type={budget.type} />
-                                                </p>
-                                            </>
+                                            <p className="text-sm">
+                                                {budget?.activity?.name}
+                                                <BudgetTypeBadge type={budget.type} />
+                                            </p>
                                         )}
                                     </div>
-                                    <input
-                                        type="hidden"
-                                        name="budget_id"
-                                        value={formik.values.budget_id}
-                                        onChange={formik.handleChange}
-                                        className="form-control text-sm"
-                                    />
                                     <button type="button" className="btn btn-outline-secondary" onClick={() => setShowBudgetModal(true)}>
                                         <FaSearch />
                                     </button>
                                 </div>
-                                {(formik.errors.total && formik.touched.total) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.total}</span>
+                                {(formik.errors.budget_id && formik.touched.budget_id) && (
+                                    <span className="text-red-500 text-xs">{formik.errors.budget_id}</span>
                                 )}
                             </FormGroup>
                             <FormGroup className="w-[15%]">
@@ -78,11 +76,11 @@ const AddBudget = ({ data, formData, onAddBudget }) => {
                                     name="total"
                                     value={formik.values.total}
                                     onChange={formik.handleChange}
-                                    className="form-control text-sm text-right"
+                                    className={`form-control text-sm text-right ${(formik.errors.total && formik.touched.total) && 'border-red-500'}`}
                                     placeholder="จำนวนเงิน"
                                 />
-                                {(formik.errors.budget_id && formik.touched.budget_id) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.budget_id}</span>
+                                {(formik.errors.total && formik.touched.total) && (
+                                    <span className="text-red-500 text-xs">{formik.errors.total}</span>
                                 )}
                             </FormGroup>
                             <FormGroup className="w-[10%]">
