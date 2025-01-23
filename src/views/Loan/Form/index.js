@@ -551,68 +551,88 @@ const LoanForm = ({ loan }) => {
                                     <Tabs
                                         id=""
                                         defaultActiveKey="expenses"
-                                        className="mt-2"
+                                        className={`mt-2 ${(formik.errors.items && formik.touched.items) && 'border-red-500'}`}
                                     >
                                         <Tab eventKey="expenses" title="รายการค่าใช้จ่าย">
-                                            <AddExpense
-                                                data={edittingItem}
-                                                formData={formData?.expenses.filter(exp => exp.group_id === 1)}
-                                                courses={formik.values.courses.filter(course => !course.removed)}
-                                                onAddItem={(expense) => handleAddItem(formik, expense)}
-                                                onUpdateItem={(id, expense) => handleUpdateItem(formik, id, expense)}
-                                                onClear={setEdittingItem}
-                                            />
+                                            <div
+                                                className={
+                                                    `border-x-[1px] border-b-[1px] rounded-bl-md rounded-br-md py-3 px-2
+                                                    ${(formik.errors.items && formik.touched.items)
+                                                        ? 'border-x-red-500 border-b-red-500'
+                                                        : 'border-x-[#ddd] border-b-[#ddd]'
+                                                    }`
+                                                }
+                                            >
+                                                <AddExpense
+                                                    data={edittingItem}
+                                                    formData={formData?.expenses.filter(exp => exp.group_id === 1)}
+                                                    courses={formik.values.courses.filter(course => !course.removed)}
+                                                    onAddItem={(expense) => handleAddItem(formik, expense)}
+                                                    onUpdateItem={(id, expense) => handleUpdateItem(formik, id, expense)}
+                                                    onClear={setEdittingItem}
+                                                />
 
-                                            <ExpenseList
-                                                items={formik.values.items.filter(item => item.expense_group === 1)}
-                                                courses={formik.values.courses.filter(course => !course.removed)}
-                                                edittingItem={edittingItem}
-                                                onEditItem={(data) => setEdittingItem(data)}
-                                                onRemoveItem={(id, isNewLoan) => handleRemoveItem(formik, id, isNewLoan)}
-                                            />
+                                                <ExpenseList
+                                                    items={formik.values.items.filter(item => item.expense_group === 1)}
+                                                    courses={formik.values.courses.filter(course => !course.removed)}
+                                                    edittingItem={edittingItem}
+                                                    onEditItem={(data) => setEdittingItem(data)}
+                                                    onRemoveItem={(id, isNewLoan) => handleRemoveItem(formik, id, isNewLoan)}
+                                                />
 
-                                            <div className="flex flex-row items-center gap-2">
-                                                <div className="w-[75%] text-right">รวมค่าใช้จ่ายทั้งสิ้น</div>
-                                                <div className="form-control min-h-[34px] w-[15%] text-right text-sm">
-                                                    {currency.format(formik.values.item_total)}
+                                                <div className="flex flex-row items-center gap-2">
+                                                    <div className="w-[75%] text-right">รวมค่าใช้จ่ายทั้งสิ้น</div>
+                                                    <div className="form-control min-h-[34px] w-[15%] text-right text-sm">
+                                                        {currency.format(formik.values.item_total)}
+                                                    </div>
+                                                    <div className="w-[10%]"></div>
                                                 </div>
-                                                <div className="w-[10%]"></div>
                                             </div>
                                         </Tab>
                                         <Tab eventKey="orders" title="รายการจัดซื้อจัดจ้าง">
-                                            <AddOrder
-                                                data={''}
-                                                formData={formData?.expenses.filter(exp => exp.group_id === 2)}
-                                                onAdd={(order) => {
-                                                    const newOrders = [...formik.values.items, order];
-                                                    const orderTotal = calculateNetTotal(newOrders.filter(item => item.expense_group === 2));
+                                            <div
+                                                className={
+                                                    `border-x-[1px] border-b-[1px] rounded-bl-md rounded-br-md py-3 px-2
+                                                    ${(formik.errors.items && formik.touched.items)
+                                                        ? 'border-x-red-500 border-b-red-500'
+                                                        : 'border-x-[#ddd] border-b-[#ddd]'
+                                                    }`
+                                                }
+                                            >
+                                                <AddOrder
+                                                    data={''}
+                                                    formData={formData?.expenses.filter(exp => exp.group_id === 2)}
+                                                    onAdd={(order) => {
+                                                        const newOrders = [...formik.values.items, order];
+                                                        const orderTotal = calculateNetTotal(newOrders.filter(item => item.expense_group === 2));
 
-                                                    formik.setFieldValue('items', newOrders);
-                                                    formik.setFieldValue('order_total', orderTotal);
-                                                    formik.setFieldValue('net_total', parseFloat(formik.values.item_total) + orderTotal);
-                                                }}
-                                                onUpdate={(order) => console.log(order)}
-                                            />
+                                                        formik.setFieldValue('items', newOrders);
+                                                        formik.setFieldValue('order_total', orderTotal);
+                                                        formik.setFieldValue('net_total', parseFloat(formik.values.item_total) + orderTotal);
+                                                    }}
+                                                    onUpdate={(order) => console.log(order)}
+                                                />
 
-                                            <OrderList i
-                                                orders={formik.values.items.filter(item => item.expense_group === 2)}
-                                                onEdit={(id) => console.log(id, typeof id)}
-                                                onRemove={(id, isNewLoan = false) => {
-                                                    const updatedOrder = removeItemWithFlag(formik.values.items, id, isNewLoan);
-                                                    const orderTotal = calculateNetTotal(updatedOrder.filter(item => item.expense_group === 2));
+                                                <OrderList i
+                                                    orders={formik.values.items.filter(item => item.expense_group === 2)}
+                                                    onEdit={(id) => console.log(id, typeof id)}
+                                                    onRemove={(id, isNewLoan = false) => {
+                                                        const updatedOrder = removeItemWithFlag(formik.values.items, id, isNewLoan);
+                                                        const orderTotal = calculateNetTotal(updatedOrder.filter(item => item.expense_group === 2));
 
-                                                    formik.setFieldValue('items', updatedOrder);
-                                                    formik.setFieldValue('order_total', orderTotal);
-                                                    formik.setFieldValue('net_total', parseFloat(formik.values.item_total) + orderTotal);
-                                                }}
-                                            />
+                                                        formik.setFieldValue('items', updatedOrder);
+                                                        formik.setFieldValue('order_total', orderTotal);
+                                                        formik.setFieldValue('net_total', parseFloat(formik.values.item_total) + orderTotal);
+                                                    }}
+                                                />
 
-                                            <div className="flex flex-row items-center gap-2">
-                                                <div className="w-[75%] text-right">รวมจัดซื้อจัดจ้างทั้งสิ้น</div>
-                                                <div className="form-control min-h-[34px] w-[15%] text-right text-sm">
-                                                    {currency.format(formik.values.order_total)}
+                                                <div className="flex flex-row items-center gap-2">
+                                                    <div className="w-[75%] text-right">รวมจัดซื้อจัดจ้างทั้งสิ้น</div>
+                                                    <div className="form-control min-h-[34px] w-[15%] text-right text-sm">
+                                                        {currency.format(formik.values.order_total)}
+                                                    </div>
+                                                    <div className="w-[10%]"></div>
                                                 </div>
-                                                <div className="w-[10%]"></div>
                                             </div>
                                         </Tab>
                                     </Tabs>

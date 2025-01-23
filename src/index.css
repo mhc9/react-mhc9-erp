@@ -68,14 +68,14 @@ a {
   margin-bottom: 0;
 }
 
-.tab-content {
+/* .tab-content {
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   border-bottom-left-radius: 0.375rem;
   border-bottom-right-radius: 0.375rem;
   padding: 10px;
-}
+} */
 
 /** Modal */
 .modal-header .btn-close::before {

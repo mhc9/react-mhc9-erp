@@ -9,7 +9,7 @@ const itemSchema = Yup.object().shape({
     course_id: Yup.string().required('กรุณาเลือกรุ่นโครงการก่อน'),
     expense_id: Yup.string().required('กรุณาเลือกค่าใช้จ่ายก่อน'),
     description: Yup.string().when('expense', {
-        is: (expense) => expense.pattern,
+        is: (expense) => expense?.pattern,
         then: (schema) => schema.required('กรุณาระบุรายละเอียดค่าใช้จ่าย (ตามรูปแบบในวงเล็บ)'),
     }),
     total: Yup.string().required('กรุณาระบุรวมเป็นเงินก่อน'),
