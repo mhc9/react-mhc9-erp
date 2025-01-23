@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment';
-import { calculateNetTotal, currency, sortObjectByDate } from '../../../utils'
+import { calculateNetTotal, currency, setFieldTouched, sortObjectByDate } from '../../../utils'
 import { store, update } from '../../../features/slices/loan/loanSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
 import AddBudget from './AddBudget'
@@ -140,6 +140,7 @@ const LoanForm = ({ loan }) => {
 
         formik.setFieldValue('budgets', newBudgets);
         formik.setFieldValue('budget_total', currency.format(budgetTotal));
+        setFieldTouched(formik, 'budgets');
     };
 
     const handleRemoveBudget = (formik, id, isNewLoan = false) => {
@@ -156,6 +157,7 @@ const LoanForm = ({ loan }) => {
 
         formik.setFieldValue('budgets', newBudgets);
         formik.setFieldValue('budget_total', currency.format(calculateNetTotal(newBudgets, (isRemoved) => isRemoved)));
+        setFieldTouched(formik, 'budgets');
     };
 
     const removeItemWithFlag = (items, id, isNewLoan) => {
