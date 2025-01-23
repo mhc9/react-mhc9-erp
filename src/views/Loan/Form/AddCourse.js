@@ -96,7 +96,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                                         className={classes.muiTextFieldInput}
                                     />
                                     {(formik.errors.course_date && formik.touched.course_date) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.course_date}</span>
+                                        <span className="text-red-500 text-xs">{formik.errors.course_date}</span>
                                     )}
                                 </Col>
                                 <Col md={2} className="px-1">
@@ -111,7 +111,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                                         className={classes.muiTextFieldInput}
                                     />
                                     {(formik.errors.course_edate && formik.touched.course_edate) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.course_edate}</span>
+                                        <span className="text-red-500 text-xs">{formik.errors.course_edate}</span>
                                     )}
                                 </Col>
                             </>
@@ -123,13 +123,16 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                                 name="room"
                                 value={formik.values.room}
                                 onChange={formik.handleChange}
-                                className="form-control text-sm"
+                                className={`form-control text-sm ${(formik.errors.room && formik.touched.room) && 'border-red-500'}`}
                             />
+                            {(formik.errors.room && formik.touched.room) && (
+                                <span className="text-red-500 text-xs">{formik.errors.room}</span>
+                            )}
                         </Col>
                         <Col md={expenseCalc === 2 ? 4 : 8} className="px-1">
                             <label htmlFor="">สถานที่จัด</label>
                             <div className="input-group">
-                                <div className="form-control text-sm h-[34px] bg-gray-100">
+                                <div className={`form-control text-sm h-[34px] bg-gray-100 ${(formik.errors.place_id && formik.touched.place_id) && 'border-red-500'}`}>
                                     {place?.name} {place && <span>จ.{place?.changwat?.name}</span>}
                                 </div>
                                 <button type="button" className="btn btn-outline-secondary text-sm" onClick={() => setShowPlaceModal(true)}>
@@ -140,7 +143,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                                 </button>
                             </div>
                             {(formik.errors.place_id && formik.touched.place_id) && (
-                                <span className="text-red-500 text-sm">{formik.errors.place_id}</span>
+                                <span className="text-red-500 text-xs">{formik.errors.place_id}</span>
                             )}
                         </Col>
                         <Col md={1} className="pl-1">
