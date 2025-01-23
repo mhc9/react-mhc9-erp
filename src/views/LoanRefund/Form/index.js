@@ -31,7 +31,15 @@ const refundSchema = Yup.object().shape({
     doc_date: Yup.string().required('กรุณาระบุวันที่สัญญา'),
     contract_id: Yup.string().required('กรุณาระบุเลือกรายการคำขอ'),
     refund_type_id: Yup.string().required('กรุณาระบุเลขที่ฎีกา/อ้างอิง'),
-    net_total: Yup.string().required('กรุณาระบุเลขที่สัญญา'),
+    over20_no: Yup.string().when('is_over20', {
+        is: true,
+        then: (schema) => schema.required('กรุณาระบุเลขที่เอกสารคืนเกิน 20%')
+    }),
+    over20_reason: Yup.string().when('is_over20', {
+        is: true,
+        then: (schema) => schema.required('กรุณาระบุเหตุผลคืนเกิน 20%')
+    }),
+    net_total: Yup.string().required('กรุณาระบุยอดใช้จริงทั้งสิ้น'),
     items: Yup.mixed().test({
         message: "กรุณาระบุรายการค่าใช้จ่ายที่ต้องการคืน/เบิกเพิ่ม",
         test: arr => arr.length > 0
@@ -123,8 +131,12 @@ const LoanRefundForm = ({ refund }) => {
         formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_total', itemTotal);
         formik.setFieldValue('net_total', netTotal);
-        formik.setFieldValue('balance', contract?.net_total - netTotal);
-        setRefundType(formik, contract?.net_total - netTotal);
+
+        /** คำนวณยอดคงเหลือและยอดคืนเกิน 20% หรือไม่ */
+        const balance = contract?.net_total - netTotal;
+        formik.setFieldValue('balance', balance);
+        formik.setFieldValue('is_over20', (balance * 100) / contract?.loan?.budget_total >= 20);
+        setRefundType(formik, balance);
     };
 
     const handleSubmit = (values, formik) => {
@@ -168,6 +180,8 @@ const LoanRefundForm = ({ refund }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.values);
+                
                 return (
                     <Form>
                         <ModalLoanContractList
@@ -297,7 +311,7 @@ const LoanRefundForm = ({ refund }) => {
                                                 name="doc_no"
                                                 value={formik.values.doc_no}
                                                 onChange={formik.handleChange}
-                                                className="form-control text-sm"
+                                                className={`form-control text-sm ${(formik.errors.doc_no && formik.touched.doc_no) && 'border-red-500'}`}
                                             />
                                             {(formik.errors.doc_no && formik.touched.doc_no) && (
                                                 <span className="text-red-500 text-xs">{formik.errors.doc_no}</span>
@@ -361,6 +375,7 @@ const LoanRefundForm = ({ refund }) => {
                                             )}
                                         </Col>
                                     </Row>
+
                                     {formik.values.is_over20 && (
                                         <Row className="my-2">
                                             <Col md={12} className="mt-1">
@@ -375,7 +390,7 @@ const LoanRefundForm = ({ refund }) => {
                                                     name="over20_no"
                                                     value={formik.values.over20_no}
                                                     onChange={formik.handleChange}
-                                                    className="form-control text-sm"
+                                                    className={`form-control text-sm ${(formik.errors.over20_no && formik.touched.over20_no) && 'border-red-500'}`}
                                                 />
                                                 {(formik.errors.over20_no && formik.touched.over20_no) && (
                                                     <span className="text-red-500 text-xs">{formik.errors.over20_no}</span>
@@ -405,7 +420,7 @@ const LoanRefundForm = ({ refund }) => {
                                                         name="over20_reason"
                                                         value={formik.values.over20_reason}
                                                         onChange={formik.handleChange}
-                                                        className="form-control text-sm"
+                                                        className={`form-control text-sm ${(formik.errors.over20_reason && formik.touched.over20_reason) && 'border-red-500'}`}
                                                     ></textarea>
                                                 </div>
                                                 {(formik.errors.over20_reason && formik.touched.over20_reason) && (
