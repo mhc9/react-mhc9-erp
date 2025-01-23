@@ -180,8 +180,6 @@ const LoanRefundForm = ({ refund }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik.values);
-                
                 return (
                     <Form>
                         <ModalLoanContractList
