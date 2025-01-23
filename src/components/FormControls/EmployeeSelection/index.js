@@ -33,7 +33,7 @@ const EmployeeSelection = ({ data, fieldName }) => {
             />
 
             <div className="input-group">
-                <div className="form-control text-sm h-[34px] bg-gray-100">
+                <div className="form-control text-sm text-gray-500 bg-gray-200 cursor-not-allowed h-[34px]">
                     {employee?.firstname} {employee?.lastname}
                 </div>
                 <button type="button" className="btn btn-outline-secondary" onClick={() => setShowEmployeeModal(true)}>

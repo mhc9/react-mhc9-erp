@@ -373,7 +373,7 @@ const LoanForm = ({ loan }) => {
                                                 name="project_no"
                                                 value={formik.values.project_no}
                                                 onChange={formik.handleChange}
-                                                className={`form-control text-sm ${(formik.errors.department_id && formik.touched.department_id) && 'border-red-500'}`}
+                                                className={`form-control text-sm ${(formik.errors.project_no && formik.touched.project_no) && 'border-red-500'}`}
                                             />
                                             {(formik.errors.project_no && formik.touched.project_no) && (
                                                 <span className="text-red-500 text-xs">{formik.errors.project_no}</span>
