@@ -120,7 +120,7 @@ const AddExpense = ({ data, expenses, courses, refundType, onAddItem, onUpdateIt
 
                                 </select>
                                 {(formik.errors.contract_detail_id && formik.touched.contract_detail_id) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.contract_detail_id}</span>
+                                    <span className="text-red-500 text-xs">{formik.errors.contract_detail_id}</span>
                                 )}
                             </FormGroup>
                             <FormGroup className="w-[30%]">
@@ -141,7 +141,7 @@ const AddExpense = ({ data, expenses, courses, refundType, onAddItem, onUpdateIt
                                     placeholder="รายละเอียด"
                                 />
                                 {(formik.errors.description && formik.touched.description) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.description}</span>
+                                    <span className="text-red-500 text-xs">{formik.errors.description}</span>
                                 )}
                             </FormGroup>
                             <FormGroup className="w-[20%]">
@@ -154,7 +154,7 @@ const AddExpense = ({ data, expenses, courses, refundType, onAddItem, onUpdateIt
                                     placeholder="ยอดใช้จริง"
                                 />
                                 {(formik.errors.total && formik.touched.total) && (
-                                    <span className="text-red-500 text-sm">{formik.errors.total}</span>
+                                    <span className="text-red-500 text-xs">{formik.errors.total}</span>
                                 )}
                             </FormGroup>
                             <FormGroup className="w-[10%]">
