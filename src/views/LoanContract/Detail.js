@@ -76,7 +76,7 @@ const LoanContractDetail = () => {
 
                         <Row className="mb-3">
                             <Col md={8}>
-                                <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[305px]">
+                                <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[280px]">
                                     <h1 className="font-bold text-lg mb-2">คำขอยืมเงิน</h1>
                                     <Row className="mb-2">
                                         <Col md={5} className="flex flex-row items-center">
@@ -165,20 +165,12 @@ const LoanContractDetail = () => {
                                             </div>
                                         </Col>
                                     </Row>
-                                    <Row className="mb-2">
-                                        <Col md={12} className="flex flex-row items-start">
-                                            <label htmlFor="" className="w-[12%]">หมายเหตุ :</label>
-                                            <div className="font-thin ml-1 w-[88%]">
-                                                {contract?.remark}
-                                            </div>
-                                        </Col>
-                                    </Row>
                                 </div>
                             </Col>
-                            <Col>
+                            <Col md={4}>
                                 <Row>
                                     <Col>
-                                        <div className="border rounded-md py-2 px-4 bg-[#EAD9D5] text-sm min-h-[260px]">
+                                        <div className="border rounded-md py-2 px-4 bg-[#EAD9D5] text-sm min-h-[280px]">
                                             <div className="flex items-center mb-2">
                                                 <h1 className="font-bold text-lg mr-2">สัญญายืมเงิน</h1>
                                                 <div className="text-lg text-center">
@@ -191,52 +183,60 @@ const LoanContractDetail = () => {
                                             </div>
 
                                             <Row className="mb-2">
-                                                <Col>
-                                                    <label htmlFor="">เลขที่สัญญา</label>
-                                                    <div className="form-control text-sm text-center text-blue-600 font-bold min-h-[34px]">
+                                                <Col className="flex flex-row items-center gap-2">
+                                                    <label htmlFor="">เลขที่สัญญา :</label>
+                                                    <div className="text-sm text-center text-blue-600 font-bold">
                                                         {contract?.contract_no}
                                                     </div>
                                                 </Col>
                                             </Row>
                                             <Row className="mb-2">
                                                 <Col md={6}>
-                                                    <label htmlFor="">วันที่ส่งสัญญา</label>
-                                                    <div className="form-control text-sm min-h-[34px]">
+                                                    <label htmlFor="">วันที่ส่งสัญญา :</label>
+                                                    <div className="font-thin">
                                                         {contract?.sent_date ? toLongTHDate(moment(contract?.sent_date).toDate()) : '-'}
                                                     </div>
                                                 </Col>
                                                 <Col md={6}>
-                                                    <label htmlFor="">วันที่อนุมัติ</label>
-                                                    <div className="form-control text-sm min-h-[34px]">
+                                                    <label htmlFor="">วันที่อนุมัติ :</label>
+                                                    <div className="font-thin">
                                                         {contract?.approved_date ? toLongTHDate(moment(contract?.approved_date).toDate()) : '-'}
                                                     </div>
                                                 </Col>
                                             </Row>
                                             <Row className="mb-2">
                                                 <Col md={6}>
-                                                    <label htmlFor="">เลขที่ฎีกา/อ้างอิง</label>
-                                                    <div className="form-control text-sm min-h-[34px]">
+                                                    <label htmlFor="">เลขที่ฎีกา/อ้างอิง :</label>
+                                                    <div className="font-thin">
                                                         {contract?.bill_no}
                                                     </div>
                                                 </Col>
                                                 <Col md={6}>
-                                                    <label htmlFor="">วันที่วาง ขบ.02</label>
-                                                    <div className="form-control text-sm">
+                                                    <label htmlFor="">วันที่วาง ขบ.02 :</label>
+                                                    <div className="font-thin">
                                                         {contract?.bk02_date ? toLongTHDate(moment(contract?.bk02_date).toDate()) : '-'}
                                                     </div>
                                                 </Col>
                                             </Row>
                                             <Row className="mb-2">
                                                 <Col md={6}>
-                                                    <label htmlFor="">วันที่เงินเข้า</label>
-                                                    <div className="form-control text-sm">
+                                                    <label htmlFor="">วันที่เงินเข้า :</label>
+                                                    <div className="font-thin">
                                                         {contract?.deposited_date ? toLongTHDate(moment(contract?.deposited_date).toDate()) : '-'}
                                                     </div>
                                                 </Col>
                                                 <Col md={6}>
-                                                    <label htmlFor="">วันที่กำหนดคืนเงิน</label>
-                                                    <div className="form-control text-sm">
+                                                    <label htmlFor="">วันที่กำหนดคืนเงิน :</label>
+                                                    <div className="font-thin">
                                                         {contract?.refund_date ? toLongTHDate(moment(contract?.refund_date).toDate()) : '-'}
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                            <Row className="mb-1">
+                                                <Col>
+                                                    <label htmlFor="">หมายเหตุ :</label>
+                                                    <div className="font-thin">
+                                                        {contract?.remark ? contract?.remark : '-'}
                                                     </div>
                                                 </Col>
                                             </Row>

@@ -146,9 +146,9 @@ const LoanContractForm = ({ contract }) => {
                             }}
                         />
 
-                        <Row className="mb-2">
+                        <Row className="mb-3">
                             <Col md={8}>
-                                <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[305px]">
+                                <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[325px]">
                                     <h1 className="font-bold text-lg mb-2">คำขอยืมเงิน</h1>
                                     <Row className="mb-2">
                                         <Col md={8} className="flex flex-row items-start justify-center border">
@@ -237,7 +237,7 @@ const LoanContractForm = ({ contract }) => {
                             <Col>
                                 <Row>
                                     <Col>
-                                        <div className="border rounded-md py-2 px-4 bg-[#EAD9D5] text-sm min-h-[260px]">
+                                        <div className="border rounded-md py-2 px-4 bg-[#EAD9D5] text-sm min-h-[325px]">
                                             <div className="flex items-center mb-2">
                                                 <h1 className="font-bold text-lg mr-2">สัญญายืมเงิน</h1>
                                                 <div className="text-lg text-center">
@@ -325,6 +325,18 @@ const LoanContractForm = ({ contract }) => {
                                                     )}
                                                 </Col>
                                             </Row>
+                                            <Row className="mb-1">
+                                                <Col>
+                                                    <label htmlFor="">หมายเหตุ</label>
+                                                    <textarea
+                                                        rows="2"
+                                                        name="remark"
+                                                        value={formik.values.remark}
+                                                        onChange={formik.handleChange}
+                                                        className="form-control"
+                                                    ></textarea>
+                                                </Col>
+                                            </Row>
                                         </div>
                                     </Col>
                                 </Row>
@@ -332,7 +344,7 @@ const LoanContractForm = ({ contract }) => {
                         </Row>
                         <Row className="mb-2">
                             <Col>
-                                <div className="flex flex-col mt-2">
+                                <div className="flex flex-col border rounded-md p-2">
                                     <Tabs
                                         id=""
                                         defaultActiveKey="expenses" 
@@ -404,18 +416,6 @@ const LoanContractForm = ({ contract }) => {
                                 {(formik.errors.items && formik.touched.items) && (
                                     <span className="text-red-500 text-xs">{formik.errors.items}</span>
                                 )}
-                            </Col>
-                        </Row>
-                        <Row className="mb-2">
-                            <Col>
-                                <label htmlFor="">หมายเหตุ</label>
-                                <textarea
-                                    rows="3"
-                                    name="remark"
-                                    value={formik.values.remark}
-                                    onChange={formik.handleChange}
-                                    className="form-control"
-                                ></textarea>
                             </Col>
                         </Row>
                         <Row>
