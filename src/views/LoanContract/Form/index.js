@@ -333,30 +333,54 @@ const LoanContractForm = ({ contract }) => {
                         <Row className="mb-2">
                             <Col>
                                 <div className="flex flex-col mt-2">
-                                    <Tabs>
+                                    <Tabs
+                                        id=""
+                                        defaultActiveKey="expenses" 
+                                        className={`mt-2 ${(formik.errors.items && formik.touched.items) && 'border-red-500'}`}
+                                    >
                                         <Tab eventKey="expenses" title="รายการค่าใช้จ่าย">
-                                            <ExpenseList
-                                                items={contract ? convertToExpenseItem(contract.details).filter(item => item.expense_group === 1) : loan?.details.filter(item => item.expense_group === 1)}
-                                                courses={loan && [...loan?.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date))}
-                                                showButtons={false}
-                                            />
-                                            <div className="flex flex-row items-center gap-2">
-                                                <div className="w-[85%] text-right">รวมค่าใช้จ่ายทั้งสิ้น</div>
-                                                <div className="form-control min-h-[34px] w-[15%] text-right text-sm font-bold">
-                                                    {currency.format(loan?.item_total)}
+                                            <div
+                                                className={
+                                                    `border-x-[1px] border-b-[1px] rounded-bl-md rounded-br-md py-3 px-2
+                                                    ${(formik.errors.items && formik.touched.items)
+                                                        ? 'border-x-red-500 border-b-red-500'
+                                                        : 'border-x-[#ddd] border-b-[#ddd]'
+                                                    }`
+                                                }
+                                            >
+                                                <ExpenseList
+                                                    items={contract ? convertToExpenseItem(contract.details).filter(item => item.expense_group === 1) : loan?.details.filter(item => item.expense_group === 1)}
+                                                    courses={loan && [...loan?.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date))}
+                                                    showButtons={false}
+                                                />
+                                                <div className="flex flex-row items-center gap-2">
+                                                    <div className="w-[85%] text-right">รวมค่าใช้จ่ายทั้งสิ้น</div>
+                                                    <div className="form-control min-h-[34px] w-[15%] text-right text-sm font-bold">
+                                                        {currency.format(loan?.item_total)}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </Tab>
                                         <Tab eventKey="orders" title="รายการจัดซื้อจัดจ้าง">
-                                            <OrderList
-                                                orders={contract ? convertToExpenseItem(contract.details).filter(item => item.expense_group === 2) : loan?.details.filter(item => item.expense_group === 2)}
-                                                showButtons={false}
-                                            />
+                                            <div
+                                                className={
+                                                    `border-x-[1px] border-b-[1px] rounded-bl-md rounded-br-md py-3 px-2
+                                                    ${(formik.errors.items && formik.touched.items)
+                                                        ? 'border-x-red-500 border-b-red-500'
+                                                        : 'border-x-[#ddd] border-b-[#ddd]'
+                                                    }`
+                                                }
+                                            >
+                                                <OrderList
+                                                    orders={contract ? convertToExpenseItem(contract.details).filter(item => item.expense_group === 2) : loan?.details.filter(item => item.expense_group === 2)}
+                                                    showButtons={false}
+                                                />
 
-                                            <div className="flex flex-row items-center gap-2">
-                                                <div className="w-[85%] text-right">รวมจัดซื้อจัดจ้างทั้งสิ้น</div>
-                                                <div className="form-control min-h-[34px] w-[15%] text-right text-sm font-bold">
-                                                    {currency.format(loan?.order_total)}
+                                                <div className="flex flex-row items-center gap-2">
+                                                    <div className="w-[85%] text-right">รวมจัดซื้อจัดจ้างทั้งสิ้น</div>
+                                                    <div className="form-control min-h-[34px] w-[15%] text-right text-sm font-bold">
+                                                        {currency.format(loan?.order_total)}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </Tab>

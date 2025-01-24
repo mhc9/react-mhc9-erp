@@ -259,42 +259,46 @@ const LoanRefundDetail = () => {
                                         defaultActiveKey="expenses"
                                     >
                                         <Tab eventKey="expenses" title="รายการค่าใช้จ่าย">
-                                            <ExpenseList
-                                                items={refund?.details.filter(item => item.contract_detail?.expense_group === 1)}
-                                                courses={refund && [...refund?.contract?.loan?.courses].sort((a, b) => sortObjectByDate(a.course_date ,b.course_date))}
-                                                showButtons={false}
-                                            />
+                                            <div className={`border-x-[1px] border-b-[1px] rounded-bl-md rounded-br-md py-3 px-2 border-x-[#ddd] border-b-[#ddd]`}>
+                                                <ExpenseList
+                                                    items={refund?.details.filter(item => item.contract_detail?.expense_group === 1)}
+                                                    courses={refund && [...refund?.contract?.loan?.courses].sort((a, b) => sortObjectByDate(a.course_date ,b.course_date))}
+                                                    showButtons={false}
+                                                />
 
-                                            <div className="flex flex-row justify-end items-center gap-2">
-                                                รวมค่าใช้จ่ายทั้งสิ้น
-                                                <div className="w-[10%]">
-                                                    <div className="form-control min-h-[34px] text-right text-sm font-bold">
-                                                        {currency.format(refund?.item_total)}
+                                                <div className="flex flex-row justify-end items-center gap-2">
+                                                    รวมค่าใช้จ่ายทั้งสิ้น
+                                                    <div className="w-[10%]">
+                                                        <div className="form-control min-h-[34px] text-right text-sm font-bold">
+                                                            {currency.format(refund?.item_total)}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className="w-[9.5%]">
-                                                    <div className="form-control min-h-[34px] text-right text-sm font-bold">
-                                                        {refund?.contract ? currency.format(refund?.contract?.item_total - parseFloat(refund?.item_total)) : '0'}
+                                                    <div className="w-[9.5%]">
+                                                        <div className="form-control min-h-[34px] text-right text-sm font-bold">
+                                                            {refund?.contract ? currency.format(refund?.contract?.item_total - parseFloat(refund?.item_total)) : '0'}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </Tab>
                                         <Tab eventKey="orders" title="รายการจัดซื้อจัดจ้าง">
-                                            <OrderList
-                                                orders={refund?.details.filter(item => item.contract_detail?.expense_group === 2)}
-                                                showButtons={false}
-                                            />
+                                            <div className={`border-x-[1px] border-b-[1px] rounded-bl-md rounded-br-md py-3 px-2 border-x-[#ddd] border-b-[#ddd]`}>
+                                                <OrderList
+                                                    orders={refund?.details.filter(item => item.contract_detail?.expense_group === 2)}
+                                                    showButtons={false}
+                                                />
 
-                                            <div className="flex flex-row justify-end items-center gap-2">
-                                                รวมจัดซื้อจัดทั้งสิ้น
-                                                <div className="w-[10%]">
-                                                    <div className="form-control min-h-[34px] text-right text-sm font-bold">
-                                                        {currency.format(refund?.order_total)}
+                                                <div className="flex flex-row justify-end items-center gap-2">
+                                                    รวมจัดซื้อจัดทั้งสิ้น
+                                                    <div className="w-[10%]">
+                                                        <div className="form-control min-h-[34px] text-right text-sm font-bold">
+                                                            {currency.format(refund?.order_total)}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className="w-[9.5%]">
-                                                    <div className="form-control min-h-[34px] text-right text-sm font-bold">
-                                                        {refund?.contract ? currency.format(refund?.contract?.order_total - parseFloat(refund?.order_total)) : '0'}
+                                                    <div className="w-[9.5%]">
+                                                        <div className="form-control min-h-[34px] text-right text-sm font-bold">
+                                                            {refund?.contract ? currency.format(refund?.contract?.order_total - parseFloat(refund?.order_total)) : '0'}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

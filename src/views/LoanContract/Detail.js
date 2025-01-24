@@ -74,7 +74,7 @@ const LoanContractDetail = () => {
                             contract={contract}
                         />
 
-                        <Row className="mb-2">
+                        <Row className="mb-3">
                             <Col md={8}>
                                 <div className="border rounded-md py-2 px-3 bg-[#D8E2DC] text-sm min-h-[305px]">
                                     <h1 className="font-bold text-lg mb-2">คำขอยืมเงิน</h1>
@@ -149,9 +149,9 @@ const LoanContractDetail = () => {
                                                     <ul key={item.id}>
                                                         <li>
                                                             <span className="mr-1">{index+1}.</span>
-                                                            {item.budget?.name}
+                                                            {item.budget?.activity?.name}
                                                             <span className="ml-1">
-                                                                {item.budget?.project?.plan?.name} / {item.budget?.project?.name}
+                                                                {item.budget?.activity?.project?.plan?.name} / {item.budget?.activity?.project?.name}
                                                             </span>
                                                             {contract?.loan?.budgets.length > 1 && (
                                                                 <span className="ml-1">
@@ -162,6 +162,14 @@ const LoanContractDetail = () => {
                                                     </ul>
                                                 ))}
                                                 <p><b>รวมงบประมาณทั้งสิ้น</b> {currency.format(contract?.loan?.budget_total)} บาท</p>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <Row className="mb-2">
+                                        <Col md={12} className="flex flex-row items-start">
+                                            <label htmlFor="" className="w-[12%]">หมายเหตุ :</label>
+                                            <div className="font-thin ml-1 w-[88%]">
+                                                {contract?.remark}
                                             </div>
                                         </Col>
                                     </Row>
@@ -237,34 +245,38 @@ const LoanContractDetail = () => {
                                 </Row>
                             </Col>                            
                         </Row>
-                        <Row className="mb-2">
+                        <Row className="mb-3">
                             <Col>
                                 <div className="flex flex-col border rounded-md p-2">
                                     <Tabs>
                                         <Tab eventKey="expenses" title="รายการค่าใช้จ่าย">
-                                            <ExpenseList
-                                                items={contract?.details.map(item => ({ ...item, course_id: item.loan_detail.course_id })).filter(item => item.expense_group === 1)}
-                                                courses={contract && [...contract?.loan?.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date))}
-                                                showButtons={false}
-                                            />
+                                            <div className={`border-x-[1px] border-b-[1px] rounded-bl-md rounded-br-md py-3 px-2 border-x-[#ddd] border-b-[#ddd]`}>
+                                                <ExpenseList
+                                                    items={contract?.details.map(item => ({ ...item, course_id: item.loan_detail.course_id })).filter(item => item.expense_group === 1)}
+                                                    courses={contract && [...contract?.loan?.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date))}
+                                                    showButtons={false}
+                                                />
 
-                                            <div className="flex flex-row items-center gap-2">
-                                                <div className="w-[85%] text-right">รวมค่าใช้จ่ายทั้งสิ้น</div>
-                                                <div className="form-control min-h-[34px] w-[15%] text-right text-sm font-bold">
-                                                    {currency.format(contract?.item_total)}
+                                                <div className="flex flex-row items-center gap-2">
+                                                    <div className="w-[85%] text-right">รวมค่าใช้จ่ายทั้งสิ้น</div>
+                                                    <div className="form-control min-h-[34px] w-[15%] text-right text-sm font-bold">
+                                                        {currency.format(contract?.item_total)}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </Tab>
                                         <Tab eventKey="orders" title="รายการจัดซื้อจัดจ้าง">
-                                            <OrderList
-                                                orders={contract?.details.map(item => ({ ...item, course_id: item.loan_detail.course_id })).filter(item => item.expense_group === 2)}
-                                                showButtons={false}
-                                            />
+                                            <div className={`border-x-[1px] border-b-[1px] rounded-bl-md rounded-br-md py-3 px-2 border-x-[#ddd] border-b-[#ddd]`}>
+                                                <OrderList
+                                                    orders={contract?.details.map(item => ({ ...item, course_id: item.loan_detail.course_id })).filter(item => item.expense_group === 2)}
+                                                    showButtons={false}
+                                                />
 
-                                            <div className="flex flex-row items-center gap-2">
-                                                <div className="w-[85%] text-right">รวมจัดซื้อจัดจ้างทั้งสิ้น</div>
-                                                <div className="form-control min-h-[34px] w-[15%] text-right text-sm font-bold">
-                                                    {currency.format(contract?.order_total)}
+                                                <div className="flex flex-row items-center gap-2">
+                                                    <div className="w-[85%] text-right">รวมจัดซื้อจัดจ้างทั้งสิ้น</div>
+                                                    <div className="form-control min-h-[34px] w-[15%] text-right text-sm font-bold">
+                                                        {currency.format(contract?.order_total)}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </Tab>
@@ -285,14 +297,6 @@ const LoanContractDetail = () => {
                             </Col>
                         </Row>
                         <Row className="mb-2">
-                            <Col>
-                                <label htmlFor="">หมายเหตุ</label>
-                                <div className="form-control text-sm min-h-[68px]">
-                                    {contract?.remark}
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row className="mb-2 mt-4">
                             <Col className="flex justify-center">
                                 {(contract?.status === 1 && !contract?.deposited_date) && (
                                     <a href="#" className="btn btn-primary" onClick={() => setShowDepositForm(true)}>
