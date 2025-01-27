@@ -44,26 +44,28 @@ const Committee = ({ defaultValue, onUpdate }) => {
                         <Fragment key={committee.id}>
                             {!committee.removed && (
                                 <li className="flex flex-row gap-2 w-full p-1">
-                                    <div className="min-w-[50%] max-lg:w-[80%] flex flex-row">
-                                        <span className="min-w-[45%]">
+                                    <div className="w-[80%] max-lg:w-[60%] flex flex-row gap-2">
+                                        <span>
                                             {index+1}. {committee.employee?.prefix.name}{committee.employee?.firstname} {committee.employee?.lastname}
                                         </span>
-                                        <span>
+                                        <span className="max-md:hidden">
                                             <b>ตำแหน่ง</b> {committee.employee?.position?.name}{committee.employee?.level && committee.employee?.level?.name}
                                         </span>
                                     </div>
-                                    <button
-                                        type="button"
-                                        className="btn btn-outline-danger btn-sm px-1"
-                                        onClick={() => handleRemove(committee.id, !committee.requisition_id)}
-                                    >
-                                        <FaMinus size={'12px'} />
-                                    </button>
-                                    {index === committees.filter(comm => !comm.removed).length - 1 && (
-                                        <button type="button" className="btn btn-outline-primary btn-sm px-1" onClick={() => setShowModal(true)}>
-                                            <FaPlus size={'12px'} />
+                                    <div className="min-w-[10%]">
+                                        <button
+                                            type="button"
+                                            className="btn btn-outline-danger btn-sm px-1"
+                                            onClick={() => handleRemove(committee.id, !committee.requisition_id)}
+                                        >
+                                            <FaMinus size={'12px'} />
                                         </button>
-                                    )}
+                                        {index === committees.filter(comm => !comm.removed).length - 1 && (
+                                            <button type="button" className="btn btn-outline-primary btn-sm px-1" onClick={() => setShowModal(true)}>
+                                                <FaPlus size={'12px'} />
+                                            </button>
+                                        )}
+                                    </div>
                                 </li>
                             )}
                         </Fragment>

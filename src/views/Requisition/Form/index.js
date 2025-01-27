@@ -585,7 +585,7 @@ const RequisitionForm = ({ requisition }) => {
                                     </Col>
                                 </Row>
                                 <Row className="mb-2">
-                                    <Col>
+                                    <Col md={12} lg={8}>
                                         <Committee
                                             defaultValue={formik.values.committees}
                                             onUpdate={(committees) => handleUpdateCommittees(formik, committees)}
@@ -593,6 +593,9 @@ const RequisitionForm = ({ requisition }) => {
                                         {(formik.errors.committees && formik.touched.committees) && (
                                             <span className="text-red-500 text-sm">{formik.errors.committees}</span>
                                         )}
+                                    </Col>
+                                    <Col>
+                                        
                                     </Col>
                                 </Row>
                                 <Row>
