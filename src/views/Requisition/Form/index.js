@@ -195,7 +195,6 @@ const RequisitionForm = ({ requisition }) => {
                 net_total: requisition ? requisition.net_total : '',
                 budget_total: requisition ? requisition.budget_total : '',
                 deputy_id: (requisition && requisition.deputy_id) ? requisition.deputy_id : '',
-                deputy: (requisition && requisition.deputy) ? requisition.deputy : null,
                 items: requisition ? requisition.details : [],
                 budgets: requisition ? requisition.budgets : [],
                 committees: requisition ? requisition.committees : [] 
@@ -596,10 +595,10 @@ const RequisitionForm = ({ requisition }) => {
                                             <span className="text-red-500 text-sm">{formik.errors.committees}</span>
                                         )}
                                     </Col>
-                                    <Col>
+                                    <Col className="max-md:mt-2">
                                         <Deputy
                                             defaultValue={formik.values.deputy}
-                                            onUpdate={(employee) => console.log(employee)}
+                                            onUpdate={(employee) => formik.setFieldValue('deputy_id', employee.id)}
                                         />
                                     </Col>
                                 </Row>
