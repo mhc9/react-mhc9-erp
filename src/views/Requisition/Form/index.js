@@ -195,6 +195,7 @@ const RequisitionForm = ({ requisition }) => {
                 net_total: requisition ? requisition.net_total : '',
                 budget_total: requisition ? requisition.budget_total : '',
                 deputy_id: (requisition && requisition.deputy_id) ? requisition.deputy_id : '',
+                deputy: (requisition && requisition.deputy) ? requisition.deputy : '',
                 items: requisition ? requisition.details : [],
                 budgets: requisition ? requisition.budgets : [],
                 committees: requisition ? requisition.committees : [] 
@@ -314,6 +315,7 @@ const RequisitionForm = ({ requisition }) => {
                                         )}
                                     </Col>
                                 </Row>
+
                                 {parseInt(formik.values.order_type_id, 10) === 2 && (
                                     <Row className="mb-2">
                                         <Col>
@@ -334,6 +336,7 @@ const RequisitionForm = ({ requisition }) => {
                                         </Col>
                                     </Row>
                                 )}
+
                                 <Row className="mb-2">
                                     <Col>
                                         <label htmlFor="">เรื่อง</label>
@@ -586,7 +589,7 @@ const RequisitionForm = ({ requisition }) => {
                                     </Col>
                                 </Row>
                                 <Row className="mb-2">
-                                    <Col md={12} lg={8}>
+                                    <Col md={12} lg={8} className="lg:pr-1">
                                         <Committee
                                             defaultValue={formik.values.committees}
                                             onUpdate={(committees) => handleUpdateCommittees(formik, committees)}
@@ -595,7 +598,7 @@ const RequisitionForm = ({ requisition }) => {
                                             <span className="text-red-500 text-sm">{formik.errors.committees}</span>
                                         )}
                                     </Col>
-                                    <Col className="max-md:mt-2">
+                                    <Col className="max-[990px]:mt-2 lg:pl-1">
                                         <Deputy
                                             defaultValue={formik.values.deputy}
                                             onUpdate={(employee) => formik.setFieldValue('deputy_id', employee.id)}
