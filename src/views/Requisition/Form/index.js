@@ -21,10 +21,10 @@ import { useStyles } from '../../../hooks/useStyles'
 import AddItem from './AddItem'
 import ItemList from './ItemList'
 import Committee from './Committee'
+import Deputy from './Deputy'
 import Loading from '../../../components/Loading'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import ModalBudgetList from '../../../components/Modals/BudgetList'
-import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
 import EmployeeSelection from '../../../components/FormControls/EmployeeSelection'
 import AddBudget from '../../Loan/Form/AddBudget'
 import BudgetList from '../../Loan/Form/BudgetList'
@@ -194,6 +194,8 @@ const RequisitionForm = ({ requisition }) => {
                 item_count: requisition ? requisition.item_count : 0,
                 net_total: requisition ? requisition.net_total : '',
                 budget_total: requisition ? requisition.budget_total : '',
+                deputy_id: (requisition && requisition.deputy_id) ? requisition.deputy_id : '',
+                deputy: (requisition && requisition.deputy) ? requisition.deputy : null,
                 items: requisition ? requisition.details : [],
                 budgets: requisition ? requisition.budgets : [],
                 committees: requisition ? requisition.committees : [] 
@@ -595,7 +597,10 @@ const RequisitionForm = ({ requisition }) => {
                                         )}
                                     </Col>
                                     <Col>
-                                        
+                                        <Deputy
+                                            defaultValue={formik.values.deputy}
+                                            onUpdate={(employee) => console.log(employee)}
+                                        />
                                     </Col>
                                 </Row>
                                 <Row>
