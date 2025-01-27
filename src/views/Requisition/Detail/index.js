@@ -272,7 +272,7 @@ const RequisitionDetail = () => {
                                 </Col>
                             </Row>
                             <Row className="mb-2">
-                                <Col>
+                                <Col md={12} lg={8} className="lg:pr-1">
                                     <div className="border w-full pt-2 pb-4 px-2 rounded-md">
                                         <h3 className="font-bold text-lg mb-1">ผู้ตรวจรับพัสดุ</h3>
                                         {requisition.committees.length > 0 && requisition.committees.map((committee, index) => (
@@ -285,6 +285,23 @@ const RequisitionDetail = () => {
                                                 </span>
                                             </div>
                                         ))}
+                                    </div>
+                                </Col>
+                                <Col className="max-[990px]:mt-2 lg:pl-1">
+                                    <div className="border w-full pt-2 pb-4 px-2 rounded-md">
+                                        <h3 className="font-bold text-lg mb-1">
+                                            ผู้อนุมัติแทน ผอ. <span className="text-red-500 font-normal">(ถ้ามี)</span>
+                                        </h3>
+                                        <div className="min-w-[50%] flex flex-row font-thin text-sm ml-4">
+                                            {requisition.deputy ? (
+                                                <>
+                                                    <span>{requisition.deputy.prefix.name}{requisition.deputy.firstname} {requisition.deputy.lastname}</span>
+                                                    {/* <span>
+                                                        <b>ตำแหน่ง</b> {requisition.deputy.position?.name}{requisition.deputy.level && requisition.deputy.level?.name}
+                                                    </span> */}
+                                                </>
+                                            ) : '-'}
+                                        </div>
                                     </div>
                                 </Col>
                             </Row>
