@@ -214,8 +214,13 @@ const RequisitionForm = () => {
                                                 <div className="pt-[40px] flex flex-col items-center justify-center">
                                                     <p className="w-[200px] border-dashed border-b mb-1"></p>
                                                     <div className="signature">
-                                                        <p>( นายนิตย์  ทองเพชรศรี )</p>
-                                                        <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
+                                                        <p>
+                                                            ( {requisition.deputy
+                                                                ? `${requisition.deputy.prefix.name}${requisition.deputy.firstname} ${requisition.deputy.lastname}`
+                                                                : 'นายนิตย์  ทองเพชรศรี'} )
+                                                        </p>
+                                                        {requisition.deputy && <p>{requisition.deputy.position?.name}{requisition.deputy.level && requisition.deputy.level?.name}</p>}
+                                                        <p>{requisition.deputy ? 'รักษาราชการแทนผู้อำนวยการศูนย์สุขภาพจิตที่ 9' : 'ผู้อำนวยการศูนย์สุขภาพจิตที่ 9'}</p>
                                                         <p>ปฏิบัติราชการแทนอธิบดีกรมสุขภาพจิต</p>
                                                         <div className="signature-date">
                                                             <p>วันที่</p>
@@ -247,32 +252,36 @@ const RequisitionForm = () => {
 
                     <div>
                         <table className="w-full border-collapse border border-slate-400 mb-2">
-                            <tr className="text-[14pt]">
-                                <th className="w-[5%] border border-slate-300">ลำดับ</th>
-                                <th className="border border-slate-300">รายการ/รายละเอียดคุณลักษณะเฉพาะ</th>
-                                <th className="w-[6%] border border-slate-300">จำนวน</th>
-                                <th className="w-[8%] border border-slate-300">หน่วยนับ</th>
-                                <th className="w-[10%] border border-slate-300">ราคาต่อหน่วย</th>
-                                <th className="w-[12%] border border-slate-300">รวมเป็นเงิน</th>
-                            </tr>
-                            {requisition?.details.map((detail, index) => (
-                                <tr>
-                                    <td className="border border-slate-300">{index+1}</td>
-                                    <td className="border border-slate-300 text-left pl-2 leading-6">
-                                        <span>{detail.item?.name}</span>
-                                        {detail.description && <span className="ml-1">{detail.description}</span>}
-                                    </td>
-                                    <td className="border border-slate-300">{detail.amount}</td>
-                                    <td className="border border-slate-300">{detail.item?.unit?.name}</td>
-                                    <td className="border border-slate-300">{currency.format(detail.price)}</td>
-                                    <td className="border border-slate-300">{currency.format(detail.total)}</td>
+                            <thead>
+                                <tr className="text-[14pt]">
+                                    <th className="w-[5%] border border-slate-300">ลำดับ</th>
+                                    <th className="border border-slate-300">รายการ/รายละเอียดคุณลักษณะเฉพาะ</th>
+                                    <th className="w-[6%] border border-slate-300">จำนวน</th>
+                                    <th className="w-[8%] border border-slate-300">หน่วยนับ</th>
+                                    <th className="w-[10%] border border-slate-300">ราคาต่อหน่วย</th>
+                                    <th className="w-[12%] border border-slate-300">รวมเป็นเงิน</th>
                                 </tr>
-                            ))}
+                            </thead>
+                            <tbody>
+                                {requisition?.details.map((detail, index) => (
+                                    <tr key={detail.id}>
+                                        <td className="border border-slate-300">{index+1}</td>
+                                        <td className="border border-slate-300 text-left pl-2 leading-6">
+                                            <span>{detail.item?.name}</span>
+                                            {detail.description && <span className="ml-1">{detail.description}</span>}
+                                        </td>
+                                        <td className="border border-slate-300">{detail.amount}</td>
+                                        <td className="border border-slate-300">{detail.item?.unit?.name}</td>
+                                        <td className="border border-slate-300">{currency.format(detail.price)}</td>
+                                        <td className="border border-slate-300">{currency.format(detail.total)}</td>
+                                    </tr>
+                                ))}
 
-                            <tr className="font-bold">
-                                <td colSpan={5}>รวมเป็นเงินทั้งสิ้น</td>
-                                <td>{currency.format(requisition?.details.reduce((sum, curVal) => sum = sum + curVal.total, 0))}</td>
-                            </tr>
+                                <tr className="font-bold">
+                                    <td colSpan={5}>รวมเป็นเงินทั้งสิ้น</td>
+                                    <td>{currency.format(requisition?.details.reduce((sum, curVal) => sum = sum + curVal.total, 0))}</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
 
@@ -336,7 +345,7 @@ const RequisitionForm = () => {
                                 </div>
                                 <div className="memo-paragraph">
                                     {requisition.committees.map((committee, index) => (
-                                        <div className="mb-2 flex flex-row justify-start items-start gap-2">
+                                        <div className="mb-2 flex flex-row justify-start items-start gap-2" key={committee.id}>
                                             ข้าพเจ้า
                                             <p className="w-[320px] indent-0 border-dotted border-b pl-2">
                                                 {committee?.employee?.prefix?.name+committee?.employee?.firstname+ ' ' +committee?.employee?.lastname}
