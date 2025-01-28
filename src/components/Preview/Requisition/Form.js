@@ -219,7 +219,12 @@ const RequisitionForm = () => {
                                                                 ? `${requisition.deputy.prefix.name}${requisition.deputy.firstname} ${requisition.deputy.lastname}`
                                                                 : 'นายนิตย์  ทองเพชรศรี'} )
                                                         </p>
-                                                        {requisition.deputy && <p>{requisition.deputy.position?.name}{requisition.deputy.level && requisition.deputy.level?.name}</p>}
+                                                        {requisition.deputy && (
+                                                            <p>
+                                                                <span>{requisition.deputy.position?.name}{requisition.deputy.level && requisition.deputy.level?.name}</span>
+                                                                <span className="ml-1">{requisition.deputy.position_text && requisition.deputy.position_text}</span>
+                                                            </p>
+                                                        )}
                                                         <p>{requisition.deputy ? 'รักษาราชการแทนผู้อำนวยการศูนย์สุขภาพจิตที่ 9' : 'ผู้อำนวยการศูนย์สุขภาพจิตที่ 9'}</p>
                                                         <p>ปฏิบัติราชการแทนอธิบดีกรมสุขภาพจิต</p>
                                                         <div className="signature-date">
