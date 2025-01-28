@@ -601,7 +601,7 @@ const RequisitionForm = ({ requisition }) => {
                                     <Col className="max-[990px]:mt-2 lg:pl-1">
                                         <Deputy
                                             defaultValue={formik.values.deputy}
-                                            onUpdate={(employee) => formik.setFieldValue('deputy_id', employee.id)}
+                                            onUpdate={(employee) => formik.setFieldValue('deputy_id', employee?.id)}
                                         />
                                     </Col>
                                 </Row>
