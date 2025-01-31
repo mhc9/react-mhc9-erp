@@ -19,7 +19,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
 
     return (
         <div className="border rounded-md py-2 px-3 mb-2">
-            <div className="flex flex-row items-center gap-2">
+            <div className="flex flex-row items-center gap-1">
                 <div className="flex max-md:flex-col items-center min-md:gap-2">
                     <label htmlFor="" className="w-[25%] max-md:w-[100%]">ปีงบ :</label>
                     <DatePicker
@@ -56,7 +56,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                 </div>
                 <button
                     type="button"
-                    className="btn btn-outline-primary btn-sm max-md:mt-6"
+                    className="btn btn-outline-dark btn-sm max-md:mt-6"
                     onClick={() => onFilter(generateQueryString(filters))}
                 >
                     ค้นหา

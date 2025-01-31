@@ -48,7 +48,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
             </div>
             <button
                 type="button"
-                className="btn btn-outline-primary btn-sm max-md:mt-6"
+                className="btn btn-outline-dark btn-sm max-md:mt-6"
                 onClick={() => onFilter(generateQueryString(filters))}
             >
                 ค้นหา
