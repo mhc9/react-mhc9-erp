@@ -28,8 +28,8 @@ import ModalLoanContractList from '../../../components/Modals/LoanContract/List'
 import BudgetBullet from '../../../components/Budget/BudgetBullet'
 
 const refundSchema = Yup.object().shape({
-    doc_no: Yup.string().required('กรุณาระบุเลขที่สัญญา'),
-    doc_date: Yup.string().required('กรุณาระบุวันที่สัญญา'),
+    doc_no: Yup.string().required('กรุณาระบุเลขที่เอกสารหักล้างฯ'),
+    doc_date: Yup.string().required('กรุณาระบุวันที่เอกสารหักล้างฯ'),
     contract_id: Yup.string().required('กรุณาระบุเลือกรายการคำขอ'),
     refund_type_id: Yup.string().required('กรุณาระบุเลขที่ฎีกา/อ้างอิง'),
     over20_no: Yup.string().when('is_over20', {
@@ -145,8 +145,6 @@ const LoanRefundForm = ({ refund }) => {
     };
 
     const createItemsToReturn = (formik, items) => {
-        // .filter(item => item.expense_group === 1)
-
         const newItems = items.map(item => {
             /** เซตค่าฟิลด์ has_pattern โดยเช็คค่า pattern จาก expense ของ expenses prop */
             const pattern = !!item.expense?.pattern;
@@ -428,7 +426,7 @@ const LoanRefundForm = ({ refund }) => {
                                                         formik.setFieldValue('return_reason', '');
 
                                                         /** Filter contractItems for AddExpense'expese prop */
-                                                        setContractItems(contract?.details.filter(item => item.expense_group === 1));
+                                                        setContractItems(contract?.details);
                                                     }
                                                 }}
                                                 className="form-control text-sm"
@@ -593,7 +591,7 @@ const LoanRefundForm = ({ refund }) => {
                                                 }
                                             >
                                                 <AddExpense
-                                                    expenses={contractItems}
+                                                    expenses={contractItems.filter(item => item.expense_group === 1)}
                                                     courses={contract && [...contract?.loan?.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date))}
                                                     refundType={formik.values.refund_type_id}
                                                     onAddItem={(data) => handleAddItem(formik, data)}
@@ -639,7 +637,7 @@ const LoanRefundForm = ({ refund }) => {
                                                 }
                                             >
                                                 <AddOrder
-                                                    formData={contract?.details.filter(item => item.expense_group === 2)}
+                                                    expenses={contractItems.filter(item => item.expense_group === 2)}
                                                     onAdd={(order) => {
                                                         console.log(order);
                                                         /** Determines whether incoming data is existed or not  */
@@ -667,7 +665,7 @@ const LoanRefundForm = ({ refund }) => {
                                                             .filter(item => !item.removed)
                                                             .filter(item => item.contract_detail?.expense_group === 2)
                                                     }
-                                                    onRemove={(order) => {
+                                                    onRemove={(order, isNewRefund) => {
                                                         const newItems = formik.values.items.filter(item => item.contract_detail_id !== order);
                                                         const orderTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 2), (isRemoved) => isRemoved);
                                                         const netTotal = parseFloat(formik.values.item_total) + orderTotal;

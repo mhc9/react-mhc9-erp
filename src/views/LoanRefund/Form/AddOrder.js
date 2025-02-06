@@ -16,7 +16,7 @@ const orderSchema = Yup.object().shape({
     total: Yup.string().required('กรุณาระบุรวมเป็นเงินก่อน'),
 });
 
-const AddOrder = ({ data, formData, onAdd, onUpdate, onClear }) => {
+const AddOrder = ({ data, expenses, onAdd, onUpdate, onClear }) => {
     const [order, setItem] = useState(null);
 
     useEffect(() => {
@@ -35,7 +35,7 @@ const AddOrder = ({ data, formData, onAdd, onUpdate, onClear }) => {
         if (data) {
             onUpdate(values.id, values);
         } else {
-            const detail = formData.find(cd => cd.id === parseInt(values.contract_detail_id, 10));
+            const detail = expenses.find(cd => cd.id === parseInt(values.contract_detail_id, 10));
 
             onAdd({ ...values, contract_detail: detail });
         }
@@ -68,7 +68,7 @@ const AddOrder = ({ data, formData, onAdd, onUpdate, onClear }) => {
                                     className="form-control text-sm"
                                 >
                                     <option value="">-- รายการ --</option>
-                                    {formData && formData.map(exp => (
+                                    {expenses && expenses.map(exp => (
                                         <option value={exp.id} key={exp.id}>
                                             {exp.expense?.name}&nbsp;
                                             {(exp.description && exp.expense?.pattern)
@@ -92,7 +92,7 @@ const AddOrder = ({ data, formData, onAdd, onUpdate, onClear }) => {
                                     onBlur={(e) => {
                                         formik.setFieldValue(
                                             'total',
-                                            (getPatternOfExpense(formData, formik.values.contract_detail_id) && e.target.value !== '') ? calculateTotalFromDescription(e.target.value) : ''
+                                            (getPatternOfExpense(expenses, formik.values.contract_detail_id) && e.target.value !== '') ? calculateTotalFromDescription(e.target.value) : ''
                                         )
                                     }}
                                     className="form-control text-sm"
