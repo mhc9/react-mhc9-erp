@@ -40,7 +40,7 @@ const OrderList = ({ orders, showButtons=true, edittingItem, onEdit, onRemove })
                         </td>
                         {showButtons && (
                             <td className="text-center">
-                                {(!edittingItem || edittingItem?.id !== order.id) && (
+                                {/* {(!edittingItem || edittingItem?.id !== order.id) && (
                                     <button
                                         type="button"
                                         className="btn btn-sm btn-outline-warning mr-1 p-1"
@@ -48,11 +48,11 @@ const OrderList = ({ orders, showButtons=true, edittingItem, onEdit, onRemove })
                                     >
                                         <FaPencilAlt />
                                     </button>
-                                )}
+                                )} */}
                                 <button
                                     type="button"
                                     className="btn btn-sm btn-outline-danger p-1"
-                                    onClick={() => onRemove(order.contract_detail_id, order.loan_id === '')}
+                                    onClick={() => onRemove(order.id, !order.refund_id)}
                                 >
                                     <FaTrash />
                                 </button>

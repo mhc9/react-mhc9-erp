@@ -639,15 +639,10 @@ const LoanRefundForm = ({ refund }) => {
                                                 <AddOrder
                                                     expenses={contractItems.filter(item => item.expense_group === 2)}
                                                     onAdd={(order) => {
-                                                        console.log(order);
-                                                        /** Determines whether incoming data is existed or not  */
-                                                        // if (formik.values.items.some(item => item.contract_detail_id === order.contract_detail_id)) {
-                                                        //     toast.error('ไม่สามารถระบุรายการค่าใช้จ่ายซ้ำได้!!');
-                                                        //     return
-                                                        // }
-
                                                         // /** Create new items array */
                                                         const newItems = [...formik.values.items, order];
+
+                                                        /** TODO: แยกออกไปเป็นฟังก์ชั่น */
                                                         const orderTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 2), (isRemoved) => isRemoved);
                                                         const netTotal = parseFloat(formik.values.item_total) + orderTotal;
 
@@ -665,8 +660,10 @@ const LoanRefundForm = ({ refund }) => {
                                                             .filter(item => !item.removed)
                                                             .filter(item => item.contract_detail?.expense_group === 2)
                                                     }
-                                                    onRemove={(order, isNewRefund) => {
-                                                        const newItems = formik.values.items.filter(item => item.contract_detail_id !== order);
+                                                    onRemove={(id, isNewRefund) => {
+                                                        console.log(id, isNewRefund);
+                                                        
+                                                        const newItems = removeItemWithFlag(formik.values.items, id, isNewRefund);
                                                         const orderTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 2), (isRemoved) => isRemoved);
                                                         const netTotal = parseFloat(formik.values.item_total) + orderTotal;
 
