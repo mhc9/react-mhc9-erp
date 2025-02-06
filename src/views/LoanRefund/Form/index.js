@@ -159,7 +159,7 @@ const LoanRefundForm = ({ refund }) => {
     };
 
     const setRefundType = (formik, balance) => {
-        if (formik.values.refund_type_id !== '4') {
+        if (parseInt(formik.values.refund_type_id, 10) !== 4) {
             formik.setFieldValue('is_over20', (balance * 100) / contract?.loan?.budget_total >= 20);
             formik.setFieldValue('refund_type_id', balance === 0 ? '3' : (balance > 0 ? '1' : '2'));
         }
@@ -217,8 +217,6 @@ const LoanRefundForm = ({ refund }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik.values.items);
-                
                 return (
                     <Form>
                         <ModalLoanContractList
@@ -475,7 +473,7 @@ const LoanRefundForm = ({ refund }) => {
                                     )}
 
                                     {/* คืนเงินเต็มจำนวน */}
-                                    {formik.values.refund_type_id === '4' && (
+                                    {parseInt(formik.values.refund_type_id, 10) === 4 && (
                                         <Row className="mb-2 mt-3 border-t">
                                             <h2 className="font-bold text-base my-1">รายละเอียดคืนเงินเต็มจำนวน</h2>
 
@@ -528,7 +526,7 @@ const LoanRefundForm = ({ refund }) => {
 
                                     <Row>
                                         <Col className="text-center">
-                                            {(contract && formik.values.refund_type_id !== '4') && (
+                                            {(contract && parseInt(formik.values.refund_type_id, 10) !== 4) && (
                                                 <button
                                                     type="button"
                                                     className="btn btn-outline-primary btn-sm mt-4"
@@ -564,7 +562,7 @@ const LoanRefundForm = ({ refund }) => {
                                                 </button>
                                             )}
 
-                                            {formik.values.refund_type_id === '4' && (
+                                            {parseInt(formik.values.refund_type_id, 10) === 4 && (
                                                 <button
                                                     type="button"
                                                     className="btn btn-outline-danger btn-sm mb-2"
