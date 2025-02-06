@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
+import { v4 as uuid } from 'uuid'
 import {
     calculateTotalFromDescription,
     currency,
@@ -37,7 +38,7 @@ const AddOrder = ({ data, expenses, onAdd, onUpdate, onClear }) => {
         } else {
             const detail = expenses.find(cd => cd.id === parseInt(values.contract_detail_id, 10));
 
-            onAdd({ ...values, contract_detail: detail });
+            onAdd({ ...values, id: uuid(), contract_detail: detail });
         }
 
         formik.resetForm();
@@ -48,6 +49,7 @@ const AddOrder = ({ data, expenses, onAdd, onUpdate, onClear }) => {
         <Formik
             enableReinitialize
             initialValues={{
+                id: '',
                 contract_detail_id: order ? order.contract_detail_id : '',
                 contract_detail: null,
                 description: (order && order.description) ? order.description : '',
