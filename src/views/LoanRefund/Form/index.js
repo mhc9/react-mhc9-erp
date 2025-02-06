@@ -5,6 +5,7 @@ import { Formik, Form } from 'formik'
 import { FaCheckSquare, FaSearch } from 'react-icons/fa'
 import { DatePicker } from '@material-ui/pickers';
 import { toast } from 'react-toastify'
+import { v4 as uuid } from 'uuid'
 import * as Yup from 'yup'
 import moment from 'moment';
 import {
@@ -70,11 +71,7 @@ const LoanRefundForm = ({ refund }) => {
             setSelectedDocDate(moment(refund.doc_date));
 
             /** Filter contractItems for AddExpense'expese prop */
-            setContractItems(
-                refund.contract?.details
-                        .filter(item => item.expense_group === 1)
-                        .filter(item => !refund.details.some(it => it.contract_detail_id === item.id))
-            );
+            setContractItems(refund.contract?.details.filter(item => !refund.details.some(it => it.contract_detail_id === item.id)));
         }
     }, [refund]);
 
@@ -85,6 +82,7 @@ const LoanRefundForm = ({ refund }) => {
             return
         }
 
+        /** TODO: แยกออกไปเป็นฟังก์ชั่น */
         /** Create new items array */
         const newItems = [...formik.values.items, contractDetail];
         const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1), (isRemoved) => isRemoved);
@@ -122,6 +120,7 @@ const LoanRefundForm = ({ refund }) => {
     };
 
     const handleRemoveItem = (formik, id, isNewRefund = false) => {
+        /** TODO: แยกออกไปเป็นฟังก์ชั่น */
         /** Create new items array */
         const newItems = removeItemWithFlag(formik.values.items, id, isNewRefund);
         const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1), (isRemoved) => isRemoved);
@@ -143,6 +142,44 @@ const LoanRefundForm = ({ refund }) => {
         const balance = contract?.net_total - netTotal;
         formik.setFieldValue('balance', balance);
         setRefundType(formik, balance);
+    };
+
+    const createItemsToReturn = (formik, items) => {
+        // .filter(item => item.expense_group === 1)
+
+        const newItems = items.map(item => {
+            /** เซตค่าฟิลด์ has_pattern โดยเช็คค่า pattern จาก expense ของ expenses prop */
+            const pattern = !!item.expense?.pattern;
+
+            /** Filter contractItems for AddExpense'expese prop */
+            setContractItems(contractItems.filter(item => item.id !== parseInt(item.id, 10)));
+
+            return {
+                id: uuid(),
+                contract_detail_id: item.id,
+                has_pattern: pattern,
+                contract_detail: item,
+                description: item.description,
+                total: 0,
+            };
+        });
+
+        /** TODO: แยกออกไปเป็นฟังก์ชั่น */
+        /** Calculate item_total and net_total */
+        const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1), (isRemoved) => isRemoved);
+        const orderTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 2), (isRemoved) => isRemoved);
+        const netTotal = orderTotal + itemTotal;
+
+        formik.setFieldValue('items', newItems);
+        formik.setFieldValue('item_total', itemTotal);
+        formik.setFieldValue('order_total', orderTotal);
+        formik.setFieldValue('net_total', netTotal);
+
+        /** คำนวณยอดคงเหลือและยอดคืนเกิน 20% หรือไม่ */
+        const balance = contract?.net_total - netTotal;
+        formik.setFieldValue('balance', balance);
+
+        setTimeout(() => formik.setFieldTouched('items', true));
     };
 
     const handleSubmit = (values, formik) => {
@@ -199,7 +236,7 @@ const LoanRefundForm = ({ refund }) => {
                             onHide={() => setShowLoanModal(false)}
                             onSelect={(contract) => {
                                 setContract(contract);
-                                setContractItems(contract?.details.filter(item => item.expense_group === 1));
+                                setContractItems(contract?.details);
 
                                 formik.setFieldValue('contract_id', contract?.id);
                                 formik.setFieldValue('employee_id', contract?.employee_id);
@@ -357,7 +394,43 @@ const LoanRefundForm = ({ refund }) => {
                                                 type="text"
                                                 name="refund_type_id"
                                                 value={formik.values.refund_type_id}
-                                                onChange={formik.handleChange}
+                                                onChange={(e) => {
+                                                    if (e.target.value === '4' && formik.values.items.length > 0) {
+                                                        toast.error("คุณมีรายการค่าใช้จ่ายอยู่แล้ว กรุณาลบรายการออกก่อน!!");
+                                                        return;
+                                                    }
+
+                                                    formik.handleChange(e);
+
+                                                    /** Create item list to return */
+                                                    if (e.target.value === '4') {
+                                                        /** Clear values of inputs that related over20 data */
+                                                        formik.setFieldValue('is_over20', false);
+                                                        formik.setFieldValue('over20_no', '');
+                                                        formik.setFieldValue('over20_date', '');
+                                                        formik.setFieldValue('over20_reason', '');
+
+                                                        createItemsToReturn(formik, contractItems);
+                                                    } else {
+                                                        formik.setFieldValue('items', [])
+
+                                                        /** TODO: แยกออกเป็นฟังก์ชั่น */
+                                                        formik.setFieldValue('item_total', 0);
+                                                        formik.setFieldValue('order_total', 0);
+                                                        formik.setFieldValue('net_total', 0);
+                                                        
+                                                        /** คำนวณยอดคงเหลือและยอดคืนเกิน 20% หรือไม่ */
+                                                        formik.setFieldValue('balance', contract?.net_total);
+                                                        /** TODO: แยกออกเป็นฟังก์ชั่น */
+
+                                                        formik.setFieldValue('return_no', '');
+                                                        formik.setFieldValue('return_date', '');
+                                                        formik.setFieldValue('return_reason', '');
+
+                                                        /** Filter contractItems for AddExpense'expese prop */
+                                                        setContractItems(contract?.details.filter(item => item.expense_group === 1));
+                                                    }
+                                                }}
                                                 className="form-control text-sm"
                                             >
                                                 <option value="">-- เลือกประเภท --</option>
@@ -589,7 +662,11 @@ const LoanRefundForm = ({ refund }) => {
                                                 />
 
                                                 <OrderList
-                                                    orders={formik.values.items.filter(item => item.contract_detail?.expense_group === 2)}
+                                                    orders={
+                                                        formik.values.items
+                                                            .filter(item => !item.removed)
+                                                            .filter(item => item.contract_detail?.expense_group === 2)
+                                                    }
                                                     onRemove={(order) => {
                                                         const newItems = formik.values.items.filter(item => item.contract_detail_id !== order);
                                                         const orderTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 2), (isRemoved) => isRemoved);
