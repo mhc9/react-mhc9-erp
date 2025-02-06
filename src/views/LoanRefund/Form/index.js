@@ -13,6 +13,7 @@ import {
     currency,
     getFormDataItem,
     removeItemWithFlag,
+    setFieldTouched,
     sortObjectByDate,
     toLongTHDate,
     toShortTHDate
@@ -82,25 +83,21 @@ const LoanRefundForm = ({ refund }) => {
             return
         }
 
-        /** TODO: แยกออกไปเป็นฟังก์ชั่น */
         /** Create new items array */
         const newItems = [...formik.values.items, contractDetail];
-        const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1), (isRemoved) => isRemoved);
-        const netTotal = parseFloat(formik.values.order_total) + itemTotal;
+        formik.setFieldValue('items', newItems);
+        setFieldTouched(formik, 'items', true);
 
         /** Filter contractItems for AddExpense'expese prop */
         setContractItems(contractItems.filter(item => item.id !== parseInt(contractDetail.contract_detail_id, 10)));
 
-        formik.setFieldValue('items', newItems);
-        formik.setFieldValue('item_total', itemTotal);
-        formik.setFieldValue('net_total', netTotal);
+        /** Calculate net total */
+        const netTotal = getNetTotal(formik, newItems);
 
         /** คำนวณยอดคงเหลือและยอดคืนเกิน 20% หรือไม่ */
         const balance = contract?.net_total - netTotal;
         formik.setFieldValue('balance', balance);
         setRefundType(formik, balance);
-
-        setTimeout(() => formik.setFieldTouched('items', true));
     };
 
     const handleEditItem = (data) => {
@@ -120,11 +117,9 @@ const LoanRefundForm = ({ refund }) => {
     };
 
     const handleRemoveItem = (formik, id, isNewRefund = false) => {
-        /** TODO: แยกออกไปเป็นฟังก์ชั่น */
         /** Create new items array */
         const newItems = removeItemWithFlag(formik.values.items, id, isNewRefund);
-        const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1), (isRemoved) => isRemoved);
-        const netTotal = parseFloat(formik.values.order_total) + itemTotal;
+        formik.setFieldValue('items', newItems);
 
         /** Filter contractItems for AddExpense'expese prop */
         setContractItems(
@@ -133,10 +128,8 @@ const LoanRefundForm = ({ refund }) => {
                     .filter(item => !newItems.some(it => (!it.removed && parseInt(it.contract_detail_id, 10) === item.id)))
         );
 
-        /** คำนวณยอดคงเหลือและยอดคืนเกิน 20% หรือไม่ */
-        formik.setFieldValue('items', newItems);
-        formik.setFieldValue('item_total', itemTotal);
-        formik.setFieldValue('net_total', netTotal);
+        /** Calculate net total */
+        const netTotal = getNetTotal(formik, newItems);
 
         /** คำนวณยอดคงเหลือและยอดคืนเกิน 20% หรือไม่ */
         const balance = contract?.net_total - netTotal;
@@ -144,7 +137,7 @@ const LoanRefundForm = ({ refund }) => {
         setRefundType(formik, balance);
     };
 
-    const createItemsToReturn = (formik, items) => {
+    const createItemsToReturn = (items) => {
         const newItems = items.map(item => {
             /** เซตค่าฟิลด์ has_pattern โดยเช็คค่า pattern จาก expense ของ expenses prop */
             const pattern = !!item.expense?.pattern;
@@ -162,22 +155,26 @@ const LoanRefundForm = ({ refund }) => {
             };
         });
 
-        /** TODO: แยกออกไปเป็นฟังก์ชั่น */
-        /** Calculate item_total and net_total */
-        const itemTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 1), (isRemoved) => isRemoved);
-        const orderTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 2), (isRemoved) => isRemoved);
+        return newItems;
+    };
+
+    const setRefundType = (formik, balance) => {
+        if (formik.values.refund_type_id !== '4') {
+            formik.setFieldValue('is_over20', (balance * 100) / contract?.loan?.budget_total >= 20);
+            formik.setFieldValue('refund_type_id', balance === 0 ? '3' : (balance > 0 ? '1' : '2'));
+        }
+    };
+
+    const getNetTotal = (formik, items) => {
+        const itemTotal = items.length > 0 ? calculateNetTotal(items.filter(item => item.contract_detail?.expense_group === 1), (isRemoved) => isRemoved) : 0;
+        const orderTotal = items.length > 0 ? calculateNetTotal(items.filter(item => item.contract_detail?.expense_group === 2), (isRemoved) => isRemoved) : 0;
         const netTotal = orderTotal + itemTotal;
 
-        formik.setFieldValue('items', newItems);
         formik.setFieldValue('item_total', itemTotal);
         formik.setFieldValue('order_total', orderTotal);
         formik.setFieldValue('net_total', netTotal);
 
-        /** คำนวณยอดคงเหลือและยอดคืนเกิน 20% หรือไม่ */
-        const balance = contract?.net_total - netTotal;
-        formik.setFieldValue('balance', balance);
-
-        setTimeout(() => formik.setFieldTouched('items', true));
+        return netTotal;
     };
 
     const handleSubmit = (values, formik) => {
@@ -192,13 +189,6 @@ const LoanRefundForm = ({ refund }) => {
         /** Clear value of local states */
         setContract(null);
         setSelectedDocDate(moment());
-    };
-
-    const setRefundType = (formik, balance) => {
-        if (formik.values.refund_type_id !== '4') {
-            formik.setFieldValue('is_over20', (balance * 100) / contract?.loan?.budget_total >= 20);
-            formik.setFieldValue('refund_type_id', balance === 0 ? '3' : (balance > 0 ? '1' : '2'));
-        }
     };
 
     return (
@@ -227,6 +217,8 @@ const LoanRefundForm = ({ refund }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.values.items);
+                
                 return (
                     <Form>
                         <ModalLoanContractList
@@ -241,7 +233,7 @@ const LoanRefundForm = ({ refund }) => {
                                 formik.setFieldValue('year', contract?.year);
 
                                 /** หน่วงเวลา */
-                                setTimeout(() => formik.setFieldTouched('contract_id', true));
+                                setFieldTouched(formik, 'contract_id', true);
                             }}
                         />
 
@@ -392,43 +384,7 @@ const LoanRefundForm = ({ refund }) => {
                                                 type="text"
                                                 name="refund_type_id"
                                                 value={formik.values.refund_type_id}
-                                                onChange={(e) => {
-                                                    if (e.target.value === '4' && formik.values.items.length > 0) {
-                                                        toast.error("คุณมีรายการค่าใช้จ่ายอยู่แล้ว กรุณาลบรายการออกก่อน!!");
-                                                        return;
-                                                    }
-
-                                                    formik.handleChange(e);
-
-                                                    /** Create item list to return */
-                                                    if (e.target.value === '4') {
-                                                        /** Clear values of inputs that related over20 data */
-                                                        formik.setFieldValue('is_over20', false);
-                                                        formik.setFieldValue('over20_no', '');
-                                                        formik.setFieldValue('over20_date', '');
-                                                        formik.setFieldValue('over20_reason', '');
-
-                                                        createItemsToReturn(formik, contractItems);
-                                                    } else {
-                                                        formik.setFieldValue('items', [])
-
-                                                        /** TODO: แยกออกเป็นฟังก์ชั่น */
-                                                        formik.setFieldValue('item_total', 0);
-                                                        formik.setFieldValue('order_total', 0);
-                                                        formik.setFieldValue('net_total', 0);
-                                                        
-                                                        /** คำนวณยอดคงเหลือและยอดคืนเกิน 20% หรือไม่ */
-                                                        formik.setFieldValue('balance', contract?.net_total);
-                                                        /** TODO: แยกออกเป็นฟังก์ชั่น */
-
-                                                        formik.setFieldValue('return_no', '');
-                                                        formik.setFieldValue('return_date', '');
-                                                        formik.setFieldValue('return_reason', '');
-
-                                                        /** Filter contractItems for AddExpense'expese prop */
-                                                        setContractItems(contract?.details);
-                                                    }
-                                                }}
+                                                onChange={formik.handleChange}
                                                 className="form-control text-sm"
                                             >
                                                 <option value="">-- เลือกประเภท --</option>
@@ -569,6 +525,73 @@ const LoanRefundForm = ({ refund }) => {
                                             </Col>
                                         </Row>
                                     )}
+
+                                    <Row>
+                                        <Col className="text-center">
+                                            {(contract && formik.values.refund_type_id !== '4') && (
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-outline-primary btn-sm mt-4"
+                                                    onClick={() => {
+                                                        if (formik.values.items.length > 0) {
+                                                            toast.error("คุณมีรายการค่าใช้จ่ายอยู่แล้ว กรุณาลบรายการออกก่อน!!");
+                                                            return;
+                                                        }
+
+                                                        formik.setFieldValue('refund_type_id', '4');
+
+                                                        /** Clear values of inputs that related over20 data */
+                                                        formik.setFieldValue('is_over20', false);
+                                                        formik.setFieldValue('over20_no', '');
+                                                        formik.setFieldValue('over20_date', '');
+                                                        formik.setFieldValue('over20_reason', '');
+                                                        
+                                                        /** Create item list to return */
+                                                        const newItems = createItemsToReturn(contractItems);
+
+                                                        formik.setFieldValue('items', newItems);
+                                                        setFieldTouched(formik, 'items', true);
+
+                                                        /** Calculate net total */
+                                                        const netTotal = getNetTotal(formik, newItems);
+
+                                                        /** คำนวณยอดคงเหลือและยอดคืนเกิน 20% หรือไม่ */
+                                                        const balance = contract?.net_total - netTotal;
+                                                        formik.setFieldValue('balance', balance);
+                                                    }}
+                                                >
+                                                    คืนเงินเต็มจำนวน
+                                                </button>
+                                            )}
+
+                                            {formik.values.refund_type_id === '4' && (
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-outline-danger btn-sm mb-2"
+                                                    onClick={() => {
+                                                        formik.setFieldValue('refund_type_id', '1');
+
+                                                        formik.setFieldValue('items', [])
+
+                                                        /** Calculate net total */
+                                                        const netTotal = getNetTotal(formik, []);
+
+                                                        /** คำนวณยอดคงเหลือและยอดคืนเกิน 20% หรือไม่ */
+                                                        formik.setFieldValue('balance', contract?.net_total - netTotal);
+
+                                                        formik.setFieldValue('return_no', '');
+                                                        formik.setFieldValue('return_date', '');
+                                                        formik.setFieldValue('return_reason', '');
+
+                                                        /** Filter contractItems for AddExpense'expese prop */
+                                                        setContractItems(contract?.details);
+                                                    }}
+                                                >
+                                                    ยกเลิกคืนเงินเต็มจำนวน
+                                                </button>
+                                            )}
+                                        </Col>
+                                    </Row>
                                 </div>
                             </Col>
                         </Row>
@@ -641,14 +664,15 @@ const LoanRefundForm = ({ refund }) => {
                                                     onAdd={(order) => {
                                                         // /** Create new items array */
                                                         const newItems = [...formik.values.items, order];
-
-                                                        /** TODO: แยกออกไปเป็นฟังก์ชั่น */
-                                                        const orderTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 2), (isRemoved) => isRemoved);
-                                                        const netTotal = parseFloat(formik.values.item_total) + orderTotal;
-
                                                         formik.setFieldValue('items', newItems);
-                                                        formik.setFieldValue('order_total', orderTotal);
-                                                        formik.setFieldValue('net_total', netTotal);
+
+                                                        /** Filter contractItems for AddExpense'expese prop */
+                                                        setContractItems(contractItems.filter(item => item.id !== parseInt(order.contract_detail_id, 10)));
+
+                                                        /** Calculate net total */
+                                                        const netTotal = getNetTotal(formik, newItems);
+
+                                                        /** คำนวณยอดคงเหลือและยอดคืนเกิน 20% หรือไม่ */
                                                         formik.setFieldValue('balance', contract?.net_total - netTotal);
                                                         setRefundType(formik, contract?.net_total - netTotal);
                                                     }}
@@ -661,15 +685,20 @@ const LoanRefundForm = ({ refund }) => {
                                                             .filter(item => item.contract_detail?.expense_group === 2)
                                                     }
                                                     onRemove={(id, isNewRefund) => {
-                                                        console.log(id, isNewRefund);
-                                                        
                                                         const newItems = removeItemWithFlag(formik.values.items, id, isNewRefund);
-                                                        const orderTotal = calculateNetTotal(newItems.filter(item => item.contract_detail?.expense_group === 2), (isRemoved) => isRemoved);
-                                                        const netTotal = parseFloat(formik.values.item_total) + orderTotal;
-
                                                         formik.setFieldValue('items', newItems);
-                                                        formik.setFieldValue('order_total', orderTotal);
-                                                        formik.setFieldValue('net_total', netTotal);
+
+                                                        /** Filter contractItems for AddExpense'expese prop */
+                                                        setContractItems(
+                                                            contract?.details
+                                                                    .filter(item => item.expense_group === 2)
+                                                                    .filter(item => !newItems.some(it => (!it.removed && parseInt(it.contract_detail_id, 10) === item.id)))
+                                                        );
+
+                                                        /** Calculate net total */
+                                                        const netTotal = getNetTotal(formik, newItems);
+
+                                                        /** คำนวณยอดคงเหลือและยอดคืนเกิน 20% หรือไม่ */
                                                         formik.setFieldValue('balance', contract?.net_total - netTotal);
                                                         setRefundType(formik, contract?.net_total - netTotal);
                                                     }}
