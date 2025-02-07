@@ -458,7 +458,7 @@ const LoanRefundForm = ({ refund }) => {
                                                 <div className="flex flex-col">
                                                     <label htmlFor="">เหตุผล</label>
                                                     <textarea
-                                                        rows={2}
+                                                        rows={5}
                                                         name="over20_reason"
                                                         value={formik.values.over20_reason}
                                                         onChange={formik.handleChange}
@@ -510,7 +510,7 @@ const LoanRefundForm = ({ refund }) => {
                                                 <div className="flex flex-col">
                                                     <label htmlFor="">เหตุผล</label>
                                                     <textarea
-                                                        rows={2}
+                                                        rows={5}
                                                         name="return_reason"
                                                         value={formik.values.return_reason}
                                                         onChange={formik.handleChange}
@@ -625,7 +625,7 @@ const LoanRefundForm = ({ refund }) => {
                                                             .filter(item => item.contract_detail?.expense_group === 1)
                                                     }
                                                     courses={contract && [...contract?.loan?.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date))}
-                                                    showButtons={true}
+                                                    showButtons={parseInt(formik.values.refund_type_id, 10) !== 4}
                                                     edittingItem={edittingItem}
                                                     onEditItem={(data) => handleEditItem(data)}
                                                     onRemoveItem={(id, isNewRefund) => handleRemoveItem(formik, id, isNewRefund)}
@@ -682,6 +682,7 @@ const LoanRefundForm = ({ refund }) => {
                                                             .filter(item => !item.removed)
                                                             .filter(item => item.contract_detail?.expense_group === 2)
                                                     }
+                                                    showButtons={parseInt(formik.values.refund_type_id, 10) !== 4}
                                                     onRemove={(id, isNewRefund) => {
                                                         const newItems = removeItemWithFlag(formik.values.items, id, isNewRefund);
                                                         formik.setFieldValue('items', newItems);
