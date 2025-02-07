@@ -81,7 +81,7 @@ const LoanRefundDetail = () => {
                             refund={refund}
                         />
 
-                        <Row className="mb-3">
+                        <Row className="mb-2">
                             <Col md={8} className="pr-1">
                                 <div className="border rounded-md py-2 px-4 bg-[#EAD9D5] text-sm min-h-[315px]">
                                     <h1 className="font-bold text-lg mb-2">สัญญายืมเงิน</h1>
@@ -262,26 +262,41 @@ const LoanRefundDetail = () => {
                                         </Row>
                                     )}
 
-                                    {/* คืนเงินเต็มจำนวน */}
-                                    {refund?.refund_type_id === 4 && (
-                                        <Row className="mb-2 mt-3 border-t">
-                                            <h2 className="font-bold text-base underline my-1">รายละเอียดคืนเงินเต็มจำนวน</h2>
+                                </div>
+                            </Col>
+                        </Row>
 
+                        {/* คืนเงินเต็มจำนวน */}
+                        {refund?.refund_type_id === 4 && (
+                            <Row className="mb-2">
+                                <Col>
+                                    <div className="border rounded-md py-2 px-4 text-sm">
+                                        <h2 className="font-bold text-base underline my-1">รายละเอียดคืนเงินเต็มจำนวน</h2>
+
+                                        <Row>
                                             <Col md={6}>
-                                                <label htmlFor="" className="font-bold">เลขที่เอกสาร</label>
+                                                <label htmlFor="" className="font-bold">เลขที่เอกสารอ้างอิง</label>
                                                 <div className="text-sm">
                                                     {refund?.return_no}
                                                 </div>
                                             </Col>
                                             <Col md={6} className="max-md:mt-2">
                                                 <div className="flex flex-col">
-                                                    <label htmlFor="" className="font-bold">วันที่เอกสาร</label>
+                                                    <label htmlFor="" className="font-bold">วันที่เอกสารอ้างอิง</label>
                                                     <div className="text-sm">
                                                         {toLongTHDate(moment(refund?.return_date).toDate())}
                                                     </div>
                                                 </div>
                                             </Col>
-                                            <Col md={12} className="mt-2">
+                                            <Col md={6} className="mt-2">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="" className="font-bold">หัวข้อ</label>
+                                                    <div className="text-xs min-h-[45px]">
+                                                        {refund?.return_topic}
+                                                    </div>
+                                                </div>
+                                            </Col>
+                                            <Col md={6} className="mt-2">
                                                 <div className="flex flex-col">
                                                     <label htmlFor="" className="font-bold">เหตุผล</label>
                                                     <div className="text-xs min-h-[45px]">
@@ -290,11 +305,11 @@ const LoanRefundDetail = () => {
                                                 </div>
                                             </Col>
                                         </Row>
-                                    )}
+                                    </div>
+                                </Col>
+                            </Row>
+                        )}
 
-                                </div>
-                            </Col>
-                        </Row>
                         <Row className="mb-3">
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
