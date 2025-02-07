@@ -405,6 +405,7 @@ const LoanRefundDetail = () => {
                                     </DropdownItem>
                                 </DropdownButton>
 
+                                {/* คืนเงินเกิน 20% */}
                                 {refund?.is_over20 === 1 && (
                                     <DropdownButton title="เอกสารคืนเงินยืมเกิน 20%" btnColor="primary" cssClass="mr-1">
                                         <DropdownItem>
@@ -415,6 +416,24 @@ const LoanRefundDetail = () => {
                                         </DropdownItem>
                                         <DropdownItem>
                                             <a href={`${process.env.REACT_APP_API_URL}/loan-refunds/${id}/over20`} target="_blank" className="text-primary">
+                                                <i className="far fa-file-word mr-1"></i>
+                                                ดาวน์โหลดบันทึก
+                                            </a>
+                                        </DropdownItem>
+                                    </DropdownButton>
+                                )}
+
+                                {/* คืนเงินเต็มจำนวน */}
+                                {refund?.refund_type_id === 4 && (
+                                    <DropdownButton title="เอกสารคืนเงินเต็มจำนวน" btnColor="primary" cssClass="mr-1">
+                                        <DropdownItem>
+                                            <Link to={`/preview/${id}/loan-refund/return`} target="_blank" className="text-success">
+                                                <i className="fas fa-print mr-1"></i>
+                                                พิมพ์บันทึก
+                                            </Link>
+                                        </DropdownItem>
+                                        <DropdownItem>
+                                            <a href={`${process.env.REACT_APP_API_URL}/loan-refunds/${id}/return`} target="_blank" className="text-primary">
                                                 <i className="far fa-file-word mr-1"></i>
                                                 ดาวน์โหลดบันทึก
                                             </a>
