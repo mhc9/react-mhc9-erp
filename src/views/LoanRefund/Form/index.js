@@ -37,6 +37,10 @@ const refundSchema = Yup.object().shape({
         is: true,
         then: (schema) => schema.required('กรุณาระบุเลขที่เอกสารคืนเกิน 20%')
     }),
+    over20_date: Yup.string().when('is_over20', {
+        is: true,
+        then: (schema) => schema.required('กรุณาระบุวันที่เอกสารคืนเกิน 20%')
+    }),
     over20_reason: Yup.string().when('is_over20', {
         is: true,
         then: (schema) => schema.required('กรุณาระบุเหตุผลคืนเกิน 20%')
@@ -44,6 +48,10 @@ const refundSchema = Yup.object().shape({
     return_no: Yup.string().when('refund_type_id', {
         is: (val) => val === '4',
         then: (schema) => schema.required('กรุณาระบุเลขที่เอกสาร')
+    }),
+    return_date: Yup.string().when('refund_type_id', {
+        is: (val) => val === '4',
+        then: (schema) => schema.required('กรุณาระบุวันที่เอกสาร')
     }),
     return_reason: Yup.string().when('refund_type_id', {
         is: (val) => val === '4',
@@ -204,7 +212,7 @@ const LoanRefundForm = ({ refund }) => {
                 order_total: refund ? refund.order_total : 0,
                 net_total: refund ? refund.net_total : 0,
                 balance: refund ? refund.balance : 0,
-                is_over20: refund ? (refund.is_over20 === 0 ? false : true) : false,
+                is_over20: refund ? ((!refund.is_over20 || refund.is_over20 === 0) ? false : true) : false,
                 over20_no: (refund && refund.over20_no) ? refund.over20_no : '',
                 over20_date: (refund && refund.over20_date) ? refund.over20_date : '',
                 over20_reason: (refund && refund.over20_reason) ? refund.over20_reason : '',
@@ -529,9 +537,9 @@ const LoanRefundForm = ({ refund }) => {
                                             {(contract && parseInt(formik.values.refund_type_id, 10) !== 4) && (
                                                 <button
                                                     type="button"
-                                                    className="btn btn-outline-primary btn-sm mt-4"
+                                                    className="btn btn-outline-primary btn-sm my-2"
                                                     onClick={() => {
-                                                        if (formik.values.items.length > 0) {
+                                                        if (formik.values.items.filter(item => !item.removed).length > 0) {
                                                             toast.error("คุณมีรายการค่าใช้จ่ายอยู่แล้ว กรุณาลบรายการออกก่อน!!");
                                                             return;
                                                         }
@@ -547,7 +555,7 @@ const LoanRefundForm = ({ refund }) => {
                                                         /** Create item list to return */
                                                         const newItems = createItemsToReturn(contractItems);
 
-                                                        formik.setFieldValue('items', newItems);
+                                                        formik.setFieldValue('items', [...formik.values.items, ...newItems]);
                                                         setFieldTouched(formik, 'items', true);
 
                                                         /** Calculate net total */
