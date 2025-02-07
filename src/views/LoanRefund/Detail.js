@@ -43,6 +43,17 @@ const LoanRefundDetail = () => {
         }
     }, [isSuccess]);
 
+    const renderRefundType = (type) => {
+        return (
+            <>
+                {type === 1 && <span>คืนเงิน</span>}
+                {type === 2 && <span>เบิกเพิ่ม</span>}
+                {type === 3 && <span>พอดี</span>}
+                {type === 4 && <span>คืนเงินเต็มจำนวน</span>}
+            </>
+        )
+    };
+
     return (
         <div className="content-wrapper">
             <Breadcrumb>
@@ -200,7 +211,7 @@ const LoanRefundDetail = () => {
                                         <Col md={6} className="mt-2">
                                             <label htmlFor="" className="font-bold">ประเภท</label>
                                             <div className="text-sm">
-                                                {refund?.refund_type_id === 1 ? 'คืนเงิน' : (refund?.refund_type_id === 2 ? 'เบิกเพิ่ม' : 'พอดี')}
+                                                {renderRefundType(refund?.refund_type_id)}
                                             </div>
                                         </Col>                                        
                                         <Col md={6} className="mt-2">
@@ -219,6 +230,8 @@ const LoanRefundDetail = () => {
                                             </div>
                                         </Col>
                                     </Row>
+
+                                    {/* คืนเงินเกิน 20% */}
                                     {refund?.is_over20 === 1 && (
                                         <Row className="my-2">
                                             <Col md={12} className="mt-1">
@@ -241,13 +254,44 @@ const LoanRefundDetail = () => {
                                             <Col md={12} className="mt-2">
                                                 <div className="flex flex-col">
                                                     <label htmlFor="" className="font-bold">เหตุผล</label>
-                                                    <div className="text-sm min-h-[45px] px-2">
+                                                    <div className="text-xs min-h-[45px]">
                                                         {refund?.over20_reason ? refund?.over20_reason : '-'}
                                                     </div>
                                                 </div>
                                             </Col>
                                         </Row>
                                     )}
+
+                                    {/* คืนเงินเต็มจำนวน */}
+                                    {refund?.refund_type_id === 4 && (
+                                        <Row className="mb-2 mt-3 border-t">
+                                            <h2 className="font-bold text-base underline my-1">รายละเอียดคืนเงินเต็มจำนวน</h2>
+
+                                            <Col md={6}>
+                                                <label htmlFor="" className="font-bold">เลขที่เอกสาร</label>
+                                                <div className="text-sm">
+                                                    {refund?.return_no}
+                                                </div>
+                                            </Col>
+                                            <Col md={6} className="max-md:mt-2">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="" className="font-bold">วันที่เอกสาร</label>
+                                                    <div className="text-sm">
+                                                        {toLongTHDate(moment(refund?.return_date).toDate())}
+                                                    </div>
+                                                </div>
+                                            </Col>
+                                            <Col md={12} className="mt-2">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="" className="font-bold">เหตุผล</label>
+                                                    <div className="text-xs min-h-[45px]">
+                                                        {refund?.return_reason}
+                                                    </div>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                    )}
+
                                 </div>
                             </Col>
                         </Row>
