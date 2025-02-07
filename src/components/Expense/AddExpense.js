@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
+import { v4 as uuid } from 'uuid'
 import { calculateTotalFromDescription, getPatternOfExpense, toLongTHDateRange, getFormDataItem } from '../../utils'
 // import ModalAddItemDesc from '../Modals/AddItemDesc'
 
@@ -34,7 +35,7 @@ const AddExpense = ({ data, formData, courses, onAddItem, onUpdateItem, onClear 
         if (data) {
             onUpdateItem(values.id, values);
         } else {
-            onAddItem({ ...values, id: `${values.course_id}${values.expense_id}` });
+            onAddItem({ ...values, id: uuid() });
         }
 
         formik.resetForm();

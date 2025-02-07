@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormGroup } from 'react-bootstrap'
+import { v4 as uuid } from 'uuid'
 import { calculateTotalFromDescription, getPatternOfExpense, getFormDataItem } from '../../../utils'
 // import ModalAddItemDesc from '../Modals/AddItemDesc'
 
@@ -29,7 +30,7 @@ const AddOrder = ({ data, formData, onAdd, onUpdate, onClear }) => {
         if (data) {
             onUpdate(values.id, values);
         } else {
-            onAdd({ ...values, id: values.expense_id });
+            onAdd({ ...values, id: uuid() });
         }
 
         formik.resetForm();
