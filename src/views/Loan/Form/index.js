@@ -230,7 +230,6 @@ const LoanForm = ({ loan }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik.values.items);
                 return (
                     <Form>
                         <Row className="mb-2">
