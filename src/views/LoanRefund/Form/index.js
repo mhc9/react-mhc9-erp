@@ -31,7 +31,7 @@ import BudgetBullet from '../../../components/Budget/BudgetBullet'
 const refundSchema = Yup.object().shape({
     doc_no: Yup.string().required('กรุณาระบุเลขที่เอกสารหักล้างฯ'),
     doc_date: Yup.string().required('กรุณาระบุวันที่เอกสารหักล้างฯ'),
-    contract_id: Yup.string().required('กรุณาระบุเลือกรายการคำขอ'),
+    contract_id: Yup.string().required('กรุณาระบุเลือกสัญญาเงินยืม'),
     refund_type_id: Yup.string().required('กรุณาระบุเลขที่ฎีกา/อ้างอิง'),
     over20_no: Yup.string().when('is_over20', {
         is: true,
@@ -52,6 +52,10 @@ const refundSchema = Yup.object().shape({
     return_date: Yup.string().when('refund_type_id', {
         is: (val) => val === '4',
         then: (schema) => schema.required('กรุณาระบุวันที่เอกสาร')
+    }),
+    return_topic: Yup.string().when('refund_type_id', {
+        is: (val) => val === '4',
+        then: (schema) => schema.required('กรุณาระบุหัวข้อ')
     }),
     return_reason: Yup.string().when('refund_type_id', {
         is: (val) => val === '4',
@@ -218,6 +222,7 @@ const LoanRefundForm = ({ refund }) => {
                 over20_reason: (refund && refund.over20_reason) ? refund.over20_reason : '',
                 return_no: (refund && refund.return_no) ? refund.return_no : '',
                 return_date: (refund && refund.return_date) ? refund.return_date : '',
+                return_topic: (refund && refund.return_topic) ? refund.return_topic : '',
                 return_reason: (refund && refund.return_reason) ? refund.return_reason : '',
                 items: refund ? refund.details : [],
             }}
@@ -248,7 +253,7 @@ const LoanRefundForm = ({ refund }) => {
                                 <div
                                     className={`
                                         border rounded-md py-2 px-3 bg-[#EAD9D5] text-sm 
-                                        ${(formik.values.is_over20 || formik.values.refund_type_id === '4') ? 'min-h-[402px]' : 'min-h-[315px]'}
+                                        ${formik.values.is_over20 ? 'min-h-[402px]' : 'min-h-[315px]'}
                                     `}
                                 >
                                     <h1 className="font-bold text-lg mb-2">สัญญายืมเงิน</h1>
@@ -480,58 +485,6 @@ const LoanRefundForm = ({ refund }) => {
                                         </Row>
                                     )}
 
-                                    {/* คืนเงินเต็มจำนวน */}
-                                    {parseInt(formik.values.refund_type_id, 10) === 4 && (
-                                        <Row className="mb-2 mt-3 border-t">
-                                            <h2 className="font-bold text-base my-1">รายละเอียดคืนเงินเต็มจำนวน</h2>
-
-                                            <Col md={6}>
-                                                <label htmlFor="">เลขที่เอกสาร</label>
-                                                <input
-                                                    type="text"
-                                                    name="return_no"
-                                                    value={formik.values.return_no}
-                                                    onChange={formik.handleChange}
-                                                    className={`form-control text-sm ${(formik.errors.return_no && formik.touched.return_no) && 'border-red-500'}`}
-                                                />
-                                                {(formik.errors.return_no && formik.touched.return_no) && (
-                                                    <span className="text-red-500 text-xs">{formik.errors.return_no}</span>
-                                                )}
-                                            </Col>
-                                            <Col md={6} className="max-md:mt-2">
-                                                <div className="flex flex-col">
-                                                    <label htmlFor="">วันที่เอกสาร</label>
-                                                    <DatePicker
-                                                        format="DD/MM/YYYY"
-                                                        value={selectedOver20Date}
-                                                        onChange={(date) => {
-                                                            setSelectedOver20Date(date);
-                                                            formik.setFieldValue('return_date', date.format('YYYY-MM-DD'));
-                                                        }}
-                                                    />
-                                                </div>
-                                                {(formik.errors.return_date && formik.touched.return_date) && (
-                                                    <span className="text-red-500 text-xs">{formik.errors.return_date}</span>
-                                                )}
-                                            </Col>
-                                            <Col md={12} className="mt-2">
-                                                <div className="flex flex-col">
-                                                    <label htmlFor="">เหตุผล</label>
-                                                    <textarea
-                                                        rows={5}
-                                                        name="return_reason"
-                                                        value={formik.values.return_reason}
-                                                        onChange={formik.handleChange}
-                                                        className={`form-control text-sm ${(formik.errors.return_reason && formik.touched.return_reason) && 'border-red-500'}`}
-                                                    ></textarea>
-                                                </div>
-                                                {(formik.errors.return_reason && formik.touched.return_reason) && (
-                                                    <span className="text-red-500 text-xs">{formik.errors.return_reason}</span>
-                                                )}
-                                            </Col>
-                                        </Row>
-                                    )}
-
                                     <Row>
                                         <Col className="text-center">
                                             {(contract && parseInt(formik.values.refund_type_id, 10) !== 4) && (
@@ -569,11 +522,24 @@ const LoanRefundForm = ({ refund }) => {
                                                     คืนเงินเต็มจำนวน
                                                 </button>
                                             )}
+                                        </Col>
+                                    </Row>
+                                </div>
+                            </Col>
+                        </Row>
+                        
+                        {/* คืนเงินเต็มจำนวน */}
+                        {parseInt(formik.values.refund_type_id, 10) === 4 && (
+                            <Row className="mb-2">
+                                <Col>
+                                    <div className="border rounded-md py-2 px-4 text-sm">
+                                        <div className="flex flex-row items-center justify-between">
+                                            <h2 className="font-bold text-base underline my-1">รายละเอียดคืนเงินเต็มจำนวน</h2>
 
                                             {parseInt(formik.values.refund_type_id, 10) === 4 && (
                                                 <button
                                                     type="button"
-                                                    className="btn btn-outline-danger btn-sm mb-2"
+                                                    className="btn btn-outline-danger btn-sm"
                                                     onClick={() => {
                                                         formik.setFieldValue('refund_type_id', '1');
 
@@ -593,14 +559,77 @@ const LoanRefundForm = ({ refund }) => {
                                                         setContractItems(contract?.details);
                                                     }}
                                                 >
-                                                    ยกเลิกคืนเงินเต็มจำนวน
+                                                    ยกเลิก
                                                 </button>
                                             )}
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </Col>
-                        </Row>
+                                        </div>
+
+                                        <Row>
+                                            <Col md={6}>
+                                                <label htmlFor="">เลขที่เอกสาร</label>
+                                                <input
+                                                    type="text"
+                                                    name="return_no"
+                                                    value={formik.values.return_no}
+                                                    onChange={formik.handleChange}
+                                                    className={`form-control text-sm ${(formik.errors.return_no && formik.touched.return_no) && 'border-red-500'}`}
+                                                />
+                                                {(formik.errors.return_no && formik.touched.return_no) && (
+                                                    <span className="text-red-500 text-xs">{formik.errors.return_no}</span>
+                                                )}
+                                            </Col>
+                                            <Col md={6} className="max-md:mt-2">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="">วันที่เอกสาร</label>
+                                                    <DatePicker
+                                                        format="DD/MM/YYYY"
+                                                        value={selectedOver20Date}
+                                                        onChange={(date) => {
+                                                            setSelectedOver20Date(date);
+                                                            formik.setFieldValue('return_date', date.format('YYYY-MM-DD'));
+                                                        }}
+                                                    />
+                                                </div>
+                                                {(formik.errors.return_date && formik.touched.return_date) && (
+                                                    <span className="text-red-500 text-xs">{formik.errors.return_date}</span>
+                                                )}
+                                            </Col>
+                                            <Col md={6} className="my-2">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="">หัวข้อ</label>
+                                                    <textarea
+                                                        rows={3}
+                                                        name="return_topic"
+                                                        value={formik.values.return_topic}
+                                                        onChange={formik.handleChange}
+                                                        className={`form-control text-sm font-thin ${(formik.errors.return_topic && formik.touched.return_topic) && 'border-red-500'}`}
+                                                    ></textarea>
+                                                </div>
+                                                {(formik.errors.return_topic && formik.touched.return_topic) && (
+                                                    <span className="text-red-500 text-xs">{formik.errors.return_topic}</span>
+                                                )}
+                                            </Col>
+                                            <Col md={6} className="my-2">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="">เหตุผล</label>
+                                                    <textarea
+                                                        rows={3}
+                                                        name="return_reason"
+                                                        value={formik.values.return_reason}
+                                                        onChange={formik.handleChange}
+                                                        className={`form-control text-sm font-thin ${(formik.errors.return_reason && formik.touched.return_reason) && 'border-red-500'}`}
+                                                    ></textarea>
+                                                </div>
+                                                {(formik.errors.return_reason && formik.touched.return_reason) && (
+                                                    <span className="text-red-500 text-xs">{formik.errors.return_reason}</span>
+                                                )}
+                                            </Col>
+                                        </Row>
+                                    </div>
+                                </Col>
+                            </Row>
+                        )}
+
                         <Row className="mb-2">
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">

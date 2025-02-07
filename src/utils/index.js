@@ -211,5 +211,5 @@ export const getUrlParam = (url, paramName) => {
 };
 
 export const setFieldTouched = (formik, fieldName) => {
-    setTimeout(() => formik.setFieldTouched('items', true));
+    setTimeout(() => formik.setFieldTouched(fieldName, true));
 }
