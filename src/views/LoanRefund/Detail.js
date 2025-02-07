@@ -390,20 +390,22 @@ const LoanRefundDetail = () => {
                         </Row>
                         <Row className="mb-2 mt-4">
                             <Col className="flex justify-center">
-                                <DropdownButton title="เอกสารหักล้างเงินยืม" btnColor="primary" cssClass="mr-1">
-                                    <DropdownItem>
-                                        <Link to={`/preview/${id}/loan-refund/form`} target="_blank" className="text-success">
-                                            <i className="fas fa-print mr-1"></i>
-                                            พิมพ์คำขอ
-                                        </Link>
-                                    </DropdownItem>
-                                    <DropdownItem>
-                                        <a href={`${process.env.REACT_APP_API_URL}/loan-refunds/${id}/form`} target="_blank" className="text-primary">
-                                            <i className="far fa-file-word mr-1"></i>
-                                            ดาวน์โหลดบันทึก
-                                        </a>
-                                    </DropdownItem>
-                                </DropdownButton>
+                                {refund?.refund_type_id !== 4 && (
+                                    <DropdownButton title="เอกสารหักล้างเงินยืม" btnColor="primary" cssClass="mr-1">
+                                        <DropdownItem>
+                                            <Link to={`/preview/${id}/loan-refund/form`} target="_blank" className="text-success">
+                                                <i className="fas fa-print mr-1"></i>
+                                                พิมพ์คำขอ
+                                            </Link>
+                                        </DropdownItem>
+                                        <DropdownItem>
+                                            <a href={`${process.env.REACT_APP_API_URL}/loan-refunds/${id}/form`} target="_blank" className="text-primary">
+                                                <i className="far fa-file-word mr-1"></i>
+                                                ดาวน์โหลดบันทึก
+                                            </a>
+                                        </DropdownItem>
+                                    </DropdownButton>
+                                )}
 
                                 {/* คืนเงินเกิน 20% */}
                                 {refund?.is_over20 === 1 && (
