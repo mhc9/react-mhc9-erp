@@ -30,7 +30,7 @@ const OrderList = ({ orders, showButtons=true, edittingItem, onEdit, onRemove })
                         <td className="text-right">{currency.format(order.total)}</td>
                         {showButtons && (
                             <td className="text-center">
-                                {(!edittingItem || edittingItem?.id !== order.id) && (
+                                {/* {(!edittingItem || edittingItem?.id !== order.id) && (
                                     <button
                                         type="button"
                                         className="btn btn-sm btn-outline-warning mr-1 p-1"
@@ -38,7 +38,7 @@ const OrderList = ({ orders, showButtons=true, edittingItem, onEdit, onRemove })
                                     >
                                         <FaPencilAlt />
                                     </button>
-                                )}
+                                )} */}
                                 <button
                                     type="button"
                                     className="btn btn-sm btn-outline-danger p-1"

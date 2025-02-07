@@ -66,12 +66,10 @@ const LoanForm = ({ loan }) => {
 
     const handleAddItem = (formik, expense) => {
         const newItems = [...formik.values.items, expense];
-        const itemTotal = calculateNetTotal(newItems.filter(item => item.expense_group === 1), (isRemoved) => isRemoved);
-
         formik.setFieldValue('items', newItems);
-        formik.setFieldValue('item_total', itemTotal);
-        formik.setFieldValue('net_total', parseFloat(formik.values.order_total) + itemTotal);
         setFieldTouched(formik, 'items');
+
+        calcNetTotal(formik, newItems);
     };
 
     /**
@@ -86,12 +84,11 @@ const LoanForm = ({ loan }) => {
 
             return item;
         });
-        const itemTotal = calculateNetTotal(updatedItems.filter(item => item.expense_group === 1), (isRemoved) => isRemoved);
 
         formik.setFieldValue('items', updatedItems);
-        formik.setFieldValue('item_total', itemTotal);
-        formik.setFieldValue('net_total', parseFloat(formik.values.order_total) + itemTotal);
         setFieldTouched(formik, 'items');
+
+        calcNetTotal(formik, updatedItems);
         setEdittingItem(null);
     };
 
@@ -103,12 +100,10 @@ const LoanForm = ({ loan }) => {
      */
     const handleRemoveItem = (formik, id, isNewLoan = false) => {
         const newItems = removeItemWithFlag(formik.values.items, id, isNewLoan);
-        const itemTotal = calculateNetTotal(newItems.filter(item => item.expense_group === 1), (isRemoved) => isRemoved);
-
         formik.setFieldValue('items', newItems);
-        formik.setFieldValue('item_total', itemTotal);
-        formik.setFieldValue('net_total', parseFloat(formik.values.order_total) + itemTotal);
         setFieldTouched(formik, 'items');
+
+        calcNetTotal(formik, newItems);
     };
 
     const handleAddCourse = (formik, course) => {
@@ -176,6 +171,17 @@ const LoanForm = ({ loan }) => {
         }
     };
 
+    const calcNetTotal = (formik, items) => {
+        console.log(items);
+        const itemTotal = items.length > 0 ? calculateNetTotal(items.filter(item => item.expense_group === 1), (isRemoved) => isRemoved) : 0;
+        const orderTotal = items.length > 0 ? calculateNetTotal(items.filter(item => item.expense_group === 2), (isRemoved) => isRemoved) : 0;
+        const netTotal = orderTotal + itemTotal;
+
+        formik.setFieldValue('item_total', itemTotal);
+        formik.setFieldValue('order_total', orderTotal);
+        formik.setFieldValue('net_total', netTotal);
+    };
+
     const handleSubmit = (values, formik) => {
         if (loan) {
             dispatch(update({ id: loan.id, data: values }));
@@ -224,6 +230,7 @@ const LoanForm = ({ loan }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.values.items);
                 return (
                     <Form>
                         <Row className="mb-2">
@@ -607,25 +614,20 @@ const LoanForm = ({ loan }) => {
                                                     formData={formData?.expenses.filter(exp => exp.group_id === 2)}
                                                     onAdd={(order) => {
                                                         const newOrders = [...formik.values.items, order];
-                                                        const orderTotal = calculateNetTotal(newOrders.filter(item => item.expense_group === 2));
-
                                                         formik.setFieldValue('items', newOrders);
-                                                        formik.setFieldValue('order_total', orderTotal);
-                                                        formik.setFieldValue('net_total', parseFloat(formik.values.item_total) + orderTotal);
+
+                                                        calcNetTotal(formik, newOrders);
                                                     }}
                                                     onUpdate={(order) => console.log(order)}
                                                 />
 
                                                 <OrderList i
-                                                    orders={formik.values.items.filter(item => item.expense_group === 2)}
-                                                    onEdit={(id) => console.log(id, typeof id)}
+                                                    orders={formik.values.items.filter(item => item.expense_group === 2 && !item.removed)}
                                                     onRemove={(id, isNewLoan = false) => {
-                                                        const updatedOrder = removeItemWithFlag(formik.values.items, id, isNewLoan);
-                                                        const orderTotal = calculateNetTotal(updatedOrder.filter(item => item.expense_group === 2));
+                                                        const updatedOrders = removeItemWithFlag(formik.values.items, id, isNewLoan);
+                                                        formik.setFieldValue('items', updatedOrders);
 
-                                                        formik.setFieldValue('items', updatedOrder);
-                                                        formik.setFieldValue('order_total', orderTotal);
-                                                        formik.setFieldValue('net_total', parseFloat(formik.values.item_total) + orderTotal);
+                                                        calcNetTotal(formik, updatedOrders);
                                                     }}
                                                 />
 
