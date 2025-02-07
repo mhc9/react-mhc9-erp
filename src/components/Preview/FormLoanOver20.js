@@ -68,18 +68,19 @@ const FormLoanOver20 = () => {
                                     ? <span className="ml-1">ได้ขออนุมัติยืมเงินราชการในการจัด{refund.contract?.loan?.project_name}</span>
                                     : <span className="ml-1">เรื่อง ขออนุมัติยืมเงินราชการ เพื่อเป็นค่าใช้จ่ายในการเดินทางไปราชการเข้าร่วม{refund.contract?.loan?.project_name}</span>
                                 }
-                                <span className="ml-1">
+                                <span className="mx-1">
                                     ระหว่างวันที่ {toLongTHDate(moment(refund.contract?.loan?.project_sdate).toDate())} ถึงวันที่ {toLongTHDate(moment(refund.contract?.loan?.project_edate).toDate())}
                                 </span>
-                                {refund.contract?.loan?.courses.length === 1 && refund.contract?.loan?.courses.map((course, index) => (
+                                ณ{refund.contract?.loan?.courses.length  > 0 && refund.contract?.loan?.courses.map((course, index) => (
                                     <span className="mx-1" key={course.id}>
-                                        ณ {course.place?.name} จ.{course.place?.changwat?.name}
+                                        {course.place?.name} จ.{course.place?.changwat?.name}
                                     </span>
                                 ))}
-                                จากงบประมาณศูนย์สุขภาพจิตที่ 9
-                                {refund.contract?.loan?.budgets && refund.contract?.loan?.budgets.map((data, index) => (
-                                    <span className="ml-1" key={data.budget_id}>
-                                        ตามแผนงาน{data.budget?.project?.plan?.name} {data.budget?.project?.name} {data.budget?.name}
+                                <span className="mx-1">จากงบประมาณศูนย์สุขภาพจิตที่ 9</span>
+                                ตาม{refund.contract?.loan?.budgets && refund.contract?.loan?.budgets.map((data, index) => (
+                                    <span key={data.budget_id}>
+                                        {data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name} {data.budget?.activity?.name}
+                                        {refund.contract?.loan?.budgets.length > 1 && <span className="mx-1">จำนวนเงิน {currency.format(data.total)} บาท</span>}
                                     </span>
                                 ))}
                                 <span className="ml-1">
