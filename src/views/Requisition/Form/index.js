@@ -13,7 +13,8 @@ import {
     currency,
     getFormDataItem,
     isExisted,
-    removeItemWithFlag
+    removeItemWithFlag,
+    setFieldTouched
 } from '../../../utils'
 import { useGetInitialFormDataQuery } from '../../../features/services/requisition/requisitionApi'
 import { store, update } from '../../../features/slices/requisition/requisitionSlice'
@@ -64,7 +65,7 @@ const RequisitionForm = ({ requisition }) => {
     const { loggedInUser } = useSelector(state => state.auth);
     const [budget, setBudget] = useState(null);
     const [requester, setRequester] = useState(null);
-    const [edittingItem, setEdittingItem] = useState(null);
+    const [itemToedit, setItemToEdit] = useState(null);
     const [selectedDate, setSelectedDate] = useState(moment());
     const [selectedYear, setSelectedYear] = useState(moment(`${cookies.budgetYear}-01-01`));
     const [selectedDesiredDate, setSelectedDesiredDate] = useState(moment());
@@ -103,15 +104,15 @@ const RequisitionForm = ({ requisition }) => {
         }
 
         const newItems = [...formik.values.items, item];
-
         formik.setFieldValue('items', newItems);
-        formik.setFieldValue('item_count', newItems.length);
-        formik.setFieldValue('net_total', currency.format(calculateNetTotal(newItems, (isRemove) => isRemove)));
-        setTimeout(() => formik.setFieldTouched('items', true), 300);
+        setFieldTouched(formik, 'items');
+
+        /** Calculate net total */
+        calcNetTotal(formik, newItems);
     };
 
     const handleEditItem = (data) => {
-        setEdittingItem(data);
+        setItemToEdit(data);
     };
 
     /**
@@ -127,10 +128,14 @@ const RequisitionForm = ({ requisition }) => {
             return item;
         });
 
-        setEdittingItem(null);
         formik.setFieldValue('items', updatedItems);
-        formik.setFieldValue('item_count', updatedItems.length);
-        formik.setFieldValue('net_total', currency.format(calculateNetTotal(updatedItems)));
+        setFieldTouched(formik, 'items');
+
+        /** Calculate net total */
+        calcNetTotal(formik, updatedItems);
+
+        /** Clear item to edit */
+        setItemToEdit(null);
     };
 
     /**
@@ -141,16 +146,26 @@ const RequisitionForm = ({ requisition }) => {
      */
     const handleRemoveItem = (formik, id, isNewItem = false) => {
         const newItems = removeItemWithFlag(formik.values.items, id, isNewItem);
-        const itemTotal = calculateNetTotal(newItems.filter(item => item.expense_group === 1), (isRemoved) => isRemoved);
-
-
         formik.setFieldValue('items', newItems);
-        formik.setFieldValue('item_count', newItems.length);
-        formik.setFieldValue('net_total', itemTotal);
+        setFieldTouched(formik, 'items');
+
+        /** Calculate net total */
+        calcNetTotal(formik, newItems);
+    };
+
+    const calcNetTotal = (formik, items) => {
+        const itemTotal = calculateNetTotal(items, (isRemoved) => isRemoved);
+
+        formik.setFieldValue('item_count', items.filter(item => !item.removed).length);
+        formik.setFieldValue('net_total', currency.format(itemTotal));
     };
 
     const handleUpdateCommittees = (formik, committees) => {
         formik.setFieldValue('committees', committees);
+    };
+
+    const handleTypeChange = (typeId) => {
+        (formData && formData.types) && setFilteredTypes(formData.types.filter(type => type.order_type_id === parseInt(typeId)));
     };
 
     const handleSubmit = (values, formik) => {
@@ -167,10 +182,6 @@ const RequisitionForm = ({ requisition }) => {
         setRequester(null);
         setSelectedDate(moment());
         setSelectedYear(moment(`${cookies.budgetYear}-01-01`));
-    };
-
-    const handleTypeChange = (typeId) => {
-        (formData && formData.types) && setFilteredTypes(formData.types.filter(type => type.order_type_id === parseInt(typeId)));
     };
 
     return (
@@ -204,6 +215,8 @@ const RequisitionForm = ({ requisition }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.values);
+                
                 return (
                     <Form>
                         {isLoading && <div className="text-center"><Loading /></div>}
@@ -529,11 +542,11 @@ const RequisitionForm = ({ requisition }) => {
                                         <div className="flex flex-col border p-2 rounded-md">
                                             <h1 className="font-bold text-lg mb-1">รายการสินค้า/บริการ</h1>
                                             <AddItem
-                                                item={edittingItem}
+                                                item={itemToedit}
                                                 defaultCategory={formik.values.category_id}
                                                 onAddItem={(item) => handleAddItem(formik, item)}
                                                 onUpdateItem={(id, item) => handleUpdateItem(formik, id, item)}
-                                                onCancel={() => setEdittingItem(null)}
+                                                onCancel={() => setItemToEdit(null)}
                                             />
 
                                             <ItemList
