@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { FaCheckSquare, FaRegSquare } from 'react-icons/fa'
 import moment from 'moment'
 import { getRefund } from '../../features/slices/loan-refund/loanRefundSlice'
+import { useGetUserDetailsQuery } from '../../features/services/auth/authApi'
 import { currency, toLongTHDate, toShortTHDate, replaceExpensePatternFromDesc } from '../../utils'
 import { ThaiNumberToText } from '../../utils/currencyText'
 import './Preview.css'
@@ -12,6 +13,10 @@ const FormLoanRefundBill = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { refund } = useSelector(state => state.loanRefund);
+    const { data: user } = useGetUserDetailsQuery('userDetails', {
+        pollingInterval: 900000,
+        refetchOnMountOrArgChange: true,
+    });
 
     useEffect(() => {
         if (id) dispatch(getRefund(id));
@@ -154,10 +159,17 @@ const FormLoanRefundBill = () => {
                                                         <p className="w-[200px] border-dashed border-b mb-1"></p>
                                                         ผู้รับใบสำคัญ
                                                     </div>
-                                                    <div className="signature">
-                                                        <p>(นางสาวสิรินดา  วิถีธรรม)</p>
-                                                        <p>นักวิชาการเงินและบัญชี</p>
-                                                    </div>
+                                                    {user?.permissions[0].role_id === 4 ? (
+                                                        <div className="signature">
+                                                            <p>({user?.employee?.prefix?.name + user?.employee?.firstname + ' ' + user?.employee?.lastname})</p>
+                                                            <p>{user?.employee?.position?.name + (user?.employee?.level && user?.employee?.level?.name)}</p>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="signature">
+                                                            <p>(นางสาวสิรินดา วิถีธรรม)</p>
+                                                            <p>นักวิชาการเงินและบัญชี</p>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
