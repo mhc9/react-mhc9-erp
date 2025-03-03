@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import moment from 'moment'
 import { getRefund } from '../../features/slices/loan-refund/loanRefundSlice'
-import { currency, toLongTHDate, toShortTHDate, replaceExpensePatternFromDesc } from '../../utils'
+import { currency, toLongTHDate, toLongTHDateRange, replaceExpensePatternFromDesc } from '../../utils'
 import { ThaiNumberToText } from '../../utils/currencyText'
 import './Preview.css'
 
@@ -154,7 +154,7 @@ const FormLoanRefund = () => {
                                                 return (
                                                     <div className="mt-2" key={course.id}>
                                                         <p className="indent-[1.3cm]">
-                                                            {course?.course_date && <span className="mx-1 font-bold">วันที่ {toLongTHDate(moment(course?.course_date).toDate())}</span>} 
+                                                            {course?.course_date && <span className="mx-1 font-bold">วันที่ {toLongTHDateRange(course?.course_date, course?.course_edate)}</span>} 
                                                             ณ {course?.place?.name} {/* จ.{course?.place?.changwat?.name} */}
                                                         </p>
 
