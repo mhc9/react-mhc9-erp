@@ -414,7 +414,7 @@ const LoanRefundForm = ({ refund }) => {
                                                 <div className="form-control text-sm font-bold bg-gray-200 min-h-[34px]">
                                                     {parseFloat(formik.values.balance) < 0 && (
                                                         <span className="text-red-600">
-                                                            {currency.format(formik.values.balance)}
+                                                            {currency.format(Math.abs(formik.values.balance))}
                                                         </span>
                                                     )}
                                                     {parseFloat(formik.values.balance) >= 0 && (

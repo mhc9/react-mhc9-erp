@@ -219,7 +219,7 @@ const LoanRefundDetail = () => {
                                             <div className="text-sm">
                                                 {refund?.balance < 0 && (
                                                     <span className="text-red-600 font-bold">
-                                                        {currency.format(refund?.balance)}
+                                                        {currency.format(Math.abs(refund?.balance))}
                                                     </span>
                                                 )}
                                                 {refund?.balance >= 0 && (
