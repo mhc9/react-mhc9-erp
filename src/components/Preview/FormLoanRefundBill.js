@@ -162,7 +162,7 @@ const FormLoanRefundBill = () => {
                                                     {user?.permissions[0].role_id === 4 ? (
                                                         <div className="signature">
                                                             <p>({user?.employee?.prefix?.name + user?.employee?.firstname + ' ' + user?.employee?.lastname})</p>
-                                                            <p>{user?.employee?.position?.name + (user?.employee?.level && user?.employee?.level?.name)}</p>
+                                                            <p>{`${user?.employee?.position?.name}${user?.employee?.level ? user?.employee?.level?.name : ''}`}</p>
                                                         </div>
                                                     ) : (
                                                         <div className="signature">
