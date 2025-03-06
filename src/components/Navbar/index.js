@@ -38,8 +38,8 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                         text="จัดซื้อจัดจ้าง"
                         submenus={[
                             {type: 'menu', text: 'คำขอซื้อ/จ้าง', link: '/requisition', allowed_users: []},
-                            {type: 'menu', text: 'ใบสั่งซื้อ/จ้าง', link: '/order', allowed_users: [1, 3]},
-                            {type: 'menu', text: 'ตรวจรับพัสดุ', link: '/inspection', allowed_users: [1, 3]},
+                            {type: 'menu', text: 'ใบสั่งซื้อ/จ้าง', link: '/order', allowed_users: [1, 3, 5]},
+                            {type: 'menu', text: 'ตรวจรับพัสดุ', link: '/inspection', allowed_users: [1, 3, 5]},
                         ]}
                         userRole={user?.permissions[0]?.role_id}
                     />
@@ -47,9 +47,9 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                         text="ยืมเงินราชการ"
                         submenus={[
                             {type: 'menu', text: 'คำขอยืมเงิน', link: '/loan', allowed_users: []},
-                            {type: 'menu', text: 'สัญญายืมเงิน', link: '/loan-contract', allowed_users: [1, 4]},
+                            {type: 'menu', text: 'สัญญายืมเงิน', link: '/loan-contract', allowed_users: [1, 4, 5]},
                             {type: 'menu', text: 'หักล้างเงินยืม', link: '/loan-refund', allowed_users: []},
-                            {type: 'menu', text: 'ทะเบียนคุม', link: '/loan-report', allowed_users: [1, 4]},
+                            {type: 'menu', text: 'ทะเบียนคุม', link: '/loan-report', allowed_users: [1, 4, 5]},
                         ]}
                         userRole={user?.permissions[0]?.role_id}
                     />
@@ -72,7 +72,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 {type: 'menu', text: 'หน่วยนับ', link: '/unit', allowed_users: [1, 3]},
                                 {type: 'menu', text: 'ผู้จัดจำหน่าย', link: '/supplier', allowed_users: [1, 3]},
                                 {type: 'divided'},
-                                {type: 'menu', text: 'งบประมาณ', link: '/budget-plan', allowed_users: [1, 4]},
+                                {type: 'menu', text: 'งบประมาณ', link: '/budget-plan', allowed_users: [1, 4, 5]},
                             ]}
                             userRole={user?.permissions[0]?.role_id}
                         />
