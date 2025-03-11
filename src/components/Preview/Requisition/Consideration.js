@@ -68,26 +68,42 @@ const RequisitionConsideration = () => {
                                 </div>
                                 <div className="memo-paragraph">
                                     <table className="w-full border-collapse border border-slate-400">
-                                        <tr className="text-[14pt]">
-                                            <th className="w-[5%] border border-slate-300 text-center">ลำดับ</th>
-                                            <th className="border border-slate-300 text-center">รายการพิจารณา</th>
-                                            <th className="w-[12%] border border-slate-300 text-center">จำนวน</th>
-                                            <th className="w-[30%] border border-slate-300 text-center">รายชื่อผู้ยื่นข้อเสนอ</th>
-                                            <th className="w-[12%] border border-slate-300 text-center">ราคาที่เสนอ*</th>
-                                            <th className="w-[12%] border border-slate-300 text-center">ราคาที่ตกลงซื้อหรือจ้าง*</th>
-                                        </tr>
-                                            <tr>
-                                                <td className="border border-slate-300 text-center">1</td>
-                                                <td className="border border-slate-300 text-left pl-1">
-                                                    {requisition.order_type_id === 1 ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc}
-                                                </td>
-                                                <td className="border border-slate-300 text-center">{requisition.item_count} รายการ</td>
-                                                <td className="border border-slate-300 text-left pl-1 text-[14pt]">
-                                                    {requisition.approvals[0].supplier?.name}
-                                                </td>
-                                                <td className="border border-slate-300 text-right">{currency.format(requisition.net_total)}</td>
-                                                <td className="border border-slate-300 text-right">{currency.format(requisition.net_total)}</td>
+                                        <thead>
+                                            <tr className="text-[14pt]">
+                                                <th className="w-[5%] border border-slate-300 text-center">ลำดับ</th>
+                                                <th className="border border-slate-300 text-center">รายการพิจารณา</th>
+                                                <th className="w-[12%] border border-slate-300 text-center">จำนวน</th>
+                                                <th className="w-[30%] border border-slate-300 text-center">รายชื่อผู้ยื่นข้อเสนอ</th>
+                                                <th className="w-[12%] border border-slate-300 text-center">ราคาที่เสนอ*</th>
+                                                <th className="w-[12%] border border-slate-300 text-center">ราคาที่ตกลงซื้อหรือจ้าง*</th>
                                             </tr>
+                                        </thead>
+                                        <tbody>
+                                            {requisition.details.map((data, index) => (
+                                                <tr>
+                                                    <td className="border border-slate-300 text-center">{index+1}</td>
+                                                    <td className="border border-slate-300 text-left pl-1">
+                                                        {data.item?.name}
+                                                        {/* {requisition.order_type_id === 1 ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc} */}
+                                                    </td>
+                                                    <td className="border border-slate-300 text-center">
+                                                        {data.amount} {data.unit?.name}
+                                                        {/* {requisition.item_count} รายการ */}
+                                                    </td>
+                                                    <td className="border border-slate-300 text-left pl-1 text-[14pt]">
+                                                        {requisition.approvals[0].supplier?.name}
+                                                    </td>
+                                                    <td className="border border-slate-300 text-right">
+                                                        {currency.format(data.total)}
+                                                        {/* {currency.format(requisition.net_total)} */}
+                                                    </td>
+                                                    <td className="border border-slate-300 text-right">
+                                                        {currency.format(data.total)}
+                                                        {/* {currency.format(requisition.net_total)} */}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
                                         <tr>
                                             <td className="text-center" colSpan={5}>รวมเป็นเงินทั้งสิ้น ({ThaiNumberToText(requisition.net_total)})</td>
                                             <td className="text-right">{currency.format(requisition.net_total)}</td>
