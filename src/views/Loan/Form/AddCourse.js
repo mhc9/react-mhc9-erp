@@ -33,7 +33,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
     const handleSubmit = (values, formik) => {
         const course = {
             ...values,
-            id: courses.length + 1,
+            seq_no: courses.length + 1,
             course_date: expenseCalc === 2 ? selectedCourseDate.format('YYYY-MM-DD') : '',
             room: values.room
         };
@@ -49,7 +49,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
     return (
         <Formik
             initialValues={{
-                id: '',
+                seq_no: '',
                 course_date: '',
                 course_edate: '',
                 room: '',
