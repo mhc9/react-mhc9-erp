@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import { Col, Row } from 'react-bootstrap'
 import { DatePicker } from '@material-ui/pickers'
 import { FaSearch, FaPlus } from 'react-icons/fa'
+import { v4 as uuid } from 'uuid'
 import moment from 'moment'
 import { useStyles } from '../../../hooks/useStyles'
 import ModalPlaceForm from '../../../components/Modals/Place/Form'
@@ -33,7 +34,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
     const handleSubmit = (values, formik) => {
         const course = {
             ...values,
-            seq_no: courses.length + 1,
+            id: uuid(),
             course_date: expenseCalc === 2 ? selectedCourseDate.format('YYYY-MM-DD') : '',
             room: values.room
         };
@@ -49,7 +50,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
     return (
         <Formik
             initialValues={{
-                seq_no: '',
+                id: '',
                 course_date: '',
                 course_edate: '',
                 room: '',
