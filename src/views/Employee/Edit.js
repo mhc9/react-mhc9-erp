@@ -1,20 +1,29 @@
 import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { Breadcrumb } from 'react-bootstrap'
-import { useParams } from 'react-router-dom'
-import EmployeeForm from './Form'
 import { useDispatch, useSelector } from 'react-redux'
-import { getEmployee } from '../../features/slices/employee/employeeSlice'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Breadcrumb } from 'react-bootstrap'
+import { toast } from 'react-toastify'
+import { getEmployee, resetSuccess } from '../../features/slices/employee/employeeSlice'
 import Loading from '../../components/Loading'
+import EmployeeForm from './Form'
 
 const EditEmployee = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { employee, isLoading } = useSelector(state => state.employee);
+    const { employee, isLoading, isSuccess } = useSelector(state => state.employee);
 
     useEffect(() => {
         if (id) dispatch(getEmployee(id));
     }, [id]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("บันทึกการแก้ไขข้อมูลบุคลากรสำเร็จ!!");
+            dispatch(resetSuccess());
+            navigate('/employee');
+        }
+    }, [isSuccess]);
 
     return (
         <div className="content-wrapper">
