@@ -133,7 +133,7 @@ const EmployeeForm = ({ employee }) => {
                             <Col md={12} className="flex flex-col justify-center items-center">
                                 {employee?.avatar_url ? (
                                     <div className="rounded-full w-[120px] h-[120px] overflow-hidden">
-                                        <img src={`${process.env.REACT_APP_API_URL}/uploads/employees/${employee?.avatar_url}`} alt="employee-pic" className="avatar-img" />
+                                        <img src={`${process.env.REACT_APP_API_URL}/uploads/${employee?.avatar_url}`} alt="employee-pic" className="avatar-img" />
                                     </div>
                                 ) : (
                                     <>
