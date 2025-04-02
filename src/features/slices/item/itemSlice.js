@@ -7,6 +7,7 @@ const initialState = {
     pager: null,
     isLoading: false,
     isSuccess: false,
+    isDeleted: false,
     isUploaded: false,
     error: null
 };
@@ -77,6 +78,9 @@ export const itemSlice = createSlice({
     name: 'item',
     initialState,
     reducers: {
+        resetDeleted: (state) => {
+            state.isDeleted = false;
+        },
         resetSuccess: (state) => {
             state.isSuccess = false;
         },
@@ -120,13 +124,15 @@ export const itemSlice = createSlice({
         },
         [store.pending]: (state) => {
             state.isSuccess = false;
+            state.item = null;
             state.error = null;
         },
         [store.fulfilled]: (state, { payload }) => {
-            const { status, message } = payload;
+            const { status, message, item } = payload;
 
             if (status === 1) {
                 state.isSuccess = true;
+                state.item = item;
             } else {
                 state.error = { message };
             }
@@ -136,13 +142,15 @@ export const itemSlice = createSlice({
         },
         [update.pending]: (state) => {
             state.isSuccess = false;
+            state.item = null;
             state.error = null;
         },
         [update.fulfilled]: (state, { payload }) => {
-            const { status, message } = payload;
+            const { status, message, item } = payload;
 
             if (status === 1) {
                 state.isSuccess = true;
+                state.item = item;
             } else {
                 state.error = { message };
             }
@@ -151,18 +159,19 @@ export const itemSlice = createSlice({
             state.error = payload;
         },
         [destroy.pending]: (state) => {
-            state.isLoading = true;
-            state.isSuccess = false;
+            state.isDeleted = false;
             state.error = null;
         },
         [destroy.fulfilled]: (state, { payload }) => {
-            console.log(payload);
-            state.isLoading = false
-            state.isSuccess = true;
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isDeleted = true;
+            } else {
+                state.error = { message };
+            }
         },
         [destroy.rejected]: (state, { payload }) => {
-            console.log(payload);
-            state.isLoading = false;
             state.error = payload;
         },
         [upload.pending]: (state) => {
@@ -187,4 +196,9 @@ export const itemSlice = createSlice({
 
 export default itemSlice.reducer;
 
-export const { resetSuccess, resetUploaded, updateImage } = itemSlice.actions;
+export const {
+    resetDeleted,
+    resetSuccess,
+    resetUploaded,
+    updateImage
+} = itemSlice.actions;
