@@ -5,7 +5,7 @@ import { Breadcrumb } from 'react-bootstrap';
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { currency } from '../../utils';
-import { getItems, destroy, resetSuccess } from '../../features/slices/item/itemSlice';
+import { getItems, destroy, resetDeleted } from '../../features/slices/item/itemSlice';
 import { useGetInitialFormDataQuery } from '../../features/services/item/itemApi'
 import Pagination from '../../components/Pagination'
 import Loading from '../../components/Loading';
@@ -24,7 +24,7 @@ const initialFormData = {
 
 const ItemList = () => {
     const dispatch = useDispatch();
-    const { items, pager, isLoading, isSuccess } = useSelector(state => state.item);
+    const { items, pager, isLoading, isDeleted } = useSelector(state => state.item);
     const { data: formData = initialFormData } = useGetInitialFormDataQuery();
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState('');
@@ -38,12 +38,12 @@ const ItemList = () => {
     }, [dispatch, apiEndpoint, params]);
 
     useEffect(() => {
-        if (isSuccess) {
+        if (isDeleted) {
             toast.success('ลบรายการสินค้าเรียบร้อย!!');
             dispatch(getItems({ url: `/api/items/search?page=${params}` }));
-            dispatch(resetSuccess());
+            dispatch(resetDeleted());
         }
-    }, [isSuccess]);
+    }, [isDeleted]);
 
     const handleFilter = (queryStr) => {
         setParams(queryStr);
