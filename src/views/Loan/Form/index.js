@@ -7,7 +7,13 @@ import { toast } from 'react-toastify';
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment';
-import { calculateNetTotal, currency, setFieldTouched, sortObjectByDate } from '../../../utils'
+import {
+    calculateNetTotal,
+    currency,
+    currencyToNumber, 
+    setFieldTouched,
+    sortObjectByDate
+} from '../../../utils'
 import { store, update } from '../../../features/slices/loan/loanSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
 import AddBudget from './AddBudget'
@@ -38,11 +44,8 @@ const loanSchema = Yup.object().shape({
     net_total: Yup.mixed().test(
         'Compare net_total and budget_total',
         'จำนวนงบประมาณและจำนวนเงินทั้งสิ้นไม่เท่ากัน',
-        (val, context) => {
-            console.log(parseFloat(val), parseFloat(context.parent.budget_total));
-            return parseFloat(val) === parseFloat(context.parent.budget_total)
-        }
-    ), //string().required('กรุณาระบุรวมเป็นเงินทั้งสิ้น').
+        (val, context) => parseFloat(val) === parseFloat(currencyToNumber(context.parent.budget_total)),
+    ),
     budgets: Yup.mixed().test('budgetsCount', 'ไม่พบรายการงบประมาณ', val => val.length > 0),
     items: Yup.mixed().test('itemsCount', 'ไม่พบรายการค่าใช้จ่าย/รายการจัดซื้อจัดจ้าง', val => val.length > 0),
     courses: Yup.mixed().test('coursesCount', 'ไม่พบรายการรุ่นโครงการ', val => val.length > 0),
@@ -179,7 +182,6 @@ const LoanForm = ({ loan }) => {
     };
 
     const calcNetTotal = (formik, items) => {
-        console.log(items);
         const itemTotal = items.length > 0 ? calculateNetTotal(items.filter(item => item.expense_group === 1), (isRemoved) => isRemoved) : 0;
         const orderTotal = items.length > 0 ? calculateNetTotal(items.filter(item => item.expense_group === 2), (isRemoved) => isRemoved) : 0;
         const netTotal = orderTotal + itemTotal;
@@ -237,8 +239,6 @@ const LoanForm = ({ loan }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik);
-                
                 return (
                     <Form>
                         <Row className="mb-2">
@@ -527,7 +527,15 @@ const LoanForm = ({ loan }) => {
                         </Row>
                         <Row className="mb-2">
                             <Col>
-                                <div className={`flex flex-col p-2 rounded-md mt-2 ${(formik.errors.budgets && formik.touched.budgets) ? 'border-[1px] border-red-500' : 'border'}`}>
+                                <div
+                                    className={
+                                        `flex flex-col p-2 rounded-md mt-2 
+                                        ${(formik.errors.budgets && formik.touched.budgets) || (formik.errors.net_total && formik.touched.net_total)
+                                            ? 'border-[1px] border-red-500'
+                                            : 'border'
+                                        }`
+                                    }
+                                >
                                     <h1 className="font-bold text-lg mb-1">งบประมาณ</h1>
                                     <AddBudget
                                         formData={formData?.budgets}
@@ -553,13 +561,13 @@ const LoanForm = ({ loan }) => {
                                             />
                                         </div>
                                         <div className="w-[10%]"></div>
-                                    </div>                                    
-                                    {(formik.errors.net_total && formik.touched.net_total) && (
-                                            <span className="text-red-500 text-xs">{formik.errors.net_total}</span>
-                                        )}
+                                    </div>
                                 </div>
                                 {(formik.errors.budgets && formik.touched.budgets) && (
                                     <span className="text-red-500 text-xs">{formik.errors.budgets}</span>
+                                )}
+                                {(formik.errors.net_total && formik.touched.net_total) && (
+                                    <span className="text-red-500 text-xs">{formik.errors.net_total}</span>
                                 )}
                             </Col>
                         </Row>
