@@ -7,6 +7,7 @@ const initialState = {
     pager: null,
     isLoading: false,
     isSuccess: false,
+    isDeleted: false,
     isUploaded: false,
     error: null
 };
@@ -117,6 +118,9 @@ export const loanContractSlice = createSlice({
     name: 'loanContract',
     initialState,
     reducers: {
+        resetDeleted: (state) => {
+            state.isDeleted = false;
+        },
         resetSuccess: (state) => {
             state.isSuccess = false;
         },
@@ -196,11 +200,17 @@ export const loanContractSlice = createSlice({
             state.error = payload;
         },
         [destroy.pending]: (state) => {
-            state.isSuccess = false;
+            state.isDeleted = false;
             state.error = null;
         },
         [destroy.fulfilled]: (state, { payload }) => {
-            state.isSuccess = true;
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isDeleted = true;
+            } else {
+                state.error = { message };
+            }
         },
         [destroy.rejected]: (state, { payload }) => {
             state.error = payload;
@@ -215,7 +225,6 @@ export const loanContractSlice = createSlice({
             if (status === 1) {
                 state.isUploaded = true;
             } else {
-                state.isUploaded = false;
                 state.error = { message };
             }
         },
@@ -278,4 +287,9 @@ export const loanContractSlice = createSlice({
 
 export default loanContractSlice.reducer;
 
-export const { resetSuccess, resetUploaded, updateImage } = loanContractSlice.actions;
+export const {
+    resetDeleted,
+    resetSuccess,
+    resetUploaded,
+    updateImage
+} = loanContractSlice.actions;
