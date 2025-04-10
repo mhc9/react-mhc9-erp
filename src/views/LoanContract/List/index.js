@@ -6,7 +6,7 @@ import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { ConfirmToast } from 'react-confirm-toast'
 import { toast } from 'react-toastify'
-import { getContracts, destroy, resetSuccess } from '../../../features/slices/loan-contract/loanContractSlice'
+import { getContracts, destroy, resetDeleted } from '../../../features/slices/loan-contract/loanContractSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import LoanListDetail from './ListDetail'
 import FilteringInputs from './FilteringInputs'
@@ -22,21 +22,21 @@ const LoanContractList = () => {
         status: '',
     };
     const dispatch = useDispatch();
-    const { contracts, pager, isLoading, isSuccess } = useSelector(state => state.loanContract);
+    const { contracts, pager, isLoading, isDeleted } = useSelector(state => state.loanContract);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
     const [showConfirm, setShowConfirm] = useState(false);
     const [deletingId, setDeletingId] = useState('');
 
     useEffect(() => {
-        if (isSuccess) {
+        if (isDeleted) {
             toast.success('ลบข้อมูลสัญญายืมเงินเรียบร้อยแล้ว!!');
-            dispatch(resetSuccess());
+            dispatch(resetDeleted());
 
             /** Reset ค่าของ apiEndpoint เพื่่อ re-render page */
             setApiEndpoint(prev => prev === '' ? '/api/loan-contracts/search?page=' : '');
         }
-    }, [isSuccess]);
+    }, [isDeleted]);
 
     useEffect(() => {
         if (apiEndpoint === '') {
