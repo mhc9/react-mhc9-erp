@@ -22,12 +22,12 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
     const classes = useStyles()
     const [showPlaceModal, setShowPlaceModal] = useState(false);
     const [showPlaceFormModal, setShowPlaceFormModal] = useState(false);
-    const [selectedCourseDate, setSelectedCourseDate] = useState(defaultCourseDate ? moment(defaultCourseDate) : moment());
+    const [selectedCourseSDate, setSelectedCourseSDate] = useState(defaultCourseDate ? moment(defaultCourseDate) : moment());
     const [selectedCourseEDate, setSelectedCourseEDate] = useState(defaultCourseDate ? moment(defaultCourseDate) : moment());
     const [place, setPlace] = useState(null);
 
     useEffect(() => {
-        setSelectedCourseDate(moment(defaultCourseDate));
+        setSelectedCourseSDate(moment(defaultCourseDate));
         setSelectedCourseEDate(moment(defaultCourseDate));
     }, [defaultCourseDate]);
 
@@ -35,7 +35,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
         const course = {
             ...values,
             id: uuid(),
-            course_date: expenseCalc === 2 ? selectedCourseDate.format('YYYY-MM-DD') : '',
+            course_date: expenseCalc === 2 ? selectedCourseSDate.format('YYYY-MM-DD') : '',
             room: values.room
         };
 
@@ -43,7 +43,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
 
         formik.resetForm();
         setPlace(null);
-        setSelectedCourseDate(defaultCourseDate ? moment(defaultCourseDate) : moment());
+        setSelectedCourseSDate(defaultCourseDate ? moment(defaultCourseDate) : moment());
         setSelectedCourseEDate(defaultCourseDate ? moment(defaultCourseDate) : moment());
     };
 
@@ -91,10 +91,13 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                                             <label htmlFor="">รุ่นวันที่</label>
                                             <DatePicker
                                                 format="DD/MM/YYYY"
-                                                value={selectedCourseDate}
+                                                value={selectedCourseSDate}
                                                 onChange={(date) => {
-                                                    setSelectedCourseDate(date);
+                                                    setSelectedCourseSDate(date);
                                                     formik.setFieldValue('course_date', moment(date).format('YYYY-MM-DD'));
+
+                                                    /** Set course_edate according to selected course_date */
+                                                    setSelectedCourseEDate(date);
                                                 }}
                                                 className={classes.muiTextFieldInput}
                                             />
