@@ -55,7 +55,8 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                 course_edate: '',
                 room: '',
                 place_id: '',
-                place: null
+                place: null,
+                remark: ''
             }}
             validationSchema={courseSchema(expenseCalc)}
             onSubmit={handleSubmit}
@@ -82,70 +83,87 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                                 formik.setFieldValue('place', place);
                             }}
                         />
-
-                        {expenseCalc === 2 && (
-                            <>
-                                <Col md={2} className="pr-1">
-                                    <label htmlFor="">รุ่นวันที่</label>
-                                    <DatePicker
-                                        format="DD/MM/YYYY"
-                                        value={selectedCourseDate}
-                                        onChange={(date) => {
-                                            setSelectedCourseDate(date);
-                                            formik.setFieldValue('course_date', moment(date).format('YYYY-MM-DD'));
-                                        }}
-                                        className={classes.muiTextFieldInput}
+                        <Col>
+                            <Row>
+                                {expenseCalc === 2 && (
+                                    <>
+                                        <Col md={2} className="pr-1">
+                                            <label htmlFor="">รุ่นวันที่</label>
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedCourseDate}
+                                                onChange={(date) => {
+                                                    setSelectedCourseDate(date);
+                                                    formik.setFieldValue('course_date', moment(date).format('YYYY-MM-DD'));
+                                                }}
+                                                className={classes.muiTextFieldInput}
+                                            />
+                                            {(formik.errors.course_date && formik.touched.course_date) && (
+                                                <span className="text-red-500 text-xs">{formik.errors.course_date}</span>
+                                            )}
+                                        </Col>
+                                        <Col md={2} className="px-1">
+                                            <label htmlFor="">ถึงวันที่ <span className="text-red-500">(ถ้ามี)</span></label>
+                                            <DatePicker
+                                                format="DD/MM/YYYY"
+                                                value={selectedCourseEDate}
+                                                onChange={(date) => {
+                                                    setSelectedCourseEDate(date);
+                                                    formik.setFieldValue('course_edate', moment(date).format('YYYY-MM-DD'));
+                                                }}
+                                                className={classes.muiTextFieldInput}
+                                            />
+                                            {(formik.errors.course_edate && formik.touched.course_edate) && (
+                                                <span className="text-red-500 text-xs">{formik.errors.course_edate}</span>
+                                            )}
+                                        </Col>
+                                    </>
+                                )}
+                                <Col md={expenseCalc === 2 ? 8 : 4} className={`${expenseCalc === 2 ? "px-1" : "pr-1"}`}>
+                                    <label htmlFor="">ชื่อห้องประชุม <span className="text-red-500">(ถ้ามี)</span></label>
+                                    <input
+                                        type="text"
+                                        name="room"
+                                        value={formik.values.room}
+                                        onChange={formik.handleChange}
+                                        className={`form-control text-sm ${(formik.errors.room && formik.touched.room) && 'border-red-500'}`}
                                     />
-                                    {(formik.errors.course_date && formik.touched.course_date) && (
-                                        <span className="text-red-500 text-xs">{formik.errors.course_date}</span>
+                                    {(formik.errors.room && formik.touched.room) && (
+                                        <span className="text-red-500 text-xs">{formik.errors.room}</span>
                                     )}
                                 </Col>
-                                <Col md={2} className="px-1">
-                                    <label htmlFor="">ถึงวันที่ <span className="text-red-500">(ถ้ามี)</span></label>
-                                    <DatePicker
-                                        format="DD/MM/YYYY"
-                                        value={selectedCourseEDate}
-                                        onChange={(date) => {
-                                            setSelectedCourseEDate(date);
-                                            formik.setFieldValue('course_edate', moment(date).format('YYYY-MM-DD'));
-                                        }}
-                                        className={classes.muiTextFieldInput}
-                                    />
-                                    {(formik.errors.course_edate && formik.touched.course_edate) && (
-                                        <span className="text-red-500 text-xs">{formik.errors.course_edate}</span>
+                                <Col md={expenseCalc === 2 ? 6 : 8} className={`${expenseCalc === 2 ? "mt-2" : ""} pr-1`}>
+                                    <label htmlFor="">สถานที่จัด</label>
+                                    <div className="input-group">
+                                        <div className={`form-control text-sm h-[34px] bg-gray-100 ${(formik.errors.place_id && formik.touched.place_id) && 'border-red-500'}`}>
+                                            {place?.name} {place && <span>จ.{place?.changwat?.name}</span>}
+                                        </div>
+                                        <button type="button" className="btn btn-outline-secondary text-sm" onClick={() => setShowPlaceModal(true)}>
+                                            <FaSearch />
+                                        </button>
+                                        <button type="button" className="btn btn-outline-primary text-sm px-2" onClick={() => setShowPlaceFormModal(true)}>
+                                            <FaPlus />
+                                        </button>
+                                    </div>
+                                    {(formik.errors.place_id && formik.touched.place_id) && (
+                                        <span className="text-red-500 text-xs">{formik.errors.place_id}</span>
                                     )}
                                 </Col>
-                            </>
-                        )}
-                        <Col md={3} className={`${expenseCalc === 2 ? "px-1" : "pr-1"}`}>
-                            <label htmlFor="">ชื่อห้องประชุม <span className="text-red-500">(ถ้ามี)</span></label>
-                            <input
-                                type="text"
-                                name="room"
-                                value={formik.values.room}
-                                onChange={formik.handleChange}
-                                className={`form-control text-sm ${(formik.errors.room && formik.touched.room) && 'border-red-500'}`}
-                            />
-                            {(formik.errors.room && formik.touched.room) && (
-                                <span className="text-red-500 text-xs">{formik.errors.room}</span>
-                            )}
-                        </Col>
-                        <Col md={expenseCalc === 2 ? 4 : 8} className="px-1">
-                            <label htmlFor="">สถานที่จัด</label>
-                            <div className="input-group">
-                                <div className={`form-control text-sm h-[34px] bg-gray-100 ${(formik.errors.place_id && formik.touched.place_id) && 'border-red-500'}`}>
-                                    {place?.name} {place && <span>จ.{place?.changwat?.name}</span>}
-                                </div>
-                                <button type="button" className="btn btn-outline-secondary text-sm" onClick={() => setShowPlaceModal(true)}>
-                                    <FaSearch />
-                                </button>
-                                <button type="button" className="btn btn-outline-primary text-sm px-2" onClick={() => setShowPlaceFormModal(true)}>
-                                    เพิ่ม
-                                </button>
-                            </div>
-                            {(formik.errors.place_id && formik.touched.place_id) && (
-                                <span className="text-red-500 text-xs">{formik.errors.place_id}</span>
-                            )}
+                                <Col md={expenseCalc === 2 ? 6 : 12} className={`${expenseCalc === 2 ? "px-1" : "pr-1"} mt-2`}>
+                                    {expenseCalc === 2 && <label htmlFor="">รายละเอียดเพิ่มเติม <span className="text-red-500">(ถ้ามี)</span></label>}
+                                    <input
+                                        type="text"
+                                        name="remark"
+                                        value={formik.values.remark}
+                                        onChange={formik.handleChange}
+                                        className={`form-control text-sm ${(formik.errors.remark && formik.touched.remark) && 'border-red-500'}`}
+                                        placeholder={`${expenseCalc === 2 ? '' : 'รายละเอียดเพิ่มเติม (ถ้ามี)'}`}
+                                    />
+                                    {(formik.errors.remark && formik.touched.remark) && (
+                                        <span className="text-red-500 text-xs">{formik.errors.remark}</span>
+                                    )}
+                                </Col>
+                            </Row>
                         </Col>
                         <Col md={1} className="pl-1">
                             <label htmlFor=""></label>
@@ -155,7 +173,7 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                                     className={`btn btn-outline-primary rounded-full p-1`}
                                     onClick={formik.submitForm}
                                 >
-                                    <FaPlus />
+                                    เพิ่ม
                                 </button>
                             </div>
                         </Col>
