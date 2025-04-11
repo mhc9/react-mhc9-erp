@@ -141,6 +141,7 @@ const FormLoan = () => {
                                                                 <>
                                                                     <span className="mx-1 font-bold">วันที่ {toLongTHDateRange(course?.course_date, course?.course_edate)}</span>
                                                                     <span>ณ {course?.place?.name} {/* จ.{course?.place?.changwat?.name} */}</span>
+                                                                    <span className="ml-1">{course?.remark && course?.remark}</span>
                                                                 </>
                                                             )}
                                                         </p>

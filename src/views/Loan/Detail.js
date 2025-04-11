@@ -191,6 +191,7 @@ const LoanDetail = () => {
                                                         <span className="ml-1">
                                                             ณ {course?.room && <span className="mr-1">{course.room}</span>}
                                                             {course?.place?.name} จ.{course?.place?.changwat?.name}
+                                                            <span className="ml-1">{course?.remark && course?.remark}</span>
                                                         </span>
                                                     </li>
                                                 )
