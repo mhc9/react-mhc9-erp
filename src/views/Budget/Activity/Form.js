@@ -16,8 +16,9 @@ import BudgetList from './BudgetList'
 import Loading from '../../../components/Loading'
 
 const budgetSchema = Yup.object().shape({
-    name: Yup.string().required('กรุณาเลือกแผนงาน'),
-    plan_id: Yup.string().required('กรุณาระบุชื่อกิจกรรม'),
+    activity_no: Yup.string().required('กรุณาระบุเลขที่กิจกรรม'),
+    name: Yup.string().required('กรุณาระบุชื่อกิจกรรม'),
+    plan_id: Yup.string().required('กรุณาเลือกแผนงาน'),
     project_id: Yup.string().required('กรุณาเลือกโครงการ/ผลผลิต'),
     year: Yup.string().required('กรุณาเลือกปีงบประมาณ'),
 });
