@@ -9,10 +9,10 @@ import { store, update } from '../../../features/slices/budget-plan/budgetPlanSl
 import { useGetInitialFormDataQuery } from '../../../features/services/budget-plan/budgetPlanApi'
 
 const budgetPlanSchema = Yup.object().shape({
-    plan_no: Yup.string().required(),
-    name: Yup.string().required(),
-    year: Yup.string().required(),
-    plan_type_id: Yup.string().required(),
+    plan_no: Yup.string().required('กรุณาระบุเลขที่แผนงาน'),
+    name: Yup.string().required('กรุณาระบุชื่อแผนงาน'),
+    year: Yup.string().required('กรุณาเลือกปีงบประมาณ'),
+    plan_type_id: Yup.string().required('กรุณาเลือกประเภทแผนงาน'),
 });
 
 const BudgetPlanForm = ({ plan }) => {
