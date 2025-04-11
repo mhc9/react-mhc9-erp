@@ -3,7 +3,7 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { Col, Row } from 'react-bootstrap'
 import { DatePicker } from '@material-ui/pickers'
-import { FaSearch, FaPlus } from 'react-icons/fa'
+import { FaAngleDown, FaSearch, FaPlus } from 'react-icons/fa'
 import { v4 as uuid } from 'uuid'
 import moment from 'moment'
 import { useStyles } from '../../../hooks/useStyles'
@@ -138,10 +138,10 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                                         <div className={`form-control text-sm h-[34px] bg-gray-100 ${(formik.errors.place_id && formik.touched.place_id) && 'border-red-500'}`}>
                                             {place?.name} {place && <span>จ.{place?.changwat?.name}</span>}
                                         </div>
-                                        <button type="button" className="btn btn-outline-secondary text-sm" onClick={() => setShowPlaceModal(true)}>
+                                        <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setShowPlaceModal(true)}>
                                             <FaSearch />
                                         </button>
-                                        <button type="button" className="btn btn-outline-primary text-sm px-2" onClick={() => setShowPlaceFormModal(true)}>
+                                        <button type="button" className="btn btn-outline-success btn-sm px-2" onClick={() => setShowPlaceFormModal(true)}>
                                             <FaPlus />
                                         </button>
                                     </div>
@@ -167,13 +167,13 @@ const AddCourse = ({ courses, defaultCourseDate, expenseCalc, onAdd }) => {
                         </Col>
                         <Col md={1} className="pl-1">
                             <label htmlFor=""></label>
-                            <div className='flex flex-row items-center h-[36px]'>
+                            <div className='flex flex-row items-center'>
                                 <button
                                     type="button"
-                                    className={`btn btn-outline-primary rounded-full p-1`}
+                                    className={`btn btn-outline-primary btn-sm flex flex-col justify-center items-center px-3`}
                                     onClick={formik.submitForm}
                                 >
-                                    เพิ่ม
+                                    เพิ่ม <FaAngleDown />
                                 </button>
                             </div>
                         </Col>

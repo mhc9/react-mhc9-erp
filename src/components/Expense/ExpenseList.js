@@ -70,6 +70,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem, onEditIte
                                         {/* รุ่นที่ {course.seq_no} */}
                                         {course?.course_date && <span className="mr-1">วันที่ {toLongTHDateRange(course?.course_date, course?.course_edate)}</span>} 
                                         ณ {course?.place?.name} จ.{course?.place?.changwat?.name}
+                                        <span className="ml-1">{course?.remark && course?.remark}</span>
                                     </td>
                                 </tr>
                                 {items && items.map((data, index) => (
