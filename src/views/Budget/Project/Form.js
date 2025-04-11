@@ -10,10 +10,10 @@ import { store, update } from '../../../features/slices/budget-project/budgetPro
 import Loading from '../../../components/Loading'
 
 const budgetProjectSchema = Yup.object().shape({
-    name: Yup.string().required(),
-    plan_id: Yup.string().required(),
-    project_type_id: Yup.string().required(),
-    year: Yup.string().required(),
+    name: Yup.string().required('กรุณาระบุชื่อโครงการ/ผลผลิต'),
+    plan_id: Yup.string().required('กรุณาเลือกแผนงาน'),
+    project_type_id: Yup.string().required('กรุณาเลือกประเภท'),
+    year: Yup.string().required('กรุณาเลือกปีงบประมาณ'),
 });
 
 const BudgetProjectForm = ({ project, defaultYear, defaultPlan }) => {
