@@ -46,9 +46,9 @@ const loanSchema = Yup.object().shape({
         'จำนวนงบประมาณและจำนวนเงินทั้งสิ้นไม่เท่ากัน',
         (val, context) => parseFloat(val) === parseFloat(currencyToNumber(context.parent.budget_total)),
     ),
-    budgets: Yup.mixed().test('budgetsCount', 'ไม่พบรายการงบประมาณ', val => val.length > 0),
-    items: Yup.mixed().test('itemsCount', 'ไม่พบรายการค่าใช้จ่าย/รายการจัดซื้อจัดจ้าง', val => val.length > 0),
-    courses: Yup.mixed().test('coursesCount', 'ไม่พบรายการรุ่นโครงการ', val => val.length > 0),
+    courses: Yup.mixed().test('coursesCount', 'ไม่พบรายการรุ่นโครงการ', val => val.filter(item => !item.removed).length > 0),
+    budgets: Yup.mixed().test('budgetsCount', 'ไม่พบรายการงบประมาณ', val => val.filter(item => !item.removed).length > 0),
+    items: Yup.mixed().test('itemsCount', 'ไม่พบรายการค่าใช้จ่าย/รายการจัดซื้อจัดจ้าง', val => val.filter(item => !item.removed).length > 0),
 });
 
 const LoanForm = ({ loan }) => {
