@@ -164,7 +164,7 @@ const AllocationForm = ({ budget, allocation }) => {
                                 )}
                             </Col>
                             <Col className="mb-2">
-                                <label htmlFor="">ยอด{formik.values.allocate_type_id === '1' ? 'รับโอน' : 'โอนออก'}</label>
+                                <label htmlFor="">ยอด{parseInt(formik.values.allocate_type_id, 10) === 1 ? 'รับโอน' : 'โอนออก'}</label>
                                 {(!allocation || (allocation && allocation.status === 1)) ? (
                                     <div className="input-group">
                                         <input
