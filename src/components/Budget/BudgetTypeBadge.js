@@ -8,6 +8,7 @@ const BudgetTypeBadge = ({ type }) => {
             {type.id === 3 && <span className="badge rounded-pill bg-success">{type?.name}</span>}
             {type.id === 4 && <span className="badge rounded-pill bg-info">{type?.name}</span>}
             {type.id === 5 && <span className="badge rounded-pill bg-warning">{type?.name}</span>}
+            {type.id === 6 && <span className="badge rounded-pill bg-dark">{type?.name}</span>}
         </span>
     );
 };
