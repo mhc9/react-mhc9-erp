@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import {
     FaPencilAlt,
+    FaLandmark,
     FaRandom,
     FaRegEye,
     FaRegEyeSlash,
@@ -162,7 +163,9 @@ const BudgetTypes = ({ data }) => {
         <ul className="flex flex-row items-center text-xs">
             {data && data.map(item => (
                 <li className="flex flex-row items-center gap-1 mr-2" key={item.id}>
-                    {item.budget_type_id === 1 ? <FaRegUser /> : <FaRandom />}
+                    {item.budget_type_id === 1 && <FaRegUser />}
+                    {item.budget_type_id === 2 && <FaRandom />}
+                    {item.budget_type_id === 6 && <FaLandmark />}
                     <b>{item.type?.name}</b> ({currency.format(item.total)} บาท)
                 </li>
             ))}
