@@ -361,7 +361,7 @@ const LoanContractForm = ({ contract }) => {
                                                 }
                                             >
                                                 <ExpenseList
-                                                    items={contract ? convertToExpenseItem(contract.details).filter(item => item.expense_group === 1) : loan?.details.filter(item => item.expense_group === 1)}
+                                                    items={(contract ? convertToExpenseItem(contract.details).filter(item => item.expense_group === 1) : loan?.details.filter(item => item.expense_group === 1)) || []}
                                                     courses={loan && [...loan?.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date))}
                                                     showButtons={false}
                                                 />

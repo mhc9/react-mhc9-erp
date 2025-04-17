@@ -16,6 +16,13 @@ const BudgetList = ({ budgets, showButtons=true, onRemoveBudget, onEditBudget, n
                     </tr>
                 </thead>
                 <tbody>
+                    {(budgets && budgets.length === 0) && (
+                        <tr>
+                            <td colSpan={showButtons ? 4 : 3} className="text-center">
+                                <span className="text-red-500">-- ไม่มีรายการ --</span>
+                            </td>
+                        </tr>
+                    )}
                     {budgets && budgets.map((data, index) => (
                         <Fragment key={data.id}>
                             {!data.removed && (

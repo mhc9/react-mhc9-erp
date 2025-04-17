@@ -59,6 +59,14 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem, onEditIte
                 </tr>
             </thead>
             <tbody>
+                {(items && items.length === 0) && (
+                    <tr>
+                        <td colSpan={showButtons ? 5 : 4} className="text-center">
+                            <span className="text-red-500">-- ไม่มีรายการ --</span>
+                        </td>
+                    </tr>
+                )}
+
                 {(courses && courses.length > 1)
                     ? courses.map(course => {
                         let seq = 0;
