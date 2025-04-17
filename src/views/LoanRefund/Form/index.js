@@ -95,10 +95,20 @@ const LoanRefundForm = ({ refund }) => {
         if (refund) {
             setContract(refund.contract);
             setSelectedDocDate(moment(refund.doc_date));
-            
+
             /** Filter contractItems for AddExpense'expese prop */
-            setContractItems(refund.contract?.details.filter(item => !refund.details.some(it => it.contract_detail_id === item.id)));
-            setContractBudgets(refund.contract?.loan?.budgets.filter(budget => !refund.budgets.some(bg => bg.id === budget.id)))
+            setContractItems(
+                refund.contract?.details.filter(item => {
+                    return !refund.details.some(it => it.contract_detail_id === item.id);
+                })
+            );
+
+            /** Filter contractBudgets for AddBudget'budget prop */
+            setContractBudgets(
+                refund.contract?.loan?.budgets.filter(budget => {
+                    return !refund.budgets.some(bg => bg.budget_id === budget.budget_id);
+                })
+            );
         }
     }, [refund]);
 
