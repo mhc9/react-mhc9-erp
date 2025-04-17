@@ -25,11 +25,11 @@ import AddExpense from './AddExpense';
 import ExpenseList from './ExpenseList'
 import AddOrder from './AddOrder';
 import OrderList from './OrderList';
+import AddBudget from './AddBudget'
 import Loading from '../../../components/Loading'
 import ModalLoanContractList from '../../../components/Modals/LoanContract/List'
 import BudgetBullet from '../../../components/Budget/BudgetBullet'
 import BudgetList from '../../../components/Budget/BudgetList'
-import AddBudget from '../../../components/Budget/AddBudget'
 
 const refundSchema = Yup.object().shape({
     doc_no: Yup.string().required('กรุณาระบุเลขที่เอกสารหักล้างฯ'),
@@ -854,7 +854,8 @@ const LoanRefundForm = ({ refund }) => {
                                 >
                                     <h1 className="font-bold text-lg mb-1">งบประมาณ ({parseFloat(formik.values.balance) >= 0 ? 'คืน' : 'เบิกเพิ่ม'})</h1>
                                     <AddBudget
-                                        onAddBudget={(budget) => handleAddBudget(formik, budget)}
+                                        items={contract?.loan?.budgets || []}
+                                        onAdd={(budget) => handleAddBudget(formik, budget)}
                                     />
                                     <BudgetList
                                         budgets={formik.values.budgets.filter(budget => !budget.removed)}
