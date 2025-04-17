@@ -88,15 +88,17 @@ const LoanRefundForm = ({ refund }) => {
     const [contract, setContract] = useState(null);
     const [edittingItem, setEdittingItem] = useState(null);
     const [contractItems, setContractItems] = useState([]);
+    const [contractBudgets, setContractBudgets] = useState([]);
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     useEffect(() => {
         if (refund) {
             setContract(refund.contract);
             setSelectedDocDate(moment(refund.doc_date));
-
+            
             /** Filter contractItems for AddExpense'expese prop */
             setContractItems(refund.contract?.details.filter(item => !refund.details.some(it => it.contract_detail_id === item.id)));
+            setContractBudgets(refund.contract?.loan?.budgets.filter(budget => !refund.budgets.some(bg => bg.id === budget.id)))
         }
     }, [refund]);
 
@@ -205,6 +207,9 @@ const LoanRefundForm = ({ refund }) => {
         const newBudgets = [...formik.values.budgets, budget];
         const budgetTotal = calculateNetTotal(newBudgets, (isRemoved) => isRemoved);
 
+        /** Filter contractBudgets for AddBudget'budget prop */
+        setContractBudgets(contractBudgets.filter(cb => cb.budget_id !== parseInt(budget.budget_id, 10)));
+
         formik.setFieldValue('budgets', newBudgets);
         formik.setFieldValue('budget_total', currency.format(budgetTotal));
         setFieldTouched(formik, 'budgets');
@@ -278,6 +283,7 @@ const LoanRefundForm = ({ refund }) => {
                             onSelect={(contract) => {
                                 setContract(contract);
                                 setContractItems(contract?.details);
+                                setContractBudgets(contract?.loan?.budgets);
 
                                 formik.setFieldValue('contract_id', contract?.id);
                                 formik.setFieldValue('employee_id', contract?.employee_id);
@@ -854,7 +860,7 @@ const LoanRefundForm = ({ refund }) => {
                                 >
                                     <h1 className="font-bold text-lg mb-1">งบประมาณ ({parseFloat(formik.values.balance) >= 0 ? 'คืน' : 'เบิกเพิ่ม'})</h1>
                                     <AddBudget
-                                        items={contract?.loan?.budgets || []}
+                                        items={contractBudgets}
                                         onAdd={(budget) => handleAddBudget(formik, budget)}
                                     />
                                     <BudgetList

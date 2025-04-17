@@ -15,6 +15,7 @@ const AddBudget = ({ data, items, onAdd }) => {
     const handleSelectBudget = (formik, id) => {
         const selected = items.find(item => item.id === parseInt(id, 10));
 
+        formik.setFieldValue('budget_id', selected?.budget_id);
         formik.setFieldValue('budget', selected?.budget);
     };
 
@@ -33,6 +34,7 @@ const AddBudget = ({ data, items, onAdd }) => {
         <Formik
             initialValues={{
                 id: '',
+                loan_budget_id: '',
                 budget_id: '',
                 budget: null,
                 total: '',
@@ -46,8 +48,8 @@ const AddBudget = ({ data, items, onAdd }) => {
                         <div className="flex flex-row gap-2 mb-2">
                             <FormGroup className="w-[75%]">
                                 <select
-                                    name="budget_id"
-                                    value={formik.values.budget_id}
+                                    name="loan_budget_id"
+                                    value={formik.values.loan_budget_id}
                                     onChange={(e) => {
                                         formik.handleChange(e);
                                         handleSelectBudget(formik, e.target.value);
@@ -61,8 +63,8 @@ const AddBudget = ({ data, items, onAdd }) => {
                                         </option>
                                     ))}
                                 </select>
-                                {(formik.errors.budget_id && formik.touched.budget_id) && (
-                                    <span className="text-red-500 text-xs">{formik.errors.budget_id}</span>
+                                {(formik.errors.loan_budget_id && formik.touched.loan_budget_id) && (
+                                    <span className="text-red-500 text-xs">{formik.errors.loan_budget_id}</span>
                                 )}
                             </FormGroup>
                             <FormGroup className="w-[15%]">
