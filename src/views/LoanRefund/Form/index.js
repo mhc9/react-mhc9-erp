@@ -845,7 +845,7 @@ const LoanRefundForm = ({ refund }) => {
                             <Col>
                                 <div
                                     className={
-                                        `flex flex-col p-2 rounded-md mt-2 
+                                        `flex flex-col p-2 rounded-md 
                                         ${(formik.errors.budgets && formik.touched.budgets) || (formik.errors.balance && formik.touched.balance)
                                             ? 'border-[1px] border-red-500'
                                             : 'border'

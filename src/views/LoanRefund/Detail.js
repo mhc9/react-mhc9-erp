@@ -311,7 +311,7 @@ const LoanRefundDetail = () => {
                             </Row>
                         )}
 
-                        <Row className="mb-3">
+                        <Row className="mb-2">
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
                                     <Tabs
@@ -406,8 +406,9 @@ const LoanRefundDetail = () => {
                         </Row>
                         <Row className="mb-2">
                             <Col>
-                                <div className={`flex flex-col p-2 rounded-md border mt-2`}>
+                                <div className="flex flex-col p-2 rounded-md border">
                                     <h1 className="font-bold text-lg mb-1">งบประมาณ ({parseFloat(refund?.balance) >= 0 ? 'คืน' : 'เบิกเพิ่ม'})</h1>
+
                                     <BudgetList
                                         budgets={refund?.budgets.filter(budget => !budget.removed)}
                                         showButtons={false}
