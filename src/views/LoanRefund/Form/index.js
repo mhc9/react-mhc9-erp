@@ -216,16 +216,14 @@ const LoanRefundForm = ({ refund }) => {
     };
 
     const handleRemoveBudget = (formik, id, isNewRefund = false) => {
-        let newBudgets = [];
-        if (isNewRefund) {
-            newBudgets = formik.values.budgets.filter(item => item.id !== id);
-        } else {
-            newBudgets = formik.values.budgets.map(item => {
-                if (item.id === id) return { ...item, removed: true };
+        let newBudgets = removeItemWithFlag(formik.values.budgets, id, isNewRefund);
 
-                return item;
-            });
-        }
+        /** Filter contractItems for AddExpense'expese prop */
+        setContractBudgets(
+            contract?.loan?.budgets.filter(budget => {
+                return !newBudgets.some(bg => (!bg.removed && parseInt(bg.budget_id, 10) === budget.budget_id))
+            })
+        );
 
         formik.setFieldValue('budgets', newBudgets);
         formik.setFieldValue('budget_total', currency.format(calculateNetTotal(newBudgets, (isRemoved) => isRemoved)));
