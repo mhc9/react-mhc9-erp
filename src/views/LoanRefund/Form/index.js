@@ -11,6 +11,7 @@ import moment from 'moment';
 import {
     calculateNetTotal,
     currency,
+    currencyToNumber,
     getFormDataItem,
     removeItemWithFlag,
     setFieldTouched,
@@ -27,6 +28,8 @@ import OrderList from './OrderList';
 import Loading from '../../../components/Loading'
 import ModalLoanContractList from '../../../components/Modals/LoanContract/List'
 import BudgetBullet from '../../../components/Budget/BudgetBullet'
+import BudgetList from '../../../components/Budget/BudgetList'
+import AddBudget from '../../../components/Budget/AddBudget'
 
 const refundSchema = Yup.object().shape({
     doc_no: Yup.string().required('กรุณาระบุเลขที่เอกสารหักล้างฯ'),
@@ -62,8 +65,17 @@ const refundSchema = Yup.object().shape({
         then: (schema) => schema.required('กรุณาระบุเหตุผล')
     }),
     net_total: Yup.string().required('กรุณาระบุยอดใช้จริงทั้งสิ้น'),
+    balance: Yup.mixed().test(
+        'Compare balance and budget_total',
+        'จำนวนงบประมาณและยอดเงินคืน/เบิกเพิ่มไม่เท่ากัน',
+        (val, context) => Math.abs(parseFloat(val)) === parseFloat(currencyToNumber(context.parent.budget_total)),
+    ),
     items: Yup.mixed().test({
         message: "กรุณาระบุรายการค่าใช้จ่ายที่ต้องการคืน/เบิกเพิ่ม",
+        test: arr => arr.length > 0
+    }),
+    budgets: Yup.mixed().test({
+        message: "กรุณาระบุรายการงบประมาณต้องการคืน/เบิกเพิ่ม",
         test: arr => arr.length > 0
     })
 });
@@ -189,6 +201,32 @@ const LoanRefundForm = ({ refund }) => {
         return netTotal;
     };
 
+    const handleAddBudget = (formik, budget) => {
+        const newBudgets = [...formik.values.budgets, budget];
+        const budgetTotal = calculateNetTotal(newBudgets, (isRemoved) => isRemoved);
+
+        formik.setFieldValue('budgets', newBudgets);
+        formik.setFieldValue('budget_total', currency.format(budgetTotal));
+        setFieldTouched(formik, 'budgets');
+    };
+
+    const handleRemoveBudget = (formik, id, isNewRefund = false) => {
+        let newBudgets = [];
+        if (isNewRefund) {
+            newBudgets = formik.values.budgets.filter(item => item.id !== id);
+        } else {
+            newBudgets = formik.values.budgets.map(item => {
+                if (item.id === id) return { ...item, removed: true };
+
+                return item;
+            });
+        }
+
+        formik.setFieldValue('budgets', newBudgets);
+        formik.setFieldValue('budget_total', currency.format(calculateNetTotal(newBudgets, (isRemoved) => isRemoved)));
+        setFieldTouched(formik, 'budgets');
+    };
+
     const handleSubmit = (values, formik) => {
         if (refund) {
             dispatch(update({ id: refund.id, data: values }));
@@ -215,6 +253,7 @@ const LoanRefundForm = ({ refund }) => {
                 item_total: refund ? refund.item_total : 0,
                 order_total: refund ? refund.order_total : 0,
                 net_total: refund ? refund.net_total : 0,
+                budget_total: refund ? refund.budget_total : 0,
                 balance: refund ? refund.balance : 0,
                 is_over20: refund ? ((!refund.is_over20 || refund.is_over20 === 0) ? false : true) : false,
                 over20_no: (refund && refund.over20_no) ? refund.over20_no : '',
@@ -225,6 +264,7 @@ const LoanRefundForm = ({ refund }) => {
                 return_topic: (refund && refund.return_topic) ? refund.return_topic : '',
                 return_reason: (refund && refund.return_reason) ? refund.return_reason : '',
                 items: refund ? refund.details : [],
+                budgets: refund ? refund.budgets : [],
             }}
             validationSchema={refundSchema}
             onSubmit={handleSubmit}
@@ -799,6 +839,50 @@ const LoanRefundForm = ({ refund }) => {
                                         <div className="w-[9.5%]"></div>
                                     </div>
                                 </div>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <div
+                                    className={
+                                        `flex flex-col p-2 rounded-md mt-2 
+                                        ${(formik.errors.budgets && formik.touched.budgets) || (formik.errors.balance && formik.touched.balance)
+                                            ? 'border-[1px] border-red-500'
+                                            : 'border'
+                                        }`
+                                    }
+                                >
+                                    <h1 className="font-bold text-lg mb-1">งบประมาณ ({parseFloat(formik.values.balance) >= 0 ? 'คืน' : 'เบิกเพิ่ม'})</h1>
+                                    <AddBudget
+                                        onAddBudget={(budget) => handleAddBudget(formik, budget)}
+                                    />
+                                    <BudgetList
+                                        budgets={formik.values.budgets.filter(budget => !budget.removed)}
+                                        newFlagField="refund_id"
+                                        onRemoveBudget={(id, isNewRefund) => handleRemoveBudget(formik, id, isNewRefund)}
+                                    />
+
+                                    <div className="flex flex-row justify-end items-center">
+                                        <div className="mr-2">งบประมาณทั้งสิ้น</div>
+                                        <div className="w-[15%]">
+                                            <input
+                                                type="text"
+                                                name="budget_total"
+                                                value={formik.values.budget_total}
+                                                onChange={formik.handleChange}
+                                                placeholder="งบประมาณทั้งสิ้น"
+                                                className="form-control float-right text-right text-lg font-bold"
+                                            />
+                                        </div>
+                                        <div className="w-[10%]"></div>
+                                    </div>
+                                </div>
+                                {(formik.errors.budgets && formik.touched.budgets) && (
+                                    <span className="text-red-500 text-xs">{formik.errors.budgets}</span>
+                                )}
+                                {(formik.errors.balance && formik.touched.balance) && (
+                                    <span className="text-red-500 text-xs">{formik.errors.balance}</span>
+                                )}
                             </Col>
                         </Row>
                         <Row>

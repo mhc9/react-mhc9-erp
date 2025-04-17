@@ -10,7 +10,7 @@ import moment from 'moment';
 import {
     calculateNetTotal,
     currency,
-    currencyToNumber, 
+    currencyToNumber,
     setFieldTouched,
     sortObjectByDate
 } from '../../../utils'
