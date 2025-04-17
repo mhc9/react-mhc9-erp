@@ -27,8 +27,8 @@ import Loading from '../../../components/Loading'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import ModalBudgetList from '../../../components/Modals/BudgetList'
 import EmployeeSelection from '../../../components/FormControls/EmployeeSelection'
-import AddBudget from '../../Loan/Form/AddBudget'
-import BudgetList from '../../Loan/Form/BudgetList'
+import AddBudget from '../../../components/Budget/AddBudget'
+import BudgetList from '../../../components/Budget/BudgetList'
 
 const requisitionSchema = Yup.object().shape({
     pr_no: Yup.string().required('กรุณาระบุเลขที่เอกสาร'),

@@ -5,13 +5,19 @@ import { Breadcrumb, Col, Row, Tab, Tabs } from 'react-bootstrap'
 import moment from 'moment'
 import { getLoan } from '../../features/slices/loan/loanSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi'
-import { currency, getFormDataItem, toLongTHDate, toLongTHDateRange, sortObjectByDate } from '../../utils'
+import {
+    currency,
+    getFormDataItem,
+    sortObjectByDate,
+    toLongTHDate,
+    toLongTHDateRange
+} from '../../utils'
 import Loading from '../../components/Loading'
-import BudgetList from './Form/BudgetList'
-import OrderList from './Form/OrderList'
+import BudgetList from '../../components/Budget/BudgetList'
 import ExpenseList from '../../components/Expense/ExpenseList'
 import DropdownButton from '../../components/FormControls/DropdownButton'
 import DropdownItem from '../../components/FormControls/DropdownButton/DropdownItem'
+import OrderList from './Form/OrderList'
 
 const LoanDetail = () => {
     const { id } = useParams();

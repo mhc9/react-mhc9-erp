@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
-import { currency } from '../../../utils'
-import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
+import { currency } from '../../utils'
+import BudgetTypeBadge from './BudgetTypeBadge'
 
 const BudgetList = ({ budgets, showButtons=true, onRemoveBudget, onEditBudget, newFlagField }) => {
     return (

@@ -16,13 +16,13 @@ import {
 } from '../../../utils'
 import { store, update } from '../../../features/slices/loan/loanSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
-import AddBudget from './AddBudget'
-import BudgetList from './BudgetList'
 import AddCourse from './AddCourse';
 import CourseList from './CourseList';
 import AddOrder from './AddOrder';
 import OrderList from './OrderList';
 import Loading from '../../../components/Loading'
+import AddBudget from '../../../components/Budget/AddBudget'
+import BudgetList from '../../../components/Budget/BudgetList'
 import AddExpense from '../../../components/Expense/AddExpense'
 import ExpenseList from '../../../components/Expense/ExpenseList'
 import EmployeeSelection from '../../../components/FormControls/EmployeeSelection';

@@ -15,7 +15,7 @@ import ConsiderationDetail from './Consideration/Detail'
 import Loading from '../../../components/Loading'
 import DropdownButton from '../../../components/FormControls/DropdownButton'
 import DropdownItem from '../../../components/FormControls/DropdownButton/DropdownItem'
-import BudgetList from '../../Loan/Form/BudgetList'
+import BudgetList from '../../../components/Budget/BudgetList'
 
 const RequisitionDetail = () => {
     const { id } = useParams();
