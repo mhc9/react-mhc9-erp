@@ -21,6 +21,7 @@ import ModalApprovalForm from '../../components/Modals/LoanRefund/Approval/Form'
 import ModalReceiptForm from '../../components/Modals/LoanRefund/Receipt/Form';
 import DropdownButton from '../../components/FormControls/DropdownButton'
 import DropdownItem from '../../components/FormControls/DropdownButton/DropdownItem'
+import BudgetList from '../../components/Budget/BudgetList';
 
 const LoanRefundDetail = () => {
     const { id } = useParams();
@@ -397,6 +398,26 @@ const LoanRefundDetail = () => {
                                                         {currency.format(refund?.balance)}
                                                     </span>
                                                 )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row className="mb-2">
+                            <Col>
+                                <div className={`flex flex-col p-2 rounded-md border mt-2`}>
+                                    <h1 className="font-bold text-lg mb-1">งบประมาณ ({parseFloat(refund?.balance) >= 0 ? 'คืน' : 'เบิกเพิ่ม'})</h1>
+                                    <BudgetList
+                                        budgets={refund?.budgets.filter(budget => !budget.removed)}
+                                        showButtons={false}
+                                    />
+
+                                    <div className="flex flex-row justify-end items-center">
+                                        <div className="mr-2">งบประมาณทั้งสิ้น</div>
+                                        <div className="w-[15%]">
+                                            <div className="form-control float-right text-right text-lg font-bold">
+                                                {currency.format(refund?.budget_total)}
                                             </div>
                                         </div>
                                     </div>
