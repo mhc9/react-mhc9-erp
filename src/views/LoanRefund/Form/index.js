@@ -228,7 +228,7 @@ const LoanRefundForm = ({ refund }) => {
     const handleRemoveBudget = (formik, id, isNewRefund = false) => {
         let newBudgets = removeItemWithFlag(formik.values.budgets, id, isNewRefund);
 
-        /** Filter contractItems for AddExpense'expese prop */
+        /** Filter contractBudgets for AddBudget'budget prop */
         setContractBudgets(
             contract?.loan?.budgets.filter(budget => {
                 return !newBudgets.some(bg => (!bg.removed && parseInt(bg.budget_id, 10) === budget.budget_id))
