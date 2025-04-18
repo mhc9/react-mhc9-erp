@@ -138,7 +138,7 @@ const AddExpense = ({ data, expenses, courses, refundType, onAddItem, onUpdateIt
                                         )
                                     }}
                                     className={`form-control text-sm ${(formik.errors.description && formik.touched.description) && 'border-red-500'}`}
-                                    placeholder="รายละเอียด"
+                                    placeholder={`${formik.values.has_pattern ? 'สูตรการคำนวณ' : 'รายละเอียดเพิ่มเติม'}`}
                                 />
                                 {(formik.errors.description && formik.touched.description) && (
                                     <span className="text-red-500 text-xs">{formik.errors.description}</span>
