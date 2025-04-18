@@ -68,7 +68,9 @@ const refundSchema = Yup.object().shape({
     balance: Yup.mixed().test(
         'Compare balance and budget_total',
         'จำนวนงบประมาณและยอดเงินคืน/เบิกเพิ่มไม่เท่ากัน',
-        (val, context) => Math.abs(parseFloat(val)) === parseFloat(currencyToNumber(context.parent.budget_total)),
+        (val, context) => {
+            return val <= 0 || (val > 0 && Math.abs(parseFloat(val)) === parseFloat(currencyToNumber(context.parent.budget_total)))
+        },
     ),
     items: Yup.mixed().test({
         message: "กรุณาระบุรายการค่าใช้จ่ายที่ต้องการคืน/เบิกเพิ่ม",
@@ -76,7 +78,9 @@ const refundSchema = Yup.object().shape({
     }),
     budgets: Yup.mixed().test({
         message: "กรุณาระบุรายการงบประมาณต้องการคืน/เบิกเพิ่ม",
-        test: arr => arr.length > 0
+        test: (arr, context) => {
+            return context.parent.balance <= 0 || (context.parent.balance > 0 && arr.length > 0)
+        },
     })
 });
 
@@ -581,7 +585,7 @@ const LoanRefundForm = ({ refund }) => {
                                 </div>
                             </Col>
                         </Row>
-                        
+
                         {/* คืนเงินเต็มจำนวน */}
                         {parseInt(formik.values.refund_type_id, 10) === 4 && (
                             <Row className="mb-2">
@@ -855,6 +859,7 @@ const LoanRefundForm = ({ refund }) => {
                                 </div>
                             </Col>
                         </Row>
+
                         <Row className="mb-2">
                             <Col>
                                 <div
@@ -892,14 +897,18 @@ const LoanRefundForm = ({ refund }) => {
                                         <div className="w-[10%]"></div>
                                     </div>
                                 </div>
-                                {(formik.errors.budgets && formik.touched.budgets) && (
-                                    <span className="text-red-500 text-xs">{formik.errors.budgets}</span>
-                                )}
-                                {(formik.errors.balance && formik.touched.balance) && (
-                                    <span className="text-red-500 text-xs">{formik.errors.balance}</span>
+                                {((formik.errors.budgets && formik.touched.budgets) || (formik.errors.balance && formik.touched.balance)) && (
+                                    <>
+                                        {(formik.errors.budgets && formik.touched.budgets) && <span className="text-red-500 text-xs">{formik.errors.budgets}</span>}
+                                        {((formik.errors.budgets && formik.touched.budgets) && (formik.errors.balance && formik.touched.balance)) && (
+                                            <span className="text-red-500 text-xs mr-1">,</span>
+                                        )}
+                                        {(formik.errors.balance && formik.touched.balance) && <span className="text-red-500 text-xs">{formik.errors.balance}</span>}
+                                    </>
                                 )}
                             </Col>
                         </Row>
+
                         <Row>
                             <Col>
                                 <button type="submit" className={`btn ${refund ? 'btn-outline-warning' : 'btn-outline-primary'} float-right`}>

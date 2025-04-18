@@ -128,7 +128,7 @@ const LoanRefundList = () => {
                                             <span className="ml-1">
                                                 และ{refund.refund_type_id === 1 ? 'คืนเงิน' : 'เบิกเงินเพิ่ม'} จำนวน
                                                 <span className={`ml-1 ${refund.refund_type_id === 1 ? 'text-green-600' : 'text-red-600'}`}>
-                                                    {currency.format(refund.balance)}
+                                                    {currency.format(Math.abs(refund.balance))}
                                                 </span> บาท
                                             </span>
                                         </div>
