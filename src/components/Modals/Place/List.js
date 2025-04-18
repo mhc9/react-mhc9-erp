@@ -19,15 +19,11 @@ const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getPlaces({ url: '/api/places/search?page=' }));
+            dispatch(getPlaces({ url: `/api/places/search?page=${params}` }));
         } else {
             dispatch(getPlaces({ url: `${apiEndpoint}${params}` }));
         }
     }, [apiEndpoint]);
-
-    useEffect(() => {
-        dispatch(getPlaces({ url: `/api/places/search?page=${params}` }));
-    }, [params]);
 
     return (
         <Modal
@@ -41,7 +37,10 @@ const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
             <Modal.Body>
                 <FilteringInputs
                     initialFilters={initialFilters}
-                    onFilter={(params) => setParams(params)}
+                    onFilter={(params) => {
+                        setParams(params)
+                        setApiEndpoint(prev => prev === '' ? `/api/places/search?page=` : '');
+                    }}
                 />
 
                 <div className="mt-2">
