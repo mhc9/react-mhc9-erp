@@ -21,6 +21,16 @@ export const getTasks = createAsyncThunk("task/getTasks", async ({ url }, { reje
     }
 });
 
+export const getAllTasks = createAsyncThunk("task/getAllTasks", async ({ url }, { rejectWithValue }) => {
+    try {
+        const res = await api.get(url);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const getTask = createAsyncThunk("task/getTask", async ({ id }, { rejectWithValue }) => {
     try {
         const res = await api.get(`/api/tasks/${id}`);
@@ -97,6 +107,19 @@ export const taskSlice = createSlice({
             state.isLoading = false;
         },
         [getTasks.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [getAllTasks.pending]: (state) => {
+            state.isLoading = true;
+            state.tasks = [];
+            state.error = null;
+        },
+        [getAllTasks.fulfilled]: (state, { payload }) => {
+            state.tasks = payload;
+            state.isLoading = false;
+        },
+        [getAllTasks.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },
