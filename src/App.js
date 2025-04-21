@@ -13,6 +13,7 @@ import TaskList from './views/Task/List';
 import AddTask from './views/Task/Add';
 import EditTask from './views/Task/Edit';
 import TaskDetail from './views/Task/Detail';
+import TaskSummary from './views/Task/Report/Summary';
 /** Asset */
 import AddAsset from './views/Asset/Add';
 import AssetList from './views/Asset/List';
@@ -125,6 +126,7 @@ function App() {
                 <Route path="task/add" element={<GuardRoute><AddTask /></GuardRoute>} />
                 <Route path="task/:id/edit" element={<GuardRoute><EditTask /></GuardRoute>} />
                 <Route path="task/:id/detail" element={<GuardRoute><TaskDetail /></GuardRoute>} />
+                <Route path="task/summary" element={<GuardRoute><TaskSummary /></GuardRoute>} />
 
                 {/* Repairation */}
                 <Route path="repairation" element={<GuardRoute><RepairationList /></GuardRoute>} />
