@@ -152,6 +152,11 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                                                 <Link to="/budget-plan"><p className="w-full">งบประมาณ</p></Link>
                                             </li>
                                         )}
+                                        {[1].includes(user?.permissions[0]?.role_id) && (
+                                            <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
+                                                <Link to="/place"><p className="w-full">สถานที่</p></Link>
+                                            </li>
+                                        )}
                                     </ul>
                                 </div>
                             </>

@@ -73,6 +73,8 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 {type: 'menu', text: 'ผู้จัดจำหน่าย', link: '/supplier', allowed_users: [1,3]},
                                 {type: 'divided'},
                                 {type: 'menu', text: 'งบประมาณ', link: '/budget-plan', allowed_users: [1,4,5]},
+                                {type: 'divided'},
+                                {type: 'menu', text: 'สถานที่', link: '/place', allowed_users: [1]},
                             ]}
                             userRole={user?.permissions[0]?.role_id}
                         />
