@@ -16,8 +16,8 @@ const TaskSummary = () => {
     const [selectedTaskDate, setSelectedTaskDate] = useState(moment());
 
     useEffect(() => {
-        dispatch(getAllTasks({ url: '/api/tasks' }));
-    }, []);
+        dispatch(getAllTasks({ url: `/api/tasks?year=${selectedTaskDate.year()}` }));
+    }, [selectedTaskDate]);
 
     return (
         <div className="content-wrapper">
