@@ -20,7 +20,7 @@ export const getPlaces = createAsyncThunk("place/getPlaces", async ({ url }, { r
     }
 });
 
-export const getPlace = createAsyncThunk("place/getPlace", async ({ id }, { rejectWithValue }) => {
+export const getPlace = createAsyncThunk("place/getPlace", async (id, { rejectWithValue }) => {
     try {
         const res = await api.get(`/api/places/${id}`);
 
@@ -42,7 +42,7 @@ export const store = createAsyncThunk("place/store", async (data, { rejectWithVa
 
 export const update = createAsyncThunk("place/update", async ({ id, data }, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.put(`/api/places/${id}`, data);
+        const res = await api.post(`/api/places/${id}/update`, data);
 
         dispatch(getPlaces({ url: '/api/places' }));
 
@@ -52,9 +52,9 @@ export const update = createAsyncThunk("place/update", async ({ id, data }, { di
     }
 });
 
-export const destroy = createAsyncThunk("place/destroy", async ({ id }, { dispatch, rejectWithValue }) => {
+export const destroy = createAsyncThunk("place/destroy", async (id, { dispatch, rejectWithValue }) => {
     try {
-        const res = await api.delete(`/api/places/${id}`);
+        const res = await api.post(`/api/places/${id}/delete`);
 
         dispatch(getPlaces({ url: '/api/places' }));
 

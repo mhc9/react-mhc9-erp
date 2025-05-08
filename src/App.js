@@ -109,6 +109,8 @@ import EditAllocation from './views/Budget/Allocation/Edit';
 import AllocationSummary from './views/Budget/Allocation/Summary';
 /** Place */
 import PlaceList from './views/Place/List';
+import AddPlace from './views/Place/Add';
+import EditPlace from './views/Place/Edit';
 /** User */
 import UserList from './views/User/List';
 /** Help */
@@ -223,6 +225,8 @@ function App() {
 
                 {/* Places */}
                 <Route path="place" element={<GuardRoute><PlaceList /></GuardRoute>} />
+                <Route path="place/add" element={<GuardRoute><AddPlace /></GuardRoute>} />
+                <Route path="place/:id/edit" element={<GuardRoute><EditPlace /></GuardRoute>} />
 
                 {/* Users */}
                 <Route path="user" element={<GuardRoute><UserList /></GuardRoute>} />
