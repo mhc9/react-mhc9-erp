@@ -7,6 +7,7 @@ const initialState = {
     pager: null,
     isLoading: false,
     isSuccess: false,
+    isDeleted: false,
     error: null
 };
 
@@ -40,12 +41,35 @@ export const store = createAsyncThunk("order/store", async (data, { rejectWithVa
     }
 });
 
+export const update = createAsyncThunk("order/update", async ({ id, data }, { rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/orders/${id}/update`, data);
+        
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+export const destroy = createAsyncThunk("order/destroy", async (id, { rejectWithValue }) => {
+    try {
+        const res = await api.post(`/api/orders/${id}/delete`, {});
+        
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const orderSlice = createSlice({
     name: 'order',
     initialState,
     reducers: {
         resetSuccess: (state) => {
             state.isSuccess = false;
+        },
+        resetDeleted: (state) => {
+            state.isDeleted = false;
         }
     },
     extraReducers: {
@@ -96,9 +120,44 @@ export const orderSlice = createSlice({
         [store.rejected]: (state, { payload }) => {
             state.error = payload;
         },
+        [update.pending]: (state) => {
+            state.isSuccess = false;
+            state.error = null;
+        },
+        [update.fulfilled]: (state, { payload }) => {
+            const { status, message, order } = payload;
+
+            if (status === 1) {
+                state.isSuccess = true;
+                state.order = order;
+            } else {
+                state.isSuccess = false;
+                state.error = { message };
+            }
+        },
+        [update.rejected]: (state, { payload }) => {
+            state.error = payload;
+        },
+        [destroy.pending]: (state) => {
+            state.isDeleted = false;
+            state.error = null;
+        },
+        [destroy.fulfilled]: (state, { payload }) => {
+            const { status, message } = payload;
+
+            if (status === 1) {
+                state.isDeleted = true;
+            } else {
+                state.isDeleted = false;
+                state.error = { message };
+            }
+        },
+        [destroy.rejected]: (state, { payload }) => {
+            state.error = payload;
+        },
     }
 });
 
 export default orderSlice.reducer;
 
-export const { resetSuccess } = orderSlice.actions;
+export const { resetSuccess, resetDeleted } = orderSlice.actions;
