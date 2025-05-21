@@ -223,6 +223,59 @@ const RequisitionReport = () => {
                     )}
                 </div>
             </div>
+            {/* END PAGE 1 */}
+
+            <div style={{ pageBreakBefore: 'always' }}></div>
+
+            {/* PAGE 2 */}
+            <div className="paper-container">
+                <div className="px-[1.5cm] py-5 text-center">
+                    <h1 className="text-2xl font-bold mb-2">รายละเอียดที่ขอซื้อ</h1>
+
+                    <div>
+                        <table className="w-full border-collapse border border-slate-400 mb-2">
+                            <thead>
+                                <tr className="text-[14pt]">
+                                    <th className="w-[5%] border border-slate-300">ลำดับ</th>
+                                    <th className="border border-slate-300">รายการ</th>
+                                    <th className="w-[8%] border border-slate-300">จำนวน</th>
+                                    <th className="w-[8%] border border-slate-300">ราคาต่อหน่วย</th>
+                                    <th className="w-[8%] border border-slate-300">รวมเป็นเงิน</th>
+                                    <th className="w-[8%] border border-slate-300">ราคามาตรฐาน</th>
+                                    <th className="w-[8%] border border-slate-300">ราคากลาง</th>
+                                    <th className="w-[8%] border border-slate-300">ราคาที่เคยจ้างครั้งหลังสุดภายใน 2 ปีงบประมาณ</th>
+                                    <th className="w-[8%] border border-slate-300">หมายเหตุ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {requisition?.details.map((detail, index) => (
+                                    <tr key={detail.id}>
+                                        <td className="border border-slate-300">{index+1}</td>
+                                        <td className="border border-slate-300 text-left pl-2 leading-6">
+                                            <span>{detail.item?.name}</span>
+                                            {detail.description && <span className="ml-1">{detail.description}</span>}
+                                        </td>
+                                        <td className="border border-slate-300">{detail.amount} {detail.unit?.name}</td>
+                                        <td className="border border-slate-300">{currency.format(detail.price)}</td>
+                                        <td className="border border-slate-300">{currency.format(detail.total)}</td>
+                                        <td className="border border-slate-300"></td>
+                                        <td className="border border-slate-300"></td>
+                                        <td className="border border-slate-300"></td>
+                                        <td className="border border-slate-300"></td>
+                                    </tr>
+                                ))}
+
+                                <tr className="font-bold">
+                                    <td colSpan={4}>รวมเป็นเงินทั้งสิ้น</td>
+                                    <td>{currency.format(requisition?.details.reduce((sum, curVal) => sum = sum + curVal.total, 0))}</td>
+                                    <td colSpan={4}></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
             {/* END PAGE 2 */}
         </>
     )
