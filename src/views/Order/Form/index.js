@@ -12,7 +12,8 @@ import {
     currencyToNumber,
     calculateNetTotal,
     calculateVat,
-    toShortTHDate
+    toShortTHDate,
+    setFieldTouched
 } from '../../../utils';
 import { store, update } from '../../../features/slices/order/orderSlice';
 import { useStyles } from '../../../hooks/useStyles';
@@ -56,15 +57,15 @@ const OrderForm = ({ id, order }) => {
         formik.setFieldValue('items', requisition.details);
         formik.setFieldValue('item_count', requisition.details.length);
 
-        setTimeout(() => formik.setFieldTouched('requisition_id', true), 600);
+        setFieldTouched(formik, 'requisition_id');
 
         /** คำนวณยอดสุทธิ */
         let netTotal = calculateNetTotal(requisition.details);
         formik.setFieldValue('net_total', currency.format(netTotal));
-        
+
         /** คำนวณฐานภาษีและภาษีมูลค่าเพิ่ม */
         calcTotal(formik, netTotal, parseInt(formik.values.vat_rate, 10));
-        
+
         /** เซต supplier_id และ selectedSupplier local state จากข้อมูล requisition */
         setSelectedSupplier(requisition.approvals[0].supplier);
         formik.setFieldValue('supplier_id', requisition.approvals[0].supplier_id);
