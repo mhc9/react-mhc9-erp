@@ -89,7 +89,7 @@ const RequisitionReport = () => {
                                 <div className="memo-paragraph">
                                     4. วงเงินที่จะซื้อ
                                     <div className="indent-0">
-                                        <p className="indent-[3.5cm]">เงินงบประมาณรายจ่ายประจำปี พ.ศ. {requisition.year} จำนวนเงิน {currency.format(requisition.net_total)} บาท ({ThaiNumberToText(requisition.net_total)})</p>
+                                        <p className="indent-[3.5cm]">เงินงบประมาณรายจ่ายประจำปี พ.ศ. {requisition.year+543} จำนวนเงิน {currency.format(requisition.net_total, 2)} บาท ({ThaiNumberToText(requisition.net_total)})</p>
                                     </div>
                                 </div>
                                 <div className="memo-paragraph">

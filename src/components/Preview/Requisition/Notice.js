@@ -50,6 +50,7 @@ const RequisitionNotice = () => {
                                     จำนวน {requisition.item_count} รายการ&nbsp;
                                     ผู้ได้รับการคัดเลือก ได้แก่ {requisition.approvals[0]?.supplier?.name}&nbsp;
                                     โดยเสนอราคา เป็นเงินทั้งสิ้น  {currency.format(requisition.net_total)} บาท ({ThaiNumberToText(requisition.net_total)})
+                                    รวมภาษีมูลค่าเพิ่มและภาษีอื่น ค่าขนส่ง ค่าจดทะเบียน และค่าใช้จ่ายอื่นๆ ทั้งปวง
                                 </div>
                                 <div className="memo-paragraph mt-2">
                                     <p className="indent-[4cm]">
