@@ -4,8 +4,10 @@ import { useCookies } from 'react-cookie'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
+import { ConfirmToast } from 'react-confirm-toast'
+import { toast } from 'react-toastify'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
-import { getOrders } from '../../../features/slices/order/orderSlice'
+import { getOrders, destroy, resetDeleted } from '../../../features/slices/order/orderSlice'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
 import OrderFilteringInputs from '../../../components/Order/FilteringInputs'
@@ -20,9 +22,21 @@ const OrderList = () => {
         status: '1',
     };
     const dispatch = useDispatch();
-    const { orders, pager, isLoading } = useSelector(state => state.order);
+    const { orders, pager, isLoading, isDeleted } = useSelector(state => state.order);
     const [apiEndpoint, setApiEndpoint] = useState('');
     const [params, setParams] = useState(generateQueryString(initialFilters));
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [deletingId, setDeletingId] = useState('');
+
+    useEffect(() => {
+        if (isDeleted) {
+            dispatch(resetDeleted());
+            toast.success('ลบคำสั่งซื้อ/จ้างสำเร็จ!!');
+
+            /** Reset ค่าของ apiEndpoint เพื่่อ re-render page */
+            setApiEndpoint(prev => prev === '' ? `/api/orders/search?page=` : '')
+        }
+    }, [isDeleted]);
 
     useEffect(() => {
         if (apiEndpoint === '') {
@@ -39,7 +53,8 @@ const OrderList = () => {
     };
 
     const handleDelete = (id) => {
-
+        dispatch(destroy(deletingId));
+        setDeletingId('');
     };
 
     return (
@@ -58,6 +73,15 @@ const OrderList = () => {
                 </div>
 
                 <div>
+                    <ConfirmToast
+                        customFunction={handleDelete}
+                        setShowConfirmToast={setShowConfirm}
+                        showConfirmToast={showConfirm}
+                        toastText={`คุณต้องการลบใบสั่งซื้อ/จ้าง รหัส ${deletingId} ใช่หรือไม่?`}
+                        buttonNoText='ไม่'
+                        buttonYesText='ใช่'
+                    />
+
                     <OrderFilteringInputs
                         initialFilters={initialFilters}
                         onFilter={handleFilter}
@@ -110,7 +134,13 @@ const OrderList = () => {
                                         <Link to={`/order/${order.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />
                                         </Link>
-                                        <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(order.id)}>
+                                        <button
+                                            className="btn btn-sm btn-danger px-1"
+                                            onClick={() => {
+                                                setDeletingId(order.id);
+                                                setShowConfirm(true);
+                                            }}
+                                        >
                                             <FaTrash />
                                         </button>
                                     </td>
