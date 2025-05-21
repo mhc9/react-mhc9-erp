@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch } from 'react-redux';
 import { useCookies } from 'react-cookie';
 import { Col, Row } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
-import { toast } from 'react-toastify';
 import { DatePicker } from '@material-ui/pickers';
 import moment from 'moment';
 import {
@@ -15,11 +14,11 @@ import {
     calculateVat,
     toShortTHDate
 } from '../../../utils';
-import { store } from '../../../features/slices/order/orderSlice';
+import { store, update } from '../../../features/slices/order/orderSlice';
+import { useStyles } from '../../../hooks/useStyles';
 import OrderItems from './OrderItems';
 import ModalRequisitionList from '../../../components/Modals/Requisition';
 import ModalSupplierList from '../../../components/Modals/Supplier';
-import { createTheme, makeStyles } from '@material-ui/core';
 
 const orderSchema = Yup.object().shape({
     po_no: Yup.string().required('กรุณาระุบเลขที่ใบสั่งซื้อ'),
@@ -33,21 +32,7 @@ const orderSchema = Yup.object().shape({
     items: Yup.mixed().test('Items Count', 'ไม่พบการรายการสินค้า/บริการ', val => val.filter(item => !item.removed).length > 0),
 });
 
-const useStyles = makeStyles({
-    input: {
-        border: '1px solid #dee2e6',
-        borderRadius: '0.375rem',
-        "& .MuiInput-underline:before": {
-            borderBottom: '0'
-        },
-        "& .MuiInput-underline .MuiInputBase-input": {
-            textAlign: 'center',
-            paddingBottom: '0.375rem',
-        },
-    }
-});
-
-const OrderForm = () => {
+const OrderForm = ({ id, order }) => {
     const classes = useStyles();
     const [cookie] = useCookies();
     const dispatch = useDispatch();
@@ -58,9 +43,12 @@ const OrderForm = () => {
     const [showSupplierModal, setShowSupplierModal] = useState(false);
     const [selectedSupplier, setSelectedSupplier] = useState(null);
 
-    const handleSubmit = (values, formik) => {
-        dispatch(store(values));
-    };
+    useEffect(() => {
+        if (order) {
+            setSelectedRequisition(order.requisition);
+            setSelectedSupplier(order.supplier);
+        }
+    }, [order]);
 
     const handleSelectRequisition = (formik, requisition) => {
         setSelectedRequisition(requisition);
@@ -101,22 +89,31 @@ const OrderForm = () => {
         formik.setFieldValue('deliver_date', toShortTHDate(deliverDate));
     };
 
+    const handleSubmit = (values, formik) => {
+        if (order) {
+            dispatch(update({ id, data: values }));
+        } else {
+            dispatch(store(values));
+        }
+    };
+
     return (
         <Formik
+            enableReinitialize
             initialValues={{
-                po_no: '',
-                po_date: '',
-                requisition_id: '',
-                supplier_id: '',
-                item_count: '',
-                total: '',
-                vat_rate: '7',
-                vat: '',
-                net_total: '',
-                deliver_days: '30',
-                deliver_date: '',
-                year: cookie.budgetYear,
-                items: []
+                po_no: order ? order.po_no : '',
+                po_date: order ? order.po_date : '',
+                requisition_id: order ? order.requisition_id : '',
+                supplier_id: order ? order.supplier_id : '',
+                item_count: order ? order.item_count : '',
+                total: order ? order.total : '',
+                vat_rate: order ? order.vat_rate : '7',
+                vat: order ? order.vat : '',
+                net_total: order ? order.net_total : '',
+                deliver_days: order ? order.deliver_days : '30',
+                deliver_date: order ? order.deliver_date : '',
+                year: order ? order.year : cookie.budgetYear,
+                items: order ? order.details : []
             }}
             validationSchema={orderSchema}
             onSubmit={handleSubmit}
@@ -177,7 +174,7 @@ const OrderForm = () => {
 
                                             calcDeliverDate(formik, date.format('YYYY-MM-DD'), formik.values.deliver_days);
                                         }}
-                                        className={classes.input}
+                                        className={classes.muiTextFieldInput}
                                     />
                                 </div>
                                 {(formik.errors.po_date && formik.touched.po_date) && (
@@ -207,10 +204,14 @@ const OrderForm = () => {
                                                 </p>
                                                 <p>
                                                     <span><b>เหตุผลที่ขอ</b> {selectedRequisition.reason}</span>
-                                                    <span className="text-sm text-blue-600 ml-1">
-                                                        <span>ตาม{selectedRequisition.budget?.activity?.project?.plan?.name}</span>
-                                                        <span className="ml-1">{selectedRequisition.budget?.activity?.project?.name}</span>
-                                                        <span className="ml-1">{selectedRequisition.budget?.activity?.name}</span>
+                                                    <span className="text-sm text-blue-600 ml-1">ตาม
+                                                        {selectedRequisition.budgets.map(data => (
+                                                            <>
+                                                                <span>{data.budget?.activity?.project?.plan?.name}</span>
+                                                                <span className="ml-1">{data.budget?.activity?.project?.name}</span>
+                                                                <span className="ml-1">{data.budget?.activity?.name}</span>
+                                                            </>
+                                                        ))}
                                                     </span>
                                                 </p>
                                             </div>
@@ -268,7 +269,7 @@ const OrderForm = () => {
                                                             setSelectedYear(date);
                                                             formik.setFieldValue('year', date.year());
                                                         }}
-                                                        className={classes.input}
+                                                        className={classes.muiTextFieldInput}
                                                     />
                                                     {(formik.errors.year && formik.touched.year) && (
                                                         <span className="text-red-500 text-sm">{formik.errors.year}</span>
@@ -354,8 +355,8 @@ const OrderForm = () => {
                         </Row>
                         <Row>
                             <Col className="text-center">
-                                <button type="submit" className="btn btn-outline-primary text-sm">
-                                    บันทึก
+                                <button type="submit" className={`btn ${order ? 'btn-outline-dark' : 'btn-outline-primary'} text-sm`}>
+                                    {order ? 'บันทึกการแก้ไข' : 'บันทึก'}
                                 </button>
                             </Col>
                         </Row>
