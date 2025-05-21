@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import { useDispatch } from 'react-redux';
 import { Col, Row } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
+import { DatePicker } from '@material-ui/pickers';
 import moment from 'moment';
 import {
     currency,
@@ -13,7 +13,6 @@ import {
     calculateVat,
     toShortTHDate
 } from '../../../utils';
-import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
 import { store } from '../../../features/slices/inspection/inspectionSlice';
 import ModalOrderList from '../../../components/Modals/Order';
 import OrderItems from './OrderItems';
@@ -176,23 +175,22 @@ const InspectionForm = () => {
                         <Col md={3}>
                             <div className="flex flex-col">
                                 <label htmlFor="">วันที่ส่งสินค้า</label>
-                                <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
-                                    <DatePicker
-                                        format="DD/MM/YYYY"
-                                        value={selectedDeliverDate}
-                                        onChange={(date) => {
-                                            setSelectedDeliverDate(date);
-                                            formik.setFieldValue('deliver_date', date.format('YYYY-MM-DD'));
-                                        }}
-                                        variant="outlined"
-                                    />
-                                </MuiPickersUtilsProvider>
+                                <DatePicker
+                                    format="DD/MM/YYYY"
+                                    value={selectedDeliverDate}
+                                    onChange={(date) => {
+                                        setSelectedDeliverDate(date);
+                                        formik.setFieldValue('deliver_date', date.format('YYYY-MM-DD'));
+                                    }}
+                                    variant="outlined"
+                                />
                             </div>
                             {(formik.errors.deliver_date && formik.touched.deliver_date) && (
                                 <span className="text-red-500 text-sm">{formik.errors.deliver_date}</span>
                             )}
                         </Col>
                     </Row>
+
                     {selectedOrder && (
                         <Row className="mb-2">
                             <Col md={8}>
@@ -238,21 +236,20 @@ const InspectionForm = () => {
                             </Col>
                         </Row>
                     )}
+
                     <Row className="mb-3">
                         <Col md={3}>
                             <div className="flex flex-col">
                                 <label htmlFor="">วันที่ตรวจรับ</label>
-                                <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
-                                    <DatePicker
-                                        format="DD/MM/YYYY"
-                                        value={selectedInspectDate}
-                                        onChange={(date) => {
-                                            setSelectedInspectDate(date);
-                                            formik.setFieldValue('inspect_date', date.format('YYYY-MM-DD'));
-                                        }}
-                                        variant="outlined"
-                                        />
-                                </MuiPickersUtilsProvider>
+                                <DatePicker
+                                    format="DD/MM/YYYY"
+                                    value={selectedInspectDate}
+                                    onChange={(date) => {
+                                        setSelectedInspectDate(date);
+                                        formik.setFieldValue('inspect_date', date.format('YYYY-MM-DD'));
+                                    }}
+                                    variant="outlined"
+                                />
                             </div>
                             {(formik.errors.inspect_date && formik.touched.inspect_date) && (
                                 <span className="text-red-500 text-sm">{formik.errors.inspect_date}</span>
@@ -280,17 +277,15 @@ const InspectionForm = () => {
                         <Col md={3}>
                             <div className="flex flex-col">
                                 <label htmlFor="">วันที่รายงานผล</label>
-                                <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
-                                    <DatePicker
-                                        format="DD/MM/YYYY"
-                                        value={selectedReportDate}
-                                        onChange={(date) => {
-                                            setSelectedReportDate(date);
-                                            formik.setFieldValue('report_date', date.format('YYYY-MM-DD'));
-                                        }}
-                                        variant="outlined"
-                                    />
-                                </MuiPickersUtilsProvider>
+                                <DatePicker
+                                    format="DD/MM/YYYY"
+                                    value={selectedReportDate}
+                                    onChange={(date) => {
+                                        setSelectedReportDate(date);
+                                        formik.setFieldValue('report_date', date.format('YYYY-MM-DD'));
+                                    }}
+                                    variant="outlined"
+                                />
                             </div>
                             {(formik.errors.report_date && formik.touched.report_date) && (
                                 <span className="text-red-500 text-sm">{formik.errors.report_date}</span>
