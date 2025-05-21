@@ -35,7 +35,7 @@ const EditOrder = () => {
             {/* breadcrumb */}
             <Breadcrumb>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>หน้าหลัก</Breadcrumb.Item>
-                <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
+                <Breadcrumb.Item active>จัดซื้อจัดจ้าง</Breadcrumb.Item>
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/order' }}>รายการใบสั่งซื้อ/จ้าง</Breadcrumb.Item>
                 <Breadcrumb.Item active>แก้ไขคำสั่งซื้อ/จ้าง</Breadcrumb.Item>
             </Breadcrumb>
