@@ -91,7 +91,7 @@ const OrderList = () => {
                         <thead>
                             <tr>
                                 <th className="text-center w-[5%]">#</th>
-                                <th className="text-center w-[15%]">เอกสาร</th>
+                                <th className="text-center w-[15%]">ใบสั่งซื้อ/จ้าง</th>
                                 <th>รายการ</th>
                                 <th className="text-center w-[12%]">ยอดซื้อ/จ้าง</th>
                                 <th className="text-center w-[20%]">ผู้ขอ</th>
