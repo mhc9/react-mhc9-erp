@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
+import { useCookies } from 'react-cookie'
+import { currency, toShortTHDate, generateQueryString } from '../../../utils';
 import { getOrders } from '../../../features/slices/order/orderSlice';
 import { useGetInitialFormDataQuery } from '../../../features/services/order/orderApi';
-import { currency, toShortTHDate } from '../../../utils';
 import Loading from '../../Loading';
 import Pagination from '../../Pagination';
 import FilteringInputs from '../../Order/FilteringInputs';
-
-const initialFilters = {
-    pr_no: '',
-    pr_date: '',
-    division: '',
-    status: '1'
-};
 
 const initialFormData = {
     units: [],
@@ -21,15 +15,24 @@ const initialFormData = {
 };
 
 const ModalOrderList = ({ isShow, onHide, onSelect }) => {
+    const [cookies] = useCookies();
+    const initialFilters = {
+        year:  cookies.budgetYear,
+        pr_no: '',
+        pr_date: '',
+        division: '',
+        status: 1,
+        limit: 5,
+    };
     const dispatch = useDispatch();
     const { orders, pager, isLoading } = useSelector(state => state.order);
-    const [params, setParams] = useState('');
+    const [params, setParams] = useState(generateQueryString(initialFilters));
     const [apiEndpoint, setApiEndpoint] = useState('');
     const { data: formData = initialFormData } = useGetInitialFormDataQuery();
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getOrders({ url: `/api/orders/search?page=&status=1&limit=5` }));
+            dispatch(getOrders({ url: `/api/orders/search?page=${params}` }));
         } else {
             dispatch(getOrders({ url: `${apiEndpoint}${params}` }));
         }
@@ -41,7 +44,7 @@ const ModalOrderList = ({ isShow, onHide, onSelect }) => {
 
     const handleFilter = (queryStr) => {
         setParams(queryStr);
-        setApiEndpoint(`/api/orders/search?page=&status=1&limit=5`);
+        setApiEndpoint(`/api/orders/search?page=`);
     };
 
     return (
@@ -90,7 +93,12 @@ const ModalOrderList = ({ isShow, onHide, onSelect }) => {
                                         </p>
                                         <p>{' ' + order.requisition.topic} จำนวน {currency.format(order.item_count)} รายการ รวมเป็นเงิน {currency.format(order.net_total)} บาท</p>
                                         <p className="text-xs font-thin text-blue-600">
-                                            ตาม{order.requisition.budget?.project?.plan?.name} {order.requisition.budget?.project?.name}<br /> {order.requisition.budget?.name}
+                                            ตาม
+                                            {order.requisition.budgets.map(data => (
+                                                <span>
+                                                    {data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name}<br /> {data.budget?.activity?.name}
+                                                </span>
+                                            ))}
                                         </p>
                                     </td>
                                     <td className="text-center">
