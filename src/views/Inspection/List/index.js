@@ -1,36 +1,52 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
 import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
+import { ConfirmToast } from 'react-confirm-toast'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
-import { currency, toShortTHDate } from '../../../utils'
+import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import { useGetInitialFormDataQuery } from '../../../features/services/inspection/inspectionApi'
-import { getInspections } from '../../../features/slices/inspection/inspectionSlice'
+import { getInspections, destroy, resetDeleted } from '../../../features/slices/inspection/inspectionSlice'
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
+import { toast } from 'react-toastify'
 // import FilteringInputs from '../../../components/Requisition/FilteringInputs'
-
-const initialFilters = {
-    po_no: '',
-    po_date: '',
-    supplier: '',
-    status: '1',
-};
 
 const initialFormData = {
     suppliers: []
 };
 
 const InspectionList = () => {
+    const [cookies] = useCookies();
+    const initialFilters = {
+        year:  cookies.budgetYear,
+        po_no: '',
+        po_date: '',
+        supplier: '',
+        status: '1',
+    };
     const dispatch = useDispatch();
-    const { inspections, pager, isLoading } = useSelector(state => state.inspection);
+    const { inspections, pager, isLoading, isDeleted } = useSelector(state => state.inspection);
     const { data: fornData = initialFormData, isLoading: loading } = useGetInitialFormDataQuery();
     const [apiEndpoint, setApiEndpoint] = useState('');
-    const [params, setParams] = useState('');
+    const [params, setParams] = useState(generateQueryString(initialFilters));
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [deletingId, setDeletingId] = useState('');
+
+    useEffect(() => {
+        if (isDeleted) {
+            dispatch(resetDeleted());
+            toast.success('ลบคำสั่งซื้อ/จ้างสำเร็จ!!');
+
+            /** Reset ค่าของ apiEndpoint เพื่่อ re-render page */
+            setApiEndpoint(prev => prev === '' ? `/api/inspections/search?page=` : '');
+        }
+    }, [isDeleted]);
 
     useEffect(() => {
         if (apiEndpoint === '') {
-            dispatch(getInspections({ url: '/api/inspections/search?page=&status=1' }));
+            dispatch(getInspections({ url: `/api/inspections/search?page=${params}` }));
         } else {
             dispatch(getInspections({ url: `${apiEndpoint}${params}` }));
         }
@@ -43,7 +59,8 @@ const InspectionList = () => {
     };
 
     const handleDelete = (id) => {
-
+        dispatch(destroy(deletingId));
+        setDeletingId('');
     };
 
     return (
@@ -62,6 +79,15 @@ const InspectionList = () => {
                 </div>
 
                 <div>
+                    <ConfirmToast
+                        customFunction={handleDelete}
+                        setShowConfirmToast={setShowConfirm}
+                        showConfirmToast={showConfirm}
+                        toastText={`คุณต้องการลบรายการตรวจรับพัสดุ รหัส ${deletingId} ใช่หรือไม่?`}
+                        buttonNoText='ไม่'
+                        buttonYesText='ใช่'
+                    />
+
                     {/* <FilteringInputs
                         initialFilters={initialFilters}
                         formData={fornData}
@@ -116,7 +142,13 @@ const InspectionList = () => {
                                         <Link to={`/inspection/${inspection.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />
                                         </Link>
-                                        <button className="btn btn-sm btn-danger px-1" onClick={() => handleDelete(inspection.id)}>
+                                        <button
+                                            className="btn btn-sm btn-danger px-1"
+                                            onClick={() => {
+                                                setDeletingId(inspection.id);
+                                                setShowConfirm(true);
+                                            }}
+                                        >
                                             <FaTrash />
                                         </button>
                                     </td>

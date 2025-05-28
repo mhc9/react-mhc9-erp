@@ -34,7 +34,7 @@ const OrderList = () => {
             toast.success('ลบคำสั่งซื้อ/จ้างสำเร็จ!!');
 
             /** Reset ค่าของ apiEndpoint เพื่่อ re-render page */
-            setApiEndpoint(prev => prev === '' ? `/api/orders/search?page=` : '')
+            setApiEndpoint(prev => prev === '' ? `/api/orders/search?page=` : '');
         }
     }, [isDeleted]);
 
