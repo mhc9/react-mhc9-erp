@@ -127,8 +127,6 @@ const InspectionForm = ({ id, inspection }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik.values);
-                
                 return (
                     <Form>
                         <ModalOrderList
@@ -138,13 +136,13 @@ const InspectionForm = ({ id, inspection }) => {
                         />
 
                         <Row className="mb-2">
-                            <Col md={4}>
+                            <Col md={5}>
                                 <label htmlFor="">ใบสั่งซื้อ/จ้าง</label>
                                 <div className="input-group">
                                     <div className="min-h-[34px] form-control font-thin text-sm bg-gray-100">
                                         {selectedOrder &&  <p>เลขที่ {selectedOrder.po_no} วันที่ {toShortTHDate(selectedOrder.po_date)}</p>}
                                     </div>
-                                    <button type="button" className="btn btn-outline-secondary" onClick={() => setShowOrderModal(true)}>
+                                    <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setShowOrderModal(true)}>
                                         <FaSearch />
                                     </button>
                                 </div>
@@ -182,7 +180,7 @@ const InspectionForm = ({ id, inspection }) => {
                                     <span className="text-red-500 text-sm">{formik.errors.deliver_no}</span>
                                 )}
                             </Col>
-                            <Col md={3}>
+                            <Col md={2}>
                                 <div className="flex flex-col">
                                     <label htmlFor="">วันที่ส่งสินค้า</label>
                                     <DatePicker
@@ -192,7 +190,7 @@ const InspectionForm = ({ id, inspection }) => {
                                             setSelectedDeliverDate(date);
                                             formik.setFieldValue('deliver_date', date.format('YYYY-MM-DD'));
                                         }}
-                                        variant="outlined"
+                                        className={classes.muiTextFieldInput}
                                     />
                                 </div>
                                 {(formik.errors.deliver_date && formik.touched.deliver_date) && (
@@ -203,42 +201,56 @@ const InspectionForm = ({ id, inspection }) => {
 
                         {selectedOrder && (
                             <Row className="mb-2">
-                                <Col md={8}>
-                                    <div className="min-h-[148px] border rounded-sm text-sm font-thin px-3 py-2 bg-gray-100">
-                                        <h4 className="font-bold underline mb-1">รายละเอียดคำขอซื้อ</h4>
+                                <Col md={8} className="lg:pr-1 md:pr-1">
+                                    <div className="min-h-[180px] border rounded-md text-sm font-thin px-3 py-2 bg-[#D8E2DC]">
+                                        <h4 className="font-bold underline my-1">รายละเอียดคำขอซื้อ</h4>
                                         <p>
-                                            {selectedOrder.requisition.requester?.prefix?.name}{selectedOrder.requisition.requester?.firstname} {selectedOrder.requisition.requester?.lastname}
-                                            {' ' + selectedOrder.requisition.topic} จำนวน {currency.format(selectedOrder.item_count)} รายการ 
-                                            รวมเป็นเงิน {currency.format(selectedOrder.net_total)} บาท
+                                            <span>
+                                                <b>ผู้ขอ</b> {selectedOrder.requisition.requester?.prefix?.name}{selectedOrder.requisition.requester?.firstname} {selectedOrder.requisition.requester?.lastname}
+                                            </span>
+                                            <span className="ml-1">
+                                                <b>ตำแหน่ง</b> {selectedOrder.requisition.requester?.position?.name}
+                                                {selectedOrder.requisition.requester?.level ? selectedOrder.requisition.requester?.level?.name : ''}
+                                            </span>
                                         </p>
-                                        <p className="text-sm text-blue-600">
-                                            ตาม{selectedOrder.requisition.budget?.project?.plan?.name}<br />
-                                            {selectedOrder.requisition.budget?.project?.name}<br />
-                                            {selectedOrder.requisition.budget?.name}
+                                        <p>
+                                            <span>
+                                                <b>เรื่อง</b> {selectedOrder.requisition.topic} จำนวน {currency.format(selectedOrder.item_count)} รายการ 
+                                                รวมเป็นเงินทั้งสิ้น {currency.format(selectedOrder.net_total)} บาท
+                                            </span>
+                                        </p>
+                                        <p className="text-sm">
+                                            <b className="mr-1">ตาม</b>
+                                            {selectedOrder.requisition.budgets.map(data => (
+                                                <span className="text-blue-600">
+                                                    {data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name} {data.budget?.activity?.name}
+                                                </span>
+                                            ))}
                                         </p>
                                     </div>
                                 </Col>
-                                <Col md={4}>
-                                    <div className="min-h-[148px] border rounded-sm text-sm font-thin px-3 py-2 bg-gray-100">
-                                        <h4 className="font-bold underline mb-1">ผู้จัดจำหน่าย</h4>
+                                <Col md={4} className="lg:pl-1 md:pl-1">
+                                    <div className="min-h-[180px] border rounded-md text-sm font-thin px-3 py-2 bg-[#EAD9D5]">
+                                        <h4 className="font-bold underline my-1">ผู้จัดจำหน่าย</h4>
                                         {selectedOrder && (
-                                            <div className="font-thin text-sm bg-gray-100">
-                                                <b className="text-lg">{selectedOrder.supplier?.name}</b>
+                                            <div className="font-thin text-sm">
+                                                <b className="font-bold">{selectedOrder.supplier?.name}</b>
                                                 <p><b className="mr-1">เลขประจำตัวผู้เสียภาษี</b>{selectedOrder.supplier?.tax_no}</p>
                                                 <p>
-                                                    <b className="mr-1">ที่อยู่</b>{selectedOrder.supplier?.address} 
-                                                    <span className="mx-1">หมู่</span>{selectedOrder.supplier?.moo ? selectedOrder.supplier?.moo : '-'}
-                                                    <span className="mx-1">ถนน</span>{selectedOrder.supplier?.raod ? selectedOrder.supplier?.raod : '-'}
+                                                    <b className="mr-1">ที่อยู่</b>
+                                                    <span>{selectedOrder.supplier?.address}</span>
+                                                    <span><span className="mx-1">หมู่</span>{selectedOrder.supplier?.moo ? selectedOrder.supplier?.moo : '-'}</span>
+                                                    <span><span className="mx-1">ถนน</span>{selectedOrder.supplier?.raod ? selectedOrder.supplier?.raod : '-'}</span>
                                                 </p>
                                                 <p>
-                                                    <span className="mr-1">ต.</span>{selectedOrder.supplier?.tambon?.name}
-                                                    <span className="mx-1">อ.</span>{selectedOrder.supplier?.amphur?.name}
-                                                    <span className="mx-1">จ.</span>{selectedOrder.supplier?.changwat?.name}
+                                                    <span><span className="mr-1">ต.</span>{selectedOrder.supplier?.tambon?.name}</span>
+                                                    <span><span className="mx-1">อ.</span>{selectedOrder.supplier?.amphur?.name}</span>
+                                                    <span><span className="mx-1">จ.</span>{selectedOrder.supplier?.changwat?.name}</span>
                                                     <span className="ml-1">{selectedOrder.supplier?.zipcode}</span>
                                                 </p>
                                                 <p>
                                                     <b className="mr-1">โทร.</b>{selectedOrder.supplier?.tel}
-                                                    <b className="mx-1">Fax.</b>{selectedOrder.supplier?.fax}
+                                                    <b className="mx-1 max-[768px]:hidden">Fax.</b>{selectedOrder.supplier?.fax}
                                                 </p>
                                             </div>
                                         )}
@@ -258,7 +270,7 @@ const InspectionForm = ({ id, inspection }) => {
                                             setSelectedInspectDate(date);
                                             formik.setFieldValue('inspect_date', date.format('YYYY-MM-DD'));
                                         }}
-                                        variant="outlined"
+                                        className={classes.muiTextFieldInput}
                                     />
                                 </div>
                                 {(formik.errors.inspect_date && formik.touched.inspect_date) && (
@@ -267,7 +279,7 @@ const InspectionForm = ({ id, inspection }) => {
                             </Col>
                             <Col md={3}>
                                 <label htmlFor="">ครบกำหนดวันที่</label>
-                                <div className="form-control text-sm text-center min-h-[34px] bg-gray-100">
+                                <div className="form-control text-sm text-center min-h-[34px] bg-gray-100 cursor-not-allowed">
                                     {toShortTHDate(selectedOrder?.deliver_date)}
                                 </div>
                             </Col>
@@ -294,7 +306,7 @@ const InspectionForm = ({ id, inspection }) => {
                                             setSelectedReportDate(date);
                                             formik.setFieldValue('report_date', date.format('YYYY-MM-DD'));
                                         }}
-                                        variant="outlined"
+                                        className={classes.muiTextFieldInput}
                                     />
                                 </div>
                                 {(formik.errors.report_date && formik.touched.report_date) && (
@@ -305,8 +317,7 @@ const InspectionForm = ({ id, inspection }) => {
                         <Row className="mb-2 text-sm">
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
-                                    
-                                    <h3 className="mb-2">รายการสินค้า</h3>
+                                    <h4 className="font-bold text-lg mb-1">รายการสินค้า</h4>
 
                                     <OrderItems
                                         items={formik.values.items}
@@ -314,18 +325,18 @@ const InspectionForm = ({ id, inspection }) => {
                                     />
 
                                     <div className="flex items-center justify-end p-0 mt-1">
-                                        <span className="mr-2">รวมเป็นเงิน</span>
+                                        <span className="font-bold mr-2">รวมเป็นเงิน</span>
                                         <input
                                             type="text"
                                             name="total"
                                             value={formik.values.total}
                                             onChange={formik.handleChange}
-                                            className="form-control font-thin text-sm w-[12%] text-right"
+                                            className="form-control font-bold text-sm w-[12%] text-right"
                                         />
                                         <div className="w-[8%]"></div>
                                     </div>
                                     <div className="flex items-center justify-end p-0 mt-1">
-                                        <span className="mr-2">ภาษีมูลค่าเพิ่ม</span>
+                                        <span className="font-bold mr-2">ภาษีมูลค่าเพิ่ม</span>
                                         <select
                                             name="vat_rate"
                                             value={formik.values.vat_rate}
@@ -344,18 +355,18 @@ const InspectionForm = ({ id, inspection }) => {
                                             name="vat"
                                             value={formik.values.vat}
                                             onChange={formik.handleChange}
-                                            className="form-control font-thin text-sm w-[12%] text-right"
+                                            className="form-control font-bold text-sm w-[12%] text-right"
                                         />
                                         <div className="w-[8%]"></div>
                                     </div>
                                     <div className="flex items-center justify-end p-0 mt-1">
-                                        <span className="mr-2">ยอดสิทธิ</span>
+                                        <span className="text-lg font-bold mr-2">ยอดสิทธิ</span>
                                         <input
                                             type="text"
                                             name="net_total"
                                             value={formik.values.net_total}
                                             onChange={formik.handleChange}
-                                            className="form-control font-thin text-sm w-[12%] text-right"
+                                            className="form-control w-[12%] text-right text-lg text-green-700 font-bold"
                                         />
                                         <div className="w-[8%]"></div>
                                     </div>

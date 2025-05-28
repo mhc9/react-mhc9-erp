@@ -96,7 +96,7 @@ const ModalOrderList = ({ isShow, onHide, onSelect }) => {
                                             ตาม
                                             {order.requisition.budgets.map(data => (
                                                 <span>
-                                                    {data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name}<br /> {data.budget?.activity?.name}
+                                                    {data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name} {data.budget?.activity?.name}
                                                 </span>
                                             ))}
                                         </p>

@@ -5,7 +5,7 @@ import ReceiveButton from './ReceiveButton';
 const OrderItems = ({ items = [], onReceiveItem }) => {
     return (
         <div>
-            <table className="table table-bordered text-sm mb-2">
+            <table className="table table-bordered table-striped text-sm mb-2">
                 <thead>
                     <tr>
                         <th className="text-center w-[5%]">#</th>

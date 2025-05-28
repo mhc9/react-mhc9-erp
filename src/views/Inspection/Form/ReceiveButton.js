@@ -11,10 +11,10 @@ const ReceiveButton = ({ id, onReceive }) => {
     return (
         <button
             type="button"
-            className={`btn ${received ? 'btn-outline-success' : 'btn-outline-secondary'} btn-sm`}
+            className={`btn ${received ? 'btn-outline-success' : 'btn-outline-danger'} btn-sm`}
             onClick={handleClick}
         >
-            {received ? 'รับแล้ว' : 'ตรวจรับ'}
+            {received ? 'รับแล้ว' : 'รับ'}
         </button>
     )
 }
