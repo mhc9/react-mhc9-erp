@@ -95,7 +95,7 @@ const ModalOrderList = ({ isShow, onHide, onSelect }) => {
                                         <p className="text-xs font-thin text-blue-600">
                                             ตาม
                                             {order.requisition.budgets.map(data => (
-                                                <span>
+                                                <span key={data.id}>
                                                     {data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name} {data.budget?.activity?.name}
                                                 </span>
                                             ))}

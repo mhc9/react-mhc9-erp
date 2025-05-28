@@ -19,7 +19,7 @@ import { store, update } from '../../../features/slices/inspection/inspectionSli
 import OrderItems from './OrderItems';
 import ModalOrderList from '../../../components/Modals/Order';
 
-const orderSchema = Yup.object().shape({
+const inspectionSchema = Yup.object().shape({
     order_id: Yup.string().required('กรุณาเลือกใบสั่งซื้อ/จ้าง'),
     deliver_no: Yup.string().required('กรุณาระบุเลขที่ใบส่งสินค้า'),
     deliver_date: Yup.string().required('กรุณาเลือกวันที่ใบส่งสินค้า'),
@@ -123,7 +123,7 @@ const InspectionForm = ({ id, inspection }) => {
                 status: inspection ? inspection.status : '1',
                 items: inspection ? inspection.details : []
             }}
-            validationSchema={orderSchema}
+            validationSchema={inspectionSchema}
             onSubmit={handleSubmit}
         >
             {(formik) => {
@@ -222,7 +222,7 @@ const InspectionForm = ({ id, inspection }) => {
                                         <p className="text-sm">
                                             <b className="mr-1">ตาม</b>
                                             {selectedOrder.requisition.budgets.map(data => (
-                                                <span className="text-blue-600">
+                                                <span key={data.id} className="text-blue-600">
                                                     {data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name} {data.budget?.activity?.name}
                                                 </span>
                                             ))}
