@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch } from 'react-redux';
@@ -41,6 +41,16 @@ const InspectionForm = ({ id, inspection }) => {
     const [selectedDeliverDate, setSelectedDeliverDate] = useState(moment());
     const [selectedInspectDate, setSelectedInspectDate] = useState(moment());
     const [selectedReportDate, setSelectedReportDate] = useState(moment());
+
+    useEffect(() => {
+        if (inspection) {
+            setSelectedOrder(inspection.order);
+            setSelectedYear(moment(`${inspection.year}-09-01`))
+            setSelectedDeliverDate(moment(inspection.deliver_date))
+            setSelectedInspectDate(moment(inspection.inspect_date))
+            setSelectedReportDate(moment(inspection.report_date))
+        }
+    }, [inspection]);
 
     const handleSelectOrder = (formik, order) => {
         setSelectedOrder(order);
@@ -221,7 +231,7 @@ const InspectionForm = ({ id, inspection }) => {
                                         </p>
                                         <p className="text-sm">
                                             <b className="mr-1">ตาม</b>
-                                            {selectedOrder.requisition.budgets.map(data => (
+                                            {selectedOrder?.requisition?.budgets?.map(data => (
                                                 <span key={data.id} className="text-blue-600">
                                                     {data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name} {data.budget?.activity?.name}
                                                 </span>
