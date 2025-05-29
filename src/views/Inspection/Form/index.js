@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Col, Row } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
 import { DatePicker } from '@material-ui/pickers';
+import { useCookies } from 'react-cookie';
 import moment from 'moment';
 import {
     currency,
@@ -33,6 +34,7 @@ const inspectionSchema = Yup.object().shape({
 });
 
 const InspectionForm = ({ id, inspection }) => {
+    const [cookies] = useCookies();
     const classes = useStyles();
     const dispatch = useDispatch();
     const [showOrderModal, setShowOrderModal] = useState(false);
@@ -123,7 +125,7 @@ const InspectionForm = ({ id, inspection }) => {
                 report_no: inspection ? inspection.report_no : '',
                 report_date: inspection ? inspection.report_date : '',
                 supplier_id: inspection ? inspection.supplier_id : '',
-                year: inspection ? inspection.year : '2566',
+                year: inspection ? inspection.year : cookies.budgetYear,
                 item_count: inspection ? inspection.item_count : '',
                 item_received: inspection ? inspection.item_received : '',
                 total: inspection ? inspection.total : '',
