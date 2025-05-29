@@ -141,8 +141,6 @@ const InspectionForm = ({ id, inspection }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik.values.items);
-                
                 return (
                     <Form>
                         <ModalOrderList

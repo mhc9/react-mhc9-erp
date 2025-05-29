@@ -41,61 +41,60 @@ const InspectionDetail = () => {
                                     <Row className="mb-2">
                                         <Col md={5}>
                                             <label htmlFor="">เลขที่ใบส่งของ</label>
-                                            <div className="form-control text-sm font-thin">{inspection.deliver_no}</div>
+                                            <div className="form-control font-thin text-sm cursor-not-allowed">
+                                                {inspection.deliver_no}
+                                            </div>
                                         </Col>
                                         <Col md={5}>
                                             <label htmlFor="">วันที่ใบส่งของ</label>
-                                            <div className="form-control text-sm font-thin">
+                                            <div className="form-control font-thin text-sm cursor-not-allowed">
                                                 {toShortTHDate(inspection.deliver_date)}
                                             </div>
                                         </Col>
                                         <Col md={2}>
                                             <span className="mr-2">ปีงบ</span>
-                                            <div className="form-control text-sm float-right text-center">
-                                                {inspection.year}
+                                            <div className="form-control font-thin text-sm cursor-not-allowed">
+                                                {inspection.year+543}
                                             </div>
                                         </Col>
                                     </Row>
                                     {/* รายละเอียดคำขอซื้อ */}
                                     <Row>
-                                        <Col>
-                                            <div className="form-control min-h-[125px] text-sm font-thin bg-green-300">
+                                        <Col className="lg:pr-1 md:pr-1">
+                                            <div className="form-control min-h-[150px] text-sm font-thin bg-[#D8E2DC] p-3">
                                                 <p>
-                                                    <label className="font-bold mr-1">เลขที่ใบสั่งซื้อ/จ้าง</label>
+                                                    <b className="mr-1">เลขที่ใบสั่งซื้อ/จ้าง</b>
                                                     <span className="mr-2">{inspection.order?.po_no}</span>
-                                                    <label className="font-bold mr-1">วันที่</label>
+                                                    <b className="mr-1">วันที่</b>
                                                     <span>{toShortTHDate(inspection.order?.po_date)}</span>
                                                 </p>
                                                 <p>
-                                                    <label className="font-bold mr-1">เรื่อง</label>
+                                                    <span>
+                                                        <b className="mr-1">ผู้ขอ</b>
+                                                        {inspection.order?.requisition.requester?.prefix?.name}{inspection.order?.requisition.requester?.firstname} {inspection.order?.requisition.requester?.lastname}
+                                                    </span>
+                                                    <span className="ml-1">
+                                                        <b className="mr-1">ตำแหน่ง</b>
+                                                        {inspection.order?.requisition.requester?.position?.name}
+                                                        {inspection.order?.requisition.requester?.level ? inspection.order?.requisition.requester?.level?.name : ''}
+                                                    </span>
+                                                </p>
+                                                <p>
+                                                    <b className="mr-1">เรื่อง</b>
                                                     <span className="mr-2">{inspection.order?.requisition?.topic}</span>
-                                                    <label className="font-bold mr-1">จำนวน</label>
+                                                    <b className="mr-1">จำนวน</b>
                                                     <span className="mr-2">{currency.format(inspection.order?.item_count)} รายการ</span>
-                                                    <label className="font-bold mr-1">เป็นเงินทั้งสิ้น</label>
+                                                    <b className="mr-1">เป็นเงินทั้งสิ้น</b>
                                                     <span className="mr-2">{currency.format(inspection.order?.net_total)} บาท</span>
                                                 </p>
-                                                {/* <p>
-                                                    <label className="font-bold mr-1">งบประมาณ</label>
-                                                    <span>{order.requisition?.budget?.name}</span>
+                                                <p className="text-sm">
+                                                    <b className="mr-1">ตาม</b>
+                                                    {inspection.order?.requisition?.budgets?.map(data => (
+                                                        <span key={data.id} className="text-blue-600">
+                                                            {data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name} {data.budget?.activity?.name}
+                                                        </span>
+                                                    ))}
                                                 </p>
-                                                <p>
-                                                    <label className="font-bold mr-1">โครงการ</label>
-                                                    <span className="mr-2">
-                                                        {order.requisition?.project ? order.requisition?.project?.name : '-'}
-                                                    </span>
-                                                </p>
-                                                <p>
-                                                    <label className="font-bold mr-1">ผู้ขอ/เจ้าของโครงการ</label>
-                                                    <span className="mr-2">
-                                                        {order.requisition?.requester?.firstname} {order.requisition?.requester?.lastname}
-                                                    </span>
-                                                    <label className="font-bold mr-1">หน่วยงาน</label>
-                                                    <span>{order.requisition?.division?.name}</span>
-                                                </p>
-                                                <p>
-                                                    <label className="font-bold mr-1">เหตุผลที่ขอ</label>
-                                                    <span>{order.requisition?.reason}</span>
-                                                </p> */}
                                             </div>
                                         </Col>
                                     </Row>
@@ -104,15 +103,15 @@ const InspectionDetail = () => {
                                     <Row className="mb-2">
                                         <Col>
                                             <label htmlFor="">ประเภทสินค้า</label>
-                                            <div className="form-control min-h-[34px] text-sm font-thin">
+                                            <div className="form-control font-thin text-sm cursor-not-allowed">
                                                 {inspection.order.requisition?.category?.name}
                                             </div>
                                         </Col>
                                     </Row>
                                     {/* รายละเอียดผู้จัดจำหน่าย */}
                                     <Row>
-                                        <Col>
-                                            <div className="form-control min-h-[125px] text-sm font-thin bg-gray-200">
+                                        <Col className="lg:pl-1 md:pl-1">
+                                            <div className="form-control min-h-[150px] text-sm font-thin bg-[#EAD9D5] p-3">
                                                 <p className="font-bold text-lg mr-1">{inspection.supplier?.name}</p>
                                                 <p><b className="mr-1">เลขประจำตัวผู้เสียภาษี</b>{inspection.supplier?.tax_no}</p>
                                                 <p>
@@ -137,6 +136,36 @@ const InspectionDetail = () => {
                                     </Row>
                                 </Col>
                             </Row>
+                            <Row className="mb-3">
+                                <Col md={3}>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="">วันที่ตรวจรับ</label>
+                                        <div className="form-control font-thin text-sm cursor-not-allowed">
+                                            {toShortTHDate(inspection.inspect_date)}
+                                        </div>
+                                    </div>
+                                </Col>
+                                <Col md={3}>
+                                    <label htmlFor="">ครบกำหนดวันที่</label>
+                                    <div className="form-control font-thin text-sm cursor-not-allowed">
+                                        {toShortTHDate(inspection.order?.deliver_date)}
+                                    </div>
+                                </Col>
+                                <Col md={3}>
+                                    <label htmlFor="">เลขที่รายงานผล</label>
+                                    <div className="form-control font-thin text-sm cursor-not-allowed">
+                                        {inspection.report_no}
+                                    </div>
+                                </Col>
+                                <Col md={3}>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="">วันที่รายงานผล</label>
+                                        <div className="form-control font-thin text-sm cursor-not-allowed">
+                                            {toShortTHDate(inspection.report_date)}
+                                        </div>
+                                    </div>
+                                </Col>
+                            </Row>
                             <Row className="mt-3 mb-2">
                                 <Col>
                                     <div className="flex flex-col border p-2 rounded-md">
@@ -147,28 +176,28 @@ const InspectionDetail = () => {
                                         />
 
                                         <div className="flex flex-row justify-end items-center mb-2">
-                                            <span className="mr-2">รวมเป็นเงิน</span>
+                                            <span className="font-bold mr-2">รวมเป็นเงิน</span>
                                             <div className="w-[12%]">
-                                                <div className="form-control text-sm float-right text-right">
+                                                <div className="form-control text-sm text-right font-bold">
                                                     {currency.format(inspection.total)}
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="flex flex-row justify-end items-center mb-2">
-                                            <span className="mr-2">ภาษีมูลค่าเพิ่ม</span>
-                                            <div className="form-control text-sm float-right text-right w-10 mr-1">
+                                            <span className="font-bold mr-2">ภาษีมูลค่าเพิ่ม</span>
+                                            <div className="form-control text-sm text-right w-10 mr-1">
                                                 {currency.format(inspection.vat_rate)}%
                                             </div>
                                             <div className="w-[12%]">
-                                                <div className="form-control text-sm float-right text-right">
+                                                <div className="form-control text-sm text-right font-bold">
                                                     {currency.format(inspection.vat)}
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="flex flex-row justify-end items-center">
-                                            <span className="mr-2">ยอดสุทธิ</span>
+                                            <span className="text-lg font-bold mr-2">ยอดสุทธิ</span>
                                             <div className="w-[12%]">
-                                                <div className="form-control text-sm text-right float-right">
+                                                <div className="form-control text-right text-lg text-green-700 font-bold">
                                                     {currency.format(inspection.net_total)}
                                                 </div>
                                             </div>
@@ -193,7 +222,7 @@ const InspectionDetail = () => {
                                     </div> */}
                                 </Col>
                             </Row>
-                            <Row className="mb-2">
+                            <Row>
                                 <Col style={{ textAlign: 'center' }}>
                                     <Link to={`/preview/${id}/inspection`} target="_blank" className="btn btn-success mr-2">
                                         <i className="fas fa-print mr-1"></i>
