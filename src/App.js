@@ -67,7 +67,8 @@ import RequisitionReport from './components/Preview/Requisition/Report';
 import RequisitionCommittee from './components/Preview/Requisition/Committee';
 import RequisitionConsideration from './components/Preview/Requisition/Consideration';
 import RequisitionNotice from './components/Preview/Requisition/Notice';
-import Inspection from './components/Preview/Inspection';
+import InspectionDocument from './components/Preview/Inspection/Form';
+import InspectionReport from './components/Preview/Inspection/Report';
 import FormLoan from './components/Preview/FormLoan';
 import FormLoanContract from './components/Preview/FormLoanContract';
 import FormLoanRefund from './components/Preview/FormLoanRefund';
@@ -256,8 +257,8 @@ function App() {
             <Route path="/preview/requisition/:id/committee" element={<RequisitionCommittee />} />
             <Route path="/preview/requisition/:id/consider" element={<RequisitionConsideration />} />
             <Route path="/preview/requisition/:id/notice" element={<RequisitionNotice />} />
-            <Route path="/preview/inspection/:id" element={<Inspection />} />
-            <Route path="/preview/inspection/:id/report" element={<Inspection />} />
+            <Route path="/preview/inspection/:id" element={<InspectionDocument />} />
+            <Route path="/preview/inspection/:id/report" element={<InspectionReport />} />
             <Route path="/preview/:id/loan/form" element={<FormLoan />} />
             <Route path="/preview/:id/loan-contract/form" element={<FormLoanContract />} />
             <Route path="/preview/:id/loan-refund/form" element={<FormLoanRefund />} />

@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import moment from 'moment'
-import { getInspection } from '../../features/slices/inspection/inspectionSlice'
-import { toLongTHDate, currency } from '../../utils'
-import { ThaiNumberToText } from '../../utils/currencyText'
-import './Preview.css'
+import { getInspection } from '../../../features/slices/inspection/inspectionSlice'
+import { toLongTHDate, currency } from '../../../utils'
+import { ThaiNumberToText } from '../../../utils/currencyText'
+import '../Preview.css'
 
-const Inspection = () => {
+const InspectionDocument = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { inspection } = useSelector(state => state.inspection);
@@ -96,4 +96,4 @@ const Inspection = () => {
     )
 }
 
-export default Inspection
+export default InspectionDocument
