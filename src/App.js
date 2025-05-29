@@ -251,12 +251,13 @@ function App() {
             {/* Report Viewer */}
             <Route path="report-viewer" element={<GuardRoute><WordViewer /></GuardRoute>} />
             {/* Preview */}
-            <Route path="/preview/:id/requisition" element={<RequisitionForm />} />
-            <Route path="/preview/:id/requisition/report" element={<RequisitionReport />} />
-            <Route path="/preview/:id/requisition/committee" element={<RequisitionCommittee />} />
-            <Route path="/preview/:id/requisition/consider" element={<RequisitionConsideration />} />
-            <Route path="/preview/:id/requisition/notice" element={<RequisitionNotice />} />
-            <Route path="/preview/:id/inspection" element={<Inspection />} />
+            <Route path="/preview/requisition/:id" element={<RequisitionForm />} />
+            <Route path="/preview/requisition/:id/report" element={<RequisitionReport />} />
+            <Route path="/preview/requisition/:id/committee" element={<RequisitionCommittee />} />
+            <Route path="/preview/requisition/:id/consider" element={<RequisitionConsideration />} />
+            <Route path="/preview/requisition/:id/notice" element={<RequisitionNotice />} />
+            <Route path="/preview/inspection/:id" element={<Inspection />} />
+            <Route path="/preview/inspection/:id/report" element={<Inspection />} />
             <Route path="/preview/:id/loan/form" element={<FormLoan />} />
             <Route path="/preview/:id/loan-contract/form" element={<FormLoanContract />} />
             <Route path="/preview/:id/loan-refund/form" element={<FormLoanRefund />} />

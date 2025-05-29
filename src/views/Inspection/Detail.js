@@ -6,6 +6,8 @@ import { getInspection } from '../../features/slices/inspection/inspectionSlice'
 import { currency, toShortTHDate } from '../../utils'
 import ItemList from './ItemList'
 import Loading from '../../components/Loading'
+import DropdownButton from '../../components/FormControls/DropdownButton'
+import DropdownItem from '../../components/FormControls/DropdownButton/DropdownItem'
 
 const InspectionDetail = () => {
     const { id } = useParams();
@@ -224,14 +226,37 @@ const InspectionDetail = () => {
                             </Row>
                             <Row>
                                 <Col style={{ textAlign: 'center' }}>
-                                    <Link to={`/preview/${id}/inspection`} target="_blank" className="btn btn-success mr-2">
-                                        <i className="fas fa-print mr-1"></i>
-                                        พิมพ์ใบตรวจรับ
-                                    </Link>
-                                    <Link to={`/preview/${id}/inspection/report`} target="_blank" className="btn btn-success">
-                                        <i className="fas fa-print mr-1"></i>
-                                        พิมพ์รายงานผลการตรวจรับ
-                                    </Link>
+                                    <div className="flex flex-row justify-center">
+                                        <DropdownButton title="ใบขอซื้อ/จ้าง" btnColor="primary" cssClass="mr-1">
+                                            <DropdownItem>
+                                                <Link to={`/preview/inspection/${id}`} target="_blank" className="text-success">
+                                                    <i className="fas fa-print mr-1"></i>
+                                                    พิมพ์ใบตรวจรับ
+                                                </Link>
+                                            </DropdownItem>
+                                            <DropdownItem>
+                                                <a href={`${process.env.REACT_APP_API_URL}/inspection/${id}/document`} target="_blank" className="text-primary">
+                                                    <i className="far fa-file-word mr-1"></i>
+                                                    ดาวน์โหลดใบตรวจรับ
+                                                </a>
+                                            </DropdownItem>
+                                        </DropdownButton>
+
+                                        <DropdownButton title="ใบขอซื้อ/จ้าง" btnColor="primary" cssClass="mr-1">
+                                            <DropdownItem>
+                                                <Link to={`/preview/inspection/${id}/report`} target="_blank" className="text-success">
+                                                    <i className="fas fa-print mr-1"></i>
+                                                    พิมพ์รายงานผลการตรวจรับ
+                                                </Link>
+                                            </DropdownItem>
+                                            <DropdownItem>
+                                                <a href={`${process.env.REACT_APP_API_URL}/inspection/${id}/report`} target="_blank" className="text-primary">
+                                                    <i className="far fa-file-word mr-1"></i>
+                                                    ดาวน์โหลดรายงานผลการตรวจรับ
+                                                </a>
+                                            </DropdownItem>
+                                        </DropdownButton>
+                                    </div>
                                 </Col>
                             </Row>
                         </>
