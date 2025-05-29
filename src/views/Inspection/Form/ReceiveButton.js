@@ -1,7 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-const ReceiveButton = ({ id, onReceive }) => {
+const ReceiveButton = ({ id, isReceived, onReceive }) => {
     const [received, setReceived] = useState(false);
+
+    useEffect(() => {
+        if (isReceived) {
+            setReceived(isReceived);
+        }
+    }, [isReceived]);
 
     const handleClick = () => {
         setReceived(!received);

@@ -35,6 +35,7 @@ const OrderItems = ({ items = [], onReceiveItem }) => {
                             <td className="text-center">
                                 <ReceiveButton
                                     id={item.id}
+                                    isReceived={item.is_received === 1}
                                     onReceive={(id, received) => onReceiveItem(id, received)}
                                 />
                             </td>
