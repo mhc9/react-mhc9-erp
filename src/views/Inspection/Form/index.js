@@ -92,12 +92,11 @@ const InspectionForm = ({ id, inspection }) => {
         /** Create newItems by replacing item that have same id with receivedItem */
         const newItem = formik.values.items.map(item => {
             if (item.id === id) {
-                return {
-                    ...receivedItem,
-                    is_received: received ? 1 : 0,
-                }
+                return inspection
+                            ? { ...receivedItem, is_received: received ? 1 : 0, updated: true }
+                            : { ...receivedItem, is_received: received ? 1 : 0 };
             }
-            
+
             return item;
         });
 
