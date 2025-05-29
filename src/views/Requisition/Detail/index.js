@@ -343,7 +343,7 @@ const RequisitionDetail = () => {
                                     <div className="flex flex-row justify-center">
                                         <DropdownButton title="ใบขอซื้อ/จ้าง" btnColor="primary" cssClass="mr-1">
                                             <DropdownItem>
-                                                <Link to={`/preview/${id}/requisition`} target="_blank" className="text-success">
+                                                <Link to={`/preview/requisition/${id}`} target="_blank" className="text-success">
                                                     <i className="fas fa-print mr-1"></i>
                                                     พิมพ์ใบขอซื้อ/จ้าง
                                                 </Link>
@@ -362,7 +362,7 @@ const RequisitionDetail = () => {
                                                     <>
                                                         <DropdownButton title="รายงานขอซื้อ/จ้าง" btnColor="primary" cssClass="mr-1">
                                                             <DropdownItem>
-                                                                <Link to={`/preview/${id}/requisition/report`} target="_blank" className="text-success">
+                                                                <Link to={`/preview/requisition/${id}/report`} target="_blank" className="text-success">
                                                                     <i className="fas fa-print mr-1"></i>
                                                                     พิมพ์รายงาน
                                                                 </Link>
@@ -377,7 +377,7 @@ const RequisitionDetail = () => {
 
                                                         <DropdownButton title="คำสั่งแต่งตั้ง" btnColor="primary" cssClass="mr-1">
                                                             <DropdownItem>
-                                                                <Link to={`/preview/${id}/requisition/committee`} target="_blank" className="text-success">
+                                                                <Link to={`/preview/requisition/${id}/committee`} target="_blank" className="text-success">
                                                                     <i className="fas fa-print mr-1"></i>
                                                                     พิมพ์คำสั่ง
                                                                 </Link>
@@ -389,11 +389,12 @@ const RequisitionDetail = () => {
                                                                 </a>
                                                             </DropdownItem>
                                                         </DropdownButton>
+
                                                         {(requisition.approvals[0].consider_no && requisition.approvals[0].consider_no !== '') && (
                                                             <>
                                                                 <DropdownButton title="รายงานผลการพิจารณา" btnColor="primary" cssClass="mr-1">
                                                                     <DropdownItem>
-                                                                        <Link to={`/preview/${id}/requisition/consider`} target="_blank" className="text-success">
+                                                                        <Link to={`/preview/requisition/${id}/consider`} target="_blank" className="text-success">
                                                                             <i className="fas fa-print mr-1"></i>
                                                                             พิมพ์รายงาน
                                                                         </Link>
@@ -407,7 +408,7 @@ const RequisitionDetail = () => {
                                                                 </DropdownButton>
                                                                 <DropdownButton title="ประกาศผลผู้ชนะ" btnColor="primary" cssClass="mr-1">
                                                                     <DropdownItem>
-                                                                        <Link to={`/preview/${id}/requisition/notice`} target="_blank" className="text-success">
+                                                                        <Link to={`/preview/requisition/${id}/notice`} target="_blank" className="text-success">
                                                                             <i className="fas fa-print mr-1"></i>
                                                                             พิมพ์ประกาศ
                                                                         </Link>
