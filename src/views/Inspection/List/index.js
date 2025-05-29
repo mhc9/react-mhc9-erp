@@ -11,7 +11,7 @@ import { getInspections, destroy, resetDeleted } from '../../../features/slices/
 import Loading from '../../../components/Loading'
 import Pagination from '../../../components/Pagination'
 import { toast } from 'react-toastify'
-// import FilteringInputs from '../../../components/Requisition/FilteringInputs'
+import InspectionFilteringInputs from '../../../components/Inspection/FilteringInputs'
 
 const initialFormData = {
     suppliers: []
@@ -88,11 +88,11 @@ const InspectionList = () => {
                         buttonYesText='ใช่'
                     />
 
-                    {/* <FilteringInputs
+                    <InspectionFilteringInputs
                         initialFilters={initialFilters}
                         formData={fornData}
                         onFilter={handleFilter}
-                    /> */}
+                    />
 
                     <table className="table table-bordered text-sm">
                         <thead>

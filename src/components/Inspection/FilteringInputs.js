@@ -16,7 +16,7 @@ const InspectionFilteringInputs = ({ initialFilters, onFilter }) => {
     const [filters, setFilters] = useState(initialFilters);
     const { data: formData = initialFormData, isLoading } = useGetInitialFormDataQuery();
     const [selectedYear, setSelectedYear] = useState(moment(`${filters.year}-01-01`));
-    const [selectedPODate, setSelectedPODate] = useState(moment());
+    const [selectedDeliverDate, setSelectedDeliverDate] = useState(moment());
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -53,21 +53,21 @@ const InspectionFilteringInputs = ({ initialFilters, onFilter }) => {
                         </Col>
                         <Col md={5}>
                             <input
-                                type="btn"
-                                name="po_no"
-                                value={filters.po_no}
+                                type="text"
+                                name="deliver_no"
+                                value={filters.deliver_no}
                                 onChange={handleInputChange}
-                                placeholder="เลขที่ใบสั่งซื้อ/จ้าง"
+                                placeholder="เลขที่ใบส่งขอ"
                                 className="form-control text-sm font-thin"
                             />
                         </Col>
                         <Col md={4}>
                             <DatePicker
                                 format="DD/MM/YYYY"
-                                value={selectedPODate}
+                                value={selectedDeliverDate}
                                 onChange={(date) => {
-                                    setSelectedPODate(date);
-                                    setFilters({ ...filters, ['po_date']: date.format('YYYY-MM-DD') });
+                                    setSelectedDeliverDate(date);
+                                    setFilters({ ...filters, ['deliver_date']: date.format('YYYY-MM-DD') });
                                 }}
                                 className={classes.muiTextFieldInput}
                             />
@@ -99,7 +99,7 @@ const InspectionFilteringInputs = ({ initialFilters, onFilter }) => {
                             >
                                 <option value="">-- สถานะ --</option>
                                 <option value="1">รอดำเนินการ</option>
-                                <option value="2">สั่งซื้อแล้ว</option>
+                                <option value="2">ตรวจรับครบแล้ว</option>
                                 <option value="9">ยกเลิก</option>
                             </select>
                         </Col>

@@ -99,7 +99,7 @@ const OrderFilteringInputs = ({ initialFilters, onFilter }) => {
                             >
                                 <option value="">-- สถานะ --</option>
                                 <option value="1">รอดำเนินการ</option>
-                                <option value="2">สั่งซื้อแล้ว</option>
+                                <option value="2">ตรวจรับแล้ว</option>
                                 <option value="9">ยกเลิก</option>
                             </select>
                         </Col>
