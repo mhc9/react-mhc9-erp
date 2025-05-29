@@ -43,19 +43,22 @@ const InspectionForm = ({ id, inspection }) => {
     const [selectedDeliverDate, setSelectedDeliverDate] = useState(moment());
     const [selectedInspectDate, setSelectedInspectDate] = useState(moment());
     const [selectedReportDate, setSelectedReportDate] = useState(moment());
+    const [supplier, setSupplier] = useState(null);
 
     useEffect(() => {
         if (inspection) {
             setSelectedOrder(inspection.order);
-            setSelectedYear(moment(`${inspection.year}-09-01`))
-            setSelectedDeliverDate(moment(inspection.deliver_date))
-            setSelectedInspectDate(moment(inspection.inspect_date))
-            setSelectedReportDate(moment(inspection.report_date))
+            setSelectedYear(moment(`${inspection.year}-09-01`));
+            setSelectedDeliverDate(moment(inspection.deliver_date));
+            setSelectedInspectDate(moment(inspection.inspect_date));
+            setSelectedReportDate(moment(inspection.report_date));
+            setSupplier(inspection.supplier);
         }
     }, [inspection]);
-
+    
     const handleSelectOrder = (formik, order) => {
         setSelectedOrder(order);
+        setSupplier(order.supplier);
 
         /** Set values to related order's fields */
         formik.setFieldValue('order_id', order.id);
@@ -139,6 +142,8 @@ const InspectionForm = ({ id, inspection }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
+                console.log(formik.values.items);
+                
                 return (
                     <Form>
                         <ModalOrderList
@@ -151,12 +156,19 @@ const InspectionForm = ({ id, inspection }) => {
                             <Col md={5}>
                                 <label htmlFor="">ใบสั่งซื้อ/จ้าง</label>
                                 <div className="input-group">
-                                    <div className="min-h-[34px] form-control font-thin text-sm bg-gray-100">
-                                        {selectedOrder &&  <p>เลขที่ {selectedOrder.po_no} วันที่ {toShortTHDate(selectedOrder.po_date)}</p>}
+                                    <div className={`min-h-[34px] form-control font-thin text-sm bg-gray-100 ${inspection ? 'cursor-not-allowed' : ''}`}>
+                                        {selectedOrder && (
+                                            <p>
+                                                เลขที่ <b className="mr-2">{selectedOrder.po_no}</b>
+                                                วันที่ <b>{toShortTHDate(selectedOrder.po_date)}</b>
+                                            </p>
+                                        )}
                                     </div>
-                                    <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setShowOrderModal(true)}>
-                                        <FaSearch />
-                                    </button>
+                                    {!inspection && (
+                                        <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setShowOrderModal(true)}>
+                                            <FaSearch />
+                                        </button>
+                                    )}
                                 </div>
                                 {(formik.errors.order_id && formik.touched.order_id) && (
                                     <span className="text-red-500 text-sm">{formik.errors.order_id}</span>
@@ -244,25 +256,25 @@ const InspectionForm = ({ id, inspection }) => {
                                 <Col md={4} className="lg:pl-1 md:pl-1">
                                     <div className="min-h-[180px] border rounded-md text-sm font-thin px-3 py-2 bg-[#EAD9D5]">
                                         <h4 className="font-bold underline my-1">ผู้จัดจำหน่าย</h4>
-                                        {selectedOrder && (
+                                        {supplier && (
                                             <div className="font-thin text-sm">
-                                                <b className="font-bold">{selectedOrder.supplier?.name}</b>
-                                                <p><b className="mr-1">เลขประจำตัวผู้เสียภาษี</b>{selectedOrder.supplier?.tax_no}</p>
+                                                <b className="font-bold">{supplier.name}</b>
+                                                <p><b className="mr-1">เลขประจำตัวผู้เสียภาษี</b>{supplier.tax_no}</p>
                                                 <p>
                                                     <b className="mr-1">ที่อยู่</b>
-                                                    <span>{selectedOrder.supplier?.address}</span>
-                                                    <span><span className="mx-1">หมู่</span>{selectedOrder.supplier?.moo ? selectedOrder.supplier?.moo : '-'}</span>
-                                                    <span><span className="mx-1">ถนน</span>{selectedOrder.supplier?.raod ? selectedOrder.supplier?.raod : '-'}</span>
+                                                    <span>{supplier.address}</span>
+                                                    <span><span className="mx-1">หมู่</span>{supplier.moo ? supplier.moo : '-'}</span>
+                                                    <span><span className="mx-1">ถนน</span>{supplier.raod ? supplier.raod : '-'}</span>
                                                 </p>
                                                 <p>
-                                                    <span><span className="mr-1">ต.</span>{selectedOrder.supplier?.tambon?.name}</span>
-                                                    <span><span className="mx-1">อ.</span>{selectedOrder.supplier?.amphur?.name}</span>
-                                                    <span><span className="mx-1">จ.</span>{selectedOrder.supplier?.changwat?.name}</span>
-                                                    <span className="ml-1">{selectedOrder.supplier?.zipcode}</span>
+                                                    <span><span className="mr-1">ต.</span>{supplier.tambon?.name}</span>
+                                                    <span><span className="mx-1">อ.</span>{supplier.amphur?.name}</span>
+                                                    <span><span className="mx-1">จ.</span>{supplier.changwat?.name}</span>
+                                                    <span className="ml-1">{supplier.zipcode}</span>
                                                 </p>
                                                 <p>
-                                                    <b className="mr-1">โทร.</b>{selectedOrder.supplier?.tel}
-                                                    <b className="mx-1 max-[768px]:hidden">Fax.</b>{selectedOrder.supplier?.fax}
+                                                    <b className="mr-1">โทร.</b>{supplier.tel}
+                                                    <b className="mx-1 max-[768px]:hidden">Fax.</b>{supplier.fax}
                                                 </p>
                                             </div>
                                         )}
@@ -387,8 +399,8 @@ const InspectionForm = ({ id, inspection }) => {
                         </Row>
                         <Row>
                             <Col className="text-center">
-                                <button type="submit" className="btn btn-outline-primary text-sm">
-                                    บันทึก
+                                <button type="submit" className={`btn ${inspection ? 'btn-outline-dark' : 'btn-outline-primary'} text-sm`}>
+                                    {inspection ? 'บันทึกการแก้ไข' : 'บันทึก'}
                                 </button>
                             </Col>
                         </Row>
