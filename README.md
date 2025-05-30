@@ -72,3 +72,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 # Before build app
 1. set property "homepage": "https://app.mhc9dmh.com/erp/" in package.json
 2. set prop basename="/erp" to Router component
+3. comment development REACT_APP_API_URL key and uncomment production one in .env.local file
+4. remove email and password values of initialValues prop in Login view 
