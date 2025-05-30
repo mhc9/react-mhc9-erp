@@ -227,7 +227,7 @@ const InspectionDetail = () => {
                             <Row>
                                 <Col style={{ textAlign: 'center' }}>
                                     <div className="flex flex-row justify-center">
-                                        <DropdownButton title="ใบขอซื้อ/จ้าง" btnColor="primary" cssClass="mr-1">
+                                        <DropdownButton title="ใบตรวจรับ" btnColor="primary" cssClass="mr-1">
                                             <DropdownItem>
                                                 <Link to={`/preview/inspection/${id}`} target="_blank" className="text-success">
                                                     <i className="fas fa-print mr-1"></i>
@@ -235,24 +235,24 @@ const InspectionDetail = () => {
                                                 </Link>
                                             </DropdownItem>
                                             <DropdownItem>
-                                                <a href={`${process.env.REACT_APP_API_URL}/inspection/${id}/document`} target="_blank" className="text-primary">
+                                                <a href={`${process.env.REACT_APP_API_URL}/inspections/${id}/form`} target="_blank" className="text-primary">
                                                     <i className="far fa-file-word mr-1"></i>
                                                     ดาวน์โหลดใบตรวจรับ
                                                 </a>
                                             </DropdownItem>
                                         </DropdownButton>
 
-                                        <DropdownButton title="ใบขอซื้อ/จ้าง" btnColor="primary" cssClass="mr-1">
+                                        <DropdownButton title="รายงานผลการตรวจรับ" btnColor="primary" cssClass="mr-1">
                                             <DropdownItem>
                                                 <Link to={`/preview/inspection/${id}/report`} target="_blank" className="text-success">
                                                     <i className="fas fa-print mr-1"></i>
-                                                    พิมพ์รายงานผลการตรวจรับ
+                                                    พิมพ์รายงาน
                                                 </Link>
                                             </DropdownItem>
                                             <DropdownItem>
-                                                <a href={`${process.env.REACT_APP_API_URL}/inspection/${id}/report`} target="_blank" className="text-primary">
+                                                <a href={`${process.env.REACT_APP_API_URL}/inspections/${id}/report`} target="_blank" className="text-primary">
                                                     <i className="far fa-file-word mr-1"></i>
-                                                    ดาวน์โหลดรายงานผลการตรวจรับ
+                                                    ดาวน์โหลดรายงาน
                                                 </a>
                                             </DropdownItem>
                                         </DropdownButton>
