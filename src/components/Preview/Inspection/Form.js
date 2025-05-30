@@ -32,11 +32,11 @@ const InspectionDocument = () => {
                                     <p className="mb-2">วันที่ {toLongTHDate(moment(inspection?.inspect_date).toDate())}</p>
                                 </div>
                                 <div className="memo-paragraph leading-6">
-                                    <span className="with-compressed-4x">
-                                        ตาม ประกาศผู้ชนะการเสนอราคา ลงวันที่ {toLongTHDate(moment(inspection?.inspect_date).toDate())}&nbsp;
-                                        ศูนย์สุขภาพจิตที่ ๙ กรมสุขภาพจิต
+                                    <span className="mr-1">
+                                        ตามรายงานผลการพิจารณาและขออนุมัติสั่งซื้อสั่งจ้าง ที่ {inspection.order?.requisition?.approvals[0].consider_no}
+                                        <span className="ml-1">ลงวันที่ {toLongTHDate(moment(inspection.order?.requisition?.approvals[0].consider_date).toDate())}</span>
                                     </span>
-                                    ได้ตกลง{inspection?.order?.requisition?.order_type_id === 1 ? 'ซื้อ' : 'จ้าง'}
+                                    ศูนย์สุขภาพจิตที่ ๙ กรมสุขภาพจิต ได้ตกลง{inspection?.order?.requisition?.order_type_id === 1 ? 'ซื้อ' : 'จ้าง'}
                                     กับ {inspection?.supplier?.name}&nbsp;
                                     สำหรับการ{inspection?.order?.requisition?.order_type_id === 1 ? 'ซื้อ' : ''}{inspection?.order?.requisition?.category?.name}&nbsp;
                                     จำนวน {inspection?.item_count} รายการ โดยวิธีเฉพาะเจาะจง&nbsp;
