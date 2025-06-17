@@ -97,15 +97,17 @@ const FormLoanRefund = () => {
                                     <span className="ml-1">
                                         เป็นจำนวนเงิน {currency.format(refund.net_total)} บาท ({ThaiNumberToText(refund.net_total)})
                                     </span>
-                                    {refund.refund_type_id === 1 ? (
-                                        <span className="ml-1">
-                                            และคืนเงินยืม จำนวนเงิน {currency.format(refund.balance)} บาท ({ThaiNumberToText(refund.balance)})
+                                    <span className="ml-1">
+                                        {refund.refund_type_id === 1
+                                            ? 'และคืนเงินยืมราชการ'
+                                            : refund.refund_type_id === 2 ? 'และเบิกเงินเพิ่ม' : ''}
+                                    </span>
+                                    {refund.budgets && refund.budgets.map((data, index) => (
+                                        <span key={data.budget_id}>
+                                            {data.budget?.activity?.project?.plan?.name} {data.budget?.activity?.project?.name} {data.budget?.activity?.name}
+                                            {refund.contract?.loan?.budgets.length > 1 && <span className="mx-1">จำนวนเงิน {currency.format(data.total)} บาท</span>}
                                         </span>
-                                    ) : refund.refund_type_id === 2 ? (
-                                        <span className="ml-1">
-                                            และเบิกเงินเพิ่ม จำนวนเงิน {currency.format(Math.abs(refund.balance))} บาท ({ThaiNumberToText(Math.abs(refund.balance))})
-                                        </span>
-                                    ) : null}
+                                    ))} เป็นจำนวนเงินทั้งสิ้น {currency.format(refund.balance)} บาท ({ThaiNumberToText(refund.balance)})
                                     <span className="ml-1">
                                         มีรายละเอียดดังต่อไปนี้
                                     </span>
