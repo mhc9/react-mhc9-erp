@@ -54,7 +54,7 @@ const ModalApprovalForm = ({ isShow, onHide, refund }) => {
                                     <Col md={12} className="text-lg text-blue-700">
                                         <div className="flex flex-row items-center">
                                             <label htmlFor="" className="w-[45%]">เลขที่สัญญา :</label>
-                                            <div>
+                                            <div className="w-3/6 text-center">
                                                 {refund?.contract?.contract_no}
                                             </div>
                                         </div>
@@ -71,7 +71,9 @@ const ModalApprovalForm = ({ isShow, onHide, refund }) => {
                                                     setSelectedApprovedDate(date);
                                                     formik.setFieldValue('approved_date', date.format('YYYY-MM-DD'));
                                                 }}
-                                                className={classes.muiTextFieldInput}
+                                                TextFieldComponent={(props) => (
+                                                    <input {...props} className="form-control text-sm text-center w-[50%]" />
+                                                )}
                                             />
                                         </div>
                                         {(formik.errors.approved_date && formik.touched.approved_date) && (
@@ -87,7 +89,7 @@ const ModalApprovalForm = ({ isShow, onHide, refund }) => {
                                                 name="bill_no"
                                                 value={formik.values.bill_no}
                                                 onChange={formik.handleChange}
-                                                className="form-control text-sm text-center w-[45%]"
+                                                className="form-control text-sm text-center w-[50%]"
                                                 placeholder="ระบุเลขที่ใบสำคัญ"
                                             />
                                         </div>
@@ -107,7 +109,9 @@ const ModalApprovalForm = ({ isShow, onHide, refund }) => {
                                                     setSelectedBillDate(date);
                                                     formik.setFieldValue('bill_date', date.format('YYYY-MM-DD'));
                                                 }}
-                                                className={classes.muiTextFieldInput}
+                                                TextFieldComponent={(props) => (
+                                                    <input {...props} className="form-control text-sm text-center w-[50%]" />
+                                                )}
                                             />
                                         </div>
                                         {(formik.errors.bill_date && formik.touched.bill_date) && (

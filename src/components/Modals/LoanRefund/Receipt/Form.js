@@ -51,7 +51,7 @@ const ModalReceiptForm = ({ isShow, onHide, refund }) => {
                                     <Col md={12} className="text-lg text-blue-700">
                                         <div className="flex flex-row items-center">
                                             <label htmlFor="" className="w-[45%]">เลขที่สัญญา :</label>
-                                            <div>
+                                            <div className="w-3/6 text-center">
                                                 {refund?.contract?.contract_no}
                                             </div>
                                         </div>
@@ -65,7 +65,7 @@ const ModalReceiptForm = ({ isShow, onHide, refund }) => {
                                                 name="receipt_no"
                                                 value={formik.values.receipt_no}
                                                 onChange={formik.handleChange}
-                                                className="form-control text-sm text-center w-[45%]"
+                                                className="form-control text-sm text-center w-[80%]"
                                                 
                                                 placeholder="ระบุเลขที่ใบเสร็จ"
                                             />
@@ -86,7 +86,9 @@ const ModalReceiptForm = ({ isShow, onHide, refund }) => {
                                                     setSelectedReceiptDate(date);
                                                     formik.setFieldValue('receipt_date', date.format('YYYY-MM-DD'));
                                                 }}
-                                                className={classes.muiTextFieldInput}
+                                                TextFieldComponent={(props) => (
+                                                    <input {...props} className="form-control text-sm text-center w-[80%]" />
+                                                )}
                                             />
                                         </div>
                                         {(formik.errors.receipt_date && formik.touched.receipt_date) && (
