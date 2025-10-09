@@ -131,7 +131,7 @@ const FormLoanOver20 = () => {
                                             <div className="pt-[40px] flex flex-col items-center justify-center">
                                                 <p className="w-[200px] border-dashed border-b mb-1"></p>
                                                 <div className="signature">
-                                                    <p>( นายนิตย์  ทองเพชรศรี )</p>
+                                                    <p>(นางสาวจุฑามาศ วรรณศิลป์)</p>
                                                     <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
                                                     {/* <p>รักษาราชการแทนผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p> */}
                                                     <p>ปฏิบัติราชการแทนอธิบดีกรมสุขภาพจิต</p>

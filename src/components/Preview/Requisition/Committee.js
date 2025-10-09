@@ -86,7 +86,7 @@ const RequisitionCommittee = () => {
                                             <div style={{ textAlign: 'center', width: '100%', height: '120px' }}>
                                                 <div className="pt-[60px] flex flex-col items-center justify-center">
                                                     <div className="signature">
-                                                        <p>( นายนิตย์  ทองเพชรศรี )</p>
+                                                        <p>(นางสาวจุฑามาศ วรรณศิลป์)</p>
                                                         <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
                                                         <p>ปฏิบัติราชการแทนอธิบดีกรมสุขภาพจิต</p>
                                                     </div>
