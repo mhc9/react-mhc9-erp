@@ -116,7 +116,7 @@ const BudgetActivityList = () => {
                                         <p className="font-normal">
                                             {activity.project?.plan?.plan_no} {activity.project?.plan?.name}
                                         </p>
-                                        <p>{activity.project?.name} <span className="text-xs">({activity.project?.gfmis_id})</span></p>
+                                        <p>{activity.project?.name} {activity.project?.gfmis_id && <span className="text-xs">({activity.project?.gfmis_id})</span>}</p>
                                         <p className="font-bold text-primary">{activity.name}</p>
                                         <BudgetTypes data={activity.budgets} />
                                     </td>
