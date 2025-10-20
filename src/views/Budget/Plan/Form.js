@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
+import { useCookies } from 'react-cookie';
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment';
 import { DatePicker } from '@material-ui/pickers';
-import { useStyles } from '../../../hooks/useStyles';
 import { store, update } from '../../../features/slices/budget-plan/budgetPlanSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/budget-plan/budgetPlanApi'
 
@@ -16,9 +16,9 @@ const budgetPlanSchema = Yup.object().shape({
 });
 
 const BudgetPlanForm = ({ plan }) => {
-    const classes = useStyles();
+    const [cookies] = useCookies();
     const dispatch = useDispatch();
-    const [selectedYear, setSelectedYear] = useState(moment());
+    const [selectedYear, setSelectedYear] = useState(moment(`${cookies.budgetYear}-01-01`));
     const { data: formData, isLoading } = useGetInitialFormDataQuery();
 
     const handleSubmit = (values, formik) => {
@@ -57,7 +57,9 @@ const BudgetPlanForm = ({ plan }) => {
                                             setSelectedYear(date);
                                             formik.setFieldValue('year', date.year());
                                         }}
-                                        className={classes.muiTextFieldInput}
+                                        TextFieldComponent={(props) => (
+                                            <input {...props} className="form-control text-sm text-center w-[100%]" />
+                                        )}
                                     />
                                     {(formik.errors.year && formik.touched.year) && (
                                         <span className="text-red-500 text-sm">{formik.errors.year}</span>
