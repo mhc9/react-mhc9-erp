@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
@@ -6,7 +6,7 @@ import { DatePicker } from '@material-ui/pickers'
 import { Col, Modal, Row } from 'react-bootstrap'
 import moment from 'moment'
 import { approve } from '../../../../features/slices/loan-refund/loanRefundSlice'
-import { useStyles } from '../../../../hooks/useStyles'
+import { useGetLatestBillNoQuery } from '../../../../features/services/loan-refund/loanRefundApi'
 
 const approvalSchema = Yup.object().shape({
     contract_id: Yup.string().required(),
@@ -16,10 +16,21 @@ const approvalSchema = Yup.object().shape({
 });
 
 const ModalApprovalForm = ({ isShow, onHide, refund }) => {
-    const classes = useStyles();
     const dispatch = useDispatch();
     const [selectedApprovedDate, setSelectedApprovedDate] = useState(moment());
     const [selectedBillDate, setSelectedBillDate] = useState(moment());
+    const [billNo, setBillNo] = useState('');
+    const { data, isLoading } = useGetLatestBillNoQuery();
+
+    // Generate bill no from latest bill no
+    useEffect(() => {
+        if (data) {
+            const latestBillNo = data[0].toString().split('/');
+            const nextBillNo = latestBillNo[0] ? String(Number(latestBillNo[0]) + 1).padStart(2, '0') : '01';
+
+            setBillNo(`${nextBillNo}/${latestBillNo[1]}`);
+        }
+    }, [data]);
 
     const handleSubmit = (values, formik) => {
         dispatch(approve({ id: refund?.id, data: values }));
@@ -41,7 +52,7 @@ const ModalApprovalForm = ({ isShow, onHide, refund }) => {
                     initialValues={{
                         contract_id: refund ? refund?.contract?.id : '',
                         approved_date: '',
-                        bill_no: '',
+                        bill_no: billNo,
                         bill_date: '',
                     }}
                     validationSchema={approvalSchema}
@@ -123,7 +134,11 @@ const ModalApprovalForm = ({ isShow, onHide, refund }) => {
                                     <Col>
                                         <div className="flex flex-row items-center">
                                             <p className="w-[45%]"></p>
-                                            <button type="submit" className="btn btn-outline-primary float-right">
+                                            <button
+                                                type="submit"
+                                                className="btn btn-outline-primary float-right"
+                                                disabled={isLoading}
+                                            >
                                                 บันทึก
                                             </button>
                                         </div>
