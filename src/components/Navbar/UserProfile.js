@@ -44,7 +44,7 @@ const UserProfile = ({ user, isLoading, logout }) => {
                     <li className="hover:bg-gray-300 p-2 text-left">
                         <a href={`${process.env.REACT_APP_API_URL}/manual-user`} target="_blank">
                             <p className="w-full">
-                                <i class="far fa-question-circle mr-1 ml-1"></i>
+                                <i className="far fa-question-circle mr-1 ml-1"></i>
                                 แนะนำการใช้งาน
                             </p>
                         </a>

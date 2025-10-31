@@ -73,7 +73,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                                 {type: 'menu', text: 'ผู้จัดจำหน่าย', link: '/supplier', allowed_users: [1,3]},
                                 {type: 'divided'},
                                 {type: 'menu', text: 'งบประมาณ', link: '/budget-plan', allowed_users: [1,4,5]},
-                                {type: 'menu', text: 'เลขที่ใบรับใบสำคัญ', link: '/budget-plan', allowed_users: [1,4,5]},
+                                {type: 'menu', text: 'เลขที่ใบรับใบสำคัญ', link: '/loan-refund/bill', allowed_users: [1,4,5]},
                                 {type: 'divided'},
                                 {type: 'menu', text: 'สถานที่', link: '/place', allowed_users: [1]},
                             ]}

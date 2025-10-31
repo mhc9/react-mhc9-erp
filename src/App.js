@@ -118,6 +118,7 @@ import EditPlace from './views/Place/Edit';
 import UserList from './views/User/List';
 /** Help */
 import Advice from './views/Advice';
+import LoanRefundBillList from './views/LoanRefund/BillList';
 
 function App() {
     return (
@@ -172,6 +173,7 @@ function App() {
                 <Route path="loan-refund/add" element={<GuardRoute><AddLoanRefund /></GuardRoute>} />
                 <Route path="loan-refund/:id/edit" element={<GuardRoute><EditLoanRefund /></GuardRoute>} />
                 <Route path="loan-refund/:id/detail" element={<GuardRoute><LoanRefundDetail /></GuardRoute>} />
+                <Route path="loan-refund/bill" element={<GuardRoute><LoanRefundBillList /></GuardRoute>} />
                 {/* ============================= System Data ============================= */}
                 {/* Items */}
                 <Route path="item" element={<GuardRoute><ItemList /></GuardRoute>} />

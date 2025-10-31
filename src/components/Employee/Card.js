@@ -9,11 +9,13 @@ const EmployeeCard = ({
 }) => {
     return (
         <div className="flex flex-row gap-2">
-            <div className={`border ${avatarStyle === 'rounded' ? 'rounded-full w-[40px] h-[40px] ' : 'rounded-md w-[100px] max-h-[120px]'} overflow-hidden object-cover object-center`}>
-                {showAvatar && employee?.avatar_url
-                    ? <img src={`${process.env.REACT_APP_API_URL}/uploads/${employee?.avatar_url}`} alt="employee-pic" />
-                    : <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />}
-            </div>
+            {showAvatar && (
+                <div className={`border ${avatarStyle === 'rounded' ? 'rounded-full w-[40px] h-[40px] ' : 'rounded-md w-[100px] max-h-[120px]'} overflow-hidden object-cover object-center`}>
+                    {employee?.avatar_url
+                        ? <img src={`${process.env.REACT_APP_API_URL}/uploads/${employee?.avatar_url}`} alt="employee-pic" />
+                        : <img src="/img/avatar-heroes.png" alt="employee-pic" className="avatar-img" />}
+                </div>
+            )}
             <div>
                 <p className="font-bold">{employee?.prefix.name}{employee?.firstname} {employee?.lastname}</p>
                 {showPosition && (

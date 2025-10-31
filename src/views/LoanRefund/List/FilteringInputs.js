@@ -32,20 +32,22 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                     className={classes.muiTextFieldInput}
                 />
             </div>
-            <div className="flex max-md:flex-col items-center min-md:gap-2 ml-2 w-[30%]">
-                <label htmlFor="" className="w-[30%] max-md:w-[100%]">สถานะ :</label>
-                <select
-                    name="status"
-                    value={filters.status}
-                    onChange={handleInputChange}
-                    className="form-control text-sm"
-                >
-                    <option value="">-- สถานะทั้งหมด --</option>
-                    {formData && formData.statuses.map(status => (
-                        <option value={status.id} key={status.id}>{status.name}</option>
-                    ))}
-                </select>
-            </div>
+            {Object.keys(initialFilters).includes('status') && (
+                <div className="flex max-md:flex-col items-center min-md:gap-2 ml-2 w-[30%]">
+                    <label htmlFor="" className="w-[30%] max-md:w-[100%]">สถานะ :</label>
+                    <select
+                        name="status"
+                        value={filters.status}
+                        onChange={handleInputChange}
+                        className="form-control text-sm"
+                    >
+                        <option value="">-- สถานะทั้งหมด --</option>
+                        {formData && formData.statuses.map(status => (
+                            <option value={status.id} key={status.id}>{status.name}</option>
+                        ))}
+                    </select>
+                </div>
+            )}
             <button
                 type="button"
                 className="btn btn-outline-dark btn-sm max-md:mt-6"
