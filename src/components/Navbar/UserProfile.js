@@ -41,6 +41,15 @@ const UserProfile = ({ user, isLoading, logout }) => {
                             </p>
                         </Link>
                     </li>
+                    <li className="hover:bg-gray-300 p-2 text-left">
+                        <a href={`${process.env.REACT_APP_API_URL}/manual-user`} target="_blank">
+                            <p className="w-full">
+                                <i class="far fa-question-circle mr-1 ml-1"></i>
+                                แนะนำการใช้งาน
+                            </p>
+                        </a>
+                    </li>
+                    <li><hr className="dropdown-divider m-0" /></li>
                     <li className="hover:bg-gray-300 p-2 rounded-b-md">
                         <button type="button" className="w-full text-left" onClick={logout}>
                             <i className="fas fa-sign-out-alt mx-1"></i>
