@@ -192,7 +192,7 @@ const RequisitionForm = ({ requisition }) => {
                 order_type_id: requisition ? requisition.order_type_id : 1,
                 category_id: requisition ? requisition.category_id : '',
                 contract_desc: (requisition && requisition.contract_desc) ? requisition.contract_desc : '',
-                topic: requisition ? requisition.topic : 'ขออนุมัติสั่งซื้อ',
+                topic: requisition ? requisition.topic : 'ขออนุมัติงบประมาณซื้อ',
                 year: requisition ? requisition.year : cookies.budgetYear,
                 budget_id: requisition ? requisition.budget_id : '',
                 project_id: (requisition && requisition.project_id) ? requisition.project_id : '',
@@ -285,7 +285,7 @@ const RequisitionForm = ({ requisition }) => {
                                                 const { value } = e.target;
 
                                                 formik.handleChange(e);
-                                                formik.setFieldValue('topic', value === '1' ? 'ขออนุมัติสั้งซื้อ' : 'ขออนุมัติสั้ง');
+                                                formik.setFieldValue('topic', value === '1' ? 'ขออนุมัติงบประมาณซื้อ' : 'ขออนุมัติงบประมาณจ้าง');
                                                 handleTypeChange(value);
                                             }}
                                             className="form-control text-sm"
@@ -307,7 +307,7 @@ const RequisitionForm = ({ requisition }) => {
                                                 formik.handleChange(e);
 
                                                 if (parseInt(formik.values.order_type_id, 10) === 1) {
-                                                    formik.setFieldValue('topic', 'ขออนุมัติสั่งซื้อ' + getFormDataItem(formData, "categories", parseInt(e.target.value))?.name);
+                                                    formik.setFieldValue('topic', 'ขออนุมัติงบประมาณซื้อ' + getFormDataItem(formData, "categories", parseInt(e.target.value))?.name);
                                                 }
                                             }}
                                             className="form-control text-sm"
