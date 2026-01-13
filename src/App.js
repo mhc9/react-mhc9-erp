@@ -50,6 +50,8 @@ import InspectionList from './views/Inspection/List';
 import AddInspection from './views/Inspection/Add';
 import EditInspection from './views/Inspection/Edit';
 import InspectionDetail from './views/Inspection/Detail';
+/** Procurement Report */
+import ProcurementReport from './views/Procurement/Report';
 /** Item */
 import ItemList from './views/Item/List';
 import AddItem from './views/Item/Add';
@@ -156,6 +158,9 @@ function App() {
                 <Route path="inspection/add" element={<GuardRoute><AddInspection /></GuardRoute>} />
                 <Route path="inspection/:id/edit" element={<GuardRoute><EditInspection /></GuardRoute>} />
                 <Route path="inspection/:id/detail" element={<GuardRoute><InspectionDetail /></GuardRoute>} />
+
+                {/* Procurement Report */}
+                <Route path="procurement/report" element={<GuardRoute><ProcurementReport /></GuardRoute>} />
 
                 {/* ============================= Loan ============================= */}
                 <Route path="loan" element={<GuardRoute><LoanList /></GuardRoute>} />

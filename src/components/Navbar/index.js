@@ -40,6 +40,8 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
                             {type: 'menu', text: 'คำขอซื้อ/จ้าง', link: '/requisition', allowed_users: []},
                             {type: 'menu', text: 'ใบสั่งซื้อ/จ้าง', link: '/order', allowed_users: [1,3,5]},
                             {type: 'menu', text: 'ตรวจรับพัสดุ', link: '/inspection', allowed_users: [1,3,5]},
+                            {type: 'divided'},
+                            {type: 'menu', text: 'รายงาน', link: '/procurement/report', allowed_users: [1,4,5]},
                         ]}
                         userRole={user?.permissions[0]?.role_id}
                     />
