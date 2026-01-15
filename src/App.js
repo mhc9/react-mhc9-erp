@@ -52,6 +52,8 @@ import EditInspection from './views/Inspection/Edit';
 import InspectionDetail from './views/Inspection/Detail';
 /** Procurement Report */
 import ProcurementReport from './views/Procurement/Report';
+import ProcurementSummary from './views/Procurement/Summary';
+import ProcurementAttachment from './views/Procurement/Attachment';
 /** Item */
 import ItemList from './views/Item/List';
 import AddItem from './views/Item/Add';
@@ -161,6 +163,8 @@ function App() {
 
                 {/* Procurement Report */}
                 <Route path="procurement/report" element={<GuardRoute><ProcurementReport /></GuardRoute>} />
+                <Route path="procurement/report/attachment" element={<GuardRoute><ProcurementAttachment /></GuardRoute>} />
+                <Route path="procurement/report/summary" element={<GuardRoute><ProcurementSummary /></GuardRoute>} />
 
                 {/* ============================= Loan ============================= */}
                 <Route path="loan" element={<GuardRoute><LoanList /></GuardRoute>} />
