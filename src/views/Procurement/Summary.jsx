@@ -76,19 +76,26 @@ const ProcurementSummary= () => {
                             </td>
                         </tr>
                     ))}
+
+                    <tr className="font-bold">
+                        <td className="text-center" colSpan={2}>รวมทั้งสิ้น</td>
+                        <td className="text-right">{currency.format(requisitions?.reduce((sum, curVal) => sum = sum + parseFloat(curVal.net_total), 0))}</td>
+                        <td className="text-right">{currency.format(requisitions?.reduce((sum, curVal) => sum = sum + parseFloat(curVal.budget_total), 0))}</td>
+                        <td colSpan={5}></td>
+                    </tr>
                 </tbody>
             </table>
             
             <div className='flex items-center justify-center mt-4'>
                 <DropdownButton title="เอกสาร" btnColor="primary" cssClass="mr-1">
                     <DropdownItem>
-                        <Link to={`/preview/loan/form`} target="_blank" className="text-success">
+                        <Link to={`/preview/procurement/summary/${initialFilters.sdate}/${initialFilters.edate}/${initialFilters.status}/${initialFilters.limit}`} target="_blank" className="text-success">
                             <i className="fas fa-print mr-1"></i>
                             พิมพ์เอกสาร
                         </Link>
                     </DropdownItem>
                     <DropdownItem>
-                        <a href={`${process.env.REACT_APP_API_URL}/loans/form`} target="_blank" className="text-primary">
+                        <a href={`${process.env.REACT_APP_API_URL}/procurement/summary`} target="_blank" className="text-primary">
                             <i className="far fa-file-word mr-1"></i>
                             ดาวน์โหลดเอกสาร
                         </a>

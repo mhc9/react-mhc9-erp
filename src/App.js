@@ -81,6 +81,8 @@ import FormLoanReturn from './components/Preview/FormLoanReturn';
 import FormLoanRefundBill from './components/Preview/FormLoanRefundBill';
 import FormProjectVerify from './components/Preview/FormProjectVerify';
 import FormProjectReview from './components/Preview/FormProjectReview';
+import PreviewProcurementSummary from './components/Preview/Procurement/Summary';
+import PreviewProcurementAttachment from './components/Preview/Procurement/Attachment';
 /** Repairation */
 import RepairationList from './views/Repairation/List';
 import RepairationDetail from './views/Repairation/Detail';
@@ -270,6 +272,10 @@ function App() {
             <Route path="/preview/requisition/:id/notice" element={<RequisitionNotice />} />
             <Route path="/preview/inspection/:id" element={<InspectionDocument />} />
             <Route path="/preview/inspection/:id/report" element={<InspectionReport />} />
+
+            <Route path="/preview/procurement/summary/:sdate/:edate/:status/:limit" element={<PreviewProcurementSummary />} />
+            <Route path="/preview/procurement/attachment/:sdate/:edate/:status/:limit" element={<PreviewProcurementAttachment />} />
+
             <Route path="/preview/:id/loan/form" element={<FormLoan />} />
             <Route path="/preview/:id/loan-contract/form" element={<FormLoanContract />} />
             <Route path="/preview/:id/loan-refund/form" element={<FormLoanRefund />} />
