@@ -24,8 +24,16 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                     format="DD/MM/YYYY"
                     value={selectedSdate}
                     onChange={(date) => {
+                        const endOfMonth = moment(date).endOf('month');
+
                         setSelectedSdate(date);
-                        setFilters(prev => ({ ...prev, ['sdate']: moment(date).format('YYYY-MM-DD') }));
+                        setSelectedEdate(endOfMonth);
+
+                        setFilters(prev => ({
+                            ...prev,
+                            ['sdate']: moment(date).format('YYYY-MM-DD'),
+                            ['edate']: moment(endOfMonth).format('YYYY-MM-DD'),
+                        }));
                     }}
                     className={classes.muiTextFieldInput}
                 />

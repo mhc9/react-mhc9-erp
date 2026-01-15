@@ -23,7 +23,8 @@ const PreviewProcurementSummary = () => {
                 <div className="px-[1.5cm] py-5 text-center">
                     <div className='flex flex-col items-center'>
                         <h1 className='text-2xl font-bold'>แบบสรุปผลการดำเนินการจัดซื้อจัดจ้าง</h1>
-                        <p className='text-xl font-bold mb-2'>หน่วยงาน  ศูนย์สุขภาพจิตที่ 9</p>
+                        <p className='text-xl font-bold'>หน่วยงาน  ศูนย์สุขภาพจิตที่ 9</p>
+                        <p className='text-xl font-bold mb-2'>วันที่ {toShortTHDate(sdate)} ถึงวันที่ {toShortTHDate(edate)}</p>
                     </div>
                     <div>
                         <table className="w-full border-collapse border border-slate-400 mb-2">

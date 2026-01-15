@@ -22,6 +22,7 @@ const PreviewProcurementAttachment = () => {
             <div className="paper-container">
                 <div className="px-[1.5cm] py-5 text-center">
                     <h1 className="text-2xl font-bold mb-2">รายละเอียดที่ขอซื้อ</h1>
+                    <p className='text-xl font-bold mb-2'>วันที่ {toShortTHDate(sdate)} ถึงวันที่ {toShortTHDate(edate)}</p>
 
                     <div>
                         <table className="w-full border-collapse border border-slate-400 mb-2">

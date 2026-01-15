@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
-import { currency, generateQueryString, toShortTHDate } from '../../utils'
+import { currency, generateQueryString, toShortTHDate, getUrlParam } from '../../utils'
 import { getReports } from '../../features/slices/requisition/requisitionSlice';
 import FilteringInputs from './FilteringInputs';
 import DropdownButton from '../../components/FormControls/DropdownButton'
 import DropdownItem from '../../components/FormControls/DropdownButton/DropdownItem'
+import moment from 'moment';
 
-const ProcurementSummary= () => {
+const ProcurementSummary = () => {
     const [cookies] = useCookies();
     const initialFilters = {
-        sdate: '2025-12-01',
-        edate: '2025-12-31',
+        sdate: moment().startOf('month').format('YYYY-MM-DD'),
+        edate: moment().format('YYYY-MM-DD'),
         division: '',
         status: '>=,3',
         limit: 100,
@@ -89,7 +90,7 @@ const ProcurementSummary= () => {
             <div className='flex items-center justify-center mt-4'>
                 <DropdownButton title="เอกสาร" btnColor="primary" cssClass="mr-1">
                     <DropdownItem>
-                        <Link to={`/preview/procurement/summary/${initialFilters.sdate}/${initialFilters.edate}/${initialFilters.status}/${initialFilters.limit}`} target="_blank" className="text-success">
+                        <Link to={`/preview/procurement/summary/${getUrlParam(params, 'sdate')}/${getUrlParam(params, 'edate')}/${getUrlParam(params, 'status')}/${getUrlParam(params, 'limit')}`} target="_blank" className="text-success">
                             <i className="fas fa-print mr-1"></i>
                             พิมพ์เอกสาร
                         </Link>
