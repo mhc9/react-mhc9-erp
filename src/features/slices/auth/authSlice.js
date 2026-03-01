@@ -45,9 +45,9 @@ export const authSlice = createSlice({
             state.isSuccess = false;
             state.error = null;
         },
-        [login.fulfilled]: (state, { payload }) => {
-            if (payload) {
-                const { access_token } = payload;
+        [login.fulfilled]: (state, action) => {
+            if (action?.payload) {
+                const { access_token } = action?.payload;
                 // const decode = jwt(access_token);
 
                 localStorage.setItem("access_token", access_token);
@@ -55,6 +55,8 @@ export const authSlice = createSlice({
                 // state.loggedInUser = decode.sub;
                 state.isLoggedIn = true;
                 state.isSuccess = true;
+            } else {
+                state.error = { message: 'Invalid username or password' }
             }
 
             state.isLoading = false;

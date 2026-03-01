@@ -16,7 +16,7 @@ const loginSchema = Yup.object().shape({
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { isSuccess, isLoading } = useSelector(state => state.auth);
+    const { isSuccess, isLoading, error } = useSelector(state => state.auth);
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
@@ -37,11 +37,16 @@ const Login = () => {
         <div className="container flex flex-col justify-center items-center min-h-[100vh]">
             <div className="login-box bg-white w-[360px] min-h-[360px] rounded-lg px-4 py-4 flex flex-col justify-center items-center">
                 <h1 className="text-3xl font-bold mt-4">ระบบ MHC9 ERP</h1>
+
+                {error && <div className="alert alert-danger  rounded-lg p-3 w-full mt-3 text-danger">
+                    {error.message}
+                </div>}
+
                 <div className="w-[100%] my-4">
                     <Formik
                         initialValues={{
-                            email: 'sanyath007@gmail.com',
-                            password: '4621008811'
+                            email: '',
+                            password: ''
                         }}
                         validationSchema={loginSchema}
                         onSubmit={handleSubmit}
@@ -69,16 +74,14 @@ const Login = () => {
                                 <Row className="mb-4">
                                     <Col>
                                         <div className="form-control flex flex-row justify-between items-center h-min-[34px]">
-                                            {!visible ? (
                                             <input
-                                                type="password"
+                                                type={!visible ? 'password' : 'text'}
                                                 name="password"
                                                 value={formik.values.password}
                                                 onChange={formik.handleChange}
                                                 className="outline-none w-[90%]"
                                                 placeholder="Password"
                                             />
-                                            ) : <span>{formik.values.password}</span>}
                                             <span className="text-gray-500 cursor-pointer">
                                                 {visible
                                                     ? <FaEye onClick={() => setVisible(!visible)} size={'18px'} />
