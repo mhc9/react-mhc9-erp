@@ -109,6 +109,12 @@ const LoanList = () => {
                                         <LoanStatusBadge status={loan.status} />
                                     </td>
                                     <td className="text-sm">
+                                        {loan.contract && (
+                                            <div className="flex flex-row items-center gap-2">
+                                                <div>สัญญาเลขที่: <span className="text-red-600 font-bold">{loan.contract.contract_no}</span></div>
+                                                <div>วันที่: <span className="text-red-600 font-bold">{toShortTHDate(loan.contract.approved_date)}</span></div>
+                                            </div>
+                                        )}
                                         <div className="text-blue-600">
                                             {loan.project_name}
                                             <span className="ml-1">เป็นเงินทั้งสิ้น {currency.format(loan.net_total)} บาท</span>

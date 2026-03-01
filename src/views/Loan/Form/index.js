@@ -274,16 +274,20 @@ const LoanForm = ({ loan }) => {
                             </Col>
                             <Col md={4}>
                                 <label>ประเภทการยืม</label>
-                                <select
+                                {isLoading && <div className="form-control text-sm text-center"><Loading /></div>}
+                                {!isLoading && <select
                                     name="loan_type_id"
                                     value={formik.values.loan_type_id}
                                     onChange={formik.handleChange}
                                     className={`form-control text-sm ${(formik.errors.loan_type_id && formik.touched.loan_type_id) && 'border-red-500'}`}
                                 >
                                     <option value="">-- ประเภทการยืม --</option>
-                                    <option value="1">ยืมเงินโครงการ</option>
-                                    <option value="2">ยืมเงินเดินทางไปราชการ</option>
-                                </select>
+                                    {formData && formData.loanTypes.map(type => (
+                                        <option key={type.id} value={type.id}>
+                                            {type.name}
+                                        </option>
+                                    ))}
+                                </select>}
                                 {(formik.errors.loan_type_id && formik.touched.loan_type_id) && (
                                     <span className="text-red-500 text-xs">{formik.errors.loan_type_id}</span>
                                 )}  

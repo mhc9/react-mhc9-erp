@@ -213,7 +213,7 @@ const RequisitionDetail = () => {
                                             <div className="text-sm font-thin">{requisition.approvals[0].directive_no}</div>
                                         </Col>
                                         <Col md={4}>
-                                            <label htmlFor="">เลขที่คำสั่งแต่งตั้งผู้ตรวจรับ</label>
+                                            <label htmlFor="">วันที่คำสั่งแต่งตั้งผู้ตรวจรับ</label>
                                             <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].directive_date)}</div>
                                         </Col>
                                     </Row>

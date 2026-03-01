@@ -42,6 +42,16 @@ export const getRequisitionWithHeadOfDepart = createAsyncThunk("requisition/getR
     }
 });
 
+export const getReports = createAsyncThunk("requisition/getReports", async ({ url }, { rejectWithValue }) => {
+    try {
+        const res = await api.get(url);
+
+        return res.data;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 export const store = createAsyncThunk("requisition/store", async (data, { rejectWithValue }) => {
     try {
         const res = await api.post(`/api/requisitions`, data);
@@ -133,6 +143,23 @@ export const requisitionSlice = createSlice({
             state.isLoading = false;
         },
         [getRequisitionWithHeadOfDepart.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload;
+        },
+        [getReports.pending]: (state) => {
+            state.requisitions = [];
+            state.pager = null;
+            state.isLoading = true;
+            state.error = null;
+        },
+        [getReports.fulfilled]: (state, { payload }) => {
+            const { data, ...pager } = payload;
+
+            state.requisitions = data;
+            state.pager = pager;
+            state.isLoading = false;
+        },
+        [getReports.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.error = payload;
         },

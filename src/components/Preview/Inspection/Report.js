@@ -81,7 +81,10 @@ const InspectionReport = () => {
                                         }
                                     </span>
                                     <span className="ml-1">จำนวน {inspection.item_count} รายการ</span>
-                                    <span className="ml-1">ตามรายงานผลการพิจารณาและขออนุมัติสั่งซื้อสั่งจ้าง ที่ {} ลงวันที่ {}</span>
+                                    <span className="ml-1">
+                                        ตามรายงานผลการพิจารณาและขออนุมัติสั่งซื้อสั่งจ้าง ที่ {inspection.order?.requisition?.approvals[0].consider_no}
+                                        <span className="ml-1">ลงวันที่ {toLongTHDate(moment(inspection.order?.requisition?.approvals[0].consider_date).toDate())}</span>
+                                    </span>
                                     <span className="ml-1">
                                         เป็นจำนวนเงินทั้งสิ้น {currency.format(inspection.net_total, 2)} บาท ({ThaiNumberToText(inspection.net_total)})
                                         ซึ่งได้รวมภาษีมูลค่าเพิ่ม ค่าขนส่ง ค่าจดทะเบียน และค่าใช้จ่ายอื่นๆ ทั้งปวง
@@ -108,6 +111,7 @@ const InspectionReport = () => {
                                 </div>
 
                                 <div className="memo-approvement">
+                                    {/* ผู้ขอ/เจ้าของโครงการ */}
                                     <div className="memo-row">
                                         <div style={{ width: '40%' }}>&nbsp;</div>
                                         <div style={{ width: '60%' }}>
@@ -115,7 +119,32 @@ const InspectionReport = () => {
                                                 <div className="pt-[40px] flex flex-col items-center justify-center">
                                                     <p className="w-[200px] border-dashed border-b mb-1"></p>
                                                     <div className="signature">
-                                                        {/* <p>({requisition.requester.prefix.name+requisition.requester.firstname+ ' ' +requisition.requester.lastname})</p> */}
+                                                        <p>({inspection.order?.requisition?.committees[0].employee?.prefix?.name+inspection.order?.requisition?.committees[0].employee?.firstname+ ' ' +inspection.order?.requisition?.committees[0].employee?.lastname})</p>
+                                                        <p>{inspection.order?.requisition?.committees[0].employee?.position?.name}{inspection.order?.requisition?.committees[0].employee?.level?.name}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="memo-row">
+                                        <div style={{ width: '100%' }}>
+                                            <div style={{ width: '100%', padding: '1pt 0 1pt' }}>
+                                                <div>
+                                                    <p>เรียน อธิบดีกรมสุขภาพจิต</p>
+                                                    <p style={{ textIndent: '1cm' }}>งานพัสดุ ได้รับมอบพัสดุตามรายละเอียดข้างต้นจากผู้ตรวจรับพัสดุเรียบร้อยแล้ว จึงเรียนมาเพื่อโปรดทราบ</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="memo-row">
+                                        <div style={{ width: '40%' }}>&nbsp;</div>
+                                        <div style={{ width: '60%' }}>
+                                            <div style={{ textAlign: 'center', width: '100%' }}>
+                                                <div className="pt-[40px] flex flex-col items-center justify-center">
+                                                    <p className="w-[200px] border-dashed border-b mb-1"></p>
+                                                    <div className="signature">
                                                         <p>(นางสาวทิพปภา สีมาธรรมการย์)</p>
                                                         <p>นักวิชาการพัสดุ</p>
                                                     </div>
@@ -147,9 +176,8 @@ const InspectionReport = () => {
                                         </div>
                                         <div className="w-[60%]">
                                             <div className="text-center w-[100%] h-[120px]">
-                                                <div className="mt-[60px] ml-[20%] flex flex-col justify-start items-start gap-1">
-                                                    <p><i className="far fa-square"></i> อนุมัติ</p>
-                                                    <p><i className="far fa-square"></i> ไม่อนุมัติ เนื่องจาก............................</p>
+                                                <div className="mt-[60px] flex flex-col justify-center items-center">
+                                                    <p className="font-semibold">ทราบ</p>
                                                 </div>
                                                 <div className="pt-[40px] flex flex-col items-center justify-center">
                                                     <p className="w-[200px] border-dashed border-b mb-1"></p>

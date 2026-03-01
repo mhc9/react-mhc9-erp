@@ -50,6 +50,10 @@ import InspectionList from './views/Inspection/List';
 import AddInspection from './views/Inspection/Add';
 import EditInspection from './views/Inspection/Edit';
 import InspectionDetail from './views/Inspection/Detail';
+/** Procurement Report */
+import ProcurementReport from './views/Procurement/Report';
+import ProcurementSummary from './views/Procurement/Summary';
+import ProcurementAttachment from './views/Procurement/Attachment';
 /** Item */
 import ItemList from './views/Item/List';
 import AddItem from './views/Item/Add';
@@ -77,6 +81,8 @@ import FormLoanReturn from './components/Preview/FormLoanReturn';
 import FormLoanRefundBill from './components/Preview/FormLoanRefundBill';
 import FormProjectVerify from './components/Preview/FormProjectVerify';
 import FormProjectReview from './components/Preview/FormProjectReview';
+import PreviewProcurementSummary from './components/Preview/Procurement/Summary';
+import PreviewProcurementAttachment from './components/Preview/Procurement/Attachment';
 /** Repairation */
 import RepairationList from './views/Repairation/List';
 import RepairationDetail from './views/Repairation/Detail';
@@ -118,6 +124,7 @@ import EditPlace from './views/Place/Edit';
 import UserList from './views/User/List';
 /** Help */
 import Advice from './views/Advice';
+import LoanRefundBillList from './views/LoanRefund/BillList';
 
 function App() {
     return (
@@ -156,6 +163,11 @@ function App() {
                 <Route path="inspection/:id/edit" element={<GuardRoute><EditInspection /></GuardRoute>} />
                 <Route path="inspection/:id/detail" element={<GuardRoute><InspectionDetail /></GuardRoute>} />
 
+                {/* Procurement Report */}
+                <Route path="procurement/report" element={<GuardRoute><ProcurementReport /></GuardRoute>} />
+                <Route path="procurement/report/attachment" element={<GuardRoute><ProcurementAttachment /></GuardRoute>} />
+                <Route path="procurement/report/summary" element={<GuardRoute><ProcurementSummary /></GuardRoute>} />
+
                 {/* ============================= Loan ============================= */}
                 <Route path="loan" element={<GuardRoute><LoanList /></GuardRoute>} />
                 <Route path="loan/add" element={<GuardRoute><AddLoan /></GuardRoute>} />
@@ -172,6 +184,7 @@ function App() {
                 <Route path="loan-refund/add" element={<GuardRoute><AddLoanRefund /></GuardRoute>} />
                 <Route path="loan-refund/:id/edit" element={<GuardRoute><EditLoanRefund /></GuardRoute>} />
                 <Route path="loan-refund/:id/detail" element={<GuardRoute><LoanRefundDetail /></GuardRoute>} />
+                <Route path="loan-refund/bill" element={<GuardRoute><LoanRefundBillList /></GuardRoute>} />
                 {/* ============================= System Data ============================= */}
                 {/* Items */}
                 <Route path="item" element={<GuardRoute><ItemList /></GuardRoute>} />
@@ -259,6 +272,10 @@ function App() {
             <Route path="/preview/requisition/:id/notice" element={<RequisitionNotice />} />
             <Route path="/preview/inspection/:id" element={<InspectionDocument />} />
             <Route path="/preview/inspection/:id/report" element={<InspectionReport />} />
+
+            <Route path="/preview/procurement/summary/:sdate/:edate/:status/:limit" element={<PreviewProcurementSummary />} />
+            <Route path="/preview/procurement/attachment/:sdate/:edate/:status/:limit" element={<PreviewProcurementAttachment />} />
+
             <Route path="/preview/:id/loan/form" element={<FormLoan />} />
             <Route path="/preview/:id/loan-contract/form" element={<FormLoanContract />} />
             <Route path="/preview/:id/loan-refund/form" element={<FormLoanRefund />} />

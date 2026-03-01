@@ -217,7 +217,7 @@ const RequisitionForm = () => {
                                                         <p>
                                                             ( {requisition.deputy
                                                                 ? `${requisition.deputy.prefix.name}${requisition.deputy.firstname} ${requisition.deputy.lastname}`
-                                                                : 'นายนิตย์  ทองเพชรศรี'} )
+                                                                : 'นางสาวจุฑามาศ วรรณศิลป์'} )
                                                         </p>
                                                         {requisition.deputy && (
                                                             <p>

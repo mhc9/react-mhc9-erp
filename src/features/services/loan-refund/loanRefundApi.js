@@ -20,7 +20,12 @@ export const loanRefundApi = createApi({
                 url: '/api/loan-refunds/init/form'
             }),
         }),
+        getLatestBillNo: builder.query({
+            query: () => ({
+                url: '/api/loan-refunds/bill/no'
+            }),
+        }),
     }),
 });
 
-export const { useGetInitialFormDataQuery } = loanRefundApi;
+export const { useGetInitialFormDataQuery, useGetLatestBillNoQuery } = loanRefundApi;
