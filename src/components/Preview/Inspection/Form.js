@@ -11,6 +11,8 @@ const InspectionDocument = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { inspection } = useSelector(state => state.inspection);
+    const [resultStatus, setResultStatus] = React.useState('1'); // 1 = ครบถ้วนตามสัญญา, 2 = ไม่ครบถ้วนตามสัญญา
+    const [fineStatus, setFineStatus] = React.useState(''); // 1 = มีค่าปรับ, 2 = ไม่มีค่าปรับ
 
     useEffect(() => {
         if (id) dispatch(getInspection(id));
@@ -48,16 +50,16 @@ const InspectionDocument = () => {
                                     <div className="my-2 leading-6">
                                         <h4>1. ผลการตรวจรับ</h4>
                                         <div className="indent-[2cm]">
-                                            <i className="far fa-square"></i> ถูกต้อง
-                                            <p className="indent-[2.5cm]"><i className="far fa-square"></i> ครบถ้วนตามสัญญา</p>
-                                            <p className="indent-[2.5cm]"><i className="far fa-square"></i> ไม่ครบถ้วนตามสัญญา</p>
+                                            <i className="far fa-check-square"></i> ถูกต้อง
+                                            <p className="indent-[2.5cm]">{resultStatus === '1' ? <i className="far fa-check-square"></i> : <i className="far fa-square"></i>} ครบถ้วนตามสัญญา</p>
+                                            <p className="indent-[2.5cm]">{resultStatus === '2' ? <i className="far fa-check-square"></i> : <i className="far fa-square"></i>} ไม่ครบถ้วนตามสัญญา</p>
                                         </div>
                                     </div>
                                     <div className="mb-2 leading-6">
                                         <h4>2. ค่าปรับ</h4>
                                         <div className="indent-[2cm]">
-                                            <p><i className="far fa-square"></i> มีค่าปรับ</p>
-                                            <p><i className="far fa-square"></i> ไม่มีค่าปรับ</p>
+                                            <p>{fineStatus === '1' ? <i className="far fa-check-square"></i> : <i className="far fa-square"></i>} มีค่าปรับ</p>
+                                            <p>{fineStatus === '2' ? <i className="far fa-check-square"></i> : <i className="far fa-square"></i>} ไม่มีค่าปรับ</p>
                                         </div>
                                     </div>
                                     <div className="mb-2 leading-6">

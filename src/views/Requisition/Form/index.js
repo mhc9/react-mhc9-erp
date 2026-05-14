@@ -339,7 +339,7 @@ const RequisitionForm = ({ requisition }) => {
                                                     value={formik.values.contract_desc}
                                                     onChange={(e) => {
                                                         formik.handleChange(e);
-                                                        formik.setFieldValue('topic', 'ขออนุมัติสั่ง' + e.target.value);
+                                                        formik.setFieldValue('topic', 'ขออนุมัติงบประมาณ' + e.target.value);
                                                     }}
                                                     className="form-control text-sm"
                                                 />
@@ -381,6 +381,7 @@ const RequisitionForm = ({ requisition }) => {
                                         )}
                                     </Col>
                                 </Row>
+
                                 <Row className="mb-2">
                                     <Col md={6}>
                                         <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
@@ -434,6 +435,7 @@ const RequisitionForm = ({ requisition }) => {
                                         )}
                                     </Col>
                                 </Row>
+
                                 <Row className="mb-2">
                                     <Col>
                                         <label htmlFor="">โครงการ (ถ้ามี)</label>
@@ -475,6 +477,7 @@ const RequisitionForm = ({ requisition }) => {
                                         )}
                                     </Col>
                                 </Row>
+
                                 <Row className="mb-2">
                                     <Col>
                                         <div className="flex flex-col border p-2 rounded-md mt-1">
@@ -537,6 +540,7 @@ const RequisitionForm = ({ requisition }) => {
                                         )}
                                     </Col>
                                 </Row>
+
                                 <Row className="mb-2">
                                     <Col>
                                         <div className="flex flex-col border p-2 rounded-md">
@@ -601,6 +605,7 @@ const RequisitionForm = ({ requisition }) => {
                                         </div>
                                     </Col>
                                 </Row>
+
                                 <Row className="mb-2">
                                     <Col md={12} lg={8} className="lg:pr-1">
                                         <Committee
@@ -618,6 +623,7 @@ const RequisitionForm = ({ requisition }) => {
                                         />
                                     </Col>
                                 </Row>
+
                                 <Row>
                                     <Col>
                                         <button type="submit" className={`btn ${requisition ? 'btn-outline-secondary' : 'btn-outline-primary'} float-right`}>

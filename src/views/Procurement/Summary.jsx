@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import { currency, generateQueryString, toShortTHDate, getUrlParam } from '../../utils'
 import { getReports } from '../../features/slices/requisition/requisitionSlice';
 import FilteringInputs from './FilteringInputs';
 import DropdownButton from '../../components/FormControls/DropdownButton'
 import DropdownItem from '../../components/FormControls/DropdownButton/DropdownItem'
-import moment from 'moment';
+import Loading from '../../components/Loading';
 
 const ProcurementSummary = () => {
     const [cookies] = useCookies();
@@ -61,7 +62,24 @@ const ProcurementSummary = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {requisitions.map((req, index) => (
+                    {isLoading && (
+                        <tr>
+                            <td colSpan={11} className="text-center">
+                                <div className="flex items-center justify-center">
+                                    <Loading />
+                                </div>
+                            </td>
+                        </tr>
+                    )}
+
+                    {requisitions && [...requisitions]
+                        .sort((a, b) => {
+                            const dateA = a.approvals[0].consider_date;
+                            const dateB = b.approvals[0].consider_date;
+
+                            return new Date(dateA) - new Date(dateB);
+                        })
+                        .map((req, index) => (
                         <tr key={req.id}>
                             <td className="text-center">{index + 1}</td>
                             <td>{req.order_type_id === 2 ? req.contract_desc : req.category.name}</td>
@@ -69,7 +87,7 @@ const ProcurementSummary = () => {
                             <td className="text-right">{currency.format(req.budget_total)}</td>
                             <td>{req.approvals[0].procuring?.name}</td>
                             <td>{req.approvals[0].supplier?.name}</td>
-                            <td>{req.approvals[0].supplier?.name}</td>
+                            <td>{req.approvals[0].supplier?.name} ราคาที่เสนอ {currency.format(req.net_total)} บาท</td>
                             <td>ราคาต่ำสุด</td>
                             <td>
                                 <p>เลขที่ <span>{req.approvals[0].consider_no}</span></p>
@@ -78,12 +96,14 @@ const ProcurementSummary = () => {
                         </tr>
                     ))}
 
-                    <tr className="font-bold">
-                        <td className="text-center" colSpan={2}>รวมทั้งสิ้น</td>
-                        <td className="text-right">{currency.format(requisitions?.reduce((sum, curVal) => sum = sum + parseFloat(curVal.net_total), 0))}</td>
-                        <td className="text-right">{currency.format(requisitions?.reduce((sum, curVal) => sum = sum + parseFloat(curVal.budget_total), 0))}</td>
-                        <td colSpan={5}></td>
-                    </tr>
+                    {!isLoading && (
+                        <tr className="font-bold">
+                            <td className="text-center" colSpan={2}>รวมทั้งสิ้น</td>
+                            <td className="text-right">{currency.format(requisitions?.reduce((sum, curVal) => sum = sum + parseFloat(curVal.net_total), 0))}</td>
+                            <td className="text-right">{currency.format(requisitions?.reduce((sum, curVal) => sum = sum + parseFloat(curVal.budget_total), 0))}</td>
+                            <td colSpan={5}></td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
             

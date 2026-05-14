@@ -16,9 +16,6 @@ const InspectionReport = () => {
         if (id) dispatch(getInspection(id));
     }, [id]);
 
-    console.log(id);
-    
-
     return (
         <>
             {/* PAGE 1 */}
@@ -119,8 +116,8 @@ const InspectionReport = () => {
                                                 <div className="pt-[40px] flex flex-col items-center justify-center">
                                                     <p className="w-[200px] border-dashed border-b mb-1"></p>
                                                     <div className="signature">
-                                                        <p>({inspection.order?.requisition?.committees[0].employee?.prefix?.name+inspection.order?.requisition?.committees[0].employee?.firstname+ ' ' +inspection.order?.requisition?.committees[0].employee?.lastname})</p>
-                                                        <p>{inspection.order?.requisition?.committees[0].employee?.position?.name}{inspection.order?.requisition?.committees[0].employee?.level?.name}</p>
+                                                        <p>({inspection.order?.requisition?.committees[0]?.employee?.prefix?.name+inspection.order?.requisition?.committees[0]?.employee?.firstname+ ' ' +inspection.order?.requisition?.committees[0]?.employee?.lastname})</p>
+                                                        <p>{inspection.order?.requisition?.committees[0]?.employee?.position?.name}{inspection.order?.requisition?.committees[0]?.employee?.level?.name}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -182,7 +179,7 @@ const InspectionReport = () => {
                                                 <div className="pt-[40px] flex flex-col items-center justify-center">
                                                     <p className="w-[200px] border-dashed border-b mb-1"></p>
                                                     <div className="signature">
-                                                        <p>( นายนิตย์  ทองเพชรศรี )</p>
+                                                        <p>( นางสาวจุฑามาศ วรรณศิลป์ )</p>
                                                         <p>ผู้อำนวยการศูนย์สุขภาพจิตที่ 9</p>
                                                         <p>ปฏิบัติราชการแทนอธิบดีกรมสุขภาพจิต</p>
                                                         <div className="signature-date">
