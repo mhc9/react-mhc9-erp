@@ -168,6 +168,14 @@ const RequisitionForm = ({ requisition }) => {
         (formData && formData.types) && setFilteredTypes(formData.types.filter(type => type.order_type_id === parseInt(typeId)));
     };
 
+    const handleUpdateDesc = (formik, id, desc) => {
+        const updatedItems = formik.values.items.map(item => {
+            if (item.id === id) return { ...item, description: desc };
+            return item;
+        });
+        formik.setFieldValue('items', updatedItems);
+    };
+
     const handleSubmit = (values, formik) => {
         if (requisition) {
             dispatch(update({ id: requisition.id, data: values }));
@@ -215,8 +223,6 @@ const RequisitionForm = ({ requisition }) => {
             onSubmit={handleSubmit}
         >
             {(formik) => {
-                console.log(formik.values);
-                
                 return (
                     <Form>
                         {isLoading && <div className="text-center"><Loading /></div>}
@@ -557,6 +563,7 @@ const RequisitionForm = ({ requisition }) => {
                                                 items={formik.values.items.filter(item => !item.removed)}
                                                 onEditItem={(data) => handleEditItem(data)}
                                                 onRemoveItem={(id, isNewItem = false) => handleRemoveItem(formik, id, isNewItem)}
+                                                onUpdateDesc={(id, desc) => handleUpdateDesc(formik, id, desc)}
                                             />
                                             {(formik.errors.items && formik.touched.items) && (
                                                 <span className="text-red-500 text-sm">{formik.errors.items}</span>

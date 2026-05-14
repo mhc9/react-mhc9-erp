@@ -7,7 +7,6 @@ import { v4 as uuid } from 'uuid'
 import { calculateTotal, getFormDataItem } from '../../../utils'
 import { useGetInitialFormDataQuery } from '../../../features/services/item/itemApi'
 import ModalItemList from '../../../components/Modals/ItemList'
-import ModalAddItemDesc from '../../../components/Modals/AddItemDesc'
 
 const itemSchema = Yup.object().shape({
     item_id: Yup.string().required('กรุณาเลือกรายสินค้า/บริการ'),
@@ -25,7 +24,6 @@ const initialFormData = {
 const AddItem = ({ item, defaultCategory, onAddItem, onUpdateItem, onCancel }) => {
     const [data, setData] = useState(null);
     const [showModalItems, setShowModalItems] = useState(false);
-    const [showModalAddItemDesc, setShowModalAddItemDesc] = useState(false);
     const { data: formData = initialFormData } = useGetInitialFormDataQuery();
 
     useEffect(() => {
@@ -99,13 +97,6 @@ const AddItem = ({ item, defaultCategory, onAddItem, onUpdateItem, onCancel }) =
                             defaultCategory={defaultCategory}
                         />
 
-                        <ModalAddItemDesc
-                            isShow={showModalAddItemDesc}
-                            onHide={() => setShowModalAddItemDesc(false)}
-                            value={formik.values.description}
-                            onSetValue={(desc) => formik.setFieldValue('description', desc)}
-                        />
-
                         <div className="flex flex-row gap-1 mb-2">
                             <FormGroup className="w-[45%]">
                                 <div className="input-group">
@@ -124,15 +115,6 @@ const AddItem = ({ item, defaultCategory, onAddItem, onUpdateItem, onCancel }) =
                                 {(formik.errors.item_id && formik.touched.item_id) && (
                                     <span className="text-red-500 text-xs">{formik.errors.item_id}</span>
                                 )}
-                            </FormGroup>
-                            <FormGroup>
-                                <button
-                                    type="button"
-                                    className="btn btn-outline-info text-sm"
-                                    onClick={() => setShowModalAddItemDesc(true)}
-                                >
-                                    Desc
-                                </button>
                             </FormGroup>
                             <FormGroup className="w-[10%]">
                                 <input
