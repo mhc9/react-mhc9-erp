@@ -34,6 +34,7 @@ const requisitionSchema = Yup.object().shape({
     pr_no: Yup.string().required('กรุณาระบุเลขที่เอกสาร'),
     pr_date: Yup.string().required('กรุณาระบุวันที่เอกสาร'),
     order_type_id: Yup.string().required('กรุณาระบุประเภทการจัดซื้อ'),
+    requisition_type_id: Yup.string().required('กรุณาระบุประเภทคำขอ'),
     category_id: Yup.string().required('กรุณาระบุประเภทสินค้า'),
     contract_desc: Yup.string().ensure().when('order_type_id', {
         is: (val) => val === '2',
@@ -45,7 +46,10 @@ const requisitionSchema = Yup.object().shape({
     requester_id: Yup.string().required('กรุณาระบุผู้ขอ/เจ้าของโครงการ'),
     department_id: Yup.string().required('กรุณาระบุหน่วยงาน'),
     reason: Yup.string().required('กรุณาระบุเหตุผลที่ขอ'),
-    desired_date: Yup.string().required('กรุณาระบุวันที่ต้องการใช้'),
+    desired_date: Yup.string().when('requisition_type_id', {
+        is: (val) => val === '1', // adjust condition as needed
+        then: () => Yup.string().required('กรุณาระบุวันที่ต้องการใช้'),
+    }),
     budgets: Yup.mixed().test('Budget count', 'ไม่พบการระบุรายการงบประมาณ', val => val.filter(budget => !budget.removed).length > 0),
     items: Yup.mixed().test('Items count', 'ไม่พบการระบุรายการสินค้า', val => val.filter(item => !item.removed).length > 0),
     committees: Yup.mixed().test('Committees count', 'ไม่พบการระบุผู้ตรวจรับ', val => val.filter(comm => !comm.removed).length > 0),
@@ -198,6 +202,7 @@ const RequisitionForm = ({ requisition }) => {
                 pr_no: requisition ? requisition.pr_no : '',
                 pr_date: requisition ? moment(requisition.pr_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 order_type_id: requisition ? requisition.order_type_id : 1,
+                requisition_type_id: requisition ? requisition.requisition_type_id : 1,
                 category_id: requisition ? requisition.category_id : '',
                 contract_desc: (requisition && requisition.contract_desc) ? requisition.contract_desc : '',
                 topic: requisition ? requisition.topic : 'ขออนุมัติงบประมาณซื้อ',
@@ -253,7 +258,7 @@ const RequisitionForm = ({ requisition }) => {
 
                                 <Row className="mb-2">
                                     <Col md={4}>
-                                        <label htmlFor="">เลขที่เอกสาร</label>
+                                        <label htmlFor="">เลขที่เอกสาร <span className="text-red-500">*</span></label>
                                         <input
                                             type="text"
                                             name="pr_no"
@@ -267,7 +272,7 @@ const RequisitionForm = ({ requisition }) => {
                                     </Col>
                                     <Col md={2}>
                                         <div className="flex flex-col">
-                                            <label htmlFor="">วันที่เอกสาร</label>
+                                            <label htmlFor="">วันที่เอกสาร <span className="text-red-500">*</span></label>
                                             <DatePicker
                                                 format="DD/MM/YYYY"
                                                 value={selectedDate}
@@ -283,7 +288,7 @@ const RequisitionForm = ({ requisition }) => {
                                         )}
                                     </Col>
                                     <Col md={2}>
-                                        <label>ประเภทซื้อ/จ้าง</label>
+                                        <label>ประเภทซื้อ/จ้าง <span className="text-red-500">*</span></label>
                                         <select
                                             name="order_type_id"
                                             value={formik.values.order_type_id}
@@ -305,7 +310,7 @@ const RequisitionForm = ({ requisition }) => {
                                         )}  
                                     </Col>
                                     <Col md={4}>
-                                        <label htmlFor="">ประเภทสินค้า</label>
+                                        <label htmlFor="">ประเภทสินค้า <span className="text-red-500">*</span></label>
                                         <select
                                             name="category_id"
                                             value={formik.values.category_id}
@@ -338,7 +343,7 @@ const RequisitionForm = ({ requisition }) => {
                                 {parseInt(formik.values.order_type_id, 10) === 2 && (
                                     <Row className="mb-2">
                                         <Col>
-                                            <label htmlFor="">รายละเอียดการจ้าง</label>
+                                            <label htmlFor="">รายละเอียดการจ้าง <span className="text-red-500">*</span></label>
                                                 <input
                                                     type="text"
                                                     name="contract_desc"
@@ -358,7 +363,7 @@ const RequisitionForm = ({ requisition }) => {
 
                                 <Row className="mb-2">
                                     <Col>
-                                        <label htmlFor="">เรื่อง</label>
+                                        <label htmlFor="">เรื่อง <span className="text-red-500">*</span></label>
                                             <input
                                                 type="text"
                                                 name="topic"
@@ -371,7 +376,23 @@ const RequisitionForm = ({ requisition }) => {
                                         )}
                                     </Col>
                                     <Col md={2}>
-                                        <label htmlFor="">ปีงบประมาณ</label>
+                                        <label htmlFor="">ประเภทคำขอ <span className="text-red-500">*</span></label>
+                                        <select
+                                            name="requisition_type_id"
+                                            value={formik.values.requisition_type_id}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm"
+                                        >
+                                            <option value="">-- ประเภทคำขอ --</option>
+                                            <option value="1">ปกติ</option>
+                                            <option value="2">จัดซื้อซ้ำได้</option>
+                                        </select>
+                                        {(formik.errors.requisition_type_id && formik.touched.requisition_type_id) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.requisition_type_id}</span>
+                                        )}
+                                    </Col>
+                                    <Col md={2}>
+                                        <label htmlFor="">ปีงบประมาณ <span className="text-red-500">*</span></label>
                                         <DatePicker
                                             format="YYYY"
                                             views={['year']}
@@ -390,7 +411,7 @@ const RequisitionForm = ({ requisition }) => {
 
                                 <Row className="mb-2">
                                     <Col md={6}>
-                                        <label htmlFor="">ผู้ขอ/เจ้าของโครงการ</label>
+                                        <label htmlFor="">ผู้ขอ/เจ้าของโครงการ <span className="text-red-500">*</span></label>
                                         <EmployeeSelection
                                             data={requisition?.requester}
                                             fieldName="requester_id"
@@ -400,7 +421,7 @@ const RequisitionForm = ({ requisition }) => {
                                         )}
                                     </Col>
                                     <Col md={6}>
-                                        <label htmlFor="">หน่วยงาน</label>
+                                        <label htmlFor="">หน่วยงาน <span className="text-red-500">*</span></label>
                                         <select
                                             name="department_id"
                                             value={selectedDep}
@@ -470,7 +491,7 @@ const RequisitionForm = ({ requisition }) => {
                                         )}
                                     </Col>
                                     <Col>
-                                        <label htmlFor="">เหตุผลที่ขอ</label>
+                                        <label htmlFor="">เหตุผลที่ขอ <span className="text-red-500">*</span></label>
                                         <textarea
                                             rows={5}
                                             name="reason"
@@ -487,7 +508,7 @@ const RequisitionForm = ({ requisition }) => {
                                 <Row className="mb-2">
                                     <Col>
                                         <div className="flex flex-col border p-2 rounded-md mt-1">
-                                            <h1 className="font-bold text-lg mb-1">งบประมาณ</h1>
+                                            <h1 className="font-bold text-lg mb-1">งบประมาณ <span className="text-red-500">*</span></h1>
 
                                             <AddBudget
                                                 onAddBudget={(budget) => {
@@ -550,7 +571,7 @@ const RequisitionForm = ({ requisition }) => {
                                 <Row className="mb-2">
                                     <Col>
                                         <div className="flex flex-col border p-2 rounded-md">
-                                            <h1 className="font-bold text-lg mb-1">รายการสินค้า/บริการ</h1>
+                                            <h1 className="font-bold text-lg mb-1">รายการสินค้า/บริการ <span className="text-red-500">*</span></h1>
                                             <AddItem
                                                 item={itemToedit}
                                                 defaultCategory={formik.values.category_id}
@@ -571,8 +592,10 @@ const RequisitionForm = ({ requisition }) => {
 
                                             <Row>
                                                 <Col md={4}>
-                                                    <div className="flex flex-row justify-start items-center gap-1 ml-4">
-                                                        <label className="col-4 text-right pr-1">วันที่ต้องการใช้</label>
+                                                    <div className={`flex flex-row justify-start ${formik.errors.desired_date ? 'items-start' : 'items-center'} gap-1 ml-4`}>
+                                                        <label className={`col-4 text-right pr-1 ${formik.errors.desired_date && 'mt-1'}`}>
+                                                            วันที่ต้องการใช้ <span className="text-red-500">*</span>
+                                                        </label>
                                                         <div className="col-8 w-[50%] pl-1">
                                                             <DatePicker
                                                                 format="DD/MM/YYYY"
