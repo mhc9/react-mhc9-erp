@@ -18,6 +18,11 @@ api.interceptors.response.use((response) => {
     return response;
 }, (error) => {
     if (error.response.status === 401) {
+        if (window.location.pathname === "/login") {
+            return Promise.reject(error);
+        }
+
+        localStorage.removeItem("access_token");
         return window.location.href = "/login";
     } else {
         return Promise.reject(error);

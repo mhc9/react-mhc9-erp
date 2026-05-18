@@ -7,10 +7,11 @@ import { FaEnvelope, FaEye, FaEyeSlash } from 'react-icons/fa'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { login, resetSuccess } from '../../features/slices/auth/authSlice'
+import ErrorMessage from '../../components/FormControls/ErrorMessage'
 
 const loginSchema = Yup.object().shape({
-    email: Yup.string().required(),
-    password: Yup.string().required(),
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    password: Yup.string().required('Password is required'),
 });
 
 const Login = () => {
@@ -30,7 +31,9 @@ const Login = () => {
     const handleSubmit = (values, props) => {
         dispatch(login({ ...values }));
 
-        props.resetForm();
+        if (isSuccess) {
+            props.resetForm();
+        }
     }
 
     return (
@@ -39,7 +42,7 @@ const Login = () => {
                 <h1 className="text-3xl font-bold mt-4">ระบบ MHC9 ERP</h1>
 
                 {error && <div className="alert alert-danger  rounded-lg p-3 w-full mt-3 text-danger">
-                    {error.message}
+                    <i className="fas fa-info-circle"></i> ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
                 </div>}
 
                 <div className="w-[100%] my-4">
@@ -54,7 +57,7 @@ const Login = () => {
                         {(formik) => {
                             return (
                                 <Form>
-                                    <Row className="mb-2">
+                                    <Row className="mb-3">
                                     <Col>
                                         <div className="form-control flex flex-row justify-between items-center">
                                             <input
@@ -69,9 +72,10 @@ const Login = () => {
                                                 <FaEnvelope />
                                             </span>
                                         </div>
+                                        {formik.touched.email && formik.errors.email && <ErrorMessage message={formik.errors.email} className="mt-1" />}
                                     </Col>
                                 </Row>
-                                <Row className="mb-4">
+                                <Row className="mb-3">
                                     <Col>
                                         <div className="form-control flex flex-row justify-between items-center h-min-[34px]">
                                             <input
@@ -89,6 +93,7 @@ const Login = () => {
                                                 }
                                             </span>
                                         </div>
+                                        {formik.touched.password && formik.errors.password && <ErrorMessage message={formik.errors.password} className="mt-1" />}
                                     </Col>
                                 </Row>
 
