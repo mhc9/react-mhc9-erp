@@ -136,7 +136,7 @@ const OrderForm = ({ id, order }) => {
 
                         <Row className="mb-2">
                             <Col md={6}>
-                                <label htmlFor="">เลขที่คำขอ</label>
+                                <label htmlFor="">เลขที่คำขอ <span className="text-red-500">*</span></label>
                                 <div className="input-group">
                                     <div className="min-h-[34px] form-control font-thin text-sm bg-gray-100">
                                         {selectedRequisition && <p><b>เลขที่</b> {selectedRequisition.pr_no}<b className="ml-2">วันที่</b> {toShortTHDate(selectedRequisition.pr_date)}</p>}
@@ -150,7 +150,7 @@ const OrderForm = ({ id, order }) => {
                                 )}
                             </Col>
                             <Col md={3}>
-                                <label htmlFor="">เลขที่ใบสั่งซื้อ</label>
+                                <label htmlFor="">เลขที่ใบสั่งซื้อ <span className="text-red-500">*</span></label>
                                 <input
                                     type="text"
                                     name="po_no"
@@ -164,7 +164,7 @@ const OrderForm = ({ id, order }) => {
                             </Col>
                             <Col md={3}>
                                 <div className="flex flex-col">
-                                    <label htmlFor="">วันที่ใบสั่งซื้อ</label>
+                                    <label htmlFor="">วันที่ใบสั่งซื้อ <span className="text-red-500">*</span></label>
                                     <DatePicker
                                         format="DD/MM/YYYY"
                                         value={selectedDate}
@@ -248,7 +248,7 @@ const OrderForm = ({ id, order }) => {
                         <Row className="mb-2 text-sm">
                             <Col>
                                 <div className="flex flex-col border p-2 rounded-md">
-                                    <h1 className="font-bold text-lg mb-1">รายการสินค้า/บริการ</h1>
+                                    <h1 className="font-bold text-lg mb-1">รายการสินค้า/บริการ <span className="text-red-500">*</span></h1>
 
                                     <OrderItems items={formik.values.items} />
 
