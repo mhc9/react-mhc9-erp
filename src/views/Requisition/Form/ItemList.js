@@ -38,7 +38,7 @@ const ItemList = ({ items, showButtons=true, onEditItem, onRemoveItem, onUpdateD
                                             setItem(data);
                                             setShowModalAddItemDesc(true);
                                         }}>
-                                            <i class="far fa-edit mr-0.5"></i>แก้ไข
+                                            <i className="far fa-edit mr-0.5"></i>แก้ไข
                                         </button>
                                     </p>
                                 ) : (
@@ -46,7 +46,7 @@ const ItemList = ({ items, showButtons=true, onEditItem, onRemoveItem, onUpdateD
                                         setItem(data);
                                         setShowModalAddItemDesc(true);
                                     }}>
-                                        <i class="far fa-plus-square mr-0.5"></i>เพิ่มรายละเอียด
+                                        <i className="far fa-plus-square mr-0.5"></i>เพิ่มรายละเอียด
                                     </button>
                                 )}
                             </td>
