@@ -181,45 +181,6 @@ const RequisitionDetail = () => {
                                 </Col>
                             </Row>
 
-                            {/* Report and directive */}
-                            {(requisition.approvals && requisition.approvals.length > 0) && (
-                                <div className="border w-full py-2 px-3 mb-2 rounded-md relative">
-                                    <div className="absolute top-1 right-1">
-                                        <button type="button" className="btn btn-light float-right">
-                                            <FaEdit className="text-warning" onClick={() => setShowApprovalForm(true)} />
-                                        </button>
-                                    </div>
-                                    <Row className="mb-2">
-                                        <Col md={4}>
-                                            <label htmlFor="">เลขที่รายงานขอซื้อ/จ้าง</label>
-                                            <div className="text-sm font-thin">{requisition.approvals[0].report_no}</div>
-                                        </Col>
-                                        <Col md={4}>
-                                            <label htmlFor="">วันที่รายงานขอซื้อ/จ้าง</label>
-                                            <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].report_date)}</div>
-                                        </Col>
-                                        <Col md={4}>
-                                            <label htmlFor="">วิธีการจัดหา</label>
-                                            <div className="text-sm font-thin">{requisition.approvals[0].procuring?.name}</div>
-                                        </Col>
-                                    </Row>
-                                    <Row className="mb-2">
-                                        <Col md={4}>
-                                            <label htmlFor="">วันที่กำหนดส่งมอบ</label>
-                                            <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].deliver_date)}</div>
-                                        </Col>
-                                        <Col md={4}>
-                                            <label htmlFor="">เลขที่คำสั่งแต่งตั้งผู้ตรวจรับ</label>
-                                            <div className="text-sm font-thin">{requisition.approvals[0].directive_no}</div>
-                                        </Col>
-                                        <Col md={4}>
-                                            <label htmlFor="">วันที่คำสั่งแต่งตั้งผู้ตรวจรับ</label>
-                                            <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].directive_date)}</div>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            )}
-
                             <Row className="mb-2">
                                 <Col>
                                     <div className="flex flex-col border p-2 rounded-md">
@@ -306,6 +267,48 @@ const RequisitionDetail = () => {
                                 </Col>
                             </Row>
 
+                            {/* รายงานขอซื้อ/จ้าง (Report and directive) */}
+                            {(requisition.approvals && requisition.approvals.length > 0) && (
+                                <div className="border w-full py-2 px-3 mb-2 rounded-md relative">
+                                    <h3 className="font-bold text-lg mb-1">รายงานขอซื้อ/จ้าง</h3>
+
+                                    <div className="absolute top-1 right-1">
+                                        <button type="button" className="btn btn-light float-right">
+                                            <FaEdit className="text-warning" onClick={() => setShowApprovalForm(true)} />
+                                        </button>
+                                    </div>
+                                    <Row className="mb-2">
+                                        <Col md={4}>
+                                            <label htmlFor="">เลขที่รายงานขอซื้อ/จ้าง</label>
+                                            <div className="text-sm font-thin">{requisition.approvals[0].report_no}</div>
+                                        </Col>
+                                        <Col md={4}>
+                                            <label htmlFor="">วันที่รายงานขอซื้อ/จ้าง</label>
+                                            <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].report_date)}</div>
+                                        </Col>
+                                        <Col md={4}>
+                                            <label htmlFor="">วิธีการจัดหา</label>
+                                            <div className="text-sm font-thin">{requisition.approvals[0].procuring?.name}</div>
+                                        </Col>
+                                    </Row>
+                                    <Row className="mb-2">
+                                        <Col md={4}>
+                                            <label htmlFor="">วันที่กำหนดส่งมอบ</label>
+                                            <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].deliver_date)}</div>
+                                        </Col>
+                                        <Col md={4}>
+                                            <label htmlFor="">เลขที่คำสั่งแต่งตั้งผู้ตรวจรับ</label>
+                                            <div className="text-sm font-thin">{requisition.approvals[0].directive_no}</div>
+                                        </Col>
+                                        <Col md={4}>
+                                            <label htmlFor="">วันที่คำสั่งแต่งตั้งผู้ตรวจรับ</label>
+                                            <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].directive_date)}</div>
+                                        </Col>
+                                    </Row>
+                                </div>
+                            )}
+
+                            {/* รายงานผลการพิจารณา */}
                             {(requisition.approvals && requisition.approvals.length > 0) && (
                                 <Row>
                                     <Col>
