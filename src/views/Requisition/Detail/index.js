@@ -269,78 +269,90 @@ const RequisitionDetail = () => {
 
                             {/* รายงานขอซื้อ/จ้าง (Report and directive) */}
                             {(requisition.approvals && requisition.approvals.length > 0) && (
-                                <div className="border w-full py-2 px-3 mb-2 rounded-md relative">
-                                    <h3 className="font-bold text-lg mb-1">รายงานขอซื้อ/จ้าง</h3>
+                                <div className="border w-full py-2 px-2 mb-2 rounded-md relative">
+                                    <div className="flex flex-row justify-between items-center mb-2">
+                                        <h3 className="font-bold text-lg">รายงานขอซื้อ/จ้าง</h3>
 
-                                    <div className="absolute top-1 right-1">
-                                        <button type="button" className="btn btn-light float-right">
-                                            <FaEdit className="text-warning" onClick={() => setShowApprovalForm(true)} />
-                                        </button>
+                                        {[1, 3].includes(loggedInUser?.permissions[0]?.role_id)
+                                            && (requisition.requisition_type_id === 2 || (requisition.requisition_type_id === 1 && requisition.approvals.length === 0)) && (
+                                            <button type="button" className="btn btn-outline-primary btn-sm mr-1" onClick={() => setShowApprovalForm(true)}>
+                                                <i className="fas fa-save mr-1"></i>
+                                                บันทึกรายงานขอซื้อ/จ้าง
+                                            </button>
+                                        )}
                                     </div>
-                                    <Row className="mb-2">
-                                        <Col md={4}>
-                                            <label htmlFor="">เลขที่รายงานขอซื้อ/จ้าง</label>
-                                            <div className="text-sm font-thin">{requisition.approvals[0].report_no}</div>
-                                        </Col>
-                                        <Col md={4}>
-                                            <label htmlFor="">วันที่รายงานขอซื้อ/จ้าง</label>
-                                            <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].report_date)}</div>
-                                        </Col>
-                                        <Col md={4}>
-                                            <label htmlFor="">วิธีการจัดหา</label>
-                                            <div className="text-sm font-thin">{requisition.approvals[0].procuring?.name}</div>
-                                        </Col>
-                                    </Row>
-                                    <Row className="mb-2">
-                                        <Col md={4}>
-                                            <label htmlFor="">วันที่กำหนดส่งมอบ</label>
-                                            <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].deliver_date)}</div>
-                                        </Col>
-                                        <Col md={4}>
-                                            <label htmlFor="">เลขที่คำสั่งแต่งตั้งผู้ตรวจรับ</label>
-                                            <div className="text-sm font-thin">{requisition.approvals[0].directive_no}</div>
-                                        </Col>
-                                        <Col md={4}>
-                                            <label htmlFor="">วันที่คำสั่งแต่งตั้งผู้ตรวจรับ</label>
-                                            <div className="text-sm font-thin">{toShortTHDate(requisition.approvals[0].directive_date)}</div>
-                                        </Col>
-                                    </Row>
+
+                                    <table className="table table-sm table-bordered mb-2">
+                                        <thead>
+                                            <tr>
+                                                <th className="text-center" style={{ width: '5%' }}>ลำดับ</th>
+                                                <th className="text-center">รายงานขอซื้อ/จ้าง</th>
+                                                <th className="text-center" style={{ width: '45%' }}>รายงานผลการพิจารณา</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {requisition.approvals && requisition.approvals.map((approval, index) => (
+                                                <tr key={approval.id}>
+                                                    <td className="text-sm font-thin text-center">{index + 1}</td>
+                                                    <td className="text-sm font-thin">
+                                                        <div className="flex flex-row justify-between w-full px-2">
+                                                            <div className='border'>
+                                                                <p>วิธีการจัดหา</p>
+                                                                <p className="font-semibold">{approval.procuring?.name}</p>
+                                                                <p className='mt-2'>รายงานขอซื้อ/จ้าง</p>
+                                                                <p className='space-x-2'>
+                                                                    <span>เลขที่ <span className='font-semibold'>{approval.report_no}</span></span>
+                                                                    <span> วันที่ <span className='font-semibold'>{toShortTHDate(approval.report_date)}</span></span>
+                                                                </p>
+                                                            </div>
+                                                            <div className='w-1/2 border'>
+                                                                <p>คำสั่งแต่งตั้งผู้ตรวจรับ</p>
+                                                                <p className='space-x-2'>
+                                                                    <span>เลขที่ <span className='font-semibold'>{approval.directive_no}</span></span>
+                                                                    <span> วันที่ <span className='font-semibold'>{toShortTHDate(approval.directive_date)}</span></span>
+                                                                </p>
+                                                                <p className='mt-2'>วันที่กำหนดส่งมอบ</p>
+                                                                <p><span className='font-semibold'>{toShortTHDate(requisition.approvals[0].deliver_date)}</span></p>
+                                                            </div>
+                                                            <div className='w-[5%] border'>
+                                                                <button type="button" className="btn btn-light">
+                                                                    <FaEdit className="text-warning" onClick={() => setShowApprovalForm(true)} />
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="text-sm font-thin">
+                                                        <div className="flex flex-row justify-end w-full px-2">
+                                                            <div className='border'>
+                                                                {!showConsiderForm ? (
+                                                                    <ConsiderationDetail approval={approval} />
+                                                                ) : (
+                                                                    <div className="p-3">
+                                                                        <ConsiderationForm
+                                                                            approval={(requisition.approvals[0].consider_no && requisition.approvals[0].consider_no !== '') ? requisition.approvals[0] : null}
+                                                                            requisition={requisition}
+                                                                            onSubmitted={() => setShowConsiderForm(false)}
+                                                                        />
+                                                                    </div>
+                                                                    )}
+                                                            </div>
+                                                            <div className='w-[5%] border'>
+                                                                {!showConsiderForm && (
+                                                                    <button type="button" className="btn btn-light">
+                                                                        <FaEdit className="text-warning" onClick={() => setShowConsiderForm(true)} />
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
                                 </div>
                             )}
 
-                            {/* รายงานผลการพิจารณา */}
-                            {(requisition.approvals && requisition.approvals.length > 0) && (
-                                <Row>
-                                    <Col>
-                                        <div className="border w-full py-2 px-3 rounded-md">
-                                            <div className="flex flex-row justify-between items-center">
-                                                <h3 className="font-bold text-lg mb-1">รายงานผลการพิจารณา</h3>
-                                                {!showConsiderForm && (
-                                                    <button type="button" className="btn btn-light">
-                                                        <FaEdit className="text-warning" onClick={() => setShowConsiderForm(true)} />
-                                                    </button>
-                                                )}
-                                                
-                                                {(showConsiderForm && (requisition.approvals[0].consider_no && requisition.approvals[0].consider_no !== '')) && (
-                                                    <span class="badge rounded-pill bg-warning text-dark">แก้ไขรายงาน</span>
-                                                )}
-                                            </div>
-
-                                            {!showConsiderForm
-                                                ? (
-                                                    <ConsiderationDetail approval={requisition.approvals[0]} />
-                                                ) : (
-                                                    <ConsiderationForm
-                                                        approval={(requisition.approvals[0].consider_no && requisition.approvals[0].consider_no !== '') ? requisition.approvals[0] : null}
-                                                        requisition={requisition}
-                                                        onSubmitted={() => setShowConsiderForm(false)}
-                                                    />
-                                                )}
-                                        </div>
-                                    </Col>
-                                </Row>
-                            )}
-
+                            {/* Actions */}
                             <Row className="mt-3">
                                 <Col>
                                     <div className="flex flex-row justify-center">
@@ -361,7 +373,7 @@ const RequisitionDetail = () => {
 
                                         {[1, 3].includes(loggedInUser?.permissions[0]?.role_id) && (
                                             <>
-                                                {(requisition.approvals && requisition.approvals.length > 0) ? (
+                                                {(requisition.approvals && requisition.approvals.length > 0) && (
                                                     <>
                                                         <DropdownButton title="รายงานขอซื้อ/จ้าง" btnColor="primary" cssClass="mr-1">
                                                             <DropdownItem>
@@ -426,11 +438,6 @@ const RequisitionDetail = () => {
                                                             </>
                                                         )}
                                                     </>
-                                                ) : (
-                                                    <button type="button" className="btn btn-outline-primary btn-sm mr-1" onClick={() => setShowApprovalForm(true)}>
-                                                        <i className="fas fa-save mr-1"></i>
-                                                        บันทึกรายงานขอซื้อ/จ้าง
-                                                    </button>
                                                 )}
                                             </>
                                         )}
