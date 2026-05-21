@@ -27,7 +27,7 @@ const ConsiderationDetail = ({ approval }) => {
                 <label htmlFor="">ผู้ขาย/ผู้จัดจำหน่าย</label>
                 <div className="text-sm">
                     <span className='font-semibold'>{approval.supplier?.name}</span>
-                    <span className="ml-2"><b>เลขประจำตัวผู้เสียภาษี</b> <span className=" text-blue-600 font-semibold">{approval.supplier?.tax_no}</span></span>
+                    <span className="ml-2"><b>เลขประจำตัวผู้เสียภาษี</b> <span className="font-semibold">{approval.supplier?.tax_no}</span></span>
                 </div>
             </Col>
         </Row>

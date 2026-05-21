@@ -272,58 +272,67 @@ const RequisitionDetail = () => {
                             </Row>
 
                             {/* รายงานขอซื้อ/จ้าง (Report and directive) */}
-                            {(requisition.approvals && requisition.approvals.length > 0) && (
-                                <div className="border w-full py-2 px-2 mb-2 rounded-md relative">
-                                    <div className="flex flex-row justify-between items-center mb-2">
-                                        <h3 className="font-bold text-lg">รายงานขอซื้อ/จ้าง</h3>
+                            <div className="border w-full py-2 px-2 mb-2 rounded-md relative">
+                                <div className="flex flex-row justify-between items-center mb-2">
+                                    <h3 className="font-bold text-lg">รายงานขอซื้อ/จ้าง</h3>
 
-                                        {[1, 3].includes(loggedInUser?.permissions[0]?.role_id)
-                                            && (requisition.requisition_type_id === 2 || (requisition.requisition_type_id === 1 && requisition.approvals.length === 0)) && (
-                                            <button type="button" className="btn btn-outline-primary btn-sm mr-1" onClick={() => setShowApprovalForm(true)}>
-                                                <i class="fas fa-plus-square mr-1"></i>
-                                                สร้างรายงานขอซื้อ/จ้าง
-                                            </button>
-                                        )}
-                                    </div>
+                                    {[1, 3].includes(loggedInUser?.permissions[0]?.role_id)
+                                        && (requisition.requisition_type_id === 2 || (requisition.requisition_type_id === 1 && requisition.approvals.length === 0)) && (
+                                        <button type="button" className="btn btn-outline-primary btn-sm mr-1" onClick={() => setShowApprovalForm(true)}>
+                                            <i class="fas fa-plus-square mr-1"></i>
+                                            สร้างรายงานขอซื้อ/จ้าง
+                                        </button>
+                                    )}
+                                </div>
 
-                                    <table className="table table-sm table-bordered mb-2">
-                                        <thead>
+                                <table className="table table-sm table-bordered mb-2">
+                                    <thead>
+                                        <tr>
+                                            <th className="text-center" style={{ width: '5%' }}>ลำดับ</th>
+                                            <th className="text-center">รายงานขอซื้อ/จ้าง</th>
+                                            <th className="text-center" style={{ width: '50%' }}>รายงานผลการพิจารณา</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {(!requisition.approvals || requisition.approvals.length === 0) && (
                                             <tr>
-                                                <th className="text-center" style={{ width: '5%' }}>ลำดับ</th>
-                                                <th className="text-center">รายงานขอซื้อ/จ้าง</th>
-                                                <th className="text-center" style={{ width: '50%' }}>รายงานผลการพิจารณา</th>
+                                                <td className="text-sm text-center font-thin py-2" colSpan={3}>
+                                                    <span className='text-red-500'>-- ยังไม่มีรายการ --</span>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            {requisition.approvals && requisition.approvals.map((approval, index) => (
-                                                <tr key={approval.id}>
-                                                    <td className="text-sm font-thin text-center">{index + 1}</td>
-                                                    <td className="text-sm font-thin">
-                                                        <div className="flex flex-row justify-between w-full px-2">
-                                                            <div className='w-1/2'>
-                                                                <p>วิธีการจัดหา</p>
-                                                                <p className="font-semibold">{approval.procuring?.name}</p>
-                                                                <p className='mt-2'>รายงานขอซื้อ/จ้าง</p>
-                                                                <p className='space-x-2'>
-                                                                    <span>เลขที่ <span className='font-semibold'>{approval.report_no}</span></span>
-                                                                    <span> วันที่ <span className='font-semibold'>{toShortTHDate(approval.report_date)}</span></span>
-                                                                </p>
-                                                            </div>
-                                                            <div className='w-1/2'>
-                                                                <p>คำสั่งแต่งตั้งผู้ตรวจรับ</p>
-                                                                <p className='space-x-2'>
-                                                                    <span>เลขที่ <span className='font-semibold'>{approval.directive_no}</span></span>
-                                                                    <span> วันที่ <span className='font-semibold'>{toShortTHDate(approval.directive_date)}</span></span>
-                                                                </p>
-                                                                <p className='mt-2'>วันที่กำหนดส่งมอบ</p>
-                                                                <p><span className='font-semibold'>{toShortTHDate(requisition.approvals[0].deliver_date)}</span></p>
-                                                            </div>
-                                                            <div className='w-[5%]'>
-                                                                <button type="button" className="btn btn-light">
-                                                                    <FaEdit className="text-warning" onClick={() => setShowApprovalForm(true)} />
-                                                                </button>
-                                                            </div>
+                                        )}
+
+                                        {requisition.approvals && requisition.approvals.map((approval, index) => (
+                                            <tr key={approval.id}>
+                                                <td className="text-sm font-thin text-center">{index + 1}</td>
+                                                <td className="text-sm font-thin">
+                                                    <div className="flex flex-row justify-between w-full px-2">
+                                                        <div className='w-1/2'>
+                                                            <p>วิธีการจัดหา</p>
+                                                            <p className="font-semibold">{approval.procuring?.name}</p>
+                                                            <p className='mt-2'>รายงานขอซื้อ/จ้าง</p>
+                                                            <p className='space-x-2'>
+                                                                <span>เลขที่ <span className='font-semibold'>{approval.report_no}</span></span>
+                                                                <span> วันที่ <span className='font-semibold'>{toShortTHDate(approval.report_date)}</span></span>
+                                                            </p>
                                                         </div>
+                                                        <div className='w-1/2'>
+                                                            <p>คำสั่งแต่งตั้งผู้ตรวจรับ</p>
+                                                            <p className='space-x-2'>
+                                                                <span>เลขที่ <span className='font-semibold'>{approval.directive_no}</span></span>
+                                                                <span> วันที่ <span className='font-semibold'>{toShortTHDate(approval.directive_date)}</span></span>
+                                                            </p>
+                                                            <p className='mt-2'>วันที่กำหนดส่งมอบ</p>
+                                                            <p><span className='font-semibold'>{toShortTHDate(requisition.approvals[0].deliver_date)}</span></p>
+                                                        </div>
+                                                        <div className='w-[5%]'>
+                                                            <button type="button" className="btn btn-light">
+                                                                <FaEdit className="text-warning" onClick={() => setShowApprovalForm(true)} />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    {requisition.requisition_type_id === 2 && (
                                                         <div className='flex flex-row gap-1 px-2 my-2'>
                                                             <DropdownButton title="รายงานขอซื้อ/จ้าง" btnColor="primary" cssClass="mr-1">
                                                                 <DropdownItem>
@@ -355,77 +364,77 @@ const RequisitionDetail = () => {
                                                                 </DropdownItem>
                                                             </DropdownButton>
                                                         </div>
-                                                    </td>
-                                                    <td className="text-sm font-thin">
-                                                        <div className="flex flex-row justify-end w-full px-2">
-                                                            <div>
-                                                                {approval.consider_no ? !showConsiderForm ? <ConsiderationDetail approval={approval} /> : (
-                                                                    <div className="p-3">
-                                                                        <ConsiderationForm
-                                                                            approval={(approval.consider_no && approval.consider_no !== '') ? approval : null}
-                                                                            requisition={requisition}
-                                                                            onSubmitted={() => setShowConsiderForm(false)}
-                                                                            onCancel={() => setShowConsiderForm(false)}
-                                                                        />
-                                                                    </div>
-                                                                ) : (
-                                                                    <div className="p-3">
-                                                                        <ConsiderationForm
-                                                                            approval={(approval.consider_no && approval.consider_no !== '') ? approval : null}
-                                                                            requisition={requisition}
-                                                                            onSubmitted={() => setShowConsiderForm(false)}
-                                                                        />
-                                                                    </div>
-                                                                    )}
-                                                            </div>
-                                                            <div className='w-[5%]'>
-                                                                {approval.consider_no && (
-                                                                    <button type="button" className="btn btn-light">
-                                                                        <FaEdit className="text-warning" onClick={() => setShowConsiderForm(true)} />
-                                                                    </button>
+                                                    )}
+                                                </td>
+                                                <td className="text-sm font-thin">
+                                                    <div className="flex flex-row justify-end w-full px-2">
+                                                        <div>
+                                                            {approval.consider_no ? !showConsiderForm ? <ConsiderationDetail approval={approval} /> : (
+                                                                <div className="p-3">
+                                                                    <ConsiderationForm
+                                                                        approval={(approval.consider_no && approval.consider_no !== '') ? approval : null}
+                                                                        requisition={requisition}
+                                                                        onSubmitted={() => setShowConsiderForm(false)}
+                                                                        onCancel={() => setShowConsiderForm(false)}
+                                                                    />
+                                                                </div>
+                                                            ) : (
+                                                                <div className="p-3">
+                                                                    <ConsiderationForm
+                                                                        approval={(approval.consider_no && approval.consider_no !== '') ? approval : null}
+                                                                        requisition={requisition}
+                                                                        onSubmitted={() => setShowConsiderForm(false)}
+                                                                    />
+                                                                </div>
                                                                 )}
-                                                            </div>
                                                         </div>
+                                                        <div className='w-[5%]'>
+                                                            {approval.consider_no && (
+                                                                <button type="button" className="btn btn-light">
+                                                                    <FaEdit className="text-warning" onClick={() => setShowConsiderForm(true)} />
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                    </div>
 
-                                                        {(approval.consider_no && !showConsiderForm) && (
-                                                            <div className='flex flex-row gap-1 px-2 my-2'>
-                                                                <DropdownButton title="รายงานผลการพิจารณา" btnColor="primary" cssClass="mr-1">
-                                                                    <DropdownItem>
-                                                                        <Link to={`/preview/requisition/${id}/consider?approvalId=${approval.id}`} target="_blank" className="text-success">
-                                                                            <i className="fas fa-print mr-1"></i>
-                                                                            พิมพ์รายงาน
-                                                                        </Link>
-                                                                    </DropdownItem>
-                                                                    <DropdownItem>
-                                                                        <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/consider`} target="_blank" className="text-primary">
-                                                                            <i className="far fa-file-word mr-1"></i>
-                                                                            ดาวน์โหลดรายงาน
-                                                                        </a>
-                                                                    </DropdownItem>
-                                                                </DropdownButton>
-                                                                <DropdownButton title="ประกาศผลผู้ชนะ" btnColor="primary" cssClass="mr-1">
-                                                                    <DropdownItem>
-                                                                        <Link to={`/preview/requisition/${id}/notice?approvalId=${approval.id}`} target="_blank" className="text-success">
-                                                                            <i className="fas fa-print mr-1"></i>
-                                                                            พิมพ์ประกาศ
-                                                                        </Link>
-                                                                    </DropdownItem>
-                                                                    <DropdownItem>
-                                                                        <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/notice`} target="_blank" className="text-primary">
-                                                                            <i className="far fa-file-word mr-1"></i>
-                                                                            ดาวน์โหลดประกาศ
-                                                                        </a>
-                                                                    </DropdownItem>
-                                                                </DropdownButton>
-                                                            </div>
-                                                        )}
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            )}
+                                                    {(requisition.requisition_type_id === 2 && approval.consider_no && !showConsiderForm) && (
+                                                        <div className='flex flex-row gap-1 px-2 my-2'>
+                                                            <DropdownButton title="รายงานผลการพิจารณา" btnColor="primary" cssClass="mr-1">
+                                                                <DropdownItem>
+                                                                    <Link to={`/preview/requisition/${id}/consider?approvalId=${approval.id}`} target="_blank" className="text-success">
+                                                                        <i className="fas fa-print mr-1"></i>
+                                                                        พิมพ์รายงาน
+                                                                    </Link>
+                                                                </DropdownItem>
+                                                                <DropdownItem>
+                                                                    <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/consider`} target="_blank" className="text-primary">
+                                                                        <i className="far fa-file-word mr-1"></i>
+                                                                        ดาวน์โหลดรายงาน
+                                                                    </a>
+                                                                </DropdownItem>
+                                                            </DropdownButton>
+                                                            <DropdownButton title="ประกาศผลผู้ชนะ" btnColor="primary" cssClass="mr-1">
+                                                                <DropdownItem>
+                                                                    <Link to={`/preview/requisition/${id}/notice?approvalId=${approval.id}`} target="_blank" className="text-success">
+                                                                        <i className="fas fa-print mr-1"></i>
+                                                                        พิมพ์ประกาศ
+                                                                    </Link>
+                                                                </DropdownItem>
+                                                                <DropdownItem>
+                                                                    <a href={`${process.env.REACT_APP_API_URL}/requisitions/${id}/notice`} target="_blank" className="text-primary">
+                                                                        <i className="far fa-file-word mr-1"></i>
+                                                                        ดาวน์โหลดประกาศ
+                                                                    </a>
+                                                                </DropdownItem>
+                                                            </DropdownButton>
+                                                        </div>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
 
                             {/* Actions */}
                             <Row className="mt-3">
@@ -452,7 +461,7 @@ const RequisitionDetail = () => {
                                                     <>
                                                         <DropdownButton title="รายงานขอซื้อ/จ้าง" btnColor="primary" cssClass="mr-1">
                                                             <DropdownItem>
-                                                                <Link to={`/preview/requisition/${id}/report`} target="_blank" className="text-success">
+                                                                <Link to={`/preview/requisition/${id}/report?approvalId=${requisition.approvals[0].id}`} target="_blank" className="text-success">
                                                                     <i className="fas fa-print mr-1"></i>
                                                                     พิมพ์รายงาน
                                                                 </Link>
@@ -467,7 +476,7 @@ const RequisitionDetail = () => {
 
                                                         <DropdownButton title="คำสั่งแต่งตั้ง" btnColor="primary" cssClass="mr-1">
                                                             <DropdownItem>
-                                                                <Link to={`/preview/requisition/${id}/committee`} target="_blank" className="text-success">
+                                                                <Link to={`/preview/requisition/${id}/committee?approvalId=${requisition.approvals[0].id}`} target="_blank" className="text-success">
                                                                     <i className="fas fa-print mr-1"></i>
                                                                     พิมพ์คำสั่ง
                                                                 </Link>
@@ -484,7 +493,7 @@ const RequisitionDetail = () => {
                                                             <>
                                                                 <DropdownButton title="รายงานผลการพิจารณา" btnColor="primary" cssClass="mr-1">
                                                                     <DropdownItem>
-                                                                        <Link to={`/preview/requisition/${id}/consider`} target="_blank" className="text-success">
+                                                                        <Link to={`/preview/requisition/${id}/consider?approvalId=${requisition.approvals[0].id}`} target="_blank" className="text-success">
                                                                             <i className="fas fa-print mr-1"></i>
                                                                             พิมพ์รายงาน
                                                                         </Link>
@@ -498,7 +507,7 @@ const RequisitionDetail = () => {
                                                                 </DropdownButton>
                                                                 <DropdownButton title="ประกาศผลผู้ชนะ" btnColor="primary" cssClass="mr-1">
                                                                     <DropdownItem>
-                                                                        <Link to={`/preview/requisition/${id}/notice`} target="_blank" className="text-success">
+                                                                        <Link to={`/preview/requisition/${id}/notice?approvalId=${requisition.approvals[0].id}`} target="_blank" className="text-success">
                                                                             <i className="fas fa-print mr-1"></i>
                                                                             พิมพ์ประกาศ
                                                                         </Link>
