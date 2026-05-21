@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import moment from 'moment'
 import { getRequisition } from '../../../features/slices/requisition/requisitionSlice'
 import { toLongTHDate, currency } from '../../../utils'
@@ -9,8 +9,11 @@ import '../Preview.css'
 
 const RequisitionConsideration = () => {
     const { id } = useParams();
+    const [searchParams] = useSearchParams();
+    const approvalId = searchParams.get('approvalId');
     const dispatch = useDispatch();
     const { requisition } = useSelector(state => state.requisition);
+    const approval = useMemo(() => requisition?.approvals.find(app => app.id === parseInt(approvalId)), [requisition, approvalId]);
 
     useEffect(() => {
         if (id) dispatch(getRequisition({ id }));
@@ -27,7 +30,8 @@ const RequisitionConsideration = () => {
                         </div>
                         <h1>บันทึกข้อความ</h1>
                     </div>
-                    {requisition && (
+
+                    {(requisition && approval) && (
                         <div className="memo-box">
                             <div className="memo-header">
                                 <div className="memo-header-text">
@@ -40,13 +44,13 @@ const RequisitionConsideration = () => {
                                     <div>
                                         <h3>ที่</h3>
                                         <div className="memo-header-value">
-                                            <span>{requisition.approvals[0].consider_no}</span>
+                                            <span>{approval.consider_no}</span>
                                         </div>
                                     </div>
                                     <div>
                                         <h3>วันที่</h3>
                                         <div className="memo-header-value">
-                                            <span>{toLongTHDate(moment(requisition.approvals[0].consider_date).toDate())}</span>
+                                            <span>{toLongTHDate(moment(approval.consider_date).toDate())}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -80,7 +84,7 @@ const RequisitionConsideration = () => {
                                         </thead>
                                         <tbody>
                                             {requisition.details.map((data, index) => (
-                                                <tr>
+                                                <tr key={data.id}>
                                                     <td className="border border-slate-300 text-center">{index+1}</td>
                                                     <td className="border border-slate-300 text-left pl-1">
                                                         {data.item?.name}
@@ -91,7 +95,7 @@ const RequisitionConsideration = () => {
                                                         {/* {requisition.item_count} รายการ */}
                                                     </td>
                                                     <td className="border border-slate-300 text-left pl-1 text-[14pt]">
-                                                        {requisition.approvals[0].supplier?.name}
+                                                        {approval.supplier?.name}
                                                     </td>
                                                     <td className="border border-slate-300 text-right">
                                                         {currency.format(data.total)}
@@ -103,11 +107,11 @@ const RequisitionConsideration = () => {
                                                     </td>
                                                 </tr>
                                             ))}
+                                            <tr>
+                                                <td className="text-center" colSpan={5}>รวมเป็นเงินทั้งสิ้น ({ThaiNumberToText(requisition.net_total)})</td>
+                                                <td className="text-right">{currency.format(requisition.net_total)}</td>
+                                            </tr>
                                         </tbody>
-                                        <tr>
-                                            <td className="text-center" colSpan={5}>รวมเป็นเงินทั้งสิ้น ({ThaiNumberToText(requisition.net_total)})</td>
-                                            <td className="text-right">{currency.format(requisition.net_total)}</td>
-                                        </tr>
                                     </table>
                                     <div className="indent-0 text-[12pt] mb-2">
                                         * ราคาที่เสนอ และราคาที่ตกลงซื้อหรือจ้าง เป็นราคารวมภาษีมูลค่าเพิ่มและภาษีอื่น ค่าขนส่ง ค่าจดทะเบียน และค่าใช้จ่ายอื่นๆ ทั้งปวง

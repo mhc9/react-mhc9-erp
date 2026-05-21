@@ -280,8 +280,8 @@ const RequisitionDetail = () => {
                                         {[1, 3].includes(loggedInUser?.permissions[0]?.role_id)
                                             && (requisition.requisition_type_id === 2 || (requisition.requisition_type_id === 1 && requisition.approvals.length === 0)) && (
                                             <button type="button" className="btn btn-outline-primary btn-sm mr-1" onClick={() => setShowApprovalForm(true)}>
-                                                <i className="fas fa-save mr-1"></i>
-                                                บันทึกรายงานขอซื้อ/จ้าง
+                                                <i class="fas fa-plus-square mr-1"></i>
+                                                สร้างรายงานขอซื้อ/จ้าง
                                             </button>
                                         )}
                                     </div>
@@ -324,7 +324,7 @@ const RequisitionDetail = () => {
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                        <div className='flex flex-row gap-2 px-2 my-2'>
+                                                        <div className='flex flex-row gap-1 px-2 my-2'>
                                                             <DropdownButton title="รายงานขอซื้อ/จ้าง" btnColor="primary" cssClass="mr-1">
                                                                 <DropdownItem>
                                                                     <Link to={`/preview/requisition/${id}/report?approvalId=${approval.id}`} target="_blank" className="text-success">
@@ -388,7 +388,7 @@ const RequisitionDetail = () => {
                                                         </div>
 
                                                         {(approval.consider_no && !showConsiderForm) && (
-                                                            <div className='flex flex-row gap-2 px-2 my-2'>
+                                                            <div className='flex flex-row gap-1 px-2 my-2'>
                                                                 <DropdownButton title="รายงานผลการพิจารณา" btnColor="primary" cssClass="mr-1">
                                                                     <DropdownItem>
                                                                         <Link to={`/preview/requisition/${id}/consider?approvalId=${approval.id}`} target="_blank" className="text-success">

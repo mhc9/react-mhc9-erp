@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import moment from 'moment'
 import { getRequisition } from '../../../features/slices/requisition/requisitionSlice'
 import { toLongTHDate, toLongTHDateWithBE, currency } from '../../../utils'
@@ -9,8 +9,11 @@ import '../Preview.css'
 
 const RequisitionNotice = () => {
     const { id } = useParams();
+    const [searchParams] = useSearchParams();
+    const approvalId = searchParams.get('approvalId');
     const dispatch = useDispatch();
     const { requisition } = useSelector(state => state.requisition);
+    const approval = useMemo(() => requisition?.approvals.find(app => app.id === parseInt(approvalId)), [requisition, approvalId]);
 
     useEffect(() => {
         if (id) dispatch(getRequisition({ id }));
@@ -27,7 +30,7 @@ const RequisitionNotice = () => {
                         </div>
                     </div>
 
-                    {requisition && (
+                    {(requisition && approval) && (
                         <div className="memo-box">
                             <div className="flex flex-col justify-center items-center">
                                 <h3>ประกาศศูนย์สุขภาพจิตที่ ๙ กรมสุขภาพจิต</h3>
@@ -35,7 +38,7 @@ const RequisitionNotice = () => {
                                     <span className="m-0">เรื่อง</span>
                                     <span className="ml-2">
                                         ประกาศผู้ชนะการเสนอราคา {((requisition.order_type_id == 1) ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc)}&nbsp;
-                                        จำนวน {requisition.item_count} รายการ โดย{requisition.approvals[0]?.procuring?.name}
+                                        จำนวน {requisition.item_count} รายการ โดย{approval.procuring?.name}
                                     </span>
                                 </div>
                                 <div className="flex my-2"><hr className="w-[180px]" /></div>
@@ -43,18 +46,18 @@ const RequisitionNotice = () => {
                             <div className="memo-content">
                                 <div className="memo-paragraph">
                                     ตามที่ ศูนย์สุขภาพจิตที่ ๙ กรมสุขภาพจิต ได้มีโครงการ{((requisition.order_type_id == 1) ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc)}&nbsp;
-                                    จำนวน {requisition.item_count} รายการ โดย{requisition.approvals[0]?.procuring?.name} นั้น
+                                    จำนวน {requisition.item_count} รายการ โดย{approval.procuring?.name} นั้น
                                 </div>
                                 <div className="memo-paragraph mt-[2.5cm]">
                                     {((requisition.order_type_id == 1) ? 'ซื้อ' + requisition.category?.name : requisition.contract_desc)}&nbsp;
                                     จำนวน {requisition.item_count} รายการ&nbsp;
-                                    ผู้ได้รับการคัดเลือก ได้แก่ {requisition.approvals[0]?.supplier?.name}&nbsp;
+                                    ผู้ได้รับการคัดเลือก ได้แก่ {approval.supplier?.name}&nbsp;
                                     โดยเสนอราคา เป็นเงินทั้งสิ้น  {currency.format(requisition.net_total)} บาท ({ThaiNumberToText(requisition.net_total)})
                                     รวมภาษีมูลค่าเพิ่มและภาษีอื่น ค่าขนส่ง ค่าจดทะเบียน และค่าใช้จ่ายอื่นๆ ทั้งปวง
                                 </div>
                                 <div className="memo-paragraph mt-2">
                                     <p className="indent-[4cm]">
-                                        ประกาศ ณ วันที่ <span className="ml-2">{toLongTHDateWithBE(requisition.approvals[0]?.notice_date)}</span>
+                                        ประกาศ ณ วันที่ <span className="ml-2">{toLongTHDateWithBE(approval.notice_date)}</span>
                                     </p>
                                 </div>
 
