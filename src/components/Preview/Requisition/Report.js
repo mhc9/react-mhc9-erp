@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import moment from 'moment'
 import { getRequisition } from '../../../features/slices/requisition/requisitionSlice'
 import { toLongTHDate, currency } from '../../../utils'
@@ -9,12 +9,17 @@ import '../Preview.css'
 
 const RequisitionReport = () => {
     const { id } = useParams();
+    const [searchParams] = useSearchParams();
+    const approvalId = searchParams.get('approvalId');
     const dispatch = useDispatch();
     const { requisition } = useSelector(state => state.requisition);
 
     useEffect(() => {
         if (id) dispatch(getRequisition({ id }));
     }, [dispatch, id]);
+
+    console.log('approvalId : ' + approvalId);
+    
 
     return (
         <>

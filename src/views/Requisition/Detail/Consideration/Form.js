@@ -17,7 +17,7 @@ const approvalSchema = Yup.object().shape({
     supplier_id: Yup.string().required('กรุณาเลือกผู้ขาย/ผู้จัดจำหน่าย')
 });
 
-const ConsiderationForm = ({ approval, requisition, onSubmitted }) => {
+const ConsiderationForm = ({ approval, requisition, onSubmitted, onCancel }) => {
     const dispatch = useDispatch();
     const [showSupplierModal, setShowSupplierModal] = useState(false);
     const [selectedSupplier, setSelectedSupplier] = useState(null);
@@ -141,7 +141,7 @@ const ConsiderationForm = ({ approval, requisition, onSubmitted }) => {
                                     บันทึก
                                 </button>
                                 {approval?.consider_no && (
-                                    <button type="button" className="btn btn-outline-danger btn-sm ml-2">
+                                    <button type="button" className="btn btn-outline-danger btn-sm ml-2" onClick={onCancel}>
                                         <i className="fas fa-times mr-1"></i>
                                         ยกเลิก
                                     </button>
