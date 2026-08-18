@@ -23,3 +23,14 @@ yarn-debug.log*
 yarn-error.log*
 
 package-lock.json
+
+# AI agent configuration
+.agents/
+.claude/
+.codex/
+.cursor/
+.gemini/
+skills-lock.json
+
+# Documentation
+/docs
