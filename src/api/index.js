@@ -1,5 +1,6 @@
 import axios from "axios";
 
+const ROOT_PATH = process.env.REACT_APP_ROOT_PATH;
 const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL
 });
@@ -18,12 +19,12 @@ api.interceptors.response.use((response) => {
     return response;
 }, (error) => {
     if (error.response.status === 401) {
-        if (window.location.pathname === "/login") {
+        if (['/login', '/erp/login'].includes(window.location.pathname)) {
             return Promise.reject(error);
         }
 
         localStorage.removeItem("access_token");
-        return window.location.href = "/login";
+        window.location.href = `${ROOT_PATH}/login`;
     } else {
         return Promise.reject(error);
     }
