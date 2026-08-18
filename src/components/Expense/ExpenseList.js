@@ -83,7 +83,7 @@ const ExpenseList = ({ items, courses, showButtons=true, edittingItem, onEditIte
                                 </tr>
                                 {items && items.map((data, index) => (
                                     <Fragment key={data.id}>
-                                        {(data.course_id === course.id && !data.removed) && renderExpenseRow(data, ++seq)}
+                                        {(parseInt(data.course_id) === course.id && !data.removed) && renderExpenseRow(data, ++seq)}
                                     </Fragment>
                                 ))}
                             </Fragment>
