@@ -69,7 +69,7 @@ const refundSchema = Yup.object().shape({
         'Compare balance and budget_total',
         'จำนวนงบประมาณและยอดเงินคืน/เบิกเพิ่มไม่เท่ากัน',
         (val, context) => {
-            return val <= 0 || (val > 0 && parseFloat(val) === parseFloat(currencyToNumber(context.parent.budget_total)))
+            return val <= 0 || val > 0 && (parseFloat(parseFloat(currencyToNumber(val)).toFixed(2)) === parseFloat(currencyToNumber(context.parent.budget_total)))
         },
     ),
     items: Yup.mixed().test({
