@@ -2,8 +2,8 @@ import React from 'react'
 
 const Footer = () => {
     return (
-        <footer style={{ background: '#0a0b0c' }}>
-            <div className="p-4 text-white">
+        <footer className="bg-slate-900 border-t border-slate-800">
+            <div className="p-4 text-slate-300">
                 <h3>
                     ©2020 ศูนย์สุขภาพจิตที่ 9 All Rights Reserved | โดย 
                     <a href="https://www.query-studio.com" target="_blank" rel="noreferrer" className="ml-1">
