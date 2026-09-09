@@ -11,7 +11,7 @@ const Navbar = ({ showSidebar, toggleSidebar, onLogout }) => {
     const location = useLocation();
 
     return (
-        <nav className="navbar h-[72px] border bg-slate-700 flex justify-between items-center px-5 text-white">
+        <nav className="navbar h-[72px] bg-slate-700 flex justify-between items-center px-5 text-white">
             <div className="flex justify-between w-full">
                 {/* brand section */}
                 <div className="flex items-center gap-3 sm:w-3/12 md:w-1/2 lg:w-4/12">
