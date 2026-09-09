@@ -5,7 +5,7 @@ import { Breadcrumb } from 'react-bootstrap'
 import { getBudget } from '../../../features/slices/budget/budgetSlice'
 import { getAllocation, resetSuccess } from '../../../features/slices/budget-allocation/budgetAllocationSlice'
 import AllocationForm from './Form'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import { toast } from 'react-toastify'
 
 const EditAllocation = () => {

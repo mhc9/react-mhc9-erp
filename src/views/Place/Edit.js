@@ -5,7 +5,7 @@ import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { getPlace, resetSuccess } from '../../features/slices/place/placeSlice'
 import PlaceForm from './Form'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 
 const EditPlace = () => {
     const { id } = useParams();
@@ -37,7 +37,7 @@ const EditPlace = () => {
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/place' }}>รายการสถานที่</Breadcrumb.Item>
                 <Breadcrumb.Item active>แก้ไขสถานที่</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl">แก้ไขสถานที่</h2>
 

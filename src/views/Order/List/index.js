@@ -8,14 +8,14 @@ import { ConfirmToast } from 'react-confirm-toast'
 import { toast } from 'react-toastify'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import { getOrders, destroy, resetDeleted } from '../../../features/slices/order/orderSlice'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import Pagination from '../../../components/Pagination'
 import OrderFilteringInputs from '../../../components/Order/FilteringInputs'
 
 const OrderList = () => {
     const [cookies] = useCookies();
     const initialFilters = {
-        year:  cookies.budgetYear,
+        year: cookies.budgetYear,
         po_no: '',
         po_date: '',
         supplier: '',
@@ -65,7 +65,7 @@ const OrderList = () => {
                 <Breadcrumb.Item active>จัดซื้อจัดจ้าง</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการใบสั่งซื้อ/จ้าง</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการใบสั่งซื้อ/จ้าง</h2>
@@ -107,7 +107,7 @@ const OrderList = () => {
                             )}
                             {!isLoading && orders && orders.map((order, index) => (
                                 <tr key={order.id} className="font-thin">
-                                    <td className="text-center">{pager && pager.from+index}</td>
+                                    <td className="text-center">{pager && pager.from + index}</td>
                                     <td>
                                         <p>เลขที่: <span className="badge rounded-pill text-bg-primary">{order.po_no}</span></p>
                                         <p>วันที่: <span className="badge rounded-pill text-bg-primary">{toShortTHDate(order.po_date)}</span></p>

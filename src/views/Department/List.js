@@ -4,7 +4,7 @@ import { AiFillBulb } from 'react-icons/ai'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { Pagination } from 'react-bootstrap'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 import { destroy } from '../../features/slices/department/departmentSlice'
 
 const DepartmentList = ({ departments, pager, onEditting, onPageClick }) => {
@@ -36,7 +36,7 @@ const DepartmentList = ({ departments, pager, onEditting, onPageClick }) => {
                     )}
                     {(!isLoading && departments) && departments.map((dep, index) => (
                         <tr key={dep.id}>
-                            <td className="text-center">{index+pager.from}</td>
+                            <td className="text-center">{index + pager.from}</td>
                             <td>{dep.name}</td>
                             <td className="text-center">
                                 {dep.status === 1 ? (

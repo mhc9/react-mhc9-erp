@@ -8,7 +8,7 @@ import { getTask, resetSuccess } from '../../features/slices/task/taskSlice'
 import { toShortTHDate } from '../../utils'
 import TaskHandlingForm from './Handling/Form'
 import TaskHandlingDetail from './Handling/Detail'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 
 const TaskDetail = () => {
     const { id } = useParams();
@@ -38,7 +38,7 @@ const TaskDetail = () => {
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/task' }}>รายการแจ้งปัญหา/แจ้งซ่อม</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายละเอียดแจ้งปัญหา/แจ้งซ่อม : {id}</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl font-bold flex flex-row items-center">
                     <FaEdit className='text-warning' />
@@ -63,16 +63,16 @@ const TaskDetail = () => {
                                     </div>
                                 </Col>
                                 <Col md={4}>
-                                        <label>ประเภทปัญหา</label>
-                                        <div className="form-control text-sm font-thin">
-                                            {task.group?.type?.name}
-                                        </div>
+                                    <label>ประเภทปัญหา</label>
+                                    <div className="form-control text-sm font-thin">
+                                        {task.group?.type?.name}
+                                    </div>
                                 </Col>
                                 <Col md={4}>
-                                        <label>กลุ่มอาการ</label>
-                                        <div className="form-control text-sm font-thin">
-                                            {task.group?.name}    
-                                        </div>
+                                    <label>กลุ่มอาการ</label>
+                                    <div className="form-control text-sm font-thin">
+                                        {task.group?.name}
+                                    </div>
                                 </Col>
                             </Row>
                             <Row className="mb-2">
@@ -95,7 +95,7 @@ const TaskDetail = () => {
                                     </div>
                                 </Col>
                                 <Col>
-                                    <label>ความเร่งด่วน</label>                                    
+                                    <label>ความเร่งด่วน</label>
                                     <div className="form-control text-sm font-thin">
                                         {task.priority_id === 1 && <span className="badge rounded-pill text-bg-success">ปกติ</span>}
                                         {task.priority_id === 2 && <span className="badge rounded-pill text-bg-info">ด่วน</span>}
@@ -138,13 +138,13 @@ const TaskDetail = () => {
                                         )}
                                         {task.assets && task.assets.map((asset, index) => (
                                             <tr key={asset.id} className="font-thin">
-                                                <td className="text-center">{index+1}</td>
+                                                <td className="text-center">{index + 1}</td>
                                                 <td className="text-center">{asset.asset?.asset_no}</td>
                                                 <td>
                                                     <p className="font-semibold">{asset.asset?.category?.name}</p>
                                                     {asset.asset?.name}
                                                     <span className="ml-1"><b>ยี่ห้อ</b> {asset.asset?.brand?.name}</span>
-                                                    <span className="ml-1"><b>ปีที่ซื้อ</b> {asset.asset.first_year ? asset.asset.first_year : '-'}</span> 
+                                                    <span className="ml-1"><b>ปีที่ซื้อ</b> {asset.asset.first_year ? asset.asset.first_year : '-'}</span>
                                                 </td>
                                             </tr>
                                         ))}

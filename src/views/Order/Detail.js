@@ -5,7 +5,7 @@ import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { getOrder } from '../../features/slices/order/orderSlice'
 import { currency, toShortTHDate } from '../../utils'
 import ItemList from './ItemList'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 
 const OrderDetail = () => {
     const { id } = useParams();
@@ -25,7 +25,7 @@ const OrderDetail = () => {
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/order' }}>รายการใบสั่งซื้อ/จ้าง</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายละเอียดใบสั่งซื้อ/จ้าง</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl">รายละเอียดใบสั่งซื้อ/จ้าง</h2>
 
@@ -146,7 +146,7 @@ const OrderDetail = () => {
                                                     <span className="mr-2">ปีงบประมาณ</span>
                                                     <div className="w-[40%]">
                                                         <div className="form-control text-sm float-right text-center bg-gray-100">
-                                                            {order.year ? order.year+543 : ''}
+                                                            {order.year ? order.year + 543 : ''}
                                                         </div>
                                                     </div>
                                                 </div>

@@ -6,7 +6,7 @@ import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { calcUsedAgeY, generateQueryString } from '../../utils'
 import { getAssets, destroy } from '../../features/slices/asset/assetSlice'
 import Asset from '../../components/Asset/Asset'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 import Pagination from '../../components/Pagination'
 import AssetFilteringInput from '../../components/Asset/FilteringInput'
 
@@ -53,7 +53,7 @@ const MaterialList = () => {
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการพัสดุ</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการพัสดุ</h2>
@@ -87,7 +87,7 @@ const MaterialList = () => {
                             )}
                             {assets && assets.map((asset, index) => (
                                 <tr key={asset.id} className="font-thin">
-                                    <td className="text-center">{index+pager.from}</td>
+                                    <td className="text-center">{index + pager.from}</td>
                                     <td><Asset asset={asset} /></td>
                                     <td className="text-sm text-center">
                                         {`${calcUsedAgeY(asset.first_year)}ปี`}

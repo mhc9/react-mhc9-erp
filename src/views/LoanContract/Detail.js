@@ -14,7 +14,7 @@ import {
     isOverRefundDate,
     sortObjectByDate
 } from '../../utils'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 import ExpenseList from '../../components/Expense//ExpenseList'
 import OrderList from '../Loan/Form/OrderList'
 import ModalDepositForm from '../../components/Modals/LoanContract/Deposit/Form'
@@ -94,7 +94,7 @@ const LoanContractDetail = () => {
                                         <Col md={3} className="flex flex-row items-center">
                                             <label htmlFor="">ปีงบประมาณ :</label>
                                             <div className="font-thin ml-1">
-                                                {contract && contract?.loan?.year+543}
+                                                {contract && contract?.loan?.year + 543}
                                             </div>
                                         </Col>
                                     </Row>
@@ -148,7 +148,7 @@ const LoanContractDetail = () => {
                                                 {contract?.loan?.budgets && contract?.loan?.budgets.map((item, index) => (
                                                     <ul key={item.id}>
                                                         <li>
-                                                            <span className="mr-1">{index+1}.</span>
+                                                            <span className="mr-1">{index + 1}.</span>
                                                             {item.budget?.activity?.name}
                                                             <span className="ml-1">
                                                                 {item.budget?.activity?.project?.plan?.name} / {item.budget?.activity?.project?.name}
@@ -243,7 +243,7 @@ const LoanContractDetail = () => {
                                         </div>
                                     </Col>
                                 </Row>
-                            </Col>                            
+                            </Col>
                         </Row>
                         <Row className="mb-3">
                             <Col>
@@ -305,7 +305,7 @@ const LoanContractDetail = () => {
                                 )}
                                 {contract?.status === 2 && (
                                     <>
-                                        {isOverRefundDate(contract?.refund_date)  && (
+                                        {isOverRefundDate(contract?.refund_date) && (
                                             <Link to={`/preview/${id}/loan-contract/collection-form`} target="_blank" className="btn btn-success mr-1">
                                                 <i className="fas fa-print mr-1"></i>
                                                 พิมพ์บันทึกทวงหนี้

@@ -9,7 +9,7 @@ import MemberList from './Member/MemberList'
 import AddMember from './Member/AddMember'
 import ChangeAvatar from './ChangeAvatar'
 import EmployeeAvatar from './EmployeeAvatar'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 
 const EmployeeDetail = () => {
     const { id } = useParams();
@@ -37,7 +37,7 @@ const EmployeeDetail = () => {
                 <Breadcrumb.Item active>รายละเอียดบุคลากร</Breadcrumb.Item>
                 <Breadcrumb.Item active>{id}</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl">รายละเอียดบุคลากร ID: {id}</h2>
 
@@ -127,4 +127,4 @@ const EmployeeDetail = () => {
     )
 }
 
-    export default EmployeeDetail
+export default EmployeeDetail

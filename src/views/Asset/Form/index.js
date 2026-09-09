@@ -8,7 +8,7 @@ import moment from 'moment'
 import OverWriteMomentBE from '../../../utils/OverwriteMomentBE'
 import { store, update } from '../../../features/slices/asset/assetSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/asset/assetApi'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import UploadImage from './UploadImage'
 
 const assetSchema = Yup.object().shape({
@@ -35,7 +35,7 @@ const AssetForm = ({ id, asset }) => {
         if (asset) {
             asset.purchased_at ? setSelectedPurchasedAt(moment(asset.purchased_at)) : setSelectedPurchasedAt(moment());
             asset.date_in ? setSelectedDateIn(moment(asset.date_in)) : setSelectedDateIn(moment());
-            asset.first_year && setSelectedFirstYear(moment(`${asset.first_year-543}-01-01`));
+            asset.first_year && setSelectedFirstYear(moment(`${asset.first_year - 543}-01-01`));
         }
     }, [asset]);
 
@@ -58,7 +58,7 @@ const AssetForm = ({ id, asset }) => {
 
             data.append('img_url', selectedImage);
 
-            for(const [key, val] of Object.entries(values)) {
+            for (const [key, val] of Object.entries(values)) {
                 data.append(key, val);
             }
 
@@ -86,7 +86,7 @@ const AssetForm = ({ id, asset }) => {
                 model: (asset && asset.model) ? asset.model : '',
                 purchased_at: (asset && asset.purchased_at) ? asset.purchased_at : moment().format('YYYY-MM-DD'),
                 date_in: (asset && asset.date_in) ? asset.date_in : moment().format('YYYY-MM-DD'),
-                first_year: (asset && asset.first_year) ? asset.first_year : moment().year()+543,
+                first_year: (asset && asset.first_year) ? asset.first_year : moment().year() + 543,
                 obtain_type_id: (asset && asset.obtain_type_id) ? asset.obtain_type_id : '',
                 budget_id: (asset && asset.budget_id) ? asset.budget_id : '',
                 location: asset ? asset.location : '',
@@ -111,7 +111,7 @@ const AssetForm = ({ id, asset }) => {
                                             )}
                                             {selectedImage && <img src={URL.createObjectURL(selectedImage)} alt="" />}
                                         </div>
-                                        
+
                                         <UploadImage
                                             asset={asset}
                                             selectedImage={selectedImage}
@@ -198,7 +198,7 @@ const AssetForm = ({ id, asset }) => {
                                     {!loading && (
                                         <select
                                             name="asset_category_id"
-                                            value={formik.values.asset_category_id} 
+                                            value={formik.values.asset_category_id}
                                             onChange={(e) => {
                                                 formik.handleChange(e);
                                                 handleCategorySelected(e.target.value);
@@ -383,7 +383,7 @@ const AssetForm = ({ id, asset }) => {
                                                     formik.setFieldValue('date_in', date.format('YYYY-MM-DD'));
 
                                                     setSelectedFirstYear(date);
-                                                    formik.setFieldValue('first_year', date.year()+543);
+                                                    formik.setFieldValue('first_year', date.year() + 543);
                                                 }}
                                             />
                                         </MuiPickersUtilsProvider>
@@ -404,7 +404,7 @@ const AssetForm = ({ id, asset }) => {
                                                 value={selectedFirstYear}
                                                 onChange={(date) => {
                                                     setSelectedFirstYear(date);
-                                                    formik.setFieldValue('first_year', date.year()+543);
+                                                    formik.setFieldValue('first_year', date.year() + 543);
                                                 }}
                                             />
                                         </MuiPickersUtilsProvider>

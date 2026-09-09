@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getComsets } from '../../features/slices/comset/comsetSlice';
-import Loading from '../../components/Loading';
+import Loading from '../../components/ui/Loading';
 import Pagination from '../../components/Pagination';
 import FilteringInputs from './FilteringInputs';
 import { generateQueryString } from '../../utils';
@@ -30,8 +30,8 @@ const ComsetList = () => {
 
     const joinEquipments = (equipments) => {
         return equipments
-                .map(eq => `${eq.type?.name} ${eq.brand?.name} ${eq.model} ${eq.capacity ? eq.capacity : '-'}${eq.status !== 1 ? '**' : ''}`)
-                .join(', ');
+            .map(eq => `${eq.type?.name} ${eq.brand?.name} ${eq.model} ${eq.capacity ? eq.capacity : '-'}${eq.status !== 1 ? '**' : ''}`)
+            .join(', ');
     };
 
     return (
@@ -42,7 +42,7 @@ const ComsetList = () => {
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
                 <Breadcrumb.Item active>ชุดคอมพิวเตอร์</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">ชุดคอมพิวเตอร์</h2>
@@ -79,7 +79,7 @@ const ComsetList = () => {
                             )}
                             {comsets && comsets.map((com, index) => (
                                 <tr key={com.id}>
-                                    <td className="text-center">{index+pager.from}</td>
+                                    <td className="text-center">{index + pager.from}</td>
                                     <td className="text-center text-sm font-thin">{com.asset?.asset_no}</td>
                                     <td className="text-center">{com.name}</td>
                                     <td className="text-sm font-thin">

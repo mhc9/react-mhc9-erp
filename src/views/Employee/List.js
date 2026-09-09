@@ -6,7 +6,7 @@ import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { destroy, getEmployees } from '../../features/slices/employee/employeeSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/employee/employeeApi'
 import { generateQueryString } from '../../utils'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 import Pagination from '../../components/Pagination'
 import FilteringInputs from '../../components/Employee/FilteringInputs'
 
@@ -54,7 +54,7 @@ const EmployeeList = () => {
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
                 <Breadcrumb.Item active>บุคลากร</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">บุคลากร</h2>
@@ -88,7 +88,7 @@ const EmployeeList = () => {
                             )}
                             {(!isLoading && employees) && employees.map((employee, index) => (
                                 <tr key={employee.id} className="font-thin">
-                                    <td className="text-center">{index+pager.from}</td>
+                                    <td className="text-center">{index + pager.from}</td>
                                     <td className="text-center">{employee.employee_no}</td>
                                     <td>
                                         <div className="flex flex-row gap-2">

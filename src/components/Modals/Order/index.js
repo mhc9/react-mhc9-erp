@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie'
 import { currency, toShortTHDate, generateQueryString } from '../../../utils';
 import { getOrders } from '../../../features/slices/order/orderSlice';
 import { useGetInitialFormDataQuery } from '../../../features/services/order/orderApi';
-import Loading from '../../Loading';
+import Loading from '../../ui/Loading';
 import Pagination from '../../Pagination';
 import FilteringInputs from '../../Order/FilteringInputs';
 
@@ -17,7 +17,7 @@ const initialFormData = {
 const ModalOrderList = ({ isShow, onHide, onSelect }) => {
     const [cookies] = useCookies();
     const initialFilters = {
-        year:  cookies.budgetYear,
+        year: cookies.budgetYear,
         pr_no: '',
         pr_date: '',
         division: '',
@@ -82,10 +82,10 @@ const ModalOrderList = ({ isShow, onHide, onSelect }) => {
                         <tbody>
                             {orders && orders.map((order, index) => (
                                 <tr key={order.id}>
-                                    <td className="text-center">{index+pager.from}</td>
+                                    <td className="text-center">{index + pager.from}</td>
                                     <td className="text-sm font-thin">
                                         <p>
-                                            เลขที่ <span className="badge text-bg-success mr-1">{order.po_no}</span> 
+                                            เลขที่ <span className="badge text-bg-success mr-1">{order.po_no}</span>
                                             วันที่ <span className="badge text-bg-success">{toShortTHDate(order.po_date)}</span></p>
                                         <p>
                                             {order.requisition.requester?.prefix?.name}{order.requisition.requester?.firstname} {order.requisition.requester?.lastname}

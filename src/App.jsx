@@ -60,8 +60,8 @@ import AddItem from './views/Item/Add';
 import EditItem from './views/Item/Edit';
 import ItemDetail from './views/Item/Detail';
 /** Supplier */
-import SupplierList from './views/supplier/List';
-import AddSupplier from './views/supplier/Add';
+import SupplierList from './views/Supplier/List';
+import AddSupplier from './views/Supplier/Add';
 import Unit from './views/Unit'
 /** Viewer */
 import WordViewer from './components/ReportViewer/WordViewer';

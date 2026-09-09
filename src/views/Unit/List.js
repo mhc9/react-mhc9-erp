@@ -4,7 +4,7 @@ import { AiFillBulb } from 'react-icons/ai'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { destroy } from '../../features/slices/unit/unitSlice';
-import Loading from '../../components/Loading';
+import Loading from '../../components/ui/Loading';
 import Pagination from '../../components/Pagination'
 
 const UnitList = ({ units, pager, onEditting, onPageClick, onDeleted }) => {
@@ -38,7 +38,7 @@ const UnitList = ({ units, pager, onEditting, onPageClick, onDeleted }) => {
                     )}
                     {(!isLoading && units && units.length > 0) && units.map((unit, index) => (
                         <tr key={unit.id}>
-                            <td className="text-center">{index+pager.from}</td>
+                            <td className="text-center">{index + pager.from}</td>
                             <td>{unit.name}</td>
                             <td className="text-center">
                                 {unit.status === 1 ? (

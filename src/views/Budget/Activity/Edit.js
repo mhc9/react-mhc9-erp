@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { getActivity, resetSuccess } from '../../../features/slices/budget-activity/budgetActivitySlice'
 import BudgetActivityForm from './Form'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import { toast } from 'react-toastify'
 
 const EditBudgetActivity = () => {

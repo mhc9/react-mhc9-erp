@@ -5,7 +5,7 @@ import { Modal } from 'react-bootstrap'
 import { getContracts } from '../../../features/slices/loan-contract/loanContractSlice';
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import FilteringInputs from './FilteringInputs';
-import Loading from '../../Loading';
+import Loading from '../../ui/Loading';
 import Pagination from '../../Pagination';
 import EmployeeCard from '../../Employee/Card';
 
@@ -67,7 +67,7 @@ const ModalLoanContractList = ({ isShow, onHide, onSelect }) => {
                             )}
                             {(contracts && contracts.length > 0) ? contracts.map((contract, index) => (
                                 <tr key={contract.id} className="font-thin text-sm">
-                                    <td className="text-center">{index+pager.from}</td>
+                                    <td className="text-center">{index + pager.from}</td>
                                     <td>
                                         <p><b>เลขที่สัญญา</b> {contract.contract_no}</p>
                                         <p><b>วันที่สัญญา</b> {toShortTHDate(contract.approved_date)}</p>

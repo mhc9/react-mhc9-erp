@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getTasks, destroy, resetDeleted } from '../../features/slices/task/taskSlice'
 import { getPriority, toShortTHDate, generateQueryString } from '../../utils'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 import Pagination from '../../components/Pagination'
 import TaskStatusBadge from '../../components/Task/StatusBadge'
 import TaskFilteringInputs from '../../components/Task/FilteringInputs'
@@ -61,7 +61,7 @@ const TaskList = () => {
                 <Breadcrumb.Item active>บริการ</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการแจ้งปัญหา</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl">รายการแจ้งปัญหา</h2>
 
@@ -90,7 +90,7 @@ const TaskList = () => {
                             )}
                             {(!isLoading && tasks) && tasks.map((task, index) => (
                                 <tr key={task.id} className="font-thin">
-                                    <td className="text-center">{ pager && pager.from + index}</td>
+                                    <td className="text-center">{pager && pager.from + index}</td>
                                     <td className="text-center">
                                         <p className="text-sm">{toShortTHDate(task.task_date)}</p>
                                         <p className="text-sm font-thin"><b className="mr-1">เวลา</b>{task.task_time}</p>
@@ -137,7 +137,7 @@ const TaskList = () => {
                         </tbody>
                     </table>
                 </div>
-                
+
                 <Pagination
                     pager={pager}
                     onPageClick={(url) => setApiEndpoint(url)}

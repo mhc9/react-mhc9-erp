@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Breadcrumb, Col, Row } from 'react-bootstrap';
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getComset } from '../../features/slices/comset/comsetSlice';
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 
 const ComsetDetail = () => {
     const { id } = useParams();
@@ -26,7 +26,7 @@ const ComsetDetail = () => {
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/comset' }}>ชุดคอมพิวเตอร์</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายละเอียดชุดคอมพิวเตอร์</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl">รายละเอียดชุดคอมพิวเตอร์ (#{id})</h2>
 
@@ -89,20 +89,20 @@ const ComsetDetail = () => {
                                     <tbody>
                                         {comset.equipments.map((equipment, index) => (
                                             <tr key={equipment.id} className="font-thin">
-                                            <td className="text-center">{index+1}</td>
-                                            <td className="text-center">{equipment.type?.name}</td>
-                                            <td>
-                                                <span>{equipment.brand?.name}</span>
-                                                <span className="mx-1">{equipment.model}</span>
-                                                <span>{equipment.capacity}</span>
-                                            </td>
-                                            <td className="text-center">{equipment.price}</td>
-                                            <td className="text-center">
-                                                {equipment.status === 1 && <span className="badge rounded-pill text-bg-secondary ml-1">มาพร้อมเครื่อง</span>}
-                                                {equipment.status === 2 && <span className="badge rounded-pill text-bg-primary ml-1">ติดตั้งเพิ่ม</span>}
-                                                {equipment.status === 3 && <span className="badge rounded-pill text-bg-danger ml-1">เปลี่ยนอะไหล่</span>}
-                                            </td>
-                                        </tr>
+                                                <td className="text-center">{index + 1}</td>
+                                                <td className="text-center">{equipment.type?.name}</td>
+                                                <td>
+                                                    <span>{equipment.brand?.name}</span>
+                                                    <span className="mx-1">{equipment.model}</span>
+                                                    <span>{equipment.capacity}</span>
+                                                </td>
+                                                <td className="text-center">{equipment.price}</td>
+                                                <td className="text-center">
+                                                    {equipment.status === 1 && <span className="badge rounded-pill text-bg-secondary ml-1">มาพร้อมเครื่อง</span>}
+                                                    {equipment.status === 2 && <span className="badge rounded-pill text-bg-primary ml-1">ติดตั้งเพิ่ม</span>}
+                                                    {equipment.status === 3 && <span className="badge rounded-pill text-bg-danger ml-1">เปลี่ยนอะไหล่</span>}
+                                                </td>
+                                            </tr>
                                         ))}
                                     </tbody>
                                 </table>
@@ -139,4 +139,4 @@ const ComsetDetail = () => {
     )
 }
 
-    export default ComsetDetail
+export default ComsetDetail

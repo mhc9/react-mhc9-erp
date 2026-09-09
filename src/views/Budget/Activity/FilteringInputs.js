@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import { FaSlidersH } from 'react-icons/fa'
 import { Col, FormGroup, Row } from 'react-bootstrap'
 import { DatePicker } from '@material-ui/pickers'
-import { generateQueryString} from '../../../utils'
+import { generateQueryString } from '../../../utils'
 import { useStyles } from '../../../hooks/useStyles'
 import { useGetInitialFormDataQuery } from '../../../features/services/budget-activity/budgetActivityApi'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import moment from 'moment'
 
 const FilteringInputs = ({ initialFilters, onFilter }) => {
@@ -23,7 +23,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
     const handleFilter = () => {
         onFilter(generateQueryString(filters));
     };
-    
+
     const handleClear = () => {
         setFilters(initialFilters);
         onFilter(generateQueryString(initialFilters));
@@ -34,7 +34,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
             <Row>
                 <Col lg={11}>
                     <Row>
-                        
+
                         <Col className="px-1 mb-2" md={8}>
                             <FormGroup>
                                 <input
@@ -80,7 +80,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                                         </option>
                                     ))}
                                 </select>
-                                </FormGroup>
+                            </FormGroup>
                         </Col>
                         {/* <Col className="px-1 mb-2" md={6}>
                             <FormGroup>
@@ -132,7 +132,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
                     </div>
                 </Col>
             </Row>
-        </div>            
+        </div>
     )
 }
 

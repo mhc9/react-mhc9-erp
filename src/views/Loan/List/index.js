@@ -10,7 +10,7 @@ import { getLoans, destroy, resetDeleted } from '../../../features/slices/loan/l
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import LoanListDetail from './ListDetail'
 import FilteringInputs from './FilteringInputs'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import Pagination from '../../../components/Pagination'
 import EmployeeCard from '../../../components/Employee/Card'
 import LoanStatusBadge from '../../../components/Badges/LoanStatusBadge'
@@ -59,7 +59,7 @@ const LoanList = () => {
                 <Breadcrumb.Item active>ยืมเงินราชการ</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการคำขอยืมเงิน</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการคำขอยืมเงิน</h2>
@@ -129,12 +129,12 @@ const LoanList = () => {
                                         <Link to={`/loan/${loan.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
                                         </Link>
-                                        {![4,5,9].includes(loan.status) && (
+                                        {![4, 5, 9].includes(loan.status) && (
                                             <Link to={`/loan/${loan.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                                 <FaPencilAlt />
                                             </Link>
                                         )}
-                                        {![3,4,5,9].includes(loan.status) && (
+                                        {![3, 4, 5, 9].includes(loan.status) && (
                                             <button
                                                 className="btn btn-sm btn-danger px-1"
                                                 onClick={() => {

@@ -4,7 +4,7 @@ import { useCookies } from 'react-cookie';
 import { Modal } from 'react-bootstrap'
 import { getLoans } from '../../../features/slices/loan/loanSlice';
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
-import Loading from '../../Loading';
+import Loading from '../../ui/Loading';
 import EmployeeCard from '../../Employee/Card';
 import Pagination from '../../Pagination';
 import FilteringInputs from './FilteringInputs';
@@ -68,7 +68,7 @@ const ModalLoanList = ({ isShow, onHide, onSelect }) => {
                             )}
                             {(loans && loans.length > 0) ? loans.map((loan, index) => (
                                 <tr key={loan.id} className="font-thin text-sm">
-                                    <td className="text-center">{index+pager.from}</td>
+                                    <td className="text-center">{index + pager.from}</td>
                                     <td>
                                         <p><b>เลขที่เอกสาร</b> {loan.doc_no}</p>
                                         <p><b>วันที่เอกสาร</b> {toShortTHDate(loan.doc_date)}</p>

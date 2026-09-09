@@ -7,7 +7,7 @@ import { DatePicker, TimePicker } from '@material-ui/pickers';
 import moment from 'moment'
 import { store } from '../../../features/slices/repairation/repairationSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/repairation/repairationApi'
-import Loading from '../../../components/Loading';
+import Loading from '../../../components/ui/Loading';
 import Autocomplete from '../../../components/FormControls/Autocomplete'
 
 const repairationSchema = Yup.object().shape({
@@ -85,7 +85,7 @@ const RequestForm = ({ isShow, onHide, task }) => {
                                 </Col>
                                 <Col>
                                     <div className="flex flex-col">
-                                    <label>เวลาที่ส่งซ่อม</label>
+                                        <label>เวลาที่ส่งซ่อม</label>
                                         <TimePicker
                                             format="HH:mm"
                                             ampm={false}
@@ -143,7 +143,7 @@ const RequestForm = ({ isShow, onHide, task }) => {
                                                 } else {
                                                     formik.setFieldValue('requester_id', '');
                                                 }
-                                            }} 
+                                            }}
                                         />
                                     )}
                                     {(formik.errors.requester_id && formik.touched.requester_id) && (

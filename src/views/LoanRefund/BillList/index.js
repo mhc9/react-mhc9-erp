@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 import { getRefunds, destroy, resetDeleted } from '../../../features/slices/loan-refund/loanRefundSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import FilteringInputs from '../List/FilteringInputs'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import Pagination from '../../../components/Pagination'
 import EmployeeCard from '../../../components/Employee/Card'
 
@@ -54,7 +54,7 @@ const LoanRefundBillList = () => {
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
                 <Breadcrumb.Item active>เลขที่ใบรับใบสำคัญ</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">เลขที่ใบรับใบสำคัญ</h2>
@@ -83,48 +83,48 @@ const LoanRefundBillList = () => {
                                     <td className="text-center" colSpan={6}><Loading /></td>
                                 </tr>
                             )}
-                            {(!isLoading && refunds) && 
+                            {(!isLoading && refunds) &&
                                 refunds.filter(r => !!r.bill_no).sort((a, b) => b.bill_no.substring(0, 2) - a.bill_no.substring(0, 2)).map((refund, index) => (
-                                <tr key={refund.id}>
-                                    <td className="text-center">{pager && pager.from + index}</td>
-                                    <td className="text-md space-y-1">
-                                        <p>เลขที่ <span className="badge rounded-pill text-bg-primary">{refund.doc_no}</span></p>
-                                        <p>วันที่ <span className="badge rounded-pill text-bg-primary">{toShortTHDate(refund.doc_date)}</span></p>
-                                    </td>
-                                    <td className="text-sm">
-                                        <p className={`font-bold ${refund.contract?.loan?.loan_type_id === 1 ? 'text-blue-600' : 'text-red-500'}`}>
-                                            <span className="mr-2">เลขที่สัญญา {refund.contract?.contract_no}</span>
-                                            <span>: {refund.contract?.loan?.loan_type_id === 1 ? 'ยืมเงินโครงการ' : 'ยืมเงินเดินทางไปราชการ'}</span>
-                                        </p>
-                                        <div>
-                                            {refund.contract?.loan?.project_name}
-                                            <span className="ml-1">
-                                                เป็นเงินทั้งสิ้น 
-                                                <span className="ml-1 text-blue-600">{currency.format(refund.contract?.net_total)}</span> บาท
+                                    <tr key={refund.id}>
+                                        <td className="text-center">{pager && pager.from + index}</td>
+                                        <td className="text-md space-y-1">
+                                            <p>เลขที่ <span className="badge rounded-pill text-bg-primary">{refund.doc_no}</span></p>
+                                            <p>วันที่ <span className="badge rounded-pill text-bg-primary">{toShortTHDate(refund.doc_date)}</span></p>
+                                        </td>
+                                        <td className="text-sm">
+                                            <p className={`font-bold ${refund.contract?.loan?.loan_type_id === 1 ? 'text-blue-600' : 'text-red-500'}`}>
+                                                <span className="mr-2">เลขที่สัญญา {refund.contract?.contract_no}</span>
+                                                <span>: {refund.contract?.loan?.loan_type_id === 1 ? 'ยืมเงินโครงการ' : 'ยืมเงินเดินทางไปราชการ'}</span>
+                                            </p>
+                                            <div>
+                                                {refund.contract?.loan?.project_name}
+                                                <span className="ml-1">
+                                                    เป็นเงินทั้งสิ้น
+                                                    <span className="ml-1 text-blue-600">{currency.format(refund.contract?.net_total)}</span> บาท
+                                                </span>
+                                                <span className="ml-1">
+                                                    และ{refund.refund_type_id === 1 ? 'คืนเงิน' : 'เบิกเงินเพิ่ม'} จำนวน
+                                                    <span className={`ml-1 ${refund.refund_type_id === 1 ? 'text-green-600' : 'text-red-600'}`}>
+                                                        {currency.format(Math.abs(refund.balance))}
+                                                    </span> บาท
+                                                </span>
+                                            </div>
+                                            <div className="flex flex-row items-center gap-2">
+                                                <span>ผู้ยืม :</span>
+                                                <EmployeeCard
+                                                    employee={refund.contract?.loan?.employee}
+                                                    showAvatar={false}
+                                                    showPosition={false}
+                                                />
+                                            </div>
+                                        </td>
+                                        <td className="text-center p-1">
+                                            <span className="font-bold text-xl">
+                                                {refund.bill_no}
                                             </span>
-                                            <span className="ml-1">
-                                                และ{refund.refund_type_id === 1 ? 'คืนเงิน' : 'เบิกเงินเพิ่ม'} จำนวน
-                                                <span className={`ml-1 ${refund.refund_type_id === 1 ? 'text-green-600' : 'text-red-600'}`}>
-                                                    {currency.format(Math.abs(refund.balance))}
-                                                </span> บาท
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-row items-center gap-2">
-                                            <span>ผู้ยืม :</span>
-                                            <EmployeeCard
-                                                employee={refund.contract?.loan?.employee}
-                                                showAvatar={false}
-                                                showPosition={false}
-                                            />
-                                        </div>
-                                    </td>
-                                    <td className="text-center p-1">
-                                        <span className="font-bold text-xl">
-                                            {refund.bill_no}
-                                        </span>
-                                    </td>
-                                </tr>
-                            ))}
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
 

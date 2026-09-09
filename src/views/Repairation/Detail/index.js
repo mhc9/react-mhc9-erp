@@ -6,7 +6,7 @@ import { toShortTHDate } from '../../../utils'
 import { getRepairation } from '../../../features/slices/repairation/repairationSlice'
 import RepairationForm from './Form';
 import Repairation from './Repairation'
-import Loading from '../../../components/Loading';
+import Loading from '../../../components/ui/Loading';
 
 const RepairationDetail = () => {
     const { id } = useParams();
@@ -26,13 +26,13 @@ const RepairationDetail = () => {
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/repairation' }}>รายการส่งซ่อม</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายละเอียดการส่งซ่อม</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl">รายละเอียดการส่งซ่อม</h2>
 
                 <div className="my-2 border py-3 px-4 rounded-md bg-green-200">
                     {isLoading && <div className="text-center"><Loading /></div>}
-                    
+
                     {!isLoading && repairation && (
                         <>
                             <Row>

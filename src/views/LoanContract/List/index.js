@@ -10,7 +10,7 @@ import { getContracts, destroy, resetDeleted } from '../../../features/slices/lo
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import LoanListDetail from './ListDetail'
 import FilteringInputs from './FilteringInputs'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import Pagination from '../../../components/Pagination'
 import EmployeeCard from '../../../components/Employee/Card'
 
@@ -59,7 +59,7 @@ const LoanContractList = () => {
                 <Breadcrumb.Item active>ยืมเงินราชการ</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการสัญญา</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการสัญญา</h2>
@@ -129,7 +129,7 @@ const LoanContractList = () => {
                                         <Link to={`/loan-contract/${contract.id}/detail`} className="btn btn-sm btn-info px-1 mr-1">
                                             <FaSearch />
                                         </Link>
-                                        {![2,3,4].includes(contract.status) && (
+                                        {![2, 3, 4].includes(contract.status) && (
                                             <>
                                                 <Link to={`/loan-contract/${contract.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                                     <FaPencilAlt />

@@ -5,7 +5,7 @@ import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { getBudgetProject, resetSuccess } from '../../../features/slices/budget-project/budgetProjectSlice'
 import BudgetProjectForm from './Form'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 
 const EditBudgetProject = () => {
     const { id } = useParams();
@@ -34,14 +34,14 @@ const EditBudgetProject = () => {
             </Breadcrumb>
 
             <div className="content">
-                    <div className="flex items-center justify-between mb-2">
-                        <h2 className="text-xl">แก้ไขโครงการ/ผลผลิต (#{id})</h2>
-                    </div>
+                <div className="flex items-center justify-between mb-2">
+                    <h2 className="text-xl">แก้ไขโครงการ/ผลผลิต (#{id})</h2>
+                </div>
 
-                    <div className="border rounded-md py-5">
-                        {isLoading && <div className="text-center"><Loading /></div>}
-                        {(!isLoading && project) && <BudgetProjectForm project={project} />}
-                    </div>
+                <div className="border rounded-md py-5">
+                    {isLoading && <div className="text-center"><Loading /></div>}
+                    {(!isLoading && project) && <BudgetProjectForm project={project} />}
+                </div>
             </div>
         </div>
     )

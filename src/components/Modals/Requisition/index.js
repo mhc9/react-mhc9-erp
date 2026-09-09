@@ -5,7 +5,7 @@ import { Modal } from 'react-bootstrap';
 import { getRequisitions } from '../../../features/slices/requisition/requisitionSlice';
 import { useGetInitialFormDataQuery } from '../../../features/services/requisition/requisitionApi';
 import { currency, generateQueryString, toShortTHDate } from '../../../utils';
-import Loading from '../../Loading';
+import Loading from '../../ui/Loading';
 import Pagination from '../../Pagination';
 import FilteringInputs from '../../Requisition/FilteringInputs';
 
@@ -79,11 +79,11 @@ const ModalRequisitionList = ({ isShow, onHide, onSelect }) => {
                             <tbody>
                                 {requisitions && requisitions.map((requisition, index) => (
                                     <tr key={requisition.id}>
-                                        <td className="text-center">{index+pager.from}</td>
+                                        <td className="text-center">{index + pager.from}</td>
                                         <td className="text-sm font-thin">
                                             <p className="flex items-center gap-2">
-                                                <span className="flex items-center gap-1">เลขที่ <b className="badge rounded-pill bg-success">{requisition.pr_no}</b></span> 
-                                                <span className="flex items-center gap-1">วันที่ <b className="badge rounded-pill bg-success">{toShortTHDate(requisition.pr_date)}</b></span> 
+                                                <span className="flex items-center gap-1">เลขที่ <b className="badge rounded-pill bg-success">{requisition.pr_no}</b></span>
+                                                <span className="flex items-center gap-1">วันที่ <b className="badge rounded-pill bg-success">{toShortTHDate(requisition.pr_date)}</b></span>
                                                 <span>
                                                     <b>{requisition.requester?.prefix?.name}{requisition.requester?.firstname} {requisition.requester?.lastname}</b>
                                                     <span className="ml-1">{requisition.requester?.position?.name}{requisition.requester?.level && requisition.requester?.level?.name}</span>

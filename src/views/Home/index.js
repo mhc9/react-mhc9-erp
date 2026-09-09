@@ -14,7 +14,7 @@ import {
 } from 'react-icons/fa'
 import { Breadcrumb } from 'react-bootstrap'
 import { useGetSystemInfoQuery } from '../../features/services/system/systemApi'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 
 import {
     Chart as ChartJS,

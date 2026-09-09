@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 import { generateQueryString, getUrlParam } from '../../../utils'
 import { getBudgetPlans, resetDeleted, destroy } from '../../../features/slices/budget-plan/budgetPlanSlice'
 import FilteringInputs from './FilteringInputs'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import Pagination from '../../../components/Pagination'
 import BudgetSummary from '../BudgetSummary'
 
@@ -89,13 +89,13 @@ const BudgetPlanList = () => {
                             )}
                             {!isLoading && plans.map((plan, index) => (
                                 <tr key={plan.id}>
-                                    <td className="text-center">{index+1}</td>
+                                    <td className="text-center">{index + 1}</td>
                                     <td className="hover:text-purple-500">
-                                        <Link to={`/budget-project${year !== '' ? '/' +year : ''}/${plan.id}`}>
+                                        <Link to={`/budget-project${year !== '' ? '/' + year : ''}/${plan.id}`}>
                                             {plan.plan_no} {plan.name}
                                         </Link>
                                     </td>
-                                    <td className="text-center">{plan.year && plan.year+543}</td>
+                                    <td className="text-center">{plan.year && plan.year + 543}</td>
                                     <td className="text-center p-1">
                                         <Link to={`/budget-plan/${plan.id}/edit`} className="btn btn-sm btn-warning px-1 mr-1">
                                             <FaPencilAlt />

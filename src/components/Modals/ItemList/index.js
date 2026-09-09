@@ -5,11 +5,11 @@ import { FaTimes } from 'react-icons/fa';
 import { generateQueryString } from '../../../utils';
 import { getItems } from '../../../features/slices/item/itemSlice';
 import { useGetInitialFormDataQuery } from '../../../features/services/item/itemApi';
-import Loading from '../../Loading';
 import FilteringInputs from '../../Item/FilteringInputs';
 import CardList from './CardList';
 import TableList from './TableList';
 import ControlButtons from './ControlButtons';
+import Loading from '../../ui/Loading';
 import Pagination from '../../Pagination';
 
 const initialFormData = {
@@ -89,7 +89,7 @@ const ModalItemList = ({ isShow, onHide, onSelect, defaultCategory }) => {
                 {(pager && pager.last_page > 1) && (
                     <Pagination
                         pager={pager}
-                        onPageClick={(url) =>setApiEndpoint(`${url}&limit=12`)}
+                        onPageClick={(url) => setApiEndpoint(`${url}&limit=12`)}
                     />
                 )}
             </Modal.Footer>

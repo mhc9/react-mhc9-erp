@@ -5,7 +5,7 @@ import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { getItem, resetSuccess, resetUploaded } from '../../features/slices/item/itemSlice'
 import ItemForm from './Form'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 
 const EditItem = () => {
     const { id } = useParams();
@@ -42,7 +42,7 @@ const EditItem = () => {
                 <Breadcrumb.Item active>แก้ไขสินค้า/บริการใหม่</Breadcrumb.Item>
                 <Breadcrumb.Item active>{id}</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl">แก้ไขสินค้า/บริการใหม่ ID : {id}</h2>
 

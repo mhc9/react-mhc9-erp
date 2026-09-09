@@ -8,7 +8,7 @@ import { getReports } from '../../features/slices/requisition/requisitionSlice';
 import FilteringInputs from './FilteringInputs';
 import DropdownButton from '../../components/FormControls/DropdownButton'
 import DropdownItem from '../../components/FormControls/DropdownButton/DropdownItem'
-import Loading from '../../components/Loading';
+import Loading from '../../components/ui/Loading';
 
 const ProcurementSummary = () => {
     const [cookies] = useCookies();
@@ -80,21 +80,21 @@ const ProcurementSummary = () => {
                             return new Date(dateA) - new Date(dateB);
                         })
                         .map((req, index) => (
-                        <tr key={req.id}>
-                            <td className="text-center">{index + 1}</td>
-                            <td>{req.order_type_id === 2 ? req.contract_desc : req.category.name}</td>
-                            <td className="text-right">{currency.format(req.net_total)}</td>
-                            <td className="text-right">{currency.format(req.budget_total)}</td>
-                            <td>{req.approvals[0].procuring?.name}</td>
-                            <td>{req.approvals[0].supplier?.name}</td>
-                            <td>{req.approvals[0].supplier?.name} ราคาที่เสนอ {currency.format(req.net_total)} บาท</td>
-                            <td>ราคาต่ำสุด</td>
-                            <td>
-                                <p>เลขที่ <span>{req.approvals[0].consider_no}</span></p>
-                                <p>วันที่ <span>{toShortTHDate(req.approvals[0].consider_date)}</span></p>
-                            </td>
-                        </tr>
-                    ))}
+                            <tr key={req.id}>
+                                <td className="text-center">{index + 1}</td>
+                                <td>{req.order_type_id === 2 ? req.contract_desc : req.category.name}</td>
+                                <td className="text-right">{currency.format(req.net_total)}</td>
+                                <td className="text-right">{currency.format(req.budget_total)}</td>
+                                <td>{req.approvals[0].procuring?.name}</td>
+                                <td>{req.approvals[0].supplier?.name}</td>
+                                <td>{req.approvals[0].supplier?.name} ราคาที่เสนอ {currency.format(req.net_total)} บาท</td>
+                                <td>ราคาต่ำสุด</td>
+                                <td>
+                                    <p>เลขที่ <span>{req.approvals[0].consider_no}</span></p>
+                                    <p>วันที่ <span>{toShortTHDate(req.approvals[0].consider_date)}</span></p>
+                                </td>
+                            </tr>
+                        ))}
 
                     {!isLoading && (
                         <tr className="font-bold">
@@ -106,7 +106,7 @@ const ProcurementSummary = () => {
                     )}
                 </tbody>
             </table>
-            
+
             <div className='flex items-center justify-center mt-4'>
                 <DropdownButton title="เอกสาร" btnColor="primary" cssClass="mr-1">
                     <DropdownItem>

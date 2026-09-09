@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useGetInitialFormDataQuery } from '../../features/services/task/taskApi';
-import Loading from '../Loading';
+import Loading from '../ui/Loading';
 import api from '../../api';
 
-const itemColors = ['secondary','success','primary','warning','danger'];
+const itemColors = ['secondary', 'success', 'primary', 'warning', 'danger'];
 
-const TaskStatusBadge = ({ params='', onClick }) => {
+const TaskStatusBadge = ({ params = '', onClick }) => {
     const { data, isLoading } = useGetInitialFormDataQuery();
     const [statusCount, setStatusCount] = useState([]);
 

@@ -4,7 +4,7 @@ import { AiFillBulb } from 'react-icons/ai'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { destroy } from '../../features/slices/division/divisionSlice';
-import Loading from '../../components/Loading';
+import Loading from '../../components/ui/Loading';
 import Pagination from '../../components/Pagination'
 
 const DivisionList = ({ divisions, pager, onEditting, onPageClick, onDeleted }) => {
@@ -39,7 +39,7 @@ const DivisionList = ({ divisions, pager, onEditting, onPageClick, onDeleted }) 
                     )}
                     {(divisions && divisions.length > 0) && divisions.map((division, index) => (
                         <tr key={division.id}>
-                            <td className="text-center">{index+pager.from}</td>
+                            <td className="text-center">{index + pager.from}</td>
                             <td>{division.name}</td>
                             <td className="text-center">{division.department?.name}</td>
                             <td className="text-center">

@@ -7,7 +7,7 @@ import { FaEnvelope, FaEnvelopeOpenText, FaPencilAlt, FaSearch, FaTrash } from '
 import { activate, destroy, getUsers, resetSuccess } from '../../features/slices/user/userSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/user/userApi'
 import { generateQueryString } from '../../utils'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 import Pagination from '../../components/Pagination'
 import FilteringInputs from '../../components/Employee/FilteringInputs'
 
@@ -69,7 +69,7 @@ const UserList = () => {
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
                 <Breadcrumb.Item active>ผู้ใช้งาน (Users)</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">ผู้ใช้งาน (Users)</h2>
@@ -104,7 +104,7 @@ const UserList = () => {
                             )}
                             {(!isLoading && users) && users.map((user, index) => (
                                 <tr key={user.id} className="font-thin">
-                                    <td className="text-center">{index+pager.from}</td>
+                                    <td className="text-center">{index + pager.from}</td>
                                     <td>
                                         <div className="flex flex-row items-center gap-2">
                                             <div className={`border rounded-full w-[45px] h-[45px] overflow-hidden object-cover object-center`}>

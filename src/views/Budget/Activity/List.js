@@ -18,7 +18,7 @@ import { currency, generateQueryString } from '../../../utils'
 import { getActivities, destroy, toggle, resetDeleted } from '../../../features/slices/budget-activity/budgetActivitySlice'
 import FilteringInputs from './FilteringInputs'
 import Pagination from '../../../components/Pagination'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 
 const BudgetActivityList = () => {
     const { year: _year, project } = useParams();
@@ -58,7 +58,7 @@ const BudgetActivityList = () => {
 
     const handleToggleActive = (id, status) => {
         if (window.confirm(`คุณต้องการแก้ไขสถานะงบประมาณ รหัส ${id} ใช่หรือไม่?`)) {
-            dispatch(toggle({ id, data: {status: status === 1 ? 0 : 1 } }));
+            dispatch(toggle({ id, data: { status: status === 1 ? 0 : 1 } }));
         }
     };
 
@@ -111,7 +111,7 @@ const BudgetActivityList = () => {
                             {isLoading && <tr><td className="text-center" colSpan={6}><Loading /></td></tr>}
                             {!isLoading && activities?.map((activity, index) => (
                                 <tr className="font-thin" key={activity.id}>
-                                    <td className="text-center">{pager && pager.from+index}</td>
+                                    <td className="text-center">{pager && pager.from + index}</td>
                                     <td>
                                         <p className="font-normal">
                                             {activity.project?.plan?.plan_no} {activity.project?.plan?.name}

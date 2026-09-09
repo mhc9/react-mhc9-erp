@@ -3,9 +3,9 @@ import { Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployees } from '../../../features/slices/employee/employeeSlice';
 import { useGetInitialFormDataQuery } from '../../../features/services/employee/employeeApi';
-import Loading from '../../Loading';
+import Loading from '../../ui/Loading';
 import FilteringInputs from '../../Employee/FilteringInputs';
-import Pagination from '../../../components/Pagination'
+import Pagination from '../../Pagination'
 import { generateQueryString } from '../../../utils';
 
 const initialFilters = {
@@ -73,7 +73,7 @@ const ModalEmployeeList = ({ isShow, onHide, onSelect }) => {
                             )}
                             {employees && employees.map((employee, index) => (
                                 <tr key={employee.id} className="font-thin">
-                                    <td className="text-center">{index+pager.from}</td>
+                                    <td className="text-center">{index + pager.from}</td>
                                     <td><span className="font-bold">{employee.prefix.name}{employee.firstname} {employee.lastname}</span></td>
                                     <td>{employee.position.name}{employee.level?.name}</td>
                                     <td className="text-center">

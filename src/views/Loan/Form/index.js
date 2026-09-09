@@ -20,7 +20,7 @@ import AddCourse from './AddCourse';
 import CourseList from './CourseList';
 import AddOrder from './AddOrder';
 import OrderList from './OrderList';
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import AddBudget from '../../../components/Budget/AddBudget'
 import BudgetList from '../../../components/Budget/BudgetList'
 import AddExpense from '../../../components/Expense/AddExpense'
@@ -175,7 +175,7 @@ const LoanForm = ({ loan }) => {
             /** Create new items array by setting removed flag if item is removed by user */
             return items.map(item => {
                 if (item.id === id) return { ...item, removed: true };
-    
+
                 return item;
             });
         }
@@ -219,7 +219,7 @@ const LoanForm = ({ loan }) => {
                 department_id: loan ? loan.department_id : '',
                 division_id: (loan && loan.division_id) ? loan.division_id : '',
                 employee_id: loan ? loan.employee_id : '',
-                project_no:  loan ? loan.project_no : '',
+                project_no: loan ? loan.project_no : '',
                 project_date: loan ? moment(loan.project_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 project_owner: (loan && loan.project_owner) ? loan.project_owner : '',
                 project_name: loan ? loan.project_name : '',
@@ -290,7 +290,7 @@ const LoanForm = ({ loan }) => {
                                 </select>}
                                 {(formik.errors.loan_type_id && formik.touched.loan_type_id) && (
                                     <span className="text-red-500 text-xs">{formik.errors.loan_type_id}</span>
-                                )}  
+                                )}
                             </Col>
                             <Col md={4}>
                                 <label htmlFor="">ประเภทเงินยืม</label>
@@ -482,7 +482,7 @@ const LoanForm = ({ loan }) => {
                                             )}
                                         </Col>
                                         <Col>
-                                            <label>การคิดค่าใช้จ่าย</label>                                    
+                                            <label>การคิดค่าใช้จ่าย</label>
                                             <label className="form-control text-sm font-thin">
                                                 <Field
                                                     type="radio"

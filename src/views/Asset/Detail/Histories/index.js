@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toShortTHDate } from '../../../../utils'
 import { getRepairationsByAsset } from '../../../../features/slices/repairation/repairationSlice'
-import Loading from '../../../../components/Loading'
+import Loading from '../../../../components/ui/Loading'
 
 const AssetHistories = ({ asset }) => {
     const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const AssetHistories = ({ asset }) => {
 
                     {!isLoading && repairations && repairations.map((repairation, index) => (
                         <tr className="font-thin" key={repairation.id}>
-                            <td className="text-center">{pager && pager.from+index}</td>
+                            <td className="text-center">{pager && pager.from + index}</td>
                             <td className="text-center">
                                 <p className="text-sm">{toShortTHDate(repairation.request_date)}</p>
                                 <p className="text-sm font-thin"><b className="mr-1">เวลา</b>{repairation.request_time}</p>

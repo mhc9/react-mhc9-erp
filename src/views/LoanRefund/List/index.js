@@ -9,7 +9,7 @@ import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { getRefunds, destroy, resetDeleted } from '../../../features/slices/loan-refund/loanRefundSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import FilteringInputs from './FilteringInputs'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import Pagination from '../../../components/Pagination'
 import EmployeeCard from '../../../components/Employee/Card'
 
@@ -64,7 +64,7 @@ const LoanRefundList = () => {
                 <Breadcrumb.Item active>ยืมเงินราชการ</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการหักล้างเงินยืม</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการหักล้างเงินยืม</h2>
@@ -122,7 +122,7 @@ const LoanRefundList = () => {
                                         <div>
                                             {refund.contract?.loan?.project_name}
                                             <span className="ml-1">
-                                                เป็นเงินทั้งสิ้น 
+                                                เป็นเงินทั้งสิ้น
                                                 <span className="ml-1 text-blue-600">{currency.format(refund.contract?.net_total)}</span> บาท
                                             </span>
                                             <span className="ml-1">

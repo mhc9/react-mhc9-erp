@@ -5,7 +5,7 @@ import moment from 'moment';
 import { useGetInitialFormDataQuery } from '../../features/services/task/taskApi'
 import { generateQueryString } from '../../utils';
 import OverWriteMomentBE from '../../utils/OverwriteMomentBE'
-import Loading from '../Loading'
+import Loading from '../ui/Loading'
 
 const initialFormData = {
     types: [],

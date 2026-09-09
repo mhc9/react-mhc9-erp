@@ -8,7 +8,7 @@ import moment from 'moment'
 import { generateQueryString, getUrlParam } from '../../../utils'
 import { getBudgetProjects, resetDeleted, destroy } from '../../../features/slices/budget-project/budgetProjectSlice'
 import FilteringInputs from './FilteringInputs'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import Pagination from '../../../components/Pagination'
 
 const BudgetProjectList = () => {
@@ -85,11 +85,11 @@ const BudgetProjectList = () => {
                             )}
                             {!isLoading && projects.map((project, index) => (
                                 <tr key={project.id}>
-                                    <td className="text-center">{index+1}</td>
+                                    <td className="text-center">{index + 1}</td>
                                     <td>
                                         <p className="font-thin">{project.plan?.plan_no} {project.plan?.name}</p>
                                         <p className="font-bold hover:text-purple-500">
-                                            <Link to={`/budget-activity${year !== '' ? '/' +year : ''}/${project.id}`}>
+                                            <Link to={`/budget-activity${year !== '' ? '/' + year : ''}/${project.id}`}>
                                                 {project.name}
                                             </Link>
                                         </p>

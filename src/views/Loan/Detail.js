@@ -12,7 +12,7 @@ import {
     toLongTHDate,
     toLongTHDateRange
 } from '../../utils'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 import BudgetList from '../../components/Budget/BudgetList'
 import ExpenseList from '../../components/Expense/ExpenseList'
 import DropdownButton from '../../components/FormControls/DropdownButton'
@@ -87,7 +87,7 @@ const LoanDetail = () => {
                                         <Col md={4}>
                                             <label htmlFor="">ปีงบประมาณ</label>
                                             <div className="text-sm font-thin">
-                                                {loan?.year && loan?.year+543}
+                                                {loan?.year && loan?.year + 543}
                                             </div>
                                         </Col>
                                     </Row>
@@ -193,7 +193,7 @@ const LoanDetail = () => {
                                                 .map((course, index) => (
                                                     <li key={index} className="hover:bg-blue-300 py-1 px-2 rounded-md">
                                                         {/* - รุ่นที่ {course.seq_no} */}
-                                                        {++index}.{course?.course_date && <span className="ml-1">วันที่ {toLongTHDateRange(course?.course_date, course?.course_edate)}</span>} 
+                                                        {++index}.{course?.course_date && <span className="ml-1">วันที่ {toLongTHDateRange(course?.course_date, course?.course_edate)}</span>}
                                                         <span className="ml-1">
                                                             ณ {course?.room && <span className="mr-1">{course.room}</span>}
                                                             {course?.place?.name} จ.{course?.place?.changwat?.name}
@@ -201,7 +201,7 @@ const LoanDetail = () => {
                                                         </span>
                                                     </li>
                                                 )
-                                            )}
+                                                )}
                                         </ul>
                                     </div>
                                 </Col>

@@ -12,7 +12,7 @@ import DetailList from './DetailList'
 import StatusBadge from '../StatusBadge'
 import FilteringInputs from './FilteringInputs'
 import Pagination from '../../../components/Pagination'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import EmployeeCard from '../../../components/Employee/Card'
 
 
@@ -63,7 +63,7 @@ const RequisitionList = () => {
                 <Breadcrumb.Item active>จัดซื้อจัดจ้าง</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการคำขอซื้อ/จ้าง</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการคำขอซื้อ/จ้าง</h2>

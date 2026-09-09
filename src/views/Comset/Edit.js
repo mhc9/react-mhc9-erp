@@ -5,7 +5,7 @@ import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { getComset, resetSuccess } from '../../features/slices/comset/comsetSlice'
 import ComsetForm from './Form'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 
 const EditComset = () => {
     const { id } = useParams();
@@ -36,7 +36,7 @@ const EditComset = () => {
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/comset' }}>ชุดคอมพิวเตอร์</Breadcrumb.Item>
                 <Breadcrumb.Item active>แก้ไขชุดคอมพิวเตอร์</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl">แก้ไขชุดคอมพิวเตอร์ (#{id})</h2>
 
@@ -49,4 +49,4 @@ const EditComset = () => {
     )
 }
 
-    export default EditComset
+export default EditComset

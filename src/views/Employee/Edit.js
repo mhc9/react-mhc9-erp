@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { getEmployee, resetSuccess } from '../../features/slices/employee/employeeSlice'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 import EmployeeForm from './Form'
 
 const EditEmployee = () => {
@@ -35,7 +35,7 @@ const EditEmployee = () => {
                 <Breadcrumb.Item active>แก้ไขบุคลากร</Breadcrumb.Item>
                 <Breadcrumb.Item active>{id}</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl">แก้ไขบุคลากร ID: {id}</h2>
 
@@ -47,4 +47,4 @@ const EditEmployee = () => {
     )
 }
 
-    export default EditEmployee
+export default EditEmployee

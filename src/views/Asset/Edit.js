@@ -6,7 +6,7 @@ import { FaEdit } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { getAsset, resetSuccess } from '../../features/slices/asset/assetSlice'
 import AssetForm from './Form'
-import Loading from '../../components/Loading';
+import Loading from '../../components/ui/Loading';
 
 const EditAsset = () => {
     const { id } = useParams();
@@ -38,7 +38,7 @@ const EditAsset = () => {
                 <Breadcrumb.Item active>แก้ไขพัสดุ</Breadcrumb.Item>
                 <Breadcrumb.Item active>{id}</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl font-bold flex flex-row items-center">
                     <FaEdit className='text-warning' />
@@ -54,4 +54,4 @@ const EditAsset = () => {
     )
 }
 
-    export default EditAsset
+export default EditAsset

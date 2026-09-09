@@ -5,7 +5,7 @@ import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { getBudgetPlan, resetSuccess } from '../../../features/slices/budget-plan/budgetPlanSlice'
 import BudgetPlanForm from './Form'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 
 const EditBudgetPlan = () => {
     const { id } = useParams();

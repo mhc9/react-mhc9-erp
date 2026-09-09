@@ -6,7 +6,7 @@ import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import moment from 'moment'
 import { generateQueryString } from '../../utils'
 import { getRepairations } from '../../features/slices/repairation/repairationSlice'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 import Pagination from '../../components/Pagination'
 
 const initialFilters = {};
@@ -29,7 +29,7 @@ const RepairationList = () => {
                 <Breadcrumb.Item active>บริการ</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการส่งซ่อม</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl">รายการส่งซ่อม</h2>
 
@@ -53,7 +53,7 @@ const RepairationList = () => {
                             )}
                             {!isLoading && repairations && repairations.map((repairation, index) => (
                                 <tr key={repairation.id} className="font-thin">
-                                    <td className="text-center">{ pager && pager.from + index}</td>
+                                    <td className="text-center">{pager && pager.from + index}</td>
                                     <td className="text-center">
                                         <p className="text-sm">{moment(repairation.request_date).format('DD/MM/YYYY')}</p>
                                         <p className="text-sm font-thin"><b className="mr-1">เวลา</b>{repairation.request_time}</p>
@@ -93,7 +93,7 @@ const RepairationList = () => {
                         </tbody>
                     </table>
                 </div>
-                
+
                 <Pagination
                     pager={pager}
                     onPageClick={(url) => setApiEndpoint(url)}

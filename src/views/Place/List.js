@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Breadcrumb } from 'react-bootstrap'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa';
 import { getPlaces } from '../../features/slices/place/placeSlice'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 import Pagination from '../../components/Pagination'
 import FilteringInputs from './FilteringInputs'
 
@@ -21,9 +21,9 @@ const PlaceList = () => {
 
     useEffect(() => {
         if (endpoint === '') {
-            dispatch(getPlaces({ url: `/api/places/search?page=${params}`}));
+            dispatch(getPlaces({ url: `/api/places/search?page=${params}` }));
         } else {
-            dispatch(getPlaces({ url: `${endpoint}${params}`}));
+            dispatch(getPlaces({ url: `${endpoint}${params}` }));
         }
     }, [endpoint]);
 
@@ -39,7 +39,7 @@ const PlaceList = () => {
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการสถานที่</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการสถานที่</h2>
@@ -74,7 +74,7 @@ const PlaceList = () => {
                             )}
                             {places && places.map((place, index) => (
                                 <tr key={place?.id} className="font-thin">
-                                    <td className="text-center">{index+pager.from}</td>
+                                    <td className="text-center">{index + pager.from}</td>
                                     <td><p className="font-bold">{place?.name}</p></td>
                                     <td>อ.{place?.amphur?.name} จ.{place?.changwat?.name}</td>
                                     <td className="text-center py-1">

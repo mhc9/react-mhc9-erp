@@ -5,7 +5,7 @@ import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { getInspection, resetSuccess } from '../../features/slices/inspection/inspectionSlice'
 import InspectionForm from './Form'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 
 const EditInspection = () => {
     const { id } = useParams();
@@ -38,7 +38,7 @@ const EditInspection = () => {
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/inspection' }}>รายการตรวจรับพัสดุ</Breadcrumb.Item>
                 <Breadcrumb.Item active>แก้ไขตรวจรับพัสดุ</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl">แก้ไขตรวจรับพัสดุ</h2>
 

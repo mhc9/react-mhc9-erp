@@ -23,7 +23,7 @@ import AddItem from './AddItem'
 import ItemList from './ItemList'
 import Committee from './Committee'
 import Deputy from './Deputy'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import ModalEmployeeList from '../../../components/Modals/EmployeeList'
 import ModalBudgetList from '../../../components/Modals/BudgetList'
 import EmployeeSelection from '../../../components/FormControls/EmployeeSelection'
@@ -222,7 +222,7 @@ const RequisitionForm = ({ requisition }) => {
                 deputy: (requisition && requisition.deputy) ? requisition.deputy : '',
                 items: requisition ? requisition.details : [],
                 budgets: requisition ? requisition.budgets : [],
-                committees: requisition ? requisition.committees : [] 
+                committees: requisition ? requisition.committees : []
             }}
             validationSchema={requisitionSchema}
             onSubmit={handleSubmit}
@@ -307,7 +307,7 @@ const RequisitionForm = ({ requisition }) => {
                                         </select>
                                         {(formik.errors.order_type_id && formik.touched.order_type_id) && (
                                             <span className="text-red-500 text-sm">{formik.errors.order_type_id}</span>
-                                        )}  
+                                        )}
                                     </Col>
                                     <Col md={4}>
                                         <label htmlFor="">ประเภทสินค้า <span className="text-red-500">*</span></label>
@@ -344,16 +344,16 @@ const RequisitionForm = ({ requisition }) => {
                                     <Row className="mb-2">
                                         <Col>
                                             <label htmlFor="">รายละเอียดการจ้าง <span className="text-red-500">*</span></label>
-                                                <input
-                                                    type="text"
-                                                    name="contract_desc"
-                                                    value={formik.values.contract_desc}
-                                                    onChange={(e) => {
-                                                        formik.handleChange(e);
-                                                        formik.setFieldValue('topic', 'ขออนุมัติงบประมาณ' + e.target.value);
-                                                    }}
-                                                    className="form-control text-sm"
-                                                />
+                                            <input
+                                                type="text"
+                                                name="contract_desc"
+                                                value={formik.values.contract_desc}
+                                                onChange={(e) => {
+                                                    formik.handleChange(e);
+                                                    formik.setFieldValue('topic', 'ขออนุมัติงบประมาณ' + e.target.value);
+                                                }}
+                                                className="form-control text-sm"
+                                            />
                                             {(formik.errors.contract_desc && formik.touched.contract_desc) && (
                                                 <span className="text-red-500 text-sm">{formik.errors.contract_desc}</span>
                                             )}
@@ -364,13 +364,13 @@ const RequisitionForm = ({ requisition }) => {
                                 <Row className="mb-2">
                                     <Col>
                                         <label htmlFor="">เรื่อง <span className="text-red-500">*</span></label>
-                                            <input
-                                                type="text"
-                                                name="topic"
-                                                value={formik.values.topic}
-                                                onChange={formik.handleChange}
-                                                className="form-control text-sm"
-                                            />
+                                        <input
+                                            type="text"
+                                            name="topic"
+                                            value={formik.values.topic}
+                                            onChange={formik.handleChange}
+                                            className="form-control text-sm"
+                                        />
                                         {(formik.errors.topic && formik.touched.topic) && (
                                             <span className="text-red-500 text-sm">{formik.errors.topic}</span>
                                         )}
@@ -519,7 +519,7 @@ const RequisitionForm = ({ requisition }) => {
 
                                                     const newBudgets = [...formik.values.budgets, budget];
                                                     const budgetTotal = calculateNetTotal(newBudgets, (isRemoved) => isRemoved);
-                                            
+
                                                     formik.setFieldValue('budgets', newBudgets);
                                                     formik.setFieldValue('budget_total', currency.format(budgetTotal));
                                                 }}
@@ -534,11 +534,11 @@ const RequisitionForm = ({ requisition }) => {
                                                     } else {
                                                         newBudgets = formik.values.budgets.map(item => {
                                                             if (item.id === id) return { ...item, removed: true };
-                                            
+
                                                             return item;
                                                         });
                                                     }
-                                            
+
                                                     formik.setFieldValue('budgets', newBudgets);
                                                     formik.setFieldValue('budget_total', currency.format(calculateNetTotal(newBudgets, (isRemoved) => isRemoved)));
                                                 }}

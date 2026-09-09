@@ -7,7 +7,7 @@ import moment from 'moment';
 import { useStyles } from '../../../hooks/useStyles'
 import { getAllTasks } from '../../../features/slices/task/taskSlice'
 import TaskGroup from './Group';
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 
 const TaskSummary = () => {
     const classes = useStyles();
@@ -27,7 +27,7 @@ const TaskSummary = () => {
                 <Breadcrumb.Item active>บริการ</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายงานการให้บริการ</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl font-bold">รายงานการให้บริการ</h2>
 

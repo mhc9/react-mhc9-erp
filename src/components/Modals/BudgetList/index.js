@@ -7,7 +7,7 @@ import { generateQueryString, getUrlParam } from '../../../utils';
 import { getBudgets } from '../../../features/slices/budget/budgetSlice';
 import { useGetInitialFormDataQuery } from '../../../features/services/budget/budgetApi';
 import FilteringInputs from './FilteringInputs';
-import Loading from '../../Loading';
+import Loading from '../../ui/Loading';
 import Pagination from '../../Pagination';
 import BudgetTypeBadge from '../../Budget/BudgetTypeBadge';
 
@@ -83,14 +83,14 @@ const ModalBudgetList = ({ isShow, onHide, onSelect }) => {
                             )}
                             {(!isLoading && budgets) && budgets.map((budget, index) => (
                                 <tr key={budget.id}>
-                                    <td className="text-center">{index+pager?.from}</td>
+                                    <td className="text-center">{index + pager?.from}</td>
                                     {/* <td className="text-center">{budget.budget_no}</td> */}
                                     <td>
                                         <p className="text-gray-400 text-xs">{budget.activity?.project?.plan?.plan_no} {budget.activity?.project?.plan?.name}</p>
                                         <p className="text-xs font-semibold">{budget.activity?.project?.name}</p>
                                         <p className="text-blue-500 text-sm">
                                             {budget.activity?.name}
-                                            <BudgetTypeBadge type={budget.type}/>
+                                            <BudgetTypeBadge type={budget.type} />
                                         </p>
                                     </td>
                                     <td className="text-center">{budget.activity?.year && budget.activity?.year + 543}</td>

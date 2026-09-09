@@ -5,7 +5,7 @@ import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { getRequisition, resetSuccess } from '../../features/slices/requisition/requisitionSlice'
 import RequisitionForm from './Form'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 
 const EditRequisition = () => {
     const { id } = useParams();
@@ -34,13 +34,13 @@ const EditRequisition = () => {
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/requisition' }}>รายการคำขอซื้อ/จ้าง</Breadcrumb.Item>
                 <Breadcrumb.Item active>แก้ไขคำขอซื้อ/จ้าง</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl">แก้ไขคำขอซื้อ/จ้าง (#{id})</h2>
 
                 <div className="my-2 border p-4 rounded-md">
                     {isLoading && <div className="text-center"><Loading /></div>}
-                    
+
                     {!isLoading && <RequisitionForm requisition={requisition} />}
                 </div>
             </div>

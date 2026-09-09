@@ -6,7 +6,7 @@ import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { generateQueryString } from '../../../utils'
 import { getSuppliers } from '../../../features/slices/supplier/supplierSlice'
 import Pagination from '../../../components/Pagination'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import FilteringInputs from '../../../components/Modals/Supplier/FilteringInputs'
 
 const initialFilters = {
@@ -80,7 +80,7 @@ const SupplierList = () => {
                                     <td className="text-center">{pager && pager.from + index}</td>
                                     <td>{supplier.name}</td>
                                     <td className="text-xs">
-                                        {supplier.address ? supplier.address+' ' : ''}หมู่.{supplier.moo ? supplier.moo : '-'} ถ.{supplier.raod ? supplier.raod : '-'}
+                                        {supplier.address ? supplier.address + ' ' : ''}หมู่.{supplier.moo ? supplier.moo : '-'} ถ.{supplier.raod ? supplier.raod : '-'}
                                         {supplier.tambon?.name} {supplier.amphur?.name} {supplier.changwat?.name} {supplier.zipcode ? supplier.zipcode : '-'}
                                         <span className="ml-1">โทร.{supplier.tel ? supplier.tel : '-'} Fax.{supplier.fax ? supplier.fax : '-'}</span>
                                     </td>

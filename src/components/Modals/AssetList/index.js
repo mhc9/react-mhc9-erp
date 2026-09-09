@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAssets } from '../../../features/slices/asset/assetSlice';
-import Loading from '../../Loading';
+import Loading from '../../ui/Loading';
 import Pagination from '../../Pagination';
 import AssetFilteringInput from '../../Asset/FilteringInput';
 
@@ -68,18 +68,18 @@ const ModalAssetList = ({ isShow, onHide, onSelect }) => {
                             )}
                             {assets && assets.map((asset, index) => (
                                 <tr key={asset.id} className="font-thin">
-                                    <td className="text-center">{index+pager.from}</td>
+                                    <td className="text-center">{index + pager.from}</td>
                                     <td className="text-center">{asset.asset_no}</td>
                                     <td>
                                         <p className="text-gray-400 text-sm">{asset.group?.category?.name}</p>
                                         <p>{asset.name}</p>
-                                        <span className="font-bold ml-1">ยี่ห้อ: </span>{asset.brand.name} 
+                                        <span className="font-bold ml-1">ยี่ห้อ: </span>{asset.brand.name}
                                         <span className="font-bold ml-1">รุ่น: </span>{asset.model ? asset.model : '-'}
                                         <span className="font-bold ml-1">ซื้อเมื่อปี: </span>{asset.first_year ? asset.first_year : '-'}
                                     </td>
                                     <td>
                                         {asset.current_owner.length > 0 &&
-                                            asset.current_owner[0].owner?.prefix?.name + asset.current_owner[0].owner?.firstname+ ' ' +asset.current_owner[0].owner?.lastname}
+                                            asset.current_owner[0].owner?.prefix?.name + asset.current_owner[0].owner?.firstname + ' ' + asset.current_owner[0].owner?.lastname}
                                     </td>
                                     <td className="text-center">
                                         <button

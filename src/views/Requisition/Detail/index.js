@@ -12,7 +12,7 @@ import StatusBadge from '../StatusBadge'
 import ModalApprovalForm from './Approval/Form'
 import ConsiderationForm from './Consideration/Form'
 import ConsiderationDetail from './Consideration/Detail'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import DropdownButton from '../../../components/FormControls/DropdownButton'
 import DropdownItem from '../../../components/FormControls/DropdownButton/DropdownItem'
 import BudgetList from '../../../components/Budget/BudgetList'
@@ -55,7 +55,7 @@ const RequisitionDetail = () => {
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/requisition' }}>รายการคำขอซื้อ/จ้าง</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายละเอียดคำขอซื้อ/จ้าง</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="flex flex-row justify-between items-center">
                     <h2 className="text-xl">รายละเอียดคำขอซื้อ/จ้าง (#{id})</h2>
@@ -132,7 +132,7 @@ const RequisitionDetail = () => {
                                             <Col className="pb-1">
                                                 <label htmlFor="">ปีงบประมาณ</label>
                                                 <div className="text-sm font-thin">
-                                                    {requisition.year && requisition.year+543}
+                                                    {requisition.year && requisition.year + 543}
                                                 </div>
                                             </Col>
                                         </Row>
@@ -243,7 +243,7 @@ const RequisitionDetail = () => {
                                         {requisition.committees.length > 0 && requisition.committees.map((committee, index) => (
                                             <div className="min-w-[50%] flex flex-row font-thin text-sm ml-4" key={committee.id}>
                                                 <span className="min-w-[45%]">
-                                                    {index+1}. {committee.employee?.prefix.name}{committee.employee?.firstname} {committee.employee?.lastname}
+                                                    {index + 1}. {committee.employee?.prefix.name}{committee.employee?.firstname} {committee.employee?.lastname}
                                                 </span>
                                                 <span>
                                                     <b>ตำแหน่ง</b> {committee.employee?.position?.name}{committee.employee?.level && committee.employee?.level?.name}
@@ -278,11 +278,11 @@ const RequisitionDetail = () => {
 
                                     {[1, 3].includes(loggedInUser?.permissions[0]?.role_id)
                                         && (requisition.requisition_type_id === 2 || (requisition.requisition_type_id === 1 && requisition.approvals.length === 0)) && (
-                                        <button type="button" className="btn btn-outline-primary btn-sm mr-1" onClick={() => setShowApprovalForm(true)}>
-                                            <i class="fas fa-plus-square mr-1"></i>
-                                            สร้างรายงานขอซื้อ/จ้าง
-                                        </button>
-                                    )}
+                                            <button type="button" className="btn btn-outline-primary btn-sm mr-1" onClick={() => setShowApprovalForm(true)}>
+                                                <i class="fas fa-plus-square mr-1"></i>
+                                                สร้างรายงานขอซื้อ/จ้าง
+                                            </button>
+                                        )}
                                 </div>
 
                                 <table className="table table-sm table-bordered mb-2">
@@ -386,7 +386,7 @@ const RequisitionDetail = () => {
                                                                         onSubmitted={() => setShowConsiderForm(false)}
                                                                     />
                                                                 </div>
-                                                                )}
+                                                            )}
                                                         </div>
                                                         <div className='w-[5%]'>
                                                             {approval.consider_no && (

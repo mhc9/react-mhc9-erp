@@ -8,7 +8,7 @@ import { getReports } from '../../features/slices/requisition/requisitionSlice';
 import FilteringInputs from './FilteringInputs';
 import DropdownButton from '../../components/FormControls/DropdownButton'
 import DropdownItem from '../../components/FormControls/DropdownButton/DropdownItem'
-import Loading from '../../components/Loading';
+import Loading from '../../components/ui/Loading';
 
 const ProcurementAttachment = () => {
     const [cookies] = useCookies();
@@ -82,22 +82,22 @@ const ProcurementAttachment = () => {
                             return new Date(dateA) - new Date(dateB);
                         })
                         .map((req, index) => (
-                        <tr key={req.id}>
-                            <td className="text-center">{index + 1}</td>
-                            <td className="text-center">
-                                {req.approvals[0].supplier?.tax_type_id === 1
-                                    ? req.approvals[0].supplier?.tax_no ? req.approvals[0].supplier?.tax_no?.substring(0, 9) + 'xxxx' : '-'
-                                    : req.approvals[0].supplier?.tax_no
-                                }
-                            </td>
-                            <td>{req.approvals[0].supplier?.name}</td>
-                            <td>{req.order_type_id === 2 ? req.contract_desc : req.category.name}</td>
-                            <td className="text-right">{currency.format(req.net_total)}</td>
-                            <td>วันที่ <span>{toShortTHDate(req.approvals[0].consider_date)}</span></td>
-                            <td>เลขที่ <span>{req.approvals[0].consider_no}</span></td>
-                            <td className="text-center">1</td>
-                        </tr>
-                    ))}
+                            <tr key={req.id}>
+                                <td className="text-center">{index + 1}</td>
+                                <td className="text-center">
+                                    {req.approvals[0].supplier?.tax_type_id === 1
+                                        ? req.approvals[0].supplier?.tax_no ? req.approvals[0].supplier?.tax_no?.substring(0, 9) + 'xxxx' : '-'
+                                        : req.approvals[0].supplier?.tax_no
+                                    }
+                                </td>
+                                <td>{req.approvals[0].supplier?.name}</td>
+                                <td>{req.order_type_id === 2 ? req.contract_desc : req.category.name}</td>
+                                <td className="text-right">{currency.format(req.net_total)}</td>
+                                <td>วันที่ <span>{toShortTHDate(req.approvals[0].consider_date)}</span></td>
+                                <td>เลขที่ <span>{req.approvals[0].consider_no}</span></td>
+                                <td className="text-center">1</td>
+                            </tr>
+                        ))}
 
                     {!isLoading && (
                         <tr className="font-bold">

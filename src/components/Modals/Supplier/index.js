@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import { getSuppliers } from '../../../features/slices/supplier/supplierSlice';
 import { generateQueryString } from '../../../utils';
-import Loading from '../../Loading';
-import Pagination from '../../../components/Pagination'
+import Loading from '../../ui/Loading';
+import Pagination from '../../Pagination'
 import FilteringInputs from './FilteringInputs';
 
 const initialFilters = {
@@ -62,10 +62,10 @@ const ModalSupplierList = ({ isShow, onHide, onSelect }) => {
                         <tbody>
                             {suppliers && suppliers.map((supplier, index) => (
                                 <tr key={supplier.id} className="font-thin">
-                                    <td className="text-center">{pager && pager.from+index}</td>
+                                    <td className="text-center">{pager && pager.from + index}</td>
                                     <td>{supplier.name}</td>
                                     <td className="text-xs">
-                                        {supplier.address ? supplier.address+' ' : ''}หมู่.{supplier.moo ? supplier.moo : '-'} ถ.{supplier.raod ? supplier.raod : '-'}
+                                        {supplier.address ? supplier.address + ' ' : ''}หมู่.{supplier.moo ? supplier.moo : '-'} ถ.{supplier.raod ? supplier.raod : '-'}
                                         {supplier.tambon?.name} {supplier.amphur?.name} {supplier.changwat?.name} {supplier.zipcode ? supplier.zipcode : '-'}
                                         <span className="ml-1">โทร.{supplier.tel ? supplier.tel : '-'} Fax.{supplier.fax ? supplier.fax : '-'}</span>
                                     </td>

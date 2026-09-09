@@ -10,7 +10,7 @@ import { store, update } from '../../features/slices/task/taskSlice'
 import { useGetInitialFormDataQuery } from '../../features/services/task/taskApi'
 import TaskAssetList from './Asset/List'
 import TaskAssetForm from './Asset/Form'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 import ModalEmployeeList from '../../components/Modals/EmployeeList'
 
 const taskSchema = Yup.object().shape({
@@ -95,7 +95,7 @@ const TaskForm = ({ task }) => {
                     use_time: task ? '' : '',
                     reporter_id: task ? task.reporter_id : '',
                     remark: task ? task.remark : '',
-                    assets: task? task.assets : [],
+                    assets: task ? task.assets : [],
                 }}
                 validationSchema={taskSchema}
                 onSubmit={handleSubmit}
@@ -139,7 +139,7 @@ const TaskForm = ({ task }) => {
                                 <Col md={2}>
                                     <FormGroup>
                                         <div className="flex flex-col">
-                                        <label>เวลาที่แจ้ง</label>
+                                            <label>เวลาที่แจ้ง</label>
                                             <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
                                                 <TimePicker
                                                     format="HH:mm"
@@ -242,7 +242,7 @@ const TaskForm = ({ task }) => {
                                 <Col md={2}>
                                     <FormGroup>
                                         <div className="flex flex-col">
-                                        <label>เวลาจะใช้งาน</label>
+                                            <label>เวลาจะใช้งาน</label>
                                             <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
                                                 <TimePicker
                                                     format="HH:mm"
@@ -289,35 +289,35 @@ const TaskForm = ({ task }) => {
                                     </FormGroup>
                                 </Col>
                                 <Col>
-                                <FormGroup>
-                                    <label>ความเร่งด่วน</label>                                    
-                                    <label className="form-control text-sm font-thin">
-                                        <Field
-                                            type="radio"
-                                            name="priority_id"
-                                            value="1"
-                                        />
-                                        <span className="ml-1 mr-4">ปกติ</span>
+                                    <FormGroup>
+                                        <label>ความเร่งด่วน</label>
+                                        <label className="form-control text-sm font-thin">
+                                            <Field
+                                                type="radio"
+                                                name="priority_id"
+                                                value="1"
+                                            />
+                                            <span className="ml-1 mr-4">ปกติ</span>
 
-                                        <Field
-                                            type="radio"
-                                            name="priority_id"
-                                            value="2"
-                                        />
-                                        <span className="ml-1 mr-4">ด่วน</span>
+                                            <Field
+                                                type="radio"
+                                                name="priority_id"
+                                                value="2"
+                                            />
+                                            <span className="ml-1 mr-4">ด่วน</span>
 
-                                        <Field
-                                            type="radio"
-                                            name="priority_id"
-                                            value="3"
-                                        />
-                                        <span className="ml-1 mr-4">ด่วนมาก</span>
-                                    </label>
-                                    {(formik.errors.priority_id && formik.touched.priority_id) && (
-                                        <span className="text-red-500 text-sm">{formik.errors.priority_id}</span>
-                                    )}
-                                </FormGroup>
-                            </Col>
+                                            <Field
+                                                type="radio"
+                                                name="priority_id"
+                                                value="3"
+                                            />
+                                            <span className="ml-1 mr-4">ด่วนมาก</span>
+                                        </label>
+                                        {(formik.errors.priority_id && formik.touched.priority_id) && (
+                                            <span className="text-red-500 text-sm">{formik.errors.priority_id}</span>
+                                        )}
+                                    </FormGroup>
+                                </Col>
                             </Row>
                             <Row className="mb-4">
                                 <Col>

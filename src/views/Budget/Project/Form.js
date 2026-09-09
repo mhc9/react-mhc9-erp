@@ -7,7 +7,7 @@ import moment from 'moment'
 import { useStyles } from '../../../hooks/useStyles'
 import { getAllBudgetPlans } from '../../../features/slices/budget-plan/budgetPlanSlice'
 import { store, update } from '../../../features/slices/budget-project/budgetProjectSlice'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 
 const budgetProjectSchema = Yup.object().shape({
     name: Yup.string().required('กรุณาระบุชื่อโครงการ/ผลผลิต'),

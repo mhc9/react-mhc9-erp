@@ -8,7 +8,7 @@ import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { currency, generateQueryString, toShortTHDate } from '../../../utils'
 import { useGetInitialFormDataQuery } from '../../../features/services/inspection/inspectionApi'
 import { getInspections, destroy, resetDeleted } from '../../../features/slices/inspection/inspectionSlice'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import Pagination from '../../../components/Pagination'
 import { toast } from 'react-toastify'
 import InspectionFilteringInputs from '../../../components/Inspection/FilteringInputs'
@@ -20,7 +20,7 @@ const initialFormData = {
 const InspectionList = () => {
     const [cookies] = useCookies();
     const initialFilters = {
-        year:  cookies.budgetYear,
+        year: cookies.budgetYear,
         po_no: '',
         po_date: '',
         supplier: '',
@@ -71,7 +71,7 @@ const InspectionList = () => {
                 <Breadcrumb.Item active>จัดซื้อจัดจ้าง</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการตรวจรับพัสดุ</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการตรวจรับพัสดุ</h2>
@@ -114,7 +114,7 @@ const InspectionList = () => {
                             )}
                             {!isLoading && inspections && inspections.map((inspection, index) => (
                                 <tr key={inspection.id} className="font-thin">
-                                    <td className="text-center">{pager && pager.from+index}</td>
+                                    <td className="text-center">{pager && pager.from + index}</td>
                                     <td className="text-center">{toShortTHDate(inspection.inspect_date)}</td>
                                     <td>
                                         <p className="font-bold text-lg">{inspection.supplier?.name}</p>

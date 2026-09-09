@@ -3,7 +3,7 @@ import { AiFillBulb } from 'react-icons/ai'
 import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { useSelector } from 'react-redux';
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 
 const RoomList = ({ rooms, pager, handleEditting }) => {
     const { loading } = useSelector(state => state.room);
@@ -27,7 +27,7 @@ const RoomList = ({ rooms, pager, handleEditting }) => {
                     )}
                     {rooms && rooms.map((room, index) => (
                         <tr key={room.id}>
-                            <td className="text-center">{index+pager.from}</td>
+                            <td className="text-center">{index + pager.from}</td>
                             <td>{room.name}</td>
                             <td className="text-center">
                                 {room.status === 1 ? (

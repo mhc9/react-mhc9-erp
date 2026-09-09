@@ -8,7 +8,7 @@ import { currency } from '../../utils';
 import { getItems, destroy, resetDeleted } from '../../features/slices/item/itemSlice';
 import { useGetInitialFormDataQuery } from '../../features/services/item/itemApi'
 import Pagination from '../../components/Pagination'
-import Loading from '../../components/Loading';
+import Loading from '../../components/ui/Loading';
 import Item from '../../components/Item/Item';
 import FilteringInputs from '../../components/Item/FilteringInputs'
 
@@ -64,7 +64,7 @@ const ItemList = () => {
                 <Breadcrumb.Item active>ข้อมูลพื้ฐาน</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายการสินค้า/บริการ</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl">รายการสินค้า/บริการ</h2>
@@ -95,7 +95,7 @@ const ItemList = () => {
                             )}
                             {(!isLoading && items) && items.map((item, index) => (
                                 <tr key={item.id} className="text-sm">
-                                    <td className="text-center">{pager && pager.from+index}</td>
+                                    <td className="text-center">{pager && pager.from + index}</td>
                                     <td>
                                         <Item item={item} />
                                     </td>

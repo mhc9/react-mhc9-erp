@@ -5,7 +5,7 @@ import moment from 'moment'
 import { useGetInitialFormDataQuery } from '../../features/services/order/orderApi'
 import { generateQueryString } from '../../utils';
 import { useStyles } from '../../hooks/useStyles'
-import Loading from '../Loading';
+import Loading from '../ui/Loading';
 
 const initialFormData = {
     suppliers: []

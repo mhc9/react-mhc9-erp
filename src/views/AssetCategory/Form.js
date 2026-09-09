@@ -4,7 +4,7 @@ import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { store, update } from '../../features/slices/asset-category/assetCategorySlice'
 import { useGetInitialFormDataQuery } from '../../features/services/asset-category/assetCategoryApi'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 
 const assetCategorySchema = Yup.object().shape({
     name: Yup.string().required(),

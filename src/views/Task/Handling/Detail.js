@@ -2,7 +2,7 @@ import React from 'react'
 import { Col, Row } from 'react-bootstrap';
 import moment from 'moment'
 import { toShortTHDate } from '../../../utils';
-import Loading from '../../../components/Loading';
+import Loading from '../../../components/ui/Loading';
 
 const TaskHandlingDetail = ({ task }) => {
     return (
@@ -16,14 +16,14 @@ const TaskHandlingDetail = ({ task }) => {
                 </Col>
                 <Col md={2}>
                     <label>เวลาที่ดำเนินการ</label>
-                        <div className="form-control text-center text-sm font-thin min-h-[34px]">
-                            {task.handle_time}
-                        </div>
+                    <div className="form-control text-center text-sm font-thin min-h-[34px]">
+                        {task.handle_time}
+                    </div>
                 </Col>
                 <Col>
                     <label htmlFor="">ผู้ดำเนินการ</label>
                     <div className="form-control text-sm font-thin min-h-[34px]">
-                        {task.handler && task.handler.prefix?.name+task.handler.firstname+ ' ' +task.handler.lastname}
+                        {task.handler && task.handler.prefix?.name + task.handler.firstname + ' ' + task.handler.lastname}
                     </div>
                 </Col>
             </Row>

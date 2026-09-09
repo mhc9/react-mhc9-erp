@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Col, Row, FormGroup } from 'react-bootstrap'
 import { generateQueryString } from '../../utils'
 import { useGetInitialFormDataQuery } from '../../features/services/asset/assetApi';
-import Loading from '../Loading';
+import Loading from '../ui/Loading';
 
 const initialFormData = {
     groups: [],

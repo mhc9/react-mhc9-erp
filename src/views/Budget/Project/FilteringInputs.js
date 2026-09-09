@@ -4,7 +4,7 @@ import moment from 'moment'
 import { generateQueryString } from '../../../utils'
 import { useStyles } from '../../../hooks/useStyles'
 import { useGetInitialFormDataQuery } from '../../../features/services/budget-project/budgetProjectApi';
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 
 const FilteringInputs = ({ initialFilters, onFilter }) => {
     const classes = useStyles();

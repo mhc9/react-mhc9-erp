@@ -8,7 +8,7 @@ import moment from 'moment'
 import { useStyles } from '../../hooks/useStyles'
 import { getReport } from '../../features/slices/loan-contract/loanContractSlice'
 import { currency, generateQueryString, toShortTHDate } from '../../utils'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 import Pagination from '../../components/Pagination'
 import EmployeeCard from '../../components/Employee/Card'
 
@@ -37,7 +37,7 @@ const LoanContractReport = () => {
     const renderRefundTotal = (type, balance) => {
         return (
             <div className={`${(type === 1 || type === 3) ? 'text-green-600' : 'text-red-600'} font-bold`}>
-                {type === 1 ? '+' : ''}{currency.format(balance)} 
+                {type === 1 ? '+' : ''}{currency.format(balance)}
             </div>
         )
     };
@@ -54,7 +54,7 @@ const LoanContractReport = () => {
                 <Breadcrumb.Item active>ยืมเงินราชการ</Breadcrumb.Item>
                 <Breadcrumb.Item active>ทะเบียนคุม</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="flex items-center justify-between mb-2">
                     <h1 className="text-xl font-bold">ทะเบียนคุม</h1>
@@ -81,7 +81,7 @@ const LoanContractReport = () => {
                                         setApiEndpoint(prev => prev === '' ? `/api/loan-contracts/report/${date.year()}?page=` : '');
                                     }}
                                     className={classes.muiTextFieldInput}
-                                    />
+                                />
                             </div>
                         </div>
                     </div>

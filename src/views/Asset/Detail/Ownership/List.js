@@ -5,7 +5,7 @@ import { FaSearch, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import moment from 'moment'
 import { toShortTHDate } from '../../../../utils'
 import { getOwnershipsByAsset, resetSuccess } from '../../../../features/slices/asset-ownership/assetOwnershipSlice'
-import Loading from '../../../../components/Loading'
+import Loading from '../../../../components/ui/Loading'
 
 const OwnershipList = ({ assetId, isUpdated }) => {
     const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const OwnershipList = ({ assetId, isUpdated }) => {
 
     useEffect(() => {
         if (assetId) dispatch(getOwnershipsByAsset({ assetId }));
-    },[assetId, isUpdated]);
+    }, [assetId, isUpdated]);
 
     useEffect(() => {
         if (isUpdated) dispatch(resetSuccess());
@@ -39,7 +39,7 @@ const OwnershipList = ({ assetId, isUpdated }) => {
                     )}
                     {!loading && ownerships && ownerships.map((owns, index) => (
                         <tr key={owns.id} className="font-thin">
-                            <td className="text-center">{index+pager.from}</td>
+                            <td className="text-center">{index + pager.from}</td>
                             <td className="text-center">{toShortTHDate(owns.owned_at)}</td>
                             <td>{owns.owner.firstname} {owns.owner.lastname}</td>
                             <td className="text-center">

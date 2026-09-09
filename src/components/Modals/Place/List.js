@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap'
 import { getPlaces } from '../../../features/slices/place/placeSlice';
-import Loading from '../../Loading';
+import Loading from '../../ui/Loading';
 import FilteringInputs from './FilteringInputs';
 import Pagination from '../../Pagination'
 
@@ -64,7 +64,7 @@ const ModalPlaceList = ({ isShow, onHide, onSelect }) => {
                             )}
                             {places && places.map((place, index) => (
                                 <tr key={place?.id} className="font-thin">
-                                    <td className="text-center">{index+pager.from}</td>
+                                    <td className="text-center">{index + pager.from}</td>
                                     <td><p className="font-bold">{place?.name}</p></td>
                                     <td>อ.{place?.amphur?.name} จ.{place?.changwat?.name}</td>
                                     <td className="text-center py-1">

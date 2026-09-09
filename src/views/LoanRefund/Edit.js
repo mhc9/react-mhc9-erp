@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import { Breadcrumb } from 'react-bootstrap'
 import { getRefund, resetSuccess } from '../../features/slices/loan-refund/loanRefundSlice'
 import LoanRefundForm from './Form'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 
 const EditLoanRefund = () => {
     const { id } = useParams();

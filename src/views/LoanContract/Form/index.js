@@ -16,7 +16,7 @@ import {
 } from '../../../utils'
 import { store, update } from '../../../features/slices/loan-contract/loanContractSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/loan/loanApi'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import ExpenseList from '../../../components/Expense/ExpenseList'
 import OrderList from '../../Loan/Form/OrderList'
 import ModalLoanList from '../../../components/Modals/Loan/List'
@@ -198,7 +198,7 @@ const LoanContractForm = ({ contract }) => {
                                         <Col md={3} className="flex flex-row items-center">
                                             <label htmlFor="">ปีงบประมาณ :</label>
                                             <div className="font-thin ml-1">
-                                                {loan && loan?.year+543}
+                                                {loan && loan?.year + 543}
                                             </div>
                                         </Col>
                                     </Row>
@@ -347,7 +347,7 @@ const LoanContractForm = ({ contract }) => {
                                 <div className="flex flex-col border rounded-md p-2">
                                     <Tabs
                                         id=""
-                                        defaultActiveKey="expenses" 
+                                        defaultActiveKey="expenses"
                                         className={`mt-2 ${(formik.errors.items && formik.touched.items) && 'border-red-500'}`}
                                     >
                                         <Tab eventKey="expenses" title="รายการค่าใช้จ่าย">

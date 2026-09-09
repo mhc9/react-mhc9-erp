@@ -5,7 +5,7 @@ import { Breadcrumb, Col, Row } from 'react-bootstrap'
 import { getInspection } from '../../features/slices/inspection/inspectionSlice'
 import { currency, toShortTHDate } from '../../utils'
 import ItemList from './ItemList'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 import DropdownButton from '../../components/FormControls/DropdownButton'
 import DropdownItem from '../../components/FormControls/DropdownButton/DropdownItem'
 
@@ -27,7 +27,7 @@ const InspectionDetail = () => {
                 <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/inspection' }}>รายการตรวจรับพัสดุ</Breadcrumb.Item>
                 <Breadcrumb.Item active>รายละเอียดการตรวจรับพัสดุ</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <h2 className="text-xl">รายละเอียดการตรวจรับพัสดุ</h2>
 
@@ -56,7 +56,7 @@ const InspectionDetail = () => {
                                         <Col md={2}>
                                             <span className="mr-2">ปีงบ</span>
                                             <div className="form-control font-thin text-sm cursor-not-allowed">
-                                                {inspection.year+543}
+                                                {inspection.year + 543}
                                             </div>
                                         </Col>
                                     </Row>

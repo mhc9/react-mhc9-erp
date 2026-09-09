@@ -12,7 +12,7 @@ import { repair } from '../../../features/slices/repairation/repairationSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/repairation/repairationApi'
 import ExpenseList from './ExpenseList';
 import ExpenseForm from './ExpenseForm';
-import Loading from '../../../components/Loading';
+import Loading from '../../../components/ui/Loading';
 import Autocomplete from '../../../components/FormControls/Autocomplete'
 
 const repairationSchema = Yup.object().shape({
@@ -112,7 +112,7 @@ const RepairationForm = ({ repairation }) => {
                             </Col>
                             <Col>
                                 <div className="flex flex-col">
-                                <label>เวลาที่ซ่อม</label>
+                                    <label>เวลาที่ซ่อม</label>
                                     <MuiPickersUtilsProvider utils={OverWriteMomentBE} locale="th">
                                         <TimePicker
                                             format="HH:mm"
@@ -249,7 +249,7 @@ const RepairationForm = ({ repairation }) => {
                                             } else {
                                                 formik.setFieldValue('supplier_id', '');
                                             }
-                                        }} 
+                                        }}
                                     />
                                 )}
                                 {(formik.errors.supplier_id && formik.touched.supplier_id) && (
@@ -313,7 +313,7 @@ const RepairationForm = ({ repairation }) => {
                                             } else {
                                                 formik.setFieldValue('staff_id', '');
                                             }
-                                        }} 
+                                        }}
                                     />
                                 )}
                                 {(formik.errors.staff_id && formik.touched.staff_id) && (

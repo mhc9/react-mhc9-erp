@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FaPencilAlt, FaSearch, FaTrash } from 'react-icons/fa'
 import { currency } from '../../../utils'
 import { store, update } from '../../../features/slices/comset/comsetSlice';
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import ModalAssetList from '../../../components/Modals/AssetList';
 import ModalEquipmentForm from '../../../components/Modals/Equipment/Form'
 import ModalLicenseForm from '../../../components/Modals/License/Form'
@@ -54,7 +54,7 @@ const ComsetForm = ({ comset }) => {
             setEdittingEquipment(null);
             formik.setFieldValue('equipments', updated);
         } else {
-            formik.setFieldValue('equipments', [ ...formik.values.equipments, equipment ]);
+            formik.setFieldValue('equipments', [...formik.values.equipments, equipment]);
         }
     };
 
@@ -75,7 +75,7 @@ const ComsetForm = ({ comset }) => {
             setEdittingLicense(null);
             formik.setFieldValue('licenses', updated);
         } else {
-            formik.setFieldValue('licenses', [ ...formik.values.licenses, license ]);
+            formik.setFieldValue('licenses', [...formik.values.licenses, license]);
         }
     };
 
@@ -209,7 +209,7 @@ const ComsetForm = ({ comset }) => {
                             <Col>
                                 <div className="flex flex-row items-center justify-between mb-2">
                                     <h4 className="text-lg font-bold">อุปกรณ์ภายใน</h4>
-                                    
+
                                     <div className="flex flex-row">
                                         <button
                                             type="button"
@@ -235,7 +235,7 @@ const ComsetForm = ({ comset }) => {
                                     <tbody>
                                         {formik.values.equipments.map((equipment, index) => (
                                             <tr key={equipment.id}>
-                                                <td className="text-center">{index+1}</td>
+                                                <td className="text-center">{index + 1}</td>
                                                 <td>
                                                     <span>{equipment.brand?.name}</span>
                                                     <span className="mx-1">{equipment.model}</span>
@@ -273,7 +273,7 @@ const ComsetForm = ({ comset }) => {
                             <Col>
                                 <div className="flex flex-row items-center justify-between mb-2">
                                     <h4 className="text-lg font-bold">ไลเซนส์</h4>
-                                    
+
                                     <div className="flex flex-row">
                                         <button
                                             type="button"
@@ -306,7 +306,7 @@ const ComsetForm = ({ comset }) => {
                                         )}
                                         {formik.values.licenses.length > 0 && formik.values.licenses.map((license, index) => (
                                             <tr>
-                                                <td className="text-center">{index+1}</td>
+                                                <td className="text-center">{index + 1}</td>
                                                 <td>{license.description}</td>
                                                 <td className="text-center">{license.license_no}</td>
                                                 <td className="text-center">{currency.format(license.price)}</td>

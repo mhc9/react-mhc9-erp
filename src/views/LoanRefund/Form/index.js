@@ -26,7 +26,7 @@ import ExpenseList from './ExpenseList'
 import AddOrder from './AddOrder';
 import OrderList from './OrderList';
 import AddBudget from './AddBudget'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import ModalLoanContractList from '../../../components/Modals/LoanContract/List'
 import BudgetBullet from '../../../components/Budget/BudgetBullet'
 import BudgetList from '../../../components/Budget/BudgetList'

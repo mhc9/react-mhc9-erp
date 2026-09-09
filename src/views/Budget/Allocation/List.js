@@ -7,7 +7,7 @@ import { FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { getAllocationsByBudget, destroy, resetDeleted } from '../../../features/slices/budget-allocation/budgetAllocationSlice'
 import { getBudget } from '../../../features/slices/budget/budgetSlice'
 import { currency, toShortTHDate } from '../../../utils'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 import BudgetTypeBadge from '../../../components/Budget/BudgetTypeBadge'
 
 const AllocationList = () => {
@@ -88,10 +88,10 @@ const AllocationList = () => {
                     {(!isLoading && budget) && (
                         <div className="border rounded-md py-3 px-4 mb-2 leading-6">
                             <p className="text-gray-500">{budget.activity?.project?.plan?.name}</p>
-                            <p className="font-semibold">{budget.activity?.project?. name}</p>
+                            <p className="font-semibold">{budget.activity?.project?.name}</p>
                             <p className="font-bold text-blue-600 mr-1">{budget.activity?.name}</p>
                             <p>
-                                <span className="mr-4"><b>ปีงบประมาณ</b> {budget?.activity && budget?.activity?.year+543}</span>
+                                <span className="mr-4"><b>ปีงบประมาณ</b> {budget?.activity && budget?.activity?.year + 543}</span>
                                 <span><b>ประเภท</b> {budget?.type && <BudgetTypeBadge type={budget?.type} />}</span>
                             </p>
                             <p><b>ยอดจัดสรรแล้ว</b> {currency.format(budget.total)} <b>บาท</b></p>

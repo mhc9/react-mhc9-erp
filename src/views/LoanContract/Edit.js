@@ -5,7 +5,7 @@ import { Breadcrumb } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { getContract, resetSuccess } from '../../features/slices/loan-contract/loanContractSlice'
 import LoanContractForm from './Form'
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 
 const EditLoanContract = () => {
     const { id } = useParams();

@@ -10,7 +10,7 @@ import { filterAmphursByChangwat, filterTambonsByAmphur } from '../../../utils'
 import { store, update, upload } from '../../../features/slices/employee/employeeSlice'
 import { useGetInitialFormDataQuery } from '../../../features/services/employee/employeeApi'
 import './Form.css'
-import Loading from '../../../components/Loading'
+import Loading from '../../../components/ui/Loading'
 
 const employeeSchema = Yup.object().shape({
     prefix_id: Yup.string().required(),
@@ -71,7 +71,7 @@ const EmployeeForm = ({ employee }) => {
             let data = new FormData();
             data.append('avatar_url', selectedImage);
 
-            for(const [key, val] of Object.entries(values)) {
+            for (const [key, val] of Object.entries(values)) {
                 data.append(key, val);
             }
 
@@ -200,7 +200,7 @@ const EmployeeForm = ({ employee }) => {
                             </Col>
                             <Col>
                                 <FormGroup>
-                                    <label>เพศ</label>                                    
+                                    <label>เพศ</label>
                                     <Field component="div" name="sex" className="form-control text-sm flex items-center">
                                         <input
                                             type="radio"
@@ -230,7 +230,7 @@ const EmployeeForm = ({ employee }) => {
                                     <label>คำนำหน้า</label>
                                     <select
                                         name="prefix_id"
-                                        value={formik.values.prefix_id} 
+                                        value={formik.values.prefix_id}
                                         onChange={formik.handleChange}
                                         className="form-control text-sm"
                                     >
@@ -509,7 +509,7 @@ const EmployeeForm = ({ employee }) => {
                                     <label>ระดับ</label>
                                     <select
                                         name="level_id"
-                                        value={formik.values.level_id} 
+                                        value={formik.values.level_id}
                                         onChange={formik.handleChange}
                                         className="form-control text-sm"
                                     >

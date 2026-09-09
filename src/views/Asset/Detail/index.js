@@ -7,7 +7,7 @@ import { getAsset } from '../../../features/slices/asset/assetSlice';
 import OwnershipList from './Ownership/List';
 import OwnershipForm from './Ownership/Form';
 import Gallery from './Gallery';
-import Loading from '../../../components/Loading';
+import Loading from '../../../components/ui/Loading';
 import AssetHistories from './Histories';
 
 const AssetDetail = () => {
@@ -31,7 +31,7 @@ const AssetDetail = () => {
                 <Breadcrumb.Item active>รายละเอียดพัสดุ</Breadcrumb.Item>
                 <Breadcrumb.Item active>{id}</Breadcrumb.Item>
             </Breadcrumb>
-        
+
             <div className="content">
                 <div className="content-heading mb-2">
                     <h2 className="flex flex-row items-center gap-1 text-xl">
@@ -39,7 +39,7 @@ const AssetDetail = () => {
                         <span>รายละเอียดพัสดุ : {id}</span>
                     </h2>
                 </div>
-                
+
                 <div className="my-2 border p-4 rounded-md">
                     {isLoading && <div className="text-center"><Loading /></div>}
                     {!isLoading && asset && (
@@ -170,7 +170,7 @@ const AssetDetail = () => {
                                             disabled={success}
                                         >
                                             เพิ่มผู้รับผิดชอบ
-                                        </button> 
+                                        </button>
                                     </div>
                                     <OwnershipList
                                         assetId={id ? id : ''}
@@ -197,7 +197,7 @@ const AssetDetail = () => {
                                             disabled={success}
                                         >
                                             เพิ่มประวัติ
-                                        </button> 
+                                        </button>
                                     </div>
 
                                     <AssetHistories asset={asset} />

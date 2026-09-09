@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap'
 import { getAgencies } from '../../../features/slices/agency/agencySlice';
-import Loading from '../../Loading';
+import Loading from '../../ui/Loading';
 import FilteringInputs from './FilteringInputs';
 import Pagination from '../../Pagination'
 
@@ -64,7 +64,7 @@ const ModalAgencyList = ({ isShow, onHide, onSelect }) => {
                             )}
                             {agencies && agencies.map((agency, index) => (
                                 <tr key={agency?.id} className="font-thin">
-                                    <td className="text-center">{index+pager.from}</td>
+                                    <td className="text-center">{index + pager.from}</td>
                                     <td><p className="font-bold">{agency?.name}</p></td>
                                     {/* <td>อ.{agency?.amphur?.name} จ.{agency?.changwat?.name}</td> */}
                                     <td className="text-center py-1">

@@ -16,7 +16,7 @@ import { getRefund, resetSuccess } from '../../features/slices/loan-refund/loanR
 import { useGetInitialFormDataQuery } from '../../features/services/loan/loanApi'
 import ExpenseList from './Form/ExpenseList'
 import OrderList from './Form/OrderList';
-import Loading from '../../components/Loading'
+import Loading from '../../components/ui/Loading'
 import ModalApprovalForm from '../../components/Modals/LoanRefund/Approval/Form'
 import ModalReceiptForm from '../../components/Modals/LoanRefund/Receipt/Form';
 import DropdownButton from '../../components/FormControls/DropdownButton'
@@ -90,7 +90,7 @@ const LoanRefundDetail = () => {
                                         <Col md={4} className="flex flex-row items-center">
                                             <label htmlFor="">สัญญายืมเงินเลขที่ :</label>
                                             <div className="ml-1 text-blue-600 font-bold">
-                                                    {refund?.contract && <span>{refund?.contract?.contract_no}</span>}
+                                                {refund?.contract && <span>{refund?.contract?.contract_no}</span>}
                                             </div>
                                         </Col>
                                         <Col md={4} className="flex flex-row items-center">
@@ -136,7 +136,7 @@ const LoanRefundDetail = () => {
                                         <Col md={3} className="flex flex-row items-center">
                                             <label htmlFor="">ปีงบประมาณ :</label>
                                             <div className="ml-1 font-thin">
-                                                {refund?.contract && refund?.contract?.loan?.year+543}
+                                                {refund?.contract && refund?.contract?.loan?.year + 543}
                                             </div>
                                         </Col>
                                     </Row>
@@ -168,7 +168,7 @@ const LoanRefundDetail = () => {
                                                 {refund?.contract?.loan?.budgets && refund?.contract?.loan?.budgets.map((item, index) => (
                                                     <ul key={item.id}>
                                                         <li>
-                                                            <span className="mr-1">{index+1}.</span>
+                                                            <span className="mr-1">{index + 1}.</span>
                                                             {item.budget?.activity?.name}
                                                             {/* <span className="ml-1">
                                                                 {item.budget?.project?.plan?.name} / {item.budget?.project?.name}
@@ -214,7 +214,7 @@ const LoanRefundDetail = () => {
                                             <div className="text-sm">
                                                 {renderRefundType(refund?.refund_type_id)}
                                             </div>
-                                        </Col>                                        
+                                        </Col>
                                         <Col md={6} className="mt-2">
                                             <label htmlFor="" className="font-bold">ยอดเงิน{refund?.balance >= 0 ? 'คืน' : 'เบิกเพิ่ม'}</label>
                                             <div className="text-sm">
@@ -322,7 +322,7 @@ const LoanRefundDetail = () => {
                                             <div className={`border-x-[1px] border-b-[1px] rounded-bl-md rounded-br-md py-3 px-2 border-x-[#ddd] border-b-[#ddd]`}>
                                                 <ExpenseList
                                                     items={refund?.details.filter(item => item.contract_detail?.expense_group === 1)}
-                                                    courses={refund && [...refund?.contract?.loan?.courses].sort((a, b) => sortObjectByDate(a.course_date ,b.course_date))}
+                                                    courses={refund && [...refund?.contract?.loan?.courses].sort((a, b) => sortObjectByDate(a.course_date, b.course_date))}
                                                     showButtons={false}
                                                 />
 
@@ -480,7 +480,7 @@ const LoanRefundDetail = () => {
                                     </DropdownButton>
                                 )}
 
-                                {[1,4].includes(loggedInUser?.permissions[0].role_id) && (
+                                {[1, 4].includes(loggedInUser?.permissions[0].role_id) && (
                                     <>
                                         {refund?.status === 'N' && (
                                             <a href="#" className="btn btn-primary btn-sm" onClick={() => setShowApprovalForm(true)}>
