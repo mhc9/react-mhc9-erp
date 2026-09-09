@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FaTimes, FaAngleDown, FaAngleUp } from 'react-icons/fa'
-import { useGetUserDetailsQuery } from '../../features/services/auth/authApi'
+import { useGetUserDetailsQuery } from '../../../features/services/auth/authApi'
 import './Sidebar.css'
 
 const Sidebar = ({ isShow, toggleShow, onLogout }) => {
@@ -49,7 +49,7 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                                     <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                         <Link to="/requisition"><p className="w-full">คำขอซื้อ/จ้าง</p></Link>
                                     </li>
-                                    {[1,3,5].includes(user?.permissions[0]?.role_id) && (
+                                    {[1, 3, 5].includes(user?.permissions[0]?.role_id) && (
                                         <>
                                             <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                                 <Link to="/order"><p className="w-full">ใบสั่งซื้อ/จ้าง</p></Link>
@@ -75,7 +75,7 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                                     <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                         <Link to="/loan"><p className="w-full">คำขอยืมเงิน</p></Link>
                                     </li>
-                                    {[1,4,5].includes(user?.permissions[0]?.role_id) && (
+                                    {[1, 4, 5].includes(user?.permissions[0]?.role_id) && (
                                         <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                             <Link to="/loan-contract"><p className="w-full">สัญญายืมเงิน</p></Link>
                                         </li>
@@ -83,7 +83,7 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                                     <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                         <Link to="/loan-refund"><p className="w-full">หักล้างเงินยืม</p></Link>
                                     </li>
-                                    {[1,4,5].includes(user?.permissions[0]?.role_id) && (
+                                    {[1, 4, 5].includes(user?.permissions[0]?.role_id) && (
                                         <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                             <Link to="/loan-report"><p className="w-full">ทะเบียนคุม</p></Link>
                                         </li>
@@ -94,7 +94,7 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                             <hr className="border-1 border-gray-400 m-0" />
                         </>
 
-                        {[1,3,4,5].includes(user?.permissions[0]?.role_id) && (
+                        {[1, 3, 4, 5].includes(user?.permissions[0]?.role_id) && (
                             <>
                                 <div className="menu-link">
                                     <button type="button" className="text-black text-left p-2 hover:bg-blue-500 rounded-md flex flex-row items-center justify-between">
@@ -147,7 +147,7 @@ const Sidebar = ({ isShow, toggleShow, onLogout }) => {
                                         <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                             <Link to="/unit"><p className="w-full">หน่วย</p></Link>
                                         </li>
-                                        {[1,4,5].includes(user?.permissions[0]?.role_id) && (
+                                        {[1, 4, 5].includes(user?.permissions[0]?.role_id) && (
                                             <li className="hover:bg-gray-300 font-thin py-2 pl-4 rounded-md" onClick={() => toggleShow(false)}>
                                                 <Link to="/budget-plan"><p className="w-full">งบประมาณ</p></Link>
                                             </li>

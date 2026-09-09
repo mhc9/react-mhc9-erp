@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FaChartPie, FaLandmark, FaRegUser, FaRandom } from 'react-icons/fa'
 import { getAllBudgetsOfYear } from '../../features/slices/budget/budgetSlice'
 import { currency } from '../../utils/index'
-
+import StatCard from '../../components/ui/StatCard'
 const BudgetSummary = ({ year }) => {
     const dispatch = useDispatch();
     const { budgets, isLoading } = useSelector(state => state.budget);
@@ -26,27 +26,28 @@ const BudgetSummary = ({ year }) => {
     }, [budgets]);
     
     return (
-        <div className="border rounded-md py-3 px-5 mb-2 bg-[#D6EADF]">
-            {summary && Object.keys(summary).map((sum, index) => (
-                <div className="flex flex-row mb-3">
-                    <h3 className="w-[50%] text-xl font-semibold flex items-center gap-1">
-                        {sum === 'personnel' && <><FaRegUser /> งบบุคลากร</>}
-                        {sum === 'operation' && <><FaRandom /> งบดำเนินงาน</>}
-                        {sum === 'investment' && <><FaChartPie /> งบลงทุน</>}
-                        {sum === 'external' && <><FaLandmark /> เงินนอกงบประมาณ</>}
-                    </h3>
-                    <div className="w-[50%] flex flex-row justify-around">
-                        <div className="flex flex-col justify-center items-center gap-1 w-[20%]">
-                            <h5 className="font-light">เป้าหมาย</h5>
-                            <span className="font-bold text-lg">0</span>
-                        </div>
-                        <div className="flex flex-col justify-center items-center gap-1 w-[20%]">
-                            <h5 className="font-light">ได้รับ</h5>
-                            <span className="font-bold text-lg">{currency.format(summary[sum])}</span>
-                        </div>
-                    </div>
-                </div>
-            ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            {summary && Object.keys(summary).map((sum, index) => {
+                const config = {
+                    personnel: { title: 'งบบุคลากร', icon: <FaRegUser />, color: 'blue' },
+                    operation: { title: 'งบดำเนินงาน', icon: <FaRandom />, color: 'green' },
+                    investment: { title: 'งบลงทุน', icon: <FaChartPie />, color: 'amber' },
+                    external: { title: 'เงินนอกงบประมาณ', icon: <FaLandmark />, color: 'purple' }
+                }[sum];
+
+                if (!config) return null;
+
+                return (
+                    <StatCard 
+                        key={index}
+                        title={config.title}
+                        icon={config.icon}
+                        target="0"
+                        received={currency.format(summary[sum])}
+                        colorTheme={config.color}
+                    />
+                );
+            })}
         </div>
     )
 }

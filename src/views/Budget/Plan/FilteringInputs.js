@@ -10,7 +10,7 @@ const FilteringInputs = ({ initialFilters, onFilter }) => {
     const [selectedYear, setSelectedYear] = useState(moment(`${filters.year}-01-01`));
 
     return (
-        <div className="border rounded-md py-2 px-3 mb-2 flex items-center gap-1">
+        <div className="border rounded-md py-2 px-3 mb-4 flex items-center gap-1">
             <div className="flex max-md:flex-col items-center min-md:gap-2">
                 <label htmlFor="" className="w-[25%] max-md:w-[100%]">ปีงบ :</label>
                 <DatePicker

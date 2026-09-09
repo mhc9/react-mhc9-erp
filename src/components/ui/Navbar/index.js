@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { FaBars, FaCubes } from 'react-icons/fa'
-import { useGetUserDetailsQuery } from '../../features/services/auth/authApi'
+import { useGetUserDetailsQuery } from '../../../features/services/auth/authApi'
 import NavMenuItem from './NavMenuItem'
 import './Navbar.css'
 import UserProfile from './UserProfile'
