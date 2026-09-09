@@ -69,7 +69,7 @@ const refundSchema = Yup.object().shape({
         'Compare balance and budget_total',
         'จำนวนงบประมาณและยอดเงินคืน/เบิกเพิ่มไม่เท่ากัน',
         (val, context) => {
-            return val <= 0 || (val > 0 && Math.abs(parseFloat(val)) === parseFloat(currencyToNumber(context.parent.budget_total)))
+            return val <= 0 || (val > 0 && parseFloat(val) === parseFloat(currencyToNumber(context.parent.budget_total)))
         },
     ),
     items: Yup.mixed().test({
@@ -164,8 +164,8 @@ const LoanRefundForm = ({ refund }) => {
         /** Filter contractItems for AddExpense'expese prop */
         setContractItems(
             contract?.details
-                    .filter(item => item.expense_group === 1)
-                    .filter(item => !newItems.some(it => (!it.removed && parseInt(it.contract_detail_id, 10) === item.id)))
+                .filter(item => item.expense_group === 1)
+                .filter(item => !newItems.some(it => (!it.removed && parseInt(it.contract_detail_id, 10) === item.id)))
         );
 
         /** Calculate net total */
@@ -262,7 +262,7 @@ const LoanRefundForm = ({ refund }) => {
         <Formik
             initialValues={{
                 doc_no: refund ? refund.doc_no : '',
-                doc_date:  refund ? moment(refund.doc_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+                doc_date: refund ? moment(refund.doc_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
                 contract_id: refund ? refund.contract_id : '',
                 refund_type_id: refund ? refund.refund_type_id : '1',
                 employee_id: refund ? refund.employee_id : '',
@@ -341,11 +341,11 @@ const LoanRefundForm = ({ refund }) => {
                                     </Row>
                                     <Row className="mb-2">
                                         <Col className="flex flex-row items-center">
-                                                <label>เงินเข้าวันที่ :</label>
-                                                <div className="ml-1 text-green-600 font-bold">
-                                                    {toLongTHDate(moment(contract?.deposited_date).toDate())}
-                                                </div>
-                                            </Col>
+                                            <label>เงินเข้าวันที่ :</label>
+                                            <div className="ml-1 text-green-600 font-bold">
+                                                {toLongTHDate(moment(contract?.deposited_date).toDate())}
+                                            </div>
+                                        </Col>
                                         <Col className="flex flex-row items-center">
                                             <label>กำหนดคืนเงินภายใน :</label>
                                             <div className="font-thin ml-1">
@@ -375,7 +375,7 @@ const LoanRefundForm = ({ refund }) => {
                                         <Col md={3} className="flex flex-row items-center">
                                             <label htmlFor="">ปีงบประมาณ :</label>
                                             <div className="font-thin ml-1">
-                                                {contract && contract?.loan?.year+543}
+                                                {contract && contract?.loan?.year + 543}
                                             </div>
                                         </Col>
                                     </Row>
@@ -562,7 +562,7 @@ const LoanRefundForm = ({ refund }) => {
                                                         formik.setFieldValue('over20_no', '');
                                                         formik.setFieldValue('over20_date', '');
                                                         formik.setFieldValue('over20_reason', '');
-                                                        
+
                                                         /** Create item list to return */
                                                         const newItems = createItemsToReturn(contractItems);
 
@@ -693,7 +693,7 @@ const LoanRefundForm = ({ refund }) => {
                                 <div className="flex flex-col border p-2 rounded-md">
                                     <Tabs
                                         id=""
-                                        defaultActiveKey="expenses"                                        
+                                        defaultActiveKey="expenses"
                                         className={`mt-2 ${(formik.errors.items && formik.touched.items) && 'border-red-500'}`}
                                     >
                                         <Tab eventKey="expenses" title="รายการค่าใช้จ่ายจริง">
@@ -785,8 +785,8 @@ const LoanRefundForm = ({ refund }) => {
                                                         /** Filter contractItems for AddExpense'expese prop */
                                                         setContractItems(
                                                             contract?.details
-                                                                    .filter(item => item.expense_group === 2)
-                                                                    .filter(item => !newItems.some(it => (!it.removed && parseInt(it.contract_detail_id, 10) === item.id)))
+                                                                .filter(item => item.expense_group === 2)
+                                                                .filter(item => !newItems.some(it => (!it.removed && parseInt(it.contract_detail_id, 10) === item.id)))
                                                         );
 
                                                         /** Calculate net total */
